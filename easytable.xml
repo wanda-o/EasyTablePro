@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.5.0">
+<install type="component" method="upgrade" version="1.5.0">
     <name>EasyTable</name>
-    <version>1.00fc1</version>
+    <version>1.00fc2</version>
     <author>Craig Phillips</author>
     <creationDate>17-Jul-2009</creationDate>
     <copyright>Copyright (C) 2009.</copyright>
@@ -9,8 +9,8 @@
     <authorUrl>http://www.seepeoplesoftware.com</authorUrl>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>A component that imports and displays tables from CSV text files.</description>
-    <installfile>install/install.easytable.php</installfile>
-    <uninstallfile>install/uninstall.easytable.php</uninstallfile>
+    <installfile>admin/install/install.easytable.php</installfile>
+    <uninstallfile>admin/install/uninstall.easytable.php</uninstallfile>
     <install>
     	<sql>
     		<file driver="mysql" charset="utf8">install/install.mysql.sql</file>
