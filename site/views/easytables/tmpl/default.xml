@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="EasyTables List Layout">
+		<message>
+		<![CDATA[Shows a list of published tables.]]>
+		</message>
+	</layout>
+	<state>
+		<name>EasyTables</name>
+		<description>Show's the published tables listing.</description>
+		<params>
+			<param name="show_description" type="radio" default="0" label="Show Table Description" description="The table list will show the tables description when this option is set to 'yes'.">
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</param>
+		</params>
+	</state>
+</metadata>

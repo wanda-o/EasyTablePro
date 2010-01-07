@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="EasyTable Layout">
+		<message>
+		<![CDATA[Shows a specific table.]]>
+		</message>
+	</layout>
+	<state>
+		<name>EasyTable Display</name>
+		<description>Show's the selected table.</description>
+		<url addpath="/administrator/components/com_easytable/elements">
+			<param name="id" type="easytable" default="" label="Select Table" description="The table to link to." />
+		</url>
+		<params>
+			<param name="show_description" type="radio" default="1" label="Show Table Description" description="This will show the tables description when this option is set to 'yes'.">
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</param>
+			<param name="show_created_date" type="radio" default="0" label="Show Creation Date" description="The tables creation date will be displayed when this option is set to 'yes'.">
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</param>
+			<param name="show_modified_date" type="radio" default="0" label="Show Modified Date" description="The tables modification date will be displayed when this option is set to 'yes'.">
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</param>
+		</params>
+	</state>
+</metadata>

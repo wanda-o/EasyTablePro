@@ -1,0 +1,21 @@
+<root>
+	<params group="EASYTABLE_PREFS">
+		<param name="show_description" label="Show Description" type="radio" default="1" description="This will show description when this option is set to 'yes'.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="show_created_date" label="Show Creation Date" type="radio" default="0" description="Creation date will be displayed when this option is set to 'yes'.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="show_modified_date" label="Show Modified Date" type="radio" default="0" description="Modification date will be displayed when this option is set to 'yes'.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+	</params>
+	<params group="LINKED_TABLE" addpath="/administrator/components/com_easytable/elements">
+		<param name="id" type="easytable" default="" label="Select Table" description="The table to link to." />
+		<param name="key_field" label="Key Field" type="text" default="" description="The ID of the field in THIS table used to select records in the linked table." />
+		<param name="linked_key_field" label="Linked Key Field" type="text" default="" description="The ID of the field from the Linked Table to match to the Key Field in this table." />
+	</params>
+</root>
