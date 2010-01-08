@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die ('Restricted Access'); ?>
-	<table  id="<?php echo htmlspecialchars($this->easytable->easytablename); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
+	<table  id="<?php echo htmlspecialchars($this->linked_easytable_alias); ?>" summary="<?php echo htmlspecialchars($this->linked_easytable_description); ?>" width="100%">
 		<thead>
 			<tr>
 				<?php

@@ -574,6 +574,14 @@ class EasyTableController extends JController
 			foreach($csvColumnLabels as $label)
 			{
 				$columnAlias = substr( JFilterOutput::stringURLSafe(trim($label)), 0, 64);
+				// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)
+				$firstCharOfAlias = substr($columnAlias,);
+				if(is_numeric($firstCharOfAlias))
+				{
+					$columnAlias = 'a'.$columnAlias;
+				}
+				
+				// Check another field with this alias isn't already in the array
 				if(in_array($columnAlias, $ettdColumnAliass))
 				{
 					$columnAlias = $this->uniqueInArray($ettdColumnAliass, $columnAlias);

@@ -133,20 +133,23 @@ class EasyTableController extends JController
 			}
 		}
 
-		 if ($currentTask == 'apply')
-		 {
+
+		switch ($currentTask) {
+		case 'apply':
 			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, '<p style="margin-left:35px">'.$msg.'</p>' );
-		 }
-		 elseif ($currentTask == 'save')
-		 {
-			 // Now that all the saving is done we can checkIN the table
-			 $this->checkInEasyTable();
-			 $this->setRedirect('index.php?option='.$option, '<p style="margin-left:35px">'.$msg.'</p>' );
-		 }
-		 elseif (($currentTask == 'createETDTable') ||($currentTask == 'updateETDTable'))
-		 {
-		 	$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, '<p style="margin-left:35px">'.$msg.'</p>' );
-		 }
+			break;
+		case 'save':
+			// Now that all the saving is done we can checkIN the table
+			$this->checkInEasyTable();
+			$this->setRedirect('index.php?option='.$option, '<p style="margin-left:35px">'.$msg.'</p>' );
+			break;
+		case 'createETDTable':
+			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id.'&from=create', '<p style="margin-left:35px">'.$msg.'</p>' );
+			break;
+		case 'updateETDTable':
+			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, '<p style="margin-left:35px">'.$msg.'</p>' );
+			break;
+		}
 	}
 
 	function saveApplyETdata()
@@ -215,8 +218,9 @@ class EasyTableController extends JController
 				$original_ADLE = ini_get('auto_detect_line_endings');
 				ini_set('auto_detect_line_endings', true);
 				
-				//$row = 0;                                                   // Only used in debug
-				//$msg = '';                                                  // Only used in debug
+//				$row = 0;                                                   // Only used in debug
+//				$msg = '';                                                  // Only used in debug
+//				$msg .= '<BR />Filename: ' . $filename . '| <BR />';
 		
 				// Create a new empy array and get our temp file's full/path/to/name
 				$CSVTableArray = array();
@@ -224,7 +228,7 @@ class EasyTableController extends JController
 				$filename = $dest;
 				if($filename == '')
 				{
-					JError::raiseError(500, '$filename for temp file is empty.');
+					JError::raiseError(500, '$filename for temp file is empty. File possibly bigger than MAX upload size.');
 				}
 				
 				$handle = fopen($filename, "r");
@@ -237,26 +241,26 @@ class EasyTableController extends JController
 					else
 					{
 						$CSVTableArray[] = $data;	// We store the row array
-						//$row++; 					// We increment to the next row for debug msgs
+//						if($row == 0) { $msg .= print_r($data, TRUE) . '| <BR />'; }	// Only used in debug
+//						$row++; 					// We increment to the next row for debug msgs
 					}
 				}
 		
 				fclose($handle);
 				
 				/*
-				  Debug Echo's
-				*//*
-				$msg .= '<BR />Filename: ' . $filename;
-				$msg .= '<BR />Final row count: ' . $row;
-				$msg .= '<BR />Header: ' . ($hasHeaders ? 'Flag says YES.' : 'Flag says NO.');
-				$msg .= '<BR />CSV Table Array: ' . implode("\r", $CSVTableArray);
-				echo($msg); */
+				  Debug msg's
+				*/
+//				$msg .= '<BR />Final row count: ' . $row . '| <BR />';
+				//$msg .= '<BR />CSV Table Array: ' . implode("\r", $CSVTableArray);
+//				dumpMessage($msg);
 				
 				// Make sure we return the ADLE ini to it's original value - who know's what'll happen if we don't.
 				ini_set('auto_detect_line_endings', $original_ADLE);
 				
 				// Clean up by deleting the CSV file (after all, we're done with it).
 				// JFile::delete($filename);
+				
 			}
 			else
 			{
@@ -548,11 +552,15 @@ class EasyTableController extends JController
 	{
 	// We Parse the csv file into an array of URL safe Column names 
 		$csvColumnLabels = $CSVFileArray[0];
+		$msg .= '| Raw header row | <br />'.print_r($csvColumnLabels, TRUE).'| <br />';
+		
 		$csvColumnCount = count($csvColumnLabels);
-		$msg .= 'Found '.$csvColumnCount.' columns in first row. | ';
-		$msg .= '<br />Meta labels will be: '.implode(', ', $csvColumnLabels).' | ';
+		
+		$msg .= 'Found '.$csvColumnCount.' columns in first row. | <br />';
+		$msg .= '<br />Meta labels will be: '.implode(', ', $csvColumnLabels).' | <br />';
 		
 		$hasHeaders = JRequest::getVar('CSVFileHasHeaders');
+		$msg .= '<BR />Header: ' . ($hasHeaders ? 'Flag says YES.' : 'Flag says NO.') . '| <BR />';
 		$ettdColumnAliass = array();
 
 		if($hasHeaders)
@@ -560,6 +568,15 @@ class EasyTableController extends JController
 			foreach($csvColumnLabels as $label)
 			{
 				$columnAlias = substr( JFilterOutput::stringURLSafe(trim($label)), 0, 64);
+				// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)
+				$firstCharOfAlias = substr($columnAlias,0,1);
+				if(preg_match('/[^A-Za-z\s ]/', '', $firstCharOfAlias))
+				//if(is_numeric($firstCharOfAlias))
+				{
+					$columnAlias = 'a'.$columnAlias;
+				}
+				
+				// Check another field with this alias isn't already in the array
 				if(in_array($columnAlias, $ettdColumnAliass))
 				{
 					$columnAlias = $this->uniqueInArray($ettdColumnAliass, $columnAlias);
@@ -581,7 +598,7 @@ class EasyTableController extends JController
 			}
 		}
 		reset($ettdColumnAliass);
-		// echo '<BR /> createMetaFrom() -> ettdColumnAliass = [ '.implode($ettdColumnAliass).' ]';
+		$msg .=  '<BR /> createMetaFrom() -> ettdColumnAliass = [ '.implode($ettdColumnAliass).' ]';
 		
 		if($this->createETTD($id, $ettdColumnAliass)) // safe to populate the meta table as we've successfully created the ETTD
 		{
@@ -601,7 +618,7 @@ class EasyTableController extends JController
 			$insert_Meta_SQL_end = ';';
 			// pull it altogether
 			$insert_Meta_SQL = $insert_Meta_SQL_start.$insert_Meta_SQL_row.$insert_Meta_SQL_end;
-			// $msg .='<BR />Insert Meta SQL: '.$insert_Meta_SQL;
+			$msg .='<BR />Insert Meta SQL: '.$insert_Meta_SQL;
 			// echo '<BR />Insert Meta SQL: '.$insert_Meta_SQL;
 			
 	 		// Get a database object
@@ -612,7 +629,7 @@ class EasyTableController extends JController
 			// Run the SQL to insert the Meta records
 			$db->setQuery($insert_Meta_SQL);
 			$insert_Meta_result = $db->query();
-			// $msg .='<BR />Insert Meta Result: '.$insert_Meta_result;
+			$msg .='<BR />Insert Meta Result: '.$insert_Meta_result;
 			if(!$insert_Meta_result)
 			{
 				JError::raiseError(500,'Meta insert failed for table: '.$id.'<BR />'.$msg);
@@ -622,7 +639,7 @@ class EasyTableController extends JController
 		{
 			JError::raiseError(500, 'Failed to create the ETTD for Table: '.$id);
 		}
-		
+		//dumpMessage($msg);
 		return($ettdColumnAliass);
 	}
 	
@@ -731,21 +748,25 @@ class EasyTableController extends JController
 			{
 				$msg .= "<BR />hasHeaders ( $hasHeaders ) apparently shifting off first row.";
 				$headerRow = array_shift($CSVFileChunk); // shifts the first element off
+				$msg .= '<BR />' . print_r($headerRow, TRUE);
 			}
 			
 			$updateChunkResult = $this->updateETTDWithChunk($CSVFileChunk, $id, $ettdColumnAliass); // We get back number of rows processed or 0 if it fails
 			if($updateChunkResult)
 			{
-				$msg .= "<BR />Chunk # $thisChunkNum processed - $updateChunkResult rows added to table.";
+				$msg .= "<BR />Chunk # $thisChunkNum processed - $updateChunkResult rows added to table.<BR />";
 				$csvRowCount += $updateChunkResult;
 			}
 			else
 			{
 				JError::raiseError(500,'Data insert appears to have failed for table: '.$id.' in updateETTDTableFrom() <BR />'.'<BR />Failed in chunk #'.$thisChunkNum.' '.$msg);
 			}
-			$msg .= "<BR />Chunk # $thisChunkNum at END of loop.";
-			// dumpMessage($msg);
+			$msg .= "<BR />Chunk # $thisChunkNum at END of loop. (Pass $thisChunkNum / $numChunks )";
+			//dumpSysinfo();
 		}
+		$msg .= "<BR />Exited Chunk processing loop after $thisChunkNum passes.<BR />";		
+		//dumpMessage($msg);
+
 		return $csvRowCount;
 	}
 	
@@ -796,7 +817,7 @@ class EasyTableController extends JController
 				$tempSQLDataString = implode("' , '", $tempRowArray );
 				
 				$insert_ettd_data_values .= "( NULL , '". $tempSQLDataString."')";
-				$msg .= '<BR />## DEBUG ## $insert_ettd_data_values -> ' . $insert_ettd_data_values;
+				//$msg .= '<BR />## DEBUG ## $insert_ettd_data_values -> ' . $insert_ettd_data_values; // debug only - warning this concatenates each row into msg, can get very big.
 			}
 
 		}
@@ -806,8 +827,6 @@ class EasyTableController extends JController
 		$insert_ettd_data_SQL = $insert_ettd_data_SQL_start.$insert_ettd_data_values.$insert_ettd_data_SQL_end;
 		$msg .='<BR />## DEBUG ## updateETTDWithChunk() $insert_ettd_data_SQL -> '.$insert_ettd_data_SQL;
 
-		// dumpMessage($msg);
-		
 		// Run the SQL to load the data into the ettd
 		$db->setQuery($insert_ettd_data_SQL);
 		$insert_ettd_data_result = $db->query();
@@ -818,6 +837,8 @@ class EasyTableController extends JController
 			JError::raiseError(500,'Data insert failed for table: '.$id.' in updateETTDTableFrom() <BR />Possibly your CSV file is malformed<BR />'.$db->explain().'<BR />'.'<BR />'.$msg);
 		}
 
+		//dumpMessage($msg);
+		
 		return $csvRowCount;
 	}
 	

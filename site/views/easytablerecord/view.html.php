@@ -14,7 +14,7 @@ class EasyTableViewEasyTableRecord extends JView
 				JError::raiseError(500,"Couldn't get the database object while getting a Linked Table field alias: $mId");
 			}
 			$fafmID_query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE id = $mId";
-/* 			echo('<BR />'.$fafmID_query); */
+
 			$db->setQuery($fafmID_query);
 			
 			return($db->loadResult());
@@ -28,13 +28,14 @@ class EasyTableViewEasyTableRecord extends JView
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while getting field Alias's");
 		}
-		$query = "SELECT label, fieldalias, type, detail_link, description FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' AND $which_view = '1' ORDER BY position;";
+		$query = "SELECT label, fieldalias, type, detail_link, description, id, $which_view FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' ORDER BY position;";
+
 		$db->setQuery($query);
 		$meta = $db->loadRowList();
 		return $meta;
 	}
 	
-	function fieldAliass($metaArray)
+	function fieldAliass($metaArray, $lKf_id)
 	{
 		// Convert the list of meta records into the list of fields that can be used in the SQL
 		$fields = array();
@@ -42,12 +43,15 @@ class EasyTableViewEasyTableRecord extends JView
 
 		foreach($metaArray as $aRow) 
 		{
-			$fields[] .= $aRow[1]; // compile a list of the fieldalias'
+			if(($aRow[5] == $lKf_id) || ($aRow[6] == '1'))
+			{
+				$fields[] .= $aRow[1]; // compile a list of the fieldalias'
+			}
 		}
 		return($fields);
 	}
 	
-	function fieldLabels($metaArray)
+	function fieldLabels($metaArray, $lkf_id)
 	{
 		// Convert the list of meta records into the list of fields labels
 		$labels = array();
@@ -55,7 +59,10 @@ class EasyTableViewEasyTableRecord extends JView
 
 		foreach($metaArray as $aRow) 
 		{
-			$labels[] .= $aRow[0]; // compile a list of the field labels
+			if(($aRow[5] == $lKf_id) || ($aRow[6] == '1'))
+			{
+				$labels[] .= $aRow[0]; // compile a list of the field labels
+			}
 		}
 		return($labels);
 	}
@@ -99,12 +106,10 @@ class EasyTableViewEasyTableRecord extends JView
 		 */
 		global $mainframe;
 		$params =& $mainframe->getParams(); // Component wide & menu based params
-		$params->merge( new JParameter( &$easytable->params ) );
+		$params->merge( new JParameter( &$easytable->params ) ); // Merge with this tables params
 		$lt_id = $params->get('id',0);
 		$kf_id = $params->get('key_field',0);
 		$lKf_id = $params->get('linked_key_field',0);
-/* 		echo('<BR />$lKf_id: '.$lKf_id); */
-
 
 		/*
 		 *
@@ -117,9 +122,9 @@ class EasyTableViewEasyTableRecord extends JView
 		}
 		// Get the meta data for the detail view of this table
 		$easytables_table_meta = $this->fieldMeta($id);
-		
+
 		// Convert the list of meta records into the list of fields that can be used in the SQL
-		$fields = implode('`, `', $this->fieldAliass($easytables_table_meta) );
+		$fields = implode('`, `', $this->fieldAliass($easytables_table_meta, $kf_id) );
 				
 
 		/*
@@ -130,12 +135,8 @@ class EasyTableViewEasyTableRecord extends JView
 		$query = "SELECT `".$fields."` FROM ".$db->nameQuote('#__easytables_table_data_'.$id)." WHERE id=$rid;";
 		$db->setQuery($query);
 		$easytables_table_record =$db->loadRow();
+		$db->setQuery($query);
 		$et_tr_assoc = $db->loadAssoc();
-/*
-		echo('<BR />');
-		print_r($et_tr_assoc);
-		echo('<BR />');
-*/
 
 		/*
 		 *
@@ -148,51 +149,48 @@ class EasyTableViewEasyTableRecord extends JView
 		{
 			// First get the fieldalias of the Key_Field ie. the col name in the primary table
 			$kf_alias = $this->getFieldAliasForMetaID($kf_id);
-/* 			echo('<BR />$kf_alias: '.$kf_alias); */
 			
 			$kf_search_value = $et_tr_assoc[$kf_alias];
-/* 			echo('<BR />$kf_search_value: '.$kf_search_value); */
 			
 			$lkf_alias = $this->getFieldAliasForMetaID($lKf_id);
-/* 			echo('<BR />$lKf_id: ( '.$lKf_id.' ) and $lkf_alias: ( '.$lkf_alias.' )' ); */
 
 			$linked_fields_to_get = '*';
 			$linked_table_meta = $this->fieldMeta($lt_id, 'list_view');
-			$linked_fields_to_get = implode('`, `', $this->fieldAliass($linked_table_meta) );
+			$linked_fields_to_get = implode('`, `', $this->fieldAliass($linked_table_meta,$lkf_id) );
 			
 			$linked_records_SQL = "SELECT `$linked_fields_to_get` FROM `#__easytables_table_data_$lt_id` WHERE `$lkf_alias` LIKE '%$kf_search_value%'";
-			// echo('<BR />$linked_records_SQL: '.$linked_records_SQL);
 			
 			$db->setQuery($linked_records_SQL);
 			$linked_records = $db->loadAssocList();
 			$tableHasRecords = count($linked_records);
-			// echo('<BR />$tableHasRecords: '.$tableHasRecords);
+
 			$this->assign('tableHasRecords', $tableHasRecords);
 			if($tableHasRecords)
 			{
 				$linked_easytable =& JTable::getInstance('EasyTable','Table');
 				$linked_easytable->load($lt_id);
+				
+				$linked_easytable_alias = $linked_easytable->easytablealias;
+				$this->assign('linked_easytable_alias',$linked_easytable_alias);
+				
+				$linked_easytable_description = $linked_easytable->description;
+				$this->assign('linked_easytable_description',$linked_easytable_description);
+				
 				$linked_table_imageDir = $linked_easytable->defaultimagedir;
 				$this->assign('linked_table_imageDir', $linked_table_imageDir );
 				
 				$linked_field_types =& $this->fieldTypes($linked_table_meta);
 				$this->assignRef('linked_field_types', $linked_field_types );
 				
-				$linked_fields_alias = $this->fieldAliass($linked_table_meta);
+				$linked_fields_alias = $this->fieldAliass($linked_table_meta,$lkf_id);
 				$this->assignRef('linked_fields_alias', $linked_fields_alias );
 
-				$linked_field_labels =& $this->fieldLabels($linked_table_meta);
+				$linked_field_labels =& $this->fieldLabels($linked_table_meta,$lkf_id);
 				$this->assignRef('linked_field_labels', $linked_field_labels );
 				
 				$this->assignRef('linked_records', $linked_records );
 			}
 		}
-/*
-		else
-		{
-			echo('<BR />No Linked Table Found.');
-		}
-*/
 
 
 		// Create a backlink
@@ -219,4 +217,3 @@ class EasyTableViewEasyTableRecord extends JView
 		parent::display($tpl);
 	}
 }
-?>

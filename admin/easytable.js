@@ -60,8 +60,20 @@ function submitbutton(pressbutton)
 	{
 		submitform(pressbutton);
 	}
+	else if (pressbutton =='publish' || pressbutton == 'unpublish' ||pressbutton =='delete' || pressbutton == 'add')
+	{
+		submitform(pressbutton);
+	}
 	else
 	{
 		alert("OK - you broke something, not really sure how you got here.  If you want this fixed I'd make some serious notes about how you ended up here. PB-> "+pressbutton);
 	}
+}
+
+function ShowTip(id) {
+	document.getElementById(id).style.display = 'block';
+}
+
+function HideTip(id) {
+	document.getElementById(id).style.display = 'none';
 }

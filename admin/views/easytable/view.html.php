@@ -26,14 +26,34 @@ class EasyTableViewEasyTable extends JView
 	*/
 	function getListViewImage ($rowElement, $flag=0)
 	{
-		if($flag)
+		//echo('getListViewImage received:'.$rowElement.'<br />');
+		$btn_title = '';
+		if(substr($rowElement,0,4)=='list')
 		{
-			return '<img src="images/tick.png" name="'.$rowElement.'_img" border="0" title="This field WILL appear in the view." />';
+			$btn_title = "Click this to toggle it's appearance in the List View";
+		}
+		elseif(substr($rowElement,7,4) == 'link')
+		{
+			$btn_title = "Click this to make this field act as a link to the record/detail view, or not.";
 		}
 		else
 		{
-			return '<img src="images/publish_x.png" name="'.$rowElement.'_img" border="0" title="Click to show this field in the view." />';
+			$btn_title = "Click this to make this field appear in the record/detail view, or not.";
 		}
+
+		if($flag)
+		{
+			$theImageString = 'tick.png';
+		}
+		else
+		{
+			$theImageString = 'publish_x.png';
+		}
+
+		
+		$theListViewImage = '<img src="images/'.$theImageString.'" name="'.$rowElement.'_img" border="0" title="'.$btn_title.'" />';
+		
+		return($theListViewImage);
 	}
 
 	function toggleState( &$row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='' )
@@ -76,13 +96,22 @@ class EasyTableViewEasyTable extends JView
 		$id = $cid[0];
 		$row->load($id);
 
+		// Where do we come from
+		$from = JRequest::getVar( 'from', '' );
+		$default_order_sql = " ORDER BY position;";
+
+		if($from == 'create') {
+			$default_order_sql = " ORDER BY id;";
+		}
+
+		
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while getting statistics for EasyTable id: $id");
 		}
 		// Get the meta data for this table
-		$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." ORDER BY position;";
+		$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id.$default_order_sql;
 		$db->setQuery($query);
 		
 		$easytables_table_meta = $db->loadRowList();

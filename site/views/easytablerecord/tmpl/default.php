@@ -3,7 +3,7 @@
 	<p class="contentheading"><a href="<?php echo $this->backlink; ?>"><?php echo htmlspecialchars($this->easytable->easytablename); ?></a></p>
 	<p class="et_description"><?php echo htmlspecialchars($this->easytable->description); ?></p>
 	<br />
-	<div id="easytable <?php echo htmlspecialchars($this->easytable->easytablealias); ?> record">
+	<div id="easytable-record" class="<?php echo htmlspecialchars($this->easytable->easytablealias); ?> ">
 		<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>">
 			<thead>
 				<tr>
@@ -55,7 +55,7 @@
 	<?php
 		if( $this->linked_table && $this->tableHasRecords )
 		{
-			echo('<div id="easytable linkedtable '.htmlspecialchars($this->easytable->easytablealias).'">');
+			echo('<div id="easytable-linkedtable" class="'.htmlspecialchars($this->easytable->easytablealias).'">');
 			echo( $this->loadTemplate('linkedtable') );
 			echo('</div>');
 		}
