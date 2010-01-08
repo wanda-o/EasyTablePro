@@ -28,7 +28,7 @@ class EasyTableViewEasyTableRecord extends JView
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while getting field Alias's");
 		}
-		$query = "SELECT label, fieldalias, type, detail_link FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' AND $which_view = '1' ORDER BY position;";
+		$query = "SELECT label, fieldalias, type, detail_link, description FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' AND $which_view = '1' ORDER BY position;";
 		$db->setQuery($query);
 		$meta = $db->loadRowList();
 		return $meta;
@@ -116,8 +116,6 @@ class EasyTableViewEasyTableRecord extends JView
 			JError::raiseError(500,"Couldn't get the database object while getting EasyTable id: $id");
 		}
 		// Get the meta data for the detail view of this table
-		// $query = "SELECT label, fieldalias, type, detail_link FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND detail_view = '1' ORDER BY position;";
-		// $db->setQuery($query);
 		$easytables_table_meta = $this->fieldMeta($id);
 		
 		// Convert the list of meta records into the list of fields that can be used in the SQL

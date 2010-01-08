@@ -13,12 +13,14 @@
 			echo $this->pagination->getLimitBox().' ( '.$this->pagination->getPagesCounter().' )';
 		?>
 	</div>
-	<table  id="<?php echo htmlspecialchars($this->easytable->easytablename); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
+	<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
 		<thead>
 			<tr>
 				<?php foreach ($this->easytables_table_meta as $heading )
 						{
-							echo '<td class="sectiontableheader '.$heading[1].'">'.$heading[0].'</td>';
+							$titleString = '';
+							if(strlen($heading[4])){ $titleString = 'title="'.htmlspecialchars($heading[4]).'" ';}
+							echo '<td class="sectiontableheader '.$heading[1].'" '.$titleString.'>'.$heading[0].'</td>';
 						}
 				?>
 			</tr>
@@ -51,7 +53,9 @@
 									}
 									break;
 								case 2: // url
-									$cellData = '<a href="'.trim($f).'" target="_blank">'.trim($f).'</a>';
+									$URLTarget = 'target="_blank"'; //For fully qualified URL's starting with HTTP we open in a new window, for everything else its the same window.
+									if(substr(f,0,7)=='http://') {$URLTarget = '';}
+									$cellData = '<a href="'.trim($f).'" '.$URLTarget.'>'.trim($f).'</a>';
 									break;
 									
 								default: // oh oh we messed up
@@ -64,7 +68,7 @@
 								$cellDetailLink ='';
 							}
 							// Finally we can echo the cell string.
-							echo "<td class='col ".$cellClass."'>".trim($cellData).'<!-- $k = \''.$k.'\'; $f =\''.$f.'\' --></td>';
+							echo "<td class='colfld ".$cellClass."'>".trim($cellData).'</td>';
 						}
 						else // we store the rowID for possible use in a detaillink
 						{

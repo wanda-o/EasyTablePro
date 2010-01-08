@@ -31,7 +31,9 @@
 									}
 									break;
 								case 2: // url
-									$cellData = '<a href="'.trim($fieldData).'" target="_blank">'.$fieldData.'</a>';
+									$URLTarget = 'target="_blank"'; //For fully qualified URL's starting with HTTP we open in a new window, for everything else its the same window.
+									if(substr($cellData,0,7)=='http://') {$URLTarget = '';}
+									$cellData = '<a href="'.trim($fieldData).'" '.$URLTarget.'>'.$fieldData.'</a>';
 									break;
 									
 								default: // oh oh we messed up
@@ -40,7 +42,10 @@
 
 
 							echo '<tr>';  // Open the row
-							echo '<td class="sectiontableheader '.$heading[1].'">'.$heading[0].'</td>'; // Field Heading
+							$titleString = ''; // Setup the titleString if required
+							if(strlen($heading[4])){ $titleString = 'title="'.htmlspecialchars($heading[4]).'" ';}
+
+							echo '<td class="sectiontableheader '.$heading[1].'" '.$titleString.'>'.$heading[0].'</td>'; // Field Heading
 							echo '<td class="sectiontablerow '.$heading[1].'">'.$cellData.'</td>'; // Field Data
 							echo '</tr>';  // Close the Row
 						}

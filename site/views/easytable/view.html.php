@@ -22,13 +22,14 @@ class EasyTableViewEasyTable extends JView
 			JError::raiseError(500,"Couldn't get the database object while getting EasyTable id: $id");
 		}
 		// Get the meta data for this table
-		$query = "SELECT label, fieldalias, type, detail_link FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND list_view = '1' ORDER BY position;";
+		$query = "SELECT label, fieldalias, type, detail_link, description FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND list_view = '1' ORDER BY position;";
 		$db->setQuery($query);
 		
 		$easytables_table_meta = $db->loadRowList();
 		$etmCount = count($easytables_table_meta);
 		
-
+		// In this next section we will get the field alias for use in the table view
+		// setup the field alias array
 		$fields = array();
 		$fields[] = 'id'; //put the id in first for accessing detail view of a table row
 		foreach($easytables_table_meta as $aRow)
