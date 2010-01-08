@@ -118,29 +118,15 @@ class EasyTableController extends JController
 		{
 			if( $CSVFileArray )
 			{
-/*				// 1. First we try and get the file
-				jimport('joomla.filesystem.file');
-				// 1.1 break it's name up into it's components
-				$filename = JFile::makeSafe($file['name']);
-				$file_basename = substr($filename, 0, strripos($filename, '.')); // file name no extension
-				$file_ext      = substr($filename, strripos($filename, '.'));    // here's the extension
-				if(!($file_ext == '.csv'))
+				$ettdColumnAliass =& $this->createMetaFrom($CSVFileArray, $id);  // creates the ETTD and if that works adds the meta records
+				if($ettdColumnAliass)
 				{
-					$msg .= '<BR />Only CSV files are supported!';
+					//$csvRowCount = $this->updateETTDTable($id, $ettdColumnAliass, $file);
+					$csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray);
 				}
 				else
-				{
-					//$ettdColumnAliass =& $this->createMeta($id, $file);  // creates the ETTD and if that works adds the meta records
-*/					$ettdColumnAliass =& $this->createMetaFrom($CSVFileArray, $id);  // creates the ETTD and if that works adds the meta records
-					if($ettdColumnAliass)
-					{
-						//$csvRowCount = $this->updateETTDTable($id, $ettdColumnAliass, $file);
-						$csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray);
-					}
-					else
-					{ JError::raiseError(500,"Unable to create ETTD or add Meta records for table: $id"); }
-/*				}
-*/			}
+				{ JError::raiseError(500,"Unable to create ETTD or add Meta records for table: $id"); }
+			}
 			else
 			{
 				$msg .= '<BR />No CSV file uploaded - noting to do... ';
@@ -805,7 +791,7 @@ class EasyTableController extends JController
 				//$tempSQLDataString = implode("' , '", $tempRowArray );   // covert row array into suitably delimited SQL section
 				
 				$tempString = implode("\t",$tempRowArray);
-				$tempString = $db->getEscaped($tempString, TRUE);
+				//$tempString = $db->getEscaped($tempString, TRUE);
 				$tempRowArray = explode("\t",$tempString);
 				$tempSQLDataString = implode("' , '", $tempRowArray );
 				

@@ -40,7 +40,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<table class="admintable">
 					<tr>
 						<td width="100" align="right" class="key">
-							<label for="table">
+							<label for="easytablename">
 								<?php echo JText::_( 'Table' ); ?>:
 							</label>
 						</td>
@@ -49,7 +49,7 @@ defined('_JEXEC') or die('Restricted Access');
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
-							<label for="alias">
+							<label for="easytablealias">
 								<?php echo JText::_( 'Alias' ); ?>:
 							</label>
 						</td>
@@ -88,7 +88,7 @@ defined('_JEXEC') or die('Restricted Access');
 				   			}
 			   			?>
 						<td width="100" align="right" class="key">
-							<label for="published" title="<?php echo $pubTitle ?>">surface
+							<label for="published" title="<?php echo $pubTitle ?>">
 								<?php echo JText::_( 'Published' ); ?>:
 							</label>
 						</td>

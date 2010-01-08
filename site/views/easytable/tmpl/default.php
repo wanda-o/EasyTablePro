@@ -8,7 +8,7 @@
 	<form name="adminForm" method="post" action="<?php echo $this->paginationLink ?>">
 	<div class="et_search_pagination">
 		<?php
-			echo 'Search: <input type="text" name="search" value="'.$this->search.'" id="search" > <button type="submit">Go</button>';
+			echo 'Search: <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">Go</button>';
 			echo $this->pagination->getPagesLinks();
 			echo $this->pagination->getLimitBox().' ( '.$this->pagination->getPagesCounter().' )';
 		?>

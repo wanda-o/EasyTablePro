@@ -81,11 +81,11 @@ class EasyTableModelEasyTable extends JModel
 		if(!$this->_search)
 		{
 			global $mainframe, $option;
-			$search = $mainframe->getUserStateFromRequest("$option.easytable.search", 'search','');
+			$search = $mainframe->getUserStateFromRequest("$option.easytable.etsearch", 'etsearch','');
 			if($search == '')
 			{
 				// echo '<BR />$search from UserState is empty, trying request var\'s; ';
-				$search = JRequest::getVar('search','');
+				$search = JRequest::getVar('etsearch','');
 				// echo '<BR />$search from getVar is -> '.$search.' <-';
 			}
 			else
