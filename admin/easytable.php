@@ -12,7 +12,7 @@
 
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
-require_once(JPATH_COMPONENT.DS.'controllers'.DS.'easytable.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'controllers'.DS.'easytable.php');
 
 $controller = new EasyTableController();
 $controller->registerTask('unpublish','publish');

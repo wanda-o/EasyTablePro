@@ -7,7 +7,7 @@
  */
 
 //--No direct access
-defined('_JEXEC') or die('=;)');
+defined('_JEXEC') or die ('Restricted Access');
 
 jimport('joomla.application.component.controller');
 
@@ -54,8 +54,9 @@ class EasyTableController extends JController
 			$msg .= '<BR />Changes applied.';
 		}
 
-		// 2 Get a reference to a file if it exists
+		// 2 Get a reference to a file if it exists, and load it into an array
 		$file = JRequest::getVar('tablefile', null, 'files', 'array');
+		$CSVFileArray = $this->parseCSVFile($file);
 
 		// 3 Are we creating a new ETTD?
 		if($currentTask == 'createETDTable')
@@ -84,12 +85,13 @@ class EasyTableController extends JController
 				// 2.1 if a file is attached remove existing data
 					if($this->emptyETTD($id))
 					{
-					$msg .= '<BR />Emptyied existing data rows';
+					$msg .= '<BR />Emptied existing data rows';
 					// Then we parse it and upload the data into the ettd
 						$ettdColumnAliass = $this->getMetaFromPost();
 						if($ettdColumnAliass)
 						{
-							if(!($csvRowCount = $this->updateETTDTable($id, $ettdColumnAliass, $file)))
+							//if(!($csvRowCount = $this->updateETTDTable($id, $ettdColumnAliass, $file)))
+							if(!($csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray)))
 							{
 								JError::raiseError(500,"Update of data table failed (Column count mismatch) for table: $id");
 							}
@@ -114,9 +116,9 @@ class EasyTableController extends JController
 		// 4.4 Otherwise CREATE the new ETTD for this table if a file was supplied
 		elseif($currentTask == 'createETDTable')
 		{
-			if( isset( $file['name']) && $file['name'] != '' )
+			if( $CSVFileArray )
 			{
-				// 1. First we try and get the file
+/*				// 1. First we try and get the file
 				jimport('joomla.filesystem.file');
 				// 1.1 break it's name up into it's components
 				$filename = JFile::makeSafe($file['name']);
@@ -128,15 +130,17 @@ class EasyTableController extends JController
 				}
 				else
 				{
-					$ettdColumnAliass =& $this->createMeta($id, $file);  // creates the ETTD and if that works adds the meta records
+					//$ettdColumnAliass =& $this->createMeta($id, $file);  // creates the ETTD and if that works adds the meta records
+*/					$ettdColumnAliass =& $this->createMetaFrom($CSVFileArray, $id);  // creates the ETTD and if that works adds the meta records
 					if($ettdColumnAliass)
 					{
-						$csvRowCount = $this->updateETTDTable($id, $ettdColumnAliass, $file);
+						//$csvRowCount = $this->updateETTDTable($id, $ettdColumnAliass, $file);
+						$csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray);
 					}
 					else
 					{ JError::raiseError(500,"Unable to create ETTD or add Meta records for table: $id"); }
-				}
-			}
+/*				}
+*/			}
 			else
 			{
 				$msg .= '<BR />No CSV file uploaded - noting to do... ';
@@ -201,6 +205,83 @@ class EasyTableController extends JController
 		}
 		
 		return $row->id;
+	}
+
+	function parseCSVFile (&$file)
+	{
+		// Setup
+		$CSVTableArray = FALSE;
+		if(isset( $file['name']) && $file['name'] != '')
+		{
+			//Import filesystem libraries. Perhaps not necessary, but does not hurt
+			jimport('joomla.filesystem.file');
+			 
+			//Clean up filename to get rid of strange characters like spaces etc
+			$origFilename = JFile::makeSafe($file['name']);
+			 
+			//Set up the source and destination of the file
+			$src = $file['tmp_name'];
+			$dest = JPATH_COMPONENT_ADMINISTRATOR . DS . "uploads" . DS . $origFilename;
+	
+			if ( JFile::upload($src, $dest) ) {
+				//Process the file
+				//Get the ADLE setting and set it to TRUE while we process our CSV file
+				$original_ADLE = ini_get('auto_detect_line_endings');
+				ini_set('auto_detect_line_endings', true);
+				
+				//$row = 0;                                                   // Only used in debug
+				//$msg = '';                                                  // Only used in debug
+		
+				// Create a new empy array and get our temp file's full/path/to/name
+				$CSVTableArray = array();
+	
+				$filename = $dest;
+				if($filename == '')
+				{
+					JError::raiseError(500, '$filename for temp file is empty.');
+				}
+				
+				$handle = fopen($filename, "r");
+				while (($data = fgetcsv($handle)) !== FALSE)
+				{
+					if( count($data)==0 )
+					{
+						// fgetcsv creates a single null field for blank lines - we can skip them...
+					}
+					else
+					{
+						$CSVTableArray[] = $data;	// We store the row array
+						//$row++; 					// We increment to the next row for debug msgs
+					}
+				}
+		
+				fclose($handle);
+				
+				/*
+				  Debug Echo's
+				*//*
+				$msg .= '<BR />Filename: ' . $filename;
+				$msg .= '<BR />Final row count: ' . $row;
+				$msg .= '<BR />Header: ' . ($hasHeaders ? 'Flag says YES.' : 'Flag says NO.');
+				$msg .= '<BR />CSV Table Array: ' . implode("\r", $CSVTableArray);
+				echo($msg); */
+				
+				// Make sure we return the ADLE ini to it's original value - who know's what'll happen if we don't.
+				ini_set('auto_detect_line_endings', $original_ADLE);
+				
+				// Clean up by deleting the CSV file (after all, we're done with it).
+				// JFile::delete($filename);
+			}
+			else
+			{
+				//Throw an error message
+				$fileArrayAsText = implode(', ', $file);
+				JError::raiseError(500, "<BR />$origFilename - could not be moved.<BR />Source: $src <BR />Destination: $dest <BR /> FILE ARRAY <BR /> $fileArrayAsText");
+			}
+
+		}
+
+		return $CSVTableArray;
 	}
 
 	function ettdExists($id)
@@ -477,21 +558,12 @@ class EasyTableController extends JController
 		}
 	}
 	
-	function createMeta ($id, $file)
+	function createMetaFrom ($CSVFileArray, $id)
 	{
-	// Get some basic details about the $file
-		$filename = JFile::makeSafe($file['name']);
-		$file_basename = substr($filename, 0, strripos($filename, '.')); // file name no extension
-		$file_ext      = substr($filename, strripos($filename, '.'));    // here's the extension
-
 	// We Parse the csv file into an array of URL safe Column names 
-		$csvData = trim(JFile::read($file['tmp_name']));
-		$csvLineArray = explode("\n",$csvData);
-		$msg .= '<br />Found '.count($csvLineArray).' rows. | ';
-		$csvColumnLabels = explode(',',$csvLineArray[0]);
+		$csvColumnLabels = $CSVFileArray[0];
 		$csvColumnCount = count($csvColumnLabels);
 		$msg .= 'Found '.$csvColumnCount.' columns in first row. | ';
-		$msg .= 'File name => '.$filename.'('.$file_basename.'/'.$file_ext.')'.' | ';
 		$msg .= '<br />Meta labels will be: '.implode(', ', $csvColumnLabels).' | ';
 		
 		$hasHeaders = JRequest::getVar('CSVFileHasHeaders');
@@ -523,7 +595,7 @@ class EasyTableController extends JController
 			}
 		}
 		reset($ettdColumnAliass);
-		echo '<BR /> createMeta() -> ettdColumnAliass = [ '.implode($ettdColumnAliass).' ]';
+		// echo '<BR /> createMetaFrom() -> ettdColumnAliass = [ '.implode($ettdColumnAliass).' ]';
 		
 		if($this->createETTD($id, $ettdColumnAliass)) // safe to populate the meta table as we've successfully created the ETTD
 		{
@@ -544,12 +616,12 @@ class EasyTableController extends JController
 			// pull it altogether
 			$insert_Meta_SQL = $insert_Meta_SQL_start.$insert_Meta_SQL_row.$insert_Meta_SQL_end;
 			// $msg .='<BR />Insert Meta SQL: '.$insert_Meta_SQL;
-			echo '<BR />Insert Meta SQL: '.$insert_Meta_SQL;
+			// echo '<BR />Insert Meta SQL: '.$insert_Meta_SQL;
 			
 	 		// Get a database object
 			$db =& JFactory::getDBO();
 			if(!$db){
-				JError::raiseError(500,"Couldn't get the database object while doing SAVE() for table: $id");
+				JError::raiseError(500,"Couldn't get the database object while creating meta for table: $id");
 			}
 			// Run the SQL to insert the Meta records
 			$db->setQuery($insert_Meta_SQL);
@@ -597,7 +669,8 @@ class EasyTableController extends JController
 		// close the sql with the primary key
 		$create_ETTD_SQL .= '` TEXT NOT NULL ,  PRIMARY KEY ( `id` ) )';
 		
-		echo $create_ETTD_SQL;
+		// Uncomment the next line if trying to debug a CSV file error
+		// JError::raiseError(500,'$id = '.$id.'<BR />$ettdColumnAliass = '.$ettdColumnAliass.'<BR />$ettdColumnSQL = '.$ettdColumnSQL.'<BR />createETTD SQL = '.$create_ETTD_SQL );
 		
 	// Get a database object
 		$db =& JFactory::getDBO();
@@ -606,7 +679,7 @@ class EasyTableController extends JController
 		}
 		
 	// Set and execute the SQL query
-		echo '<BR /> createETTD() -> '.$create_ETTD_SQL;
+		// echo '<BR /> createETTD() -> '.$create_ETTD_SQL;
 		$db->setQuery($create_ETTD_SQL);
 		$ettd_creation_result = $db->query();
 		
@@ -645,79 +718,121 @@ class EasyTableController extends JController
 		return($theResult=$db->query());
 	}
 	
-	function updateETTDTable ($id, $ettdColumnAliass, $file)
+	function updateETTDTableFrom ($id, $ettdColumnAliass, $CSVFileArray)
 	{
+		// Setup basic variables
 		$hasHeaders = JRequest::getVar('CSVFileHasHeaders');
+		$totalCSVRows = count($CSVFileArray);
+		$msg = '';
+		$chunkSize = 50;		// Arbitrary chunking size at this point, will have to add a global for fine tuning.
+		$csvRowCount = 0;
 
-		jimport('joomla.filesystem.file');
-
-		$csvData = trim(JFile::read($file['tmp_name']));
-		$csvLineArray = explode("\n",$csvData);
-		
-		if( count($ettdColumnAliass) != count(explode(',',$csvLineArray[0])))
+		// Check our CSV column count matches our ETTD
+		if( count($ettdColumnAliass) != count($CSVFileArray[0]))
 		{ return FALSE; } // Our existing column count doesn't match those found in the first line of the CSV
 		
-
-		$insert_ettd_data_SQL_start  = 'INSERT INTO `#__easytables_table_data_';
-		$insert_ettd_data_SQL_start .= $id.'` ( `id`, `';
-		$insert_ettd_data_SQL_start .= implode('` , `', $ettdColumnAliass);
-		$insert_ettd_data_SQL_start .= '` ) VALUES ';
+		// Break the array up into manageable chunks for processing
+		$CSVFileChunks = array_chunk($CSVFileArray, $chunkSize);
+		$numChunks = count( $CSVFileChunks );
+		$msg .= '<BR>CSV file broken into '.$numChunks.' chunks.';
 		
-		
-		//$msg .= '<BR />$insert_ettd_data_SQL -> '.$insert_ettd_data_SQL;
-		
-		$insert_ettd_data_values ='';
-		$insertLoopFirstPass = TRUE;
-		$csvRowCount = count($csvLineArray);
-		
-		for($csvRowNum = ($hasHeaders ? 1:0); $csvRowNum <= $csvRowCount; $csvRowNum++)  // If it has headers we skip the 0 row
+		// Loop through chunks and send them off for processing
+		for($thisChunkNum = 0; $thisChunkNum < $numChunks; $thisChunkNum++)
 		{
-			if(strlen($csvLineArray[$csvRowNum])>0) // We need to check for empty rows in the CSV file like extra CR or LF's at the EOF
+			$msg .= "<BR />Chunk # $thisChunkNum at BEGINNING of loop.";
+			$CSVFileChunk = $CSVFileChunks[$thisChunkNum]; // Get the chunk
+			if(($thisChunkNum == 0) && $hasHeaders) // For the first chunk we need to remove any headers that may be present
 			{
-				if($insertLoopFirstPass)
-				{
-					$insertLoopFirstPass = FALSE;
-				}
-				else
-				{
-					$insert_ettd_data_values .= ', ';
-				}
-				$tempCSVRow = $csvLineArray[$csvRowNum];
-				echo $tempCSVRow;
-				$tempCSVRowArray = explode(',',$tempCSVRow);
-				$tempSQLDataString = implode("' , '", $tempCSVRowArray);
-				
-				$insert_ettd_data_values .= "( NULL , '". $tempSQLDataString."')";
-				echo $insert_ettd_data_values;
+				$msg .= "<BR />hasHeaders ( $hasHeaders ) apparently shifting off first row.";
+				$headerRow = array_shift($CSVFileChunk); // shifts the first element off
 			}
+			
+			$updateChunkResult = $this->updateETTDWithChunk($CSVFileChunk, $id, $ettdColumnAliass); // We get back number of rows processed or 0 if it fails
+			if($updateChunkResult)
+			{
+				$msg .= "<BR />Chunk # $thisChunkNum processed - $updateChunkResult rows added to table.";
+				$csvRowCount += $updateChunkResult;
+			}
+			else
+			{
+				JError::raiseError(500,'Data insert appears to have failed for table: '.$id.' in updateETTDTableFrom() <BR />'.'<BR />Failed in chunk #'.$thisChunkNum.' '.$msg);
+			}
+			$msg .= "<BR />Chunk # $thisChunkNum at END of loop.";
+			// dumpMessage($msg);
 		}
+		return $csvRowCount;
+	}
+	
+	function updateETTDWithChunk ($CSVFileChunk, $id, $ettdColumnAliass)
+	{
+		// Setup basic variables
+		$msg = '';
 		
-		if($hasHeaders){$csvRowCount--;}
-
-		$insert_ettd_data_SQL_end = ';';
-		
-		$insert_ettd_data_SQL = $insert_ettd_data_SQL_start.$insert_ettd_data_values.$insert_ettd_data_SQL_end;
-		$msg .='<BR />updateETTDTable() $insert_ettd_data_SQL -> '.$insert_ettd_data_SQL;
-
  		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while doing SAVE() for table: $id");
 		}
 		
+		// Setup start of SQL
+		$insert_ettd_data_SQL_start  = 'INSERT INTO `#__easytables_table_data_';
+		$insert_ettd_data_SQL_start .= $id.'` ( `id`, `';
+		$insert_ettd_data_SQL_start .= implode('` , `', $ettdColumnAliass);
+		$insert_ettd_data_SQL_start .= '` ) VALUES ';
+		
+		
+		$msg .= '<BR />## DEBUG ## $insert_ettd_data_SQL -> '.$insert_ettd_data_SQL;
+		
+		$insert_ettd_data_values ='';
+		$insertLoopFirstPass = TRUE;
+		$csvRowCount = count($CSVFileChunk);
+		
+		for($csvRowNum = 0; $csvRowNum < $csvRowCount; $csvRowNum++)
+		{
+			$tempRowArray = $CSVFileChunk[$csvRowNum];
+			if( count($tempRowArray) ) // make sure it not a null row (ie. empty line)
+			{
+				if($insertLoopFirstPass)
+				{
+					$insertLoopFirstPass = FALSE;
+					$msg .= '<BR />First row of $CSVFileArray: '.implode(', ', $CSVFileChunk[$csvRowNum]);
+				}
+				else
+				{
+					$insert_ettd_data_values .= ', ';
+				}
+			
+				//$tempSQLDataString = implode("' , '", $tempRowArray );   // covert row array into suitably delimited SQL section
+				
+				$tempString = implode("\t",$tempRowArray);
+				$tempString = $db->getEscaped($tempString, TRUE);
+				$tempRowArray = explode("\t",$tempString);
+				$tempSQLDataString = implode("' , '", $tempRowArray );
+				
+				$insert_ettd_data_values .= "( NULL , '". $tempSQLDataString."')";
+				$msg .= '<BR />## DEBUG ## $insert_ettd_data_values -> ' . $insert_ettd_data_values;
+			}
+
+		}
+
+		$insert_ettd_data_SQL_end = ';';
+		
+		$insert_ettd_data_SQL = $insert_ettd_data_SQL_start.$insert_ettd_data_values.$insert_ettd_data_SQL_end;
+		$msg .='<BR />## DEBUG ## updateETTDWithChunk() $insert_ettd_data_SQL -> '.$insert_ettd_data_SQL;
+
+		// dumpMessage($msg);
+		
 		// Run the SQL to load the data into the ettd
 		$db->setQuery($insert_ettd_data_SQL);
 		$insert_ettd_data_result = $db->query();
-		$msg .='<BR />Insert Data Result: '.$insert_ettd_data_result;
+		$msg .='<BR />## DEBUG ## Insert Data Result: '.$insert_ettd_data_result;
 		
 		if(!$insert_ettd_data_result)
 		{
-			JError::raiseError(500,'Data insert failed for table: '.$id.'<BR />Possibly your CSV file is malformed<BR />'.$db->explain().'<BR />'.$msg);
+			JError::raiseError(500,'Data insert failed for table: '.$id.' in updateETTDTableFrom() <BR />Possibly your CSV file is malformed<BR />'.$db->explain().'<BR />'.'<BR />'.$msg);
 		}
-		else
-		{
-			return $csvRowCount;
-		}
+
+		return $csvRowCount;
 	}
 	
 	function cancel()

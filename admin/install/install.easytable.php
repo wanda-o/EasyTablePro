@@ -7,7 +7,7 @@
  */
 
 //--No direct access
-defined('_JEXEC') or die('=;)');
+defined('_JEXEC') or die('Restricted Access');
 
 /**
  * Main installer
@@ -33,6 +33,8 @@ function com_install()
 		echo $img_ERROR.JText::_('Unable to create EasyTable table').$BR;
 		echo $db->getErrorMsg().$BR;
 		return FALSE;
+	} else {
+			echo $img_OK.JText::_('EasyTable database table setup successful.').$BR;
 	}
 
 	if(!in_array($db->getPrefix().'easytables_table_meta', $db->getTableList()))
@@ -40,6 +42,8 @@ function com_install()
 		echo $img_ERROR.JText::_('Unable to create Meta table').$BR;
 		echo $db->getErrorMsg().$BR;
 		return FALSE;
+	} else {
+			echo $img_OK.JText::_('EasyTable meta table setup successful.').$BR;
 	}
 
 	if( $errors )

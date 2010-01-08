@@ -111,7 +111,7 @@ defined('_JEXEC') or die('Restricted Access');
 						</td>
 			        	<td>
 							<!-- MAX_FILE_SIZE must precede the file input field -->
-							<input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+							<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
 							<!-- Name of input element determines name in $_FILES array -->
 							<input name="tablefile" type="file" />
 							<?php
