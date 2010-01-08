@@ -1,3 +1,4 @@
+<?php defined('_JEXEC') or die ('Restricted Access'); ?>
 	<table  id="<?php echo htmlspecialchars($this->easytable->easytablename); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
 		<thead>
 			<tr>

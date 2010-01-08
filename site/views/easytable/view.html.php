@@ -53,9 +53,7 @@ class EasyTableViewEasyTable extends JView
 		$paginationLink = JRoute::_('index.php?option=com_easytable&id='.$id.'&view=easytable');
 		
 		// Search
-		// echo '<BR />About to do a get(\'search\')';
-		$search = $this->get('search');
-		// echo '<BR />Just did a get(\'search\')';
+		$search = $db->getEscaped($this->get('search'));
 		
 		// Get Params
 		global $mainframe;
