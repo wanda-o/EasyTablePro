@@ -1,3 +1,5 @@
+/* Installation section */
+/* Version: fc8 - adds showsearch column to _easytables */
 CREATE TABLE IF NOT EXISTS `#__easytables` (
   `id` int(11) NOT NULL auto_increment,
   `easytablename` varchar(255) NOT NULL,
@@ -14,8 +16,9 @@ CREATE TABLE IF NOT EXISTS `#__easytables` (
   `hits` int(11) unsigned NOT NULL default '0',
   `datatablename` varchar(255) NOT NULL,
   `params` text NOT NULL,
+  `showsearch` tinyint(1) unsigned NOT NULL default '1',
   PRIMARY KEY  (`id`)
-);
+) COMMENT='1.0fc8';
 
 CREATE TABLE IF NOT EXISTS `#__easytables_table_meta` (
   `id` int(11) NOT NULL auto_increment,
@@ -30,4 +33,4 @@ CREATE TABLE IF NOT EXISTS `#__easytables_table_meta` (
   `fieldalias` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `easytable_id` (`easytable_id`,`position`,`label`)
-);
+) COMMENT='1.0fc8';

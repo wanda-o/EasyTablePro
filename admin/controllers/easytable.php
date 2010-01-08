@@ -812,6 +812,7 @@ class EasyTableController extends JController
 				//$tempSQLDataString = implode("' , '", $tempRowArray );   // covert row array into suitably delimited SQL section
 				
 				$tempString = implode("\t",$tempRowArray);
+				$tempString = addslashes($tempString);
 				//$tempString = $db->getEscaped($tempString, TRUE);
 				$tempRowArray = explode("\t",$tempString);
 				$tempSQLDataString = implode("' , '", $tempRowArray );

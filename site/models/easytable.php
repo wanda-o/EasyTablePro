@@ -36,12 +36,12 @@ class EasyTableModelEasyTable extends JModel
 	
 			if($id)
 			{
-				$search = $this->getSearch();
-				$fields = $this->getFieldMeta($id);
-				$searchFields = $this->getSearchFields($id);
+				$search = $this->getSearch($id);                // Gets the search string...
+				$fields = $this->getFieldMeta($id);          // Gets the alias of all fields in the list view
+				$searchFields = $this->getSearchFields($id); // Gests the alias of all text fields in table (URL & Image values are not searched)
 						
 				// As a default get the table data for this table
-				$newSearch = "SELECT `id`, `".$fields."` FROM #__easytables_table_data_$id";
+				$newSearch = "SELECT `id`, `".$fields."` FROM #__easytables_table_data_$id";  // If there is no search parameter this will return the list view fields of all records
 
 				if($search != '')
 				{
@@ -75,13 +75,13 @@ class EasyTableModelEasyTable extends JModel
 	/*
 	 *
 	 */
-	function getSearch()
+	function getSearch($id='')
 	{
 		// echo '<BR />Entered getSearch()';
 		if(!$this->_search)
 		{
 			global $mainframe, $option;
-			$search = $mainframe->getUserStateFromRequest("$option.easytable.etsearch", 'etsearch','');
+			$search = $mainframe->getUserStateFromRequest("$option.easytable.etsearch".$id, 'etsearch','');
 			if($search == '')
 			{
 				// echo '<BR />$search from UserState is empty, trying request var\'s; ';
@@ -169,8 +169,6 @@ class EasyTableModelEasyTable extends JModel
 
 			$limit = $this->getState('limit');
 
-			//$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-			//$limit = JRequest::getVar('limit', 0);
 			if(!$limit)
 			{
 				// echo '<BR />No limit in JRequest, defaulting to site Cfg: ';

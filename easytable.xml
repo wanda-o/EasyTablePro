@@ -1,61 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
-    <name>EasyTable</name>
-    <version>1.00fc7</version>
-    <author>Craig Phillips</author>
-    <creationDate>17-Jul-2009</creationDate>
-    <copyright>Copyright (C) 2009.</copyright>
-    <authorEmail>info@seepeoplesoftware.com</authorEmail>
-    <authorUrl>http://www.seepeoplesoftware.com</authorUrl>
-    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>A component that imports and displays tables from CSV text files.</description>
-    <installfile>admin/install/install.easytable.php</installfile>
-    <uninstallfile>admin/install/uninstall.easytable.php</uninstallfile>
-    <install>
-    	<sql>
-    		<file driver="mysql" charset="utf8">install/install.mysql.sql</file>
-    	</sql>
-    </install>
-    <uninstall>
-    	<sql>
-    		<file driver="mysql" charset="utf8">install/uninstall.mysql.sql</file>
-    	</sql>
-    </uninstall>
-    <files folder="site">
+	<name>EasyTable</name>
+	<version>1.00fc8</version>
+	<author>Craig Phillips</author>
+	<creationDate>17-Jul-2009</creationDate>
+	<copyright>Copyright (C) 2009.</copyright>
+	<authorEmail>info@seepeoplesoftware.com</authorEmail>
+	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>EasyTable component imports and displays tables from CSV text files.</description>
+	<installfile>install/install.easytable.php</installfile>
+	<uninstallfile>install/uninstall.easytable.php</uninstallfile>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">install/install.mysql.sql</file>
+		</sql>
+	</install>
+	<files folder="site">
 		<filename>index.html</filename>
-        <filename>easytable.php</filename>
-        <filename>router.php</filename>
+		<filename>easytable.php</filename>
+		<filename>router.php</filename>
 		<folder>assets</folder>
 		<folder>controllers</folder>
-        <folder>language</folder>
-        <folder>models</folder>
-        <folder>views</folder>
-    </files>
-    <languages folder="site/language/en-GB">
-        <language tag="en-GB">en-GB.com_easytable.ini</language>
-    </languages>
-    <administration>
-        <menu img="components/com_easytable/assets/images/easytable_logo.ico" link="option=com_easytable">EasyTable</menu>
-        <files folder="admin">
-            <folder>assets</folder>
-            <folder>controllers</folder>
+		<folder>language</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+	</files>
+	<languages folder="site/language/en-GB">
+		<language tag="en-GB">en-GB.com_easytable.ini</language>
+	</languages>
+	<administration>
+		<menu img="components/com_easytable/assets/images/easytable_logo.ico" link="option=com_easytable">EasyTable</menu>
+		<files folder="admin">
+			<folder>assets</folder>
+			<folder>controllers</folder>
 			<folder>elements</folder>
 			<folder>install</folder>
-            <folder>language</folder>
-            <folder>models</folder>
-            <folder>tables</folder>
-            <folder>views</folder>
+			<folder>language</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
 			<filename>index.html</filename>
-            <filename>CHANGELOG.php</filename>
-            <filename>config.xml</filename>
-            <filename>easytable.css</filename>
-            <filename>easytable.js</filename>
-            <filename>easytable.php</filename>
-        </files>
-        <languages folder="admin/language/en-GB">
-            <language tag="en-GB">en-GB.com_easytable.ini</language>
-        </languages>
-    </administration>
+			<filename>CHANGELOG.php</filename>
+			<filename>config.xml</filename>
+			<filename>easytable.css</filename>
+			<filename>easytable.js</filename>
+			<filename>easytable.php</filename>
+		</files>
+		<languages folder="admin/language/en-GB">
+			<language tag="en-GB">en-GB.com_easytable.ini</language>
+		</languages>
+	</administration>
 	<params>
 		<param name="show_description" default="1">
 		</param>

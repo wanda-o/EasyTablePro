@@ -77,9 +77,13 @@ class TableEasyTable extends JTable
 	 **/
 	 var $datatablename = null;
 	/**
-	 * @var datatablename
+	 * @var params
 	 **/
 	 var $params = null;
+	/**
+	 * @var showsearch
+	 */
+	 var $showsearch = null;
 
 	/**
 		Check function

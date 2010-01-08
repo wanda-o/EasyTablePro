@@ -8,7 +8,10 @@
 	<form name="adminForm" method="post" action="<?php echo $this->paginationLink ?>">
 	<div class="et_search_pagination">
 		<?php
-			echo 'Search: <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">Go</button>';
+			if( $this->showsearch ) // If search is enabled for this table, show the search box.
+			{
+				echo 'Search: <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">Go</button>';
+			}
 			echo $this->pagination->getPagesLinks();
 			echo $this->pagination->getLimitBox().' ( '.$this->pagination->getPagesCounter().' )';
 		?>

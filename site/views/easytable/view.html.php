@@ -8,6 +8,13 @@ class EasyTableViewEasyTable extends JView
 	function display ($tp = null)
 	{
 		$id = (int) JRequest::getVar('id',0);
+		// For a better backlink - lets try this:
+		$starting_place = JRequest::getVar('start',''); 
+		if($starting_place)
+		{
+			$starting_place = htmlentities('&start='. $starting_place);
+		}
+		
 		$easytable =& JTable::getInstance('EasyTable','Table');
 		$easytable->load($id);
 		if($easytable->published == 0) {
@@ -39,22 +46,30 @@ class EasyTableViewEasyTable extends JView
 		
 		$fields = implode('`, `',$fields);
 				
-		// Create a backlink
-		$backlink = JRoute::_('index.php?option=com_easytable');
-		
 		// Get paginated user table
 		$paginatedRecords =& $this->get('data');
 		// echo('<BR />Paginated Records Array = '.print_r($paginatedRecords));
 		
 		// Get pagination object
 		$pagination =& $this->get('pagination');
-		// echo('<BR />Pagination Array = '.print_r($pagination));
+		//echo('<BR />Pagination Array = '.print_r($pagination));
 		
 		//Get form link
 		$paginationLink = JRoute::_('index.php?option=com_easytable&id='.$id.'&view=easytable');
 		
 		// Search
 		$search = $db->getEscaped($this->get('search'));
+
+		// Show the Search box
+		$showsearch = $easytable->showsearch;
+		
+		// Create a backlink - prelims
+		$backlink = JRoute::_('index.php?option=com_easytable'.$starting_place);
+		$lim0  = JRequest::getVar('limitstart', 0, '', 'int');
+
+		if($lim0) {
+			$backlink .= '&limitstart=' . $lim0;
+		}
 		
 		// Get Params
 		global $mainframe;
@@ -72,6 +87,7 @@ class EasyTableViewEasyTable extends JView
 		$this->assign('show_created_date', $show_created_date);
 		$this->assign('show_modified_date', $show_modified_date);
 
+		$this->assign('showsearch', $showsearch);
 		$this->assign('tableId', $id);
 		$this->assign('imageDir', $imageDir);
 		$this->assign('backlink', $backlink);

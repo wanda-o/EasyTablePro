@@ -17,9 +17,8 @@ defined('_JEXEC') or die('Restricted Access');
 		JToolBarHelper::addNew();
 		JToolBarHelper::preferences( 'com_easytable' );
 ?>
-<div id="et-versionCheck" style="text-size:0.9em;text-align:center; color:grey;position:relative;z-index:10000;" >
+<div id="et-versionCheck" style="text-size:0.9em;text-align:center; color:grey;position:relative;z-index:1;" >
 	Installed EasyTable version: <?php echo ( $this->et_current_version ); ?> | 
-	<!-- Current Public Release is: <?php echo ( $this->et_public_version ); ?> -->
 	<span id="et-pubverinfo" onmouseover="ShowTip('et-pubverinfo-panel'); return false;" onMouseOut="HideTip('et-pubverinfo-panel'); return false;">
 		Current Public Release is: <?php echo ( $this->et_public_version ); ?>
 		<div id="et-pubverinfo-panel" class="info-tip" style="left:50%;">

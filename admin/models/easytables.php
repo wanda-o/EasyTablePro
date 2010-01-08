@@ -42,7 +42,7 @@ class EasyTableModelEasyTables extends JModel
 	}
 
 	/**
-	 * Retrieves the hello data
+	 * Retrieves the data
 	 * @return array Array of objects containing the data from the database
 	 */
 	function getData()

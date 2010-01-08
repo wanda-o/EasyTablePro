@@ -17,11 +17,10 @@
 		</thead>
 		<tbody>
 			<?php
-				foreach ($this->linked_records as $prow )  // looping through the rows of paginated data
+				foreach ($this->linked_records as $prow )  // looping through the rows of data
 				{
-					// echo '<!-- $prow count = '.count($prow).' -->';
 					echo '<tr>';  // Open the row
-					$labelNumber = 1;
+					$labelNumber = 1; //skip the id of the records
 					foreach($prow as $k => $f)  // looping through the fields of the row
 					{
 						if(!($k == 'id')){				// we skip the row id which is in position 0
