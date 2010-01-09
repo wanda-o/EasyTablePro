@@ -103,7 +103,7 @@ class EasyTableViewEasyTableRecord extends JView
 		return($types);
 	}
 	
-	function display ($tp = null)
+	function display ($tpl = null)
 	{
 		$debugMsg = '';
 		// Get the table id and the record id

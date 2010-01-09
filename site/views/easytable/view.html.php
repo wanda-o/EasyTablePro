@@ -5,7 +5,7 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_easytable'.DS
 
 class EasyTableViewEasyTable extends JView
 {
-	function display ($tp = null)
+	function display ($tpl = null)
 	{
 		$id = (int) JRequest::getVar('id',0);
 		// For a better backlink - lets try this:
