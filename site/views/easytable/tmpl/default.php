@@ -1,10 +1,10 @@
 <?php defined('_JEXEC') or die ('Restricted Access'); ?>
-<p class="contentheading"><?php echo htmlspecialchars($this->easytable->easytablename); ?></p>
+<h2 class="contentheading"><?php echo htmlspecialchars($this->easytable->easytablename); ?></h2>
 <?php echo ($this->show_created_date ? '<p class="createdate">'.htmlspecialchars($this->easytable->created_).'</p>' : '') ?>
 <?php echo ($this->show_modified_date ? '<p class="modifydate">'.htmlspecialchars($this->easytable->modified_).'</p>' : '') ?>
 <?php echo ($this->show_description ? '<p class="et_description">'.htmlspecialchars($this->easytable->description).'</p>' : '') ?>
 <br />
-<div id="easytable <?php echo htmlspecialchars($this->easytable->easytablename); ?>">
+<div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
 	<form name="adminForm" method="post" action="<?php echo $this->paginationLink ?>">
 	<div class="et_search_pagination">
 		<?php
@@ -30,10 +30,11 @@
 		</thead>
 		<tbody>
 			<?php
+				$alt_rv = 0;
 				foreach ($this->paginatedRecords as $prow )  // looping through the rows of paginated data
 				{
 					// echo '<!-- $prow count = '.count($prow).' -->';
-					echo '<tr>';  // Open the row
+					echo "<tr class='row$alt_rv' >";  // Open the row
 					$labelNumber = 0;
 					foreach($prow as $k => $f)  // looping through the fields of the row
 					{
@@ -81,6 +82,7 @@
 						// End of row stuff should follow after this.
 					}
 					echo '</tr>';  // Close the Row
+					$alt_rv = (int)!$alt_rv;
 					$k = '';
 					$rowId = '';   // Clear the rowId to prevent any issues.
 				}

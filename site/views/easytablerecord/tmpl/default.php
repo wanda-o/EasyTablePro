@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die ('Restricted Access'); ?>
 <div id="etrecord">
-	<p class="contentheading"><a href="<?php echo $this->backlink; ?>"><?php echo htmlspecialchars($this->easytable->easytablename); ?></a></p>
+	<h2 class="contentheading"><a href="<?php echo $this->backlink; ?>"><?php echo htmlspecialchars($this->easytable->easytablename); ?></a></h2>
 	<p class="et_description"><?php echo htmlspecialchars($this->easytable->description); ?></p>
 	<br />
 	<div id="easytable-record" class="<?php echo htmlspecialchars($this->easytable->easytablealias); ?> ">
