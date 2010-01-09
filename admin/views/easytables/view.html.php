@@ -69,7 +69,8 @@ class EasyTableViewEasyTables extends JView
 */
 		if ($et_version == '')
 		{
-			JError::raiseError(500,'Failed to open '.$source.'_easytable.xml during version check - installation may be corrupt/incomplete.');
+			$et_version = '0.0';
+			$et_version_tip = 'Version Check failed to contact server.';
 		}
 		
 		$et_version_array = array("version" => $et_version, "tip" => $et_version_tip);
@@ -94,7 +95,7 @@ class EasyTableViewEasyTables extends JView
 		 * Let's do a version check - it's always good to use the newest version.
 		 *
 		**/
-		$et_current_version = '';
+/*		$et_current_version = '';
 		$et_com_xml_file = JPATH_COMPONENT_ADMINISTRATOR.DS.'easytable.xml';
 		$et_com_xml_exists = file_exists($et_com_xml_file);
 		if ($et_com_xml_exists)
@@ -105,7 +106,7 @@ class EasyTableViewEasyTables extends JView
 		else
 		{
 			JError::raiseError(500,'Failed to open easytable.xml during version check - installation may be corrupt/incomplete.');
-		}
+		}*/
 
 		// Get data from the model
 		$public_ver_array = $this->et_version('public');
