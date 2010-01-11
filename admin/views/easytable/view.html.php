@@ -152,9 +152,6 @@ class EasyTableViewEasyTable extends JView
 			// Make sure that a table with no associated data table is never published
 			$row->published = FALSE;
 			$state = 'Unpublished';
-
-			// Default to showing the search box
-			$row->showsearch = TRUE;
 		}
 		
 
@@ -168,8 +165,6 @@ class EasyTableViewEasyTable extends JView
 		{
 			$this->assignRef('published', JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $row->published ));
 		}
-
-		$this->assignRef('showsearch', JHTML::_('select.booleanlist', 'showsearch', 'class=inputbox"', $row->showsearch ));
 		
 		// Parameters for this table instance
 		$paramsdata = $row->params;

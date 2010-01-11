@@ -80,10 +80,6 @@ class TableEasyTable extends JTable
 	 * @var params
 	 **/
 	 var $params = null;
-	/**
-	 * @var showsearch
-	 */
-	 var $showsearch = null;
 
 	/**
 		Check function

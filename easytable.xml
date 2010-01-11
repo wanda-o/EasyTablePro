@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTable</name>
-	<version>1.00fc8</version>
+	<version>1.00fc9</version>
 	<author>Craig Phillips</author>
 	<creationDate>17-Jul-2009</creationDate>
 	<copyright>Copyright (C) 2009.</copyright>
@@ -53,6 +53,8 @@
 	</administration>
 	<params>
 		<param name="show_description" default="1">
+		</param>
+		<param name="show_search" default="1">
 		</param>
 		<param name="show_created_date" default="0">
 		</param>

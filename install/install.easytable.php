@@ -68,15 +68,15 @@ function com_install()
 	}
 	
 	// Check perform any table upgrades in this last section.
-	// 1. Add the column for the 'showsearch' parameter
-	//-- See if the new column exists --//
+	// 1. Remove the column for the 'showsearch' parameter
+	//-- See if the column exists --//
 	$tableFieldsResult = $db->getTableFields('#__easytables');
 	$columnNames = $tableFieldsResult['#__easytables'];
 
-	if(!array_key_exists('showsearch', $columnNames))
+	if(array_key_exists('showsearch', $columnNames))
 	{
-		$msg .= $img_ERROR.JText::_('EasyTables doesn\'t have column "showsearch".').$BR;
-		$et_updateQry = "ALTER TABLE #__easytables ADD COLUMN `showsearch` TINYINT(1) UNSIGNED DEFAULT '1';";
+		$msg .= $img_ERROR.JText::_('EasyTables has column "showsearch".').$BR;
+		$et_updateQry = "ALTER TABLE #__easytables DROP COLUMN `showsearch`;";
 		$db->setQuery($et_updateQry);
 		$et_updateResult = $db->query();
 		if(!$et_updateResult)
@@ -86,7 +86,7 @@ function com_install()
 		}
 		else
 		{
-			$msg .= $img_OK.JText::_('EasyTables updated successfully with column "showsearch".').$BR;
+			$msg .= $img_OK.JText::_('EasyTables updated - successfully removed column "showsearch".').$BR;
 		}
 	}
 	else
@@ -99,7 +99,8 @@ function com_install()
 	{
 		// Must break out version function in view to a utility class - ** must setup a utility class ** doh!
 		// No doubt this will end in grief then we'll fix it but for now version is in 2 places.... time, time, oh for more time....
-		$et_this_version = '1.0fc8';
+		// See - the lack of time did bite you - now you're undoing the work from the last version... make more time!
+		$et_this_version = '1.0fc9';
 		//
 		
 		// Update the version entry in the Table comment to the current version.

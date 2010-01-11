@@ -1,14 +1,22 @@
 <root>
 	<params group="EASYTABLE_PREFS">
-		<param name="show_description" label="Show Description" type="radio" default="1" description="This will show description when this option is set to 'yes'.">
+		<param name="show_description" type="list" default="" label="Show Description" description="This will show description when this option is set to 'yes'.">
+			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_created_date" label="Show Creation Date" type="radio" default="0" description="Creation date will be displayed when this option is set to 'yes'.">
+		<param name="show_search" type="list" default="" label="Show Table Search" description="This will show the Search function for this table when the option is set to 'yes'.">
+			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_modified_date" label="Show Modified Date" type="radio" default="0" description="Modification date will be displayed when this option is set to 'yes'.">
+		<param name="show_created_date" label="Show Creation Date" type="list" default="0" description="Creation date will be displayed when this option is set to 'yes'.">
+			<option selected="selected" value="">Use Global</option>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="show_modified_date" label="Show Modified Date" type="list" default="0" description="Modification date will be displayed when this option is set to 'yes'.">
+			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>

@@ -79,16 +79,6 @@ defined('_JEXEC') or die('Restricted Access');
 			                <?php } ?>
 						</td>
 					</tr>
-					<tr>
-						<td width="100" align="right" class="key">
-							<label for="showsearch" title="Show the Search box on the displayed table.">
-								<?php echo JText::_('Show Search'); ?>:
-							</label>
-						</td>	
-						<td>
-							<?php echo $this->showsearch; ?>
-						</td>	
-					</tr>				
 			   		<tr>
 			   			<?php
 			   			$pubTitle = 'The \'Published\' status of this table.';

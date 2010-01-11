@@ -8,7 +8,7 @@
 	<form name="adminForm" method="post" action="<?php echo $this->paginationLink ?>">
 	<div class="et_search_pagination">
 		<?php
-			if( $this->showsearch ) // If search is enabled for this table, show the search box.
+			if( $this->show_search ) // If search is enabled for this table, show the search box.
 			{
 				echo 'Search: <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">Go</button>';
 			}

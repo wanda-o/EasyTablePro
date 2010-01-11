@@ -60,9 +60,6 @@ class EasyTableViewEasyTable extends JView
 		// Search
 		$search = $db->getEscaped($this->get('search'));
 
-		// Show the Search box
-		$showsearch = $easytable->showsearch;
-		
 		// Create a backlink - prelims
 		$backlink = JRoute::_('index.php?option=com_easytable'.$starting_place);
 		$lim0  = JRequest::getVar('limitstart', 0, '', 'int');
@@ -76,18 +73,19 @@ class EasyTableViewEasyTable extends JView
 
 		$params =& $mainframe->getParams(); // Component wide & menu based params
 		
-		$params->merge( new JParameter( &$easytable->params ) );
+		$params->merge( new JParameter( &$easytable->params ) );// Merge them with specific table based params
 
 		$show_description = $params->get('show_description',0);
+		$show_search = $params->get('show_search',0);
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
 		
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);
+		$this->assign('show_search', $show_search);
 		$this->assign('show_created_date', $show_created_date);
 		$this->assign('show_modified_date', $show_modified_date);
 
-		$this->assign('showsearch', $showsearch);
 		$this->assign('tableId', $id);
 		$this->assign('imageDir', $imageDir);
 		$this->assign('backlink', $backlink);

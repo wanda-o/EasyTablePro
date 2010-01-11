@@ -33,9 +33,11 @@ class EasyTableViewEasyTables extends JView
 		
 		$params =& $mainframe->getParams();
 		$show_description = $params->get('show_description',0);
+		$show_search = $params->get('show_search',0);
 		
 		$this->assignRef('rows', $rows);
 		$this->assign('show_description', $show_description);
+		$this->assign('show_search', $show_search);
 
 		parent::display($tpl);
 	}

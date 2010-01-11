@@ -8,6 +8,10 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+		<param name="show_search" type="radio" default="1" label="Show Table Search" description="This will show the Search function for tables when this option is set to 'yes'.">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="show_created_date" type="radio" default="0" label="Show Creation Date" description="The tables creation date will be displayed when this option is set to 'yes'.">
 			<option value="1">Yes</option>
 			<option value="0">No</option>

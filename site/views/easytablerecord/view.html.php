@@ -231,12 +231,14 @@ class EasyTableViewEasyTableRecord extends JView
 
 		// Setup the rest of the params related to display
 		$show_description = $params->get('show_description',0);
+		$show_search = $params->get('show_search',0);
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
 
 		
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);
+		$this->assign('show_search', $show_search);
 		$this->assign('show_created_date', $show_created_date);
 		$this->assign('show_modified_date', $show_modified_date);
 		$this->assign('linked_table', $lt_id);
