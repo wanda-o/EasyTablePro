@@ -26,10 +26,10 @@
 		<folder>models</folder>
 		<folder>views</folder>
 	</files>
-	<languages folder="site/language/en-GB">
-		<language tag="en-GB">en-GB.com_easytable.ini</language>
-	</languages>
 	<administration>
+		<languages folder="admin/language/en-GB">
+			<language tag="en-GB">en-GB.com_easytable.ini</language>
+		</languages>
 		<menu img="components/com_easytable/assets/images/easytable_logo.ico" link="option=com_easytable">EasyTable</menu>
 		<files folder="admin">
 			<folder>assets</folder>
