@@ -44,7 +44,7 @@
 									$cellData = '<a href="'.trim($f).'" target="_blank">'.trim($f).'</a>';
 									break;
                                 case 3: // mailto
-                                    $cellData = '<a href="mailto:'.trim($f).'" target="_blank">'.trim($f).'</a>';
+                                    $cellData = '<a href="mailto:'.trim($f).'">'.trim($f).'</a>';
                                     break;
 									
 								default: // oh oh we messed up

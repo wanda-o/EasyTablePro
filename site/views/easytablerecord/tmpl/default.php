@@ -42,8 +42,7 @@
 										$cellData = '<a href="'.trim($fieldData).'" '.$URLTarget.'>'.$fieldData.'</a>';
 										break;
                                     case 3: // mailto
-                                        $URLTarget = 'target="_blank"';
-                                        $cellData = '<a href="mailto:'.trim($f).'" '.$URLTarget.'>'.trim($f).'</a>';
+                                        $cellData = '<a href="mailto:'.trim($f).'" >'.trim($f).'</a>';
                                         break;
 										
 									default: // oh oh we messed up
