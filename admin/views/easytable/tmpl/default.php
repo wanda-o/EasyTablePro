@@ -10,11 +10,11 @@
 defined('_JEXEC') or die('Restricted Access');
 		if($this->row->id)
 		{
-			JToolBarHelper::title(JText::_('Edit Table'), 'addedit.png');
+			JToolBarHelper::title(JText::_( 'EDIT_TABLE' ), 'addedit.png');
 		}
 		else
 		{
-			JToolBarHelper::title(JText::_('Add Table'), 'addedit.png');
+			JToolBarHelper::title(JText::_( 'ADD_TABLE' ), 'addedit.png');
 		}
 		
 		JToolBarHelper::save();
@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted Access');
 		
 		if($this->row->id)
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_( 'Close' ));
 		}
 		else
 		{
@@ -41,7 +41,7 @@ defined('_JEXEC') or die('Restricted Access');
 					<tr>
 						<td width="100" align="right" class="key">
 							<label for="easytablename">
-								<?php echo JText::_( 'Table' ); ?>:
+								<?php echo JText::_( 'TABLE' ); ?>:
 							</label>
 						</td>
 						<td>
@@ -50,7 +50,7 @@ defined('_JEXEC') or die('Restricted Access');
 					<tr>
 						<td width="100" align="right" class="key">
 							<label for="easytablealias">
-								<?php echo JText::_( 'Alias' ); ?>:
+								<?php echo JText::_( 'ALIAS' ); ?>:
 							</label>
 						</td>
 						<td>
@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted Access');
 					<tr>
 						<td width="100" align="right" class="key">
 							<label for="description">
-								<?php echo JText::_( 'Description' ); ?>:
+								<?php echo JText::_( 'DESCRIPTION' ); ?>:
 							</label>
 						</td>
 						<td>
@@ -69,27 +69,27 @@ defined('_JEXEC') or die('Restricted Access');
 			   		<tr>
 						<td width="100" align="right" class="key">
 							<label for="defaultimagedir" title="The default location of images used with this table.">
-								<?php echo JText::_( 'Image Directory' ); ?>:
+								<?php echo JText::_( 'IMAGE_DIRECTORY' ); ?>:
 							</label>
 						</td>
 						<td>
 							<input class="text_area" type="text" name="defaultimagedir" id="defaultimagedir" size="32" maxlength="250" value="<?php echo $this->row->defaultimagedir;?>" />
 			            	<?php if(! $this->row->defaultimagedir ) { ?>
-			            		<span class="et_nodirectory" style="font-style:italic;color:red;"><?php echo JText::_( 'No Directory Set' ); ?></span>
+			            		<span class="et_nodirectory" style="font-style:italic;color:red;"><?php echo JText::_( 'NO_DIRECTORY_SET' ); ?></span>
 			                <?php } ?>
 						</td>
 					</tr>
 			   		<tr>
 			   			<?php
-			   			$pubTitle = 'The \'Published\' status of this table.';
+			   			$pubTitle = JText::_('THE___PUBLISHED___STATUS_OF_THIS_TABLE_');
 			   			if(!$this->ettd)
 				   			{
-				   				$pubTitle .= ' A table can\'t be published without data being added.';
+				   				$pubTitle .= JText::_( 'A_TABLE_CAN__T_BE_PUBLISHED_WITHOUT_DATA_BEING_ADDED_' );
 				   			}
 			   			?>
 						<td width="100" align="right" class="key">
 							<label for="published" title="<?php echo $pubTitle ?>">
-								<?php echo JText::_( 'Published' ); ?>:
+								<?php echo JText::_( 'PUBLISHED' ); ?>:
 							</label>
 						</td>
 						<td>
@@ -101,10 +101,10 @@ defined('_JEXEC') or die('Restricted Access');
 							<label for="tableimport">
 							<?php
 								if($this->ettd) {
-									echo JText::_( 'Select an Update file' ); 
+									echo JText::_( 'SELECT_AN_UPDATE_FILE' ); 
 								} else
 								{
-									echo JText::_( 'Select a NEW CSV file' );
+									echo JText::_( 'SELECT_A_NEW_CSV_FILE' );
 								}
 							?>:
 							</label>
@@ -116,14 +116,14 @@ defined('_JEXEC') or die('Restricted Access');
 							<input name="tablefile" type="file" />
 							<?php
 								if($this->ettd) {
-									echo '<input type="button" value="'.JText::_( 'Upload file' ).'" onclick="javascript: submitbutton(\'updateETDTable\')" /><br />';
+									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'updateETDTable\')" /><br />';
 								}
 								else
 								{
-									echo '<input type="button" value="'.JText::_( 'Upload file' ).'" onclick="javascript: submitbutton(\'createETDTable\')" /><br />';
+									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'createETDTable\')" /><br />';
 								}
 							?>
-							<?php echo JText::_( 'First line of CSV file contains column headings?' ).' '.$this->CSVFileHasHeaders; ?>
+							<?php echo JText::_( 'FIRST_LINE_OF_CSV_FILE_CONTAINS_COLUMN_HEADINGS_' ).' '.$this->CSVFileHasHeaders; ?>
 						</td>
 					</tr>
 				</table>
@@ -133,40 +133,40 @@ defined('_JEXEC') or die('Restricted Access');
 					<table width="100%" style="border: 1px dashed silver; padding: 5px; margin-bottom: 10px;">
 						<tbody>
 							<tr>
-								<td><strong><?php echo JText::_( 'Table ID' ); ?>:</strong></td>
+								<td><strong><?php echo JText::_( 'TABLE_ID' ); ?>:</strong></td>
 								<td><?php echo $this->row->id; ?></td>
 							</tr>
 							<tr>
-								<td><strong><?php echo JText::_( 'State' ); ?>:<br /></strong></td>
+								<td><strong><?php echo JText::_( 'STATE' ); ?>:<br /></strong></td>
 								<td><?php echo $this->state; ?></td>
 							</tr>
 							<tr>
 								<td
 								 valign="top"
 								 title="EasyTable adds a field for it's primary key, so the field count will be 1 more than the fields you have access to.">
-									<strong><?php echo JText::_( 'Structure' ); ?>:</strong>
+									<strong><?php echo JText::_( 'STRUCTURE' ); ?>:</strong>
 								</td>
 								<td>
 									<?php
-										echo $this->ettm_field_count.' '.JText::_('fields').'<br />';
-										echo JText::_('Table: ').$this->ettd_tname.' '.'<br />';
+										echo $this->ettm_field_count.' '.JText::_('FIELDS').'<br />';
+										echo JText::_('TABLE__').$this->ettd_tname.' '.'<br />';
 										if($this->ettd)
 										{
-											echo $this->ettd_tname.' '.JText::_('has').' '.$this->ettd_record_count.' '.JText::_('records.');
+											echo $this->ettd_tname.' '.JText::_('HAS').' '.$this->ettd_record_count.' '.JText::_('RECORDS_');
 										}
 										else
 										{
-											echo '<span style="font-style:italic;color:red;">No data table found for '.$this->ettd_tname.'! </span>';
+											echo '<span style="font-style:italic;color:red;">'.JText::_( 'NO_DATA_TABLE_FOUND_FOR_' ).$this->ettd_tname.'! </span>';
 										}
 									?>
 								</td>
 							</tr>
 							<tr>
-								<td><br /><strong><?php echo JText::_( 'Created' ); ?>:</strong></td>
+								<td><br /><strong><?php echo JText::_( 'CREATED' ); ?>:</strong></td>
 								<td><br /><?php echo $this->createddate;?></td>
 							</tr>
 							<tr>
-								<td><strong><?php echo JText::_( 'Modified' ); ?>:</strong></td>
+								<td><strong><?php echo JText::_( 'MODIFIED' ); ?>:</strong></td>
 								<td><?php echo $this->modifieddate;?></td>
 							</tr>
 						</tbody>
@@ -177,18 +177,18 @@ defined('_JEXEC') or die('Restricted Access');
 			<tr>
 				<td title="Meta data for fields in Table <?php echo $this->row->easytablename.' ('.$this->ettd_tname.')'; ?>!">
 					<fieldset class="adminform">
-						<legend><?php echo $this->row->easytablename.' '.JText::_( 'Field Configuration' ); ?></legend>
+						<legend><?php echo $this->row->easytablename.' '.JText::_( 'FIELD_CONFIGURATION' ); ?></legend>
 						<table class="adminlist">
 						<thead>
 							<tr valign="top">
 								<th><?php echo JText::_( 'ID' ); ?></th>
-								<th><?php echo JText::_( 'Position' ); ?></th>
-								<th><?php echo JText::_( 'Label (alias)' ); ?></th>
-								<th><?php echo JText::_( 'Description' ); ?></th>
-								<th><?php echo JText::_( 'Type' ); ?></th>
-								<th><?php echo JText::_( 'List View' ); ?></th>
-								<th><?php echo JText::_( 'Detail Link' ); ?></th>
-								<th><?php echo JText::_( 'Detail View' ); ?></th>
+								<th><?php echo JText::_( 'POSITION' ); ?></th>
+								<th><?php echo JText::_( 'LABEL__ALIAS_' ); ?></th>
+								<th><?php echo JText::_( 'DESCRIPTION' ); ?></th>
+								<th><?php echo JText::_( 'TYPE' ); ?></th>
+								<th><?php echo JText::_( 'LIST_VIEW' ); ?></th>
+								<th><?php echo JText::_( 'DETAIL_LINK' ); ?></th>
+								<th><?php echo JText::_( 'DETAIL_VIEW' ); ?></th>
 							</tr>
 						</thead>
 						<?php
@@ -231,7 +231,7 @@ defined('_JEXEC') or die('Restricted Access');
 								echo($tdStart.$tdFlagImgLink.$tdEnd);
 								
 								
-								echo '</tr>';																										// Close the row
+								echo '</tr>';                                                                                                        // Close the row
 								$k = 1 - $k;
 							}
 							echo('<tr><td><input type="hidden" name="mRIds" value="'.implode(', ',$mRIds).'"></td></tr>')
@@ -241,7 +241,7 @@ defined('_JEXEC') or die('Restricted Access');
 				</td>
 				<td valign="top">
 					<fieldset class="adminform">
-					<legend><?php echo( JText::_( 'Parameters' ) ); ?></legend>
+					<legend><?php echo( JText::_( 'PARAMETERS' ) ); ?></legend>
 					<?php
 						jimport('joomla.html.pane');
 
@@ -251,14 +251,14 @@ defined('_JEXEC') or die('Restricted Access');
 						 
 						// First slider panel
 						// Create a slider panel with a title of 'Linked Table Settings' and a title id attribute of LINKED_TABLE
-						echo $pane->startPanel( JText::_( 'Linked Table Settings' ), 'LINKED_TABLE' );
+						echo $pane->startPanel( JText::_( 'LINKED_TABLE_SETTINGS' ), 'LINKED_TABLE' );
 						// Display the parameters defined in the <params> group with the 'group' attribute of 'GROUP_NAME'
 						echo $this->params->render( 'params', 'LINKED_TABLE' );
 						echo $pane->endPanel();
 						
 						//Second slider panel
 						// Create a slider panel with a title of 'Table Preferences' and a title id attribute of Table_Preferences
-						echo $pane->startPanel( JText::_( 'Table Preferences' ), 'EASYTABLE_PREFS' );
+						echo $pane->startPanel( JText::_( 'TABLE_PREFERENCES' ), 'EASYTABLE_PREFS' );
 						// Display the parameters defined in the <params> group with group nambe EASYTABLE_PREFS attribute
 						echo $this->params->render( 'params', 'EASYTABLE_PREFS' );
 						echo $pane->endPanel();

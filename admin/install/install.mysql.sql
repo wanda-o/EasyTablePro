@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `#__easytables` (
   `datatablename` varchar(255) NOT NULL,
   `params` text NOT NULL,
   PRIMARY KEY  (`id`)
-) COMMENT='1.0fc8';
+) COMMENT='1.0fc10';
 
 CREATE TABLE IF NOT EXISTS `#__easytables_table_meta` (
   `id` int(11) NOT NULL auto_increment,
@@ -33,4 +33,4 @@ CREATE TABLE IF NOT EXISTS `#__easytables_table_meta` (
   `fieldalias` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `easytable_id` (`easytable_id`,`position`,`label`)
-) COMMENT='1.0fc8';
+) COMMENT='1.0fc10';

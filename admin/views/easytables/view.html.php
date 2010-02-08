@@ -37,7 +37,7 @@ class EasyTableViewEasyTables extends JView
 		}
 		else
 		{
-			JError::raiseError(500,'Failed to open easytable.xml during version check - installation may be corrupt/incomplete.');
+			JError::raiseError(500,JText::_('FAILED_TO_OPEN_EASYTABLE_XML_DURING_VERSION_CHECK___INSTALLATION_MAY_BE_CORRUPT_INCOMPLETE_'));
 		}
 		
 		return $et_this_version;
@@ -56,26 +56,28 @@ class EasyTableViewEasyTables extends JView
 //		echo("<br />Checking for: ".$et_com_xml_file.'<br />');
 		
 		$et_xml= simplexml_load_file($et_com_xml_file, 'SimpleXMLElement', LIBXML_NOCDATA);
-		$et_version = $et_xml->channel->item->enclosure['version'];
-		$et_version_title = $et_xml->channel->title;
-		//echo($source.' title = '.$et_version_title.'<br />');
-		$et_version_desc = $et_xml->channel->item->description;
-		//echo($source.' desc = '.$et_version_desc.'<br />');
-		$et_version_tip = $et_version_title.'<br />'.$et_version_desc;
-/*
-			echo('<br /><pre>');
-			print_r($et_xml);
-			echo('</pre><br />');
-*/
+        if(!$et_xml) {
+			$et_version = '0.0';
+			$et_version_tip = JText::_('FAILED_TO_LOAD_VERSION_XML_FILE');
+        }
+        else
+        {
+			$et_version = $et_xml->channel->item->enclosure['version'];
+			$et_version_title = $et_xml->channel->title;
+
+			$et_version_desc = $et_xml->channel->item->description;
+
+			$et_version_tip = $et_version_title.'<br />'.$et_version_desc;
+		}
+
 		if ($et_version == '')
 		{
 			$et_version = '0.0';
-			$et_version_tip = 'Version Check failed to contact server.';
+			$et_version_tip = JText::_('VERSION_CHECK_FAILED_TO_CONTACT_SERVER_');
 		}
 		
 		$et_version_array = array("version" => $et_version, "tip" => $et_version_tip);
 		
-		//return $et_version;
 		return $et_version_array;
 	}
 	
@@ -95,18 +97,6 @@ class EasyTableViewEasyTables extends JView
 		 * Let's do a version check - it's always good to use the newest version.
 		 *
 		**/
-/*		$et_current_version = '';
-		$et_com_xml_file = JPATH_COMPONENT_ADMINISTRATOR.DS.'easytable.xml';
-		$et_com_xml_exists = file_exists($et_com_xml_file);
-		if ($et_com_xml_exists)
-		{
-			$et_xml = simplexml_load_file($et_com_xml_file);
-			$et_current_version = $et_xml->version;
-		}
-		else
-		{
-			JError::raiseError(500,'Failed to open easytable.xml during version check - installation may be corrupt/incomplete.');
-		}*/
 
 		// Get data from the model
 		$public_ver_array = $this->et_version('public');

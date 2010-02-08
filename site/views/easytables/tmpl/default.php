@@ -7,8 +7,12 @@
  */
 
 //--No direct access
-defined('_JEXEC') or die('Restricted Access'); ?>
-<div class="componentheading">Easy Tables</div>
+defined('_JEXEC') or die('Restricted Access');
+
+if($this->show_page_title) {
+    echo '<div class="componentheading">'.$this->page_title.'</div>';
+    }
+?>
 <ul class="et_tables_list">
 <?php
 	foreach ($this->rows as $row )

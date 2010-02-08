@@ -11,7 +11,7 @@ class EasyTableViewEasyTableRecord extends JView
 		{
 			$db =& JFactory::getDBO();
 			if(!$db){
-				JError::raiseError(500,"Couldn't get the database object while getting a Linked Table field alias: $mId");
+				JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_A_LINKED_TABLE_FIELD_ALIAS_" ).$mId );
 			}
 			$fafmID_query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE id = $mId";
 
@@ -26,7 +26,7 @@ class EasyTableViewEasyTableRecord extends JView
 	{
 		$db =& JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object while getting field Alias's");
+			JError::raiseError(500, JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_FIELD_ALIAS_S" ));
 		}
 		if($restrict_to_view == '')
 		{
@@ -118,7 +118,7 @@ class EasyTableViewEasyTableRecord extends JView
 		$easytable =& JTable::getInstance('EasyTable','Table');
 		$easytable->load($id);
 		if($easytable->published == 0) {
-			JError::raiseError(404, "The table record you requested is not published or doesn't exist<br />Record id: $id / $rid");
+			JError::raiseError(404, JText::_( "THE_TABLE_RECORD_YOU_REQUESTED_IS_NOT_PUBLISHED_OR_DOESN_T_EXIST_BR___RECORD_ID__" ).$id.' / '.$rid);
 		}
 		
 		$imageDir = $easytable->defaultimagedir;
@@ -141,7 +141,7 @@ class EasyTableViewEasyTableRecord extends JView
 		 */
 		$db =& JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object while getting EasyTable id: $id");
+			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
 		}
 		// Get the meta data for this table
 		$easytables_table_meta = $this->fieldMeta($id);

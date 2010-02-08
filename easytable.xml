@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTable</name>
-	<version>1.00fc9</version>
+	<version>1.00fc10</version>
 	<author>Craig Phillips</author>
 	<creationDate>17-Jul-2009</creationDate>
 	<copyright>Copyright (C) 2009.</copyright>
-	<authorEmail>info@seepeoplesoftware.com</authorEmail>
+	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>EasyTable component imports and displays tables from CSV text files.</description>
@@ -22,34 +22,31 @@
 		<filename>router.php</filename>
 		<folder>assets</folder>
 		<folder>controllers</folder>
-		<folder>language</folder>
 		<folder>models</folder>
 		<folder>views</folder>
 	</files>
+	<languages folder="language/site">
+		<language tag="en-GB">en-GB.com_easytable.ini</language>
+	</languages>
 	<administration>
-		<languages folder="admin/language/en-GB">
+		<menu img="components/com_easytable/assets/images/easytable_logo.ico" link="option=com_easytable">EasyTable</menu>
+		<languages folder="language/admin">
 			<language tag="en-GB">en-GB.com_easytable.ini</language>
 		</languages>
-		<menu img="components/com_easytable/assets/images/easytable_logo.ico" link="option=com_easytable">EasyTable</menu>
 		<files folder="admin">
 			<folder>assets</folder>
 			<folder>controllers</folder>
 			<folder>elements</folder>
 			<folder>install</folder>
-			<folder>language</folder>
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
 			<filename>index.html</filename>
-			<filename>CHANGELOG.php</filename>
 			<filename>config.xml</filename>
 			<filename>easytable.css</filename>
 			<filename>easytable.js</filename>
 			<filename>easytable.php</filename>
 		</files>
-		<languages folder="admin/language/en-GB">
-			<language tag="en-GB">en-GB.com_easytable.ini</language>
-		</languages>
 	</administration>
 	<params>
 		<param name="show_description" default="1">

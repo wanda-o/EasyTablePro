@@ -1,29 +1,29 @@
 <root>
 	<params group="EASYTABLE_PREFS">
-		<param name="show_description" type="list" default="" label="Show Description" description="This will show description when this option is set to 'yes'.">
+		<param name="show_description" type="list" default="" label="SHOW_DESCRIPTION" description="THIS_WILL_SHOW_DESCRIPTION_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_search" type="list" default="" label="Show Table Search" description="This will show the Search function for this table when the option is set to 'yes'.">
+		<param name="show_search" type="list" default="" label="SHOW_TABLE_SEARCH" description="THIS_WILL_SHOW_THE_SEARCH_FUNCTION_FOR_THIS_TABLE_WHEN_THE_OPTION_IS_SET_TO__YES__">
 			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_created_date" label="Show Creation Date" type="list" default="0" description="Creation date will be displayed when this option is set to 'yes'.">
+		<param name="show_created_date" label="SHOW_CREATION_DATE" type="list" default="0" description="CREATION_DATE_WILL_BE_DISPLAYED_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_modified_date" label="Show Modified Date" type="list" default="0" description="Modification date will be displayed when this option is set to 'yes'.">
+		<param name="show_modified_date" label="SHOW_MODIFIED_DATE" type="list" default="0" description="MODIFICATION_DATE_WILL_BE_DISPLAYED_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
 	</params>
 	<params group="LINKED_TABLE" addpath="/administrator/components/com_easytable/elements">
-		<param name="id" type="easytable" default="" label="Select Table" description="The table to link to." />
-		<param name="key_field" label="Key Field" type="text" default="" description="The ID of the field in THIS table used to select records in the linked table." />
-		<param name="linked_key_field" label="Linked Key Field" type="text" default="" description="The ID of the field from the Linked Table to match to the Key Field in this table." />
+		<param name="id" type="easytable" default="" label="SELECT_TABLE" description="THE_TABLE_TO_LINK_TO_" />
+		<param name="key_field" label="KEY_FIELD" type="text" default="" description="THE_ID_OF_THE_FIELD_IN_THIS_TABLE_USED_TO_SELECT_RECORDS_IN_THE_LINKED_TABLE_" />
+		<param name="linked_key_field" label="LINKED_KEY_FIELD" type="text" default="" description="THE_ID_OF_THE_FIELD_FROM_THE_LINKED_TABLE_TO_MATCH_TO_THE_KEY_FIELD_IN_THIS_TABLE_" />
 	</params>
 </root>

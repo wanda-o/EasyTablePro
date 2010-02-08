@@ -19,22 +19,28 @@ function com_uninstall()
 	//-- common images
 	$img_OK = '<img src="images/publish_g.png" />';
 	$img_ERROR = '<img src="images/publish_r.png" />';
+
+	//-- OK, to make the installer aware of our translations we need to explicitly load
+	//   the components language file - this should work as the should already be copied in.
+    $language = JFactory::getLanguage();
+    $language->load('com_easytable');
+
 	//-- common text
 	$BR = '<br />';
-	$msg = '<h1>EasyTable Un-Install process...</h1>'.$BR;
+	$msg = '<h1>'.JText::_( 'EASYTABLE_UN_INSTALL_PROCESS___' ).'</h1>'.$BR;
 
 	//--get the db object...
 	$db = & JFactory::getDBO();
 
 	// Check for a DB connection
 	if(!$db){
-		$msg .= $img_ERROR.JText::_('Unable to connect to Database.').$BR;
+		$msg .= $img_ERROR.JText::_('UNABLE_TO_CONNECT_TO_DATABASE_').$BR;
 		$msg .= $db->getErrorMsg().$BR;
 		$no_errors = FALSE;
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_('Successfully connected to Database.').$BR;
+		$msg .= $img_OK.JText::_('CONNECTED_TO_THE_DATABASE_').$BR;
 	}
 
 	// OK DROP the data tables first
@@ -51,32 +57,32 @@ function com_uninstall()
 
 		if(!($no_errors = $data_Table_IDs))
 		{
-			$msg .= $img_ERROR.JText::_('Unable to get the list of data table ID\'s during the Uninstall.'.$BR);
+			$msg .= $img_ERROR.JText::_( 'UNABLE_TO_GET_THE_LIST_OF_DATA_TABLE_ID__S_DURING_THE_UNINSTALL_' ).$BR;
 		}
 		else
 		{
 			foreach ( $data_Table_IDs as $item )
 			{
-				print_r($item);
+				//print_r($item);
 				$et_query = 'DROP TABLE `#__easytables_table_data_'.$item['id'].'`;';
 				$db->setQuery($et_query);
 				$et_drop_result = $db->query();
 				// make sure it dropped.
 				if(!$et_drop_result)
 				{
-					$msg .= $img_ERROR.JText::_('Unable to drop data table '.$item['easytablename'].' (ID = '.$item['id'].') during the Uninstall. SQL = [ '.$et_query.' ]'.$BR);
+					$msg .= $img_ERROR.JText::_( 'UNABLE_TO_DROP_DATA_TABLE_' ).' '.$item['easytablename'].' (ID = '.$item['id'].JText::_( '__DURING_THE_UNINSTALL__SQL_____' ).$et_query.' ]'.$BR;
 					$no_errors = FALSE;
 				}
 				else
 				{
-					$msg .= $img_OK.JText::_('Successfully dropped data table '.$item['easytablename'].' (ID = '.$item['id'].').'.$BR);
+					$msg .= $img_OK.JText::_( 'SUCCESSFULLY_DROPPED_DATA_TABLE_' ).' '.$item['easytablename'].' (ID = '.$item['id'].').'.$BR;
 				}
 			}    
 		}
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_('No data tables to drop.'.$BR);
+		$msg .= $img_OK.JText::_('NO_DATA_TABLES_TO_DROP_'.$BR);
 	}
 
 
@@ -88,12 +94,12 @@ function com_uninstall()
 	// make sure it dropped.
 	if(!$et_drop_result)
 	{
-		$msg .= $img_ERROR.JText::_('Unable to drop Meta table during the Uninstall.'.$BR);
+		$msg .= $img_ERROR.JText::_( 'UNABLE_TO_DROP_META_TABLE_DURING_THE_UNINSTALL_' ).$BR;
 		$no_errors = FALSE;
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_('Successfully dropped Meta table.'.$BR);
+		$msg .= $img_OK.JText::_( 'SUCCESSFULLY_DROPPED_META_TABLE_' ).$BR;
 	}
 	
 	
@@ -104,23 +110,23 @@ function com_uninstall()
 	// make sure it dropped.
 	if(!$et_drop_result)
 	{
-		$msg .= $img_ERROR.JText::_('Unable to drop core table during the Uninstall.'.$BR);
+		$msg .= $img_ERROR.JText::_( 'UNABLE_TO_DROP_CORE_TABLE_DURING_THE_UNINSTALL_' ).$BR;
 		$no_errors = FALSE;
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_('Successfully dropped core table.'.$BR);
+		$msg .= $img_OK.JText::_( 'SUCCESSFULLY_DROPPED_CORE_TABLE_' ).$BR;
 	}
 
 
 	if($no_errors)
 	{
-		$msg .= '<h3>'.JText::_('EasyTable Un-Install Complete...'.'</h3>').$BR;
-		$msg .= $img_OK.JText::_('EasyTable Component removed successfully! Farewell - it\'s been nice!').$BR;
+		$msg .= '<h3>'.JText::_( 'EASYTABLE_UN_INSTALL_COMPLETE___' ).'</h3>'.$BR;
+		$msg .= $img_OK.JText::_('EASYTABLE_COMPONENT_REMOVED_SUCCESSFULLY__FAREWELL___IT__S_BEEN_NICE_').$BR;
 	}
 	else
 	{
-		$msg .= $img_ERROR.JText::_('EasyTable Component removal failed! -- Manual removal may be required --').$BR;
+		$msg .= $img_ERROR.JText::_('EASYTABLE_COMPONENT_REMOVAL_FAILED_____MANUAL_REMOVAL_MAY_BE_REQUIRED___').$BR;
 	}
 	
 	echo $msg;

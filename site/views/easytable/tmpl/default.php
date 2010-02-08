@@ -1,5 +1,9 @@
 <?php defined('_JEXEC') or die ('Restricted Access'); ?>
-<h2 class="contentheading"><?php echo htmlspecialchars($this->easytable->easytablename); ?></h2>
+<?php
+    if($this->show_page_title) {
+        echo '<h2 class="contentheading">'.htmlspecialchars($this->page_title).'</h2>';
+    }
+?>
 <?php echo ($this->show_created_date ? '<p class="createdate">'.htmlspecialchars($this->easytable->created_).'</p>' : '') ?>
 <?php echo ($this->show_modified_date ? '<p class="modifydate">'.htmlspecialchars($this->easytable->modified_).'</p>' : '') ?>
 <?php echo ($this->show_description ? '<p class="et_description">'.htmlspecialchars($this->easytable->description).'</p>' : '') ?>
@@ -10,7 +14,7 @@
 		<?php
 			if( $this->show_search ) // If search is enabled for this table, show the search box.
 			{
-				echo 'Search: <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">Go</button>';
+				echo JText::_( 'SEARCH' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">'.JText::_( 'GO' ).'</button>';
 			}
 			echo $this->pagination->getPagesLinks();
 			echo $this->pagination->getLimitBox().' ( '.$this->pagination->getPagesCounter().' )';
@@ -53,7 +57,7 @@
 										$cellData = '<img src="'.trim($pathToImage).'" >';
 									} else
 									{
-										$cellData = '<!-- No Image Name -->';
+										$cellData = '<!-- '.JText::_( 'NO_IMAGE_NAME' ).' -->';
 									}
 									break;
 								case 2: // url

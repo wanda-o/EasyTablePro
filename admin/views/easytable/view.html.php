@@ -30,15 +30,15 @@ class EasyTableViewEasyTable extends JView
 		$btn_title = '';
 		if(substr($rowElement,0,4)=='list')
 		{
-			$btn_title = "Click this to toggle it's appearance in the List View";
+			$btn_title = JText::_( "CLICK_THIS_TO_TOGGLE_IT_S_APPEARANCE_IN_THE_LIST_VIEW" );
 		}
 		elseif(substr($rowElement,7,4) == 'link')
 		{
-			$btn_title = "Click this to make this field act as a link to the record/detail view, or not.";
+			$btn_title = JText::_( "CLICK_THIS_TO_MAKE_THIS_FIELD_ACT_AS_A_LINK_TO_THE_RECORD_DETAIL_VIEW__OR_NOT_" );
 		}
 		else
 		{
-			$btn_title = "Click this to make this field appear in the record/detail view, or not.";
+			$btn_title = JText::_( "CLICK_THIS_TO_MAKE_THIS_FIELD_APPEAR_IN_THE_RECORD_DETAIL_VIEW__OR_NOT_" );
 		}
 
 		if($flag)
@@ -60,8 +60,8 @@ class EasyTableViewEasyTable extends JView
 	{
 		$img    = $row->published ? $imgY : $imgX;
 		$task   = $row->published ? 'unpublish' : 'publish';
-		$alt    = $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-		$action = $row->published ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
+		$alt    = $row->published ? JText::_( 'PUBLISHED' ) : JText::_( 'UNPUBLISHED' );
+		$action = $row->published ? JText::_( 'UNPUBLISH_ITEM' ) : JText::_( 'PUBLISH_ITEM' );
 		$href   = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i
 				 .'\',\''. $prefix.$task .'\')" title="'. $action .'"><img src="images/'
 				 . $img .'" border="0" alt="'. $alt .'" /></a>';
@@ -71,9 +71,9 @@ class EasyTableViewEasyTable extends JView
 	function getTypeList ($id, $selectedType=0)
 	{
 		$selectOptionText =  '<select name="type'.$id.'">';  																	// start our html select structure
-		$selectOptionText .= '<option value="0" '.($selectedType ? '':'selected').'>'.JText::_('Text').'</option>';				// Type 0 = Text
-		$selectOptionText .= '<option value="1" '.($selectedType==1 ? 'selected':'').'>'.JText::_('Image').'</option>';			// Type 1 = Image URL
-		$selectOptionText .= '<option value="2" '.($selectedType==2 ? 'selected':'').'>'.JText::_('Link (URL)').'</option>';	// Type 2 = Fully qualified URL
+		$selectOptionText .= '<option value="0" '.($selectedType ? '':'selected').'>'.JText::_('TEXT').'</option>';				// Type 0 = Text
+		$selectOptionText .= '<option value="1" '.($selectedType==1 ? 'selected':'').'>'.JText::_('IMAGE').'</option>';			// Type 1 = Image URL
+		$selectOptionText .= '<option value="2" '.($selectedType==2 ? 'selected':'').'>'.JText::_('LINK__URL_').'</option>';	// Type 2 = Fully qualified URL
 		$selectOptionText .= '</select>';																						// close our html select structure
 		
 		return($selectOptionText);
@@ -108,7 +108,7 @@ class EasyTableViewEasyTable extends JView
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object while getting statistics for EasyTable id: $id");
+			JError::raiseError(500,JText::_("COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_STATISTICS_FOR_EASYTABLE_ID_").' '.$id);
 		}
 		// Get the meta data for this table
 		$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id.$default_order_sql;

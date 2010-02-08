@@ -2,21 +2,21 @@
 <root>
 	<params>
 	<url addpath="/administrator/components/com_easytable/elements">
-		<param name="id" type="easytable" scope="com_easytable" default="0" label="EasyTable Preferences" description="Global preferences for EasyTable component." />
+		<param name="id" type="easytable" scope="com_easytable" default="0" label="EASYTABLE_PREFERENCES" description="GLOBAL_PREFERENCES_FOR_EASYTABLE_COMPONENT_" />
 	</url>
-		<param name="show_description" type="radio" default="1" label="Show Table Description" description="This will show the tables description when this option is set to 'yes'.">
+		<param name="show_description" type="radio" default="1" label="SHOW_TABLE_DESCRIPTION" description="THIS_WILL_SHOW_THE_TABLES_DESCRIPTION_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_search" type="radio" default="1" label="Show Table Search" description="This will show the Search function for tables when this option is set to 'yes'.">
+		<param name="show_search" type="radio" default="1" label="SHOW_TABLE_SEARCH" description="THIS_WILL_SHOW_THE_SEARCH_FUNCTION_FOR_TABLES_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_created_date" type="radio" default="0" label="Show Creation Date" description="The tables creation date will be displayed when this option is set to 'yes'.">
+		<param name="show_created_date" type="radio" default="0" label="SHOW_CREATION_DATE" description="THE_TABLES_CREATION_DATE_WILL_BE_DISPLAYED_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_modified_date" type="radio" default="0" label="Show Modified Date" description="The tables modification date will be displayed when this option is set to 'yes'.">
+		<param name="show_modified_date" type="radio" default="0" label="SHOW_MODIFIED_DATE" description="THE_TABLES_MODIFICATION_DATE_WILL_BE_DISPLAYED_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>

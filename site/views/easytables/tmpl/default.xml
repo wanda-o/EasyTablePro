@@ -2,11 +2,11 @@
 <metadata>
 	<layout title="EasyTables List Layout">
 		<message>
-		<![CDATA[Shows a list of published tables.]]>
+		<![CDATA[SHOWS_A_LIST_OF_PUBLISHED_TABLES_]]>
 		</message>
 	</layout>
 	<state>
 		<name>EasyTables</name>
-		<description>Show's a listing of ALL published tables.</description>
+		<description>SHOW_S_A_LISTING_OF_ALL_PUBLISHED_TABLES_</description>
 	</state>
 </metadata>

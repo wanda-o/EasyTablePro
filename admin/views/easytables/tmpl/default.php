@@ -9,25 +9,25 @@
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
 
-		JToolBarHelper::title(JText::_( 'Easy Tables' ), 'generic.png');
+		JToolBarHelper::title(JText::_( 'EASY_TABLES' ), 'generic.png');
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::editList();
-		JToolBarHelper::deleteList('Are you sure you to delete the table(s)?');
+		JToolBarHelper::deleteList(JText::_( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' ));
 		JToolBarHelper::addNew();
 		JToolBarHelper::preferences( 'com_easytable' );
 ?>
 <div id="et-versionCheck" style="text-size:0.9em;text-align:center; color:grey;position:relative;z-index:1;" >
-	Installed EasyTable version: <?php echo ( $this->et_current_version ); ?> | 
+	<?php echo JText::_( 'INSTALLED_EASYTABLE_VERSION' ); ?>: <?php echo ( $this->et_current_version ); ?> | 
 	<span id="et-pubverinfo" onmouseover="ShowTip('et-pubverinfo-panel'); return false;" onMouseOut="HideTip('et-pubverinfo-panel'); return false;">
-		Current Public Release is: <?php echo ( $this->et_public_version ); ?>
+		<?php echo JText::_( 'CURRENT_PUBLIC_RELEASE_IS' ); ?>: <?php echo ( $this->et_public_version ); ?>
 		<div id="et-pubverinfo-panel" class="info-tip" style="left:50%;">
 			<?php echo ( $this->et_public_tip ); ?>
 		</div>
 	</span>
 	 | 
 	<span id="et-subverinfo" onmouseover="ShowTip('et-subverinfo-panel'); return false;" onMouseOut="HideTip('et-subverinfo-panel'); return false;">
-		Current Subscribers Release is: <?php echo ( $this->et_subscriber_version ); ?>
+		<?php echo JText::_( 'CURRENT_SUBSCRIBERS_RELEASE_IS' ).'&nbsp;'; ?>: <?php echo ( $this->et_subscriber_version ); if($this->et_current_version <> $this->et_subscriber_version){echo '<img src="'.JURI::base().'components'.DS.'com_easytable'.DS.'assets'.DS.'images'.DS.'attention.gif" height="24px">';} ?>
 		<div id="et-subverinfo-panel" class="info-tip" style="left:60%;">
 			<?php echo ( $this->et_subscriber_tip ); ?>
 		</div>
@@ -45,13 +45,13 @@ defined('_JEXEC') or die('Restricted Access');
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->rows ); ?>);" />
 			</th>			
 			<th>
-				<?php echo JText::_( 'Table' ); ?>
+				<?php echo JText::_( 'TABLE' ); ?>
 			</th>
 			<th>
-				<?php echo JText::_( 'Description' ); ?>
+				<?php echo JText::_( 'DESCRIPTION' ); ?>
 			</th>
 			<th width="20">
-				<?php echo JText::_( 'Published' ); ?>
+				<?php echo JText::_( 'PUBLISHED' ); ?>
 			</th>			
 			<th>
 				&nbsp;-&nbsp;
@@ -108,5 +108,4 @@ defined('_JEXEC') or die('Restricted Access');
 <input type="hidden" name="option" value="<?php echo $option ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
-<!--<input type="hidden" name="controller" value="easytable" /> -->
 </form>

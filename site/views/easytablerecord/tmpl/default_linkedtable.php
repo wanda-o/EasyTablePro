@@ -37,7 +37,7 @@
 										$cellData = '<img src="'.trim($pathToImage).'" >';
 									} else
 									{
-										$cellData = '<!-- No Image Name -->';
+										$cellData = '<!-- '.JText::_( 'NO_IMAGE_NAME' ).' -->';
 									}
 									break;
 								case 2: // url

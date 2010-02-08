@@ -18,7 +18,7 @@ class EasyTableViewEasyTable extends JView
 		$easytable =& JTable::getInstance('EasyTable','Table');
 		$easytable->load($id);
 		if($easytable->published == 0) {
-			JError::raiseError(404,"The table you requested is not published or doesn't exist<br />Record id: $id");
+			JError::raiseError(404,JText::_( "THE_TABLE_YOU_REQUESTED_IS_NOT_PUBLISHED_OR_DOESN_T_EXIST_BR___RECORD_ID__" ).$id);
 		}
 		
 		$imageDir = $easytable->defaultimagedir;
@@ -26,7 +26,7 @@ class EasyTableViewEasyTable extends JView
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object while getting EasyTable id: $id");
+			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
 		}
 		// Get the meta data for this table
 		$query = "SELECT label, fieldalias, type, detail_link, description FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND list_view = '1' ORDER BY position;";
@@ -73,18 +73,24 @@ class EasyTableViewEasyTable extends JView
 
 		$params =& $mainframe->getParams(); // Component wide & menu based params
 		
-		$params->merge( new JParameter( &$easytable->params ) );// Merge them with specific table based params
+		$params->merge( new JParameter( $easytable->params ) );// Merge them with specific table based params
 
 		$show_description = $params->get('show_description',0);
 		$show_search = $params->get('show_search',0);
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
+
+		$show_page_title = $params->get('show_page_title',1);
+		$page_title = $params->get('page_title',$easytable->easytablename);
 		
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);
 		$this->assign('show_search', $show_search);
 		$this->assign('show_created_date', $show_created_date);
 		$this->assign('show_modified_date', $show_modified_date);
+
+		$this->assign('show_page_title', $show_page_title);
+		$this->assign('page_title', $page_title);
 
 		$this->assign('tableId', $id);
 		$this->assign('imageDir', $imageDir);
