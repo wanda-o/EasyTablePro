@@ -220,14 +220,10 @@ class EasyTableViewEasyTableRecord extends JView
 
 
 		// Create a backlink
-		$backlink = JRoute::_("index.php?option=com_easytable&view=easytable&id=$id");
-				// Create a backlink
-		$lim0  = JRequest::getVar('start', 0, '', 'int');
-
-		if($lim0) {
-			$backlink .= '&start=' . $lim0;
-		}
-
+        $mainframe =& JFactory::getApplication();
+        $start_page = $mainframe->getUserState( "$option.start_page", 0 );
+		$backlink = "index.php?option=com_easytable&view=easytable&id=$id&start=$start_page";
+		$backlink = JRoute::_($backlink);
 
 		// Setup the rest of the params related to display
 		$show_description = $params->get('show_description',0);

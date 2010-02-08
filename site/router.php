@@ -13,6 +13,11 @@
 			$segments[] = $query['id'];
 			unset($query['id']);
 			}
+        if(isset($query['rid']))
+            {
+            $segments[] = $query['rid'];
+            unset($query['rid']);
+            }
 		return $segments;
 	}
 	
@@ -24,6 +29,9 @@
 		if (isset($segments[1])) {
 			$vars['id'] = $segments[1];
 		}
-		return $vars;
+        if (isset($segments[2])) {
+            $vars['rid'] = $segments[2];
+        }
+    return $vars;
 	}
 ?>

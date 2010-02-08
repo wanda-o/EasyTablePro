@@ -9,11 +9,10 @@ class EasyTableViewEasyTable extends JView
 	{
 		$id = (int) JRequest::getVar('id',0);
 		// For a better backlink - lets try this:
-		$starting_place = JRequest::getVar('start',''); 
-		if($starting_place)
-		{
-			$starting_place = htmlentities('&start='. $starting_place);
-		}
+		$start_page = JRequest::getVar('start',0,'','int');                    // get the start var from JPagination
+		$mainframe =& JFactory::getApplication();                                 // get the app
+        $mainframe->setUserState( "$option.start_page", $start_page );      // store the start page
+
 		
 		$easytable =& JTable::getInstance('EasyTable','Table');
 		$easytable->load($id);
@@ -60,14 +59,6 @@ class EasyTableViewEasyTable extends JView
 		// Search
 		$search = $db->getEscaped($this->get('search'));
 
-		// Create a backlink - prelims
-		$backlink = JRoute::_('index.php?option=com_easytable'.$starting_place);
-		$lim0  = JRequest::getVar('limitstart', 0, '', 'int');
-
-		if($lim0) {
-			$backlink .= '&limitstart=' . $lim0;
-		}
-		
 		// Get Params
 		global $mainframe;
 
@@ -94,7 +85,6 @@ class EasyTableViewEasyTable extends JView
 
 		$this->assign('tableId', $id);
 		$this->assign('imageDir', $imageDir);
-		$this->assign('backlink', $backlink);
 		$this->assignRef('easytable', $easytable);
 		$this->assignRef('easytables_table_meta', $easytables_table_meta);
 		$this->assignRef('pagination', $pagination);

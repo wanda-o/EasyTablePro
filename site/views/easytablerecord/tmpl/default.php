@@ -19,17 +19,17 @@
 
 							if($heading[6]) // ie. Detail_view = 1
 							{
-								$fieldData = $record[$fieldNumber++];
+								$f = $record[$fieldNumber++];
 
 								$cellType     = (int)$heading[2];
 
 								switch ($cellType) {
 									case 0: // text
-										$cellData = $fieldData;
+										$cellData = $f;
 										break;
 									case 1: // image
-										if($fieldData){
-											$pathToImage = $this->imageDir.DS.$fieldData;  // we concatenate the image URL with the tables default image path
+										if($f){
+											$pathToImage = $this->imageDir.DS.$f;  // we concatenate the image URL with the tables default image path
 											$cellData = '<img src="'.$pathToImage.'" >';
 										} else
 										{
@@ -39,14 +39,14 @@
 									case 2: // url //For fully qualified URL's starting with HTTP & mailto: we open in a new window, for everything else its the same window.
 										$URLTarget = 'target="_blank"';
 										if(substr($cellData,0,7)=='http://') {$URLTarget = '';}
-										$cellData = '<a href="'.trim($fieldData).'" '.$URLTarget.'>'.$fieldData.'</a>';
+										$cellData = '<a href="'.trim($f).'" '.$URLTarget.'>'.$f.'</a>';
 										break;
                                     case 3: // mailto
                                         $cellData = '<a href="mailto:'.trim($f).'" >'.trim($f).'</a>';
                                         break;
 										
 									default: // oh oh we messed up
-										$cellData = "<!-- Field Type Error: cellData = $fieldData / cellType = $cellType -->";
+										$cellData = "<!-- Field Type Error: cellData = $f / cellType = $cellType -->";
 									}
 
 							echo '<tr>';  // Open the row
