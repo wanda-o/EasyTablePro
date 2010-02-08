@@ -1,6 +1,5 @@
 <?php
 /**
- * @version $Id$
  * @package    EasyTable
  * @author     Craig Phillips {@link http://www.seepeoplesoftware.com}
  * @author     Created on 13-Jul-2009
