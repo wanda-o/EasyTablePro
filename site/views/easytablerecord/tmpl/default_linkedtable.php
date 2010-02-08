@@ -43,6 +43,9 @@
 								case 2: // url
 									$cellData = '<a href="'.trim($f).'" target="_blank">'.trim($f).'</a>';
 									break;
+                                case 3: // mailto
+                                    $cellData = '<a href="mailto:'.trim($f).'" target="_blank">'.trim($f).'</a>';
+                                    break;
 									
 								default: // oh oh we messed up
 									$cellData = "<!-- Field Type Error: cellData = $cellData / cellType = $cellType / cellDetailLink = $cellDetailLink -->";
