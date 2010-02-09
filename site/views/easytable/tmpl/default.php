@@ -60,7 +60,7 @@
 										$cellData = '<!-- '.JText::_( 'NO_IMAGE_NAME' ).' -->';
 									}
 									break;
-								case 2: // url //For fully qualified URL's starting with HTTP  & mailto:'s we open in a new window, for everything else its the same window.
+								case 2: // url //For fully qualified URL's starting with HTTP we open in a new window, for everything else its the same window.
 									$URLTarget = 'target="_blank"'; 
 									if(substr(f,0,7)=='http://') {$URLTarget = '';}
 									$cellData = '<a href="'.trim($f).'" '.$URLTarget.'>'.trim($f).'</a>';
@@ -74,7 +74,7 @@
 								}
 							if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
 							{
-								$linkToDetail = JRoute::_('index.php?option=com_easytable&id='.$this->tableId.'&view=easytablerecord&rid='.$rowId);
+								$linkToDetail = JRoute::_('index.php?option=com_easytable&view=easytablerecord&id='.$this->tableId.':'.$this->easytable->easytablealias.'&rid='.$rowId);
 								$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
 								$cellDetailLink ='';
 							}

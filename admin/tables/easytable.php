@@ -92,7 +92,8 @@ class TableEasyTable extends JTable
 	    }
 	    $this->easytablealias = JFilterOutput::stringURLSafe($this->easytablealias);
 	 
-	    /* All your other checks */
+	    /* Any other checks ?
+           Not yet Bob, but ya never know! */
 	    return true;
 	}
 

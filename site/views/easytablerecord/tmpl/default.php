@@ -36,7 +36,7 @@
 											$cellData = '<!-- '.JText::_( 'NO_IMAGE_NAME' ).' -->';
 										}
 										break;
-									case 2: // url //For fully qualified URL's starting with HTTP & mailto: we open in a new window, for everything else its the same window.
+									case 2: // url //For fully qualified URL's starting with HTTP we open in a new window, for everything else its the same window.
 										$URLTarget = 'target="_blank"';
 										if(substr($cellData,0,7)=='http://') {$URLTarget = '';}
 										$cellData = '<a href="'.trim($f).'" '.$URLTarget.'>'.$f.'</a>';

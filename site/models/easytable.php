@@ -35,9 +35,9 @@ class EasyTableModelEasyTable extends JModel
 	
 			if($id)
 			{
-				$search = $this->getSearch($id);                // Gets the search string...
+				$search = $this->getSearch($id);             // Gets the search string...
 				$fields = $this->getFieldMeta($id);          // Gets the alias of all fields in the list view
-				$searchFields = $this->getSearchFields($id); // Gests the alias of all text fields in table (URL & Image values are not searched)
+				$searchFields = $this->getSearchFields($id); // Gets the alias of all text fields in table (URL & Image values are not searched)
 						
 				// As a default get the table data for this table
 				$newSearch = "SELECT `id`, `".$fields."` FROM #__easytables_table_data_$id";  // If there is no search parameter this will return the list view fields of all records
