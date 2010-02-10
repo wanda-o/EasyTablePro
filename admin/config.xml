@@ -12,6 +12,10 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+		<param name="show_pagination" type="radio" default="1" label="SHOW_TABLE_PAGINATION" description="THIS_WILL_SHOW_THE_PAGINATION_CONTROLS_FOR_TABLES_WHEN_THIS_OPTION_IS_SET_TO__YES__">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="show_created_date" type="radio" default="0" label="SHOW_CREATION_DATE" description="THE_TABLES_CREATION_DATE_WILL_BE_DISPLAYED_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option value="1">Yes</option>
 			<option value="0">No</option>

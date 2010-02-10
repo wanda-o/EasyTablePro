@@ -9,8 +9,8 @@ class EasyTableViewEasyTable extends JView
 	{
 		$id = (int) JRequest::getVar('id',0);
 		// For a better backlink - lets try this:
-		$start_page = JRequest::getVar('start',0,'','int');                    // get the start var from JPagination
-		$mainframe =& JFactory::getApplication();                                 // get the app
+		$start_page = JRequest::getVar('start',0,'','int');                 // get the start var from JPagination
+		$mainframe =& JFactory::getApplication();                           // get the app
         $mainframe->setUserState( "$option.start_page", $start_page );      // store the start page
 
 		
@@ -49,13 +49,6 @@ class EasyTableViewEasyTable extends JView
 		$paginatedRecords =& $this->get('data');
 		// echo('<BR />Paginated Records Array = '.print_r($paginatedRecords));
 		
-		// Get pagination object
-		$pagination =& $this->get('pagination');
-		//echo('<BR />Pagination Array = '.print_r($pagination));
-		
-		//Get form link
-		$paginationLink = JRoute::_('index.php?option=com_easytable&id='.$id.'&view=easytable');
-		
 		// Search
 		$search = $db->getEscaped($this->get('search'));
 
@@ -68,6 +61,18 @@ class EasyTableViewEasyTable extends JView
 
 		$show_description = $params->get('show_description',0);
 		$show_search = $params->get('show_search',0);
+        $show_pagination = $params->get('show_pagination',0);
+		
+		// Get pagination object
+		$pagination = false;
+        if($show_pagination) {
+            $pagination =& $this->get('pagination');
+            //echo('<BR />Pagination Array = '.print_r($pagination));
+        }
+        //Get form link
+        $paginationLink = JRoute::_('index.php?option=com_easytable&view=easytable&id='.$id);
+
+
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
 
@@ -77,6 +82,8 @@ class EasyTableViewEasyTable extends JView
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);
 		$this->assign('show_search', $show_search);
+        $this->assign('show_pagination', $show_pagination);
+
 		$this->assign('show_created_date', $show_created_date);
 		$this->assign('show_modified_date', $show_modified_date);
 

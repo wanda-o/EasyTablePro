@@ -16,8 +16,11 @@
 			{
 				echo JText::_( 'SEARCH' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">'.JText::_( 'GO' ).'</button>';
 			}
-			echo $this->pagination->getPagesLinks();
-			echo $this->pagination->getLimitBox().' ( '.$this->pagination->getPagesCounter().' )';
+            if( $this->show_pagination ) // If pagination is enabled show the controls
+            {
+                echo $this->pagination->getPagesLinks();
+                echo $this->pagination->getLimitBox().' ( '.$this->pagination->getPagesCounter().' )';
+            }
 		?>
 	</div>
 	<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
