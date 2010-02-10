@@ -130,7 +130,7 @@ class EasyTableModelEasyTable extends JModel
 				JError::raiseError(500,"Couldn't get the database object while getSearchFields() for EasyTable id: $id");
 			}
 			// Get the search fields for this table
-			$query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND type = '0' ORDER BY position;";
+			$query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND (type = '0' || type = '3') ORDER BY position;";
 			$db->setQuery($query);
 			
 			$fields = $db->loadResultArray();
