@@ -8,13 +8,13 @@
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
 
-		JToolBarHelper::title(JText::_( 'EASY_TABLES' ), 'generic.png');
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-		JToolBarHelper::editList();
-		JToolBarHelper::deleteList(JText::_( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' ));
-		JToolBarHelper::addNew();
-		JToolBarHelper::preferences( 'com_easytable' );
+        JToolBarHelper::title(JText::_( 'EASY_TABLES' ), 'generic.png');
+        JToolBarHelper::publishList();
+        JToolBarHelper::unpublishList();
+        JToolBarHelper::editList();
+        JToolBarHelper::deleteList(JText::_( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' ));
+        JToolBarHelper::addNew();
+        JToolBarHelper::preferences( 'com_easytable' );
 ?>
 <div id="et-versionCheck" style="text-size:0.9em;text-align:center; color:grey;position:relative;z-index:1;" >
 	<?php echo JText::_( 'INSTALLED_EASYTABLE_VERSION' ); ?>: <?php echo ( $this->et_current_version ); ?> | 
@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted Access');
 	</span>
 	 | 
 	<span id="et-subverinfo" onmouseover="ShowTip('et-subverinfo-panel'); return false;" onMouseOut="HideTip('et-subverinfo-panel'); return false;">
-		<?php echo JText::_( 'CURRENT_SUBSCRIBERS_RELEASE_IS' ).'&nbsp;'; ?>: <?php echo ( $this->et_subscriber_version ); if($this->et_current_version <> $this->et_subscriber_version){echo '<img src="'.JURI::base().'components'.DS.'com_easytable'.DS.'assets'.DS.'images'.DS.'attention.gif" height="24px">';} ?>
+		<?php echo JText::_( 'CURRENT_SUBSCRIBERS_RELEASE_IS' ).'&nbsp;'; ?>: <?php echo ( $this->et_subscriber_version ); if(strcmp($this->et_current_version,$this->et_subscriber_version) != 0 ){echo '<img src="'.JURI::base().'components'.DS.'com_easytable'.DS.'assets'.DS.'images'.DS.'attention.gif" height="24px">';} ?>
 		<div id="et-subverinfo-panel" class="info-tip" style="left:60%;">
 			<?php echo ( $this->et_subscriber_tip ); ?>
 		</div>
