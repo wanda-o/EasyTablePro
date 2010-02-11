@@ -32,7 +32,6 @@ class EasyTableViewEasyTables extends JView
 		
 		$params =& $mainframe->getParams();
 		$show_description = $params->get('show_description',0);
-        $show_pagination = $params->get('show_pagination',0);
 		$page_title = $params->get('page_title','Easy Tables');
 		$show_page_title = $params->get('show_page_title',1);
 		
