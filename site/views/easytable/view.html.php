@@ -13,7 +13,23 @@ class EasyTableViewEasyTable extends JView
 		$mainframe =& JFactory::getApplication();                           // get the app
         $mainframe->setUserState( "$option.start_page", $start_page );      // store the start page
 
+		// Get Params
+		global $mainframe;
+
+		$params =& $mainframe->getParams(); // Component wide & menu based params
 		
+		$params->merge( new JParameter( $easytable->params ) );// Merge them with specific table based params
+
+		$show_description = $params->get('show_description',0);
+		$show_search = $params->get('show_search',0);
+        $show_pagination = $params->get('show_pagination',0);
+		$show_created_date = $params->get('show_created_date',0);
+		$show_modified_date = $params->get('show_modified_date',0);
+
+		$show_page_title = $params->get('show_page_title',1);
+		$page_title = $params->get('page_title',$easytable->easytablename);
+
+        // Get the table based on the id from the request
 		$easytable =& JTable::getInstance('EasyTable','Table');
 		$easytable->load($id);
 		if($easytable->published == 0) {
@@ -34,26 +50,13 @@ class EasyTableViewEasyTable extends JView
 		$easytables_table_meta = $db->loadRowList();
 		$etmCount = count($easytables_table_meta);
 		
-		$fields = implode('`, `',$fields);*/
-				
-		// Get paginated user table
+		// Get paginated table data
 		$paginatedRecords =& $this->get('data');
-		// echo('<BR />Paginated Records Array = '.print_r($paginatedRecords));
+        //echo('<BR />Paginated Records Array = '.print_r($paginatedRecords));
 		
 		// Search
 		$search = $db->getEscaped($this->get('search'));
 
-		// Get Params
-		global $mainframe;
-
-		$params =& $mainframe->getParams(); // Component wide & menu based params
-		
-		$params->merge( new JParameter( $easytable->params ) );// Merge them with specific table based params
-
-		$show_description = $params->get('show_description',0);
-		$show_search = $params->get('show_search',0);
-        $show_pagination = $params->get('show_pagination',0);
-		
 		// Get pagination object
 		$pagination = false;
         if($show_pagination) {
@@ -64,11 +67,6 @@ class EasyTableViewEasyTable extends JView
         $paginationLink = JRoute::_('index.php?option=com_easytable&view=easytable&id='.$id);
 
 
-		$show_created_date = $params->get('show_created_date',0);
-		$show_modified_date = $params->get('show_modified_date',0);
-
-		$show_page_title = $params->get('show_page_title',1);
-		$page_title = $params->get('page_title',$easytable->easytablename);
 		
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);
