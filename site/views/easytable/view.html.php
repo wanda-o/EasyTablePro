@@ -17,8 +17,21 @@ class EasyTableViewEasyTable extends JView
 		global $mainframe;
 
 		$params =& $mainframe->getParams(); // Component wide & menu based params
+//         echo '<BR />Echoing Compoent Wide & Menu $params<BR />';
+//         echo print_r ( $params );
+//         echo '<BR />';
+
+        // Get the table based on the id from the request - we do it here so we can merge the tables params in.
+		$easytable =& JTable::getInstance('EasyTable','Table');
+		$easytable->load($id);
+		if($easytable->published == 0) {
+			JError::raiseError(404,JText::_( "THE_TABLE_YOU_REQUESTED_IS_NOT_PUBLISHED_OR_DOESN_T_EXIST_BR___RECORD_ID__" ).$id);
+		}
 		
-		$params->merge( new JParameter( $easytable->params ) );// Merge them with specific table based params
+        $params->merge( new JParameter( $easytable->params ) );// Merge them with specific table based params
+//         echo '<BR />Echoing $params for just this table:<BR />';
+//         echo print_r ( $params );
+//         echo '<BR />';
 
 		$show_description = $params->get('show_description',0);
 		$show_search = $params->get('show_search',0);
@@ -29,13 +42,6 @@ class EasyTableViewEasyTable extends JView
 		$show_page_title = $params->get('show_page_title',1);
 		$page_title = $params->get('page_title',$easytable->easytablename);
 
-        // Get the table based on the id from the request
-		$easytable =& JTable::getInstance('EasyTable','Table');
-		$easytable->load($id);
-		if($easytable->published == 0) {
-			JError::raiseError(404,JText::_( "THE_TABLE_YOU_REQUESTED_IS_NOT_PUBLISHED_OR_DOESN_T_EXIST_BR___RECORD_ID__" ).$id);
-		}
-		
         // Get the default image directory from the table.
 		$imageDir = $easytable->defaultimagedir;
 
