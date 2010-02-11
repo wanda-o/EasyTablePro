@@ -187,7 +187,11 @@ class EasyTableModelEasyTable extends JModel
 	 * Gets the tables
 	 * @return data
 	 */
-	function &getData()
+    function &getAllData()
+    {
+        return $this->getData(FALSE);
+    }
+	function &getData($et_paged=TRUE)
 	{
 		$pagination =& $this->getPagination();
 		// echo '<BR />Pagination values for getData() limitstart = '.$pagination->limitstart.' limit = '.$pagination->limit;
@@ -198,7 +202,12 @@ class EasyTableModelEasyTable extends JModel
 				
 				// echo '<BR />getData() $pagination->limitstart = '.$pagination->limitstart.' $pagination->limit = '.$pagination->limit;
 				
-				$this->_data = $this->_getList($query, $pagination->limitstart, $pagination->limit);
+                if($et_paged)
+                {
+                    $this->_data = $this->_getList($query, $pagination->limitstart, $pagination->limit);
+                } else {
+                    $this->_data = $this->_getList($query, 0, 100000000);
+                }
 				//echo '<BR />getData() = '.$this->_data.'<BR />';
 				//echo '<BR />'.print_r($this->_data);
 			}

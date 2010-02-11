@@ -36,6 +36,7 @@ class EasyTableViewEasyTable extends JView
 			JError::raiseError(404,JText::_( "THE_TABLE_YOU_REQUESTED_IS_NOT_PUBLISHED_OR_DOESN_T_EXIST_BR___RECORD_ID__" ).$id);
 		}
 		
+        // Get the default image directory from the table.
 		$imageDir = $easytable->defaultimagedir;
 
 		// Get a database object
@@ -51,9 +52,17 @@ class EasyTableViewEasyTable extends JView
 		$etmCount = count($easytables_table_meta);
 		
 		// Get paginated table data
-		$paginatedRecords =& $this->get('data');
-        //echo('<BR />Paginated Records Array = '.print_r($paginatedRecords));
-		
+        if($show_pagination)
+        {
+            $paginatedRecords =& $this->get('data');
+        }
+        else
+        {
+            $paginatedRecords =& $this->get('alldata');
+        }
+/*        echo('<BR />Paginated Records Array = ');
+        print_r($paginatedRecords);*/
+
 		// Search
 		$search = $db->getEscaped($this->get('search'));
 
