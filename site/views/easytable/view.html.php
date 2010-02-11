@@ -34,16 +34,7 @@ class EasyTableViewEasyTable extends JView
 		$easytables_table_meta = $db->loadRowList();
 		$etmCount = count($easytables_table_meta);
 		
-		// In this next section we will get the field alias for use in the table view
-		// setup the field alias array
-		$fields = array();
-		$fields[] = 'id'; //put the id in first for accessing detail view of a table row
-		foreach($easytables_table_meta as $aRow)
-		{
-			$fields[] .= $aRow[1]; // for the fieldalias
-		}
-		
-		$fields = implode('`, `',$fields);
+		$fields = implode('`, `',$fields);*/
 				
 		// Get paginated user table
 		$paginatedRecords =& $this->get('data');
