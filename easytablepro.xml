@@ -1,15 +1,14 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
-	<name>EasyTable</name>
-	<version>1.0.3 (46a135f)</version>
+	<name>EasyTablePro</name>
+	<version>1.0pro (6046761)</version>
 	<author>Craig Phillips</author>
-	<creationDate>06-Apr-2010</creationDate>
+	<creationDate>date</creationDate>
 	<copyright>Copyright (C) 2009.</copyright>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>EasyTable component imports and displays tables from CSV text files.</description>
+	<description>EasyTable Pro component imports and displays tables from CSV text files.</description>
 	<installfile>install/install.easytable.php</installfile>
 	<uninstallfile>install/uninstall.easytable.php</uninstallfile>
 	<install>
@@ -30,9 +29,9 @@
 		<language tag="en-GB">en-GB.com_easytable.ini</language>
 	</languages>
 	<administration>
-		<menu img="components/com_easytable/assets/images/easytable_logo.ico" link="option=com_easytable">EasyTable</menu>
+		<menu img="components/com_easytablepro/assets/images/easytable_logo.ico" link="option=com_easytablepro">EasyTable Pro</menu>
 		<languages folder="language/admin">
-			<language tag="en-GB">en-GB.com_easytable.ini</language>
+			<language tag="en-GB">en-GB.com_easytablepro.ini</language>
 		</languages>
 		<files folder="admin">
 			<folder>assets</folder>
@@ -56,6 +55,8 @@
 		</param>
 		<param name="show_pagination" default="1">
 		</param>
+        <param name="show_next_prev_record_links" default="1">
+        </param>
 		<param name="show_created_date" default="0">
 		</param>
 		<param name="show_modified_date" default="0">
@@ -68,5 +69,3 @@
 		</param>
 	</params>
 </install>
-=======
->>>>>>> Initial reconfiguration of Pro branch
