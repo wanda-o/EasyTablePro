@@ -28,7 +28,7 @@ function com_uninstall()
 	//-- OK, to make the installer aware of our translations we need to explicitly load
 	//   the components language file - this should work as the should already be copied in.
     $language = JFactory::getLanguage();
-    $language->load('com_easytable');
+    $language->load('com_easytablepro');  // Can't use defined values in installer obj
 
 	//-- first step is this a complete or partial uninstall
 	$params = & JComponentHelper::getParams('com_easytable');
@@ -96,7 +96,7 @@ function com_uninstall()
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_('NO_DATA_TABLES_TO_DROP_'.$BR);
+		$msg .= $img_OK.JText::_('NO_DATA_TABLES_TO_DROP_').$BR;
 	}
 
 

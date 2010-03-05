@@ -88,7 +88,7 @@ class EasyTableViewEasyTable extends JView
 	{
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
-		$doc->addScript(JURI::base().'components'.DS.'com_easytable'.DS.'easytable.js');
+		$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS._cppl_base_com_name.'.js');
 		
 		//get the EasyTable
 		$row =& JTable::getInstance('EasyTable', 'Table');
@@ -168,7 +168,7 @@ class EasyTableViewEasyTable extends JView
 		
 		// Parameters for this table instance
 		$paramsdata = $row->params;
-		$paramsdefs = JPATH_COMPONENT.DS.'models'.DS.'easytable.xml';
+		$paramsdefs = JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'easytable.xml';
 		$params = new JParameter( $paramsdata, $paramsdefs );
 		
 		$this->assignRef('params', $params);

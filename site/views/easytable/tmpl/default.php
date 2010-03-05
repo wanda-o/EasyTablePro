@@ -84,7 +84,7 @@
 								}
 							if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
 							{
-								$linkToDetail = JRoute::_('index.php?option=com_easytable&view=easytablerecord&id='.$this->tableId.':'.$this->easytable->easytablealias.'&rid='.$rowId);
+								$linkToDetail = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&view=easytablerecord&id='.$this->tableId.':'.$this->easytable->easytablealias.'&rid='.$rowId);
 								$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
 								$cellDetailLink ='';
 							}

@@ -1,6 +1,4 @@
 /* Installation section */
-/* Version: fc8 - adds showsearch column to _easytables */
-/* Version: fc9 - removes showsearch column, and correctly uses Joomla params instead */
 CREATE TABLE IF NOT EXISTS `#__easytables` (
   `id` int(11) NOT NULL auto_increment,
   `easytablename` varchar(255) NOT NULL,
@@ -18,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `#__easytables` (
   `datatablename` varchar(255) NOT NULL,
   `params` text NOT NULL,
   PRIMARY KEY  (`id`)
-) COMMENT='1.0fc10';
+) COMMENT='0.1';
 
 CREATE TABLE IF NOT EXISTS `#__easytables_table_meta` (
   `id` int(11) NOT NULL auto_increment,
@@ -31,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `#__easytables_table_meta` (
   `detail_link` tinyint(1) NOT NULL,
   `detail_view` tinyint(1) NOT NULL,
   `fieldalias` varchar(255) NOT NULL,
+  `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `easytable_id` (`easytable_id`,`position`,`label`)
-) COMMENT='1.0fc10';
+) COMMENT='0.1';
