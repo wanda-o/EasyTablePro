@@ -27,7 +27,7 @@ class EasyTableViewEasyTables extends JView
 		 *
 		**/
 		$et_this_version = '';
-		$et_com_xml_file = JPATH_COMPONENT_ADMINISTRATOR.DS.'easytable.xml';
+		$et_com_xml_file = JPATH_COMPONENT_ADMINISTRATOR.DS._cppl_this_com_name.'.xml';
 		$et_com_xml_exists = file_exists($et_com_xml_file);
 		if ($et_com_xml_exists)
 		{
@@ -88,8 +88,8 @@ class EasyTableViewEasyTables extends JView
 	{
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
-		$doc->addStyleSheet(JURI::base().'components'.DS.'com_easytable'.DS.'easytable.css');
-		$doc->addScript(JURI::base().'components'.DS.'com_easytable'.DS.'easytable.js');
+		$doc->addStyleSheet(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS._cppl_base_com_name.'.css');
+		$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS._cppl_base_com_name.'.js');
 		
 		/**
 		 *

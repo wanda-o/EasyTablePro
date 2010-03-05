@@ -1,7 +1,8 @@
 <?php
 	defined('_JEXEC') or die ('Restricted Access');
-	function EasyTableBuildRoute(&$query)
+	function EasyTableProBuildRoute(&$query)
 	{
+//		echo '...in EasyTableProBuildRoute...<BR />';
 		$segments = array();
 		if(isset($query['view']))
 			{
@@ -21,7 +22,8 @@
 		return $segments;
 	}
 	
-	function EasyTableParseRoute ($segments) {
+	function EasyTableProParseRoute ($segments) {
+//		echo '...in EasyTableProParseRoute...<BR />';
 		$vars = array();
 		if (isset($segments[0])) {
 			$vars['view'] = $segments[0];

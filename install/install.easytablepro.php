@@ -25,7 +25,7 @@ function com_install()
 	//-- OK, to make the installer aware of our translations we need to explicitly load
 	//   the components language file - this should work as the should already be copied in.
     $language = JFactory::getLanguage();
-    $language->load('com_easytable');
+    $language->load('com_easytablepro');  // Can't use defined values in installer obj
 
 	//--get the db object...
 	$db = & JFactory::getDBO();
@@ -96,6 +96,31 @@ function com_install()
 	else
 	{
 		$msg .= $img_OK.JText::_( 'EASYTABLE_TABLE_STRUCTURES_ARE_UP_TO_DATE_' ).$BR;
+	}
+
+    // 2. Add the params field to the meta table for Pro features.
+	//-- See if the column exists --//
+	$tableFieldsResult = $db->getTableFields('#__easytables_table_meta');
+	$columnNames = $tableFieldsResult['#__easytables_table_meta'];
+	if(array_key_exists('params', $columnNames))
+	{
+		$msg .= $img_OK.JText::_( 'EASYTABLE_META_TABLE_STRUCTURES_ARE_UP_TO_DATE_' ).$BR;
+	}
+	else
+	{
+		$msg .= $img_ERROR.JText::_( 'EASYTABLE_META_TABLE_IS_MISSING__PARAMS__COLUMN_' ).$BR;
+		$et_updateQry = "ALTER TABLE #__easytables_table_meta ADD COLUMN `params` TEXT;";
+		$db->setQuery($et_updateQry);
+		$et_updateResult = $db->query();
+		if(!$et_updateResult)
+		{
+			$msg .= $img_ERROR.JText::_( 'ALTER_TABLE_FAILED_FOR_COLUMN___PARAMS__' ).$BR;
+			$no_errors = FALSE;
+		}
+		else
+		{
+			$msg .= $img_OK.JText::_( 'EASYTABLE_META_TABLE_SUCCESSFULLY_UPDATED_WITH___PARAMS___COLUMN_' ).$BR;
+		}
 	}
 
 	// If all is good so far we can get the current version.
