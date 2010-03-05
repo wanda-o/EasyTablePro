@@ -14,7 +14,11 @@ defined('_JEXEC') or die('Restricted Access');
         JToolBarHelper::editList();
         JToolBarHelper::deleteList(JText::_( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' ));
         JToolBarHelper::addNew();
+<<<<<<< HEAD
         JToolBarHelper::preferences( 'com_easytable', 262 );
+=======
+        JToolBarHelper::preferences( 'com_'._cppl_this_com_name );
+>>>>>>> Fixed elements errors, added 'params' to meta for field options
 ?>
 <div id="et-versionCheck" style="text-size:0.9em;text-align:center; color:grey;position:relative;z-index:1;" >
 	<?php echo JText::_( 'INSTALLED_EASYTABLE_VERSION' ); ?>: <?php echo ( $this->et_current_version ); ?> | 
@@ -26,7 +30,7 @@ defined('_JEXEC') or die('Restricted Access');
 	</span>
 	 | 
 	<span id="et-subverinfo" onmouseover="ShowTip('et-subverinfo-panel'); return false;" onMouseOut="HideTip('et-subverinfo-panel'); return false;">
-		<?php echo JText::_( 'CURRENT_SUBSCRIBERS_RELEASE_IS' ).'&nbsp;'; ?>: <?php echo ( $this->et_subscriber_version ); if(strcmp($this->et_current_version,$this->et_subscriber_version) != 0 ){echo '<img src="'.JURI::base().'components'.DS.'com_easytable'.DS.'assets'.DS.'images'.DS.'attention.gif" height="24px">';} ?>
+		<?php echo JText::_( 'CURRENT_SUBSCRIBERS_RELEASE_IS' ).'&nbsp;'; ?>: <?php echo ( $this->et_subscriber_version ); if(strcmp($this->et_current_version,$this->et_subscriber_version) != 0 ){echo '<img src="'.JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'attention.gif">';} ?>
 		<div id="et-subverinfo-panel" class="info-tip" style="left:60%;">
 			<?php echo ( $this->et_subscriber_tip ); ?>
 		</div>
@@ -64,7 +68,7 @@ defined('_JEXEC') or die('Restricted Access');
 		$row = &$this->rows[$i];
 		$checked 	= JHTML::_('grid.checkedout', $row,   $i);
 		$published  = JHTML::_('grid.published',   $row,  $i );
-		$link 		= JRoute::_( 'index.php?option=com_easytable&task=edit&cid[]='. $row->id );
+		$link 		= JRoute::_( 'index.php?option=com_'._cppl_this_com_name.'&task=edit&cid[]='. $row->id );
 
 		?>
 		<tr class="<?php echo "row$k"; ?>">

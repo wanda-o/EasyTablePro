@@ -17,7 +17,7 @@ if($this->show_page_title) {
 <?php
 	foreach ($this->rows as $row )
 	{
-		$link = JRoute::_('index.php?option=com_easytable&view=easytable&id='.$row->id.':'.$row->easytablealias);
+		$link = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&view='._cppl_base_com_name.'&id='.$row->id.':'.$row->easytablealias);
 		echo '<li><a href="'.$link.'">'.$row->easytablename.'</a>';
 		if($this->show_description)
 		{

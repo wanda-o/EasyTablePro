@@ -13,6 +13,14 @@
 				<?php
 					$fieldNumber = 1; // so that we skip the record id from the table record
 					$record = $this->easytables_table_record;
+					echo '<tr><td class="etr_prevrecord">';
+					if($this->prevrecord)
+						{ echo '<a href="'.$this->prevrecord.'">'.JText::_('LT__PREVIOUS_RECORD').'</a>'; }
+					echo '</td>';
+					echo '<td class="etr_nextrecord">';
+					if($this->nextrecord)
+						{ echo '<a href="'.$this->nextrecord.'">'.JText::_('NEXT_RECORD__GT_').'</a>'; }
+					echo '</td></tr>';
 
 					foreach ($this->easytables_table_meta as $heading )
 						{// label, fieldalias, type, detail_link, description, id, detail_view, list_view

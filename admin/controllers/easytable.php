@@ -16,7 +16,7 @@ jimport('joomla.application.component.controller');
  * @package    EasyTables
  * @subpackage Controllers
  */
-JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 jimport('joomla.application.component.controller');
 class EasyTableController extends JController
 {
@@ -455,6 +455,8 @@ class EasyTableController extends JController
 		 $row =& JTable::getInstance('EasyTable', 'Table');
 		 $cid = JRequest::getVar( 'cid', array(0), '', 'array');
 		 $id = $cid[0];
+		global $et_current_table_id;
+		$et_current_table_id = $id;
 
 		 $row->checkout($user->id,$id);
 	}
@@ -684,7 +686,10 @@ class EasyTableController extends JController
 		// echo '<BR /> createETTD() -> '.$create_ETTD_SQL;
 		$db->setQuery($create_ETTD_SQL);
 		$ettd_creation_result = $db->query();
-		
+		if(!$ettd_creation_result)
+		{
+			JError::raiseError(500, "Failure in data table creation, likely cause is invalid column headings; actually DB explanation: ".$db->explain());
+		}
 		return $this->ettdExists($id);
 	}
 
@@ -696,13 +701,11 @@ class EasyTableController extends JController
 			JError::raiseError(500,"Couldn't get the database object while trying to remove ETTD: $id");
 		}
 		// Build the DROP SQL
-		$query = 'DROP TABLE '.$db->nameQuote('#__easytables_table_data_'.$id).';';
+		$ettd_table_name = $db->nameQuote('#__easytables_table_data_'.$id);
+		$query = 'DROP TABLE '.$ettd_table_name.';';
 
 		$db->setQuery($query);
-		
-		return($theResult=$db->query());
-		
-		
+		return($theResult=$db->query());		
 	}
 
 	function emptyETTD ($id)
@@ -712,12 +715,17 @@ class EasyTableController extends JController
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to remove ETTD: $id");
 		}
-		// Build the DROP SQL
-		$query = 'DELETE FROM '.$db->nameQuote('#__easytables_table_data_'.$id).';';
+		// Build the TRUNCATE SQL -- NB. using truncate resets the AUTO_INCREMENT value of ID
+		$ettd_table_name = $db->nameQuote('#__easytables_table_data_'.$id);
+		$query = 'TRUNCATE TABLE '.$db->nameQuote('#__easytables_table_data_'.$id).';';
 
 		$db->setQuery($query);
-		
-		return($theResult=$db->query());
+		$theResult=$db->query();
+		if(!$theResult)
+		{
+			JError::raiseWarning(500, "Failed to TRUNCATE table data in $ettd_table_name");
+		}
+		return($theResult);		
 	}
 	
 	function updateETTDTableFrom ($id, $ettdColumnAliass, $CSVFileArray)

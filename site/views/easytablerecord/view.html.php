@@ -1,10 +1,11 @@
 <?php
 defined('_JEXEC') or die('Restricted Access');
 jimport('joomla.application.component.view');
-JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_easytable'.DS.'tables');
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 
 class EasyTableViewEasyTableRecord extends JView
 {
+
 	function getFieldAliasForMetaID ($mId = 0)
 	{
 		if($mId)
@@ -115,7 +116,59 @@ class EasyTableViewEasyTableRecord extends JView
 		}
 		return($types);
 	}
+
+	function prevRecordLink($tableId=0,$tableAlias='',$currentRecordId=0)
+	{
+		return $this->recordLink($tableId, $tableAlias, $currentRecordId);
+	}
 	
+	function nextRecordLink($tableId=0,$tableAlias='',$currentRecordId=0)
+	{
+		return $this->recordLink($tableId, $tableAlias, $currentRecordId, TRUE);
+	}
+
+	function recordLink($tableId=0,$tableAlias='',$currentRecordId=0,$next=FALSE)
+	{
+		// Next record?
+		if($next)
+		{
+			$eqSym = '>';
+			$sortOrder = 'asc';
+		}
+		else
+		{ // So prev. record.
+			$eqSym = '<';
+			$sortOrder = 'desc';
+		}
+		
+		$recordLink = '';
+		// Get the current database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_NEXT_RECORD_LINK" ).$mId );
+		}
+
+		// Build the table name - in prep for using any DB table in ETPro
+		$currentTable = $db->nameQuote( '#__easytables_table_data_'.$tableId );
+
+		// Assemble the SQL to get the previous record if it exists. Along the lines of:
+		// select id from jos_easytables_table_data_2 where `id` < 11 order by `id` desc limit 1
+		$selectSQLQuery = 'select `id` from '.$currentTable.' where `id` '.$eqSym.' '.$currentRecordId.' order by `id` '.$sortOrder.' limit 1';
+		// Get the record
+		$db->setQuery($selectSQLQuery);
+
+		$recID = $db->loadResult();
+
+		// Check we have a result
+		if($recID)
+		{
+			// Build the link.
+			$recordLink = JRoute::_("index.php?option=com_"._cppl_this_com_name."&view=easytablerecord&id=$tableId:$tableAlias&rid=$recID");
+		}
+		
+		return $recordLink;
+	}
+
 	function display ($tpl = null)
 	{
 		$debugMsg = '';
@@ -222,7 +275,7 @@ class EasyTableViewEasyTableRecord extends JView
 				
 				$linked_field_links_to_detail =& $this->fieldDetailLink($linked_table_meta); // Flags for the detail link
 				$this->assignRef('linked_field_links_to_detail', $linked_field_links_to_detail);
-				
+
 				$linked_fields_alias = $this->fieldAliassForList($linked_table_meta,$lkf_id);  // Field alias for use in CSS class for each field
 				$this->assignRef('linked_fields_alias', $linked_fields_alias );
 				
@@ -239,13 +292,25 @@ class EasyTableViewEasyTableRecord extends JView
 		global $mainframe, $option;
         $mainframe =& JFactory::getApplication();
         $start_page = $mainframe->getUserState( "$option.start_page", 0 );
-		$backlink = "index.php?option=com_easytable&view=easytable&id=$id:$easytable->easytablealias&start=$start_page";
+		$backlink = "index.php?option=com_"._cppl_this_com_name."&view=easytable&id=$id:$easytable->easytablealias&start=$start_page";
 		$backlink = JRoute::_($backlink);
 
 		// Setup the rest of the params related to display
 		$show_description = $params->get('show_description',0);
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
+		$show_next_prev_record_links = $params->get('show_next_prev_record_links',0);
+
+		if($show_next_prev_record_links)
+		{
+			$prevrecord = $this->prevRecordLink($id,$easytable->easytablealias,$rid);
+			$nextrecord = $this->nextRecordLink($id,$easytable->easytablealias,$rid);
+		}
+		else
+		{
+			$prevrecord = '';
+			$nextrecord = '';
+		}
 
 		$pageclass_sfx = $params->get('pageclass_sfx','');
 
@@ -255,6 +320,8 @@ class EasyTableViewEasyTableRecord extends JView
 		$this->assign('show_created_date', $show_created_date);
 		$this->assign('show_modified_date', $show_modified_date);
 		$this->assign('linked_table', $lt_id);
+		$this->assign('prevrecord', $prevrecord);
+		$this->assign('nextrecord', $nextrecord);
 
 		$this->assign('pageclass_sfx',$pageclass_sfx);
 

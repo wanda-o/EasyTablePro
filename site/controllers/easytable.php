@@ -24,6 +24,7 @@ class EasyTableController extends JController
 	function display()
 	{
 		$view =  JRequest::getVar('view');
+
 		if (!$view) {
 			JRequest::setVar('view', 'EasyTables');
 		}
