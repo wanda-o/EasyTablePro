@@ -184,7 +184,7 @@ defined('_JEXEC') or die('Restricted Access');
 								<th><?php echo JText::_( 'POSITION' ); ?></th>
 								<th><?php echo JText::_( 'LABEL__ALIAS_' ); ?></th>
 								<th><?php echo JText::_( 'DESCRIPTION' ); ?></th>
-								<th><?php echo JText::_( 'TYPE' ); ?></th>
+								<th><?php echo JText::_( 'TYPE' ).' / '.JText::_( 'OPTIONS' ); ?></th>
 								<th><?php echo JText::_( 'LIST_VIEW' ); ?></th>
 								<th><?php echo JText::_( 'DETAIL_LINK' ); ?></th>
 								<th><?php echo JText::_( 'DETAIL_VIEW' ); ?></th>
@@ -197,6 +197,7 @@ defined('_JEXEC') or die('Restricted Access');
 							{
 								$mRId = $metaRow[0];
 								$mRIds[] = $mRId;
+
 								echo '<tr valign="top" class="row'.$k.'">
 								';																		// Open the row
 								
@@ -205,7 +206,8 @@ defined('_JEXEC') or die('Restricted Access');
 								echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'"><br>'.									// label <br />
 									'<em><input type="hidden" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'">'.$metaRow[9].'</em></td>');		// alias
 								echo('<td><textarea cols="50" rows="2" name="description'.$mRId.'">'.$metaRow[4].'</textarea></td>');				// Description
-								echo('<td>'.$this->getTypeList($metaRow[0], $metaRow[5]).'</td>');													// Type
+								echo('<td>'.$this->getTypeList($mRId, $metaRow[5]).'<BR />'.
+										'<input type="text" value="'.$this->getFieldOptions($metaRow[10]).'" name="fieldoptions'.$mRId.'"></td>');			// Type / Field Options
 								
 								$tdName			= 'list_view'.$mRId;
 								$tdStart		= '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[6].'">';			// List View Flag
