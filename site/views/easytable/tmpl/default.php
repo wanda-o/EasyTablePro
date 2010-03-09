@@ -39,6 +39,8 @@
 		</thead>
 		<tbody>
 			<?php
+				$this->assign('currentImageDir',$this->imageDir);
+
 				$alt_rv = 0;
 				foreach ($this->paginatedRecords as $prow )  // looping through the rows of paginated data
 				{
@@ -51,39 +53,10 @@
 							$cellData = '';				// make sure cellData is empty before we start this cell.
 							$cellClass    = $this->easytables_table_meta[$labelNumber][1];
 							$cellType     = (int)$this->easytables_table_meta[$labelNumber][2];
-							$cellDetailLink = (int)$this->easytables_table_meta[$labelNumber++][3];
-							switch ($cellType) {
-								case 0: // text
-									$cellData = trim($f);
-									break;
-								case 1: // image
-									if($f){
-										$pathToImage = $this->imageDir.DS.$f;  // we concatenate the image URL with the tables default image path
-										$cellData = '<img src="'.trim($pathToImage).'" >';
-									} else
-									{
-										$cellData = '<!-- '.JText::_( 'NO_IMAGE_NAME' ).' -->';
-									}
-									break;
-								case 2: // url //For fully qualified URL's starting with HTTP we open in a new window, for everything else its the same window.
-									$URLTarget = 'target="_blank"'; 
-									if(substr($f,0,7)!='http://') {$URLTarget = '';}
-									if(substr($f,0,8)=='<a href=')
-									{
-										$cellData = $f;
-									}
-									else
-									{
-										$cellData = '<a href="'.trim($f).'" '.$URLTarget.'>'.trim($f).'</a>';
-									}
-									break;
-								case 3: // mailto
-									$cellData = '<a href="mailto:'.trim($f).'" >'.trim($f).'</a>';
-									break;
-									
-								default: // oh oh we messed up
-									$cellData = "<!-- Field Type Error: cellData = $cellData / cellType = $cellType / cellDetailLink = $cellDetailLink -->";
-								}
+							$cellDetailLink = (int)$this->easytables_table_meta[$labelNumber][3];
+							$cellOptions = $this->easytables_table_meta[$labelNumber++][5];  // we increment labelnumber for next pass.
+							$cellData = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow); //getFWO($field,$type,$params,$row)
+
 							if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
 							{
 								$linkToDetail = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&view=easytablerecord&id='.$this->tableId.':'.$this->easytable->easytablealias.'&rid='.$rowId);

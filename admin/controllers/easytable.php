@@ -340,13 +340,14 @@ class EasyTableController extends JController
 			// Build the update SQL for each field
 			$etMetaUpdateValuesSQL  = '';
 
-			$etMetaUpdateValuesSQL .= '`position` = \''   .JRequest::getVar('position'   .$rowValue).'\', ';
-			$etMetaUpdateValuesSQL .= '`label` = \''      .JRequest::getVar('label'      .$rowValue).'\', ';
-			$etMetaUpdateValuesSQL .= '`description` = \''.JRequest::getVar('description'.$rowValue).'\', ';
-			$etMetaUpdateValuesSQL .= '`type` = \''       .JRequest::getVar('type'       .$rowValue).'\', ';
-			$etMetaUpdateValuesSQL .= '`list_view` = \''  .JRequest::getVar('list_view'  .$rowValue).'\', ';
-			$etMetaUpdateValuesSQL .= '`detail_link` = \''.JRequest::getVar('detail_link'.$rowValue).'\', ';
-			$etMetaUpdateValuesSQL .= '`detail_view` = \''.JRequest::getVar('detail_view'.$rowValue).'\' ';
+			$etMetaUpdateValuesSQL .= '`position` = \''           .JRequest::getVar('position'    .$rowValue).'\', ';
+			$etMetaUpdateValuesSQL .= '`label` = \''              .JRequest::getVar('label'       .$rowValue).'\', ';
+			$etMetaUpdateValuesSQL .= '`description` = \''        .JRequest::getVar('description' .$rowValue).'\', ';
+			$etMetaUpdateValuesSQL .= '`type` = \''               .JRequest::getVar('type'        .$rowValue).'\', ';
+			$etMetaUpdateValuesSQL .= '`list_view` = \''          .JRequest::getVar('list_view'   .$rowValue).'\', ';
+			$etMetaUpdateValuesSQL .= '`detail_link` = \''        .JRequest::getVar('detail_link' .$rowValue).'\', ';
+			$etMetaUpdateValuesSQL .= '`detail_view` = \''        .JRequest::getVar('detail_view' .$rowValue).'\', ';
+			$etMetaUpdateValuesSQL .= '`params` = \'fieldoptions='.JRequest::getVar('fieldoptions'.$rowValue).'\n\' ';
 			
 			// Build the SQL that selects the record for the right ID
 			$etMetaUpdateSQLEnd     = ' WHERE ID =\''.$rowValue.'\'';
@@ -358,7 +359,7 @@ class EasyTableController extends JController
 			$db->setQuery($etMetaUpdateSQL);
 			$db_result = $db->query();
 			
-			if(!$db_result) { JERROR::raiseError(500, "Meta data update failed:".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);}
+			if(!$db_result) { JERROR::raiseError(500, "Meta data update failed for row id ( $rowValue ):".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);}
 			
 		}
 	}
