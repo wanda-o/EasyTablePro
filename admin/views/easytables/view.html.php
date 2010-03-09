@@ -106,7 +106,6 @@ class EasyTableViewEasyTables extends JView
 		$rows =& $this->get('data');
 		$this->assignRef('rows',$rows);
 		$this->assign('et_current_version',ET_VHelpers::current_version());
-		$this->assign('et_public_tip',$public_ver_array["tip"]);
 		$this->assign('et_subscriber_version',$subscriber_ver_array["version"]);
 		$this->assign('et_subscriber_tip',$subscriber_ver_array["tip"]);
 		parent::display($tpl);

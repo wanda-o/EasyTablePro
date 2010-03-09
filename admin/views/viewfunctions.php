@@ -5,11 +5,9 @@ class ET_VHelpers
 {
 	function current_version()
 	{
-		/**
-		 *
-		 * Let's do a version check - it's always good to use the newest version.
-		 *
-		**/
+		//
+		// Let's see what version we have installed.
+		//
 		$et_this_version = '';
 		$et_com_xml_file = JPATH_COMPONENT_ADMINISTRATOR.DS._cppl_this_com_name.'.xml';
 		$et_com_xml_exists = file_exists($et_com_xml_file);
@@ -29,22 +27,19 @@ class ET_VHelpers
 	
 	function et_version($source='public')
 	{
-		/**
-		 *
-		 * Let's do a version check - it's always good to use the newest version.
-		 *
-		**/
+		//
+		// Let's do a version check - it's always good to use the newest version.
+		//
 		$et_version = '';
 		$et_com_xml_file = 'http://seepeoplesoftware.com/cpplversions/'.$source.'_'._cppl_this_com_name.'.xml';
-//		echo("<br />Checking for: ".$et_com_xml_file.'<br />');
 		
 		$et_xml= simplexml_load_file($et_com_xml_file, 'SimpleXMLElement', LIBXML_NOCDATA);
-        if(!$et_xml) {
+		if(!$et_xml) {
 			$et_version = '0.0';
 			$et_version_tip = JText::_('FAILED_TO_LOAD_VERSION_XML_FILE');
-        }
-        else
-        {
+		}
+		else
+		{
 			$et_version = $et_xml->channel->item->enclosure['version'];
 			$et_version_title = $et_xml->channel->title;
 
