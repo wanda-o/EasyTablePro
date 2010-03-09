@@ -11,8 +11,10 @@
 			</thead>
 			<tbody>
 				<?php
+					$this->assign('currentImageDir',$this->imageDir);
+
 					$fieldNumber = 1; // so that we skip the record id from the table record
-					$record = $this->easytables_table_record;
+					$prow = $this->easytables_table_record;
 					echo '<tr><td class="etr_prevrecord">';
 					if($this->prevrecord)
 						{ echo '<a href="'.$this->prevrecord.'">'.JText::_('LT__PREVIOUS_RECORD').'</a>'; }
@@ -22,55 +24,25 @@
 						{ echo '<a href="'.$this->nextrecord.'">'.JText::_('NEXT_RECORD__GT_').'</a>'; }
 					echo '</td></tr>';
 
-					foreach ($this->easytables_table_meta as $heading )
-						{// label, fieldalias, type, detail_link, description, id, detail_view, list_view
+					foreach ($this->easytables_table_meta as $field_Meta )
+						{// label, fieldalias, type, detail_link, description, id, detail_view, list_view, params
+							list($f_label, $f_alias, $f_type, $f_detail_link, $f_description, $f_id, $f_detail_view, $f_list_view, $f_params) = $field_Meta;
 
-							if($heading[6]) // ie. Detail_view = 1
+							if($f_detail_view) // ie. Detail_view = 1
 							{
-								$f = $record[$fieldNumber++];
+								$f = $prow[$fieldNumber++];
 
-								$cellType     = (int)$heading[2];
+								$cellType     = (int)$f_type;
 
-								switch ($cellType) {
-									case 0: // text
-										$cellData = $f;
-										break;
-									case 1: // image
-										if($f){
-											$pathToImage = $this->imageDir.DS.$f;  // we concatenate the image URL with the tables default image path
-											$cellData = '<img src="'.$pathToImage.'" >';
-										} else
-										{
-											$cellData = '<!-- '.JText::_( 'NO_IMAGE_NAME' ).' -->';
-										}
-										break;
-									case 2: // url //For fully qualified URL's starting with HTTP we open in a new window, for everything else its the same window.
-										$URLTarget = 'target="_blank"';
-										if(substr($f,0,7)!='http://') {$URLTarget = '';}
-										if(substr($f,0,8)=='<a href=')
-										{
-											$cellData = $f;
-										}
-										else
-										{
-											$cellData = '<a href="'.trim($f).'" '.$URLTarget.'>'.trim($f).'</a>';
-										}
-										break;
-                                    case 3: // mailto
-                                        $cellData = '<a href="mailto:'.trim($f).'" >'.trim($f).'</a>';
-                                        break;
-										
-									default: // oh oh we messed up
-										$cellData = "<!-- Field Type Error: cellData = $f / cellType = $cellType -->";
-									}
+								$cellData = ET_VHelper::getFWO($f, $cellType, $f_params, $prow); //getFWO($field,$type,$params,$row)
 
-							echo '<tr>';  // Open the row
-							$titleString = ''; // Setup the titleString if required
-							if(strlen($heading[4])){ $titleString = 'title="'.htmlspecialchars($heading[4]).'" ';}
-
-							echo '<td class="sectiontableheader '.$heading[1].'" '.$titleString.'>'.$heading[0].'</td>'; // Field Heading
-							echo '<td class="sectiontablerow '.$heading[1].'">'.$cellData.'</td>'; // Field Data
-							echo '</tr>';  // Close the Row
+								echo '<tr>';  // Open the row
+								$titleString = ''; // Setup the titleString if required
+								if(strlen($f_description)){ $titleString = 'title="'.htmlspecialchars($f_description).'" ';}
+	
+								echo '<td class="sectiontableheader '.$f_alias.'" '.$titleString.'>'.$f_label.'</td>'; // Field Heading
+								echo '<td class="sectiontablerow '.$f_alias.'">'.$cellData.'</td>'; // Field Data
+								echo '</tr>';  // Close the Row
 							}
 						}
 				?>

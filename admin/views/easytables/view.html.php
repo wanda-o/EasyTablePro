@@ -10,6 +10,9 @@ defined('_JEXEC') or die('Restricted Access');
 
 jimport( 'joomla.application.component.view');
 
+$pvf = ''.JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'viewfunctions.php';
+require_once $pvf;
+
 /**
  * HTML View class for the EasyTables Component
  *
@@ -19,13 +22,13 @@ jimport( 'joomla.application.component.view');
 
 class EasyTableViewEasyTables extends JView
 {
-	function current_version()
+/*	function current_version()
 	{
-		/**
-		 *
-		 * Let's do a version check - it's always good to use the newest version.
-		 *
-		**/
+		//
+		//
+		// Let's do a version check - it's always good to use the newest version.
+		//
+		//
 		$et_this_version = '';
 		$et_com_xml_file = JPATH_COMPONENT_ADMINISTRATOR.DS._cppl_this_com_name.'.xml';
 		$et_com_xml_exists = file_exists($et_com_xml_file);
@@ -45,11 +48,11 @@ class EasyTableViewEasyTables extends JView
 	
 	function et_version($source='public')
 	{
-		/**
-		 *
-		 * Let's do a version check - it's always good to use the newest version.
-		 *
-		**/
+		//
+		//
+		// Let's do a version check - it's always good to use the newest version.
+		//
+		//
 		$et_version = '';
 		$et_com_xml_file = 'http://seepeoplesoftware.com/cpplversions/'.$source.'_easytable.xml';
 //		echo("<br />Checking for: ".$et_com_xml_file.'<br />');
@@ -79,6 +82,7 @@ class EasyTableViewEasyTables extends JView
 		
 		return $et_version_array;
 	}
+*/
 	
 	/**
 	 * EasyTables view display method
@@ -98,12 +102,10 @@ class EasyTableViewEasyTables extends JView
 		**/
 
 		// Get data from the model
-		$public_ver_array = $this->et_version('public');
-		$subscriber_ver_array = $this->et_version('subscriber');
+		$subscriber_ver_array = ET_VHelpers::et_version('subscriber');
 		$rows =& $this->get('data');
 		$this->assignRef('rows',$rows);
-		$this->assign('et_current_version',$this->current_version());
-		$this->assign('et_public_version',$public_ver_array["version"]);
+		$this->assign('et_current_version',ET_VHelpers::current_version());
 		$this->assign('et_public_tip',$public_ver_array["tip"]);
 		$this->assign('et_subscriber_version',$subscriber_ver_array["version"]);
 		$this->assign('et_subscriber_tip',$subscriber_ver_array["tip"]);

@@ -12,6 +12,7 @@
 		var $detail_link = null;
 		var $detail_view = null;
 		var $fieldalias = null;
+		var $params = null;
 		
 		function __construct(&$db)
 		{

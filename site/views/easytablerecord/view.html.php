@@ -2,6 +2,8 @@
 defined('_JEXEC') or die('Restricted Access');
 jimport('joomla.application.component.view');
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
+$pvf = ''.JPATH_COMPONENT_SITE.DS.'views'.DS.'viewfunctions.php';
+require_once $pvf;
 
 class EasyTableViewEasyTableRecord extends JView
 {
@@ -31,11 +33,11 @@ class EasyTableViewEasyTableRecord extends JView
 		}
 		if($restrict_to_view == '')
 		{
-			$query = "SELECT label, fieldalias, type, detail_link, description, id, detail_view, list_view FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' ORDER BY position;";
+			$query = "SELECT label, fieldalias, type, detail_link, description, id, detail_view, list_view, params FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' ORDER BY position;";
 		}
 		else
 		{
-			$query = "SELECT label, fieldalias, type, detail_link, description, id, detail_view, list_view FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' AND `$restrict_to_view` = '1' ORDER BY position;";
+			$query = "SELECT label, fieldalias, type, detail_link, description, id, detail_view, list_view, params FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' AND `$restrict_to_view` = '1' ORDER BY position;";
 		}
 
 		$db->setQuery($query);
@@ -113,6 +115,19 @@ class EasyTableViewEasyTableRecord extends JView
 		foreach($metaArray as $aRow) 
 		{
 			$types[] .= $aRow[3]; // compile a list of the detail link flags
+		}
+		return($types);
+	}
+
+	function fieldOptions($metaArray)
+	{
+		// Convert the list of meta records into the list of Options for the fields
+		$types = array();
+		$types[] = 'id'; //put the id in first for accessing detail view of a table row
+
+		foreach($metaArray as $aRow) 
+		{
+			$types[] .= $aRow[8]; // compile a list of the field options
 		}
 		return($types);
 	}
@@ -245,7 +260,7 @@ class EasyTableViewEasyTableRecord extends JView
 			$lkf_alias = $this->getFieldAliasForMetaID($lkf_id); // Get the alias (column name) of the linked key field
 
 			$linked_table_meta = $this->fieldMeta($lt_id,'list_view');
-			
+
 			$linked_fields_to_get = implode('`, `', $this->fieldAliassForList($linked_table_meta,$lkf_id) );
 			
 			$linked_records_SQL = "SELECT `$linked_fields_to_get` FROM `#__easytables_table_data_$lt_id` WHERE `$lkf_alias` = '$kf_search_value'";
@@ -279,7 +294,9 @@ class EasyTableViewEasyTableRecord extends JView
 				$linked_fields_alias = $this->fieldAliassForList($linked_table_meta,$lkf_id);  // Field alias for use in CSS class for each field
 				$this->assignRef('linked_fields_alias', $linked_fields_alias );
 				
-
+				$linked_field_options =& $this->fieldOptions($linked_table_meta); // Field Options for use in table
+				$this->assignRef('linked_field_options', $linked_field_options );
+				
 				$linked_field_labels =& $this->fieldLabelsForList($linked_table_meta,$lkf_id); // Labels/field headings for use in table
 				$this->assignRef('linked_field_labels', $linked_field_labels );
 				
@@ -322,7 +339,8 @@ class EasyTableViewEasyTableRecord extends JView
 		$this->assign('nextrecord', $nextrecord);
 
 		$this->assign('tableId', $id);
-		$this->assignRef('imageDir', $imageDir);
+		$this->assign('imageDir', $imageDir);
+		$this->assign('currentImageDir', $imageDir);
 		$this->assignRef('backlink', $backlink);
 		$this->assignRef('easytable',$easytable);
 		$this->assignRef('easytables_table_meta',$easytables_table_meta);

@@ -74,9 +74,22 @@ class EasyTableViewEasyTable extends JView
 		$selectOptionText .= '<option value="1" '.($selectedType==1 ? 'selected':'').'>'.JText::_('IMAGE').'</option>';			// Type 1 = Image URL
 		$selectOptionText .= '<option value="2" '.($selectedType==2 ? 'selected':'').'>'.JText::_('LINK__URL_').'</option>';	// Type 2 = Fully qualified URL
 		$selectOptionText .= '<option value="3" '.($selectedType==3 ? 'selected':'').'>'.JText::_('EMAIL').'</option>';         // Type 3 = Email address
+		$selectOptionText .= '<option value="4" '.($selectedType==4 ? 'selected':'').'>'.JText::_('NUMBER').'</option>';         // Type 3 = Email address
+		$selectOptionText .= '<option value="5" '.($selectedType==5 ? 'selected':'').'>'.JText::_('DATE').'</option>';         // Type 3 = Email address
 		$selectOptionText .= '</select>';																						// close our html select structure
 		
 		return($selectOptionText);
+	}
+
+	function getFieldOptions ($params=null)
+	{
+		$fieldOptions = '';
+		if ( isset ($params) )
+		{
+			$paramsObj = new JParameter ($params);
+			$fieldOptions = $paramsObj->get('fieldoptions','');
+		}
+		return($fieldOptions);
 	}
 
     /**
