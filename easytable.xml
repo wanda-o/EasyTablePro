@@ -1,9 +1,7 @@
-<<<<<<< Updated upstream
-=======
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTable</name>
-	<version>1.0.1 (6046761)</version>
+	<version>1.0.1b (c6fca14)</version>
 	<author>Craig Phillips</author>
 	<creationDate>15-Mar-2010</creationDate>
 	<copyright>Copyright (C) 2009.</copyright>
@@ -69,4 +67,3 @@
 		</param>
 	</params>
 </install>
->>>>>>> Stashed changes

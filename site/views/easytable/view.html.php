@@ -7,6 +7,7 @@ class EasyTableViewEasyTable extends JView
 {
 	function display ($tpl = null)
 	{
+		global $mainframe, $option;
 		$id = (int) JRequest::getVar('id',0);
 		// For a better backlink - lets try this:
 		$start_page = JRequest::getVar('start',0,'','int');                 // get the start var from JPagination

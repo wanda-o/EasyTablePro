@@ -59,7 +59,7 @@
                                 $cellDetailLink ='';
                             }
 							// Finally we can echo the cell string.
-							echo "<td class='colfld ".$cellClass."'>".trim($cellData).'</td>';
+							echo "<td class='colfld ".$cellAlias."'>".trim($cellData).'</td>';
 						}
 						// End of row stuff should follow after this.
 					}
