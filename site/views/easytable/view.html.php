@@ -79,7 +79,7 @@ class EasyTableViewEasyTable extends JView
             //echo('<BR />Pagination Array = '.print_r($pagination));
         }
         //Get form link
-        $paginationLink = JRoute::_('index.php?option=com_easytable&view=easytable&id='.$id);
+        $paginationLink = JRoute::_('index.php?option=com_easytable&view=easytable&id='.$id.':'.$easytable->easytablealias);
 
 
 		

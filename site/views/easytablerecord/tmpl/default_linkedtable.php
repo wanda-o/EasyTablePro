@@ -8,7 +8,7 @@
 						{
 							if($n)
 							{
-								echo '<td class="sectiontableheader '.$this->linked_field_alias[$n].'">'.$heading.'</td>';
+								echo '<td class="sectiontableheader '.$this->linked_fields_alias[$n].'">'.$heading.'</td>';
 							}
 							$n++;
 						}
@@ -19,14 +19,16 @@
 			<?php
 				foreach ($this->linked_records as $prow )  // looping through the rows of data
 				{
+                    $rowId = $prow["id"];
 					echo '<tr>';  // Open the row
-					$labelNumber = 1; //skip the id of the records
+					$rowNumber = 1; //skip the id of the records
 					foreach($prow as $k => $f)  // looping through the fields of the row
 					{
 						if(!($k == 'id')){				// we skip the row id which is in position 0
 							$cellData = '';				// make sure cellData is empty before we start this cell.
-							$cellAlias    = $this->linked_fields_alias[$labelNumber];
-							$cellType     = (int)$this->linked_field_types[$labelNumber++];
+							$cellAlias    = $this->linked_fields_alias[$rowNumber];
+							$cellType     = (int)$this->linked_field_types[$rowNumber];
+                            $cellDetailLink = (int)$this->linked_field_links_to_detail[$rowNumber++];
 							switch ($cellType) {
 								case 0: // text
 									$cellData = trim($f);
@@ -50,8 +52,14 @@
 								default: // oh oh we messed up
 									$cellData = "<!-- Field Type Error: cellData = $cellData / cellType = $cellType / cellDetailLink = $cellDetailLink -->";
 								}
+                            if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
+                            {
+                                $linkToDetail = JRoute::_('index.php?option=com_easytable&view=easytablerecord&id='.$this->linked_table.':'.$this->linked_easytable_alias.'&rid='.$rowId);
+                                $cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
+                                $cellDetailLink ='';
+                            }
 							// Finally we can echo the cell string.
-							echo "<td class='col ".$cellAlias."'>".trim($cellData).'<!-- $k = \''.$k.'\'; $f =\''.$f.'\' --></td>';
+							echo "<td class='colfld ".$cellClass."'>".trim($cellData).'</td>';
 						}
 						// End of row stuff should follow after this.
 					}

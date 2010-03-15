@@ -16,6 +16,10 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+		<param name="show_next_prev_record_links" type="radio" default="1" label="NEXT_PREV_LINKS" description="IN_A_RECORD_VIEW_THIS_WILL_SHOW_LINKS_TO_THE_NEXT_AND_PREVIOUS_RECORD_IF_THEY_EXIST_">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="show_created_date" type="radio" default="0" label="SHOW_CREATION_DATE" description="THE_TABLES_CREATION_DATE_WILL_BE_DISPLAYED_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option value="1">Yes</option>
 			<option value="0">No</option>

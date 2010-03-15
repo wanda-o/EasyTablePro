@@ -1,9 +1,11 @@
+<<<<<<< Updated upstream
+=======
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTable</name>
-	<version>1.00 (a2adbde)</version>
+	<version>1.0.1 (6046761)</version>
 	<author>Craig Phillips</author>
-	<creationDate>17-Jul-2009</creationDate>
+	<creationDate>15-Mar-2010</creationDate>
 	<copyright>Copyright (C) 2009.</copyright>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
@@ -67,3 +69,4 @@
 		</param>
 	</params>
 </install>
+>>>>>>> Stashed changes

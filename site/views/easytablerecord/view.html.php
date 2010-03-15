@@ -42,15 +42,15 @@ class EasyTableViewEasyTableRecord extends JView
 		return $meta;
 	}
 	
-	function fieldAliassForDetail($metaArray, $lKf_id)
+	function fieldAliassForDetail($metaArray, $lkf_id)
 	{
-		return($this->fieldAliass($metaArray, $lKf_id, 6));
+		return($this->fieldAliass($metaArray, $lkf_id, 6));
 	}
-	function fieldAliassForList($metaArray, $lKf_id)
+	function fieldAliassForList($metaArray, $lkf_id)
 	{
-		return($this->fieldAliass($metaArray, $lKf_id, 7));
+		return($this->fieldAliass($metaArray, $lkf_id, 7));
 	}
-	function fieldAliass($metaArray, $lKf_id, $ListOrDetailSelector)
+	function fieldAliass($metaArray, $lkf_id, $ListOrDetailSelector)
 	{
 		// Convert the list of meta records into the list of fields that can be used in the SQL
 		$fields = array();
@@ -58,7 +58,7 @@ class EasyTableViewEasyTableRecord extends JView
 
 		foreach($metaArray as $aRow) 
 		{
-			if(($aRow[5] == $lKf_id) || ($aRow[$ListOrDetailSelector] == '1'))
+			if(($aRow[5] == $lkf_id) || ($aRow[$ListOrDetailSelector] == '1'))
 			{
 				$fields[] .= $aRow[1]; // compile a list of the fieldalias'
 			}
@@ -82,7 +82,7 @@ class EasyTableViewEasyTableRecord extends JView
 
 		foreach($metaArray as $aRow) 
 		{
-			if(($aRow[5] == $lKf_id) || ($aRow[$ListOrDetailSelector] == '1'))
+			if(($aRow[5] == $lkf_id) || ($aRow[$ListOrDetailSelector] == '1'))
 			{
 				$labels[] .= $aRow[0]; // compile a list of the field labels
 			}
@@ -92,13 +92,26 @@ class EasyTableViewEasyTableRecord extends JView
 	
 	function fieldTypes($metaArray)
 	{
-		// Convert the list of meta records into the list of fields labels
+		// Convert the list of meta records into the list of fields types
 		$types = array();
 		$types[] = 'id'; //put the id in first for accessing detail view of a table row
 
 		foreach($metaArray as $aRow) 
 		{
-			$types[] .= $aRow[2]; // compile a list of the field labels
+			$types[] .= $aRow[2]; // compile a list of the field types
+		}
+		return($types);
+	}
+	
+	function fieldDetailLink($metaArray)
+	{
+		// Convert the list of meta records into the list of Detail Link flags for the fields
+		$types = array();
+		$types[] = 'id'; //put the id in first for accessing detail view of a table row
+
+		foreach($metaArray as $aRow) 
+		{
+			$types[] .= $aRow[3]; // compile a list of the detail link flags
 		}
 		return($types);
 	}
@@ -132,7 +145,7 @@ class EasyTableViewEasyTableRecord extends JView
 		$params->merge( new JParameter( &$easytable->params ) ); // Merge with this tables params
 		$lt_id = $params->get('id',0);
 		$kf_id = $params->get('key_field',0);
-		$lKf_id = $params->get('linked_key_field',0);
+		$lkf_id = $params->get('linked_key_field',0);
 
 		/*
 		 *
@@ -176,7 +189,7 @@ class EasyTableViewEasyTableRecord extends JView
 			// From the record for the primary table get the value to match against in the linked table
 			$kf_search_value = $et_tr_assoc[$kf_alias];
 			
-			$lkf_alias = $this->getFieldAliasForMetaID($lKf_id); // Get the alias (column name) of the linked key field
+			$lkf_alias = $this->getFieldAliasForMetaID($lkf_id); // Get the alias (column name) of the linked key field
 
 			$linked_table_meta = $this->fieldMeta($lt_id,'list_view');
 			
@@ -207,6 +220,9 @@ class EasyTableViewEasyTableRecord extends JView
 				$linked_field_types =& $this->fieldTypes($linked_table_meta);  // Heading, types and other meta for the linked table
 				$this->assignRef('linked_field_types', $linked_field_types );
 				
+				$linked_field_links_to_detail =& $this->fieldDetailLink($linked_table_meta); // Flags for the detail link
+				$this->assignRef('linked_field_links_to_detail', $linked_field_links_to_detail);
+				
 				$linked_fields_alias = $this->fieldAliassForList($linked_table_meta,$lkf_id);  // Field alias for use in CSS class for each field
 				$this->assignRef('linked_fields_alias', $linked_fields_alias );
 				
@@ -220,9 +236,10 @@ class EasyTableViewEasyTableRecord extends JView
 
 
 		// Create a backlink
+		global $mainframe, $option;
         $mainframe =& JFactory::getApplication();
         $start_page = $mainframe->getUserState( "$option.start_page", 0 );
-		$backlink = "index.php?option=com_easytable&view=easytable&id=$id&start=$start_page";
+		$backlink = "index.php?option=com_easytable&view=easytable&id=$id:$easytable->easytablealias&start=$start_page";
 		$backlink = JRoute::_($backlink);
 
 		// Setup the rest of the params related to display

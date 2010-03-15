@@ -28,6 +28,7 @@
 	</params>
 	<params group="LINKED_TABLE" addpath="/administrator/components/com_easytable/elements">
 		<param name="id" type="easytable" default="" label="SELECT_TABLE" description="THE_TABLE_TO_LINK_TO_" />
+        <param name="field" type="easytable" default="" label="SELECT_FIELD" description="">
 		<param name="key_field" label="KEY_FIELD" type="text" default="" description="THE_ID_OF_THE_FIELD_IN_THIS_TABLE_USED_TO_SELECT_RECORDS_IN_THE_LINKED_TABLE_" />
 		<param name="linked_key_field" label="LINKED_KEY_FIELD" type="text" default="" description="THE_ID_OF_THE_FIELD_FROM_THE_LINKED_TABLE_TO_MATCH_TO_THE_KEY_FIELD_IN_THIS_TABLE_" />
 	</params>
