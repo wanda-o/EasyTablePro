@@ -104,7 +104,7 @@ function com_install()
 		// Must break out version function in view to a utility class - ** must setup a utility class ** doh!
 		// No doubt this will end in grief then we'll fix it but for now version is in 2 places.... time, time, oh for more time....
 		// See - the lack of time did bite you - now you're undoing the work from the last version... make more time!
-		$et_this_version = '1.0.1e';
+		$et_this_version = '1.0.1b';
 		//
 		
 		// Update the version entry in the Table comment to the current version.
