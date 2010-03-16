@@ -13,20 +13,35 @@ defined('_JEXEC') or die('Restricted Access');
  */
 function com_uninstall()
 {
+	//-- starting values
 	$no_errors = TRUE;
-	
-	//-- common images
+	//-- standard text, values & images
+	$complete_uninstall = 1;
+	$partial__uninstall = 0;
 	$img_OK = '<img src="images/publish_g.png" />';
 	$img_ERROR = '<img src="images/publish_r.png" />';
+	$BR = '<br />';
+
+	//-- common text
+	$msg = '<h1>'.JText::_( 'EASYTABLE_UN_INSTALL_PROCESS___' ).'</h1>'.$BR;
 
 	//-- OK, to make the installer aware of our translations we need to explicitly load
 	//   the components language file - this should work as the should already be copied in.
     $language = JFactory::getLanguage();
     $language->load('com_easytable');
 
-	//-- common text
-	$BR = '<br />';
-	$msg = '<h1>'.JText::_( 'EASYTABLE_UN_INSTALL_PROCESS___' ).'</h1>'.$BR;
+	//-- first step is this a complete or partial uninstall
+	$params = & JComponentHelper::getParams('com_easytable');
+	
+	if($params->get('uninstall_type') == $partial__uninstall)
+	{
+		echo $img_OK.JText::_( 'PARTIAL_UNINSTALL___SOFTWARE_ONLY_REMOVED_' ).$BR;
+		return TRUE;
+	}
+	else
+	{
+		$msg .= $img_OK.JText::_( 'COMPLETE_UNINSTALL___DATA___SOFTWARE_TO_BE_REMOVED_' ).$BR;
+	}
 
 	//--get the db object...
 	$db = & JFactory::getDBO();
