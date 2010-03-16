@@ -8,6 +8,8 @@ class EasyTableViewEasyTable extends JView
 	function display ($tpl = null)
 	{
 		global $mainframe, $option;
+		// Better breadcrumbs
+		$pathway   =& $mainframe->getPathway();
 		$id = (int) JRequest::getVar('id',0);
 		// For a better backlink - lets try this:
 		$start_page = JRequest::getVar('start',0,'','int');                 // get the start var from JPagination
@@ -40,8 +42,22 @@ class EasyTableViewEasyTable extends JView
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
 
-		$show_page_title = $params->get('show_page_title',1);
-		$page_title = $params->get('page_title',$easytable->easytablename);
+		$pathway->addItem($easytable->easytablename, 'index.php?option='.$option.'&id='.$id.'&start='.$start_page);
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		// Get the menu item object
+		$menus = &JSite::getMenu();
+		$menu  = $menus->getActive();
+
+		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'easytable' && isset($menu->query['id']) && $menu->query['id'] == $id) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	$$easytable->easytablename);
+			}
+		} else {
+			$params->set('page_title',	$easytable->easytablename);
+		}
+		$page_title = $params->get( 'page_title' );
 
         // Get the default image directory from the table.
 		$imageDir = $easytable->defaultimagedir;

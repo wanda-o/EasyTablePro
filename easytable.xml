@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTable</name>
-	<version>1.0.1c (2b7a04b)</version>
+	<version>1.0.1 (d962edb)</version>
 	<author>Craig Phillips</author>
 	<creationDate>16-Mar-2010</creationDate>
 	<copyright>Copyright (C) 2009.</copyright>
