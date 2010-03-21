@@ -50,10 +50,10 @@ class EasyTableViewEasyTable extends JView
 		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'easytable' && isset($menu->query['id']) && $menu->query['id'] == $id) {
 			$menu_params = new JParameter( $menu->params );
 			if (!$menu_params->get( 'page_title')) {
-				$params->set('page_title', $easytable->easytablename);
+				$params->set('page_title',$easytable->easytablename);
 			}
 		} else {
-			$params->set('page_title', $easytable->easytablename);
+			$params->set('page_title',$easytable->easytablename);
 		}
 		$page_title = $params->get( 'page_title' );
 
