@@ -31,16 +31,9 @@
 			<option value="0">No</option>
 		</param>
 	</params>
-<<<<<<< HEAD
-	<params group="LINKED_TABLE" addpath="/administrator/components/com_easytable/elements">
-		<param name="id" type="easytable" default="" label="SELECT_TABLE" description="THE_TABLE_TO_LINK_TO_"/>
-		<param name="key_field" type="text" default="" label="KEY_FIELD" description="THE_ID_OF_THE_FIELD_IN_THIS_TABLE_USED_TO_SELECT_RECORDS_IN_THE_LINKED_TABLE_"/>
-		<param name="linked_key_field" type="text" default="" label="LINKED_KEY_FIELD" description="THE_ID_OF_THE_FIELD_FROM_THE_LINKED_TABLE_TO_MATCH_TO_THE_KEY_FIELD_IN_THIS_TABLE_"/>
-=======
 	<params group="LINKED_TABLE" addpath="/administrator/components/com_easytablepro/elements">
 		<param name="id" type="easytable" default="" label="SELECT_TABLE" description="THE_TABLE_TO_LINK_TO_" />
 		<param name="key_field" type="easytablefields" default="" label="SELECT_FIELD" description="THE_FIELD_IN_THIS_TABLE_YOU_WANT_TO_USE_FOR_SELECTING_RECORDS_IN_THE_LINKED_TABLE_" />
 		<param name="linked_key_field" label="LINKED_KEY_FIELD" type="text" default="" description="THE_ID_OF_THE_FIELD_FROM_THE_LINKED_TABLE_TO_MATCH_TO_THE_KEY_FIELD_IN_THIS_TABLE_" />
->>>>>>> Fixed elements errors, added 'params' to meta for field options
 	</params>
 </root>
