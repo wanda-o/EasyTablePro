@@ -41,6 +41,7 @@ class EasyTableViewEasyTable extends JView
         $show_pagination = $params->get('show_pagination',0);
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
+		$show_page_title = $params->get('show_page_title',0);
 
 		$pathway->addItem($easytable->easytablename, 'index.php?option='.$option.'&id='.$id.'&start='.$start_page);
 		// because the application sets a default page title, we need to get it
@@ -52,10 +53,10 @@ class EasyTableViewEasyTable extends JView
 		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'easytable' && isset($menu->query['id']) && $menu->query['id'] == $id) {
 			$menu_params = new JParameter( $menu->params );
 			if (!$menu_params->get( 'page_title')) {
-				$params->set('page_title',	$$easytable->easytablename);
+				$params->set('page_title', $easytable->easytablename);
 			}
 		} else {
-			$params->set('page_title',	$easytable->easytablename);
+			$params->set('page_title', $easytable->easytablename);
 		}
 		$page_title = $params->get( 'page_title' );
 
