@@ -43,7 +43,16 @@
 									}
 									break;
 								case 2: // url
-									$cellData = '<a href="'.trim($f).'" target="_blank">'.trim($f).'</a>';
+									$URLTarget = 'target="_blank"';
+									if(substr($f,0,7)!='http://') {$URLTarget = '';}
+									if(substr($f,0,8)=='<a href=')
+									{
+										$cellData = $f;
+									}
+									else
+									{
+										$cellData = '<a href="'.trim($f).'" '.$URLTarget.'>'.trim($f).'</a>';
+									}
 									break;
                                 case 3: // mailto
                                     $cellData = '<a href="mailto:'.trim($f).'">'.trim($f).'</a>';

@@ -38,8 +38,15 @@
 										break;
 									case 2: // url //For fully qualified URL's starting with HTTP we open in a new window, for everything else its the same window.
 										$URLTarget = 'target="_blank"';
-										if(substr($cellData,0,7)=='http://') {$URLTarget = '';}
-										$cellData = '<a href="'.trim($f).'" '.$URLTarget.'>'.$f.'</a>';
+										if(substr($f,0,7)!='http://') {$URLTarget = '';}
+										if(substr($f,0,8)=='<a href=')
+										{
+											$cellData = $f;
+										}
+										else
+										{
+											$cellData = '<a href="'.trim($f).'" '.$URLTarget.'>'.trim($f).'</a>';
+										}
 										break;
                                     case 3: // mailto
                                         $cellData = '<a href="mailto:'.trim($f).'" >'.trim($f).'</a>';
