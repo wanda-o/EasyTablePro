@@ -1,4 +1,12 @@
-<?php defined('_JEXEC') or die ('Restricted Access'); ?>
+<?php
+/**
+ * @package     EasyTable Pro
+ * @Copyright   Copyright (C) 2010- Craig Phillips Pty Ltd.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ */
+	defined('_JEXEC') or die ('Restricted Access');
+?>
 	<table	id="<?php echo htmlspecialchars($this->linked_easytable_alias); ?>" summary="<?php echo htmlspecialchars($this->linked_easytable_description); ?>" width="100%">
 		<thead>
 			<tr>

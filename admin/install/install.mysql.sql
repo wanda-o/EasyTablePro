@@ -1,3 +1,9 @@
+/**
+ * @package     EasyTable Pro
+ * @Copyright   Copyright (C) 2010- Craig Phillips Pty Ltd.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ */
 /* Installation section */
 CREATE TABLE IF NOT EXISTS `#__easytables` (
   `id` int(11) NOT NULL auto_increment,
