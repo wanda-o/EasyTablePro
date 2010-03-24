@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTablePro</name>
-	<version>0.1.1 (9d5ba61)</version>
+	<version>0.1.1 (68cdc01)</version>
 	<author>Craig Phillips</author>
-	<creationDate>22-Mar-2010</creationDate>
+	<creationDate>24-Mar-2010</creationDate>
 	<copyright>Copyright (C) 2009.</copyright>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<description>EasyTable Pro component imports and displays tables from CSV text files.</description>
 	<installfile>install/install.easytablepro.php</installfile>
 	<uninstallfile>install/uninstall.easytablepro.php</uninstallfile>
