@@ -5,193 +5,84 @@
 *
 **/
 
-function SortableTable (tableEl, etAscending, etDescending) {
+function SortableTable (tableEl, asc, desc) {
 
 	this.tbody = tableEl.getElementsByTagName('tbody');
 	this.thead = tableEl.getElementsByTagName('thead');
 	this.tfoot = tableEl.getElementsByTagName('tfoot');
 
-// ----------------------------------------------------------------------------
-// Manipulating Class Names -> http://snippets.dzone.com/posts/show/2630
-// ----------------------------------------------------------------------------
-// HasClassName
-//
-// Description : returns boolean indicating whether the object has the class name
-//	  built with the understanding that there may be multiple classes
-//
-// Arguments:
-//	  objElement			  - element to manipulate
-//	  strClass				  - class name to add
-//
-this.HasClassName = function (objElement, strClass)
-   {
-
-   // if there is a class
-   if ( objElement.className )
-	  {
-
-	  // the classes are just a space separated list, so first get the list
-	  var arrList = objElement.className.split(' ');
-
-	  // get uppercase class for comparison purposes
-	  var strClassUpper = strClass.toUpperCase();
-
-	  // find all instances and remove them
-	  for ( var i = 0; i < arrList.length; i++ )
-		 {
-
-		 // if class found
-		 if ( arrList[i].toUpperCase() == strClassUpper )
-			{
-
-			// we found it
-			return true;
-
+	this.HasClassName = function (objElement, strClass) {
+		// if there is a class
+		if ( objElement.className ) {
+			// the classes are just a space separated list, so first get the list
+			var arrList = objElement.className.split(' ');
+			// get uppercase class for comparison purposes
+			var strClassUpper = strClass.toUpperCase();
+			// find all instances and remove them
+			for ( var i = 0; i < arrList.length; i++ ) {
+				if ( arrList[i].toUpperCase() == strClassUpper ) {
+					return true;
+				}
 			}
-
-		 }
-
-	  }
-
-   // if we got here then the class name is not there
-   return false;
-
-   }
-// 
-// HasClassName
-// ----------------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------------
-// AddClassName
-//
-// Description : adds a class to the class attribute of a DOM element
-//	  built with the understanding that there may be multiple classes
-//
-// Arguments:
-//	  objElement			  - element to manipulate
-//	  strClass				  - class name to add
-//
-this.AddClassName = function (objElement, strClass, blnMayAlreadyExist)
-   {
-
-   // if there is a class
-   if ( objElement.className )
-	  {
-
-	  // the classes are just a space separated list, so first get the list
-	  var arrList = objElement.className.split(' ');
-
-	  // if the new class name may already exist in list
-	  if ( blnMayAlreadyExist )
-		 {
-
-		 // get uppercase class for comparison purposes
-		 var strClassUpper = strClass.toUpperCase();
-
-		 // find all instances and remove them
-		 for ( var i = 0; i < arrList.length; i++ )
-			{
-
-			// if class found
-			if ( arrList[i].toUpperCase() == strClassUpper )
-			   {
-
-			   // remove array item
-			   arrList.splice(i, 1);
-
-			   // decrement loop counter as we have adjusted the array's contents
-			   i--;
-
-			   }
-
+		}
+		// if we got here then the class name is not there
+		return false;
+	}
+	
+	this.AddClassName = function (objElement, strClass, blnMayAlreadyExist) {
+		if ( objElement.className ) {
+			// the classes are just a space separated list, so first get the list
+			var arrList = objElement.className.split(' ');
+			// if the new class name may already exist in list
+			if ( blnMayAlreadyExist ) {
+				var strClassUpper = strClass.toUpperCase();
+				// find all instances and remove them
+				for ( var i = 0; i < arrList.length; i++ ) {
+					if ( arrList[i].toUpperCase() == strClassUpper ) {
+						// remove array item
+						arrList.splice(i, 1);
+						i--;
+					}
+				}
 			}
+			// add the new class to end of list
+			arrList[arrList.length] = strClass;
+		 	// add the new class to beginning of list
+			//arrList.splice(0, 0, strClass);
+		 	// assign modified class name attribute
+			objElement.className = arrList.join(' ');
+		}
+		// if there was no class
+		else {
+			// assign modified class name attribute      
+			objElement.className = strClass;
+		}
+	}
+	
+	this.RemoveClassName = function (objElement, strClass) {
+	 	// if there is a class
+		if ( objElement.className ) {
+	 		// the classes are just a space separated list, so first get the list
+			var arrList = objElement.className.split(' ');
+	 		// get uppercase class for comparison purposes
+			var strClassUpper = strClass.toUpperCase();
+	 		// find all instances and remove them
+	 		for ( var i = 0; i < arrList.length; i++ ) {
+	 			// if class found
+				if ( arrList[i].toUpperCase() == strClassUpper ) {
+	 				// remove array item
+	 				arrList.splice(i, 1);
+	 				// decrement loop counter as we have adjusted the array's contents
+	 				i--;
+	 			}
+	 		}
+	 		// assign modified class name attribute
+			objElement.className = arrList.join(' ');
+	 	}
+		// if there was no class
+		// there is nothing to remove
+	}
 
-		 }
-
-	  // add the new class to end of list
-	  arrList[arrList.length] = strClass;
-
-	  // add the new class to beginning of list
-	  //arrList.splice(0, 0, strClass);
-	  
-	  // assign modified class name attribute
-	  objElement.className = arrList.join(' ');
-
-	  }
-   // if there was no class
-   else
-	  {
-
-	  // assign modified class name attribute	   
-	  objElement.className = strClass;
-   
-	  }
-
-   }
-// 
-// AddClassName
-// ----------------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------------
-// RemoveClassName
-//
-// Description : removes a class from the class attribute of a DOM element
-//	  built with the understanding that there may be multiple classes
-//
-// Arguments:
-//	  objElement			  - element to manipulate
-//	  strClass				  - class name to remove
-//
-this.RemoveClassName = function (objElement, strClass)
-   {
-
-   // if there is a class
-   if ( objElement.className )
-	  {
-
-	  // the classes are just a space separated list, so first get the list
-	  var arrList = objElement.className.split(' ');
-
-	  // get uppercase class for comparison purposes
-	  var strClassUpper = strClass.toUpperCase();
-
-	  // find all instances and remove them
-	  for ( var i = 0; i < arrList.length; i++ )
-		 {
-
-		 // if class found
-		 if ( arrList[i].toUpperCase() == strClassUpper )
-			{
-
-			// remove array item
-			arrList.splice(i, 1);
-
-			// decrement loop counter as we have adjusted the array's contents
-			i--;
-
-			}
-
-		 }
-
-	  // assign modified class name attribute
-	  objElement.className = arrList.join(' ');
-
-	  }
-   // if there was no class
-   // there is nothing to remove
-
-   }
-// 
-// RemoveClassName
-// ----------------------------------------------------------------------------
-
-//
-// SortableTable begins here - changes are commented
-// - includes modifications to support classes for header cells to show ascending/descending sort in action
-// - addition & removal of classes without affecting the existing classes
-//
 	this.getInnerText = function (el) {
 		if (typeof(el.textContent) != 'undefined') return el.textContent;
 		if (typeof(el.innerText) != 'undefined') return el.innerText;
@@ -207,8 +98,8 @@ this.RemoveClassName = function (objElement, strClass)
 	}
 
 	this.sort = function (cell) {
-		var column = cell.cellIndex;
-		var itm = this.getInnerText(this.tbody[0].rows[1].cells[column]);
+	    var column = cell.cellIndex;
+	    var itm = this.getInnerText(this.tbody[0].rows[1].cells[column]);
 		var sortfn = this.sortCaseInsensitive;
 
 		if (itm.match(/\d\d[-]+\d\d[-]+\d\d\d\d/)) sortfn = this.sortDate; // date format mm-dd-yyyy
@@ -216,8 +107,8 @@ this.RemoveClassName = function (objElement, strClass)
 
 		this.sortColumnIndex = column;
 
-		var newRows = new Array();
-		for (j = 0; j < this.tbody[0].rows.length; j++) {
+	    var newRows = new Array();
+	    for (j = 0; j < this.tbody[0].rows.length; j++) {
 			newRows[j] = this.tbody[0].rows[j];
 		}
 
@@ -225,15 +116,14 @@ this.RemoveClassName = function (objElement, strClass)
 		
 		for (var i=0; i<sortRow.cells.length; i++) {
 			var jpr_cell = sortRow.cells[i]
-			// Changes to add/remove classes to table headers, rather than set them.
-			if ( etAscending != null ) {
-				if (this.HasClassName(jpr_cell, etAscending)) {
-					this.RemoveClassName(jpr_cell, etAscending);
+			if ( asc != null ) {
+				if (this.HasClassName(jpr_cell, asc)) {
+					this.RemoveClassName(jpr_cell, asc);
 				}
 			}
-			if ( etDescending != null ) {
-				if (this.HasClassName(jpr_cell, etDescending)) {
-					this.RemoveClassName(jpr_cell, etDescending);
+			if ( desc != null ) {
+				if (this.HasClassName(jpr_cell, desc)) {
+					this.RemoveClassName(jpr_cell, desc);
 				}
 			}
 		}
@@ -241,25 +131,23 @@ this.RemoveClassName = function (objElement, strClass)
 		if (cell.getAttribute("sortdir") == 'down') {
 			newRows.reverse();
 			cell.setAttribute('sortdir','up');
-			// Changes to add/remove classes to table headers, rather than set them.
-			if ( etAscending != null ) {
-				if (this.HasClassName(cell, etAscending)) {
-					this.RemoveClassName(cell, etAscending);
+			if ( asc != null ) {
+				if (this.HasClassName(cell, asc)) {
+					this.RemoveClassName(cell, asc);
 				}
 			}
-			if ( etDescending != null ) {
-				this.AddClassName(cell, etDescending, true);
+			if ( desc != null ) {
+				this.AddClassName(cell, desc, true);
 			}
 		} else {
 			cell.setAttribute('sortdir','down');
-			// Changes to add/remove classes to table headers, rather than set them.
-			if ( etDescending != null ) {
-				if (this.HasClassName(cell, etDescending)) {
-					this.RemoveClassName(cell, etDescending);
+			if ( desc != null ) {
+				if (this.HasClassName(cell, desc)) {
+					this.RemoveClassName(cell, desc);
 				}
 			}
-			if ( etAscending != null ) {
-				this.AddClassName(cell, etAscending, true);
+			if ( asc != null ) {
+				this.AddClassName(cell, asc, true);
 			}
 		}
 
