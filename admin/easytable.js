@@ -1,3 +1,10 @@
+/*
+ * @package     EasyTable Pro
+ * @Copyright   Copyright (C) 2010- Craig Phillips Pty Ltd.
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+*/
+
 function toggleTick (tFieldName, tRow, tImgSuffix) {
 	if(arguments[2] == null) {
 		tImgSuffix = '_img';
