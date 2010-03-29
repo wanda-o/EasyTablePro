@@ -28,6 +28,10 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+		<param name="make_tables_sortable" type="radio" default="0" label="MAKE_TABLES_SORTABLE" description="WHEN_SET_TO_YES__WILL_MAKE_THE_TABLE_SORTABLE_BY_CLICK_COLUMN_HEADINGS_">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="uninstall_type" type="radio" default="0" label="UNINSTALL_TYPE" description="WHEN_UNINSTALLING">
 			<option value="1">COMPLETE__COMPONENT___DATA_TABLES_</option>

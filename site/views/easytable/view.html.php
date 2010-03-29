@@ -67,6 +67,13 @@ class EasyTableViewEasyTable extends JView
 		// Get the default image directory from the table.
 		$imageDir = $easytable->defaultimagedir;
 
+		//If required get the document and load the js for table sorting
+		$SortableTable = $params->get ( 'make_tables_sortable' );
+		if( $SortableTable ) {
+			$doc =& JFactory::getDocument();
+			$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'webtoolkit.sortabletable.js');
+		}
+
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
@@ -120,6 +127,8 @@ class EasyTableViewEasyTable extends JView
 		$this->assign('show_page_title', $show_page_title);
 		$this->assign('page_title', $page_title);
 		$this->assign('pageclass_sfx',$pageclass_sfx);
+		
+		$this->assign('SortableTable', $SortableTable);
 
 		$this->assign('tableId', $id);
 		$this->assign('imageDir', $imageDir);

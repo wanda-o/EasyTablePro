@@ -89,6 +89,11 @@
 			?>
 		</tbody>
 	</table>
+	<?php if( $this->SortableTable ) { ?>
+	<script type="text/javascript">
+		var t = new SortableTable(document.getElementById('<?php echo htmlspecialchars($this->easytable->easytablealias); ?>'), 'etAscending', 'etDescending');
+	</script>
+	<?php } ?>
 	<input type="hidden" value="0" name="limitstart"/>
 	</form>
 </div>
