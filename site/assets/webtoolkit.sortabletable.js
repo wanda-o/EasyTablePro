@@ -23,7 +23,7 @@ function SortableTable (tableEl, etAscending, etDescending) {
 //	  objElement			  - element to manipulate
 //	  strClass				  - class name to add
 //
-function HasClassName(objElement, strClass)
+this.HasClassName = function (objElement, strClass)
    {
 
    // if there is a class
@@ -72,7 +72,7 @@ function HasClassName(objElement, strClass)
 //	  objElement			  - element to manipulate
 //	  strClass				  - class name to add
 //
-function AddClassName(objElement, strClass, blnMayAlreadyExist)
+this.AddClassName = function (objElement, strClass, blnMayAlreadyExist)
    {
 
    // if there is a class
@@ -144,7 +144,7 @@ function AddClassName(objElement, strClass, blnMayAlreadyExist)
 //	  objElement			  - element to manipulate
 //	  strClass				  - class name to remove
 //
-function RemoveClassName(objElement, strClass)
+this.RemoveClassName = function (objElement, strClass)
    {
 
    // if there is a class
@@ -249,8 +249,8 @@ function RemoveClassName(objElement, strClass)
 					this.RemoveClassName(cell, etDescending);
 				}
 			}
-			if ( asc != null ) {
-				this.AddClassName(cell, asc, true);
+			if ( etAscending != null ) {
+				this.AddClassName(cell, etAscending, true);
 			}
 		}
 
