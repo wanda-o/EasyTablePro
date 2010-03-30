@@ -30,11 +30,6 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="make_tables_sortable" label="MAKE_TABLES_SORTABLE" type="list" default="" description="WHEN_SET_TO_YES__WILL_MAKE_THE_TABLE_SORTABLE_BY_CLICK_COLUMN_HEADINGS_">
-			<option selected="selected" value="">Use Global</option>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</param>
 	</params>
 	<params group="LINKED_TABLE" addpath="/administrator/components/com_easytablepro/elements">
 		<param name="id" type="easytable" default="" label="SELECT_TABLE" description="THE_TABLE_TO_LINK_TO_" />
