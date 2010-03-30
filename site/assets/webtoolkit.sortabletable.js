@@ -17,41 +17,41 @@ function SortableTable (tableEl, etAscending, etDescending) {
 // HasClassName
 //
 // Description : returns boolean indicating whether the object has the class name
-//    built with the understanding that there may be multiple classes
+//	  built with the understanding that there may be multiple classes
 //
 // Arguments:
-//    objElement              - element to manipulate
-//    strClass                - class name to add
+//	  objElement			  - element to manipulate
+//	  strClass				  - class name to add
 //
 function HasClassName(objElement, strClass)
    {
 
    // if there is a class
    if ( objElement.className )
-      {
+	  {
 
-      // the classes are just a space separated list, so first get the list
-      var arrList = objElement.className.split(' ');
+	  // the classes are just a space separated list, so first get the list
+	  var arrList = objElement.className.split(' ');
 
-      // get uppercase class for comparison purposes
-      var strClassUpper = strClass.toUpperCase();
+	  // get uppercase class for comparison purposes
+	  var strClassUpper = strClass.toUpperCase();
 
-      // find all instances and remove them
-      for ( var i = 0; i < arrList.length; i++ )
-         {
+	  // find all instances and remove them
+	  for ( var i = 0; i < arrList.length; i++ )
+		 {
 
-         // if class found
-         if ( arrList[i].toUpperCase() == strClassUpper )
-            {
+		 // if class found
+		 if ( arrList[i].toUpperCase() == strClassUpper )
+			{
 
-            // we found it
-            return true;
+			// we found it
+			return true;
 
-            }
+			}
 
-         }
+		 }
 
-      }
+	  }
 
    // if we got here then the class name is not there
    return false;
@@ -66,67 +66,67 @@ function HasClassName(objElement, strClass)
 // AddClassName
 //
 // Description : adds a class to the class attribute of a DOM element
-//    built with the understanding that there may be multiple classes
+//	  built with the understanding that there may be multiple classes
 //
 // Arguments:
-//    objElement              - element to manipulate
-//    strClass                - class name to add
+//	  objElement			  - element to manipulate
+//	  strClass				  - class name to add
 //
 function AddClassName(objElement, strClass, blnMayAlreadyExist)
    {
 
    // if there is a class
    if ( objElement.className )
-      {
+	  {
 
-      // the classes are just a space separated list, so first get the list
-      var arrList = objElement.className.split(' ');
+	  // the classes are just a space separated list, so first get the list
+	  var arrList = objElement.className.split(' ');
 
-      // if the new class name may already exist in list
-      if ( blnMayAlreadyExist )
-         {
+	  // if the new class name may already exist in list
+	  if ( blnMayAlreadyExist )
+		 {
 
-         // get uppercase class for comparison purposes
-         var strClassUpper = strClass.toUpperCase();
+		 // get uppercase class for comparison purposes
+		 var strClassUpper = strClass.toUpperCase();
 
-         // find all instances and remove them
-         for ( var i = 0; i < arrList.length; i++ )
-            {
+		 // find all instances and remove them
+		 for ( var i = 0; i < arrList.length; i++ )
+			{
 
-            // if class found
-            if ( arrList[i].toUpperCase() == strClassUpper )
-               {
+			// if class found
+			if ( arrList[i].toUpperCase() == strClassUpper )
+			   {
 
-               // remove array item
-               arrList.splice(i, 1);
+			   // remove array item
+			   arrList.splice(i, 1);
 
-               // decrement loop counter as we have adjusted the array's contents
-               i--;
+			   // decrement loop counter as we have adjusted the array's contents
+			   i--;
 
-               }
+			   }
 
-            }
+			}
 
-         }
+		 }
 
-      // add the new class to end of list
-      arrList[arrList.length] = strClass;
+	  // add the new class to end of list
+	  arrList[arrList.length] = strClass;
 
-      // add the new class to beginning of list
-      //arrList.splice(0, 0, strClass);
-      
-      // assign modified class name attribute
-      objElement.className = arrList.join(' ');
+	  // add the new class to beginning of list
+	  //arrList.splice(0, 0, strClass);
+	  
+	  // assign modified class name attribute
+	  objElement.className = arrList.join(' ');
 
-      }
+	  }
    // if there was no class
    else
-      {
+	  {
 
-      // assign modified class name attribute      
-      objElement.className = strClass;
+	  // assign modified class name attribute	   
+	  objElement.className = strClass;
    
-      }
+	  }
 
    }
 // 
@@ -138,47 +138,47 @@ function AddClassName(objElement, strClass, blnMayAlreadyExist)
 // RemoveClassName
 //
 // Description : removes a class from the class attribute of a DOM element
-//    built with the understanding that there may be multiple classes
+//	  built with the understanding that there may be multiple classes
 //
 // Arguments:
-//    objElement              - element to manipulate
-//    strClass                - class name to remove
+//	  objElement			  - element to manipulate
+//	  strClass				  - class name to remove
 //
 function RemoveClassName(objElement, strClass)
    {
 
    // if there is a class
    if ( objElement.className )
-      {
+	  {
 
-      // the classes are just a space separated list, so first get the list
-      var arrList = objElement.className.split(' ');
+	  // the classes are just a space separated list, so first get the list
+	  var arrList = objElement.className.split(' ');
 
-      // get uppercase class for comparison purposes
-      var strClassUpper = strClass.toUpperCase();
+	  // get uppercase class for comparison purposes
+	  var strClassUpper = strClass.toUpperCase();
 
-      // find all instances and remove them
-      for ( var i = 0; i < arrList.length; i++ )
-         {
+	  // find all instances and remove them
+	  for ( var i = 0; i < arrList.length; i++ )
+		 {
 
-         // if class found
-         if ( arrList[i].toUpperCase() == strClassUpper )
-            {
+		 // if class found
+		 if ( arrList[i].toUpperCase() == strClassUpper )
+			{
 
-            // remove array item
-            arrList.splice(i, 1);
+			// remove array item
+			arrList.splice(i, 1);
 
-            // decrement loop counter as we have adjusted the array's contents
-            i--;
+			// decrement loop counter as we have adjusted the array's contents
+			i--;
 
-            }
+			}
 
-         }
+		 }
 
-      // assign modified class name attribute
-      objElement.className = arrList.join(' ');
+	  // assign modified class name attribute
+	  objElement.className = arrList.join(' ');
 
-      }
+	  }
    // if there was no class
    // there is nothing to remove
 
@@ -201,8 +201,8 @@ function RemoveClassName(objElement, strClass)
 	}
 
 	this.sort = function (cell) {
-	    var column = cell.cellIndex;
-	    var itm = this.getInnerText(this.tbody[0].rows[1].cells[column]);
+		var column = cell.cellIndex;
+		var itm = this.getInnerText(this.tbody[0].rows[1].cells[column]);
 		var sortfn = this.sortCaseInsensitive;
 
 		if (itm.match(/\d\d[-]+\d\d[-]+\d\d\d\d/)) sortfn = this.sortDate; // date format mm-dd-yyyy
@@ -210,8 +210,8 @@ function RemoveClassName(objElement, strClass)
 
 		this.sortColumnIndex = column;
 
-	    var newRows = new Array();
-	    for (j = 0; j < this.tbody[0].rows.length; j++) {
+		var newRows = new Array();
+		for (j = 0; j < this.tbody[0].rows.length; j++) {
 			newRows[j] = this.tbody[0].rows[j];
 		}
 
