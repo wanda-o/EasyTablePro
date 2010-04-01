@@ -12,11 +12,11 @@
 	<form name="adminForm" method="post" action="<?php echo $this->paginationLink ?>">
 	<div class="et_search_pagination">
 		<?php
-			if( $this->show_search ) // If search is enabled for this table, show the search box.
+			if( $this->show_search && $this->etmCount) // If search is enabled for this table, show the search box.
 			{
 				echo JText::_( 'SEARCH' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">'.JText::_( 'GO' ).'</button>';
 			}
-            if( $this->show_pagination ) // If pagination is enabled show the controls
+            if( $this->show_pagination && $this->etmCount) // If pagination is enabled show the controls
             {
                 echo $this->pagination->getPagesLinks();
                 echo $this->pagination->getLimitBox().' ( '.$this->pagination->getPagesCounter().' )';

@@ -73,29 +73,35 @@ class EasyTableViewEasyTable extends JView
 		$db->setQuery($query);
 		
 		$easytables_table_meta = $db->loadRowList();
-		$etmCount = count($easytables_table_meta);
+		$etmCount = count($easytables_table_meta); //Make sure at least 1 field is set to display
 		
-		// Get paginated table data
-        if($show_pagination)
-        {
-            $paginatedRecords =& $this->get('data');
-        }
-        else
-        {
-            $paginatedRecords =& $this->get('alldata');
-        }
-/*        echo('<BR />Paginated Records Array = ');
-        print_r($paginatedRecords);*/
+		if($etmCount)  //Make sure at least 1 field is set to display
+		{
+			// Get paginated table data
+			if($show_pagination)
+			{
+				$paginatedRecords =& $this->get('data');
+			}
+			else
+			{
+				$paginatedRecords =& $this->get('alldata');
+			}
+
+			// Get pagination object
+			$pagination = false;
+			if($show_pagination) {
+				$pagination =& $this->get('pagination');
+				//echo('<BR />Pagination Array = '.print_r($pagination));
+			}
+		}
+		else
+		{
+			$easytables_table_meta = array(array("Warning EasyTable List View Empty","","","",""));
+			$paginatedRecords = array(array("id" => 0, "Message" => "No fields selceted to display in list view for this table"));
+		}
 
 		// Search
 		$search = $db->getEscaped($this->get('search'));
-
-		// Get pagination object
-		$pagination = false;
-        if($show_pagination) {
-            $pagination =& $this->get('pagination');
-            //echo('<BR />Pagination Array = '.print_r($pagination));
-        }
         //Get form link
         $paginationLink = JRoute::_('index.php?option=com_easytable&view=easytable&id='.$id.':'.$easytable->easytablealias);
 
