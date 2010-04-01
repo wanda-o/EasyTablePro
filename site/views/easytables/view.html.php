@@ -27,13 +27,12 @@ class EasyTableViewEasyTables extends JView
 	{
 		global $mainframe;
 		
-		
-		$rows = & $this->get('data');
-		
 		$params =& $mainframe->getParams();
 		$show_description = $params->get('show_description',0);
 		$page_title = $params->get('page_title','Easy Tables');
 		$show_page_title = $params->get('show_page_title',1);
+		$sortOrder = (int) JRequest::getVar('table_list_sort_order',0);
+		$rows = & $this->get('dataSort'.$sortOrder);
 		
 		$this->assignRef('rows', $rows);
 		$this->assign('show_description', $show_description);
