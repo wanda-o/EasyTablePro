@@ -168,7 +168,7 @@ class EasyTableModelEasyTable extends JModel
 
 			$limit = $this->getState('limit');
 
-			if(!$limit)
+			if(($limit != 0) && empty($limit))
 			{
 				// echo '<BR />No limit in JRequest, defaulting to site Cfg: ';
 				$limit = $mainframe->getCfg('list_limit');
