@@ -162,7 +162,7 @@ class EasyTableModelEasyTable extends JModel
 	function &getPagination ()
 	{
 		
-		if(!$this->_pagination)
+		if(empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
 			global $mainframe;
@@ -207,7 +207,7 @@ class EasyTableModelEasyTable extends JModel
                 {
                     $this->_data = $this->_getList($query, $pagination->limitstart, $pagination->limit);
                 } else {
-                    $this->_data = $this->_getList($query, 0, 100000000);
+                    $this->_data = $this->_getList($query, 0, 0);
                 }
 				//echo '<BR />getData() = '.$this->_data.'<BR />';
 				//echo '<BR />'.print_r($this->_data);
