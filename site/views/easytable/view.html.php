@@ -42,6 +42,7 @@ class EasyTableViewEasyTable extends JView
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
 		$show_page_title = $params->get('show_page_title',0);
+		$pageclass_sfx = $params->get('pageclass_sfx','');
 
 		$pathway->addItem($easytable->easytablename, 'index.php?option='.$option.'&id='.$id.'&start='.$start_page);
 		// because the application sets a default page title, we need to get it
@@ -117,6 +118,7 @@ class EasyTableViewEasyTable extends JView
 
 		$this->assign('show_page_title', $show_page_title);
 		$this->assign('page_title', $page_title);
+		$this->assign('pageclass_sfx',$pageclass_sfx);
 
 		$this->assign('tableId', $id);
 		$this->assign('imageDir', $imageDir);

@@ -7,6 +7,7 @@
 
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
+echo '<div class="contentpaneopen'.$this->pageclass_sfx.'" id="et_list_page">';
 
 if($this->show_page_title) {
     echo '<div class="componentheading">'.$this->page_title.'</div>';
@@ -26,3 +27,4 @@ if($this->show_page_title) {
    }
 ?>
 </ul>
+</div>

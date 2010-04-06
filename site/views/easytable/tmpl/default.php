@@ -1,7 +1,9 @@
 <?php defined('_JEXEC') or die ('Restricted Access'); ?>
 <?php
+	echo '<div class="contentpaneopen'.$this->pageclass_sfx.' />';
+
     if($this->show_page_title) {
-        echo '<h2 class="contentheading">'.htmlspecialchars($this->page_title).'</h2>';
+        echo '<h2 class="contentheading'.$this->pageclass_sfx.'">'.htmlspecialchars($this->page_title).'</h2>';
     }
 ?>
 <?php echo ($this->show_created_date ? '<p class="createdate">'.htmlspecialchars($this->easytable->created_).'</p>' : '') ?>
@@ -109,3 +111,4 @@
 	<input type="hidden" value="0" name="limitstart"/>
 	</form>
 </div>
+</div> <!-- contentpaneclosed -->

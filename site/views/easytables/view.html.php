@@ -31,6 +31,7 @@ class EasyTableViewEasyTables extends JView
 		$show_description = $params->get('show_description',0);
 		$page_title = $params->get('page_title','Easy Tables');
 		$show_page_title = $params->get('show_page_title',1);
+		$pageclass_sfx = $params->get('pageclass_sfx','');
 		$sortOrder = (int) JRequest::getVar('table_list_sort_order',0);
 		$rows = & $this->get('dataSort'.$sortOrder);
 		
@@ -38,6 +39,8 @@ class EasyTableViewEasyTables extends JView
 		$this->assign('show_description', $show_description);
 		$this->assign('page_title', $page_title);
 		$this->assign('show_page_title', $show_page_title);
+
+		$this->assign('pageclass_sfx',$pageclass_sfx);
 
 		parent::display($tpl);
 	}

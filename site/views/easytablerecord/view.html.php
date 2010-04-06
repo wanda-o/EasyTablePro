@@ -247,12 +247,16 @@ class EasyTableViewEasyTableRecord extends JView
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
 
+		$pageclass_sfx = $params->get('pageclass_sfx','');
+
 		
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);
 		$this->assign('show_created_date', $show_created_date);
 		$this->assign('show_modified_date', $show_modified_date);
 		$this->assign('linked_table', $lt_id);
+
+		$this->assign('pageclass_sfx',$pageclass_sfx);
 
 		$this->assign('tableId', $id);
 		$this->assignRef('imageDir', $imageDir);
