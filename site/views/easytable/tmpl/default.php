@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die ('Restricted Access'); ?>
 <?php
-	echo '<div class="contentpaneopen'.$this->pageclass_sfx.' />';
+	echo '<div class="contentpaneopen'.$this->pageclass_sfx.'" >';
 
     if($this->show_page_title) {
         echo '<h2 class="contentheading'.$this->pageclass_sfx.'">'.htmlspecialchars($this->page_title).'</h2>';
