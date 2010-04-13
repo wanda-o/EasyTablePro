@@ -34,7 +34,7 @@ class EasyTableViewEasyTables extends JView
 		$pageclass_sfx = $params->get('pageclass_sfx','');
 		$sortOrder = (int) JRequest::getVar('table_list_sort_order',0);
 		$rows = & $this->get('dataSort'.$sortOrder);
-		
+
 		$this->assignRef('rows', $rows);
 		$this->assign('show_description', $show_description);
 		$this->assign('page_title', $page_title);

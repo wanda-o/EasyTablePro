@@ -41,7 +41,7 @@ class EasyTableModelEasyTables extends JModel
 			case 4:
 				$theSortSQL = 'modified_ ASC';
 				break;
-			case 4:
+			case 5:
 				$theSortSQL = 'modified_ DESC';
 				break;
 			case 0:

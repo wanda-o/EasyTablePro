@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTable</name>
-	<version>1.0.3a (0d13d1c)</version>
+	<version>1.0.3b (66f0ec1)</version>
 	<author>Craig Phillips</author>
-	<creationDate>09-Apr-2010</creationDate>
+	<creationDate>13-Apr-2010</creationDate>
 	<copyright>Copyright (C) 2009.</copyright>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
