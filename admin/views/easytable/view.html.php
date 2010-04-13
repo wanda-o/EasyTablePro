@@ -89,6 +89,8 @@ class EasyTableViewEasyTable extends JView
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
 		$doc->addScript(JURI::base().'components'.DS.'com_easytable'.DS.'easytable.js');
+
+		JRequest::setVar( 'hidemainmenu', 1 );
 		
 		//get the EasyTable
 		$row =& JTable::getInstance('EasyTable', 'Table');
