@@ -22,7 +22,7 @@
 			$db =& JFactory::getDBO();
 			$result ='';
 
-			if(($name == 'key_field') || ($name == 'sort_field'))
+			if(($name == 'key_field') || ($name == 'sort_field') || ($name == 'filter_field'))
 			{
 				global $et_current_table_id;
 				$id = $et_current_table_id;
