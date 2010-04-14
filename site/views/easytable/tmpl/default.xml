@@ -16,11 +16,11 @@
 				<option value="DESC">DESCENDING</option>
 			</param>
 			<param name="filter_field" type="easytablefields" default="" label="SELECT_FILTER_FIELD" description="SELECT_FILTER_FIELD_DESC" />
-			<param name="filter_value" type="text" default="" label="ENTER_FILTER_VALUE" description="ENTER_FILTER_VALUE_DESC" />
 			<param name="filter_type" type="list" default="" label="SELECT_FILTER_TYPE" description="SELECT_FILTER_TYPE_DESC">
 				<option value="LIKE">CONTAINS</option>
 				<option value="IS">IS</option>
 			</param>
+			<param name="filter_value" type="text" default="" label="ENTER_FILTER_VALUE" description="ENTER_FILTER_VALUE_DESC" />
 		</url>
 	</state>
 </metadata>
