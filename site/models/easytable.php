@@ -33,11 +33,14 @@ class EasyTableModelEasyTable extends JModel
 		if(!$this->_search_query)
 		{
 			$id = (int) JRequest::getVar('id',0);
-	
+			$ofid = (int) JRequest::getVar('sort_field',0);
+
 			if($id)
 			{
 				$search = $this->getSearch($id);             // Gets the search string...
 				$fields = $this->getFieldMeta($id);          // Gets the alias of all fields in the list view
+				$orderField = $this->getOrderFieldMeta($id,$ofid);
+				
 				$searchFields = $this->getSearchFields($id); // Gets the alias of all text fields in table (URL & Image values are not searched)
 						
 				// As a default get the table data for this table
@@ -62,6 +65,10 @@ class EasyTableModelEasyTable extends JModel
 				else
 				{ /* echo '<BR />$search is empty -> '.$search.' <-';*/ }
 				// echo '<BR />'.$this->_search_query;
+				
+				// Append the field to order by:
+				$newSearch .= ' order by '.$orderField;
+
 				$this->_search_query = $newSearch;
 			}
 			else
@@ -103,7 +110,7 @@ class EasyTableModelEasyTable extends JModel
 	 */
 	 function &getFieldMeta($id)
 	 {
-	 		// Get a database object
+			// Get a database object
 			$db =& JFactory::getDBO();
 			if(!$db){
 				JError::raiseError(500,"Couldn't get the database object while getFieldMeta() of EasyTable id: $id");
@@ -118,6 +125,33 @@ class EasyTableModelEasyTable extends JModel
 			$fields = implode('`, `',$fields);
 			// echo '<BR />$fields == '.$fields;
 			return($fields);
+	 }
+
+	/**
+	 * Get fieldalias for the order by field
+	 */
+	 function &getOrderFieldMeta($id, $ofid)
+	 {
+			$orderField = 'id'; // if there is no ofid then the original import order will result.
+
+			if($ofid) {
+				// Get a database object
+				$db =& JFactory::getDBO();
+				if(!$db){
+					JError::raiseError(500,"Couldn't get the database object while getFieldMeta() of EasyTable id: $id");
+				}
+				// Get the field names for this table
+				
+				$query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' AND id = '$ofid';";
+//				echo $query.'<BR />';
+				$db->setQuery($query);
+
+				$orderField = $db->loadResult();
+/*				print_r ( $orderField );
+				echo '<BR />$orderField = '.$orderField.'<BR />';*/
+			}
+
+			return($orderField);
 	 }
 	 
 	 /**
