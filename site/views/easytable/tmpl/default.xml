@@ -10,6 +10,7 @@
 		<description>SHOWS_THE_SELECTED_TABLE_</description>
 		<url addpath="/administrator/components/com_easytablepro/elements">
 			<param name="id" type="easytable" default="" label="SELECT_TABLE" description="THE_TABLE_TO_LINK_TO_" />
+			<param name="sort_field" type="easytablefields" default="" label="SELECT_SORT_FIELD" description="SELECT_SORT_FIELD_DESC" />
 		</url>
 	</state>
 </metadata>
