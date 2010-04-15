@@ -69,16 +69,23 @@ class ET_VHelper
 	{
 		//For fully qualified URL's starting with HTTP we open in a new window, for everything else its the same window.
 		$URLTarget = 'target="_blank"'; 
-		if(substr($f,0,7)=='http://') {$URLTarget = '';}
+		if(substr($f,0,7)!='http://') {$URLTarget = '';}
 
 		$fieldWithOptions = '';
-		if(empty($fieldOptions))
+		if(substr($f,0,8)=='<a href=') // Fully formed URL provided by CSV - owners responsibility
 		{
-			$fieldWithOptions = '<a href="'.trim($f).'" '.$URLTarget.'>'.$f.'</a>';
+			$fieldWithOptions = $f;
 		}
 		else
 		{
-			$fieldWithOptions = '<a href="'.trim($f).'" '.$URLTarget.'>'.$fieldOptions.'</a>';
+			if(empty($fieldOptions))
+			{
+				$fieldWithOptions = '<a href="'.trim($f).'" '.$URLTarget.'>'.$f.'</a>';
+			}
+			else
+			{
+				$fieldWithOptions = '<a href="'.trim($f).'" '.$URLTarget.'>'.$fieldOptions.'</a>';
+			}
 		}
 
 		return $fieldWithOptions;
