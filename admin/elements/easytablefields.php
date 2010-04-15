@@ -36,11 +36,18 @@
 						$menuId = $menuIdArray[0];
 						$menu       =& JMenu::getInstance('site');
 						$menuItem =& $menu->getItem($menuId);
-						$link = $menuItem->link;
-						$urlQry = parse_url ( $link, PHP_URL_QUERY );
-						$urlQryArray = explode ( '&',$urlQry );
-						$idArray = explode( '=', $urlQryArray[2] );
-						$id = $idArray[1];
+						if($menuItem) {
+							$link = $menuItem->link;
+							$urlQry = parse_url ( $link, PHP_URL_QUERY );	// get just the qry section of the link
+							parse_str ($urlQry, $linkparts);				// convert it to an array
+							// echo 'ID from linkparts = '.$linkparts['id'].'<BR />';
+	
+							$id = (int) isset($linkparts['id'])?$linkparts['id']:0;
+						}
+						else
+						{
+							$id = 0;
+						}
 					}
 				}
 
@@ -58,7 +65,7 @@
 				}
 				else
 				{
-					$result = "Couldn't retreive table - ID = $id";
+					$result = "A Table must be selected before you can use these settings.";
 				}
 			}
 
