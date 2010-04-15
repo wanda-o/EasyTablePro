@@ -32,24 +32,60 @@ class EasyTableModelEasyTable extends JModel
 	{
 		if(!$this->_search_query)
 		{
-			$id = (int) JRequest::getVar('id',0);
-			$ofid = (int) JRequest::getVar('sort_field',0);
+			// Get the current menu settings
+			jimport( 'joomla.application.menu' );
+			$menu     =& JMenu::getInstance('site');
+			$menuItem =& $menu->getActive();
+			$link     = $menuItem->link;					// get the menu link
+			$urlQry   = parse_url ( $link, PHP_URL_QUERY );	// extract just the qry section
+			parse_str ( $urlQry,  $linkparts );				// convert it to an array 
 
+			// Get menu/request values.
+			$id = (int) isset($linkparts['id'])?$linkparts['id']:JRequest::getVar('id',0);
+			$ofid = isset($linkparts['sort_field'])?$linkparts['sort_field']:0;
+			$ofdir = isset($linkparts['sort_order'])?$linkparts['sort_order']:'ASC';
+			$ffid = isset($linkparts['filter_field'])?$linkparts['filter_field']:0;
+			$fvtext = isset($linkparts['filter_value'])?$linkparts['filter_value']:'';
+			$ftype = isset($linkparts['filter_type'])?$linkparts['sort_field']:0;
+
+			// Start building the SQL statement
 			if($id)
 			{
-				$search = $this->getSearch($id);             // Gets the search string...
+				$search = $this->getSearch($id);             // Gets the USER search string...
 				$fields = $this->getFieldMeta($id);          // Gets the alias of all fields in the list view
-				$orderField = $this->getOrderFieldMeta($id,$ofid);
+				$orderField = $this->getOrderFieldMeta($id, $ofid);
 				
 				$searchFields = $this->getSearchFields($id); // Gets the alias of all text fields in table (URL & Image values are not searched)
 						
 				// As a default get the table data for this table
 				$newSearch = "SELECT `id`, `".$fields."` FROM #__easytables_table_data_$id";  // If there is no search parameter this will return the list view fields of all records
 
+				if(($ffid) || ($search != '')) { // If theres a filter or user search text we will need to add a where clause.
+					$newSearch .= ' WHERE ';
+				}
+
+				// Create the Filter Search
+				if($ffid) {
+					$ffname = $this->getFieldName($id, $ffid);
+					
+					$filterSearch = '( '.$ffname;
+					
+					if($ftype == 'LIKE') {
+						$filterSearch .= " like '%".$fvtext."%' )";
+					}
+					else // treat anything else as IS
+					{
+						$filterSearch .= "= '".$fvtext."' )";
+					}
+					if($search != '') { $filterSearch .= ' AND '; } // If there is user search text append an AND
+
+					$newSearch .= $filterSearch;
+				}
+
+				// Create the user search component
 				if($search != '')
 				{
-					// echo '<BR />$search == '.$search;
-					// Build the WHERE part of the query using the search parameter.
+					// Build the part of the query using the search parameter.
 					$searchFields = $this->getSearchFields($id);
 					$where = array();
 					$search = $this->_db->getEscaped( $search, TRUE );
@@ -58,16 +94,14 @@ class EasyTableModelEasyTable extends JModel
 					{
 						$where[] = '`'.$field. "` LIKE '%{$search}%'";
 					}
-					$newSearch .= ' WHERE ' . implode(' OR ', $where);
+					$userSearch = ' ( '. implode(' OR ', $where).' ) ';
 					
-					// echo '<BR />$newSearch: '.$newSearch;
+					$newSearch .= $userSearch;
 				}
-				else
-				{ /* echo '<BR />$search is empty -> '.$search.' <-';*/ }
-				// echo '<BR />'.$this->_search_query;
-				
+
 				// Append the field to order by:
-				$newSearch .= ' order by '.$orderField;
+				$newSearch .= ' order by `'.$orderField.'` '.$ofdir;
+				// echo $newSearch.'<BR />';
 
 				$this->_search_query = $newSearch;
 			}
@@ -133,25 +167,30 @@ class EasyTableModelEasyTable extends JModel
 	 function &getOrderFieldMeta($id, $ofid)
 	 {
 			$orderField = 'id'; // if there is no ofid then the original import order will result.
-
-			if($ofid) {
-				// Get a database object
-				$db =& JFactory::getDBO();
-				if(!$db){
-					JError::raiseError(500,"Couldn't get the database object while getFieldMeta() of EasyTable id: $id");
-				}
-				// Get the field names for this table
-				
-				$query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' AND id = '$ofid';";
-//				echo $query.'<BR />';
-				$db->setQuery($query);
-
-				$orderField = $db->loadResult();
-/*				print_r ( $orderField );
-				echo '<BR />$orderField = '.$orderField.'<BR />';*/
-			}
-
+			$fieldName = $this->getFieldName($id, $ofid);
+			$orderField = ($fieldName == '' ? $orderField : $fieldName);
 			return($orderField);
+	 }
+	 
+	/**
+	 * Get fieldalias for the order by field
+	 */
+	 function &getFieldName($id, $fid)
+	 {
+	 	$fieldName = '';
+		if($fid) {
+			// Get a database object
+			$db =& JFactory::getDBO();
+			if(!$db){
+				JError::raiseError(500,"Couldn't get the database object while getFieldMeta() of EasyTable id: $id");
+			}
+			// Get the field name for this table
+			$query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' AND id = '$fid';";
+			$db->setQuery($query);
+			$fieldName = $db->loadResult();
+		}
+
+		return($fieldName);
 	 }
 	 
 	 /**
