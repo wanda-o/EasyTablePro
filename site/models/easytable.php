@@ -41,7 +41,7 @@ class EasyTableModelEasyTable extends JModel
 			parse_str ( $urlQry,  $linkparts );				// convert it to an array 
 
 			// Get menu/request values.
-			$id = (int) isset($linkparts['id'])?$linkparts['id']:JRequest::getVar('id',0);
+			$id = (int) (isset($linkparts['id'])?$linkparts['id']:JRequest::getVar('id',0));
 			$ofid = isset($linkparts['sort_field'])?$linkparts['sort_field']:0;
 			$ofdir = isset($linkparts['sort_order'])?$linkparts['sort_order']:'ASC';
 			$ffid = isset($linkparts['filter_field'])?$linkparts['filter_field']:0;
@@ -152,6 +152,7 @@ class EasyTableModelEasyTable extends JModel
 			// Get the field names for this table
 			
 			$query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND list_view = '1' ORDER BY position;";
+
 			$db->setQuery($query);
 
 			$fields = $db->loadResultArray();
