@@ -348,8 +348,8 @@ class EasyTableController extends JController
 			$etMetaUpdateValuesSQL .= '`list_view` = \''          .JRequest::getVar('list_view'   .$rowValue).'\', ';
 			$etMetaUpdateValuesSQL .= '`detail_link` = \''        .JRequest::getVar('detail_link' .$rowValue).'\', ';
 			$etMetaUpdateValuesSQL .= '`detail_view` = \''        .JRequest::getVar('detail_view' .$rowValue).'\', ';
-			$etMetaUpdateValuesSQL .= '`params` = \'fieldoptions='.JRequest::getVar('fieldoptions'.$rowValue).'\n\' ';
-			
+			$etMetaUpdateValuesSQL .= '`params` = \'fieldoptions=x'.bin2hex( $_POST['fieldoptions'.$rowValue]).'\n\' ';
+
 			// Build the SQL that selects the record for the right ID
 			$etMetaUpdateSQLEnd     = ' WHERE ID =\''.$rowValue.'\'';
 			

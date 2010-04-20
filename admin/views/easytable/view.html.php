@@ -87,7 +87,15 @@ class EasyTableViewEasyTable extends JView
 		if ( isset ($params) )
 		{
 			$paramsObj = new JParameter ($params);
-			$fieldOptions = $paramsObj->get('fieldoptions','');
+			$rawFieldOptions = $paramsObj->get('fieldoptions','');
+			if(strlen ( $rawFieldOptions )) {
+				if(substr($rawFieldOptions,0,1) == 'x') {
+					$unpackedFieldOptions = htmlentities ( pack("H*", substr($rawFieldOptions,1) ));
+					$fieldOptions = $unpackedFieldOptions;
+				} else {
+					$fieldOptions = $rawFieldOptions;
+				}
+			}
 		}
 		return($fieldOptions);
 	}
