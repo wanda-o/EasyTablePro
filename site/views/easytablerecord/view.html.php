@@ -75,6 +75,33 @@ class EasyTableViewEasyTableRecord extends JView
 		return($fields);
 	}
 	
+	/*
+		Field alias' for all fields NOT in the selected view
+	*/
+	function fieldAliassForDetail_NIV($metaArray, $lkf_id)
+	{
+		return($this->fieldAliasNotInView($metaArray, $lkf_id, 6));
+	}
+	function fieldAliassForList_NIV($metaArray, $lkf_id)
+	{
+		return($this->fieldAliasNotInView($metaArray, $lkf_id, 7));
+	}
+	function fieldAliasNotInView($metaArray, $lkf_id, $ListOrDetailSelector)
+	{
+		// Convert the list of meta records into the list of fields that can be used in the SQL
+		$fields = array();
+		$fields[] = 'id'; //put the id in first for accessing detail view of a table row
+
+		foreach($metaArray as $aRow) 
+		{
+			if(($aRow[5] == $lkf_id) || ($aRow[$ListOrDetailSelector] == '0'))
+			{
+				$fields[] .= $aRow[1]; // compile a list of the fieldalias'
+			}
+		}
+		return($fields);
+	}
+
 	function fieldLabelsForDetail($metaArray, $lkf_id)
 	{
 		return ($this->fieldLabels($metaArray, $lkf_id, 6));
@@ -236,6 +263,8 @@ class EasyTableViewEasyTableRecord extends JView
 		// Convert the list of meta records into the list of fields that can be used in the SQL
 		// the basic row list must be filtered for the detail view
 		$fields = implode('`, `', $this->fieldAliassForDetail($easytables_table_meta, $kf_id) );
+		// Also get the fields not in the detail view
+		$fields_NIV = implode('`, `', $this->fieldAliassForDetail_NIV($easytables_table_meta, $kf_id) );
 
 		/*
 		 *
@@ -279,6 +308,21 @@ class EasyTableViewEasyTableRecord extends JView
 			$this->assign('tableHasRecords', $tableHasRecords);
 			if($tableHasRecords)
 			{
+				/*
+				 *
+				 * Get the specific DATA record using sql for fields NOT in the detail_view
+				 *
+				 */
+				$query = "SELECT `".$fields_NIV."` FROM ".$db->nameQuote('#__easytables_table_data_'.$id)." WHERE id=$rid;";
+				$db->setQuery($query);
+				$easytables_table_record_FNILV =$db->loadAssoc();
+				// Get the fields of the linked records that are not shown in the list view
+				$linked_fields_to_get_FNILV = implode('`, `', $this->fieldAliassForList_NIV($linked_table_meta,$lkf_id) );
+				$linked_records_FNILV_SQL = "SELECT `$linked_fields_to_get_FNILV` FROM `#__easytables_table_data_$lt_id` WHERE `$lkf_alias` = '$kf_search_value'";
+				$db->setQuery($linked_records_FNILV_SQL);
+				$linked_records_FNILV = $db->loadAssocList();
+				$this->assignRef('linked_records_FNILV',$linked_records_FNILV);
+				
 				$linked_easytable =& JTable::getInstance('EasyTable','Table');
 				$linked_easytable->load($lt_id);
 				
@@ -355,6 +399,8 @@ class EasyTableViewEasyTableRecord extends JView
 		$this->assignRef('easytable',$easytable);
 		$this->assignRef('easytables_table_meta',$easytables_table_meta);
 		$this->assignRef('easytables_table_record',$easytables_table_record);
+		$this->assignRef('et_tr_assoc', $et_tr_assoc);
+		$this->assignRef('easytables_table_record_FNILV', $easytables_table_record_FNILV);
 		parent::display($tpl);
 	}
 }

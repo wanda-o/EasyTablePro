@@ -92,10 +92,12 @@ class EasyTableViewEasyTable extends JView
 			if($show_pagination)
 			{
 				$paginatedRecords =& $this->get('data');
+				$paginatedRecordsFNILV =& $this->get('dataFieldsNotInListView');
 			}
 			else
 			{
 				$paginatedRecords =& $this->get('alldata');
+				$paginatedRecordsFNILV =& $this->get('alldataFieldsNotInListView');
 			}
 
 			// Get pagination object
@@ -136,6 +138,7 @@ class EasyTableViewEasyTable extends JView
 		$this->assignRef('pagination', $pagination);
 		$this->assign('paginationLink', $paginationLink);
 		$this->assignRef('paginatedRecords', $paginatedRecords);
+		$this->assignRef('paginatedRecordsFNILV', $paginatedRecordsFNILV);
 		$this->assign('search',$search);
 		$this->assign('etmCount', $etmCount);
 		parent::display($tpl);

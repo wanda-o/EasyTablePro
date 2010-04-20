@@ -23,6 +23,8 @@
 
 					$fieldNumber = 1; // so that we skip the record id from the table record
 					$prow = $this->easytables_table_record;
+					$row_assoc = $this->et_tr_assoc;
+					$row_FNILV = $this->easytables_table_record_FNILV;
 					echo '<tr><td class="etr_prevrecord">';
 					if($this->prevrecord)
 						{ echo '<a href="'.$this->prevrecord.'">'.JText::_('LT__PREVIOUS_RECORD').'</a>'; }
@@ -42,7 +44,7 @@
 
 								$cellType     = (int)$f_type;
 
-								$cellData = ET_VHelper::getFWO($f, $cellType, $f_params, $prow); //getFWO($field,$type,$params,$row)
+								$cellData = ET_VHelper::getFWO($f, $cellType, $f_params, $row_assoc, $row_FNILV); //getFWO($field,$type,$params,$row)
 
 								echo '<tr>';  // Open the row
 								$titleString = ''; // Setup the titleString if required

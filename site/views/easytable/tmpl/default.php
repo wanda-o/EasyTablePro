@@ -50,10 +50,10 @@
 			<?php
 				$this->assign('currentImageDir',$this->imageDir);
 
-				$alt_rv = 0;
+				$alt_rv = 0; $rowNumber = 0;
 				foreach ($this->paginatedRecords as $prow )  // looping through the rows of paginated data
 				{
-					// echo '<!-- $prow count = '.count($prow).' -->';
+					$prowFNILV = $this->paginatedRecordsFNILV[$rowNumber++];
 					echo "<tr class='row$alt_rv' >";  // Open the row
 					$labelNumber = 0;
 					foreach($prow as $k => $f)  // looping through the fields of the row
@@ -64,7 +64,7 @@
 							$cellType     = (int)$this->easytables_table_meta[$labelNumber][2];
 							$cellDetailLink = (int)$this->easytables_table_meta[$labelNumber][3];
 							$cellOptions = $this->easytables_table_meta[$labelNumber++][5];  // we increment labelnumber for next pass.
-							$cellData = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow); //getFWO($field,$type,$params,$row)
+							$cellData = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $prowFNILV); //getFWO($field,$type,$params,$row,$rowFNILV)
 
 							if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
 							{

@@ -19,18 +19,20 @@ jimport( 'joomla.application.component.model' );
  */
 class EasyTableModelEasyTable extends JModel
 {
-	var $_data = null;
+	var $_data = null;			// Rows of the fields shown in the list view.
+	var $_dataFNILV = null;		// Rows of all the other fields.
 	var $_pagination = null;
 	var $_total = null;
 	var $_search = null;
 	var $_search_query = null;
+	var $_search_query_FNILV = null;
 	
 	/**
 	 * Builds the search query that is used in the getData() & getTotal()
 	*/
-	function buildSearch()
+	function buildSearch($list_view= '1')
 	{
-		if(!$this->_search_query)
+		if(((!$this->_search_query)  && $list_view) || ((!$this->_search_query_FNILV)  && !$list_view))
 		{
 			// Get the current menu settings
 			jimport( 'joomla.application.menu' );
@@ -52,7 +54,7 @@ class EasyTableModelEasyTable extends JModel
 			if($id)
 			{
 				$search = $this->getSearch($id);             // Gets the USER search string...
-				$fields = $this->getFieldMeta($id);          // Gets the alias of all fields in the list view
+				$fields = $this->getFieldMeta($id, $list_view);          // Gets the alias of all fields in the list view
 				$orderField = $this->getOrderFieldMeta($id, $ofid);
 				
 				$searchFields = $this->getSearchFields($id); // Gets the alias of all text fields in table (URL & Image values are not searched)
@@ -103,14 +105,28 @@ class EasyTableModelEasyTable extends JModel
 				$newSearch .= ' order by `'.$orderField.'` '.$ofdir;
 				// echo $newSearch.'<BR />';
 
-				$this->_search_query = $newSearch;
+				if($list_view)
+				{
+					$this->_search_query = $newSearch;
+				}
+				else
+				{
+					$this->_search_query_FNILV = $newSearch;
+				}
 			}
 			else
 			{
 				JError::raiseError(500,'buildSearch failed from a lack of identity - not appreciated Jan!<BR />ERROR 1337:: HANDCRAFTED URL RESPONSE 413:4');
 			}
 		}
-		return $this->_search_query;
+		if($list_view)
+		{
+			return $this->_search_query;
+		}
+		else
+		{
+			return $this->_search_query_FNILV;
+		}
 	}
 	
 	/*
@@ -142,7 +158,7 @@ class EasyTableModelEasyTable extends JModel
 	/**
 	 * Get Meta data for the user table
 	 */
-	 function &getFieldMeta($id)
+	 function &getFieldMeta($id, $list_view = '1')
 	 {
 			// Get a database object
 			$db =& JFactory::getDBO();
@@ -151,8 +167,7 @@ class EasyTableModelEasyTable extends JModel
 			}
 			// Get the field names for this table
 			
-			$query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND list_view = '1' ORDER BY position;";
-
+			$query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND list_view = '".$list_view."' ORDER BY position;";
 			$db->setQuery($query);
 
 			$fields = $db->loadResultArray();
@@ -265,29 +280,51 @@ class EasyTableModelEasyTable extends JModel
     {
         return $this->getData(FALSE);
     }
-	function &getData($et_paged=TRUE)
+	function &getData($et_paged=TRUE, $list_view = '1')
 	{
 		$pagination =& $this->getPagination();
-		// echo '<BR />Pagination values for getData() limitstart = '.$pagination->limitstart.' limit = '.$pagination->limit;
-		
-		if(empty($this->_data))
+		if($list_view)
+		{
+			if(empty($this->_data))
 			{
-				$query = $this->buildSearch();
+				$query = $this->buildSearch($list_view);
 				
-				// echo '<BR />getData() $pagination->limitstart = '.$pagination->limitstart.' $pagination->limit = '.$pagination->limit;
-				
-                if($et_paged)
-                {
-                    $this->_data = $this->_getList($query, $pagination->limitstart, $pagination->limit);
-                } else {
-                    $this->_data = $this->_getList($query, 0, 0);
-                }
-				//echo '<BR />getData() = '.$this->_data.'<BR />';
-				//echo '<BR />'.print_r($this->_data);
+				if($et_paged)
+				{
+					$this->_data = $this->_getList($query, $pagination->limitstart, $pagination->limit);
+				} else {
+					$this->_data = $this->_getList($query, 0, 0);
+				}
 			}
-		return $this->_data;
+			return $this->_data;
+		}
+		else
+		{
+			if(empty($this->_dataFNILV))
+			{
+				$query = $this->buildSearch($list_view);
+			
+				
+				if($et_paged)
+				{
+					$this->_dataFNILV = $this->_getList($query, $pagination->limitstart, $pagination->limit);
+				} else {
+					$this->_dataFNILV = $this->_getList($query, 0, 0);
+				}
+			}
+			return $this->_dataFNILV;
+		}
 	}
-	
+
+	function &getAllDataFieldsNotInListView($et_paged=FALSE, $list_view='0')
+	{
+        return $this->getDataFieldsNotInListView(FALSE, $list_view);
+	}
+	function &getDataFieldsNotInListView($et_paged=TRUE, $list_view='0')
+	{
+		return $this->getData($et_paged, $list_view);
+	}
+
 	function __construct()
 	{
 		parent::__construct();
