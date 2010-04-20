@@ -25,12 +25,12 @@ class EasyTableViewEasyTableRecord extends JView
 			$fafmID_query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE id = $mId";
 
 			$db->setQuery($fafmID_query);
-			
+
 			return($db->loadResult());
 		}
 		return FALSE;
 	}
-	
+
 	function &fieldMeta($id, $restrict_to_view ='')
 	{
 		$db =& JFactory::getDBO();
@@ -50,7 +50,7 @@ class EasyTableViewEasyTableRecord extends JView
 		$meta = $db->loadRowList();
 		return $meta;
 	}
-	
+
 	function fieldAliassForDetail($metaArray, $lkf_id)
 	{
 		return($this->fieldAliass($metaArray, $lkf_id, 6));
@@ -269,8 +269,8 @@ class EasyTableViewEasyTableRecord extends JView
 
 			$linked_fields_to_get = implode('`, `', $this->fieldAliassForList($linked_table_meta,$lkf_id) );
 			
+			// Get linked Records
 			$linked_records_SQL = "SELECT `$linked_fields_to_get` FROM `#__easytables_table_data_$lt_id` WHERE `$lkf_alias` = '$kf_search_value'";
-			
 			$db->setQuery($linked_records_SQL);
 			$linked_records = $db->loadAssocList();
 			

@@ -158,7 +158,6 @@ class EasyTableModelEasyTable extends JModel
 			$fields = $db->loadResultArray();
 			
 			$fields = implode('`, `',$fields);
-			// echo '<BR />$fields == '.$fields;
 			return($fields);
 	 }
 

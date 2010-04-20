@@ -27,7 +27,6 @@
 		<tbody>
 			<?php
 				$this->assign('currentImageDir',$this->linked_table_imageDir);
-
 				foreach ($this->linked_records as $prow )  // looping through the rows of data
 				{
 					$rowId = $prow["id"];
