@@ -15,7 +15,10 @@ class ET_VHelper
 		if ( isset ($params) )
 		{
 			$paramsObj = new JParameter ($params);
-			$fieldOptions = $paramsObj->get('fieldoptions','');
+			$rawFieldOptions = $paramsObj->get('fieldoptions','');
+			if(strlen ( $rawFieldOptions )){
+				$fieldOptions = pack("H*", substr ( $rawFieldOptions, 1 ));
+			}
 		}
 
 		$fieldWithOptions = $f;
