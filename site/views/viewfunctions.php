@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted Access');
 	// Get Field With Options
 class ET_VHelper
 {
-	function getFWO ($f='', $type=0, $params=null, $row)
+	function getFWO ($f='', $type=0, $params=null, $row, $rowFNILV)
 	{
 		$fieldOptions = '';
 		if ( isset ($params) )
@@ -20,11 +20,22 @@ class ET_VHelper
 				$fieldOptions = pack("H*", substr ( $rawFieldOptions, 1 ));
 			}
 		}
+		// Create token array 
+		$tokenArray = array ();
+		foreach ( $row as $theFieldName => $theFieldValue ) // process the fields that appear in the list view first
+		{
+			 $tokenArray['#'.$theFieldName.'#'] = $theFieldValue;
+		}
+		foreach ( $rowFNILV as $theFieldName => $theFieldValue ) // then the rest of the fields
+		{
+			 $tokenArray['#'.$theFieldName.'#'] = $theFieldValue;
+		}
 
+		// Process based on type
 		$fieldWithOptions = $f;
 		switch ($type) {
 			case 0: // text
-				$fieldWithOptions = trim($f);
+				$fieldWithOptions = ET_VHelper::applyOptions($f, $fieldOptions, $tokenArray);
 				break;
 			case 1: // image
 				$fieldWithOptions = ET_VHelper::getImageWithOptions($f,$fieldOptions,$row);
@@ -45,6 +56,18 @@ class ET_VHelper
 				$fieldWithOptions = "<!-- Field Type Error: cellData = $f / cellType = $type / row = ".print_r ( $row,  true ).' -->';
 		}
 		return $fieldWithOptions;
+	}
+
+function applyOptions ($f, $fieldOptions, $tokenArray)
+	{
+		if(empty($fieldOptions))
+		{
+			return trim($f);
+		}
+		else
+		{
+			return strtr ( $fieldOptions, $tokenArray );
+		}
 	}
 
 	function getImageWithOptions($f, $fieldOptions, $row)
