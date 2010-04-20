@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    EasyTables
- * @author     Craig Phillips {@link http://www.seepeoplesoftware.com}
- * @author     Created on 13-Jul-2009
+ * @package	   EasyTables
+ * @author	   Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @author	   Created on 13-Jul-2009
  */
 
 //--No direct access
@@ -13,7 +13,7 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for the EasyTables Component
  *
- * @package    EasyTables
+ * @package	   EasyTables
  * @subpackage Views
  */
 
@@ -57,25 +57,25 @@ class EasyTableViewEasyTable extends JView
 
 	function toggleState( &$row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='' )
 	{
-		$img    = $row->published ? $imgY : $imgX;
-		$task   = $row->published ? 'unpublish' : 'publish';
-		$alt    = $row->published ? JText::_( 'PUBLISHED' ) : JText::_( 'UNPUBLISHED' );
+		$img	= $row->published ? $imgY : $imgX;
+		$task	= $row->published ? 'unpublish' : 'publish';
+		$alt	= $row->published ? JText::_( 'PUBLISHED' ) : JText::_( 'UNPUBLISHED' );
 		$action = $row->published ? JText::_( 'UNPUBLISH_ITEM' ) : JText::_( 'PUBLISH_ITEM' );
-		$href   = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i
+		$href	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i
 				 .'\',\''. $prefix.$task .'\')" title="'. $action .'"><img src="images/'
 				 . $img .'" border="0" alt="'. $alt .'" /></a>';
 		return $href;
-    }
+	}
 
 	function getTypeList ($id, $selectedType=0)
 	{
-		$selectOptionText =  '<select name="type'.$id.'">';  																	// start our html select structure
+		$selectOptionText =	 '<select name="type'.$id.'">';																		// start our html select structure
 		$selectOptionText .= '<option value="0" '.($selectedType ? '':'selected').'>'.JText::_('TEXT').'</option>';				// Type 0 = Text
 		$selectOptionText .= '<option value="1" '.($selectedType==1 ? 'selected':'').'>'.JText::_('IMAGE').'</option>';			// Type 1 = Image URL
 		$selectOptionText .= '<option value="2" '.($selectedType==2 ? 'selected':'').'>'.JText::_('LINK__URL_').'</option>';	// Type 2 = Fully qualified URL
-		$selectOptionText .= '<option value="3" '.($selectedType==3 ? 'selected':'').'>'.JText::_('EMAIL').'</option>';         // Type 3 = Email address
-		$selectOptionText .= '<option value="4" '.($selectedType==4 ? 'selected':'').'>'.JText::_('NUMBER').'</option>';         // Type 3 = Email address
-		$selectOptionText .= '<option value="5" '.($selectedType==5 ? 'selected':'').'>'.JText::_('DATE').'</option>';         // Type 3 = Email address
+		$selectOptionText .= '<option value="3" '.($selectedType==3 ? 'selected':'').'>'.JText::_('EMAIL').'</option>';			// Type 3 = Email address
+		$selectOptionText .= '<option value="4" '.($selectedType==4 ? 'selected':'').'>'.JText::_('NUMBER').'</option>';		// Type 3 = Email address
+		$selectOptionText .= '<option value="5" '.($selectedType==5 ? 'selected':'').'>'.JText::_('DATE').'</option>';			// Type 3 = Email address
 		$selectOptionText .= '</select>';																						// close our html select structure
 		
 		return($selectOptionText);
@@ -100,11 +100,11 @@ class EasyTableViewEasyTable extends JView
 		return($fieldOptions);
 	}
 
-    /**
-     * EasyTable view display method
-     * 
-     * @return void
-     **/
+	/**
+	 * EasyTable view display method
+	 * 
+	 * @return void
+	 **/
 	function display($tpl = null)
 	{
 		//get the document and load the js support file
@@ -180,7 +180,7 @@ class EasyTableViewEasyTable extends JView
 
 		// keep the data for the tmpl
 		$this->assignRef('row', $row);
-		if(!$ettd)  // Do not allow it to be published until a table is created.
+		if(!$ettd)	// Do not allow it to be published until a table is created.
 		{
 			$this->assignRef('published', JHTML::_('select.booleanlist', 'published', 'class="inputbox" disabled="disabled"', $row->published ));
 		}
@@ -212,5 +212,5 @@ class EasyTableViewEasyTable extends JView
 		}
 
 		parent::display($tpl);
-    }// function
+	}// function
 }// class
