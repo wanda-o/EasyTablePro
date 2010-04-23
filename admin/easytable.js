@@ -4,6 +4,18 @@
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
 */
+function atLeast1ListField {
+	for(i=0; i<document.adminForm.elements.length; i++)
+	{
+		if( document.FormName.elements[i].name.indexof('list_view') {	// For each field we check
+			if( document.FormName.elements[i].value ) {					// for one that appears in the list view
+				return true;
+			}
+		}
+	}
+	
+	return false; // If we got here none are checked, 
+}
 
 function toggleTick (tFieldName, tRow, tImgSuffix) {
 	if(arguments[2] == null) {
@@ -31,6 +43,11 @@ function toggleTick (tFieldName, tRow, tImgSuffix) {
 
 function submitbutton(pressbutton)
 {
+	if (! atLeast1ListField() ){
+		alert( "At least one field must be selected for the list view." );
+		return 0;
+	}
+
 	if(pressbutton =='save' || pressbutton == 'apply')
 	{
 		if(document.adminForm.easytablename.value == '')
