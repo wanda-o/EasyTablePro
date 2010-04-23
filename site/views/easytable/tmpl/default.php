@@ -27,11 +27,14 @@
 				echo JText::_( 'SEARCH' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">'.JText::_( 'GO' ).'</button>';
 				echo '<input type="reset" value="'.JText::_( 'RESET' ).'">';
 			}
-            if( $this->show_pagination && $this->etmCount) // If pagination is enabled show the controls
-            {
-                echo $this->pagination->getPagesLinks();
-                echo $this->pagination->getLimitBox().' ( '.$this->pagination->getPagesCounter().' )';
-            }
+			if( $this->show_pagination && $this->etmCount) // If pagination is enabled show the controls
+			{
+				echo $this->pagination->getPagesLinks();
+				$pcntr = $this->pagination->getPagesCounter( );
+				if( isset( $pcntr )) { // if there's more than one page show the page position.
+					echo $this->pagination->getLimitBox().' ( '.$pcntr.' )';
+				}
+			}
 		?>
 	</div>
 	<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
