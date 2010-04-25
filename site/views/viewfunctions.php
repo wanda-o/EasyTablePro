@@ -26,9 +26,11 @@ class ET_VHelper
 		{
 			 $tokenArray['#'.$theFieldName.'#'] = $theFieldValue;
 		}
-		foreach ( $rowFNILV as $theFieldName => $theFieldValue ) // then the rest of the fields
-		{
-			 $tokenArray['#'.$theFieldName.'#'] = $theFieldValue;
+		if( $rowFNILV ){
+			foreach ( $rowFNILV as $theFieldName => $theFieldValue ) // then the rest of the fields
+			{
+				 $tokenArray['#'.$theFieldName.'#'] = $theFieldValue;
+			}
 		}
 
 		// Process based on type
