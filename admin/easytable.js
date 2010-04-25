@@ -4,17 +4,25 @@
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
 */
-function atLeast1ListField {
-	for(i=0; i<document.adminForm.elements.length; i++)
+function atLeast1ListField() {
+	cppl_adminForm = document.adminForm;
+	cppl_numAFElements = cppl_adminForm.elements.length;
+
+	for(i=0; i<cppl_numAFElements; i++)
 	{
-		if( document.FormName.elements[i].name.indexof('list_view') {	// For each field we check
-			if( document.FormName.elements[i].value ) {					// for one that appears in the list view
-				return true;
+		cppl_elementName = cppl_adminForm.elements[i].name;						// Get the element name, then
+		if(cppl_elementName) {													// If the element has a name
+			cppl_list_view_pos = String(cppl_elementName).indexOf("list_view");	// find out if 'list_view' is part of the name
+			if( cppl_list_view_pos >= 0) {										// For each field we check
+				cppl_elementValue = !!(+cppl_adminForm.elements[i].value);		// Convert value to a number first then a boolean.œ
+				if( cppl_elementValue ) {	// for one that appears in the list view
+					return true;
+				}
 			}
 		}
 	}
-	
-	return false; // If we got here none are checked, 
+
+	return false; // If we got here none are checked,
 }
 
 function toggleTick (tFieldName, tRow, tImgSuffix) {
@@ -47,8 +55,7 @@ function submitbutton(pressbutton)
 		alert( "At least one field must be selected for the list view." );
 		return 0;
 	}
-
-	if(pressbutton =='save' || pressbutton == 'apply')
+	else if(pressbutton =='save' || pressbutton == 'apply')
 	{
 		if(document.adminForm.easytablename.value == '')
 		{
