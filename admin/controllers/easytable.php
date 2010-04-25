@@ -368,7 +368,6 @@ class EasyTableController extends JController
 	function edit()
 	{
 		 $this->checkOutEasyTable();
-		 // echo 'About to checkoutEasyTable <br />';
 		 
 		 JRequest::setVar('view', 'EasyTable');
 		 $this->display();
