@@ -34,10 +34,11 @@ class ET_VHelper
 		}
 
 		// Process based on type
-		$fieldWithOptions = $f;
+		$fieldWithOptions = ET_VHelper::applyOptions($f, $fieldOptions, $tokenArray);
+		$fieldOptions = ET_VHelper::addOptions($fieldOptions, $tokenArray);  // We process the fieldOptions ready for the different types.
 		switch ($type) {
 			case 0: // text
-				$fieldWithOptions = ET_VHelper::applyOptions($f, $fieldOptions, $tokenArray);
+				// Nothing needs to be done for a TEXT field type
 				break;
 			case 1: // image
 				$fieldWithOptions = ET_VHelper::getImageWithOptions($f,$fieldOptions,$row);
@@ -60,7 +61,19 @@ class ET_VHelper
 		return $fieldWithOptions;
 	}
 
-function applyOptions ($f, $fieldOptions, $tokenArray)
+	function addOptions ($fieldOptions, $tokenArray)
+	{
+		if(empty($fieldOptions))
+		{
+			return "";
+		}
+		else
+		{
+			return strtr ( $fieldOptions, $tokenArray );
+		}
+	}
+
+	function applyOptions ($f, $fieldOptions, $tokenArray)
 	{
 		if(empty($fieldOptions))
 		{
