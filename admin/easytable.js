@@ -51,7 +51,7 @@ function toggleTick (tFieldName, tRow, tImgSuffix) {
 
 function submitbutton(pressbutton)
 {
-	if (! atLeast1ListField() ){
+	if (! atLeast1ListField() && (pressbutton =='save' || pressbutton == 'apply') ){
 		alert( "At least one field must be selected for the list view." );
 		return 0;
 	}
