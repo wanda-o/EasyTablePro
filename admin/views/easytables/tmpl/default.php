@@ -8,7 +8,7 @@
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
 
-        JToolBarHelper::title(JText::_( 'EASY_TABLES' ), 'easytables');
+        JToolBarHelper::title(JText::_( 'EASYTABLEPRO' ), 'easytables');
         JToolBarHelper::publishList();
         JToolBarHelper::unpublishList();
         JToolBarHelper::editList();
