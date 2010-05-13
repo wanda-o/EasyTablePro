@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted Access');
         JToolBarHelper::editList();
         JToolBarHelper::deleteList(JText::_( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' ));
         JToolBarHelper::addNew();
-        JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 262 );
+        JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 320 );
 ?>
 <div id="et-versionCheck" style="text-size:0.9em;text-align:center; color:grey;position:relative;z-index:1;" >
 	<?php echo JText::_( 'INSTALLED_EASYTABLE_VERSION' ); ?>: <?php echo ( $this->et_current_version ); ?> | 
@@ -46,7 +46,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo JText::_( 'PUBLISHED' ); ?>
 			</th>			
 			<th>
-				&nbsp;-&nbsp;
+				<?php echo JText::_( 'SEARCHABLE' ); ?>
 			</th>			
 		</tr>			
 	</thead>
@@ -55,9 +55,12 @@ defined('_JEXEC') or die('Restricted Access');
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
 		$row = &$this->rows[$i];
-		$checked 	= JHTML::_('grid.checkedout', $row,   $i);
-		$published  = JHTML::_('grid.published',   $row,  $i );
+		$checked 	= JHTML::_('grid.checkedout', $row, $i);
+		$published  = JHTML::_('grid.published',  $row, $i );
 		$link 		= JRoute::_( 'index.php?option=com_'._cppl_this_com_name.'&task=edit&cid[]='. $row->id );
+		$rowParamsObj = new JParameter ($row->params);
+		$searchableFlag = $rowParamsObj->get('searchable_by_joomla');
+		$searchableImage  = $this->getSearchableTick( $i, $searchableFlag );
 
 		?>
 		<tr class="<?php echo "row$k"; ?>">
@@ -87,7 +90,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo $published; ?>
 			</td>
 			<td>
-				-
+				<?php echo $searchableImage; ?>
 			</td>
 		</tr>
 		<?php

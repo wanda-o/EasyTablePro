@@ -22,6 +22,33 @@ require_once $pvf;
 
 class EasyTableViewEasyTables extends JView
 {
+	function getSearchableTick ($rowId, $flag)
+	{
+		echo('getSearchableTick received: $row = '.$rowId.'/ $flag = '.$flag.'<br />');
+		$btn_title = '';
+		$theImageString = '';
+		if( $flag == '' )
+		{
+			$theImageString = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/GlobalIcon16x16.png';
+			$btn_title = JText::_( "Click here to prevent access to this table by Joomla's built-in search function." );
+		}
+		else if($flag)
+		{
+			$theImageString = 'images/tick.png';
+			$btn_title = JText::_( "Click here to prevent access to this table by Joomla's built-in search function." );
+		}
+		else
+		{
+			$theImageString = 'images/publish_x.png';
+			$btn_title = JText::_( "Click here to allow Joomla's built-in search function to access this table." );
+		}
+
+		$theSearchableImage = '<img src="'.$theImageString.'" name="'.$rowId.'_img" border="0" />';
+		$theSearchableButton = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'toggleSearch\');" title="'.$btn_title.'" >'.$theSearchableImage.'</a>';
+		
+		return($theSearchableButton);
+	}
+
 	/**
 	 * EasyTables view display method
 	 * @return void

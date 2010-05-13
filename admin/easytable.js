@@ -91,7 +91,7 @@ function submitbutton(pressbutton)
 	{
 		submitform(pressbutton);
 	}
-	else if (pressbutton =='publish' || pressbutton == 'unpublish' ||pressbutton =='remove' || pressbutton == 'add')
+	else if (pressbutton =='publish' || pressbutton == 'unpublish' ||pressbutton =='remove' || pressbutton == 'add' || pressbutton == 'toggleSearch')
 	{
 		submitform(pressbutton);
 	}

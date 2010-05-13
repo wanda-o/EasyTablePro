@@ -348,7 +348,7 @@ class EasyTableController extends JController
 			$etMetaUpdateValuesSQL .= '`list_view` = \''          .JRequest::getVar('list_view'   .$rowValue).'\', ';
 			$etMetaUpdateValuesSQL .= '`detail_link` = \''        .JRequest::getVar('detail_link' .$rowValue).'\', ';
 			$etMetaUpdateValuesSQL .= '`detail_view` = \''        .JRequest::getVar('detail_view' .$rowValue).'\', ';
-			$etMetaUpdateValuesSQL .= '`params` = \'fieldoptions=x'.bin2hex( $_POST['fieldoptions'.$rowValue]).'\n\' ';
+			$etMetaUpdateValuesSQL .= '`params` = \'fieldoptions=x'.bin2hex( $_POST['fieldoptions'.$rowValue]).'\nsearch_field='.JRequest::getVar('search_field' .$rowValue).'\' ';
 
 			// Build the SQL that selects the record for the right ID
 			$etMetaUpdateSQLEnd     = ' WHERE ID =\''.$rowValue.'\'';
@@ -850,7 +850,42 @@ class EasyTableController extends JController
 		
 		return $csvRowCount;
 	}
-	
+
+function toggleSearch()
+	{
+		$row =& JTable::getInstance('EasyTable', 'Table');					// Get the table of tables
+		$cid = JRequest::getVar( 'cid', array(0), '', 'array');				// Get the Checkbox id from the std Joomla admin form array
+		$id = $cid[0];
+		$row->load($id);													// Load the record we want
+
+		$paramsObj = new JParameter ($row->params);							// Get the params for this table
+		$make_tables_searchable = $paramsObj->get('searchable_by_joomla','');	// Get the 'Searchable by Joomla' flag
+		echo ( 'Original value of $make_tables_searchable : '.$make_tables_searchable.' - ' );
+		if($make_tables_searchable) {										// Flip item
+			echo 'true ie. 1, setting to 0';
+			$paramsObj->set('searchable_by_joomla', '0');					// Update the params obj, use a literal other wise parameter becomes '' ie. null blank caput gonesky dumbass JParameter!
+		}
+		else if( $make_tables_searchable == '' )
+		{
+			echo 'not 0 or 1, should be empty ie. global, so setting to 1';
+			$paramsObj->set('searchable_by_joomla', 1);						// Update the params obj
+		}
+		else
+		{
+			echo 'false ie. 0, setting to empty \'\'';
+			$paramsObj->set('searchable_by_joomla', '');					// Update the params obj
+		}
+
+		$row->params = $paramsObj->toString();								// Update the row with the updated params obj...
+
+		if (!$row->store()) {												// Then we can store it away...
+			JError::raiseError(500, 'toggleSearch raised and error.<BR />'.$row->getError() );
+		}
+
+		 JRequest::setVar('view', 'EasyTables');							// Return to EasyTables Mgr view
+		 $this->display();
+	}
+
 	function cancel()
 	{
 		global $option;
