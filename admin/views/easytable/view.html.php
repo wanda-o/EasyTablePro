@@ -35,9 +35,13 @@ class EasyTableViewEasyTable extends JView
 		{
 			$btn_title = JText::_( "CLICK_THIS_TO_MAKE_THIS_FIELD_ACT_AS_A_LINK_TO_THE_RECORD_DETAIL_VIEW__OR_NOT_" );
 		}
-		else
+		elseif(substr($rowElement,0,6)=='detail')
 		{
 			$btn_title = JText::_( "CLICK_THIS_TO_MAKE_THIS_FIELD_APPEAR_IN_THE_RECORD_DETAIL_VIEW__OR_NOT_" );
+		}
+		elseif(substr($rowElement,0,6)=='search')
+		{
+			$btn_title = JText::_( 'CLICK_TO_MAKE_THIS_FIELD_SEARCHABLE__OR_NOT_' );
 		}
 
 		if($flag)

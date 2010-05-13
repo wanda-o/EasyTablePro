@@ -188,6 +188,7 @@ defined('_JEXEC') or die('Restricted Access');
 								<th><?php echo JText::_( 'LIST_VIEW' ); ?></th>
 								<th><?php echo JText::_( 'DETAIL_LINK' ); ?></th>
 								<th><?php echo JText::_( 'DETAIL_VIEW' ); ?></th>
+								<th><?php echo '<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'search.png" alt="'.JText::_( 'INCLUDE_IN_SEARCH' ).'"'; ?></th>
 							</tr>
 						</thead>
 						<?php
@@ -231,6 +232,14 @@ defined('_JEXEC') or die('Restricted Access');
 								$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
 								echo($tdStart.$tdFlagImgLink.$tdEnd);
 								
+								$tdName			= 'search_field'.$mRId;
+								$tdParamsObj = new JParameter ($metaRow[10]);
+								$tdSearchField = $tdParamsObj->get('search_field',1);
+								$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$tdSearchField.'">';				// Search This Field Flag
+								$tdFlagImg     = $this->getListViewImage($tdName, $tdSearchField);
+								$tdjs			= 'toggleTick(\'search_field\', '.$mRId.');';
+								$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
+								echo($tdStart.$tdFlagImgLink.$tdEnd);
 								
 								echo '</tr>';                                                                                                        // Close the row
 								$k = 1 - $k;

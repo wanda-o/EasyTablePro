@@ -58,5 +58,14 @@ class ET_VHelpers
 		
 		return $et_version_array;
 	}
+	
+	// Return the rows params
+	function et_row_params ($the_row) {
+		if ( isset ($the_row) )
+		{
+			$paramsObj = new JParameter ($the_row->params);
+		}
+		return $paramsObj;
+	}
 }
 
