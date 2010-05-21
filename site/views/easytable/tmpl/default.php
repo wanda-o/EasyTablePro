@@ -19,19 +19,32 @@
 <?php echo ($this->show_description ? '<p class="et_description">'.htmlspecialchars($this->easytable->description).'</p>' : '') ?>
 <br />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
-	<form name="adminForm" method="post" action="<?php echo $this->paginationLink ?>" onreset="javascript:document.adminForm.etsearch.value = '';document.adminForm.submit();">
-	<div class="et_search_pagination">
+	<div class="et_search_result">
+	<form class="search_result" name="adminForm" method="post" action="<?php echo $this->paginationLink ?>" onreset="javascript:document.adminForm.etsearch.value = '';document.adminForm.submit();">
 		<?php
 			if( $this->show_search && $this->etmCount) // If search is enabled for this table, show the search box.
 			{
 				echo JText::_( 'SEARCH' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">'.JText::_( 'GO' ).'</button>';
 				echo '<input type="reset" value="'.JText::_( 'RESET' ).'">';
 			}
+		?>
+			<input type="hidden" value="0" name="limitstart"/>
+	</form>
+	</div>
+	<div class="pagination">
+		<?php
 			if( $this->show_pagination && $this->etmCount) // If pagination is enabled show the controls
 			{
 				echo $this->pagination->getPagesLinks();
+			}
+		?>
+	</div>
+	<div class="display">
+		<?php
+			if( $this->show_pagination && $this->etmCount) 						// Only if pagination is enabled
+			{
 				$pcntr = $this->pagination->getPagesCounter( );
-				if( isset( $pcntr )) { // if there's more than one page show the page position.
+				if( isset( $pcntr )) {																	 // AND if there's more than one page then show the page display.
 					echo $this->pagination->getLimitBox().' ( '.$pcntr.' )';
 				}
 			}
@@ -98,7 +111,5 @@
 		var t = new SortableTable(document.getElementById('<?php echo htmlspecialchars($this->easytable->easytablealias); ?>'), 'etAscending', 'etDescending');
 	</script>
 	<?php } ?>
-	<input type="hidden" value="0" name="limitstart"/>
-	</form>
 </div>
 </div> <!-- contentpaneclosed -->
