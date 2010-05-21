@@ -860,7 +860,6 @@ function toggleSearch()
 
 		$paramsObj = new JParameter ($row->params);							// Get the params for this table
 		$make_tables_searchable = $paramsObj->get('searchable_by_joomla','');	// Get the 'Searchable by Joomla' flag
-		echo ( 'Original value of $make_tables_searchable : '.$make_tables_searchable.' - ' );
 		if($make_tables_searchable) {										// Flip item
 			echo 'true ie. 1, setting to 0';
 			$paramsObj->set('searchable_by_joomla', '0');					// Update the params obj, use a literal other wise parameter becomes '' ie. null blank caput gonesky dumbass JParameter!

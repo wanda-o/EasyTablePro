@@ -24,7 +24,6 @@ class EasyTableViewEasyTables extends JView
 {
 	function getSearchableTick ($rowId, $flag)
 	{
-		echo('getSearchableTick received: $row = '.$rowId.'/ $flag = '.$flag.'<br />');
 		$btn_title = '';
 		$theImageString = '';
 		if( $flag == '' )
