@@ -181,18 +181,18 @@ class EasyTableModelEasyTable extends JModel
 	 */
 	 function &getOrderFieldMeta($id, $ofid)
 	 {
-			$orderField = 'id'; // if there is no ofid then the original import order will result.
-			$fieldName = $this->getFieldName($id, $ofid);
-			$orderField = ($fieldName == '' ? $orderField : $fieldName);
-			return($orderField);
+		$orderField = 'id'; // if there is no ofid then the original import order will result.
+		$fieldName = $this->getFieldName($id, $ofid);
+		$orderField = ($fieldName == '' ? $orderField : $fieldName);
+		return($orderField);
 	 }
 	 
 	/**
 	 * Get fieldalias for the order by field
 	 */
-	 function &getFieldName($id, $fid)
-	 {
-	 	$fieldName = '';
+	function &getFieldName($id, $fid)
+	{
+		$fieldName = '';
 		if($fid) {
 			// Get a database object
 			$db =& JFactory::getDBO();
@@ -208,26 +208,26 @@ class EasyTableModelEasyTable extends JModel
 		return($fieldName);
 	 }
 	 
-	 /**
-	  * Get searchable fields - specifically exlude fields marked as URLs and image paths
-	  */
-	  function getSearchFields($id)
-	  	{
-	 		// Get a database object
-			$db =& JFactory::getDBO();
-			if(!$db){
-				JError::raiseError(500,"Couldn't get the database object while getSearchFields() for EasyTable id: $id");
-			}
-			// Get the search fields for this table
-			$query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND (type = '0' || type = '3') ORDER BY position;";
-			$db->setQuery($query);
-			
-			$fields = $db->loadResultArray();
-			
-			// echo '<BR />$searchFields == '.implode('`, `',$fields);
-			return($fields);
+	/**
+	 * Get searchable fields - specifically exlude fields marked as URLs and image paths
+	 */
+	function getSearchFields($id)
+	{
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,"Couldn't get the database object while getSearchFields() for EasyTable id: $id");
 		}
-	
+		// Get the search fields for this table
+		$query = "SELECT fieldalias FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND (type = '0' || type = '3') AND `params` LIKE \"%search_field=1%\" ORDER BY position;";
+
+		$db->setQuery($query);
+
+		$fields = $db->loadResultArray();
+
+		return($fields);
+	}
+
 	/**
 	 * Gets the record count of the table for pagination & other uses
 	 * @return total
