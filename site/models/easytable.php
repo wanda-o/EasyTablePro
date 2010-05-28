@@ -28,6 +28,20 @@ class EasyTableModelEasyTable extends JModel
 	var $_search_query_FNILV = null;
 	
 	/**
+	 * Register a hit
+	*/
+	function hit($id)
+	{
+		$db = $this->_db;
+		
+
+		$query = 'UPDATE #__easytables SET hits = ( hits + 1 ) WHERE id = '.$id;
+		$db->setQuery( $query );
+		$table = $db->query();
+		
+	}
+
+	/**
 	 * Builds the search query that is used in the getData() & getTotal()
 	*/
 	function buildSearch($list_view= '1')
@@ -103,7 +117,9 @@ class EasyTableModelEasyTable extends JModel
 
 				// Append the field to order by:
 				$newSearch .= ' order by `'.$orderField.'` '.$ofdir;
-				// echo $newSearch.'<BR />';
+
+				// Better record we that we've been here
+				$this->hit($id);
 
 				if($list_view)
 				{
