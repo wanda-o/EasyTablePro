@@ -17,7 +17,6 @@ jimport('joomla.application.component.controller');
  * @package    EasyTables
  * @subpackage Controllers
  */
-JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
 jimport('joomla.application.component.controller');
 class EasyTableController extends JController
 {
