@@ -52,7 +52,14 @@ class EasyTableModelEasyTable extends JModel
 			jimport( 'joomla.application.menu' );
 			$menu     =& JMenu::getInstance('site');
 			$menuItem =& $menu->getActive();
-			$link     = $menuItem->link;					// get the menu link
+			if($menuItem)
+			{
+				$link = $menuItem->link;					// get the menu link
+			}
+			else
+			{
+				$link = '';
+			}
 			$urlQry   = parse_url ( $link, PHP_URL_QUERY );	// extract just the qry section
 			parse_str ( $urlQry,  $linkparts );				// convert it to an array 
 
@@ -96,6 +103,20 @@ class EasyTableModelEasyTable extends JModel
 					if($search != '') { $filterSearch .= ' AND '; } // If there is user search text append an AND
 
 					$newSearch .= $filterSearch;
+				}
+				elseif(is_array($srid = JRequest::getVar('srid')) && count($srid))
+				{
+					$newSearch .= ' WHERE ';
+					$numRecs = count ( $srid );
+					$currentRec = 1;
+					foreach ( $srid as $recID )
+					{
+						$newSearch .= '( `id` = "'.$recID.'" )';
+						if($currentRec++ < $numRecs)
+						{
+							$newSearch .= ' OR ';
+						}
+					}
 				}
 
 				// Create the user search component
