@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTablePro</name>
-	<version>0.4.1 (fbe2433)</version>
+	<version>0.5 (63b16a9)</version>
 	<author>Craig Phillips</author>
-	<creationDate>29-Apr-2010</creationDate>
+	<creationDate>28-May-2010</creationDate>
 	<copyright>Copyright (C) 2009.</copyright>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
@@ -27,6 +27,7 @@
 	</files>
 	<languages folder="language/site">
 		<language tag="en-GB">en-GB.com_easytablepro.ini</language>
+		<language tag="en-GB">en-GB.plg_search_easytables.ini</language>
 	</languages>
 	<administration>
 		<menu img="components/com_easytablepro/assets/images/easytable_logo.ico" link="option=com_easytablepro">EasyTable Pro</menu>
