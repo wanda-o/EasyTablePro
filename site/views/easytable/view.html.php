@@ -39,12 +39,12 @@ class EasyTableViewEasyTable extends JView
 		
 		$params->merge( new JParameter( $easytable->params ) );// Merge them with specific table based params
 
-		$show_description = $params->get('show_description',0);
-		$show_search = $params->get('show_search',0);
-		$show_pagination = $params->get('show_pagination',0);
-		$show_created_date = $params->get('show_created_date',0);
+		$show_description = $params->get('show_description',1);
+		$show_search = $params->get('show_search',1);
+		$show_pagination = $params->get('show_pagination',1);
+		$show_created_date = $params->get('show_created_date',1);
 		$show_modified_date = $params->get('show_modified_date',0);
-		$show_page_title = $params->get('show_page_title',0);
+		$show_page_title = $params->get('show_page_title',1);
 		$pageclass_sfx = $params->get('pageclass_sfx','');
 
 		$pathway->addItem($easytable->easytablename, 'index.php?option='.$option.'&id='.$id.'&start='.$start_page);
