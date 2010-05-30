@@ -19,8 +19,8 @@
 <?php echo ($this->show_description ? '<p class="et_description">'.htmlspecialchars($this->easytable->description).'</p>' : '') ?>
 <br />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
-	<div class="et_search_result">
 	<form class="search_result" name="adminForm" method="post" action="<?php echo $this->paginationLink ?>" onreset="javascript:document.adminForm.etsearch.value = '';document.adminForm.submit();">
+	<div class="et_search_result">
 		<?php
 			if( $this->show_search && $this->etmCount) // If search is enabled for this table, show the search box.
 			{
@@ -29,7 +29,6 @@
 			}
 		?>
 			<input type="hidden" value="0" name="limitstart"/>
-	</form>
 	</div>
 	<div class="pagination">
 		<?php
@@ -50,6 +49,7 @@
 			}
 		?>
 	</div>
+	</form>
 	<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
 		<thead>
 			<tr>
