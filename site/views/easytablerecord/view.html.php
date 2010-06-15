@@ -243,10 +243,38 @@ class EasyTableViewEasyTableRecord extends JView
 		 */
 		global $mainframe;
 		$params =& $mainframe->getParams(); // Component wide & menu based params
-		$params->merge( new JParameter( &$easytable->params ) ); // Merge with this tables params
+		$tableParams = new JParameter( &$easytable->params );
+		$params->merge( $tableParams ); // Merge with this tables params
 		$lt_id = $params->get('id',0);
 		$kf_id = $params->get('key_field',0);
 		$lkf_id = $params->get('linked_key_field',0);
+
+		/* Check the user against table access */
+		// Create a user $access object for the current $user
+		$user =& JFactory::getUser();
+		$access = new stdClass();
+		// Check to see if the user has access to view the table
+		$aid	= $user->get('aid');
+
+		if ($tableParams->get('access') > $aid)
+		{
+			if ( ! $aid )
+			{
+				// Redirect to login
+				$uri		= JFactory::getURI();
+				$return		= $uri->toString();
+
+				$url  = 'index.php?option=com_user&view=login';
+				$url .= '&return='.base64_encode($return);;
+
+				//$url	= JRoute::_($url, false);
+				$mainframe->redirect($url, JText::_('YOU_MUST_LOGIN_TO_SEE_THIS_TABLE_') );
+			}
+			else{
+				JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
+				return;
+			}
+		}
 
 		/*
 		 *

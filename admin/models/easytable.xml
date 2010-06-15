@@ -1,5 +1,11 @@
 <root>
 	<params group="EASYTABLE_PREFS">
+		<param name="access" type="list" size="20" default="0" label="Access Level" description="DETAILACCESS">
+			<option value="0">Public</option>
+			<option value="1">Registered</option>
+			<option value="2">Special</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="show_description" type="list" default="" label="SHOW_DESCRIPTION" description="THIS_WILL_SHOW_DESCRIPTION_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>

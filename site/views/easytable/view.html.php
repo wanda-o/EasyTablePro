@@ -37,7 +37,35 @@ class EasyTableViewEasyTable extends JView
 			JError::raiseError(404,JText::_( "THE_TABLE_YOU_REQUESTED_IS_NOT_PUBLISHED_OR_DOESN_T_EXIST_BR___RECORD_ID__" ).$id);
 		}
 		
-		$params->merge( new JParameter( $easytable->params ) );// Merge them with specific table based params
+		$tableParams = new JParameter( $easytable->params );
+		$params->merge( $tableParams );// Merge them with specific table based params
+
+		/* Check the user against table access */
+		// Create a user $access object for the current $user
+		$user =& JFactory::getUser();
+		$access = new stdClass();
+		// Check to see if the user has access to view the table
+		$aid	= $user->get('aid');
+
+		if ($tableParams->get('access') > $aid)
+		{
+			if ( ! $aid )
+			{
+				// Redirect to login
+				$uri		= JFactory::getURI();
+				$return		= $uri->toString();
+
+				$url  = 'index.php?option=com_user&view=login';
+				$url .= '&return='.base64_encode($return);;
+
+				//$url	= JRoute::_($url, false);
+				$mainframe->redirect($url, JText::_('YOU_MUST_LOGIN_TO_SEE_THIS_TABLE_') );
+			}
+			else{
+				JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
+				return;
+			}
+		}
 
 		$show_description = $params->get('show_description',1);
 		$show_search = $params->get('show_search',1);
