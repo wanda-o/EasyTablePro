@@ -90,7 +90,6 @@ class EasyTableController extends JController
 						$ettdColumnAliass = $this->getMetaFromPost();
 						if($ettdColumnAliass)
 						{
-							//if(!($csvRowCount = $this->updateETTDTable($id, $ettdColumnAliass, $file)))
 							if(!($csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray)))
 							{
 								JError::raiseError(500,"Update of data table failed (Column count mismatch) for table: $id");
@@ -121,7 +120,6 @@ class EasyTableController extends JController
 				$ettdColumnAliass =& $this->createMetaFrom($CSVFileArray, $id);  // creates the ETTD and if that works adds the meta records
 				if($ettdColumnAliass)
 				{
-					//$csvRowCount = $this->updateETTDTable($id, $ettdColumnAliass, $file);
 					$csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray);
 				}
 				else
@@ -217,22 +215,21 @@ class EasyTableController extends JController
 				//Get the ADLE setting and set it to TRUE while we process our CSV file
 				$original_ADLE = ini_get('auto_detect_line_endings');
 				ini_set('auto_detect_line_endings', true);
-				
-//				$row = 0;                                                   // Only used in debug
-//				$msg = '';                                                  // Only used in debug
-//				$msg .= '<BR />Filename: ' . $filename . '| <BR />';
-		
+
 				// Create a new empy array and get our temp file's full/path/to/name
 				$CSVTableArray = array();
 	
 				$filename = $dest;
 				if($filename == '')
 				{
-					JError::raiseError(500, '$filename for temp file is empty. File possibly bigger than MAX upload size.');
+					JError::raiseError(500, '$filename for temp file is empty. File is possibly bigger than MAX upload size.');
 				}
+				$fileSuffix = strtolower ( substr ( $filename, strlen ( $filename )-3,  3 ));
+				$fileDelimiter = ( $fileSuffix == 'csv' ) ? "," : "\t";
+				$fileLength = 0;
 				
 				$handle = fopen($filename, "r");
-				while (($data = fgetcsv($handle)) !== FALSE)
+				while (($data = fgetcsv($handle, $fileLength, $fileDelimiter)) !== FALSE)
 				{
 					if( count($data)==0 )
 					{
@@ -241,8 +238,6 @@ class EasyTableController extends JController
 					else
 					{
 						$CSVTableArray[] = $data;	// We store the row array
-//						if($row == 0) { $msg .= print_r($data, TRUE) . '| <BR />'; }	// Only used in debug
-//						$row++; 					// We increment to the next row for debug msgs
 					}
 				}
 		
