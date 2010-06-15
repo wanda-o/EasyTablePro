@@ -72,15 +72,15 @@ function submitbutton(pressbutton)
 		var dot = tFileName.lastIndexOf(".");
 		if(dot == -1)
 		{
-			alert ("Only files with a CSV extension are supported. No Extension found.")
+			alert ("Only files with a CSV or TAB extension are supported. No Extension found.")
 		}
 		
 		var tFileExt = tFileName.substr(dot,tFileName.length);
 		tFileExt = tFileExt.toLowerCase();
 
-		if(tFileExt != ".csv")
+		if((tFileExt != ".csv") && (tFileExt != ".tab"))
 		{
-			alert ("Only files with a CSV extension are supported. Found: "+tFileExt);
+			alert ("Only files with an extension of CSV or TAB are supported. Found: "+tFileExt);
 		}
 		else
 		{
