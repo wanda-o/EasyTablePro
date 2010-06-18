@@ -205,8 +205,10 @@ defined('_JEXEC') or die('Restricted Access');
 								echo('<td align="center"><input type="hidden" name="id'.$mRId.'" value="'.$mRId.'">'.$mRId.'</td>');				// Id
 								echo('<td align="center"><input type="text" value="'.$metaRow[2].'" size="3" name="position'.$mRId.'"></td>');		// Position
 								echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'"><br>'.									// label <br />
-									'<em><input type="hidden" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'">'.$metaRow[9].'</em></td>');		// alias
-								echo('<td><textarea cols="50" rows="2" name="description'.$mRId.'">'.$metaRow[4].'</textarea></td>');				// Description
+									'<input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.
+									'<input type="text" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" disabled >'.
+									'<img src="http://protest.site/administrator/images/checked_out.png" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></td>');		// alias
+								echo('<td><textarea cols="30" rows="2" name="description'.$mRId.'">'.$metaRow[4].'</textarea></td>');				// Description
 								echo('<td>'.$this->getTypeList($mRId, $metaRow[5]).'<BR />'.
 										'<input type="text" value="'.$this->getFieldOptions($metaRow[10]).'" name="fieldoptions'.$mRId.'"></td>');			// Type / Field Options
 								

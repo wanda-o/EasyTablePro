@@ -41,6 +41,7 @@ class EasyTableController extends JController
 	function save()
 	{
 		JRequest::checkToken() or jexit ( 'Invalid Token' );
+		$userFeedback = '';
 
 		$currentTask = $this->getTask();
 		$msg .= '<BR />Current Task = '.$currentTask;
@@ -72,10 +73,19 @@ class EasyTableController extends JController
 
 		// 4 If ETTD exists then update meta & load any new data if required
 		if($ettd)
-		{	// 1. lets update the meta data
-			$this->updateMeta();
+		{	// Lets update the meta data
+			$updateMetaResult = $this->updateMeta();
 
-			// 2. Check for an update action
+			if($updateMetaResult["status"])
+			{
+				$userFeedback .= $updateMetaResult[1].'<BR />';
+			}
+			else
+			{
+				return $updateMetaResult;
+			}
+
+			// Check for an update action
 			if ($currentTask == 'updateETDTable')
 			{
 				$msg .= '<BR />Processing '.$currentTask;
@@ -309,7 +319,9 @@ class EasyTableController extends JController
 		// 1. Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object while setting up for META update: $id");
+			// JError::raiseError(500,"Couldn't get the database object while setting up for META update: $id");
+			$statusArray = array('status' => 0, 'msg' => "Couldn't get the database object while setting up for META update: $id");
+			return $statusArray;
 		}
 
 		// 2. Get the list of mRIds into an array we can use
@@ -327,14 +339,39 @@ class EasyTableController extends JController
 		$ettm_field_count = count($easytables_table_meta);
 		$mRIdsCount = count($mRIds);
 		if($ettm_field_count != $mRIdsCount) {
-			JError::raiseError(500, "META mismatch between form response and data store: $ettm_field_count vs $mRIdsCount <br /> $etMetaRIdAsSQL");
+			// JError::raiseError(500, "META mismatch between form response and data store: $ettm_field_count vs $mRIdsCount <BR /> $etMetaRIdAsSQL");
+			$statusArray = array('status' => 0, 'msg' => "META mismatch between form response and data store: $ettm_field_count vs $mRIdsCount <BR /> $etMetaRIdAsSQL");
+			return $statusArray;
 		}
 
 		// Start building the SQL to perform the update
 		$etMetaUpdateSQLStart   = 'UPDATE #__easytables_table_meta SET ';
 		foreach ($mRIds as $rowValue) {
-			// Build the update SQL for each field
+			// Clear the update SQL
 			$etMetaUpdateValuesSQL  = '';
+
+			// Get the original field alias
+			$origFldAlias = JRequest::getVar('origfieldalias'.$rowValue);
+
+			// Get the field alias and conform it if necessary.
+			$reqFldAlias = JRequest::getVar('fieldalias'.$rowValue);
+			$reqFldAlias = $this->conformFieldAlias($reqFldAlias);
+
+			// If the fieldalias has changed
+			if($origFldAlias != $reqFldAlias) {
+				// 1. ALTER the field name in the datatable
+				if($this->alterEasyTableFieldName( $origFldAlias, $reqFldAlias ))
+				{ // 2. Add a line to the meta update SQL to update the meta table
+					$etMetaUpdateValuesSQL .= '`fieldalias` = \''              .$reqFldAlias.'\', ';
+				}
+				else
+				{
+					$statusArray = array( 'status' => 0, 'msg' => "Meta data update failed to CHANGE data table column: $origFldAlias ".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);
+					return $statusArray;
+				}
+			}
+
+			// Build the rest of the update SQL for each field
 
 			$etMetaUpdateValuesSQL .= '`position` = \''           .JRequest::getVar('position'    .$rowValue).'\', ';
 			$etMetaUpdateValuesSQL .= '`label` = \''              .JRequest::getVar('label'       .$rowValue).'\', ';
@@ -355,9 +392,15 @@ class EasyTableController extends JController
 			$db->setQuery($etMetaUpdateSQL);
 			$db_result = $db->query();
 			
-			if(!$db_result) { JERROR::raiseError(500, "Meta data update failed for row id ( $rowValue ):".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);}
-			
+			if(!$db_result)
+			{
+				// JERROR::raiseError(500, "Meta data update failed for row id ( $rowValue ):".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);
+				$statusArray = array( 'status' => 0, 'msg' => "Meta data update failed at row id ( $rowValue ):".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);
+				return $statusArray;
+			}
 		}
+		$statusArray = array('status' => 1, 'msg' => "META updated successfully.");
+		return $statusArray;
 	}
 	
 	function edit()
@@ -464,6 +507,33 @@ class EasyTableController extends JController
 		 $row =& JTable::getInstance('EasyTable','Table');
 		 //echo 'About to checkin row id:'.$id;
 		 $row->checkin($id);
+	}
+	
+	function alterEasyTableFieldName( $origFldAlias, $newFldAlias )
+	{
+		if( ($origFldAlias == '') || ($newFldAlias == '') || ($origFldAlias == null) || ($newFldAlias == null))
+		{
+			return false;
+		}
+		
+		$id = JRequest::getInt('id',0);
+		// Build SQL to alter the table
+		$alterSQL = 'ALTER TABLE #__easytables_table_data_'.$id.'  CHANGE `'.$origFldAlias.'` `'.$newFldAlias.'` TEXT;';
+
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
+		}
+		
+		// Set and execute the SQL query
+		$db->setQuery($alterSQL);
+		$alter_result = $db->query();
+		if(!$alter_result)
+		{
+			JError::raiseError(500, "Failure to ALTER data table creation, likely cause is invalid column:<BR /> new {$newFldAlias};<BR />from {$origFldAlias}<BR />actually DB explanation: ".$db->explain());
+		}
+		return true;
 	}
 	
 	function remove()
@@ -654,6 +724,22 @@ class EasyTableController extends JController
 		$db->setQuery($query);
 		
 		return($theResult=$db->query());
+	}
+	
+	function conformFieldAlias ($rawAlias)
+	{
+		// Make the raw alias url safe & limit to 64 chars for mysql column names
+		$columnAlias = substr( JFilterOutput::stringURLSafe(trim($rawAlias)), 0, 64);
+
+		// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)
+		$firstCharOfAlias = substr($columnAlias,0,1);
+
+		if(preg_match('/[^A-Za-z\s ]/', '', $firstCharOfAlias))
+		{
+			$columnAlias = 'a'.$columnAlias;
+		}
+
+		return $columnAlias;
 	}
 	
 	function createETTD ($id, $ettdColumnAliass)
