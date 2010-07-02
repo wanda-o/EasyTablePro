@@ -243,7 +243,7 @@ class EasyTableViewEasyTableRecord extends JView
 		 */
 		global $mainframe;
 		$params =& $mainframe->getParams(); // Component wide & menu based params
-		$tableParams = new JParameter( &$easytable->params );
+		$tableParams = new JParameter( $easytable->params );
 		$params->merge( $tableParams ); // Merge with this tables params
 		$lt_id = $params->get('id',0);
 		$kf_id = $params->get('key_field',0);
