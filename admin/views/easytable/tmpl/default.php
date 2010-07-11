@@ -210,6 +210,7 @@ defined('_JEXEC') or die('Restricted Access');
 									'<img src="http://protest.site/administrator/images/checked_out.png" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></td>');		// alias
 								echo('<td><textarea cols="30" rows="2" name="description'.$mRId.'">'.$metaRow[4].'</textarea></td>');				// Description
 								echo('<td>'.$this->getTypeList($mRId, $metaRow[5]).'<BR />'.
+									'<input type="hidden" name="origfieldtype'.$mRId.'" value="'.$metaRow[5].'" >'.
 										'<input type="text" value="'.$this->getFieldOptions($metaRow[10]).'" name="fieldoptions'.$mRId.'"></td>');			// Type / Field Options
 								
 								$tdName			= 'list_view'.$mRId;

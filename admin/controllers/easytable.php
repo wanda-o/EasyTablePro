@@ -340,7 +340,23 @@ class EasyTableController extends JController
 
 			// Get the original field alias
 			$origFldAlias = JRequest::getVar('origfieldalias'.$rowValue);
-
+			// Get the field type
+			$fieldType = JRequest::getVar('type'.$rowValue);
+			$origFldType = JRequest::getVar('origfieldtype'.$rowValue);
+			// If the field type has changed
+			if($fieldType != $origFldType)
+			{
+				// Set the field type to match
+				if($this->alterEasyTableFieldType( $origFldAlias, $fieldType ))
+				{
+					// Add a success msg to status array
+				}
+				else
+				{
+					// Add a failure msg and abort
+				}
+			}
+			
 			// Get the field alias and conform it if necessary.
 			$reqFldAlias = JRequest::getVar('fieldalias'.$rowValue);
 			$reqFldAlias = $this->conformFieldAlias($reqFldAlias);
@@ -518,6 +534,55 @@ class EasyTableController extends JController
 		if(!$alter_result)
 		{
 			JError::raiseError(500, "Failure to ALTER data table creation, likely cause is invalid column:<BR /> new {$newFldAlias};<BR />from {$origFldAlias}<BR />actually DB explanation: ".$db->explain());
+		}
+		return true;
+	}
+	
+	function alterEasyTableFieldType( $origFldAlias, $fieldType )
+	{
+		if( ($origFldAlias == '') || ($fieldType == '') || ($origFldAlias == null) || ($fieldType == null))
+		{
+			return false;
+		}
+		
+		switch ( $fieldType )
+		{
+		    case 0:
+		        $sqlFieldType = "TEXT";
+		        break;
+		    case 1:
+		    case 2:
+		    case 3:
+		        $sqlFieldType = "VARCHAR(255)";
+		        break;
+		    case 4:
+		        $sqlFieldType = "BIGINT";
+		        break;
+		    case 5:
+		        $sqlFieldType = "DATE";
+		        break;
+		    default:
+		    	return false;
+		}
+		
+		
+		$id = JRequest::getInt('id',0);
+		// Build SQL to alter the table
+		$alterSQL = 'ALTER TABLE #__easytables_table_data_'.$id.'  CHANGE `'.$origFldAlias.'` `'.$origFldAlias.'` '.$sqlFieldType.';';
+		dump("SQL Change column SQL: ".$alterSQL);
+
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,"Couldn't get the database object while trying to ALTER field type, data table: $id");
+		}
+		
+		// Set and execute the SQL query
+		$db->setQuery($alterSQL);
+		$alter_result = $db->query();
+		if(!$alter_result)
+		{
+			JError::raiseError(500, "Failure to ALTER data table column type, likely cause is invalid column:<BR /> field {$origFldAlias};<BR />type {$fieldType}<BR />actually DB explanation: ".$db->explain());
 		}
 		return true;
 	}
