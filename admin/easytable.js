@@ -4,6 +4,8 @@
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
 */
+$et_check_msg = '';
+
 function atLeast1ListField() {
 	cppl_adminForm = document.adminForm;
 	cppl_numAFElements = cppl_adminForm.elements.length;
@@ -22,7 +24,65 @@ function atLeast1ListField() {
 		}
 	}
 
+	$et_check_msg = "At least one field must be selected for the list view.";
 	return false; // If we got here none are checked,
+}
+
+function AliassAreUnique() {
+	theMRIds = document.adminForm.mRIds.value.split(', ');
+
+	// Build an array of alias'
+	aliasArray = [];
+	for(i=0; i<theMRIds.length - 1; i++)
+	{
+		fldAliasName = "fieldalias"+theMRIds[i];
+		theValue = document.adminForm.elements[fldAliasName].value;
+		aliasArray.push(theValue);
+	}
+
+	// Sort the alias array
+	aliasArray = aliasArray.sort(); // Default js string comparison
+	
+	
+	// Scan for matches in sequential entries
+	for (var i = 0; i < aliasArray.length - 1; i++ )
+	{
+		if (aliasArray[i + 1] == aliasArray[i])
+		{
+			$et_check_msg = "Field Alias' must be unique, ie. two alias' can not have the same value.\n • Please correct the alias ( "+aliasArray[i]+" ) and try again.";
+			return false; // Oh noes we found a duplicate...
+		}
+	}
+	return true; // If we got here it's all good.
+}
+
+function unlock ( rowElement, rowId ) {
+	// Setup our graphics
+	thisHost = this.location.protocol+"//"+this.location.host;
+	lockedIcon = thisHost+"/administrator/images/checked_out.png";
+	saveIcon = thisHost+"/administrator/images/tick.png";
+	// Get the input obj for the fieldalias
+	thisFieldAliasStr = "fieldalias"+rowId;
+	thisFieldAlias = (document.getElementsByName(thisFieldAliasStr))[0];
+
+	// Check the state of the lock out - implistic but will work.
+	if(thisFieldAlias.disabled)
+	{
+	// It's locked so all we need to do is unlock it and change the lock icon to a tick.
+		rowElement.src = saveIcon;
+		thisFieldAlias.disabled = false;
+		thisFieldAlias.focus();
+		thisFieldAlias.select();
+	}
+	else
+	{
+	// Ok it's unlocked so we need to save any changes to the alias
+		// If the alias is not the same as it's original value we need to set a flag
+		// so that the controller knows to update the table structure first.
+	// and lock (disable) the field again
+		rowElement.src = lockedIcon;
+		thisFieldAlias.disabled = true;
+	}
 }
 
 function toggleTick (tFieldName, tRow, tImgSuffix) {
@@ -51,20 +111,13 @@ function toggleTick (tFieldName, tRow, tImgSuffix) {
 
 function submitbutton(pressbutton)
 {
-	if (! atLeast1ListField() && (pressbutton =='save' || pressbutton == 'apply') ){
-		alert( "At least one field must be selected for the list view." );
-		return 0;
-	}
-	else if(pressbutton =='save' || pressbutton == 'apply')
+	if (pressbutton =='publish' || pressbutton == 'unpublish' ||pressbutton =='remove' || pressbutton == 'add' || pressbutton == 'toggleSearch')
 	{
-		if(document.adminForm.easytablename.value == '')
-		{
-			alert("Please enter the name of the table.");
-		}
-		else
-		{
-			submitform(pressbutton);
-		}
+		etSubmitForm(pressbutton);
+	}
+	else if (pressbutton == 'cancel')
+	{
+		etSubmitForm(pressbutton);
 	}
 	else if (pressbutton == 'updateETDTable' || pressbutton == 'createETDTable')
 	{
@@ -84,21 +137,50 @@ function submitbutton(pressbutton)
 		}
 		else
 		{
-			submitform(pressbutton);
+			etSubmitForm(pressbutton);
 		}
 	}
-	else if (pressbutton == 'cancel')
-	{
-		submitform(pressbutton);
+	else if (! atLeast1ListField() && (pressbutton =='save' || pressbutton == 'apply') ){
+		alert( $et_check_msg );
+		return 0;
 	}
-	else if (pressbutton =='publish' || pressbutton == 'unpublish' ||pressbutton =='remove' || pressbutton == 'add' || pressbutton == 'toggleSearch')
+	else if ( !AliassAreUnique()  && (pressbutton =='save' || pressbutton == 'apply') )
 	{
-		submitform(pressbutton);
+		alert( $et_check_msg );
+		return 0;
 	}
-	else
+	else if(pressbutton =='save' || pressbutton == 'apply')
+	{
+		if(document.adminForm.easytablename.value == '')
+		{
+			alert("Please enter the name of the table.");
+		}
+		else
+		{
+			etSubmitForm(pressbutton);
+		}
+	}
+	else 
 	{
 		alert("OK - you broke something, not really sure how you got here.  If you want this fixed I'd make some serious notes about how you ended up here. PB-> "+pressbutton);
 	}
+}
+
+function etSubmitForm (pressbutton)
+{
+	// Enable all alias fields for prior to submit
+	cppl_adminForm = document.adminForm;
+	cppl_numAFElements = cppl_adminForm.elements.length;
+
+	for(i=0; i<cppl_numAFElements; i++)
+	{
+		cppl_element = cppl_adminForm.elements[i];						// Get the element, then
+		if(cppl_element.disabled) {										// If the element is disabled
+			cppl_element.disabled = false;								// then enable it for submission.
+		}
+	}
+
+	submitform(pressbutton);
 }
 
 function ShowTip(id) {
