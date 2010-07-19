@@ -237,7 +237,9 @@ class EasyTableController extends JController
 				$fileLength = 0;
 				
 				$handle = fopen($filename, "r");
-				while (($data = fgetcsv($handle, $fileLength, $fileDelimiter)) !== FALSE)
+				if($fileSuffix == ",")
+				{
+				while (($data = fgetcsv($handle)) !== FALSE)
 				{
 					if( count($data)==0 )
 					{
@@ -246,6 +248,21 @@ class EasyTableController extends JController
 					else
 					{
 						$CSVTableArray[] = $data;	// We store the row array
+					}
+				}
+				}
+				else
+				{
+					while (($data = fgetcsv($handle, $fileLength, $fileDelimiter)) !== FALSE)
+					{
+						if( count($data)==0 )
+						{
+							// fgetcsv creates a single null field for blank lines - we can skip them...
+						}
+						else
+						{
+							$CSVTableArray[] = $data;	// We store the row array
+						}
 					}
 				}
 		
@@ -564,7 +581,6 @@ class EasyTableController extends JController
 		    default:
 		    	return false;
 		}
-		
 		
 		$id = JRequest::getInt('id',0);
 		// Build SQL to alter the table
