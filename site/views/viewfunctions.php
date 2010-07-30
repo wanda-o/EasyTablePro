@@ -192,5 +192,3 @@ class ET_VHelper
 		return $fieldWithOptions;
 	}
 }
-
-

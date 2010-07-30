@@ -36,7 +36,6 @@ class EasyTableViewEasyTable extends JView
 		if($easytable->published == 0) {
 			JError::raiseError(404,JText::_( "THE_TABLE_YOU_REQUESTED_IS_NOT_PUBLISHED_OR_DOESN_T_EXIST_BR___RECORD_ID__" ).$id);
 		}
-		
 		$tableParams = new JParameter( $easytable->params );
 		$params->merge( $tableParams );// Merge them with specific table based params
 
@@ -139,7 +138,6 @@ class EasyTableViewEasyTable extends JView
 			$easytables_table_meta = array(array("Warning EasyTable List View Empty","","","",""));
 			$paginatedRecords = array(array("id" => 0, "Message" => "No fields selceted to display in list view for this table"));
 		}
-
 		// Search
 		$search = $db->getEscaped($this->get('search'));
 		//Get form link

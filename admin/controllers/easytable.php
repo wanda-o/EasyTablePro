@@ -585,7 +585,6 @@ class EasyTableController extends JController
 		$id = JRequest::getInt('id',0);
 		// Build SQL to alter the table
 		$alterSQL = 'ALTER TABLE #__easytables_table_data_'.$id.'  CHANGE `'.$origFldAlias.'` `'.$origFldAlias.'` '.$sqlFieldType.';';
-		dump("SQL Change column SQL: ".$alterSQL);
 
 		// Get a database object
 		$db =& JFactory::getDBO();
