@@ -67,14 +67,17 @@
 				$this->assign('currentImageDir',$this->imageDir);
 
 				$alt_rv = 0; $rowNumber = 0;
+			try {
 				foreach ($this->paginatedRecords as $prow )  // looping through the rows of paginated data
 				{
 					$prowFNILV = $this->paginatedRecordsFNILV[$rowNumber++];
 					echo "<tr class='row$alt_rv' id='row-$prow->id'>";  // Open the row
 					$labelNumber = 0;
+				try {
 					foreach($prow as $k => $f)  // looping through the fields of the row
 					{
-						if(!($k == 'id')){				// we skip the row id which is in position 0
+						if(!($k == 'id'))
+						{	// we skip the row id which is in position 0
 							$cellData = '';				// make sure cellData is empty before we start this cell.
 							$cellClass    = $this->easytables_table_meta[$labelNumber][1];
 							$cellType     = (int)$this->easytables_table_meta[$labelNumber][2];
@@ -87,7 +90,7 @@
 								$linkToDetail = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&view=easytablerecord&id='.$this->tableId.':'.$this->easytable->easytablealias.'&rid='.$rowId);
 								$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
 								$cellDetailLink ='';
-							}
+							}														// End of detail link If
 							// Finally we can echo the cell string.
 							echo "<td class='colfld ".$cellClass."'>".trim($cellData).'</td>';
 						}
@@ -95,14 +98,27 @@
 						{
 							$rowId = (int)$f;
 							//echo '<BR />'.$k.' == '.$f;
-						}
+						}														// End of field check for 'id' If 
 						// End of row stuff should follow after this.
-					}
+						unset($f);
+					}	// End of foreach for field in row
+				}
+				catch (Exception $e)
+				{
+					echo($e->getMessage());
+				}
 					echo '</tr>';  // Close the Row
 					$alt_rv = (int)!$alt_rv;
 					$k = '';
 					$rowId = '';   // Clear the rowId to prevent any issues.
-				}
+					unset($prow);
+					unset($prowFNILV);
+				}	// End of foreach for rows
+			}
+			catch (Exception $e)
+			{
+				echo($e->getMessage());
+			}
 			?>
 		</tbody>
 	</table>
