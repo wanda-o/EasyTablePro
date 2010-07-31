@@ -60,13 +60,13 @@ function submitbutton(pressbutton)
 	{
 		submitform(pressbutton);
 	}
-	else if (pressbutton =='publish' || pressbutton == 'unpublish' ||pressbutton =='remove' || pressbutton == 'add')
+	else if (pressbutton =='publish' || pressbutton == 'unpublish' || pressbutton =='remove' || pressbutton == 'add'|| pressbutton =='edit' )
 	{
 		submitform(pressbutton);
 	}
 	else
 	{
-		alert("OK - you broke something, not really sure how you got here.  If you want this fixed I'd make some serious notes about how you ended up here. PB-> "+pressbutton);
+		alert("OK - you broke something, not really sure how you got here.  If you want this fixed I'd make some serious notes about how you ended up here. PB->"+pressbutton);
 	}
 }
 
