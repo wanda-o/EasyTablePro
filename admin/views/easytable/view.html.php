@@ -91,7 +91,7 @@ class EasyTableViewEasyTable extends JView
 		$doc->addScript(JURI::base().'components'.DS.'com_easytable'.DS.'easytable.js');
 
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		//get the EasyTable
 		$row =& JTable::getInstance('EasyTable', 'Table');
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
