@@ -20,26 +20,26 @@
 <br />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
 	<form class="search_result" name="adminForm" method="post" action="<?php echo $this->paginationLink ?>" onreset="javascript:document.adminForm.etsearch.value = '';document.adminForm.submit();">
-	<div class="et_search_result">
-		<?php
+		<div class="et_search_result">
+<?php
 			if( $this->show_search && $this->etmCount) // If search is enabled for this table, show the search box.
 			{
 				echo JText::_( 'SEARCH' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">'.JText::_( 'GO' ).'</button>';
 				echo '<input type="reset" value="'.JText::_( 'RESET' ).'">';
 			}
 		?>
-			<input type="hidden" value="0" name="limitstart"/>
-	</div>
-	<div class="pagination">
-		<?php
+			<input type="hidden" value="0" name="limitstart" />
+		</div>
+<?php
 			if( $this->show_pagination && $this->etmCount) // If pagination is enabled show the controls
 			{
+				echo '<div class="pagination">';
 				echo $this->pagination->getPagesLinks();
+				echo '</div>';
 			}
 		?>
-	</div>
-	<div class="display">
-		<?php
+		<div class="display">
+<?php
 			if( $this->show_pagination && $this->etmCount) 						// Only if pagination is enabled
 			{
 				$pcntr = $this->pagination->getPagesCounter( );
@@ -48,9 +48,9 @@
 				}
 			}
 		?>
-	</div>
+		</div>
 	</form>
-	<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
+	<table id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
 		<thead>
 			<tr>
 				<?php foreach ($this->easytables_table_meta as $heading )
@@ -125,7 +125,17 @@
 	<?php if( $this->SortableTable ) { ?>
 	<script type="text/javascript">
 		var t = new SortableTable(document.getElementById('<?php echo htmlspecialchars($this->easytable->easytablealias); ?>'), 'etAscending', 'etDescending');
-	</script>
-	<?php } ?>
+	</script> 
+<?php } ?>
+<?php
+			if( $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
+			{
+				echo '<div class="pagination_footer">';
+				echo $this->pagination->getListFooter();
+				echo '</div>';
+			}
+?>
+
 </div>
-</div> <!-- contentpaneclosed -->
+</div>
+<!-- contentpaneclosed -->

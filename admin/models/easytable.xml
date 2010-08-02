@@ -21,6 +21,11 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+		<param name="show_pagination_footer" type="list" default="" label="SHOW_TABLE_PAGINATION_FOOTER" description="THIS_WILL_SHOW_THE_PAGINATION_CONTROLS_IN_THE_FOOTER">
+			<option selected="selected" value="">Use Global</option>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="show_next_prev_record_links" type="list" default="" label="NEXT_PREV_LINKS" description="IN_A_RECORD_VIEW_THIS_WILL_SHOW_LINKS_TO_THE_NEXT_AND_PREVIOUS_RECORD_IF_THEY_EXIST_">
 			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
