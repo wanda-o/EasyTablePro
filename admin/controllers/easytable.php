@@ -573,7 +573,7 @@ class EasyTableController extends JController
 		        $sqlFieldType = "VARCHAR(255)";
 		        break;
 		    case 4:
-		        $sqlFieldType = "BIGINT";
+		        $sqlFieldType = "FLOAT";
 		        break;
 		    case 5:
 		        $sqlFieldType = "DATE";
