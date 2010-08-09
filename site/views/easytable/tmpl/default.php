@@ -42,9 +42,13 @@
 <?php
 			if( $this->show_pagination && $this->etmCount) 						// Only if pagination is enabled
 			{
-				$pcntr = $this->pagination->getPagesCounter( );
+				$pofp = $this->pagination->getPagesCounter( );
+				if(isset( $pofp )) {
+					$pofp = '( '.$pofp.' )';
+				}
+				$pcntr = $this->pagination->limit;
 				if( isset( $pcntr )) {																	 // AND if there's more than one page then show the page display.
-					echo $this->pagination->getLimitBox().' ( '.$pcntr.' )';
+					echo JText::_('DISPLAY').': '.$this->pagination->getLimitBox().$pofp;
 				}
 			}
 		?>
@@ -102,7 +106,7 @@
 						// End of row stuff should follow after this.
 						unset($f);
 					}	// End of foreach for field in row
-				}
+				}	// End of try
 				catch (Exception $e)
 				{
 					echo($e->getMessage());
