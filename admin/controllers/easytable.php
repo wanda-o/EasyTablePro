@@ -317,7 +317,13 @@ class EasyTableController extends JController
 		}
 		return $columnAlias;
 	}
-	
+
+	function m($s) {
+		if (get_magic_quotes_gpc())
+			$s= stripslashes($s);
+		return $s;
+	}
+
 	function updateMeta()
 	{
 		// Now we have to store the meta data
@@ -392,6 +398,9 @@ class EasyTableController extends JController
 				}
 			}
 
+			// Get the fieldOptions allowing for quotes that may have been whacked by site still running magic_quotes_gpc
+			$useableFieldOptions = bin2hex( $this->m($_POST['fieldoptions'.$rowValue]));
+
 			// Build the rest of the update SQL for each field
 
 			$etMetaUpdateValuesSQL .= '`position` = \''           .JRequest::getVar('position'    .$rowValue).'\', ';
@@ -401,7 +410,7 @@ class EasyTableController extends JController
 			$etMetaUpdateValuesSQL .= '`list_view` = \''          .JRequest::getVar('list_view'   .$rowValue).'\', ';
 			$etMetaUpdateValuesSQL .= '`detail_link` = \''        .JRequest::getVar('detail_link' .$rowValue).'\', ';
 			$etMetaUpdateValuesSQL .= '`detail_view` = \''        .JRequest::getVar('detail_view' .$rowValue).'\', ';
-			$etMetaUpdateValuesSQL .= '`params` = \'fieldoptions=x'.bin2hex( $_POST['fieldoptions'.$rowValue]).'\nsearch_field='.JRequest::getVar('search_field' .$rowValue).'\' ';
+			$etMetaUpdateValuesSQL .= '`params` = \'fieldoptions=x'.$useableFieldOptions.'\nsearch_field='.JRequest::getVar('search_field' .$rowValue).'\' ';
 
 			// Build the SQL that selects the record for the right ID
 			$etMetaUpdateSQLEnd     = ' WHERE ID =\''.$rowValue.'\'';
