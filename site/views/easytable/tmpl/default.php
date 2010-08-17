@@ -21,9 +21,16 @@
 			if( $this->show_pagination && $this->etmCount) // If pagination is enabled show the controls
 			{
 				echo $this->pagination->getPagesLinks();
-				$pcntr = $this->pagination->getPagesCounter( );
-				if( isset( $pcntr )) { // if there's more than one page show the page position.
-					echo $this->pagination->getLimitBox().' ( '.$pcntr.' )';
+			}
+			if( $this->show_pagination && $this->etmCount) 						// Only if pagination is enabled
+			{
+				$pofp = $this->pagination->getPagesCounter( );
+				if(isset( $pofp )) {
+					$pofp = '( '.$pofp.' )';
+				}
+				$pcntr = $this->pagination->limit;
+				if( isset( $pcntr )) {																	 // AND if there's more than one page then show the page display.
+					echo JText::_('DISPLAY').': '.$this->pagination->getLimitBox().$pofp;
 				}
 			}
 		?>
