@@ -38,7 +38,8 @@ class EasyTableViewEasyTable extends JView
 
 		$show_description = $params->get('show_description',0);
 		$show_search = $params->get('show_search',0);
-        $show_pagination = $params->get('show_pagination',0);
+		$show_pagination = $params->get('show_pagination',0);
+		$show_pagination_footer = $params->get('show_pagination_footer',0);
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
 		$show_page_title = $params->get('show_page_title',0);
@@ -111,7 +112,8 @@ class EasyTableViewEasyTable extends JView
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);
 		$this->assign('show_search', $show_search);
-        $this->assign('show_pagination', $show_pagination);
+		$this->assign('show_pagination', $show_pagination);
+		$this->assign('show_pagination_footer', $show_pagination_footer);
 
 		$this->assign('show_created_date', $show_created_date);
 		$this->assign('show_modified_date', $show_modified_date);

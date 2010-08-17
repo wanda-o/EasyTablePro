@@ -15,6 +15,11 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+		<param name="show_pagination_footer" type="list" default="" label="SHOW_TABLE_PAGINATION_FOOTER" description="THIS_WILL_SHOW_THE_PAGINATION_CONTROLS_IN_THE_FOOTER">
+			<option selected="selected" value="">Use Global</option>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="show_created_date" label="SHOW_CREATION_DATE" type="list" default="" description="CREATION_DATE_WILL_BE_DISPLAYED_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
