@@ -12,7 +12,9 @@
 <br />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
 	<form name="adminForm" method="post" action="<?php echo $this->paginationLink ?>">
+<?php if ($this->show_pagination) { ?>
 	<div class="et_search_pagination">
+<?php } ?>
 		<?php
 			if( $this->show_search && $this->etmCount) // If search is enabled for this table, show the search box.
 			{
@@ -34,7 +36,9 @@
 				}
 			}
 		?>
+<?php if ($this->show_pagination) { ?>
 	</div>
+<?php } ?>
 	<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
 		<thead>
 			<tr>
