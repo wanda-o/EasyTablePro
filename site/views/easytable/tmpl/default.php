@@ -56,8 +56,14 @@
 				$alt_rv = 0;
 				foreach ($this->paginatedRecords as $prow )  // looping through the rows of paginated data
 				{
-					// echo '<!-- $prow count = '.count($prow).' -->';
-					echo "<tr class='row$alt_rv' >";  // Open the row
+					if($this->pagination->total == $prow->id)
+					{
+						echo "<tr class='row$alt_rv et_last_row' >";  // Open the LAST row
+					}
+					else
+					{
+						echo "<tr class='row$alt_rv' >";  // Open the row
+					}
 					$labelNumber = 0;
 					foreach($prow as $k => $f)  // looping through the fields of the row
 					{
