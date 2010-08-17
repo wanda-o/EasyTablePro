@@ -124,5 +124,13 @@
 	</table>
 	<input type="hidden" value="0" name="limitstart"/>
 	</form>
+<?php
+			if( $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
+			{
+				echo '<div class="pagination_footer">';
+				echo $this->pagination->getListFooter();
+				echo '</div>';
+			}
+?>
 </div>
 </div> <!-- contentpaneclosed -->
