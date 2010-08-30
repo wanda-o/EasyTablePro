@@ -121,12 +121,49 @@ function toggleTick (tFieldName, tRow, tImgSuffix) {
 	}
 }
 
+function firstAvailableNumber(numberList, firstAvailable)
+{
+	firstAvailable = (typeof firstAvailable == 'undefined') ? 1 : firstAvailable;
+	nlArray = numberList.split(', ');
+	nlArray.sort(function(a,b){return a - b});
+	for(var i=0;i<nlArray.length;i++) {
+		if(firstAvailable == nlArray[i]) firstAvailable++;
+		if(firstAvailable < nlArray[i]) break;
+	}
+
+	return firstAvailable;
+}
+
+function addToList(theList, itemToAdd)
+{
+	newList = theList.split(', ');
+	newList.push(itemToAdd);
+	return newList.join(', ');
+}
+function deleteFromList(theList, itemToRemove)
+{
+	originalList = theList.split(', ');
+	newList = new Array();
+	// Remove the matching element from the array
+	for(var i=0; i<originalList.length; i++) {
+		if(originalList[i] != itemToRemove) newList.push(originalList[i]);
+	}
+	return newList.join(', ');
+}
 
 function aliasOK(str)
 {
 	if(str != makeURLSafe(str)) return false;
 
 	return true;
+}
+
+function updateAlias()
+{
+	labelName = this.name;
+	aliasID = 'fieldalias'+labelName.substring(5);
+	fldAlias = $(aliasID);
+	if(fldAlias.value == '') fldAlias.value = makeURLSafe(this.value);
 }
 
 function validateAlias(aliasElement)
@@ -136,6 +173,100 @@ function validateAlias(aliasElement)
 		aliasElement.value = makeURLSafe(aliasElement.value);
 		alert("An alias must not contain spaces or other special characters.\r\r\nYour alias has been changed to a workable option.");
 	}
+}
+
+function addField()
+{
+	nfField = $('newFlds');
+	cloneRowInnerHTML = "<td align=\"center\"><input type=\"hidden\" name=\"id#id#\" value=\"#id#\">#id#<br><a href=\"javascript:void(0);\" class=\"deleteFieldButton\" onclick=\"deleteField(\'#id#\', \'et_rID#id#\');\"><img src=\"images/publish_x.png\"></a></td><td align=\"center\"><input type=\"text\" value=\"9999\" size=\"3\" name=\"position#id#\"></td><td><input type=\"text\" value=\"\" name=\"label#id#\" id=\"label#id#\"><br><input type=\"hidden\" name=\"origfieldalias#id#\" value=\"\"><input type=\"text\" name=\"fieldalias#id#\" id=\"fieldalias#id#\" value=\"\" onchange=\"validateAlias()\" disabled=\"\"><img src=\"components/com_easytablepro/assets/images/locked.gif\" onclick=\"unlock(this, '#id#');\" id=\"unlock#id#\"></td><td><textarea cols=\"30\" rows=\"2\" name=\"description#id#\"></textarea></td><td><select name=\"type#id#\"><option value=\"0\" selected=\"\">Text</option><option value=\"1\">Image</option><option value=\"2\">Link (URL)</option><option value=\"3\">eMail Address</option><option value=\"4\">Number</option><option value=\"5\">Date</option></select><br><input type=\"hidden\" name=\"origfieldtype#id#\" value=\"\"><input type=\"text\" value=\"\" name=\"fieldoptions#id#\"></td><td align=\"center\"><input type=\"hidden\" name=\"list_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'list_view\', '#id#');\"><img src=\"images/publish_x.png\" name=\"list_view#id#_img\" border=\"0\" title=\"Click this to toggle it\'s appearance in the List View\"></a></td><td align=\"center\"><input type=\"hidden\" name=\"detail_link#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'detail_link\', '#id#');\"><img src=\"images/publish_x.png\" name=\"detail_link#id#_img\" border=\"0\" title=\"Click this to make this field act as a link to the record/detail view, or not.\"></a></td><td align=\"center\"><input type=\"hidden\" name=\"detail_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'detail_view\', '#id#');\"><img src=\"images/publish_x.png\" name=\"detail_view#id#_img\" border=\"0\" title=\"Click this to make this field appear in the record/detail view, or not.\"></a></td><td align=\"center\"><input type=\"hidden\" name=\"search_field#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'search_field\', '#id#');\"><img src=\"images/publish_x.png\" name=\"search_field#id#_img\" border=\"0\" title=\"CLICK_TO_MAKE_THIS_FIELD_SEARCHABLE__OR_NOT_\"></a></td>";
+
+	// Store the id of our new field meta record
+	if(nfField.value == '')
+	{
+		new_id = '_nf_1';
+		nfField.value = '1';
+	}
+	else
+	{
+		next_id_value = firstAvailableNumber(nfField.value);
+		new_id = '_nf_' + next_id_value;
+		nfField.value = addToList(nfField.value, next_id_value);
+	}
+
+	newRowHTML = cloneRowInnerHTML.split('#id#').join(new_id);
+
+	newRow = document.createElement('tr');
+	newRow.setAttribute('align','center');
+	newRow.setAttribute('class','et_new_row');
+	newRow.setAttribute('id','et_rID'+new_id);
+
+	etMetaTableRows = $('et_meta_table_rows');
+	etControlRow = $('et_controlRow');
+
+	if(window.webkit) {
+		// So nice when standards are adhered to... impressive when it's by the new kid.
+		newRow.innerHTML = newRowHTML;
+		etMetaTableRows.insertBefore(newRow, etControlRow);
+		aliasInput = $('label'+new_id);
+		aliasInput.onchange = updateAlias;
+	}
+	else if(window.ie) {
+	// 2010 and still dealing with this broken peice of ***t browser
+	}
+	else if(window.gecko) {
+	// Firefox I expected better of you!
+		// So nice when standards are adhered to... impressive when it's by the new kid.
+		newRow.innerHTML = newRowHTML;
+		etMetaTableRows.insertBefore(newRow, etControlRow);
+	}
+
+
+}
+
+function deleteField(fName,rowId)
+{
+	deletedRowId = rowId.substring(6);
+	if((deletedRowId.length > 4) && (deletedRowId.substring(0,4)=="_nf_")) {
+		itsNotANewField = false;
+	} else itsNotANewField = true;
+
+	if(itsNotANewField)
+	{
+		et_deleteThisField = confirm('Deleting the field "'+fName+'" will cause it & any data to be removed from the database when you "SAVE" or "APPLY" the changes to this EasyTable. \r\rEasyTable Pro will now delete "'+fName+'"');
+		if(et_deleteThisField) {
+			// Get the field
+			dfField = $('deletedFlds');
+			masterRecordIds = $('mRIds');
+			fieldRow = $(rowId);
+	
+			// Can't use a transition effects on a table row - results are undefined...
+			fieldRow.style.display="none"; // we hide because we may offer an undo option in the future...
+	
+			itsNotANewField = true;
+	
+			if(dfField.value != '') {
+				dfField.value = addToList(dfField.value, deletedRowId);
+			} else {
+				dfField.value = deletedRowId;
+			}
+			masterRecordIds.value = deleteFromList(masterRecordIds.value, deletedRowId);
+		}
+	} else {
+		// Ok in here you're going to 
+		// 1. remove the id from new fields
+		idToRemove = deletedRowId.substring(4);
+		listOfNewFlds = $('newFlds');
+		if(listOfNewFlds.value == idToRemove) {
+			listOfNewFlds.value = "";
+		} else {
+			listOfNewFlds.value = deleteFromList(listOfNewFlds.value, idToRemove);
+		}
+		// 2. remove the row from the table
+		etMetaTableRows = $("et_meta_table_rows");
+		thisRow = $(rowId);
+		etMetaTableRows.removeChild(thisRow);
+	}
+
 }
 
 function makeURLSafe(str)
