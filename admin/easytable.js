@@ -68,15 +68,6 @@ function changeTypeWarning()
 	}
 }
 
-function changeTypeWarning()
-{
-	if($et_give_data_type_change_warning)
-	{
-		$et_give_data_type_change_warning = false;
-		alert("WARNING: Changing a fields data type can result in the loss of data.\r\n\r\n (To undo this, simply change the TYPE menu back to it's original value.)");
-	}
-}
-
 function unlock ( rowElement, rowId ) {
 	// Setup our graphics
 	thisHost = this.location.protocol+"//"+this.location.host;
@@ -154,13 +145,20 @@ function makeURLSafe(str)
 
 function submitbutton(pressbutton)
 {
-	if (pressbutton =='publish' || pressbutton == 'unpublish' ||pressbutton =='remove' || pressbutton == 'add' || pressbutton == 'toggleSearch')
+	if (pressbutton == 'publish' ||
+		pressbutton == 'unpublish' ||
+		pressbutton == 'edit' ||
+		pressbutton == 'remove' ||
+		pressbutton == 'add' ||
+		pressbutton == 'toggleSearch' ||
+		pressbutton == 'cancel')
 	{
 		etSubmitForm(pressbutton);
 	}
-	else if (pressbutton == 'cancel')
+	else if (pressbutton == 'modifyTable')
 	{
-		etSubmitForm(pressbutton);
+		toggleModifyControls();
+		return 0;
 	}
 	else if (pressbutton == 'updateETDTable' || pressbutton == 'createETDTable')
 	{
@@ -206,6 +204,24 @@ function submitbutton(pressbutton)
 	else 
 	{
 		alert("OK - you broke something, not really sure how you got here.  If you want this fixed I'd make some serious notes about how you ended up here. PB-> "+pressbutton);
+	}
+}
+
+function toggleModifyControls()
+{
+	if($('et_controlRow').hasClass('et_controlRow-nodisplay'))
+	{
+		$('et_controlRow').addClass('et_controlRow')
+		$('et_controlRow').removeClass('et_controlRow-nodisplay')
+		$$('.deleteFieldButton-nodisplay').addClass('deleteFieldButton');
+		$$('.deleteFieldButton').removeClass('deleteFieldButton-nodisplay');
+	}
+	else
+	{
+		$('et_controlRow').addClass('et_controlRow-nodisplay')
+		$('et_controlRow').removeClass('et_controlRow')
+		$$('.deleteFieldButton').addClass('deleteFieldButton-nodisplay');
+		$$('.deleteFieldButton-nodisplay').removeClass('deleteFieldButton');
 	}
 }
 

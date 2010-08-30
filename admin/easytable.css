@@ -9,6 +9,10 @@
     background: url(assets/images/EasyTableIcon.png) no-repeat left;
 }
 
+.icon-32-modifyTable {
+    background: url(assets/images/Table-Modification32.png) no-repeat left;
+}
+
 .info-tip {
 	width:250px;
 	position:absolute;
@@ -21,3 +25,22 @@
 	border-right-style:solid;
 	border-bottom-style:solid;
 }
+
+.deleteFieldButton {
+	display:block;
+}
+.deleteFieldButton-nodisplay {
+	display:none;
+}
+
+.et_controlRow {
+	display:table-row;
+}
+.et_controlRow-nodisplay {
+	display:none;
+}
+
+#et_meta_table_rows tr.et_new_row, #et_meta_table_rows tr.et_new_row td {
+	background-color:#c3ffc3;
+}
+

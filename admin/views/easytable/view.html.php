@@ -114,6 +114,9 @@ class EasyTableViewEasyTable extends JView
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
 		$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS._cppl_base_com_name.'.js');
+		$doc->addStyleSheet(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS._cppl_base_com_name.'.css');
+		$modifyBtn = 'modifyTable';
+		JToolBarHelper::custom( 'modifyTable', $modifyBtn, $modifyBtn, 'Modify Structure', false, false );
 
 		JRequest::setVar( 'hidemainmenu', 1 );
 		
