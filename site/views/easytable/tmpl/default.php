@@ -38,7 +38,9 @@
 				echo '</div>';
 			}
 		?>
+<?php if ($this->show_pagination) { ?>
 		<div class="display">
+<?php } ?>
 <?php
 			if( $this->show_pagination && $this->etmCount) 						// Only if pagination is enabled
 			{
@@ -52,7 +54,9 @@
 				}
 			}
 		?>
+<?php if ($this->show_pagination) { ?>
 		</div>
+<?php } ?>
 	</form>
 	<table id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
 		<thead>
