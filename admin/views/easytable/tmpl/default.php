@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<td>
 				<fieldset class="adminform">
 				<legend>Details</legend>
-				<table class="admintable">
+				<table class="admintable" id="et_tableDetails">
 					<tr>
 						<td width="100" align="right" class="key">
 							<label for="easytablename">
@@ -129,7 +129,7 @@ defined('_JEXEC') or die('Restricted Access');
 				</fieldset>
 				</td>
 				<td width="320" valign="top" style="padding: 7px 0pt 0pt 5px;">
-					<table width="100%" style="border: 1px dashed silver; padding: 5px; margin-bottom: 10px;">
+					<table width="100%" id="et_tableStatus" style="border: 1px dashed silver; padding: 5px; margin-bottom: 10px;">
 						<tbody>
 							<tr>
 								<td><strong><?php echo JText::_( 'TABLE_ID' ); ?>:</strong></td>
@@ -177,7 +177,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<td title="Meta data for fields in Table <?php echo $this->row->easytablename.' ('.$this->ettd_tname.')'; ?>!">
 					<fieldset class="adminform">
 						<legend><?php echo $this->row->easytablename.' '.JText::_( 'FIELD_CONFIGURATION' ); ?></legend>
-						<table class="adminlist">
+						<table class="adminlist" id="et_fieldList">
 						<thead>
 							<tr valign="top">
 								<th><?php echo JText::_( 'ID' ); ?></th>
@@ -199,9 +199,9 @@ defined('_JEXEC') or die('Restricted Access');
 							{
 								$mRId = $metaRow[0];
 								$mRIds[] = $mRId;
+								$rowID = 'et_rID'.$mRId;
 
-								echo '<tr valign="top" class="row'.$k.'">
-								';																		// Open the row
+								echo '<tr valign="top" class="row'.$k.'" id="'.$rowID.'">';																		// Open the row
 								
 								echo('<td align="center"><input type="hidden" name="id'.$mRId.'" value="'.$mRId.'">'.$mRId.'</td>');				// Id
 								echo('<td align="center"><input type="text" value="'.$metaRow[2].'" size="3" name="position'.$mRId.'"></td>');		// Position
