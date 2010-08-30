@@ -79,7 +79,14 @@
 				foreach ($this->paginatedRecords as $prow )  // looping through the rows of paginated data
 				{
 					$prowFNILV = $this->paginatedRecordsFNILV[$rowNumber++];
-					echo "<tr class='row$alt_rv' id='row-$prow->id'>";  // Open the row
+					if($this->pagination->total == $prow->id)
+					{
+						echo "<tr class='row$alt_rv et_last_row' id='row-$prow->id'>";  // Open the row
+					}
+					else
+					{
+						echo "<tr class='row$alt_rv' id='row-$prow->id'>";  // Open the row
+					}
 					$labelNumber = 0;
 				try {
 					foreach($prow as $k => $f)  // looping through the fields of the row
