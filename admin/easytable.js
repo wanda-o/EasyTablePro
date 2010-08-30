@@ -4,7 +4,11 @@
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
 */
+
+
+
 $et_check_msg = '';
+$et_give_data_type_change_warning = true;
 
 function atLeast1ListField() {
 	cppl_adminForm = document.adminForm;
@@ -42,8 +46,7 @@ function AliassAreUnique() {
 
 	// Sort the alias array
 	aliasArray = aliasArray.sort(); // Default js string comparison
-	
-	
+
 	// Scan for matches in sequential entries
 	for (var i = 0; i < aliasArray.length - 1; i++ )
 	{
@@ -56,11 +59,29 @@ function AliassAreUnique() {
 	return true; // If we got here it's all good.
 }
 
+function changeTypeWarning()
+{
+	if($et_give_data_type_change_warning)
+	{
+		$et_give_data_type_change_warning = false;
+		alert("WARNING: Changing a fields data type can result in the loss of data.\r\n\r\n (To undo this, simply change the TYPE menu back to it's original value.)");
+	}
+}
+
+function changeTypeWarning()
+{
+	if($et_give_data_type_change_warning)
+	{
+		$et_give_data_type_change_warning = false;
+		alert("WARNING: Changing a fields data type can result in the loss of data.\r\n\r\n (To undo this, simply change the TYPE menu back to it's original value.)");
+	}
+}
+
 function unlock ( rowElement, rowId ) {
 	// Setup our graphics
 	thisHost = this.location.protocol+"//"+this.location.host;
-	lockedIcon = thisHost+"/administrator/images/checked_out.png";
-	saveIcon = thisHost+"/administrator/images/tick.png";
+	lockedIcon = thisHost+"/administrator/components/com_easytablepro/assets/images/locked.gif";
+	saveIcon = thisHost+"/administrator/components/com_easytablepro/assets/images/unlocked.gif";
 	// Get the input obj for the fieldalias
 	thisFieldAliasStr = "fieldalias"+rowId;
 	thisFieldAlias = (document.getElementsByName(thisFieldAliasStr))[0];
@@ -107,6 +128,28 @@ function toggleTick (tFieldName, tRow, tImgSuffix) {
 		tFieldImageElementId.src="images/tick.png";
 		tFieldElementId.value = 1;
 	}
+}
+
+
+function aliasOK(str)
+{
+	if(str != makeURLSafe(str)) return false;
+
+	return true;
+}
+
+function validateAlias(aliasElement)
+{
+	if(! aliasOK(aliasElement.value))
+	{
+		aliasElement.value = makeURLSafe(aliasElement.value);
+		alert("An alias must not contain spaces or other special characters.\r\r\nYour alias has been changed to a workable option.");
+	}
+}
+
+function makeURLSafe(str)
+{
+	return str.replace(/\s+/g,"-").replace(/[^A-Za-z0-9\-]/g,'').toLowerCase();
 }
 
 function submitbutton(pressbutton)
