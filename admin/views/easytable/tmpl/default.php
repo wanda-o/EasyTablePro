@@ -191,6 +191,7 @@ defined('_JEXEC') or die('Restricted Access');
 								<th><?php echo '<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'search.png" alt="'.JText::_( 'INCLUDE_IN_SEARCH' ).'"'; ?></th>
 							</tr>
 						</thead>
+						<tbody id='et_meta_table_rows'>
 						<?php
 							$mRIds = array();
 							$k = 0;
@@ -249,6 +250,7 @@ defined('_JEXEC') or die('Restricted Access');
 							}
 							echo('<tr><td><input type="hidden" name="mRIds" value="'.implode(', ',$mRIds).'"></td></tr>')
 						?>
+						</tbody>
 						</table>
 					</fieldset>
 				</td>
