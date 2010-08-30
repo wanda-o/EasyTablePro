@@ -207,7 +207,7 @@ defined('_JEXEC') or die('Restricted Access');
 								echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'"><br>'.									// label <br />
 									'<input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.
 									'<input type="text" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" onchange="validateAlias(this)" disabled >'.
-									'<img src="http://protest.site/administrator/images/checked_out.png" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></td>');		// alias
+									'<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'locked.gif" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></td>');		// alias
 								echo('<td><textarea cols="30" rows="2" name="description'.$mRId.'">'.$metaRow[4].'</textarea></td>');				// Description
 								echo('<td>'.$this->getTypeList($mRId, $metaRow[5]).'<BR />'.
 									'<input type="hidden" name="origfieldtype'.$mRId.'" value="'.$metaRow[5].'" >'.
