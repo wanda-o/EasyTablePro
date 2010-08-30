@@ -73,7 +73,7 @@ class EasyTableViewEasyTable extends JView
 
 	function getTypeList ($id, $selectedType=0)
 	{
-		$selectOptionText =	 '<select name="type'.$id.'">';																		// start our html select structure
+		$selectOptionText =	 '<select name="type'.$id.'" onchange="changeTypeWarning()">';																		// start our html select structure
 		$selectOptionText .= '<option value="0" '.($selectedType ? '':'selected').'>'.JText::_('TEXT').'</option>';				// Type 0 = Text
 		$selectOptionText .= '<option value="1" '.($selectedType==1 ? 'selected':'').'>'.JText::_('IMAGE').'</option>';			// Type 1 = Image URL
 		$selectOptionText .= '<option value="2" '.($selectedType==2 ? 'selected':'').'>'.JText::_('LINK__URL_').'</option>';	// Type 2 = Fully qualified URL
