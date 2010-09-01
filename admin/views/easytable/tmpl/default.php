@@ -9,6 +9,7 @@
 defined('_JEXEC') or die('Restricted Access');
 		if($this->row->id)
 		{
+			JToolBarHelper::custom( 'modifyTable', 'modifyTable', 'modifyTable', 'Modify Structure', false, false );
 			JToolBarHelper::title(JText::_( 'EDIT_TABLE' ), 'addedit.png');
 		}
 		else
