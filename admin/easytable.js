@@ -174,6 +174,15 @@ function updateAlias()
 
 function validateAlias(aliasElement)
 {
+	// Check for empty alias
+	if(aliasElement.value == '')
+	{
+		labelId = 'label' + aliasElement.name.substring(10);
+		labelInput = $(labelId);
+		aliasElement.value = makeURLSafe(labelInput.value);
+		alert("An alias can not be empty.\r\r\nAn alias has been created from the label, please check that it is unique.");
+	}
+	
 	if(! aliasOK(aliasElement.value))
 	{
 		aliasElement.value = makeURLSafe(aliasElement.value);
