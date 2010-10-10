@@ -366,34 +366,17 @@ class EasyTableController extends JController
 			// Get the field type
 			$fieldType = JRequest::getVar('type'.$rowValue);
 			$origFldType = JRequest::getVar('origfieldtype'.$rowValue);
-			// If the field type has changed
-			if($fieldType != $origFldType)
-			{
-				// Set the field type to match
-				if($this->alterEasyTableFieldType( $origFldAlias, $fieldType ))
-				{
-					// Add a success msg to status array
-				}
-				else
-				{
-					// Add a failure msg and abort
-				}
-			}
-			
+
 			// Get the field alias and conform it if necessary.
 			$reqFldAlias = JRequest::getVar('fieldalias'.$rowValue);
 			$reqFldAlias = $this->conformFieldAlias($reqFldAlias);
 
-			// If the fieldalias has changed
-			if($origFldAlias != $reqFldAlias) {
-				// 1. ALTER the field name in the datatable
-				if($this->alterEasyTableFieldName( $origFldAlias, $reqFldAlias ))
-				{ // 2. Add a line to the meta update SQL to update the meta table
-					$etMetaUpdateValuesSQL .= '`fieldalias` = \''              .$reqFldAlias.'\', ';
-				}
-				else
+			// If the field(column) type or name has changed
+			if(($fieldType != $origFldType) || ($origFldAlias != $reqFldAlias))
+			{
+				if( !$this->alterEasyTableColumn($origFldAlias, $reqFldAlias, $fieldType) )
 				{
-					$statusArray = array( 'status' => 0, 'msg' => "Meta data update failed to CHANGE data table column: $origFldAlias ".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);
+					$statusArray = array('status' => 0, 'msg' => "FAILED to alter table field (COLUMN) from <strong>$origFldAlias</strong> to <strong>$reqFldAlias</strong> as type <strong>".$this->getFieldTypeAsSQL($fieldType)." ($fieldType)</strong>");
 					return $statusArray;
 				}
 			}
@@ -403,6 +386,7 @@ class EasyTableController extends JController
 
 			// Build the rest of the update SQL for each field
 
+			$etMetaUpdateValuesSQL .= '`fieldalias` = \''              .$reqFldAlias.'\', ';
 			$etMetaUpdateValuesSQL .= '`position` = \''           .JRequest::getVar('position'    .$rowValue).'\', ';
 			$etMetaUpdateValuesSQL .= '`label` = \''              .addslashes( JRequest::getVar('label'       .$rowValue)).'\', ';
 			$etMetaUpdateValuesSQL .= '`description` = \''        .addslashes( JRequest::getVar('description' .$rowValue)).'\', ';
@@ -609,6 +593,61 @@ class EasyTableController extends JController
 			JError::raiseError(500, "Failure to ALTER data table column type, likely cause is invalid column:<BR /> field {$origFldAlias};<BR />type {$fieldType}<BR />actually DB explanation: ".$db->explain());
 		}
 		return true;
+	}
+	
+	function alterEasyTableColumn ( $origFldAlias, $newFldAlias, $fieldType )
+	{
+		if( ($origFldAlias == '') || ($newFldAlias == '') || ($fieldType == '') || ($origFldAlias == null) || ($newFldAlias == null) || ($fieldType == null))
+		{
+			return false;
+		}
+		
+		// Convert the field type to SQL equivalent
+		$fieldType = $this->getFieldTypeAsSQL($fieldType);
+		
+		$id = JRequest::getInt('id',0);
+		// Build SQL to alter the table
+		$alterSQL = 'ALTER TABLE #__easytables_table_data_'.$id.'  CHANGE `'.$origFldAlias.'` `'.$newFldAlias.'` '.$fieldType.';';
+//		dump($alterSQL);
+
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
+		}
+		
+		// Set and execute the SQL query
+		$db->setQuery($alterSQL);
+		$alter_result = $db->query();
+		if(!$alter_result)
+		{
+			JError::raiseError(500, "Failure to ALTER data table column, using:<BR /> Orig Alias {$origFldAlias};<BR />New Alias {$newFldAlias}<BR />Field Type {$fieldType}<BR />actually DB explanation: ".$db->explain());
+		}
+		return true;
+	}
+	
+	function getFieldTypeAsSQL ($fieldType)
+	{
+		switch ( $fieldType )
+		{
+		    case 0:
+		        $sqlFieldType = "TEXT";
+		        break;
+		    case 1:
+		    case 2:
+		    case 3:
+		        $sqlFieldType = "VARCHAR(255)";
+		        break;
+		    case 4:
+		        $sqlFieldType = "FLOAT";
+		        break;
+		    case 5:
+		        $sqlFieldType = "DATE";
+		        break;
+		    default:
+		    	$sqlFieldType =  false;
+		}
+		return $sqlFieldType;
 	}
 	
 	function remove()
