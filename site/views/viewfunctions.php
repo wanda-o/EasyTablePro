@@ -9,8 +9,13 @@ defined('_JEXEC') or die('Restricted Access');
 	// Get Field With Options
 class ET_VHelper
 {
-	function getFWO ($f='', $type=0, $params=null, $row, $rowFNILV)
+	function getFWO ($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
 	{
+		/* The next two lines are a work around for a nested foreach bug in early versions of PHP 5.2.x */
+		is_object( $OrigRow ) ? $row = clone $OrigRow : $row = $OrigRow;
+		is_object( $OrigRowFNILV ) ? $rowFNILV = clone $OrigRowFNILV :  $rowFNILV = $OrigRowFNILV;
+		/* End of work around */
+
 		$fieldOptions = '';
 		if ( isset ($params) )
 		{
