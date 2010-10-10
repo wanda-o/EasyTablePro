@@ -96,9 +96,9 @@ class EasyTableViewEasyTable extends JView
 		$imageDir = $easytable->defaultimagedir;
 
 		//If required get the document and load the js for table sorting
+		$doc =& JFactory::getDocument();
 		$SortableTable = $params->get ( 'make_tables_sortable' );
 		if( $SortableTable ) {
-			$doc =& JFactory::getDocument();
 			$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'webtoolkit.sortabletable.js');
 		}
 
@@ -113,7 +113,7 @@ class EasyTableViewEasyTable extends JView
 		
 		$easytables_table_meta = $db->loadRowList();
 		$etmCount = count($easytables_table_meta); //Make sure at least 1 field is set to display
-		
+
 		if($etmCount)  //Make sure at least 1 field is set to display
 		{
 			// Get paginated table data
@@ -133,6 +133,9 @@ class EasyTableViewEasyTable extends JView
 			if($show_pagination) {
 				$pagination =& $this->get('pagination');
 			}
+			// If any of the fields are designated as eMail load the JS file to allow cloaking.
+			if(ET_VHelper::hasEmailType($easytables_table_meta))
+				$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'easytablepro.js');
 		}
 		else
 		{

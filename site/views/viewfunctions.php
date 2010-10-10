@@ -137,11 +137,16 @@ class ET_VHelper
 		$fieldWithOptions = '';
 		if(empty($fieldOptions))
 		{
-			$fieldWithOptions = '<a href="mailto:'.trim($f).'" >'.trim($f).'</a>';
+			$fieldWithOptions = JHTML::_('Email.cloak',trim($f));
 		}
 		else
 		{
-			$fieldWithOptions = '<a href="mailto:'.trim($f).'" >'.$fieldOptions.'</a>';
+			$emailWrapperStart = '<script language="JavaScript" >OpenMC("'.$fieldOptions.'", ';
+			$emailWrapperEnd = ');</script>';
+			$emailArray = explode( '@', trim($f));
+			$userPartOfEmail = '"'.implode( explode( '.', $emailArray[0]), '", "&#46", "').'", ';  // we convert the parts in JS parameters quotes and periods & @'s turned to HTML entities
+			$domainPartOfEmail = '"'.implode( explode( '.', $emailArray[1]), '", "&#46", "').'"'; // if there's more than one @ we ignore the rest - it's an invalid email anyway.
+			$fieldWithOptions = $emailWrapperStart.$userPartOfEmail.'"&#64", '.$domainPartOfEmail.$emailWrapperEnd;
 		}
 
 		return $fieldWithOptions;
@@ -190,5 +195,15 @@ class ET_VHelper
 			}
 		}
 		return $fieldWithOptions;
+	}
+
+	function hasEmailType ($metaArray)
+	{
+		foreach ( $metaArray as $metaRecordArray )
+		{
+		    if($metaRecordArray[2] == 3)
+				return true;
+		}
+		return false;
 	}
 }

@@ -288,6 +288,13 @@ class EasyTableViewEasyTableRecord extends JView
 		// Get the meta data for this table
 		$easytables_table_meta = $this->fieldMeta($id);
 
+		// If any of the fields are designated as eMail load the JS file to allow cloaking.
+		if(ET_VHelper::hasEmailType($easytables_table_meta))
+		{
+			$doc =& JFactory::getDocument();
+			$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'easytablepro.js');
+		}
+
 		// Convert the list of meta records into the list of fields that can be used in the SQL
 		// the basic row list must be filtered for the detail view
 		$fields = implode('`, `', $this->fieldAliassForDetail($easytables_table_meta, $kf_id) );
