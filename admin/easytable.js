@@ -37,10 +37,16 @@ function AliassAreUnique() {
 
 	// Build an array of alias'
 	aliasArray = [];
-	for(i=0; i<theMRIds.length - 1; i++)
+	for(i=0; i<theMRIds.length; i++)
 	{
 		fldAliasName = "fieldalias"+theMRIds[i];
 		theValue = document.adminForm.elements[fldAliasName].value;
+		document.adminForm.elements[fldAliasName].focus();
+		if(theValue == '')
+		{
+			$et_check_msg = "Field Alias' can not be empty and must be unique.\n • Please correct the alias and try again.";
+			return false; // Must have a valid alias
+		}
 		aliasArray.push(theValue);
 	}
 
@@ -48,7 +54,7 @@ function AliassAreUnique() {
 	aliasArray = aliasArray.sort(); // Default js string comparison
 
 	// Scan for matches in sequential entries
-	for (var i = 0; i < aliasArray.length - 1; i++ )
+	for (var i = 0; i < aliasArray.length; i++ )
 	{
 		if (aliasArray[i + 1] == aliasArray[i])
 		{
