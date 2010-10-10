@@ -113,14 +113,14 @@ defined('_JEXEC') or die('Restricted Access');
 							<!-- MAX_FILE_SIZE must precede the file input field -->
 							<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
 							<!-- Name of input element determines name in $_FILES array -->
-							<input name="tablefile" type="file" />
+							<input name="tablefile" type="file" id="fileInputBox" />
 							<?php
 								if($this->ettd) {
-									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'updateETDTable\')" /><br />';
+									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'updateETDTable\')" id="fileUploadBtn" /><br />';
 								}
 								else
 								{
-									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'createETDTable\')" /><br />';
+									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'createETDTable\')" id="fileUploadBtn" /><br />';
 								}
 							?>
 							<?php echo JText::_( 'FIRST_LINE_OF_CSV_FILE_CONTAINS_COLUMN_HEADINGS_' ).' '.$this->CSVFileHasHeaders; ?>
@@ -206,7 +206,7 @@ defined('_JEXEC') or die('Restricted Access');
 								
 								echo('<td align="center"><input type="hidden" name="id'.$mRId.'" value="'.$mRId.'">'.$mRId.'<br /><a href="javascript:void(0);" class="deleteFieldButton-nodisplay" onclick="deleteField(\''.$metaRow[3].'\', \''.$rowID.'\');"><img src="images/publish_x.png"></a></td>');				// Id
 								echo('<td align="center"><input type="text" value="'.$metaRow[2].'" size="3" name="position'.$mRId.'"></td>');		// Position
-								echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'"><br>'.									// label <br />
+								echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'" id="label'.$mRId.'"><br>'.									// label <br />
 									'<input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.
 									'<input type="text" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" onchange="validateAlias(this)" disabled >'.
 									'<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'locked.gif" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></td>');		// alias
@@ -249,7 +249,7 @@ defined('_JEXEC') or die('Restricted Access');
 								echo "</tr>\r\r";                                                                                                        // Close the row
 								$k = 1 - $k;
 							}
-							echo('<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" onclick="addField()"><img class="et_addField" src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'icon-add.png" alt="'.JText::_( 'ADD_A_NEW_FIELD_' ).'"></a><input type="hidden" id="mRIds" name="mRIds" value="'.implode(', ',$mRIds).'"><input type="hidden" id="newFlds" value=""><input type="hidden" id="deletedFlds" value=""></td><td colspan=2><a href="javascript:void(0);" onclick="addField()">'.JText::_('PLUS_NEW_FIELD').'</a></td><td colspan=6><em>'.JText::_('CLICK_THE_PLUS_SIGN_TO_ADD_A_NEW_FIELD_').'</em></td></tr>');
+							echo('<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" onclick="addField()"><img class="et_addField" src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'icon-add.png" alt="'.JText::_( 'ADD_A_NEW_FIELD_' ).'"></a><input type="hidden" id="mRIds" name="mRIds" value="'.implode(', ',$mRIds).'"><input type="hidden" name="newFlds" id="newFlds" value=""><input type="hidden" name="deletedFlds" id="deletedFlds" value=""></td><td colspan=2><a href="javascript:void(0);" onclick="addField()">'.JText::_('PLUS_NEW_FIELD').'</a></td><td colspan=6><em>'.JText::_('CLICK_THE_PLUS_SIGN_TO_ADD_A_NEW_FIELD_').'</em></td></tr>');
 						?>
 						</tbody>
 						</table>
