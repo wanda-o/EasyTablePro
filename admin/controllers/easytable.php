@@ -166,43 +166,63 @@ class EasyTableController extends JController
 
 	function saveApplyETdata()
 	{
-		// 1.1 Save/Apply tasks - stores the ET record
+		// Save/Apply tasks - stores the ET record
 		$msg = '';
 		global $option;
 
-		// 1. Get the TABLE record and check() it.
+		// 1.0 Update/Create table record from POST data
 		$row =& JTable::getInstance('EasyTable', 'Table');
-		if (!$row->bind(JRequest::get('post')))
-		{
-			JError::raiseError(500, 'Error in saveApplyETdata() -> '.$row->getError());
-		}
-		
-		if (!$row->check())
-		{
-			JError::raiseError(500, 'Error in saveApplyETdata() -> Table Check() failed... call for help!');
-			return;
-		}
-		
-		// 2. Update modified and if necessary created datetime stamps
-		if(!$row->id)
-		{
-			$row->created_ = date( 'Y-m-d H:i:s' );
-		}
-		
-		$row->modified_ = date( 'Y-m-d H:i:s' );
-		
+
+		// 1.1 Record the user's id that performed the modification
 		$user =& JFactory::getUser();
 		if (!$user)
 		{
 			JError::raiseError(500, 'Error in saveApplyETdata() -> '.$user->getError());
 		}
 		$row->modifiedby_ = $user->id;
-		
-		// 3. Store the TABLE record
+
+		// 1.2 Check it
+		if (!$row->check())
+		{
+			JError::raiseError(500, 'Error in saveApplyETdata() -> Table Check() failed... call for help!');
+			return;
+		}
+		// Apparently the Check() passed so we can bind the post data to the ET record
+		if (!$row->bind(JRequest::get('post')))
+		{
+			JError::raiseError(500, 'Error in saveApplyETdata() bind call-> '.$row->getError());
+		}
+
+		// 1.3 Update modified and if necessary created datetime stamps
+		if(!$row->id)
+		{
+			$row->created_ = date( 'Y-m-d H:i:s' );
+		}
+		$row->modified_ = date( 'Y-m-d H:i:s' );
+
+		// 2.0 Store the TABLE record
 		if (!$row->store())
 		{
 			JError::raiseError(500, 'Error in saveApplyETdata() -> '.$row->getError());
 		}
+		
+		// 3.0 Check for structural changes ie. did the user add or remove any fields.
+		// 3.1 Check for deleted fields.
+		$deletedFlds = JRequest::getVar( 'deletedFlds' );
+		if($deletedFlds!= '') // then it's time to remove some fields
+		{
+			$msg .= 'Deleted fields: '.$deletedFlds.'<BR />';
+			$msg .= $this->deleteFieldsFromEasyTable($deletedFlds);
+		}
+
+		// 3.2 Check for new fields.
+		$newFlds = JRequest::getVar( 'newFlds' );
+		if($newFlds != '') // then it's time to add some fields
+		{
+			$msg .= 'New fields: '.$newFlds.'<BR />';
+			$msg .= $this->addFieldsToEasyTable ( $newFlds );
+		}
+
 		
 		return $row->id;
 	}
@@ -500,6 +520,116 @@ class EasyTableController extends JController
 		}
 
 		$this->setRedirect('index.php?option='.$option, $msg);
+	}
+
+	function addFieldsToEasyTable ( $newFlds )
+	{
+		$msg = 'Starting field additions.<BR />';
+		$id = JRequest::getInt('id',0);
+		$tableName = 'jos_easytables_table_data_'.$id;
+		$newFldsArray = explode(', ', $newFlds);
+		$newFldsAlterArray = array();
+		// Process new fields
+		$lastNewFld = $newFldsArray[count($newFldsArray)-1];
+		
+		// 1.0 Process new fields array
+	    // Create 'insert' SQL for new meta record(s) from post data
+	    $insertSQL = '	INSERT INTO `jos_easytables_table_meta` (`easytable_id`, `position`, `label`, `description`, `type`, `list_view`, `detail_link`, `detail_view`, `fieldalias`, `params`) VALUES ';
+	    dump($insertSQL, '$insertSQL');
+
+		foreach ( $newFldsArray as $newFldId )
+		{
+		    $new_et_pos = JRequest::getVar('position_nf_'.$newFldId,'');
+		    $new_et_label = addslashes( JRequest::getVar('label_nf_'.$newFldId,'') );
+		    $new_et_desc = addslashes( JRequest::getVar('description_nf_'.$newFldId,'') );
+		    $new_et_type = JRequest::getVar('type_nf_'.$newFldId,'');
+		    $new_et_lv = JRequest::getVar('list_view_nf_'.$newFldId,'');
+		    $new_et_dl = JRequest::getVar('detail_link_nf_'.$newFldId,'');
+		    $new_et_dv = JRequest::getVar('detail_view_nf_'.$newFldId,'');
+		    $new_et_fldAlias = $this->conformFieldAlias(JRequest::getVar('fieldalias_nf_'.$newFldId,''));
+		    $new_et_search = JRequest::getVar('search_field_nf_'.$newFldId,'');
+
+			// Get the fieldOptions allowing for quotes that may have been whacked by site still running magic_quotes_gpc
+			$new_et_fldOptions = bin2hex( $this->m($_POST['fieldoptions_nf_'.$newFldId]));
+			$new_et_params = 'x'.$new_et_fldOptions.'\nsearch_field='. $new_et_search;
+
+		    // Create the insert values part of the SQL statement
+		    $insertValues = '( \''.$id.'\', '.'\''.$new_et_pos.'\', '.'\''.$new_et_label.'\', '.'\''.$new_et_desc.'\', '.'\''.$new_et_type.'\', '.'\''.$new_et_lv.'\', '.'\''.$new_et_dl.'\', '.'\''.$new_et_dv.'\', '.'\''.$new_et_fldAlias.'\', '.'\''.$new_et_params.'\' )'. ($newFldId == $lastNewFld ? ';' : ', ');
+		    $insertSQL .= $insertValues;
+		    $msg .= '• Adding meta data for field \"'.$new_et_label.'\"<BR />';
+
+			// Store the new field data for the ALTER statement of the original
+			$newFldsAlterArray[] = '`'.$new_et_fldAlias.'` '.$this->getFieldTypeAsSQL($new_et_type);
+		}
+		// 2.0 Perfrom the actual Meta insert.
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			$msg .= "Couldn't get the database object while setting up for META update: $id";
+			return $msg;
+		}
+		// 2. Set the insertSQL as the query and execute it.
+		$db->setQuery($insertSQL);
+		$db_result = $db->query();
+		
+		if(!$db_result)
+		{
+			$msg = "Meta data update failed during new field insert: ".$db->explain().'<br /> SQL => '.$insertSQL;
+			return $msg;
+		}
+		
+		// 3.0 Now to actually alter the data table to match the stored meta data
+		// Build SQL to 'ADD' columns to the data table $tableName
+		$addSQL = 'ALTER TABLE '.$tableName.' ADD ( ';
+		// implode newFldsAlterArray to create our SQL for all new fields
+		$addSQL .= implode ( ', ', $newFldsAlterArray );
+		$addSQL .= ' );';
+		dump( $addSQL, '$addSQL');
+		$db->setQuery($addSQL);
+		$db_result = $db->query();
+
+		if(!$db_result)
+		{
+			$msg = "Table update failed during addition of new columns: ".$db->explain().'<br /> SQL => '.$addSQL;
+			return $msg;
+		}
+		
+
+		return $msg;
+	}
+	
+	function deleteFieldsFromEasyTable ( $deletedFldIds )
+	{
+		$msg = 'Starting field removal.<BR />';
+		$id = JRequest::getInt('id',0);
+		$selDelFlds = '`id` = '. implode(explode(', ', $deletedFldIds), ' or `id` =');
+		$deleteSelectSQL = ' from `jos_easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
+
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
+		}
+		
+		// Set and execute the SQL select query
+		$db->setQuery('select `fieldalias` '.$deleteSelectSQL);
+		$select_Result = $db->loadResultArray();
+
+		// Process the fields to drop from data table
+		$tableName = 'jos_easytables_table_data_'.$id;
+		$dropSQL = 'ALTER TABLE `'.$tableName.'` ';
+		$dropSQL .= 'DROP COLUMN `'.implode($select_Result, '`, DROP COLUMN `');
+		$dropSQL .=  '`';
+		$db->setQuery($dropSQL);
+		$drop_Result = $db->query();
+		if($drop_Result) $msg .= 'Columns dropped from '.$tableName.'<BR />';
+
+		// Delete the reference to the fields in the meta table.
+		$db->setQuery('delete '.$deleteSelectSQL);
+		$deleteMeta_Result = $db->query();
+		if($deleteMeta_Result) $msg .= 'Records dropped from meta table.<BR />';
+
+		return $msg;
 	}
 	
 	function checkOutEasyTable()
