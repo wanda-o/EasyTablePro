@@ -409,6 +409,9 @@ function toggleModifyControls()
 		$('et_controlRow').removeClass('et_controlRow-nodisplay')
 		$$('.deleteFieldButton-nodisplay').addClass('deleteFieldButton');
 		$$('.deleteFieldButton').removeClass('deleteFieldButton-nodisplay');
+		$('fileInputBox').disabled = true;
+		$('fileUploadBtn').disabled = true;
+		$('uploadWhileModifyingNotice').style.display = 'block';
 	}
 	else
 	{
@@ -416,6 +419,7 @@ function toggleModifyControls()
 		$('et_controlRow').removeClass('et_controlRow')
 		$$('.deleteFieldButton').addClass('deleteFieldButton-nodisplay');
 		$$('.deleteFieldButton-nodisplay').removeClass('deleteFieldButton');
+		$('uploadWhileModifyingNotice').style.display = 'none';
 	}
 }
 
