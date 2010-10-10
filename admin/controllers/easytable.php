@@ -404,8 +404,8 @@ class EasyTableController extends JController
 			// Build the rest of the update SQL for each field
 
 			$etMetaUpdateValuesSQL .= '`position` = \''           .JRequest::getVar('position'    .$rowValue).'\', ';
-			$etMetaUpdateValuesSQL .= '`label` = \''              .JRequest::getVar('label'       .$rowValue).'\', ';
-			$etMetaUpdateValuesSQL .= '`description` = \''        .JRequest::getVar('description' .$rowValue).'\', ';
+			$etMetaUpdateValuesSQL .= '`label` = \''              .addslashes( JRequest::getVar('label'       .$rowValue)).'\', ';
+			$etMetaUpdateValuesSQL .= '`description` = \''        .addslashes( JRequest::getVar('description' .$rowValue)).'\', ';
 			$etMetaUpdateValuesSQL .= '`type` = \''               .JRequest::getVar('type'        .$rowValue).'\', ';
 			$etMetaUpdateValuesSQL .= '`list_view` = \''          .JRequest::getVar('list_view'   .$rowValue).'\', ';
 			$etMetaUpdateValuesSQL .= '`detail_link` = \''        .JRequest::getVar('detail_link' .$rowValue).'\', ';
