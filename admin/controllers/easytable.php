@@ -21,6 +21,8 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 jimport('joomla.application.component.controller');
 class EasyTableController extends JController
 {
+	public $msg;
+
 	function add()
 	{
 		JRequest::setVar('view', 'EasyTable');
@@ -46,12 +48,12 @@ class EasyTableController extends JController
 		$currentTask = $this->getTask();
 		
 		// 1.1 Save/Apply tasks
-		$msg = '';
+		$this->msg = '<div>';
 		global $option;
 
 		if($id = $this->saveApplyETdata())
 		{
-			$msg .= 'Changes applied.';
+			$this->msg .= '<p style=\'font-size:14px;margin:0px;\'>Changes Applied</p><p style=\'margin:0px;margin-left:30px;\'>';
 		}
 
 		// Get a reference to a file if it exists, and load it into an array
@@ -61,7 +63,7 @@ class EasyTableController extends JController
 		// 1.2 Are we creating a new ETTD?
 		if($currentTask == 'createETDTable')
 		{
-			$msg .= '<BR />New data table will be created.';
+			$this->msg .= '<BR />New data table will be created.';
 			$ettd = FALSE;
 		}
 		else
@@ -87,14 +89,14 @@ class EasyTableController extends JController
 			// Check for an update action
 			if ($currentTask == 'updateETDTable')
 			{
-				$msg .= '<BR />Processing '.$currentTask;
+				$this->msg .= '<BR />• Processing '.$currentTask;
 				if($file)
 				{
-				$msg .= '<BR />Data file attached.';
+				$this->msg .= '<BR />• Data file attached.';
 				// If a file is attached remove existing data
 					if($this->emptyETTD($id))
 					{
-					$msg .= '<BR />Emptied existing data rows';
+					$this->msg .= '<BR />• Emptied existing data rows';
 					// Then we parse it and upload the data into the ettd
 						$ettdColumnAliass = $this->getMetaFromPost();
 						if($ettdColumnAliass)
@@ -103,6 +105,8 @@ class EasyTableController extends JController
 							{
 								JError::raiseError(500,"Update of data table failed (Column count mismatch) for table: $id");
 							}
+							else
+								$this->msg .= '<BR />• New data loaded.';
 						}
 						else
 						{
@@ -111,13 +115,13 @@ class EasyTableController extends JController
 					}
 					else
 					{
-						$msg .= "<BR />Could not delete any data records from: $id";
+						$this->msg .= "<BR />• Could not delete any data records from: $id";
 					}
 				}
 				else
 				{
 				// If no file is attached we can go on our merry way.
-					$msg .= '<BR />Couldn\'t update the data records as no file was uploaded.';
+					$this->msg .= '<BR />• Couldn\'t update the data records as no file was uploaded.';
 				}
 			}
 		}
@@ -136,25 +140,26 @@ class EasyTableController extends JController
 			}
 			else
 			{
-				$msg .= '<BR />No CSV file uploaded - noting to do... ';
+				$this->msg .= '<BR />• No CSV file uploaded - noting to do... ';
 			}
 		}
 
+		$this->msg .= '</p></div>';
 
 		switch ($currentTask) {
 		case 'apply':
-			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, '<p style="margin-left:35px">'.$msg.'</p>' );
+			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, '<p style="margin-left:35px">'.$this->msg.'</p>' );
 			break;
 		case 'save':
 			// Now that all the saving is done we can checkIN the table
 			$this->checkInEasyTable();
-			$this->setRedirect('index.php?option='.$option, '<p style="margin-left:35px">'.$msg.'</p>' );
+			$this->setRedirect('index.php?option='.$option, '<p style="margin-left:35px">'.$this->msg.'</p>' );
 			break;
 		case 'createETDTable':
-			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id.'&from=create', '<p style="margin-left:35px">'.$msg.'</p>' );
+			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id.'&from=create', '<p style="margin-left:35px">'.$this->msg.'</p>' );
 			break;
 		case 'updateETDTable':
-			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, '<p style="margin-left:35px">'.$msg.'</p>' );
+			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, '<p style="margin-left:35px">'.$this->msg.'</p>' );
 			break;
 		}
 	}
@@ -519,80 +524,6 @@ class EasyTableController extends JController
 		 $row =& JTable::getInstance('EasyTable','Table');
 
 		 $row->checkin($id);
-	}
-	
-	function alterEasyTableFieldName( $origFldAlias, $newFldAlias )
-	{
-		if( ($origFldAlias == '') || ($newFldAlias == '') || ($origFldAlias == null) || ($newFldAlias == null))
-		{
-			return false;
-		}
-		
-		$id = JRequest::getInt('id',0);
-		// Build SQL to alter the table
-		$alterSQL = 'ALTER TABLE #__easytables_table_data_'.$id.'  CHANGE `'.$origFldAlias.'` `'.$newFldAlias.'` TEXT;';
-
-		// Get a database object
-		$db =& JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
-		}
-		
-		// Set and execute the SQL query
-		$db->setQuery($alterSQL);
-		$alter_result = $db->query();
-		if(!$alter_result)
-		{
-			JError::raiseError(500, "Failure to ALTER data table creation, likely cause is invalid column:<BR /> new {$newFldAlias};<BR />from {$origFldAlias}<BR />actually DB explanation: ".$db->explain());
-		}
-		return true;
-	}
-	
-	function alterEasyTableFieldType( $origFldAlias, $fieldType )
-	{
-		if( ($origFldAlias == '') || ($fieldType == '') || ($origFldAlias == null) || ($fieldType == null))
-		{
-			return false;
-		}
-		
-		switch ( $fieldType )
-		{
-		    case 0:
-		        $sqlFieldType = "TEXT";
-		        break;
-		    case 1:
-		    case 2:
-		    case 3:
-		        $sqlFieldType = "VARCHAR(255)";
-		        break;
-		    case 4:
-		        $sqlFieldType = "FLOAT";
-		        break;
-		    case 5:
-		        $sqlFieldType = "DATE";
-		        break;
-		    default:
-		    	return false;
-		}
-		
-		$id = JRequest::getInt('id',0);
-		// Build SQL to alter the table
-		$alterSQL = 'ALTER TABLE #__easytables_table_data_'.$id.'  CHANGE `'.$origFldAlias.'` `'.$origFldAlias.'` '.$sqlFieldType.';';
-
-		// Get a database object
-		$db =& JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object while trying to ALTER field type, data table: $id");
-		}
-		
-		// Set and execute the SQL query
-		$db->setQuery($alterSQL);
-		$alter_result = $db->query();
-		if(!$alter_result)
-		{
-			JError::raiseError(500, "Failure to ALTER data table column type, likely cause is invalid column:<BR /> field {$origFldAlias};<BR />type {$fieldType}<BR />actually DB explanation: ".$db->explain());
-		}
-		return true;
 	}
 	
 	function alterEasyTableColumn ( $origFldAlias, $newFldAlias, $fieldType )
