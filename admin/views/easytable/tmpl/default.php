@@ -125,6 +125,8 @@ defined('_JEXEC') or die('Restricted Access');
 							?>
 							<?php echo JText::_( 'FIRST_LINE_OF_CSV_FILE_CONTAINS_COLUMN_HEADINGS_' ).' '.$this->CSVFileHasHeaders; ?>
 						</td>
+						<td><p id="uploadWhileModifyingNotice"><?php echo JText::_('DATA_FILES_CANNOT_BE_UPLOADED_ONCE_TABLE_STRUCTURE_MODIFCATION_HAS_BEEN_ENABLED_'); ?><BR /><em><?php echo JText::_('SAVE_APPLY_OR_CLOSE_THE_TABLE_TO_RE_ENABLE_DATA_UPLOADS_'); ?></em></p>
+</td>
 					</tr>
 				</table>
 				</fieldset>
