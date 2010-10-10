@@ -44,3 +44,15 @@
 	background-color:#c3ffc3;
 }
 
+#uploadWhileModifyingNotice {
+	background-color:#FFFFCC;
+	display:none;
+	padding:5px;
+	text-align:left;
+	border-color:#DDDDCC;
+	border-width:2px;
+	border-right-style:solid;
+	border-bottom-style:solid;
+	width: 300px;
+	margin-left: 60px;
+}

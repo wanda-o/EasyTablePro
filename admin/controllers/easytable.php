@@ -535,7 +535,6 @@ class EasyTableController extends JController
 		// 1.0 Process new fields array
 	    // Create 'insert' SQL for new meta record(s) from post data
 	    $insertSQL = '	INSERT INTO `jos_easytables_table_meta` (`easytable_id`, `position`, `label`, `description`, `type`, `list_view`, `detail_link`, `detail_view`, `fieldalias`, `params`) VALUES ';
-	    dump($insertSQL, '$insertSQL');
 
 		foreach ( $newFldsArray as $newFldId )
 		{
