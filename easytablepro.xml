@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTablePro</name>
-	<version>0.8.0 (3cfe954)</version>
+	<version>0.8.0 (08ddedf)</version>
 	<author>Craig Phillips</author>
 	<creationDate>11-Oct-2010</creationDate>
 	<copyright>Copyright (C) 2009.</copyright>
@@ -30,7 +30,7 @@
 		<language tag="en-GB">en-GB.plg_search_easytables.ini</language>
 	</languages>
 	<administration>
-		<menu img="components/com_easytablepro/assets/images/easytable_logo.ico" link="option=com_easytablepro">EasyTable Pro</menu>
+		<menu img="components/com_easytablepro/assets/images/easytablepro_logo.ico" link="option=com_easytablepro">EasyTable Pro</menu>
 		<languages folder="language/admin">
 			<language tag="en-GB">en-GB.com_easytablepro.ini</language>
 		</languages>
