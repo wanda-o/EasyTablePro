@@ -33,7 +33,13 @@ function atLeast1ListField() {
 }
 
 function AliassAreUnique() {
-	theMRIds = document.adminForm.mRIds.value.split(', ');
+	the_MRIds = $('mRIds').value;
+	the_MRIds == '' ? the_MRIds = '' : the_MRIds = 'fieldalias' + the_MRIds;
+	the_MRIds = the_MRIds.split(', ').join(', fieldalias');
+	theMRIds = $('mRIds').value.split(', ');
+	theNewIds = $('newFlds').value;
+	theNewIds == '' ? theNewIds = '' : theNewIds = 'fieldalias_nf_' + theNewIds;
+	theNewIds = theNewIds.split(', ').join(', fieldalias_nf_');
 
 	// Build an array of alias'
 	aliasArray = [];
@@ -354,40 +360,40 @@ function submitbutton(pressbutton)
 		toggleModifyControls();
 		return 0;
 	}
-	else if (pressbutton == 'updateETDTable' || pressbutton == 'createETDTable')
-	{
-		var tFileName = document.adminForm.tablefile.value;
-		var dot = tFileName.lastIndexOf(".");
-		if(dot == -1)
+	else {
+		if (pressbutton == 'updateETDTable' || pressbutton == 'createETDTable')
 		{
-			alert ("Only files with a CSV or TAB extension are supported. No Extension found.")
+			var tFileName = document.adminForm.tablefile.value;
+			var dot = tFileName.lastIndexOf(".");
+			if(dot == -1)
+			{
+				alert ("Only files with a CSV or TAB extension are supported. No Extension found.")
+			}
+			
+			var tFileExt = tFileName.substr(dot,tFileName.length);
+			tFileExt = tFileExt.toLowerCase();
+	
+			if((tFileExt != ".csv") && (tFileExt != ".tab"))
+			{
+				alert ("Only files with an extension of CSV or TAB are supported. Found: "+tFileExt);
+			}
+			else
+			{
+				etSubmitForm(pressbutton);
+			}
 		}
-		
-		var tFileExt = tFileName.substr(dot,tFileName.length);
-		tFileExt = tFileExt.toLowerCase();
-
-		if((tFileExt != ".csv") && (tFileExt != ".tab"))
-		{
-			alert ("Only files with an extension of CSV or TAB are supported. Found: "+tFileExt);
+		else if (! atLeast1ListField() && (pressbutton =='save' || pressbutton == 'apply') ){
+			alert( $et_check_msg );
+			return 0;
 		}
-		else
+		else if ( !AliassAreUnique()  && (pressbutton =='save' || pressbutton == 'apply') )
 		{
-			etSubmitForm(pressbutton);
+			alert( $et_check_msg );
+			return 0;
 		}
-	}
-	else if (! atLeast1ListField() && (pressbutton =='save' || pressbutton == 'apply') ){
-		alert( $et_check_msg );
-		return 0;
-	}
-	else if ( !AliassAreUnique()  && (pressbutton =='save' || pressbutton == 'apply') )
-	{
-		alert( $et_check_msg );
-		return 0;
-	}
-	else if(pressbutton =='save' || pressbutton == 'apply')
-	{
-		if(document.adminForm.easytablename.value == '')
+		else if(pressbutton =='save' || pressbutton == 'apply')
 		{
+			document.adminForm.easytablename.focus();
 			alert("Please enter the name of the table.");
 		}
 		else
