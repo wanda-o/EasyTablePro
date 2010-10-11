@@ -181,16 +181,17 @@ class EasyTableController extends JController
 		}
 		$row->modifiedby_ = $user->id;
 
+		// Apparently the Check() passed so we can bind the post data to the ET record
+		if (!$row->bind(JRequest::get('post')))
+		{
+			JError::raiseError(500, 'Error in saveApplyETdata() bind call-> '.$row->getError());
+		}
+
 		// 1.2 Check it
 		if (!$row->check())
 		{
 			JError::raiseError(500, 'Error in saveApplyETdata() -> Table Check() failed... call for help!');
 			return;
-		}
-		// Apparently the Check() passed so we can bind the post data to the ET record
-		if (!$row->bind(JRequest::get('post')))
-		{
-			JError::raiseError(500, 'Error in saveApplyETdata() bind call-> '.$row->getError());
 		}
 
 		// 1.3 Update modified and if necessary created datetime stamps
@@ -583,7 +584,6 @@ class EasyTableController extends JController
 		// implode newFldsAlterArray to create our SQL for all new fields
 		$addSQL .= implode ( ', ', $newFldsAlterArray );
 		$addSQL .= ' );';
-		dump( $addSQL, '$addSQL');
 		$db->setQuery($addSQL);
 		$db_result = $db->query();
 
@@ -668,7 +668,6 @@ class EasyTableController extends JController
 		$id = JRequest::getInt('id',0);
 		// Build SQL to alter the table
 		$alterSQL = 'ALTER TABLE #__easytables_table_data_'.$id.'  CHANGE `'.$origFldAlias.'` `'.$newFldAlias.'` '.$fieldType.';';
-//		dump($alterSQL);
 
 		// Get a database object
 		$db =& JFactory::getDBO();
