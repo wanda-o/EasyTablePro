@@ -393,17 +393,20 @@ function submitbutton(pressbutton)
 		}
 		else if(pressbutton =='save' || pressbutton == 'apply')
 		{
-			document.adminForm.easytablename.focus();
-			alert("Please enter the name of the table.");
+			if(document.adminForm.easytablename.value == '')
+			{
+				document.adminForm.easytablename.focus();
+				alert("Please enter the name of the table.");
+			}
+			else
+			{
+				etSubmitForm(pressbutton);
+			}
 		}
-		else
+		else 
 		{
-			etSubmitForm(pressbutton);
+			alert("OK - you broke something, not really sure how you got here.  If you want this fixed I'd make some serious notes about how you ended up here. PB-> "+pressbutton);
 		}
-	}
-	else 
-	{
-		alert("OK - you broke something, not really sure how you got here.  If you want this fixed I'd make some serious notes about how you ended up here. PB-> "+pressbutton);
 	}
 }
 
