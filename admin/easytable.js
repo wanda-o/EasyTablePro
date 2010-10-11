@@ -178,6 +178,34 @@ function updateAlias()
 	if(fldAlias.value == '') fldAlias.value = makeURLSafe(this.value);
 }
 
+function createTableNameAlias()
+{
+	et_alias = $('easytablealias');
+	et_name  = $('easytablename');
+	if(et_alias.value == '')
+	{
+		et_alias.value = makeURLSafe(et_name.value);
+	}
+	
+}
+
+function validateTableNameAlias()
+{
+	et_alias = $('easytablealias');
+	et_name  = $('easytablename');
+	// Check for empty alias
+	if(et_alias.value == '' && et_name != '')
+	{
+		et_alias.value = makeURLSafe(et_name.value);
+	}
+	
+	if(! aliasOK(et_alias.value))
+	{
+		et_alias.value = makeURLSafe(et_alias.value);
+		alert("A table alias must not contain spaces or other special characters.\r\r\nYour alias has been changed to a workable option.");
+	}
+}
+
 function validateAlias(aliasElement)
 {
 	// Check for empty alias

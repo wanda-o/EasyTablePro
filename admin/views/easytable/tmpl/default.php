@@ -45,7 +45,7 @@ defined('_JEXEC') or die('Restricted Access');
 							</label>
 						</td>
 						<td>
-							<input class="text_area" type="text" name="easytablename" id="easytablename" size="32" maxlength="250" value="<?php echo $this->row->easytablename;?>" />			</td>
+							<input class="text_area" type="text" name="easytablename" id="easytablename" onchange="javascript:createTableNameAlias()" size="32" maxlength="250" value="<?php echo $this->row->easytablename;?>" />			</td>
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
