@@ -42,6 +42,7 @@ class EasyTableViewEasyTable extends JView
 		$show_pagination_footer = $params->get('show_pagination_footer',0);
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
+		$modification_date_label = $params->get('modification_date_label','');
 		$show_page_title = $params->get('show_page_title',0);
 		$pageclass_sfx = $params->get('pageclass_sfx','');
 
@@ -117,6 +118,7 @@ class EasyTableViewEasyTable extends JView
 
 		$this->assign('show_created_date', $show_created_date);
 		$this->assign('show_modified_date', $show_modified_date);
+		$this->assign('modification_date_label', $modification_date_label);
 
 		$this->assign('show_page_title', $show_page_title);
 		$this->assign('page_title', $page_title);

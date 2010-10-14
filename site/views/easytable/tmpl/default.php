@@ -7,7 +7,7 @@
     }
 ?>
 <?php echo ($this->show_created_date ? '<p class="createdate">'.htmlspecialchars($this->easytable->created_).'</p>' : '') ?>
-<?php echo ($this->show_modified_date ? '<p class="modifydate">'.htmlspecialchars($this->easytable->modified_).'</p>' : '') ?>
+<?php echo ($this->show_modified_date ? '<p class="modifydate">'.$this->modification_date_label.htmlspecialchars($this->easytable->modified_).'</p>' : '') ?>
 <?php echo ($this->show_description ? '<p class="et_description">'.htmlspecialchars($this->easytable->description).'</p>' : '') ?>
 <br />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTable</name>
-	<version>1.0.4 (ae0fb3f)</version>
+	<version>1.0.5 (ae0fb3f)</version>
 	<author>Craig Phillips</author>
-	<creationDate>17-Aug-2010</creationDate>
+	<creationDate>12-Oct-2010</creationDate>
 	<copyright>Copyright (C) 2009.</copyright>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
@@ -58,6 +58,8 @@
 		<param name="show_created_date" default="0">
 		</param>
 		<param name="show_modified_date" default="0">
+		</param>
+		<param name="modification_date_label" default="">
 		</param>
 		<param name="id" default="" >
 		</param>
