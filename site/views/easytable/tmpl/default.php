@@ -15,7 +15,14 @@
     }
 ?>
 <?php echo ($this->show_created_date ? '<p class="createdate">'.JHTML::_('date', $this->easytable->created_, JText::_('DATE_FORMAT_LC2')).'</p>' : '') ?>
-<?php echo ($this->show_modified_date ? '<p class="modifydate">'.JText::sprintf('LAST_UPDATED2', JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'))).'</p>' : '') ?>
+<?php
+	if($this->modification_date_label === '')
+	{
+		$mod_dl =  JText::sprintf('LAST_UPDATED2', JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'))) ;
+	} else {
+		$mod_dl = $this->modification_date_label.' '.JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'));
+	}
+	echo ($this->show_modified_date ? '<p class="modifydate">'.$mod_dl.'</p>' : '') ?>
 <?php echo ($this->show_description ? '<p class="et_description">'.htmlspecialchars($this->easytable->description).'</p>' : '') ?>
 <br />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">

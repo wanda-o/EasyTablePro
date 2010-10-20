@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted Access');
         JToolBarHelper::editList();
         JToolBarHelper::deleteList(JText::_( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' ));
         JToolBarHelper::addNew();
-        JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 320 );
+        JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 350 );
 ?>
 <div id="et-versionCheck" style="text-size:0.9em;text-align:center; color:grey;position:relative;z-index:1;" >
 	<?php echo JText::_( 'INSTALLED_EASYTABLE_VERSION' ); ?>: <?php echo ( $this->et_current_version ); ?> | 

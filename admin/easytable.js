@@ -423,7 +423,6 @@ function submitbutton(pressbutton)
 		{
 			if(document.adminForm.easytablename.value == '')
 			{
-				document.adminForm.easytablename.focus();
 				alert("Please enter the name of the table.");
 			}
 			else
@@ -456,7 +455,7 @@ function toggleModifyControls()
 		$('et_controlRow').removeClass('et_controlRow')
 		$$('.deleteFieldButton').addClass('deleteFieldButton-nodisplay');
 		$$('.deleteFieldButton-nodisplay').removeClass('deleteFieldButton');
-		$('uploadWhileModifyingNotice').style.display = 'none';
+//		$('uploadWhileModifyingNotice').style.display = 'none';
 	}
 }
 
