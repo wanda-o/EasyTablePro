@@ -8,10 +8,8 @@
 	defined('_JEXEC') or die ('Restricted Access');
 ?>
 <div class="contentpaneopen<?php echo $this->pageclass_sfx ?>" id="etrecord">
-	<h2 class="contentheading<?php echo $this->pageclass_sfx ?>"><a href="<?php echo $this->backlink; ?>"><?php echo htmlspecialchars($this->easytable->easytablename); ?></a></h2>
-	<p class="et_description"><?php echo htmlspecialchars($this->easytable->description); ?></p>
-	<br />
-	<div id="easytable-record" class="<?php echo htmlspecialchars($this->easytable->easytablealias); ?> ">
+	<h2 class="contentheading<?php echo $this->pageclass_sfx ?>"><?php echo $this->pt ?></h2><?php echo htmlspecialchars($this->et_desc); ?>
+	<div id="easytable-record" class="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
 		<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>">
 			<thead>
 				<tr>
@@ -59,7 +57,7 @@
 			</tbody>
 		</table>
 	<?php
-		if( $this->linked_table && $this->tableHasRecords )
+		if( $this->linked_table && $this->tableHasRecords && $this->show_linked_table)
 		{
 			echo('<div id="easytable-linkedtable" class="'.htmlspecialchars($this->easytable->easytablealias).'">');
 			echo( $this->loadTemplate('linkedtable') );

@@ -312,6 +312,38 @@ class EasyTableViewEasyTableRecord extends JView
 		$db->setQuery($query);
 		$et_tr_assoc = $db->loadAssoc();
 
+		// Setup the rest of the params related to display
+		$show_description = $params->get('show_description',0);
+		$show_created_date = $params->get('show_created_date',0);
+		$show_modified_date = $params->get('show_modified_date',0);
+		$show_next_prev_record_links = $params->get('show_next_prev_record_links',0);
+		
+		// Setup the record view specific params
+		$title_links_to_table = $params->get('title_links_to_table',0);
+		$show_linked_table = $params->get('show_linked_table',0);
+
+		// Generate Page title
+		if( $title_links_to_table === 1 ) {
+				$pt = '<a href="'.$this->backlink.'">'.htmlspecialchars($easytable->easytablename).'</a>';
+			} else {
+				$pt = htmlspecialchars($easytable->easytablename);
+			}
+
+		// Generate Table description
+		$et_desc = '';
+		if($easytable->description != '') $et_desc = '<p class="et_description">'.htmlspecialchars($easytable->description).'</p>';
+
+		if($show_next_prev_record_links)
+		{
+			$prevrecord = $this->prevRecordLink($id,$easytable->easytablealias,$rid);
+			$nextrecord = $this->nextRecordLink($id,$easytable->easytablealias,$rid);
+		}
+		else
+		{
+			$prevrecord = '';
+			$nextrecord = '';
+		}
+
 		/*
 		 *
 		 * If there is a Linked Table we need to assemble the SQL
@@ -397,33 +429,20 @@ class EasyTableViewEasyTableRecord extends JView
 		$backlink = "index.php?option=com_"._cppl_this_com_name."&view=easytable&id=$id:$easytable->easytablealias&start=$start_page";
 		$backlink = JRoute::_($backlink);
 
-		// Setup the rest of the params related to display
-		$show_description = $params->get('show_description',0);
-		$show_created_date = $params->get('show_created_date',0);
-		$show_modified_date = $params->get('show_modified_date',0);
-		$show_next_prev_record_links = $params->get('show_next_prev_record_links',0);
-
-		if($show_next_prev_record_links)
-		{
-			$prevrecord = $this->prevRecordLink($id,$easytable->easytablealias,$rid);
-			$nextrecord = $this->nextRecordLink($id,$easytable->easytablealias,$rid);
-		}
-		else
-		{
-			$prevrecord = '';
-			$nextrecord = '';
-		}
-
 		$pageclass_sfx = $params->get('pageclass_sfx','');
 
 		
-		// Assing these items for use in the tmpl
+		// Assigning these items for use in the tmpl
 		$this->assign('show_description', $show_description);
 		$this->assign('show_created_date', $show_created_date);
 		$this->assign('show_modified_date', $show_modified_date);
 		$this->assign('linked_table', $lt_id);
 		$this->assign('prevrecord', $prevrecord);
 		$this->assign('nextrecord', $nextrecord);
+		$this->assign('title_links_to_table', $title_links_to_table);
+		$this->assign('show_linked_table', $show_linked_table);
+		$this->assign('pt', $pt);
+		$this->assign('et_desc', $et_desc);
 
 		$this->assign('pageclass_sfx',$pageclass_sfx);
 
