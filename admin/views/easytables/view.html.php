@@ -25,11 +25,11 @@ class EasyTableViewEasyTables extends JView
 	function getEditorLink ($locked, $rowId, $tableName)
 	{
 		$link_text = JText::_( 'EDIT_PROPERTIES_AND_STRUCTURE_OF' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
-		$theEditLink = '<span class="hasTip" title="'.$link_text.'" />'.$tableName.'</span>';
+		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" />'.$tableName.'</span>';
 
 		if( !$locked )
 		{
-			$theEditLink = '<span class="hasTip" title="'.$link_text.'" />'.'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'edit\');" title="'.$link_text.'" >'.$tableName.'</a><span />';
+			$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" />'.'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'edit\');" title="'.$link_text.'" >'.$tableName.'</a><span />';
 		}
 
 		return($theEditLink);
@@ -38,12 +38,12 @@ class EasyTableViewEasyTables extends JView
 	function publishedIcon ($locked, $row, $i)
 	{
 		$btn_text = JText::_( ( $row->published ? 'PUBLISHED_BTN':'UNPUBLISHED_BTN') ).' \''.$row->easytablename.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
-		$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'tick.png';
-		$theBtn = '<img src="'.$theImageURL.'" class="hasTip" alt="'.$btn_text.'" title="'.$btn_text.'" border="0" >';
+		$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'publish_g.png';
+		$theBtn = '<span  class="hasTip" title="'.$btn_text.'" style="margin-left:15px;" ><img src="'.$theImageURL.'" border="0" ></span>';
 
 		if( !$locked )
 		{
-			$theBtn = "<span class=\"hasTip\" title=\"$btn_text\">".JHTML::_( 'grid.published',  $row, $i ).'</span>';
+			$theBtn = "<span class=\"hasTip\" title=\"$btn_text\" style=\"margin-left:15px;\" >".JHTML::_( 'grid.published',  $row, $i, '../'.$theImageURL ).'</span>';
 		}
 
 		return $theBtn;
@@ -85,7 +85,7 @@ class EasyTableViewEasyTables extends JView
 		}
 
 		$theSearchableImage = '<img src="'.$theImageString.'" name="'.$rowId.'_img" border="0" />';
-		$theSearchableButton = '<span class="hasTip" title="'.$btn_text.'"><a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId
+		$theSearchableButton = '<span class="hasTip" title="'.$btn_text.'" style="margin-left:20px;" ><a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId
 								.'\',\'toggleSearch\');" title="'.$btn_text.'" >'.$theSearchableImage.'</a></span>';
 		
 		return($theSearchableButton);
