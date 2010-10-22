@@ -7,6 +7,7 @@
 
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
+	JHTML::_('behavior.tooltip');
 		if($this->row->id)
 		{
 			JToolBarHelper::custom( 'modifyTable', 'modifyTable', 'modifyTable', 'Modify Structure', false, false );

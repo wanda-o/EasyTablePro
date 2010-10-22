@@ -492,7 +492,7 @@ class EasyTableController extends JController
 			if($s)
 			{ 
 				if($s > 1) {$s = '\'s';} else {$s = '';}
-				$msg_successes = 'Table id'.$s.' '.implode(', ',$s_array).' published.';
+				$msg_successes = 'Table ID'.$s.' '.implode(', ',$s_array).' published.';
 			}
 			// Check for tables we can't publish & generate part of the user msg.
 			$f = count($f_array);
@@ -507,7 +507,8 @@ class EasyTableController extends JController
 		else
 		{
 			$s_array = $cid;
-			$msg = 'Table(s) '.implode(', ',$s_array).' unpublished';
+			if(count($s_array)>1) $s = '\'s '; else $s = '';
+			$msg = "Table ID$s".implode(', ',$s_array).' unpublished';
 		}
 
 		

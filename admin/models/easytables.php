@@ -34,8 +34,9 @@ class EasyTableModelEasyTables extends JModel
 	 */
 	function _buildQuery()
 	{
-		$query = ' SELECT * '
-			. ' FROM #__easytables '
+		$query = ' SELECT ets.*, u.name AS editor'.
+			' FROM #__easytables AS ets'.
+			' LEFT JOIN #__users AS u ON u.id = ets.checked_out'
 		;
 
 		return $query;

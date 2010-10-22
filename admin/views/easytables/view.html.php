@@ -22,28 +22,71 @@ require_once $pvf;
 
 class EasyTableViewEasyTables extends JView
 {
-	function getSearchableTick ($rowId, $flag)
+	function getEditorLink ($locked, $rowId, $tableName)
 	{
-		$btn_title = '';
-		$theImageString = '';
+		$link_text = JText::_( 'EDIT_PROPERTIES_AND_STRUCTURE_OF' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
+		$theEditLink = '<span class="hasTip" title="'.$link_text.'" />'.$tableName.'</span>';
+
+		if( !$locked )
+		{
+			$theEditLink = '<span class="hasTip" title="'.$link_text.'" />'.'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'edit\');" title="'.$link_text.'" >'.$tableName.'</a><span />';
+		}
+
+		return($theEditLink);
+	}
+
+	function publishedIcon ($locked, $row, $i)
+	{
+		$btn_text = JText::_( ( $row->published ? 'PUBLISHED_BTN':'UNPUBLISHED_BTN') ).' \''.$row->easytablename.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
+		$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'tick.png';
+		$theBtn = '<img src="'.$theImageURL.'" class="hasTip" alt="'.$btn_text.'" title="'.$btn_text.'" border="0" >';
+
+		if( !$locked )
+		{
+			$theBtn = "<span class=\"hasTip\" title=\"$btn_text\">".JHTML::_( 'grid.published',  $row, $i ).'</span>';
+		}
+
+		return $theBtn;
+	}
+
+
+	function getDataEditorIcon ($locked, $rowId, $tableName)
+	{
+		$btn_text = JText::_( 'EDIT_TABLE_DATA_IN_' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
+		$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'edit.png';
+		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'EDIT_RECORDS' ).'::'.$btn_text.'" /><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
+
+		if( !$locked )
+		{
+			$theEditBtn = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'editData\');" title="'.$btn_text.'" >'.$theEditBtn.'</a>';
+		}
+
+		return($theEditBtn);
+	}
+
+	function getSearchableTick ($rowId, $flag, $locked=true)
+	{
+		$btn_text = '';
+		$theImageString = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' );
 		if( $flag == '' )
 		{
-			$theImageString = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/GlobalIcon16x16.png';
-			$btn_title = JText::_( "Click here to prevent access to this table by Joomla's built-in search function." );
+			$theImageString .= 'GlobalIcon16x16.png';
+			$btn_text = JText::_( "CLICK_HERE_TO_ALLOW_ACCESS_BY_JOOMLA_S_BUILT_IN_SEARCH_FUNCTION_" ).($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
 		}
 		else if($flag)
 		{
-			$theImageString = 'images/tick.png';
-			$btn_title = JText::_( "Click here to prevent access to this table by Joomla's built-in search function." );
+			$theImageString .= 'tick.png';
+			$btn_text = JText::_( "CLICK_HERE_TO_PREVENT_ACCESS_TO_THIS_TABLE_BY_JOOMLA_S_BUILT_IN_SEARCH_FUNCTION_" ).($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
 		}
 		else
 		{
-			$theImageString = 'images/publish_x.png';
-			$btn_title = JText::_( "Click here to allow Joomla's built-in search function to access this table." );
+			$theImageString .= 'publish_x.png';
+			$btn_text = JText::_( "CLICK_HERE_TO_USE_THE_GLOBAL_PREFERENCES_TO_CONTROL_JOOMLA_S_BUILT_IN_SEARCH_FUNCTION_TO_ACCESS_THIS_TABLE_" ).($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
 		}
 
 		$theSearchableImage = '<img src="'.$theImageString.'" name="'.$rowId.'_img" border="0" />';
-		$theSearchableButton = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'toggleSearch\');" title="'.$btn_title.'" >'.$theSearchableImage.'</a>';
+		$theSearchableButton = '<span class="hasTip" title="'.$btn_text.'"><a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId
+								.'\',\'toggleSearch\');" title="'.$btn_text.'" >'.$theSearchableImage.'</a></span>';
 		
 		return($theSearchableButton);
 	}
