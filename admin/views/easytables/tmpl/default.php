@@ -77,10 +77,10 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo JHTML::_( 'grid.checkedout', $row, $i ); ?>
 			</td>
 			<td>
-				<?php echo $this->getEditorLink($locked,$row->id,$row->easytablename) ?>
+				<?php echo $this->getEditorLink($locked,$i,$row->easytablename) ?>
 			</td>
 			<td>
-				<?php echo $this->getDataEditorIcon($locked,$row->id,$row->easytablename) ?>
+				<?php echo $this->getDataEditorIcon($locked,$i,$row->easytablename) ?>
 			</td>
 			<td>
 				<?php echo $published; ?>
