@@ -41,7 +41,7 @@ class EasyTableViewEasyTable extends JView
 		}
 		elseif(substr($rowElement,0,6)=='search')
 		{
-			$btn_title = JText::_( 'CLICK_TO_MAKE_THIS_FIELD_SEARCHABLE__OR_NOT_' );
+			$btn_title = JText::_( 'CLICK_TO_MAKE_THIS_FIELD_SEARCHABLE___OR_NOT__' );
 		}
 
 		if($flag)
@@ -54,7 +54,7 @@ class EasyTableViewEasyTable extends JView
 		}
 
 		
-		$theListViewImage = '<img src="images/'.$theImageString.'" name="'.$rowElement.'_img" border="0" title="'.$btn_title.'" />';
+		$theListViewImage = '<img src="images/'.$theImageString.'" name="'.$rowElement.'_img" border="0" title="'.$btn_title.'"  class="hasTip"/>';
 		
 		return($theListViewImage);
 	}
@@ -73,7 +73,7 @@ class EasyTableViewEasyTable extends JView
 
 	function getTypeList ($id, $selectedType=0)
 	{
-		$selectOptionText =	 '<select name="type'.$id.'" onchange="changeTypeWarning()">';																		// start our html select structure
+		$selectOptionText =	 '<select name="type'.$id.'" onchange="changeTypeWarning()" class="hasTip" title="'.JText::_( 'FIELD_TYPE_DESC' ).'">';// start our html select structure
 		$selectOptionText .= '<option value="0" '.($selectedType ? '':'selected').'>'.JText::_('TEXT').'</option>';				// Type 0 = Text
 		$selectOptionText .= '<option value="1" '.($selectedType==1 ? 'selected':'').'>'.JText::_('IMAGE').'</option>';			// Type 1 = Image URL
 		$selectOptionText .= '<option value="2" '.($selectedType==2 ? 'selected':'').'>'.JText::_('LINK__URL_').'</option>';	// Type 2 = Fully qualified URL

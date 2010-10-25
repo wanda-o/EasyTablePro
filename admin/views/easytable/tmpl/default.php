@@ -39,7 +39,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<fieldset class="adminform">
 				<legend>Details</legend>
 				<table class="admintable" id="et_tableDetails">
-					<tr>
+					<tr class="hasTip" title="<?php echo JText::_( 'EASYTABLE_NAME_DESC' ); ?>" >
 						<td width="100" align="right" class="key">
 							<label for="easytablename">
 								<?php echo JText::_( 'TABLE' ); ?>:
@@ -48,7 +48,7 @@ defined('_JEXEC') or die('Restricted Access');
 						<td>
 							<input class="text_area" type="text" name="easytablename" id="easytablename" onchange="javascript:createTableNameAlias()" size="32" maxlength="250" value="<?php echo $this->row->easytablename;?>" />			</td>
 					</tr>
-					<tr>
+					<tr class="hasTip" title="<?php echo JText::_( 'EASYTABLE_ALIAS_DESC' ); ?>" >
 						<td width="100" align="right" class="key">
 							<label for="easytablealias">
 								<?php echo JText::_( 'ALIAS' ); ?>:
@@ -57,7 +57,7 @@ defined('_JEXEC') or die('Restricted Access');
 						<td>
 							<input class="text_area" type="text" name="easytablealias" id="easytablealias" onchange="javascript:validateTableNameAlias()" size="32" maxlength="250" value="<?php echo $this->row->easytablealias;?>" />			</td>
 					</tr>
-					<tr>
+					<tr class="hasTip" title="<?php echo JText::_( 'EASYTABLE_DESCRIPTION_DESC' ); ?>" >
 						<td width="100" align="right" class="key">
 							<label for="description">
 								<?php echo JText::_( 'DESCRIPTION' ); ?>:
@@ -67,9 +67,9 @@ defined('_JEXEC') or die('Restricted Access');
 							<input class="text_area" type="text" name="description" id="description" size="32" maxlength="250" value="<?php echo $this->row->description;?>" />
 						</td>
 					</tr>
-			   		<tr>
+			   		<tr class="hasTip" title="<?php echo JText::_( 'IMAGE_DIRECTORY_DESC' ); ?>" >
 						<td width="100" align="right" class="key">
-							<label for="defaultimagedir" title="The default location of images used with this table.">
+							<label for="defaultimagedir">
 								<?php echo JText::_( 'IMAGE_DIRECTORY' ); ?>:
 							</label>
 						</td>
@@ -80,7 +80,7 @@ defined('_JEXEC') or die('Restricted Access');
 			                <?php } ?>
 						</td>
 					</tr>
-			   		<tr>
+			   		<tr class="hasTip" title="<?php echo JText::_( 'PUBLISHED_STATUS_DESC' ); ?>" >
 			   			<?php
 			   			$pubTitle = JText::_('THE___PUBLISHED___STATUS_OF_THIS_TABLE_');
 			   			if(!$this->ettd)
@@ -178,21 +178,21 @@ defined('_JEXEC') or die('Restricted Access');
 			</tr>
 			<?php if($this->ettd) { ?>
 			<tr>
-				<td title="Meta data for fields in Table <?php echo $this->row->easytablename.' ('.$this->ettd_tname.')'; ?>!">
+				<td>
 					<fieldset class="adminform">
-						<legend><?php echo $this->row->easytablename.' '.JText::_( 'FIELD_CONFIGURATION' ); ?></legend>
+						<legend class="hasTip" title="<?php echo JText::_( 'Meta Data::Meta data for fields in Table' ).' '.$this->row->easytablename.' ('.$this->row->easytablealias.')'; ?>!"><?php echo $this->row->easytablename.' '.JText::_( 'FIELD_CONFIGURATION' ); ?></legend>
 						<table class="adminlist" id="et_fieldList">
 						<thead>
 							<tr valign="top">
 								<th><?php echo JText::_( 'ID' ); ?></th>
-								<th><?php echo JText::_( 'POSITION' ); ?></th>
-								<th><?php echo JText::_( 'LABEL__ALIAS_' ); ?></th>
-								<th><?php echo JText::_( 'DESCRIPTION' ); ?></th>
-								<th><?php echo JText::_( 'TYPE' ).' / '.JText::_( 'OPTIONS' ); ?></th>
-								<th><?php echo JText::_( 'LIST_VIEW' ); ?></th>
-								<th><?php echo JText::_( 'DETAIL_LINK' ); ?></th>
-								<th><?php echo JText::_( 'DETAIL_VIEW' ); ?></th>
-								<th><?php echo '<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'search.png" alt="'.JText::_( 'INCLUDE_IN_SEARCH' ).'"'; ?></th>
+								<th class="hasTip" title="<?php echo JText::_( 'POSITION__DETERMINE_DESC' ); ?>" ><?php echo JText::_( 'POSITION' ); ?></th>
+								<th class="hasTip" title="<?php echo JText::_( 'LABEL__DESC' ); ?>" ><?php echo JText::_( 'LABEL__ALIAS_' ); ?></th>
+								<th class="hasTip" title="<?php echo JText::_( 'DESCRIPTION__TH_DESC' ) ?>" ><?php echo JText::_( 'DESCRIPTION' ); ?></th>
+								<th class="hasTip" title="<?php echo JText::_( 'FIELD_OPTIONS_DESC' ); ?>" ><?php echo JText::_( 'TYPE' ).' / '.JText::_( 'OPTIONS' ); ?></th>
+								<th class="hasTip" title="<?php echo JText::_( 'LIST_VIEW_DESC' ); ?>" ><?php echo JText::_( 'LIST_VIEW' ); ?></th>
+								<th class="hasTip" title="<?php echo JText::_( 'DETAIL_LINK_DESC' ); ?>" ><?php echo JText::_( 'DETAIL_LINK' ); ?></th>
+								<th class="hasTip" title="<?php echo JText::_( 'DETAIL_VIEW_DESC' ); ?>" ><?php echo JText::_( 'DETAIL_VIEW' ); ?></th>
+								<th class="hasTip" title="<?php echo JText::_( 'SEARCHABLE__THI_DESC' ); ?>" ><?php echo '<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'search.png" alt="'.JText::_( 'INCLUDE_IN_SEARCH' ).'"'; ?></th>
 							</tr>
 						</thead>
 						<tbody id='et_meta_table_rows'>
@@ -208,15 +208,15 @@ defined('_JEXEC') or die('Restricted Access');
 								echo '<tr valign="top" class="row'.$k.'" id="'.$rowID.'">';																		// Open the row
 								
 								echo('<td align="center"><input type="hidden" name="id'.$mRId.'" value="'.$mRId.'">'.$mRId.'<br /><a href="javascript:void(0);" class="deleteFieldButton-nodisplay" onclick="deleteField(\''.$metaRow[3].'\', \''.$rowID.'\');"><img src="images/publish_x.png"></a></td>');				// Id
-								echo('<td align="center"><input type="text" value="'.$metaRow[2].'" size="3" name="position'.$mRId.'"></td>');		// Position
-								echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'" id="label'.$mRId.'"><br>'.									// label <br />
-									'<input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.
+								echo('<td align="center"><input type="text" value="'.$metaRow[2].'" size="3" name="position'.$mRId.'"  class="hasTip" title="'.JText::_( 'POSITION__DETERMINE_DESC' ).'"></td>');		// Position
+								echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'" id="label'.$mRId.'" class="hasTip" title="'.JText::_( 'LABEL__DESC' ).'" ><br>'.									// label <BR />
+									'<span  class="hasTip" title="'.JText::_( 'ALIAS___T_DESC' ).'"><input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.
 									'<input type="text" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" onchange="validateAlias(this)" disabled >'.
-									'<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'locked.gif" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></td>');		// alias
-								echo('<td><textarea cols="30" rows="2" name="description'.$mRId.'">'.$metaRow[4].'</textarea></td>');				// Description
+									'<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'locked.gif" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></span></td>');		// alias
+								echo('<td><textarea cols="30" rows="2" name="description'.$mRId.'" class="hasTip" title="'.JText::_( 'DESCRIPTION__TH_DESC' ).'" >'.$metaRow[4].'</textarea></td>');				// Description
 								echo('<td>'.$this->getTypeList($mRId, $metaRow[5]).'<BR />'.
 									'<input type="hidden" name="origfieldtype'.$mRId.'" value="'.$metaRow[5].'" >'.
-										'<input type="text" value="'.$this->getFieldOptions($metaRow[10]).'" name="fieldoptions'.$mRId.'"></td>');			// Type / Field Options
+										'<input type="text" value="'.$this->getFieldOptions($metaRow[10]).'" name="fieldoptions'.$mRId.'" class="hasTip" title="'.JText::_( 'FIELD_OPTIONS_DESC' ).'" ></td>');			// Type / Field Options
 								
 								$tdName			= 'list_view'.$mRId;
 								$tdStart		= '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[6].'">';			// List View Flag
