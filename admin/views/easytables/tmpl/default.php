@@ -81,7 +81,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo $this->getEditorLink($locked,$i,$row->easytablename) ?>
 			</td>
 			<td>
-				<?php echo $this->getDataEditorIcon($locked,$i,$row->easytablename) ?>
+				<?php echo $this->getDataEditorIcon($locked,$i,$row->id,$row->easytablename) ?>
 			</td>
 			<td>
 				<?php echo $published; ?>
