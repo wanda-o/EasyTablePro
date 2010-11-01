@@ -50,7 +50,7 @@ class EasyTableViewEasyTables extends JView
 	}
 
 
-	function getDataEditorIcon ($locked, $rowId, $tableName)
+	function getDataEditorIcon ($locked, $i, $rowId, $tableName)
 	{
 		$btn_text = JText::_( 'EDIT_TABLE_DATA_IN_' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
 		$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'edit.png';
@@ -58,7 +58,7 @@ class EasyTableViewEasyTables extends JView
 
 		if( !$locked )
 		{
-			$theEditBtn = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'editData\');" title="'.$btn_text.'" >'.$theEditBtn.'</a>';
+			$theEditBtn = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\'editData\');" title="'.$btn_text.'" >'.$theEditBtn.'</a>';
 		}
 
 		return($theEditBtn);
