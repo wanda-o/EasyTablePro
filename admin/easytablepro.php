@@ -21,5 +21,6 @@ $controller->registerTask('unpublish','publish');
 $controller->registerTask('apply', 'save');
 $controller->registerTask('createETDTable', 'save');
 $controller->registerTask('updateETDTable', 'save');
+$controller->registerTask('editdata', 'editData');
 $controller->execute( $task );
 $controller->redirect();

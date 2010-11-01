@@ -67,5 +67,26 @@ class ET_VHelpers
 		}
 		return $paramsObj;
 	}
+
+	// Return Meta for Fields in List View
+	function et_List_View_Fields ($allFieldsMeta) {
+		return ET_VHelpers::et_View_Fields_From($allFieldsMeta, 'list');
+	}
+
+	// Return Meta for Fields in Detail View
+	function et_Detail_View_Fields ($allFieldsMeta) {
+		return ET_VHelpers::et_View_Fields_From($allFieldsMeta, 'detail');
+	}
+
+	// Return Meta for Fields by type
+	function et_View_Fields_From($allFieldsMeta, $view='list') {
+		$returnArray = Array();
+		foreach ( $allFieldsMeta as $metaRecord )
+		{
+		    if($metaRecord[$view.'_view'] == 1) $returnArray[] = $metaRecord;
+		}
+		return $returnArray;
+	}
+
 }
 

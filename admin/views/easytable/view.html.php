@@ -25,7 +25,6 @@ class EasyTableViewEasyTable extends JView
 	*/
 	function getListViewImage ($rowElement, $flag=0)
 	{
-		//echo('getListViewImage received:'.$rowElement.'<br />');
 		$btn_title = '';
 		if(substr($rowElement,0,4)=='list')
 		{
