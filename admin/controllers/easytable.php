@@ -434,8 +434,8 @@ class EasyTableController extends JController
 			
 			if(!$db_result)
 			{
-				// JERROR::raiseError(500, "Meta data update failed for row id ( $rowValue ):".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);
-				$statusArray = array( 'status' => 0, 'msg' => "Meta data update failed at row id ( $rowValue ):".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);
+				// JERROR::raiseError(500, "Meta data update failed for row id ( $rowValue ):".$db->explain().'<BR /> SQL => '.$etMetaUpdateSQL);
+				$statusArray = array( 'status' => 0, 'msg' => "Meta data update failed at row id ( $rowValue ):".$db->explain().'<BR /> SQL => '.$etMetaUpdateSQL);
 				return $statusArray;
 			}
 		}
@@ -575,7 +575,7 @@ class EasyTableController extends JController
 		
 		if(!$db_result)
 		{
-			$msg = "Meta data update failed during new field insert: ".$db->explain().'<br /> SQL => '.$insertSQL;
+			$msg = "Meta data update failed during new field insert: ".$db->explain().'<BR /> SQL => '.$insertSQL;
 			return $msg;
 		}
 		
@@ -590,7 +590,7 @@ class EasyTableController extends JController
 
 		if(!$db_result)
 		{
-			$msg = "Table update failed during addition of new columns: ".$db->explain().'<br /> SQL => '.$addSQL;
+			$msg = "Table update failed during addition of new columns: ".$db->explain().'<BR /> SQL => '.$addSQL;
 			return $msg;
 		}
 		

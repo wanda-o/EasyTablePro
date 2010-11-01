@@ -45,7 +45,7 @@ class ET_VHelpers
 
 			$et_version_desc = $et_xml->channel->item->description;
 
-			$et_version_tip = $et_version_title.'<br />'.$et_version_desc;
+			$et_version_tip = $et_version_title.'<BR />'.$et_version_desc;
 		}
 
 		if ($et_version == '')

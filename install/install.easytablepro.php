@@ -21,7 +21,7 @@ function com_install()
 	$img_ERROR = '<img src="images/publish_r.png" />';
 	//-- common text
 	$msg = '';
-	$BR = '<br />';
+	$BR = '<BR />';
 	
 	//-- OK, to make the installer aware of our translations we need to explicitly load
 	//   the components language file - this should work as the should already be copied in.

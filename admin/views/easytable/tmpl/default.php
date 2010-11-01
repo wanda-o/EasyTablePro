@@ -117,11 +117,11 @@ defined('_JEXEC') or die('Restricted Access');
 							<input name="tablefile" type="file" id="fileInputBox" />
 							<?php
 								if($this->ettd) {
-									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'updateETDTable\')" id="fileUploadBtn" /><br />';
+									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'updateETDTable\')" id="fileUploadBtn" /><BR />';
 								}
 								else
 								{
-									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'createETDTable\')" id="fileUploadBtn" /><br />';
+									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'createETDTable\')" id="fileUploadBtn" /><BR />';
 								}
 							?>
 							<?php echo JText::_( 'FIRST_LINE_OF_CSV_FILE_CONTAINS_COLUMN_HEADINGS_' ).' '.$this->CSVFileHasHeaders; ?>
@@ -140,7 +140,7 @@ defined('_JEXEC') or die('Restricted Access');
 								<td><?php echo $this->row->id; ?></td>
 							</tr>
 							<tr>
-								<td><strong><?php echo JText::_( 'STATE' ); ?>:<br /></strong></td>
+								<td><strong><?php echo JText::_( 'STATE' ); ?>:<BR /></strong></td>
 								<td><?php echo $this->state; ?></td>
 							</tr>
 							<tr>
@@ -151,8 +151,8 @@ defined('_JEXEC') or die('Restricted Access');
 								</td>
 								<td>
 									<?php
-										echo $this->ettm_field_count.' '.JText::_('FIELDS').'<br />';
-										echo JText::_('TABLE__').$this->ettd_tname.' '.'<br />';
+										echo $this->ettm_field_count.' '.JText::_('FIELDS').'<BR />';
+										echo JText::_('TABLE__').$this->ettd_tname.' '.'<BR />';
 										if($this->ettd)
 										{
 											echo $this->ettd_tname.' '.JText::_('HAS').' '.$this->ettd_record_count.' '.JText::_('RECORDS_');
@@ -165,8 +165,8 @@ defined('_JEXEC') or die('Restricted Access');
 								</td>
 							</tr>
 							<tr>
-								<td><br /><strong><?php echo JText::_( 'CREATED' ); ?>:</strong></td>
-								<td><br /><?php echo $this->createddate;?></td>
+								<td><BR /><strong><?php echo JText::_( 'CREATED' ); ?>:</strong></td>
+								<td><BR /><?php echo $this->createddate;?></td>
 							</tr>
 							<tr>
 								<td><strong><?php echo JText::_( 'MODIFIED' ); ?>:</strong></td>
@@ -207,7 +207,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 								echo '<tr valign="top" class="row'.$k.'" id="'.$rowID.'">';																		// Open the row
 								
-								echo('<td align="center"><input type="hidden" name="id'.$mRId.'" value="'.$mRId.'">'.$mRId.'<br /><a href="javascript:void(0);" class="deleteFieldButton-nodisplay" onclick="deleteField(\''.$metaRow[3].'\', \''.$rowID.'\');"><img src="images/publish_x.png"></a></td>');				// Id
+								echo('<td align="center"><input type="hidden" name="id'.$mRId.'" value="'.$mRId.'">'.$mRId.'<BR /><a href="javascript:void(0);" class="deleteFieldButton-nodisplay" onclick="deleteField(\''.$metaRow[3].'\', \''.$rowID.'\');"><img src="images/publish_x.png"></a></td>');				// Id
 								echo('<td align="center"><input type="text" value="'.$metaRow[2].'" size="3" name="position'.$mRId.'"  class="hasTip" title="'.JText::_( 'POSITION__DETERMINE_DESC' ).'"></td>');		// Position
 								echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'" id="label'.$mRId.'" class="hasTip" title="'.JText::_( 'LABEL__DESC' ).'" ><br>'.									// label <BR />
 									'<span  class="hasTip" title="'.JText::_( 'ALIAS___T_DESC' ).'"><input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.
