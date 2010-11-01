@@ -56,12 +56,13 @@ defined('_JEXEC') or die('Restricted Access');
 	</thead>
 	<?php
 	$k = 0;
+	$user = JFactory::getUser();
+	$userId = $user->id;
+
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
 		$row = &$this->rows[$i];
 		$rowParamsObj = new JParameter ($row->params);
-		$user = JFactory::getUser();
-		$userId = $user->id;
 		$locked = ($row->checked_out && ($row->checked_out != $user->id));
 		$published = $this->publishedIcon($locked, $row, $i);
 		
