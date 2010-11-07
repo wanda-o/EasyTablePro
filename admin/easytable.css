@@ -8,6 +8,9 @@
 .icon-48-easytables {
     background: url(assets/images/EasyTableProIcon.png) no-repeat left;
 }
+.icon-48-easytableeditrecords {
+    background: url(assets/images/Edit-Icon48.png) no-repeat left;
+}
 
 .icon-32-modifyTable {
     background: url(assets/images/Table-Modification32.png) no-repeat left;
