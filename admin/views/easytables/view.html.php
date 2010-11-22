@@ -25,11 +25,11 @@ class EasyTableViewEasyTables extends JView
 	function getEditorLink ($locked, $rowId, $tableName)
 	{
 		$link_text = JText::_( 'EDIT_PROPERTIES_AND_STRUCTURE_OF' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
-		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" />'.$tableName.'</span>';
+		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.$tableName.'</span>';
 
 		if( !$locked )
 		{
-			$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" />'.'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'edit\');" title="'.$link_text.'" >'.$tableName.'</a></span>';
+			$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'edit\');" title="'.$link_text.'" >'.$tableName.'</a></span>';
 		}
 
 		return($theEditLink);
@@ -54,7 +54,7 @@ class EasyTableViewEasyTables extends JView
 	{
 		$btn_text = JText::_( 'EDIT_TABLE_DATA_IN_' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
 		$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'edit.png';
-		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'EDIT_RECORDS' ).'::'.$btn_text.'" /><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
+		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'EDIT_RECORDS' ).'::'.$btn_text.'" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
 
 		if( !$locked )
 		{
