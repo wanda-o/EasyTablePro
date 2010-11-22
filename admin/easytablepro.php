@@ -22,5 +22,16 @@ $controller->registerTask('apply', 'save');
 $controller->registerTask('createETDTable', 'save');
 $controller->registerTask('updateETDTable', 'save');
 $controller->registerTask('editdata', 'editData');
+$controller->registerTask('addrow', 'addRow');
+$controller->registerTask('deleteRecords', 'deleteRecords');
+$controller->registerTask('editrow', 'editrow');
+$controller->registerTask('saveRecord', 'applyRecord');
+$controller->registerTask('applyRecord', 'applyRecord');
+$controller->registerTask('saveNewRecord', 'applyRecord');
+$controller->registerTask('applyNewRecord', 'applyRecord');
+$controller->registerTask('cancelRecord', 'cancelRecord');
+$controller->registerTask('cancelNewRecord', 'cancelRecord');
+
 $controller->execute( $task );
+
 $controller->redirect();

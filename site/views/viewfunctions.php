@@ -9,12 +9,19 @@ defined('_JEXEC') or die('Restricted Access');
 	// Get Field With Options
 class ET_VHelper
 {
+	/*
+		$f = field value
+		$type = user defined type
+		$params = field options 
+	*/
 	function getFWO ($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
 	{
 		/* The next two lines are a work around for a nested foreach bug in early versions of PHP 5.2.x */
 		is_object( $OrigRow ) ? $row = clone $OrigRow : $row = $OrigRow;
 		is_object( $OrigRowFNILV ) ? $rowFNILV = clone $OrigRowFNILV :  $rowFNILV = $OrigRowFNILV;
 		/* End of work around */
+
+		if($f == '') return '';
 
 		$fieldOptions = '';
 		if ( isset ($params) )
@@ -94,7 +101,7 @@ class ET_VHelper
 	{
 		if($f)
 		{
-			$pathToImage = $this->currentImageDir.DS.$f;  // we concatenate the image URL with the tables default image path
+			$pathToImage = JURI::root().$this->currentImageDir.DS.$f;  // we concatenate the image URL with the tables default image path
 			if($fieldOptions = '')
 			{
 				$fieldWithOptions = '<img src="'.trim($pathToImage).'" >';

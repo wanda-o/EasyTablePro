@@ -53,6 +53,160 @@ class EasyTableController extends JController
 		 $this->display();
 	}
 
+	function addRow()
+	{
+		 JRequest::setVar('view', 'EasyTableRecord');
+		 $this->display();
+	}
+
+	function editrow()
+	{
+		 JRequest::setVar('view', 'EasyTableRecord');
+		 $this->display();
+	}
+
+	function deleteRecords()
+	{
+		$jAp=& JFactory::getApplication();
+
+		$id = JRequest::getVar( 'id', 0);
+		if($id == 0) {
+			JError::raiseNotice( 100, JText::_('AN_ERROR_DESC').$id );
+		}
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
+		}
+		// Get the table name
+		$tableName = $db->nameQuote('#__easytables_table_data_'.$id);
+
+		$cid = JRequest::getVar( 'cid', array(0), '', 'array'); // get the cid array
+		$delSQL = 'DELETE FROM '.$tableName.' WHERE `id`=';
+
+		foreach ( $cid as $rid )
+		{
+			$db->setQuery($delSQL.$db->quote($rid));
+			$goodResult = $db->query();
+			if(!$goodResult){
+				$jAp->enqueueMessage(JText::_( 'COULD_NOT_DESC' ).' '.$rid.' '.nl2br( $db->getErrorMsg() ),'error');
+			} else {
+				$jAp->enqueueMessage(JText::_( 'SUCCESSFULY_DELETED_DESC' ).' '.$rid);
+			}
+		}
+
+		global $option;
+		// Go back to the table page
+		$this->setRedirect('index.php?option='.$option.'&task=editdata&cid[]='.$id, '<p style="margin-left:35px">'.$this->msg.'</p>' );
+	}
+
+	function applyRecord()
+	{
+		// Get the task, afterall, is it an applyRecord or an applyNewRecord?
+		$ctask = $this->getTask();
+		$id = JRequest::getVar('id',0);
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
+		}
+
+		// Get the table name
+		$tableName = $db->nameQuote('#__easytables_table_data_'.$id);
+
+		// Get the record ID
+		$rid = JRequest::getVar('rid',0);
+		if((!$rid) && ($ctask == 'applyRecord')){
+			JError::raiseError(500,JText::_( "NO_RECORD_DESC" ).' '.$rid);
+		}
+
+		// Build the update values
+		$fldArray = explode (',', JRequest::getVar('et_flds'));
+		$fldValues = $this->getFldValuesFor($fldArray);
+		if(count($fldValues)) { // Count will be zero if none of the data has changed.
+			$fldUpdateSQLSet = $this->makeFldUpdateSQL($fldArray, $fldValues);
+			if(($ctask == 'applyRecord') || ($ctask == 'saveRecord')) {
+				// Build the SQL to update the record
+				$query = "UPDATE ".$tableName.' SET '.$fldUpdateSQLSet.' WHERE `id` ='.$rid.';';
+			} else if(($ctask == 'applyNewRecord') || ($ctask == 'saveNewRecord')) {
+				$query = "INSERT INTO ".$tableName.' SET '.$fldUpdateSQLSet.';';
+			} else {
+				JError::raiseError(500,JText::_( "INVALID__TAS_DESC" ).' applyRecord() => '.$ctask);
+		}
+			$db->setQuery($query);
+
+			// Execute the query and check the result.
+			$successful = $db->query();
+			if(($ctask == 'applyRecord') || ($ctask == 'saveRecord'))
+				if(!$successful) {
+					JError::raiseWarning( 100, JText::_( 'WARNING___UNAB_DESC' ).'<BR>SQL:: '.$query );
+				}
+				else { $this->msg = JText::_( 'RECORD_SUCCESSFULLY_DESC' ); }
+			else if(($ctask == 'applyNewRecord') || ($ctask == 'saveNewRecord')) {
+				if($successful) {
+					$rid = $db->insertid();
+					$this->msg = JText::_( 'NEW_RECORD_DESC' );
+				}
+			} else {
+				JError::raiseError(500,JText::_( "INVALID__TAS_DESC" ).' insert/update of applyRecord() => '.$ctask);
+			}
+		} else {$this->msg = JText::_( 'NO_CHANGES_DESC' );}
+
+		global $option;
+		if(($ctask == 'applyRecord') || ($ctask == 'applyNewRecord')) {
+		// Go back to the record page
+			$this->setRedirect('index.php?option='.$option.'&task=editrow&cid[]='.$rid.'&id='.$id, '<p style="margin-left:35px">'.$this->msg.'</p>' );
+		} else {
+		// Go back to the table page
+			$this->setRedirect('index.php?option='.$option.'&task=editdata&cid[]='.$id, '<p style="margin-left:35px">'.$this->msg.'</p>' );
+		}
+	}
+
+	function getFldValuesFor($fldArray)
+	{
+		$fldValues = array ( );
+		foreach ( $fldArray as $fldName )
+		{
+			$theValue = addslashes ( JRequest::getVar( 'et_fld_'.$fldName,'' ) );
+			$theOrigValue = JRequest::getVar( 'et_fld_orig_'.$fldName,'' );
+			if(($theValue != '') && ($theValue != $theOrigValue)){
+				$fldValues[$fldName] = $theValue;
+				$chkValue = $fldValues[$fldName];
+			}
+		}
+		return $fldValues;
+	}
+
+	function makeFldUpdateSQL( $fldArray, $fldValues )
+	{
+		$updateSQL = '';
+		$numFlds = count($fldValues);
+		$i = 1;
+
+		foreach ( $fldValues as $key=>$value )
+		{
+			$updateSQL .= '`'.$key."` = '".$value."'";
+			if($i++ < $numFlds){$updateSQL .= ', ';} else {$updateSQL .= ' ';}
+		}
+
+		return $updateSQL;
+	}
+
+	function cancelRecord()
+	{
+		global $option;
+		$id = JRequest::getVar('id',0);
+		if($id == 0) {
+			JError::raiseNotice( 100, JText::_( 'AN_ERROR_DESC' ).$id );
+			$this->checkInEasyTable();
+			$this->setRedirect('index.php?option='.$option);
+		} else {
+			JRequest::setVar('view', 'EasyTableRecords' );
+		}
+		$this->display();
+	}
+	
+
 	function cancel()
 	{
 		global $option;
