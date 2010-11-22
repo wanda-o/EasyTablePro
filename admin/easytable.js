@@ -382,7 +382,7 @@ function submitbutton(pressbutton)
 		pressbutton == 'toggleSearch' ||
 		pressbutton == 'cancel')
 	{
-		etSubmitForm(pressbutton);
+		submitform(pressbutton);
 	}
 	else if (pressbutton == 'modifyTable')
 	{
