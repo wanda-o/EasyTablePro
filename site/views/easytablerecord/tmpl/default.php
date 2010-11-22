@@ -8,7 +8,7 @@
 	defined('_JEXEC') or die ('Restricted Access');
 ?>
 <div class="contentpaneopen<?php echo $this->pageclass_sfx ?>" id="etrecord">
-	<h2 class="contentheading<?php echo $this->pageclass_sfx ?>"><?php echo $this->pt ?></h2><?php echo htmlspecialchars($this->et_desc); ?>
+	<h2 class="contentheading<?php echo $this->pageclass_sfx ?>"><?php echo $this->pt ?></h2><?php echo $this->et_desc; ?>
 	<div id="easytable-record" class="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
 		<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>">
 			<thead>
