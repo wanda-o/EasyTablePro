@@ -92,11 +92,7 @@ class EasyTableViewEasyTable extends JView
 			}
 
 			// Get pagination object
-			$pagination = false;
-			if($show_pagination) {
-				$pagination =& $this->get('pagination');
-				//echo('<BR />Pagination Array = '.print_r($pagination));
-			}
+			$pagination =& $this->get('pagination');
 		}
 		else
 		{
