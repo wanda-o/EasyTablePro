@@ -38,7 +38,8 @@ class EasyTableViewEasyTable extends JView
 
 		$show_description = $params->get('show_description',0);
 		$show_search = $params->get('show_search',0);
-		$show_pagination = $params->get('show_pagination',0);
+		$show_with_pagination = $params->get('show_with_pagination',0);
+		$show_pagination_header = $params->get('show_pagination_header',0);
 		$show_pagination_footer = $params->get('show_pagination_footer',0);
 		$show_created_date = $params->get('show_created_date',0);
 		$show_modified_date = $params->get('show_modified_date',0);
@@ -81,7 +82,7 @@ class EasyTableViewEasyTable extends JView
 		if($etmCount)  //Make sure at least 1 field is set to display
 		{
 			// Get paginated table data
-			if($show_pagination)
+			if($show_with_pagination)
 			{
 				$paginatedRecords =& $this->get('data');
 			}
@@ -113,7 +114,8 @@ class EasyTableViewEasyTable extends JView
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);
 		$this->assign('show_search', $show_search);
-		$this->assign('show_pagination', $show_pagination);
+		$this->assign('show_with_pagination', $show_with_pagination);
+		$this->assign('show_pagination_header', $show_pagination_header);
 		$this->assign('show_pagination_footer', $show_pagination_footer);
 
 		$this->assign('show_created_date', $show_created_date);

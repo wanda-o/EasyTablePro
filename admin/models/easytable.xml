@@ -10,12 +10,17 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_pagination" type="list" default="" label="SHOW_TABLE_PAGINATION" description="THIS_WILL_SHOW_THE_PAGINATION_CONTROLS_FOR_THIS_TABLE_WHEN_THE_OPTION_IS_SET_TO__YES__">
+		<param name="show_with_pagination" type="list" default="" label="SHOW_WITH_PAGINATION" description="IF_SET_DESC">
 			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_pagination_footer" type="list" default="" label="SHOW_TABLE_PAGINATION_FOOTER" description="THIS_WILL_SHOW_THE_PAGINATION_CONTROLS_IN_THE_FOOTER">
+		<param name="show_pagination_header" type="list" default="" label="SHOW_PAGES_DESC" description="PAGINATION_CONTROLS_DESC">
+			<option selected="selected" value="">Use Global</option>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="show_pagination_footer" type="list" default="" label="SHOW_TABLE_PAGINATION_FOOTER" description="THIS_WILL_DESC">
 			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>

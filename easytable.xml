@@ -53,7 +53,7 @@
 		</param>
 		<param name="show_search" default="1">
 		</param>
-		<param name="show_pagination" default="1">
+		<param name="show_with_pagination" default="1">
 		</param>
 		<param name="show_created_date" default="0">
 		</param>

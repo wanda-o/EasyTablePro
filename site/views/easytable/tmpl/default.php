@@ -7,12 +7,12 @@
     }
 ?>
 <?php echo ($this->show_created_date ? '<p class="createdate">'.htmlspecialchars($this->easytable->created_).'</p>' : '') ?>
-<?php echo ($this->show_modified_date ? '<p class="modifydate">'.$this->modification_date_label.htmlspecialchars($this->easytable->modified_).'</p>' : '') ?>
+<?php echo ($this->show_modified_date ? '<p class="modifydate">'.$this->modification_date_label.' '.htmlspecialchars($this->easytable->modified_).'</p>' : '') ?>
 <?php echo ($this->show_description ? '<p class="et_description">'.htmlspecialchars($this->easytable->description).'</p>' : '') ?>
 <br />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
 	<form name="adminForm" method="post" action="<?php echo $this->paginationLink ?>">
-<?php if ($this->show_pagination) { ?>
+<?php if ($this->show_with_pagination) { ?>
 	<div class="et_search_pagination">
 <?php } ?>
 		<?php
@@ -20,23 +20,26 @@
 			{
 				echo JText::_( 'SEARCH' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">'.JText::_( 'GO' ).'</button>';
 			}
-			if( $this->show_pagination && $this->etmCount) // If pagination is enabled show the controls
+			if($this->show_pagination_header)
 			{
-				echo $this->pagination->getPagesLinks();
-			}
-			if( $this->show_pagination && $this->etmCount) 						// Only if pagination is enabled
-			{
-				$pofp = $this->pagination->getPagesCounter( );
-				if(isset( $pofp )) {
-					$pofp = '( '.$pofp.' )';
+				if( $this->show_with_pagination && $this->etmCount) // If pagination is enabled show the controls
+				{
+					echo $this->pagination->getPagesLinks();
 				}
-				$pcntr = $this->pagination->limit;
-				if( isset( $pcntr )) {																	 // AND if there's more than one page then show the page display.
-					echo JText::_('DISPLAY').': '.$this->pagination->getLimitBox().$pofp;
+				if( $this->show_with_pagination && $this->etmCount) 						// Only if pagination is enabled
+				{
+					$pofp = $this->pagination->getPagesCounter( );
+					if(isset( $pofp )) {
+						$pofp = '( '.$pofp.' )';
+					}
+					$pcntr = $this->pagination->limit;
+					if( isset( $pcntr )) {																	 // AND if there's more than one page then show the page display.
+						echo JText::_('DISPLAY').': '.$this->pagination->getLimitBox().$pofp;
+					}
 				}
 			}
 		?>
-<?php if ($this->show_pagination) { ?>
+<?php if ($this->show_with_pagination) { ?>
 	</div>
 <?php } ?>
 	<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
