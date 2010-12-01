@@ -28,7 +28,7 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="modification_date_label" label="MODIFCATION_DATE_LABEL" type="text" default="" description="MODIFICATION_DATE_LABEL_DESC">
+		<param name="modification_date_label" label="MODIFICATION_DATE_LABEL" type="text" default="" description="MODIFICATION_DATE_LABEL_DESC">
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="uninstall_type" type="radio" default="0" label="UNINSTALL_TYPE" description="WHEN_UNINSTALLING">
