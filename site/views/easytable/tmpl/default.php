@@ -8,10 +8,10 @@
 
 	defined('_JEXEC') or die ('Restricted Access'); ?>
 <?php
-	echo '<div class="contentpaneopen'.$this->pageclass_sfx.'" >';
+	echo '<div class="contentpaneopen'.$this->pageclass_sfx.'" id="et_table_page">';
 
     if($this->show_page_title) {
-        echo '<h2 class="contentheading'.$this->pageclass_sfx.'">'.htmlspecialchars($this->page_title).'</h2>';
+        echo '<h2 class="contentheading">'.htmlspecialchars($this->page_title).'</h2>';
     }
 ?>
 <?php echo ($this->show_created_date ? '<p class="createdate">'.JHTML::_('date', $this->easytable->created_, JText::_('DATE_FORMAT_LC2')).'</p>' : '') ?>
