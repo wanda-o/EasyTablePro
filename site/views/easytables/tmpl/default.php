@@ -28,14 +28,14 @@ if($this->show_page_title) {
 
 		if ($tableParams->get('access') > $aid)
 		{
-			$lockImage = ' <img id="etTableListLockElement" src="/administrator/images/checked_out.png" title="'.JText::_('YOU_MUST_BE_LOGGED_IN_TO_VIEW_THIS_TABLE_').'">';
+			$lockImage = ' <img class="etTableListLockElement" src="/administrator/images/checked_out.png" title="'.JText::_('YOU_MUST_BE_LOGGED_IN_TO_VIEW_THIS_TABLE_').'">';
 		}
 		else
 		{
 			$lockImage ='';
 		}
 		$link = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&view='._cppl_base_com_name.'&id='.$row->id.':'.$row->easytablealias);
-		echo '<li><a href="'.$link.'">'.$row->easytablename.$lockImage.'</a>';
+		echo '<li class="et_list_table_'.$row->easytablealias.'"><a href="'.$link.'">'.$row->easytablename.$lockImage.'</a>';
 		if($this->show_description)
 		{
 			echo '<BR /><p class="et_description">'.$row->description.'<p>';
