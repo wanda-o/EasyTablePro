@@ -159,6 +159,11 @@ defined('_JEXEC') or die('Restricted Access');
 									$alt_rv = (int)!$alt_rv;
 								}
 							?>
+							<tr>
+								<td colspan="<?php echo(count($this->et_list_meta)+4); ?>">
+									<?php echo( $this->pageNav->getListFooter() ); ?>
+								</td>
+							</tr>
 						</tbody>
 						</table>
 					</fieldset>
@@ -171,7 +176,7 @@ defined('_JEXEC') or die('Restricted Access');
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="option" value="<?php echo $option; ?>" />
 <input type="hidden" name="id" value="<?php echo $this->easytable->id; ?>" />
-<input type="hidden" name="task" value="" />
+<input type="hidden" name="task" value="editData" />
 <?php echo JHTML::_('form.token'); ?>
 <!-- <input type="hidden" name="controller" value="easytable" /> -->
 </form>

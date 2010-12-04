@@ -45,7 +45,10 @@ class EasyTableViewEasyTableRecords extends JView
 
 	function display ($tpl = null)
 	{
-		global $mainframe, $option;
+		global $mainframe, $option, $task;
+		$jAp=& JFactory::getApplication();
+
+
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
 		$id = $cid[0];
 
@@ -94,18 +97,29 @@ class EasyTableViewEasyTableRecords extends JView
 
 		if($etmCount)  //Make sure at least 1 field is set to display
 		{
-			$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_data_'.$id).";";
 
-			$db->setQuery($query);
+			//Setup for pagination
+			$lim0  = JRequest::getVar('limitstart', 0, '', 'int');
+			$lim   = $mainframe->getUserStateFromRequest("$option.limit", 'limit', 25, 'int');
 
+			$query = "SELECT SQL_CALC_FOUND_ROWS * FROM ".$db->nameQuote('#__easytables_table_data_'.$id);
+			$db->setQuery($query, $lim0, $lim);
 			// Store the table data in a variable
 			$easytables_table_data =$db->loadAssocList();
-			$ettd_record_count = count($easytables_table_data);
+			if (empty($easytables_table_data)) {$jAp->enqueueMessage($db->getErrorMsg(),'error'); return;}
+			else {
+				$ettd_record_count = count($easytables_table_data);
+	
+				$db->setQuery('SELECT FOUND_ROWS();');  //no reloading the query! Just asking for total without limit
+				jimport('joomla.html.pagination');
+				$pageNav = new JPagination( $db->loadResult(), $lim0, $lim );
+			}
 		}
 		else
 		{
 //			In here we need to divert back to Mgr view and set an appropriate user error message.
-//			$paginatedRecords = array(array("id" => 0, "Message" => "No fields selceted to display in list view for this table"));
+			$jAp->enqueueMessage(JText::_( 'NO_DATA_DESC').' '.$easytable->easytablename,'error');
+			return;
 		}
 		// Search
 		$search = $db->getEscaped($this->get('search'));
@@ -122,6 +136,7 @@ class EasyTableViewEasyTableRecords extends JView
 		$this->assign('ettm_field_count', count($easytables_table_meta_for_Detail_view));
 		$this->assign('ettd_record_count', $ettd_record_count);
 		$this->assignRef('et_table_data',$easytables_table_data);
+		$this->assignRef('pageNav', $pageNav);
 		parent::display($tpl);
 	}
 }
