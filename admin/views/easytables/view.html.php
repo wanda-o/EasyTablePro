@@ -54,7 +54,7 @@ class EasyTableViewEasyTables extends JView
 	{
 		$btn_text = JText::_( 'EDIT_TABLE_DATA_IN_' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
 		$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'edit.png';
-		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'EDIT_RECORDS' ).'::'.$btn_text.'" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
+		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'EDIT_RECORDS' ).'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
 
 		if( !$locked )
 		{
@@ -62,6 +62,20 @@ class EasyTableViewEasyTables extends JView
 		}
 
 		return($theEditBtn);
+	}
+
+	function getDataUploadIcon ($locked, $i, $rowId, $tableName)
+	{
+		$btn_text = JText::_( 'UPLOAD_NEW_DESC' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
+		$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'upload.png';
+		$theBtn = '<span class="hasTip" title="'.JText::_( 'UPLOAD_DATA' ).'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
+
+		if( !$locked )
+		{
+			$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&task=uploadData&view=easytableupload&cid='.$rowId.'&tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 400}}">'.$theBtn.'</a>';
+		}
+
+		return($theBtn);
 	}
 
 	function getSearchableTick ($rowId, $flag, $locked=true)

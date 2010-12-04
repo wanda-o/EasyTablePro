@@ -22,6 +22,7 @@ $controller->registerTask('apply', 'save');
 $controller->registerTask('createETDTable', 'save');
 $controller->registerTask('updateETDTable', 'save');
 $controller->registerTask('editdata', 'editData');
+$controller->registerTask('uploadData', 'uploadData');
 $controller->registerTask('addrow', 'addRow');
 $controller->registerTask('deleteRecords', 'deleteRecords');
 $controller->registerTask('editrow', 'editrow');

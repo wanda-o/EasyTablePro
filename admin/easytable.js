@@ -377,6 +377,7 @@ function submitbutton(pressbutton)
 		pressbutton == 'unpublish' ||
 		pressbutton == 'edit' ||
 		pressbutton == 'editData' ||
+		pressbutton == 'uploadData' ||
 		pressbutton == 'remove' ||
 		pressbutton == 'add' ||
 		pressbutton == 'toggleSearch' ||

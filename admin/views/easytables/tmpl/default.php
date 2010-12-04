@@ -44,6 +44,9 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo JText::_( 'EDIT_DATA' ); ?>
 			</th>
 			<th width="20">
+				<?php echo JText::_( 'UPLOAD_DATA' ); ?>
+			</th>
+			<th width="20">
 				<?php echo JText::_( 'PUBLISHED' ); ?>
 			</th>
 			<th width="20">
@@ -82,6 +85,9 @@ defined('_JEXEC') or die('Restricted Access');
 			</td>
 			<td>
 				<?php echo $this->getDataEditorIcon($locked,$i,$row->id,$row->easytablename) ?>
+			</td>
+			<td>
+				<?php echo $this->getDataUploadIcon($locked,$i,$row->id,$row->easytablename) ?>
 			</td>
 			<td>
 				<?php echo $published; ?>
