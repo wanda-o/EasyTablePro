@@ -145,20 +145,20 @@ defined('_JEXEC') or die('Restricted Access');
 						</thead>
 						<tbody id='et_data_table_rows'>
 <?php
-									$alt_rv = 0;$cid=0;
-									foreach ( $this->et_table_data as $et_table_row )
+								$alt_rv = 0;$cid=0;
+								foreach ( $this->et_table_data as $et_table_row )
+								{
+									$rowId = $et_table_row['id'];
+									echo '<tr valign="top" class="row'.$alt_rv.'" id="et_record'.$cid.'">'."\r";
+									echo '<td >'.$rowId.'</td><td >'.$this->getRecordCheckBox($cid,$rowId).'</td><td >'.$this->getDeleteRecordLink($cid, $rowId, $et_tableName).'</td><td >'.$this->getEditRecordLink($cid++, $rowId, $et_tableName).'</td>';
+									foreach ( $list_columns as $col_alias )
 									{
-										$rowId = $et_table_row['id'];
-										echo '<tr valign="top" class="row'.$alt_rv.'" id="et_record'.$cid.'">'."\r";
-										echo '<td >'.$rowId.'</td><td >'.$this->getRecordCheckBox($cid,$rowId).'</td><td >'.$this->getDeleteRecordLink($cid, $rowId, $et_tableName).'</td><td >'.$this->getEditRecordLink($cid++, $rowId, $et_tableName).'</td>';
-										foreach ( $list_columns as $col_alias )
-										{
-											echo('<td>'.$et_table_row[$col_alias]."</td>\r");
-										}
-										echo "</tr>\r";
-										$alt_rv = (int)!$alt_rv;
+										echo('<td>'.$et_table_row[$col_alias]."</td>\r");
 									}
-								?>
+									echo "</tr>\r";
+									$alt_rv = (int)!$alt_rv;
+								}
+							?>
 						</tbody>
 						</table>
 					</fieldset>

@@ -391,7 +391,7 @@ function submitbutton(pressbutton)
 		return 0;
 	}
 	else {
-		if(document.adminForm.id.value == 0)
+		if(document.adminForm.id.value == 0 && pressbutton != 'createETDTable')
 		{
 			alert ("This table can't be saved without loading a data file first.");
 			return 0;
