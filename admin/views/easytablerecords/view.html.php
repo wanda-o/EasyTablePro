@@ -43,6 +43,15 @@ class EasyTableViewEasyTableRecords extends JView
 		return($theEditLink);
 	}
 
+	function getSearchFieldsIn ($tableID)
+	{
+		$db =& JFactory::getDBO();
+		$query = "SELECT `fieldalias` FROM #__easytables_table_meta WHERE `easytable_id` = $tableID AND (`params` LIKE '%search_field=1%')";
+		$db->setQuery($query);
+		$fields = $db->loadAssocList();
+		return $fields;
+	}
+
 	function display ($tpl = null)
 	{
 		global $mainframe, $option, $task;
@@ -97,6 +106,17 @@ class EasyTableViewEasyTableRecords extends JView
 
 		if($etmCount)  //Make sure at least 1 field is set to display
 		{
+			//Search setup
+			$search = $mainframe->getUserStateFromRequest("$option.easytable.etsearch".$id, 'etsearch','');
+			if($search == '')
+			{
+				$search = JRequest::getVar('etsearch','');
+			}
+			$this->_search = JString::strtolower($search);
+			if($search == '')
+			{
+				$sqlWhere = '';
+			}
 
 			//Setup for pagination
 			$lim0  = JRequest::getVar('limitstart', 0, '', 'int');

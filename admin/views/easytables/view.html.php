@@ -72,7 +72,7 @@ class EasyTableViewEasyTables extends JView
 
 		if( !$locked )
 		{
-			$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&task=uploadData&view=easytableupload&cid='.$rowId.'&tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 400}}">'.$theBtn.'</a>';
+			$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&task=presentUploadScreen&view=easytableupload&cid='.$rowId.'&tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
 		}
 
 		return($theBtn);

@@ -44,7 +44,32 @@ class EasyTableController extends JController
 		 JRequest::setVar('view', 'EasyTable');
 		 $this->display();
 	}
-	
+
+	function presentUploadScreen()
+	{
+
+		$jAp=& JFactory::getApplication();
+		$this->checkOutEasyTable();
+
+		JRequest::setVar('view', 'EasyTableUpload');
+		JRequest::setVar('tmpl', 'component');
+		$this->display();
+	}
+
+	function uploadData()
+	{
+
+
+		$this->checkOutEasyTable();
+		$currentTask = JRequest::getVar( 'task','');
+		$updateType = JRequest::getVar('uploadType',0) ? 'append' : 'replace' ;
+
+		$this->processNewDataFile($currentTask, $updateType);
+		JRequest::setVar('view', 'EasyTableUpload');
+		JRequest::setVar('tmpl', 'component');
+		$this->display();
+	}
+
 	function editData()
 	{
 		 $this->checkOutEasyTable();
@@ -438,7 +463,7 @@ function toggleSearch()
 					{
 					$this->msg .= '<BR />• Emptied existing data rows';
 					// Then we parse it and upload the data into the ettd
-						$ettdColumnAliass = $this->getMetaFromPost();
+						$ettdColumnAliass = $this->getFieldFromPostMeta();
 						if($ettdColumnAliass)
 						{
 							if(!($csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray)))
@@ -566,6 +591,68 @@ function toggleSearch()
 
 		
 		return $row->id;
+	}
+
+	/*
+		Takes the data file and either appends it to the existing records or
+		replaces them with the contents of the file.
+	*/
+	function processNewDataFile($currentTask, $updateType)
+	{
+
+		$jAp=& JFactory::getApplication();
+		// Get a reference to a file if it exists, and load it into an array
+		$file = JRequest::getVar('tablefile', null, 'files', 'array');
+		$CSVFileArray = $this->parseCSVFile($file);
+		global $et_current_table_id;
+		$id = $et_current_table_id;
+		$jAp->enqueueMessage('About to '.$updateType.' records in table id: '.$id);
+
+
+		// Check for an update action
+		if (($currentTask == 'updateETDTable') || ($currentTask  == 'uploadFile') || ($currentTask == 'uploadData'))
+		{
+			if($file)
+			{
+				$jAp->enqueueMessage(JText::_( 'DATA_FI_DESC' ));
+				if($updateType == 'replace')
+				{
+					// Clear out previous records before uploading new records.
+					if($this->emptyETTD($id))
+					{
+						$jAp->enqueueMessage(JText::_( 'EMPTIED_EXISTI_DESC' ));
+						$jAp->enqueueMessage(JText::sprintf( 'OLD_RECOR_DESC', $id));
+					}
+					else
+					{
+						$jAp->enqueueMessage(JText::sprintf( 'COULD_NOT_DESC2',$id));
+						return;
+					}
+				} else {
+				}
+				// Then we parse it and upload the data into the ettd
+				$ettdColumnAliass = $this->getFieldAliasForTable($id);
+				if($ettdColumnAliass)
+				{
+					if(!($csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray)))
+					{
+						$jAp->enqueueMessage(JText::sprintf( 'UPDATE_OF_DESC', $id ));
+					}
+					else
+						$jAp->enqueueMessage(JText::sprintf( 'IMPORTED_DESC' , $csvRowCount ));
+				}
+				else
+				{
+					JError::raiseError(500,"Couldn't get the fieldalias\'s for table: $id");
+				}
+			}
+			else
+			{
+			// If no file is attached we can go on our merry way.
+				$jAp->enqueueMessage(JText::_( 'NO_DATA_FILE' ));
+			// $this->msg .= '<BR />• Couldn\'t update the data records as no file was uploaded.';
+			}
+		}
 	}
 
 	function parseCSVFile (&$file)
@@ -893,17 +980,24 @@ function toggleSearch()
 	
 	function checkOutEasyTable()
 	{
-		 // Check out
-		 // Get User ID
-		 $user =& JFactory::getUser();
-		 
-		 $row =& JTable::getInstance('EasyTable', 'Table');
-		 $cid = JRequest::getVar( 'cid', array(0), '', 'array');
-		 $id = $cid[0];
+		// Get User ID
+		$user =& JFactory::getUser();
+
+		$row =& JTable::getInstance('EasyTable', 'Table');
+		// Look for a CID first
+		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
+
+		$id = $cid[0];
+
+		if(!$id){
+			$id = JRequest::getVar( 'id', 0);
+		}
+
 		global $et_current_table_id;
 		$et_current_table_id = $id;
 
-		 $row->checkout($user->id,$id);
+		$row->checkout($user->id,$id);
+		return $id;
 	}
 	
 	function checkInEasyTable()
@@ -969,9 +1063,9 @@ function toggleSearch()
 		return $sqlFieldType;
 	}
 	
-	function getMetaFromPost ()
+	function getFieldFromPostMeta ()
 	{
-		// Now we have to store the fieldalias from the post data
+		// Now we have to retreive the fieldalias from the post data
 
 		// 1. Get the list of mRIds into an array we can use
 		$mRIds = JRequest::getVar('mRIds',0);
@@ -1000,7 +1094,29 @@ function toggleSearch()
 			return FALSE;
 		}
 	}
-	
+	function getFieldAliasForTable($id)
+	{
+
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,"Couldn't get the database object while creating meta for table: $id");
+		}
+		// Run the SQL to insert the Meta records
+		// Get the meta data for this table
+		$query = "SELECT `fieldalias` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE `easytable_id` =".$id." ORDER BY `id`;";
+		$db->setQuery($query);
+		$get_Meta_result = $db->loadResultArray();
+
+		if(!$get_Meta_result)
+		{
+			JError::raiseError(500,'getFieldAliasForTable failed for table: '.$id.'<BR />'.$db->getErrorMsg());
+		}
+
+
+		return $get_Meta_result;
+	}
+
 	function createMetaFrom ($CSVFileArray, $id)
 	{
 	// We Parse the csv file into an array of URL safe Column names 
@@ -1226,7 +1342,7 @@ function toggleSearch()
 
 		return $csvRowCount;
 	}
-	
+
 	function updateETTDWithChunk ($CSVFileChunk, $id, $ettdColumnAliass)
 	{
 		// Setup basic variables
@@ -1284,7 +1400,7 @@ function toggleSearch()
 		
 		if(!$insert_ettd_data_result)
 		{
-			JError::raiseError(500,'Data insert failed for table: '.$id.' in updateETTDTableFrom() <BR />Possibly your CSV file is malformed<BR />'.$db->explain().'<BR />'.'<BR />'.$msg);
+			JError::raiseError(500,'Data insert failed for table: '.$id.' in updateETTDWithChunk() <BR />Possibly your CSV file is malformed<BR />'.$db->explain().'<BR />'.'<BR />'.$msg);
 		}
 		
 		return $csvRowCount;
