@@ -331,7 +331,7 @@ class EasyTableViewEasyTableRecord extends JView
 
 		// Generate Table description
 		$et_desc = '';
-		if($easytable->description != '') $et_desc = '<p class="et_description">'.htmlspecialchars($easytable->description).'</p>';
+		if($easytable->description != '') $et_desc = '<p class="et_description">'.$easytable->description.'</p>';
 
 		if($show_next_prev_record_links)
 		{

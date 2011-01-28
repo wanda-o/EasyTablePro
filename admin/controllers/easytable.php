@@ -542,21 +542,22 @@ function toggleSearch()
 		$user =& JFactory::getUser();
 		if (!$user)
 		{
-			JError::raiseError(500, 'Error in saveApplyETdata() -> '.$user->getError());
+			JError::raiseError(500, 'Error in saveApplyETdata() getting current user -> '.$user->getError());
 		}
 		$row->modifiedby_ = $user->id;
-
-		// Apparently the Check() passed so we can bind the post data to the ET record
-		if (!$row->bind(JRequest::get('post')))
-		{
-			JError::raiseError(500, 'Error in saveApplyETdata() bind call-> '.$row->getError());
-		}
 
 		// 1.2 Check it
 		if (!$row->check())
 		{
 			JError::raiseError(500, 'Error in saveApplyETdata() -> Table Check() failed... call for help!');
 			return;
+		}
+
+		// Apparently the Check() passed so we can bind the post data to the ET record
+		dump(JRequest::getVar('description',''),'From Post: ');
+		if (!$row->bind(JRequest::get('post',JREQUEST_ALLOWRAW)))
+		{
+			JError::raiseError(500, 'Error in saveApplyETdata() bind call-> '.$row->getError());
 		}
 
 		// 1.3 Update modified and if necessary created datetime stamps
@@ -1002,11 +1003,11 @@ function toggleSearch()
 	
 	function checkInEasyTable()
 	{
-		 // Check back in
-		 $id = JRequest::getInt('id',0);
-		 $row =& JTable::getInstance('EasyTable','Table');
+		// Check back in
+		$id = JRequest::getInt('id',0);
+		$row =& JTable::getInstance('EasyTable','Table');
 
-		 $row->checkin($id);
+		$row->checkin($id);
 	}
 	
 	function alterEasyTableColumn ( $origFldAlias, $newFldAlias, $fieldType )
