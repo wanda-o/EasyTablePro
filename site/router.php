@@ -27,7 +27,8 @@
 		return $segments;
 	}
 	
-	function EasyTableProParseRoute ($segments) {
+	function EasyTableProParseRoute ($segments)
+	{
 		$vars = array();
 		if (isset($segments[0])) {
 			$vars['view'] = $segments[0];

@@ -55,7 +55,7 @@ class EasyTableViewEasyTable extends JView
 				$return		= $uri->toString();
 
 				$url  = 'index.php?option=com_user&view=login';
-				$url .= '&return='.base64_encode($return);;
+				$url .= '&return='.base64_encode($return);
 
 				//$url	= JRoute::_($url, false);
 				$mainframe->redirect($url, JText::_('YOU_MUST_LOGIN_TO_SEE_THIS_TABLE_') );

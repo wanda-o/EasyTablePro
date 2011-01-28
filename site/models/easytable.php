@@ -216,8 +216,8 @@ class EasyTableModelEasyTable extends JModel
 	/**
 	 * Get fieldalias for the order by field
 	 */
-	 function &getOrderFieldMeta($id, $ofid)
-	 {
+	function &getOrderFieldMeta($id, $ofid)
+	{
 		$orderField = 'id'; // if there is no ofid then the original import order will result.
 		$fieldName = $this->getFieldName($id, $ofid);
 		$orderField = ($fieldName == '' ? $orderField : $fieldName);

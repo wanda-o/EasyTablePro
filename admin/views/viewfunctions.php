@@ -60,7 +60,8 @@ class ET_VHelpers
 	}
 	
 	// Return the rows params
-	function et_row_params ($the_row) {
+	function et_row_params ($the_row)
+	{
 		if ( isset ($the_row) )
 		{
 			$paramsObj = new JParameter ($the_row->params);
@@ -69,17 +70,20 @@ class ET_VHelpers
 	}
 
 	// Return Meta for Fields in List View
-	function et_List_View_Fields ($allFieldsMeta) {
+	function et_List_View_Fields ($allFieldsMeta)
+	{
 		return ET_VHelpers::et_View_Fields_From($allFieldsMeta, 'list');
 	}
 
 	// Return Meta for Fields in Detail View
-	function et_Detail_View_Fields ($allFieldsMeta) {
+	function et_Detail_View_Fields ($allFieldsMeta)
+	{
 		return ET_VHelpers::et_View_Fields_From($allFieldsMeta, 'detail');
 	}
 
 	// Return Meta for Fields by type
-	function et_View_Fields_From($allFieldsMeta, $view='list') {
+	function et_View_Fields_From($allFieldsMeta, $view='list')
+	{
 		$returnArray = Array();
 		foreach ( $allFieldsMeta as $metaRecord )
 		{
