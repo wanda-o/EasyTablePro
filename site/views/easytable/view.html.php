@@ -130,10 +130,8 @@ class EasyTableViewEasyTable extends JView
 			}
 
 			// Get pagination object
-			$pagination = false;
-			if($show_pagination) {
-				$pagination =& $this->get('pagination');
-			}
+			$pagination =& $this->get('pagination');
+
 			// If any of the fields are designated as eMail load the JS file to allow cloaking.
 			if(ET_VHelper::hasEmailType($easytables_table_meta))
 				$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'easytablepro.js');
