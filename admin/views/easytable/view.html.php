@@ -155,15 +155,12 @@ class EasyTableViewEasyTable extends JView
 
 		if($ettd)
 		{
-			// echo 'Found '.$ettd_tname.' in Table List';
 			// Get the table data for this table
-			$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_data_'.$id).";";
-			
+			$query = "SELECT COUNT(*) FROM ".$db->nameQuote($ettd_tname);
 			$db->setQuery($query);
-			
-			// Store the table data in a variable
-			$easytables_table_data =$db->loadRowList();
-			$ettd_record_count = count($easytables_table_data);
+			$ettd_records = $db->query();
+
+			$ettd_record_count = mysql_result($ettd_records,0);
 
 			if($row->published)
 			{
