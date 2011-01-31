@@ -38,17 +38,15 @@
 			<input type="hidden" value="0" name="limitstart" />
 		</div>
 <?php
+		if($this->show_pagination_header)
+		{
 			if( $this->show_pagination && $this->etmCount) // If pagination is enabled show the controls
 			{
 				echo '<div class="pagination">';
 				echo $this->pagination->getPagesLinks();
 				echo '</div>';
 			}
-		?>
-<?php if ($this->show_pagination) { ?>
-		<div class="display">
-<?php } ?>
-<?php
+
 			if( $this->show_pagination && $this->etmCount) 						// Only if pagination is enabled
 			{
 				$pofp = $this->pagination->getPagesCounter( );
@@ -57,13 +55,13 @@
 				}
 				$pcntr = $this->pagination->limit;
 				if( isset( $pcntr )) {																	 // AND if there's more than one page then show the page display.
+					echo '<div class="display">';
 					echo JText::_('DISPLAY').': '.$this->pagination->getLimitBox().$pofp;
+					echo '</div>';
 				}
 			}
-		?>
-<?php if ($this->show_pagination) { ?>
-		</div>
-<?php } ?>
+		}
+?>
 	<table id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
 		<thead>
 			<tr>

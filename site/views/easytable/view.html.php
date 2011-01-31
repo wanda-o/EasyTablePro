@@ -69,6 +69,7 @@ class EasyTableViewEasyTable extends JView
 		$show_description = $params->get('show_description',1);
 		$show_search = $params->get('show_search',1);
 		$show_pagination = $params->get('show_pagination',1);
+		$show_pagination_header = $params->get('show_pagination_header',0);
 		$show_pagination_footer = $params->get('show_pagination_footer',1);
 		$show_created_date = $params->get('show_created_date',1);
 		$show_modified_date = $params->get('show_modified_date',0);
@@ -150,6 +151,7 @@ class EasyTableViewEasyTable extends JView
 		$this->assign('show_description', $show_description);
 		$this->assign('show_search', $show_search);
 		$this->assign('show_pagination', $show_pagination);
+		$this->assign('show_pagination_header', $show_pagination_header);
 		$this->assign('show_pagination_footer', $show_pagination_footer);
 
 		$this->assign('show_created_date', $show_created_date);
