@@ -64,7 +64,6 @@
 <?php if ($this->show_pagination) { ?>
 		</div>
 <?php } ?>
-	</form>
 	<table id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
 		<thead>
 			<tr>
@@ -157,6 +156,7 @@
 				echo '</div>';
 			}
 ?>
+</form>
 
 </div>
 </div>
