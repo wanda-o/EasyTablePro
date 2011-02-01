@@ -261,7 +261,7 @@ class EasyTableController extends JController
 			$msg = '';
 			if(!$this->removeMeta($id))
 			{
-				JError::raiseError(500, 'Could not remove Meta data for table: '.$id);
+				JError::raiseError(500, JText::sprintf( 'COULD_NOT_REM_DESC', $id));
 			}
 			$msg .= '<BR />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1) Meta data removed. id= '.$id;
 			if($this->ettdExists($id))
@@ -407,6 +407,8 @@ function toggleSearch()
 	*/
 	function save()
 	{
+//		dump('save()','IN: ');
+		$jAp=& JFactory::getApplication();
 		JRequest::checkToken() or jexit ( 'Invalid Token' );
 		$userFeedback = '';
 
@@ -428,7 +430,7 @@ function toggleSearch()
 		// 1.2 Are we creating a new ETTD?
 		if($currentTask == 'createETDTable')
 		{
-			$this->msg .= '<BR />New data table will be created.';
+			$jAp->enqueueMessage(JText::_( 'NEW_DATA_DESC' ));
 			$ettd = FALSE;
 		}
 		else
@@ -454,39 +456,50 @@ function toggleSearch()
 			// Check for an update action
 			if ($currentTask == 'updateETDTable')
 			{
-				$this->msg .= '<BR />• Processing '.$currentTask;
+				$jAp->enqueueMessage(JText::sprintf('PROCESSING__D',$currentTask));
 				if($file)
 				{
-				$this->msg .= '<BR />• Data file attached.';
-				// If a file is attached remove existing data
-					if($this->emptyETTD($id))
+					$jAp->enqueueMessage(JText::_( 'DATA_FI_DESC' ));
+					$updateType = JRequest::getVar('uploadType',0) ? 'append' : 'replace' ;
+	
+					// Are we removing existing data?
+					$tableState = 1;
+					if($updateType == 'replace')
 					{
-					$this->msg .= '<BR />• Emptied existing data rows';
-					// Then we parse it and upload the data into the ettd
-						$ettdColumnAliass = $this->getFieldFromPostMeta();
-						if($ettdColumnAliass)
+						$jAp->enqueueMessage(JText::_( 'REPLACING_EXISTI_DESC' ));
+						if($tableState = $this->emptyETTD($id))
 						{
-							if(!($csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray)))
-							{
-								JError::raiseError(500,"Update of data table failed (Column count mismatch) for table: $id");
-							}
-							else
-								$this->msg .= '<BR />• New data loaded.';
+							$jAp->enqueueMessage(JText::_( 'EMPTIED_EXISTI_DESC'));
 						}
 						else
 						{
-							JError::raiseError(500,"Couldn't get the fieldaliass for table: $id");
+							$jAp->enqueueMessage(JText::sprintf( 'COULD_N_DESC',$id));
 						}
 					}
 					else
 					{
-						$this->msg .= "<BR />• Could not delete any data records from: $id";
+						$jAp->enqueueMessage(JText::_( 'ADDING_NEW_DESC' ));
+					}
+	
+					// Then we parse it and upload the data into the ettd
+					$ettdColumnAliass = $this->getFieldFromPostMeta();
+					if($ettdColumnAliass && $tableState)
+					{
+						if(!($csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray)))
+							JError::raiseError(500,"Update of data table failed (Column count mismatch) for table: $id");
+						else
+							$jAp->enqueueMessage(JText::_( 'NEW_DA_DESC'));
+					}
+					else
+					{
+						if(!$ettdColumnAliass)
+							JError::raiseError(500,"Couldn't get the fieldaliass for table: $id");
 					}
 				}
 				else
 				{
 				// If no file is attached we can go on our merry way.
-					$this->msg .= '<BR />• Couldn\'t update the data records as no file was uploaded.';
+					$jAp->enqueueMessage(JText::_( 'COULDN_DESC' ));
 				}
 			}
 		}

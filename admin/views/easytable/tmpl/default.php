@@ -125,6 +125,14 @@ defined('_JEXEC') or die('Restricted Access');
 								}
 							?>
 							<?php echo JText::_( 'FIRST_LINE_OF_CSV_FILE_CONTAINS_COLUMN_HEADINGS_' ).' '.$this->CSVFileHasHeaders; ?>
+							<?php if($this->ettd) { ?>
+							<BR />
+							<label for="uploadType"><span class="hasTip" title="<?php echo JText::_( 'UPLOAD_TYPE_TOOLTIP' );?>"><?php echo JText::_( 'DO_YOU_DESC' ); ?></span></label>
+							<input type="radio" name="uploadType" id="uploadType0" value="0" class="inputbox" checked="checked">
+							<label for="uploadType0"><?php echo JText::_( 'REPLACE' ); ?></label>
+							<input type="radio" name="uploadType" id="uploadType1" value="1" class="inputbox">
+							<label for="uploadType1"><?php echo JText::_( 'APPEND' ); ?></label>
+							<?php }; ?>
 						</td>
 						<td><p id="uploadWhileModifyingNotice"><?php echo JText::_('DATA_FILES_CANNOT_BE_UPLOADED_ONCE_TABLE_STRUCTURE_MODIFCATION_HAS_BEEN_ENABLED_'); ?><BR /><em><?php echo JText::_('SAVE_APPLY_OR_CLOSE_THE_TABLE_TO_RE_ENABLE_DATA_UPLOADS_'); ?></em></p>
 </td>
