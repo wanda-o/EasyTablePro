@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTablePro</name>
-	<version>0.8.0 (5c45953)</version>
+	<version>0.9.0 (a657de2)</version>
 	<author>Craig Phillips</author>
-	<creationDate>11-Oct-2010</creationDate>
-	<copyright>Copyright (C) 2009.</copyright>
+	<creationDate>01-Feb-2011</creationDate>
+	<copyright>Copyright (C) 2011.</copyright>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
