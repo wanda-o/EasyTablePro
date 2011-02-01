@@ -69,7 +69,25 @@ class EasyTableModelEasyTable extends JModel
 			$ofdir = isset($linkparts['sort_order'])?$linkparts['sort_order']:'ASC';
 			$ffid = isset($linkparts['filter_field'])?$linkparts['filter_field']:0;
 			$fvtext = isset($linkparts['filter_value'])?$linkparts['filter_value']:'';
-			$ftype = isset($linkparts['filter_type'])?$linkparts['sort_field']:0;
+			$ftype = isset($linkparts['filter_type'])?$linkparts['filter_type']:0;
+
+			// Are records to be filtered by user id/name?
+			// Get Params
+			global $mainframe;
+			$easytable =& JTable::getInstance('EasyTable','Table');
+			$easytable->load($id);
+			$params = new JParameter( $easytable->params );
+			$user_filter_enabled = $params->get('enable_user_filter',0);
+			dump($user_filter_enabled,'$user_filter_enabled');
+			// If the filter is enable get its setup.
+			if($user_filter_enabled)
+			{
+				$filterBy = $params->get('filter_records_by', 'id');
+				$userFilterField = $params->get('user_filter_field', '');
+				if($userFilterField == '') $user_filter_enabled = 0; // Disable the filter if no field is selected.
+				dump($filterBy,'$filterBy');
+				dump($userFilterField,'$userFilterField');
+			}
 
 			// Start building the SQL statement
 			if($id)
@@ -83,15 +101,37 @@ class EasyTableModelEasyTable extends JModel
 				// As a default get the table data for this table
 				$newSearch = "SELECT `id`, `".$fields."` FROM #__easytables_table_data_$id";  // If there is no search parameter this will return the list view fields of all records
 
-				if(($ffid) || ($search != '')) { // If theres a filter or user search text we will need to add a where clause.
+				if(($ffid) || ($search != '') || $user_filter_enabled) { // If theres a filter, user search text or user filter we will need to add a where clause.
 					$newSearch .= ' WHERE ';
+				}
+
+				// Create the user_filter
+				if($user_filter_enabled)
+				{
+					// get the name of the column that has the user vale
+					$userField = $this->getFieldName($id, $userFilterField);
+					// get the current user from J
+					$user = JFactory::getUser();
+					// Get the users id or username to filter against
+					if($filterBy == 'id')
+						$userValue = $user->id;
+					else
+						$userValue = $user->username;
+
+					$userFilterSQL = '( `'.$userField.'` =\''.$userValue.'\')';
+
+					// If there is a user search or table filter we tack an 'AND' onto the SQL so far
+					if($ffid || ($search != '')) $userFilterSQL .= ' AND ';
+
+					// Finally add it to the search
+					$newSearch .= $userFilterSQL;
 				}
 
 				// Create the Filter Search
 				if($ffid) {
 					$ffname = $this->getFieldName($id, $ffid);
 					
-					$filterSearch = '( '.$ffname;
+					$filterSearch = '( `'.$ffname.'`';
 					
 					if($ftype == 'LIKE') {
 						$filterSearch .= " like '%".$fvtext."%' )";
@@ -139,7 +179,7 @@ class EasyTableModelEasyTable extends JModel
 				// Append the field to order by:
 				$newSearch .= ' order by `'.$orderField.'` '.$ofdir;
 
-				// Better record we that we've been here
+				// Better record that we've been here
 				$this->hit($id);
 
 				if($list_view)

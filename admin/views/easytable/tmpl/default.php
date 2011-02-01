@@ -277,19 +277,26 @@ defined('_JEXEC') or die('Restricted Access');
 						echo $pane->startPane( 'content-pane' );
 						 
 						// First slider panel
-						// Create a slider panel with a title of 'Linked Table Settings' and a title id attribute of LINKED_TABLE
-						echo $pane->startPanel( JText::_( 'LINKED_TABLE_SETTINGS' ), 'LINKED_TABLE' );
-						// Display the parameters defined in the <params> group with the 'group' attribute of 'GROUP_NAME'
-						echo $this->params->render( 'params', 'LINKED_TABLE' );
-						echo $pane->endPanel();
-						
-						//Second slider panel
 						// Create a slider panel with a title of 'Table Preferences' and a title id attribute of Table_Preferences
 						echo $pane->startPanel( JText::_( 'TABLE_PREFERENCES' ), 'EASYTABLE_PREFS' );
 						// Display the parameters defined in the <params> group with group nambe EASYTABLE_PREFS attribute
 						echo $this->params->render( 'params', 'EASYTABLE_PREFS' );
 						echo $pane->endPanel();
-						 
+
+						// Second slider panel
+						// Create a slider panel with a title of 'Linked Table Settings' and a title id attribute of LINKED_TABLE
+						echo $pane->startPanel( JText::_( 'LINKED_TABLE_SETTINGS' ), 'LINKED_TABLE' );
+						// Display the parameters defined in the <params> group with the 'group' attribute of 'GROUP_NAME'
+						echo $this->params->render( 'params', 'LINKED_TABLE' );
+						echo $pane->endPanel();
+
+						// Third slider panel
+						// Create a slider panel with a title of 'User Filter Settings' and a title id attribute of USER_FILTER
+						echo $pane->startPanel( JText::_( 'USER_FILTER_SETTINGS' ), 'USER_FILTER' );
+						// Display the parameters defined in the <params> group with the 'group' attribute of 'GROUP_NAME'
+						echo $this->params->render( 'params', 'USER_FILTER' );
+						echo $pane->endPanel();
+
 						echo $pane->endPane();
 					?>
 					</fieldset>

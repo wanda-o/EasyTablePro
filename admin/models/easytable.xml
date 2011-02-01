@@ -1,6 +1,6 @@
 <root>
 	<params group="EASYTABLE_PREFS">
-		<param name="access" type="list" size="20" default="0" label="Access Level" description="DETAILACCESS">
+		<param name="access" type="list" size="20" default="0" label="Access Level" description="ACCESS_LEVEL_DESC">
 			<option value="0">Public</option>
 			<option value="1">Registered</option>
 			<option value="2">Special</option>
@@ -64,5 +64,16 @@
 		<param name="id" type="easytable" default="" label="SELECT_TABLE" description="THE_TABLE_TO_LINK_TO_" />
 		<param name="key_field" type="easytablefields" default="" label="SELECT_FIELD" description="THE_FIELD_IN_THIS_TABLE_YOU_WANT_TO_USE_FOR_SELECTING_RECORDS_IN_THE_LINKED_TABLE_" />
 		<param name="linked_key_field" label="LINKED_KEY_FIELD" type="text" default="" description="THE_ID_OF_THE_FIELD_FROM_THE_LINKED_TABLE_TO_MATCH_TO_THE_KEY_FIELD_IN_THIS_TABLE_" />
+	</params>
+	<params group="USER_FILTER" addpath="/administrator/components/com_easytablepro/elements">
+		<param name="enable_user_filter" type="list" default="" label="ENABLE_USER_LABEL" description="ENABLE_USER_DESC">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="filter_records_by" type="list" default="" label="FILTER_BY_USER_LABEL" description="FILTER_BY_USER_DESC">
+			<option value="name">Name</option>
+			<option value="id">ID</option>
+		</param>
+		<param name="user_filter_field" type="easytablefields" default="" label="SELECT_FIELD" description="FILTER_FIELD_DESC" />
 	</params>
 </root>
