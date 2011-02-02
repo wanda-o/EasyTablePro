@@ -26,7 +26,6 @@ class EasyTableVieweasytableupload extends JView
 	 **/
 	function display($tpl = null)
 	{
-//		dump('display($tpl = null)','IN: ');
 		
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();

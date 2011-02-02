@@ -78,15 +78,13 @@ class EasyTableModelEasyTable extends JModel
 			$easytable->load($id);
 			$params = new JParameter( $easytable->params );
 			$user_filter_enabled = $params->get('enable_user_filter',0);
-			dump($user_filter_enabled,'$user_filter_enabled');
+
 			// If the filter is enable get its setup.
 			if($user_filter_enabled)
 			{
 				$filterBy = $params->get('filter_records_by', 'id');
 				$userFilterField = $params->get('user_filter_field', '');
 				if($userFilterField == '') $user_filter_enabled = 0; // Disable the filter if no field is selected.
-				dump($filterBy,'$filterBy');
-				dump($userFilterField,'$userFilterField');
 			}
 
 			// Start building the SQL statement

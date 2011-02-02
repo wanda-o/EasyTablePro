@@ -188,7 +188,7 @@ defined('_JEXEC') or die('Restricted Access');
 			<tr>
 				<td>
 					<fieldset class="adminform">
-						<legend class="hasTip" title="<?php echo JText::_( 'Meta Data::Meta data for fields in Table' ).' '.$this->row->easytablename.' ('.$this->row->easytablealias.')'; ?>!"><?php echo $this->row->easytablename.' '.JText::_( 'FIELD_CONFIGURATION' ); ?></legend>
+						<legend class="hasTip" title="<?php echo JText::_( 'META_DATA_DESC' ).' '.$this->row->easytablename.' ('.$this->row->easytablealias.')'; ?>!"><?php echo $this->row->easytablename.' '.JText::_( 'FIELD_CONFIGURATION' ); ?></legend>
 						<table class="adminlist" id="et_fieldList">
 						<thead>
 							<tr valign="top">

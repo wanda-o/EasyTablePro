@@ -124,7 +124,7 @@ defined('_JEXEC') or die('Restricted Access');
 			</tr>
 			<tr>
 				<td colspan="2">
-					<fieldset class="adminform hasTip" title="<?php echo JText::_( 'Data::records in Table' ).' '.$et_tableName.' ('.$this->easytable->easytablealias.')'; ?>!">
+					<fieldset class="adminform hasTip" title="<?php echo JText::sprintf( 'DATA__RECORD_IN_TABLE_DESC', $et_tableName, $this->easytable->easytablealias); ?>!">
 						<legend><?php echo $et_tableName.' - '.JText::_( 'DATA_RECORDS_' ); ?></legend>
 						<table class="adminlist" id="et_fieldList">
 						<thead>

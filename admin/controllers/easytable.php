@@ -407,7 +407,6 @@ function toggleSearch()
 	*/
 	function save()
 	{
-//		dump('save()','IN: ');
 		$jAp=& JFactory::getApplication();
 		JRequest::checkToken() or jexit ( 'Invalid Token' );
 		$userFeedback = '';
@@ -567,7 +566,6 @@ function toggleSearch()
 		}
 
 		// Apparently the Check() passed so we can bind the post data to the ET record
-		dump(JRequest::getVar('description',''),'From Post: ');
 		if (!$row->bind(JRequest::get('post',JREQUEST_ALLOWRAW)))
 		{
 			JError::raiseError(500, 'Error in saveApplyETdata() bind call-> '.$row->getError());
