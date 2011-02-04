@@ -155,7 +155,7 @@ class EasyTableViewEasyTable extends JView
 
 		if($ettd)
 		{
-			// Get the table data for this table
+			// Get the record count for this table
 			$query = "SELECT COUNT(*) FROM ".$db->nameQuote($ettd_tname);
 			$db->setQuery($query);
 			$ettd_records = $db->query();

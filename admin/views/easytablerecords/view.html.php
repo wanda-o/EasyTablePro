@@ -122,17 +122,22 @@ class EasyTableViewEasyTableRecords extends JView
 			$lim0  = JRequest::getVar('limitstart', 0, '', 'int');
 			$lim   = $mainframe->getUserStateFromRequest("$option.limit", 'limit', 25, 'int');
 
-			$query = "SELECT SQL_CALC_FOUND_ROWS * FROM ".$db->nameQuote('#__easytables_table_data_'.$id);
+			$ettd_tname = $db->nameQuote('#__easytables_table_data_'.$id);
+			$query = "SELECT SQL_CALC_FOUND_ROWS * FROM ".$ettd_tname;
 			$db->setQuery($query, $lim0, $lim);
 			// Store the table data in a variable
 			$easytables_table_data =$db->loadAssocList();
 			if (empty($easytables_table_data)) {$jAp->enqueueMessage($db->getErrorMsg(),'error'); return;}
 			else {
-				$ettd_record_count = count($easytables_table_data);
-	
 				$db->setQuery('SELECT FOUND_ROWS();');  //no reloading the query! Just asking for total without limit
 				jimport('joomla.html.pagination');
 				$pageNav = new JPagination( $db->loadResult(), $lim0, $lim );
+
+				// Get the record count for this table
+				$query = "SELECT COUNT(*) FROM ".$ettd_tname;
+				$db->setQuery($query);
+				$ettd_db_obj = $db->query();
+				$ettd_record_count = mysql_result($ettd_db_obj,0);
 			}
 		}
 		else

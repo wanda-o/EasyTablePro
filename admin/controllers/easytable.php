@@ -1218,7 +1218,7 @@ function toggleSearch()
 	
 	function removeMeta ($id)
 	{
- 		// Get a database object
+		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to remove META: $id");
