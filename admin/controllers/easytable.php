@@ -194,7 +194,7 @@ class EasyTableController extends JController
 		{
 			$theValue = addslashes ( JRequest::getVar( 'et_fld_'.$fldName,'' ) );
 			$theOrigValue = JRequest::getVar( 'et_fld_orig_'.$fldName,'' );
-			if(($theValue != '') && ($theValue != $theOrigValue)){
+			if(($theValue != $theOrigValue)){
 				$fldValues[$fldName] = $theValue;
 				$chkValue = $fldValues[$fldName];
 			}
