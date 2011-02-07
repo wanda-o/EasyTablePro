@@ -59,7 +59,7 @@
 	<?php
 		if( $this->linked_table && $this->tableHasRecords && $this->show_linked_table)
 		{
-			echo('<div id="easytable-linkedtable" class="'.htmlspecialchars($this->easytable->easytablealias).'">');
+			echo('<div id="easytable-linkedtable" class="'.htmlspecialchars($this->linked_easytable_alias).'">');
 			echo( $this->loadTemplate('linkedtable') );
 			echo('</div>');
 		}
