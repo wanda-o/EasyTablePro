@@ -6,7 +6,8 @@
 			<option value="2">Special</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="title_links_to_table" type="radio" default="0" label="TITLE_LINKS_TO_TABLE" description="TITLE_LINKS_TO_TABLE_DESC" >
+		<param name="title_links_to_table" type="list" default="" label="TITLE_LINKS_TO_TABLE" description="TITLE_LINKS_TO_TABLE_DESC" >
+			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
@@ -65,7 +66,8 @@
 		</param>
 	</params>
 	<params group="LINKED_TABLE" addpath="/administrator/components/com_easytablepro/elements">
-		<param name="show_linked_table" type="radio" default="0" label="SHOW_LINKED_TABLE" description="SHOW_LINKED_TABLE_DESC" >
+		<param name="show_linked_table" type="list" default="" label="SHOW_LINKED_TABLE" description="SHOW_LINKED_TABLE_DESC" >
+			<option value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
