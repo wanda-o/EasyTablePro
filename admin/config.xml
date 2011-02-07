@@ -4,6 +4,10 @@
 	<url addpath="/administrator/components/com_easytablepro/elements">
 		<param name="id" type="easytable" scope="com_easytablepro" default="0" label="EASYTABLE_PREFERENCES" description="GLOBAL_PREFERENCES_FOR_EASYTABLE_COMPONENT_" />
 	</url>
+		<param name="title_links_to_table" type="radio" default="0" label="TITLE_LINKS_TO_TABLE" description="TITLE_LINKS_TO_TABLE_DESC" >
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="show_description" type="radio" default="1" label="SHOW_TABLE_DESCRIPTION" description="THIS_WILL_SHOW_THE_TABLES_DESCRIPTION_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
@@ -39,6 +43,11 @@
 		<param name="modification_date_label" label="MODIFCATION_DATE_LABEL" type="text" default="" description="MODIFICATION_DATE_LABEL_DESC">
 		</param>
 		<param name="make_tables_sortable" type="radio" default="0" label="MAKE_TABLES_SORTABLE" description="WHEN_SET_TO_YES__WILL_MAKE_THE_TABLE_SORTABLE_BY_CLICK_COLUMN_HEADINGS_">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_linked_table" type="radio" default="0" label="SHOW_LINKED_TABLE" description="SHOW_LINKED_TABLE_DESC" >
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>

@@ -59,7 +59,6 @@ class EasyTableController extends JController
 	function uploadData()
 	{
 
-
 		$this->checkOutEasyTable();
 		$currentTask = JRequest::getVar( 'task','');
 		$updateType = JRequest::getVar('uploadType',0) ? 'append' : 'replace' ;
