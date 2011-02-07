@@ -322,12 +322,21 @@ class EasyTableViewEasyTableRecord extends JView
 		$title_links_to_table = $params->get('title_links_to_table',0);
 		$show_linked_table = $params->get('show_linked_table',0);
 
+		global $mainframe, $option;
+		$mainframe =& JFactory::getApplication();
+		$start_page = $mainframe->getUserState( "$option.start_page", 0 );
+
 		// Generate Page title
-		if( $title_links_to_table === 1 ) {
-				$pt = '<a href="'.$this->backlink.'">'.htmlspecialchars($easytable->easytablename).'</a>';
-			} else {
-				$pt = htmlspecialchars($easytable->easytablename);
-			}
+		if( $title_links_to_table ) {
+			// Create a backlink
+			$backlink = "index.php?option=com_"._cppl_this_com_name."&view=easytable&id=$id:$easytable->easytablealias&start=$start_page";
+			$backlink = JRoute::_($backlink);
+
+			$pageclass_sfx = $params->get('pageclass_sfx','');
+			$pt = '<a href="'.$backlink.'">'.htmlspecialchars($easytable->easytablename).'</a>';
+		} else {
+			$pt = htmlspecialchars($easytable->easytablename);
+		}
 
 		// Generate Table description
 		$et_desc = '';
@@ -421,17 +430,6 @@ class EasyTableViewEasyTableRecord extends JView
 			}
 		}
 
-
-		// Create a backlink
-		global $mainframe, $option;
-        $mainframe =& JFactory::getApplication();
-        $start_page = $mainframe->getUserState( "$option.start_page", 0 );
-		$backlink = "index.php?option=com_"._cppl_this_com_name."&view=easytable&id=$id:$easytable->easytablealias&start=$start_page";
-		$backlink = JRoute::_($backlink);
-
-		$pageclass_sfx = $params->get('pageclass_sfx','');
-
-		
 		// Assigning these items for use in the tmpl
 		$this->assign('show_description', $show_description);
 		$this->assign('show_created_date', $show_created_date);
