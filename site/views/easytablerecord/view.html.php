@@ -325,6 +325,7 @@ class EasyTableViewEasyTableRecord extends JView
 		global $mainframe, $option;
 		$mainframe =& JFactory::getApplication();
 		$start_page = $mainframe->getUserState( "$option.start_page", 0 );
+		$pageclass_sfx = $params->get('pageclass_sfx','');
 
 		// Generate Page title
 		if( $title_links_to_table ) {
@@ -332,7 +333,6 @@ class EasyTableViewEasyTableRecord extends JView
 			$backlink = "index.php?option=com_"._cppl_this_com_name."&view=easytable&id=$id:$easytable->easytablealias&start=$start_page";
 			$backlink = JRoute::_($backlink);
 
-			$pageclass_sfx = $params->get('pageclass_sfx','');
 			$pt = '<a href="'.$backlink.'">'.htmlspecialchars($easytable->easytablename).'</a>';
 		} else {
 			$pt = htmlspecialchars($easytable->easytablename);
