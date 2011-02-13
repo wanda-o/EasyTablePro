@@ -1143,7 +1143,7 @@ function toggleSearch()
 		{
 			foreach($csvColumnLabels as $label)
 			{
-				$columnAlias = substr( JFilterOutput::stringURLSafe(trim($label)), 0, 64);
+				$columnAlias = substr( JFilterOutput::stringURLSafe(trim(addslashes ( $label ))), 0, 64);
 				// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)
 				$firstCharOfAlias = substr($columnAlias,0,1);
 				if(preg_match('/[^A-Za-z\s ]/', '', $firstCharOfAlias))
