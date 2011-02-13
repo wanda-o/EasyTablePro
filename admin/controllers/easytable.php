@@ -701,7 +701,7 @@ function toggleSearch()
 				$fileLength = 0;
 				
 				$handle = fopen($filename, "r");
-				if($fileSuffix == ",")
+				if($fileDelimiter == ",")
 				{
 				while (($data = fgetcsv($handle)) !== FALSE)
 				{
@@ -1132,7 +1132,7 @@ function toggleSearch()
 	{
 	// We Parse the csv file into an array of URL safe Column names 
 		$csvColumnLabels = $CSVFileArray[0];
-		
+
 		$csvColumnCount = count($csvColumnLabels);
 		
 		
