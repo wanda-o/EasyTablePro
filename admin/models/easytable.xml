@@ -6,11 +6,6 @@
 			<option value="2">Special</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="title_links_to_table" type="list" default="" label="TITLE_LINKS_TO_TABLE" description="TITLE_LINKS_TO_TABLE_DESC" >
-			<option selected="selected" value="">Use Global</option>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</param>
 		<param name="show_description" type="list" default="" label="SHOW_DESCRIPTION" description="THIS_WILL_SHOW_DESCRIPTION_WHEN_THIS_OPTION_IS_SET_TO__YES__">
 			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
@@ -32,11 +27,6 @@
 			<option value="0">No</option>
 		</param>
 		<param name="show_pagination_footer" type="list" default="" label="SHOW_TABLE_PAGINATION_FOOTER" description="THIS_WILL_SHOW_THE_PAGINATION_CONTROLS_IN_THE_FOOTER">
-			<option selected="selected" value="">Use Global</option>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</param>
-		<param name="show_next_prev_record_links" type="list" default="" label="NEXT_PREV_LINKS" description="IN_A_RECORD_VIEW_THIS_WILL_SHOW_LINKS_TO_THE_NEXT_AND_PREVIOUS_RECORD_IF_THEY_EXIST_">
 			<option selected="selected" value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
@@ -65,12 +55,25 @@
 			<option value="0">No</option>
 		</param>
 	</params>
-	<params group="LINKED_TABLE" addpath="/administrator/components/com_easytablepro/elements">
+	<params group="RECORD_VIEW" addpath="/administrator/components/com_easytablepro/elements">
+		<param name="title_links_to_table" type="list" default="" label="TITLE_LINKS_TO_TABLE" description="TITLE_LINKS_TO_TABLE_DESC" >
+			<option selected="selected" value="">Use Global</option>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="title_field" type="easytablefields" default="" label="TITLE_FIELD" description="TITLE_FIELD_DESC" />
+		<param name="show_next_prev_record_links" type="list" default="" label="NEXT_PREV_LINKS" description="IN_A_RECORD_VIEW_THIS_WILL_SHOW_LINKS_TO_THE_NEXT_AND_PREVIOUS_RECORD_IF_THEY_EXIST_">
+			<option selected="selected" value="">Use Global</option>
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
 		<param name="show_linked_table" type="list" default="" label="SHOW_LINKED_TABLE" description="SHOW_LINKED_TABLE_DESC" >
 			<option value="">Use Global</option>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
+	</params>
+	<params group="LINKED_TABLE" addpath="/administrator/components/com_easytablepro/elements">
 		<param name="id" type="easytable" default="" label="SELECT_TABLE" description="THE_TABLE_TO_LINK_TO_" />
 		<param name="key_field" type="easytablefields" default="" label="SELECT_FIELD" description="THE_FIELD_IN_THIS_TABLE_YOU_WANT_TO_USE_FOR_SELECTING_RECORDS_IN_THE_LINKED_TABLE_" />
 		<param name="linked_key_field" label="LINKED_KEY_FIELD" type="text" default="" description="THE_ID_OF_THE_FIELD_FROM_THE_LINKED_TABLE_TO_MATCH_TO_THE_KEY_FIELD_IN_THIS_TABLE_" />

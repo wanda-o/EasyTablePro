@@ -285,12 +285,19 @@ defined('_JEXEC') or die('Restricted Access');
 
 						// Second slider panel
 						// Create a slider panel with a title of 'Linked Table Settings' and a title id attribute of LINKED_TABLE
+						echo $pane->startPanel( JText::_( 'RECORD_VIEW' ), 'RECORD_VIEW' );
+						// Display the parameters defined in the <params> group with the 'group' attribute of 'GROUP_NAME'
+						echo $this->params->render( 'params', 'RECORD_VIEW' );
+						echo $pane->endPanel();
+
+						// Third slider panel
+						// Create a slider panel with a title of 'Linked Table Settings' and a title id attribute of LINKED_TABLE
 						echo $pane->startPanel( JText::_( 'LINKED_TABLE_SETTINGS' ), 'LINKED_TABLE' );
 						// Display the parameters defined in the <params> group with the 'group' attribute of 'GROUP_NAME'
 						echo $this->params->render( 'params', 'LINKED_TABLE' );
 						echo $pane->endPanel();
 
-						// Third slider panel
+						// Fourth slider panel
 						// Create a slider panel with a title of 'User Filter Settings' and a title id attribute of USER_FILTER
 						echo $pane->startPanel( JText::_( 'USER_FILTER_SETTINGS' ), 'USER_FILTER' );
 						// Display the parameters defined in the <params> group with the 'group' attribute of 'GROUP_NAME'

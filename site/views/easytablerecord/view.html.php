@@ -279,7 +279,6 @@ class EasyTableViewEasyTableRecord extends JView
 				$url  = 'index.php?option=com_user&view=login';
 				$url .= '&return='.base64_encode($return);;
 
-				//$url	= JRoute::_($url, false);
 				$mainframe->redirect($url, JText::_('YOU_MUST_LOGIN_TO_SEE_THIS_TABLE_') );
 			}
 			else{
@@ -301,9 +300,9 @@ class EasyTableViewEasyTableRecord extends JView
 		$easytables_table_meta = $this->fieldMeta($id);
 
 		// If any of the fields are designated as eMail load the JS file to allow cloaking.
+		$doc =& JFactory::getDocument();
 		if(ET_VHelper::hasEmailType($easytables_table_meta))
 		{
-			$doc =& JFactory::getDocument();
 			$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'easytablepro.js');
 		}
 
@@ -323,6 +322,17 @@ class EasyTableViewEasyTableRecord extends JView
 		$easytables_table_record =$db->loadRow();
 		$db->setQuery($query);
 		$et_tr_assoc = $db->loadAssoc();
+
+		// Get field ID for Record Title
+		$titleFieldID = $params->get('title_field','');
+		$titleSuffix = '';
+		if(($titleFieldID != '') && ($titleFieldID != 0))
+		{
+			$titleFieldAlias = $this->getFieldAliasForMetaID($titleFieldID);
+			$titleSuffix = ' - '.$et_tr_assoc[$titleFieldAlias];
+			$origTitle = $doc->getTitle();
+			$doc->setTitle($origTitle.$titleSuffix);
+		}
 
 		// Setup the rest of the params related to display
 		$show_description = $params->get('show_description',0);
@@ -345,9 +355,9 @@ class EasyTableViewEasyTableRecord extends JView
 			$backlink = "index.php?option=com_"._cppl_this_com_name."&view=easytable&id=$id:$easytable->easytablealias&start=$start_page";
 			$backlink = JRoute::_($backlink);
 
-			$pt = '<a href="'.$backlink.'">'.htmlspecialchars($easytable->easytablename).'</a>';
+			$pt = '<a href="'.$backlink.'">'.htmlspecialchars($easytable->easytablename.$titleSuffix).'</a>';
 		} else {
-			$pt = htmlspecialchars($easytable->easytablename);
+			$pt = htmlspecialchars($easytable->easytablename.$titleSuffix);
 		}
 
 		// Generate Table description
@@ -376,7 +386,7 @@ class EasyTableViewEasyTableRecord extends JView
 		{
 			// First get the fieldalias of the Key_Field ie. the col name in the primary table
 			$kf_alias = $this->getFieldAliasForMetaID($kf_id);
-			
+
 			// From the record for the primary table get the value to match against in the linked table
 			$kf_search_value = $et_tr_assoc[$kf_alias];
 			
@@ -385,7 +395,7 @@ class EasyTableViewEasyTableRecord extends JView
 			$linked_table_meta = $this->fieldMeta($lt_id,'list_view');
 
 			$linked_fields_to_get = implode('`, `', $this->fieldAliassForList($linked_table_meta,$lkf_id) );
-			
+
 			// Get linked Records
 			$linked_records_SQL = "SELECT `$linked_fields_to_get` FROM `#__easytables_table_data_$lt_id` WHERE `$lkf_alias` = '$kf_search_value'";
 			$db->setQuery($linked_records_SQL);
@@ -410,34 +420,34 @@ class EasyTableViewEasyTableRecord extends JView
 				$db->setQuery($linked_records_FNILV_SQL);
 				$linked_records_FNILV = $db->loadAssocList();
 				$this->assignRef('linked_records_FNILV',$linked_records_FNILV);
-				
+
 				$linked_easytable =& JTable::getInstance('EasyTable','Table');
 				$linked_easytable->load($lt_id);
-				
+
 				$linked_easytable_alias = $linked_easytable->easytablealias; // We get the alias for use in the table id
 				$this->assign('linked_easytable_alias',$linked_easytable_alias);
-				
+
 				$linked_easytable_description = $linked_easytable->description; // The description to use it as the 'summary' value in the <table>
 				$this->assign('linked_easytable_description',$linked_easytable_description);
-				
+
 				$linked_table_imageDir = $linked_easytable->defaultimagedir;   // We use this to prepend all image type data
 				$this->assign('linked_table_imageDir', $linked_table_imageDir );
-				
+
 				$linked_field_types =& $this->fieldTypes($linked_table_meta);  // Heading, types and other meta for the linked table
 				$this->assignRef('linked_field_types', $linked_field_types );
-				
+
 				$linked_field_links_to_detail =& $this->fieldDetailLink($linked_table_meta); // Flags for the detail link
 				$this->assignRef('linked_field_links_to_detail', $linked_field_links_to_detail);
 
 				$linked_fields_alias = $this->fieldAliassForList($linked_table_meta,$lkf_id);  // Field alias for use in CSS class for each field
 				$this->assignRef('linked_fields_alias', $linked_fields_alias );
-				
+
 				$linked_field_options =& $this->fieldOptions($linked_table_meta); // Field Options for use in table
 				$this->assignRef('linked_field_options', $linked_field_options );
-				
+
 				$linked_field_labels =& $this->fieldLabelsForList($linked_table_meta,$lkf_id); // Labels/field headings for use in table
 				$this->assignRef('linked_field_labels', $linked_field_labels );
-				
+
 				$this->assignRef('linked_records', $linked_records );
 			}
 		}
