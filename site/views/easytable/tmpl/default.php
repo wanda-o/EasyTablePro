@@ -147,7 +147,7 @@
 	</script> 
 <?php } ?>
 <?php
-			if( $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
+			if( $this->show_pagination && $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
 			{
 				echo '<div class="pagination_footer">';
 				echo $this->pagination->getListFooter();
