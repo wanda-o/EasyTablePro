@@ -166,6 +166,8 @@ function deleteFromList(theList, itemToRemove)
 function aliasOK(str)
 {
 	if(str != makeURLSafe(str)) return false;
+	
+	if(str.toLowerCase() == 'id') return false;
 
 	return true;
 }
@@ -176,6 +178,11 @@ function updateAlias()
 	aliasID = 'fieldalias'+labelName.substring(5);
 	fldAlias = $(aliasID);
 	if(fldAlias.value == '') fldAlias.value = makeURLSafe(this.value);
+	if(fldAlias.value.toLowerCase() == 'id')
+	{
+		fldAlias.value = 'tmpFldID';
+		alert("An alias can not be 'ID'.\r\r\nAn temporary alias has been created, please check that it is unique.");
+	}
 }
 
 function createTableNameAlias()
@@ -208,15 +215,31 @@ function validateTableNameAlias()
 
 function validateAlias(aliasElement)
 {
+	proposedAliasValue = aliasElement.value;
 	// Check for empty alias
-	if(aliasElement.value == '')
+	if(proposedAliasValue == '')
 	{
 		labelId = 'label' + aliasElement.name.substring(10);
 		labelInput = $(labelId);
 		aliasElement.value = makeURLSafe(labelInput.value);
 		alert("An alias can not be empty.\r\r\nAn alias has been created from the label, please check that it is unique.");
 	}
-	
+
+	if(proposedAliasValue.toLowerCase() == 'id') // Can't have an ID for an alias - we already use it.
+	{
+		labelId = 'label' + aliasElement.name.substring(10);
+		labelInput = $(labelId);
+		if(labelInput.value != 'id')
+		{
+			aliasElement.value = makeURLSafe(labelInput.value);
+		}
+		else
+		{
+			aliasElement.value = 'tmpFldID';
+		}
+		alert("An alias can not be 'ID'.\r\r\nA temporary alias has been created, please check that it is unique.");
+	}
+
 	if(! aliasOK(aliasElement.value))
 	{
 		aliasElement.value = makeURLSafe(aliasElement.value);

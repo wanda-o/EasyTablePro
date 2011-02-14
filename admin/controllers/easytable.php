@@ -1022,7 +1022,7 @@ function toggleSearch()
 	
 	function alterEasyTableColumn ( $origFldAlias, $newFldAlias, $fieldType )
 	{
-		if( ($origFldAlias == '') || ($newFldAlias == '') || ($fieldType == '') || ($origFldAlias == null) || ($newFldAlias == null) || ($fieldType == null))
+		if( ($origFldAlias == '') || ($newFldAlias == '') || ($fieldType == '') || ($origFldAlias == null) || ($newFldAlias == null) || ($fieldType == null) || ($newFldAlias == 'id') )
 		{
 			return false;
 		}
@@ -1144,6 +1144,7 @@ function toggleSearch()
 			foreach($csvColumnLabels as $label)
 			{
 				$columnAlias = substr( JFilterOutput::stringURLSafe(trim(addslashes ( $label ))), 0, 64);
+				if($columnAlias == 'id') $columnAlias = 'tmp-id';
 				// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)
 				$firstCharOfAlias = substr($columnAlias,0,1);
 				if(preg_match('/[^A-Za-z\s ]/', '', $firstCharOfAlias))
@@ -1234,7 +1235,8 @@ function toggleSearch()
 	function conformFieldAlias ($rawAlias)
 	{
 		// Make the raw alias url safe & limit to 64 chars for mysql column names
-		$columnAlias = substr( JFilterOutput::stringURLSafe(trim($rawAlias)), 0, 64);
+		$columnAlias = substr( JFilterOutput::stringURLSafe(trim( addslashes ( $rawAlias ))), 0, 64);
+		if($columnAlias == 'id') $columnAlias = 'tmp-id';
 
 		// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)
 		$firstCharOfAlias = substr($columnAlias,0,1);
