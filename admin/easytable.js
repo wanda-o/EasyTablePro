@@ -33,42 +33,54 @@ function atLeast1ListField() {
 }
 
 function AliassAreUnique() {
-	the_MRIds = $('mRIds').value;
-	the_MRIds == '' ? the_MRIds = '' : the_MRIds = 'fieldalias' + the_MRIds;
-	the_MRIds = the_MRIds.split(', ').join(', fieldalias');
-	theMRIds = $('mRIds').value.split(', ');
-	theNewIds = $('newFlds').value;
-	theNewIds == '' ? theNewIds = '' : theNewIds = 'fieldalias_nf_' + theNewIds;
-	theNewIds = theNewIds.split(', ').join(', fieldalias_nf_');
-
-	// Build an array of alias'
-	aliasArray = [];
-	for(i=0; i<theMRIds.length; i++)
+	if(document.adminForm.elements['et_linked_et'].value) return true; // If it's a linked table we bail as users can't modify alias (ie. they are column names).
+	the_MRIds_obj = $('mRIds');
+	if($defined(the_MRIds_obj))
 	{
-		fldAliasName = "fieldalias"+theMRIds[i];
-		theValue = document.adminForm.elements[fldAliasName].value;
-		document.adminForm.elements[fldAliasName].focus();
-		if(theValue == '')
-		{
-			$et_check_msg = "Field Alias' can not be empty and must be unique.\n • Please correct the alias and try again.";
-			return false; // Must have a valid alias
-		}
-		aliasArray.push(theValue);
-	}
+		the_MRIds = $('mRIds').value;
+		the_MRIds == '' ? the_MRIds = '' : the_MRIds = 'fieldalias' + the_MRIds;
+		the_MRIds = the_MRIds.split(', ').join(', fieldalias').split(', ');
 
-	// Sort the alias array
-	aliasArray = aliasArray.sort(); // Default js string comparison
-
-	// Scan for matches in sequential entries
-	for (var i = 0; i < aliasArray.length; i++ )
-	{
-		if (aliasArray[i + 1] == aliasArray[i])
+		the_NewIds_obj = $('newFlds');
+		the_NewIds = '';
+		if($defined(the_NewIds_obj))
 		{
-			$et_check_msg = "Field Alias' must be unique, ie. two alias' can not have the same value.\n • Please correct the alias ( "+aliasArray[i]+" ) and try again.";
-			return false; // Oh noes we found a duplicate...
+			the_NewIds = the_NewIds_obj.value;
+			the_NewIds == '' ? the_NewIds = '' : the_NewIds = 'fieldalias_nf_' + the_NewIds;
+			the_NewIds = the_NewIds.split(', ').join(', fieldalias_nf_').split(', ');
 		}
+		the_RIds = the_MRIds.concat(the_NewIds);
+
+		// Build an array of alias'
+		aliasArray = [];
+		for(i=0; i<the_RIds.length; i++)
+		{
+			fldAliasName = the_RIds[i];
+			theValue = document.adminForm.elements[fldAliasName].value;
+			document.adminForm.elements[fldAliasName].focus();
+			if(theValue == '')
+			{
+				$et_check_msg = "Field Alias' can not be empty and must be unique.\n • Please correct the alias and try again.";
+				return false; // Must have a valid alias
+			}
+			aliasArray.push(theValue);
+		}
+	
+		// Sort the alias array
+		aliasArray = aliasArray.sort(); // Default js string comparison
+	
+		// Scan for matches in sequential entries
+		for (var i = 0; i < aliasArray.length; i++ )
+		{
+			if (aliasArray[i + 1] == aliasArray[i])
+			{
+				$et_check_msg = "Field Alias' must be unique, ie. two alias' can not have the same value.\n • Please correct the alias ( "+aliasArray[i]+" ) and try again.";
+				return false; // Oh noes we found a duplicate...
+			}
+		}
+		return true; // If we got here it's all good.
 	}
-	return true; // If we got here it's all good.
+	return false;
 }
 
 function changeTypeWarning()
@@ -255,7 +267,7 @@ function addField()
 
 	posCellHTML = '<input type=\"text\" value=\"9999\" size=\"3\" name=\"position#id#\">';
 
-	labelCellHTML = '<input type=\"text\" value=\"\" name=\"label#id#\" id=\"label#id#\"><br><input type=\"hidden\" name=\"origfieldalias#id#\" value=\"\"><input type=\"text\" name=\"fieldalias#id#\" id=\"fieldalias#id#\" value=\"\" onchange=\"validateAlias()\" disabled=\"\"><img src=\"components/com_easytablepro/assets/images/locked.gif\" onclick=\"unlock(this, \'#id#\');\" id=\"unlock#id#\">';
+	labelCellHTML = '<input type=\"text\" value=\"\" name=\"label#id#\" id=\"label#id#\"><br><input type=\"hidden\" name=\"origfieldalias#id#\" value=\"\"><input type=\"text\" name=\"fieldalias#id#\" id=\"fieldalias#id#\" value=\"\" onchange=\"validateAlias(this)\" disabled=\"\"><img src=\"components/com_easytablepro/assets/images/locked.gif\" onclick=\"unlock(this, \'#id#\');\" id=\"unlock#id#\">';
 
 	descCellHTML = '<textarea cols=\"30\" rows=\"2\" name=\"description#id#\"></textarea>';
 
@@ -386,7 +398,6 @@ function deleteField(fName,rowId)
 		thisRow = $(rowId);
 		etMetaTableRows.removeChild(thisRow);
 	}
-
 }
 
 function makeURLSafe(str)
