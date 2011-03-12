@@ -77,9 +77,7 @@
 		<tbody>
 			<?php
 				$this->assign('currentImageDir',$this->imageDir);
-
 				$alt_rv = 0; $rowNumber = 0;
-			try {
 				foreach ($this->paginatedRecords as $prow )  // looping through the rows of paginated data
 				{
 					$prowFNILV = $this->paginatedRecordsFNILV[$rowNumber++];
@@ -133,11 +131,6 @@
 					unset($prow);
 					unset($prowFNILV);
 				}	// End of foreach for rows
-			}
-			catch (Exception $e)
-			{
-				echo($e->getMessage());
-			}
 			?>
 		</tbody>
 	</table>

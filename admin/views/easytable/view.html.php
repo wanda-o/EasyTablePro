@@ -116,7 +116,7 @@ class EasyTableViewEasyTable extends JView
 		$doc->addStyleSheet(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS._cppl_base_com_name.'.css');
 
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		//get the EasyTable
 		$row =& JTable::getInstance('EasyTable', 'Table');
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
@@ -153,7 +153,7 @@ class EasyTableViewEasyTable extends JView
 
 		$state = 'Unpublished';
 
-		if($ettd)
+		if( $ettd )
 		{
 			// Get the record count for this table
 			$query = "SELECT COUNT(*) FROM ".$db->nameQuote($ettd_tname);
@@ -169,7 +169,6 @@ class EasyTableViewEasyTable extends JView
 		}
 		else
 		{
-			// echo 'Didn\'t find '.$ettd_tname.' in Table List';
 			$easytables_table_data ='';
 			$ettd_record_count = 0;
 			

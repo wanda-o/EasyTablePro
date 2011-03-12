@@ -246,7 +246,6 @@ class EasyTableModelEasyTable extends JModel
 			$db->setQuery($query);
 
 			$fields = $db->loadResultArray();
-			
 			$fields = implode('`, `',$fields);
 			return($fields);
 	 }
@@ -351,10 +350,10 @@ class EasyTableModelEasyTable extends JModel
 	 * Gets the tables
 	 * @return data
 	 */
-    function &getAllData()
-    {
-        return $this->getData(FALSE);
-    }
+	function &getAllData()
+	{
+		return $this->getData(FALSE);
+	}
 	function &getData($et_paged=TRUE, $list_view = '1')
 	{
 		$pagination =& $this->getPagination();

@@ -55,10 +55,12 @@ class EasyTableViewEasyTableRecord extends JView
 	{
 		return($this->fieldAliass($metaArray, $lkf_id, 6));
 	}
+
 	function fieldAliassForList($metaArray, $lkf_id)
 	{
 		return($this->fieldAliass($metaArray, $lkf_id, 7));
 	}
+
 	function fieldAliass($metaArray, $lkf_id, $ListOrDetailSelector)
 	{
 		// Convert the list of meta records into the list of fields that can be used in the SQL
@@ -236,7 +238,6 @@ class EasyTableViewEasyTableRecord extends JView
 		}
 		
 		$imageDir = $easytable->defaultimagedir;
-
 
 		/*
 		 * Get Params for linked tables as we'll need them soon

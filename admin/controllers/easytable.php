@@ -31,6 +31,9 @@ class EasyTableController extends JController
 	 *  • Cancel Edit of a Table
 	 *
 	*/
+	/*****************/
+	/* Table Manager */
+	/*****************/
 	function add()
 	{
 		JRequest::setVar('view', 'EasyTable');
@@ -45,6 +48,9 @@ class EasyTableController extends JController
 		 $this->display();
 	}
 
+	/***************/
+	/* Data Import */
+	/***************/
 	function presentUploadScreen()
 	{
 
@@ -69,6 +75,9 @@ class EasyTableController extends JController
 		$this->display();
 	}
 
+	/**********************/
+	/* Table Data Editing */
+	/**********************/
 	function editData()
 	{
 		 $this->checkOutEasyTable();
@@ -459,7 +468,7 @@ function toggleSearch()
 				{
 					$jAp->enqueueMessage(JText::_( 'DATA_FI_DESC' ));
 					$updateType = JRequest::getVar('uploadType',0) ? 'append' : 'replace' ;
-	
+
 					// Are we removing existing data?
 					$tableState = 1;
 					if($updateType == 'replace')
@@ -478,7 +487,7 @@ function toggleSearch()
 					{
 						$jAp->enqueueMessage(JText::_( 'ADDING_NEW_DESC' ));
 					}
-	
+
 					// Then we parse it and upload the data into the ettd
 					$ettdColumnAliass = $this->getFieldFromPostMeta();
 					if($ettdColumnAliass && $tableState)
@@ -600,7 +609,6 @@ function toggleSearch()
 			$msg .= $this->addFieldsToEasyTable ( $newFlds );
 		}
 
-		
 		return $row->id;
 	}
 
@@ -752,7 +760,7 @@ function toggleSearch()
 	{
 				 
 		// Check for the existence of a matching data table
- 		// Get a database object
+		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object checking the existence of data table: $id");
@@ -814,7 +822,6 @@ function toggleSearch()
 		$ettm_field_count = count($easytables_table_meta);
 		$mRIdsCount = count($mRIds);
 		if($ettm_field_count != $mRIdsCount) {
-			// JError::raiseError(500, "META mismatch between form response and data store: $ettm_field_count vs $mRIdsCount <BR /> $etMetaRIdAsSQL");
 			$statusArray = array('status' => 0, 'msg' => "META mismatch between form response and data store: $ettm_field_count vs $mRIdsCount <BR /> $etMetaRIdAsSQL");
 			return $statusArray;
 		}

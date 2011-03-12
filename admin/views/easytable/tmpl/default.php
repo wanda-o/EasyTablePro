@@ -75,19 +75,19 @@ defined('_JEXEC') or die('Restricted Access');
 						</td>
 						<td>
 							<input class="text_area" type="text" name="defaultimagedir" id="defaultimagedir" size="32" maxlength="250" value="<?php echo $this->row->defaultimagedir;?>" />
-			            	<?php if(! $this->row->defaultimagedir ) { ?>
-			            		<span class="et_nodirectory" style="font-style:italic;color:red;"><?php echo JText::_( 'NO_DIRECTORY_SET' ); ?></span>
-			                <?php } ?>
+							<?php if(! $this->row->defaultimagedir ) { ?>
+								<span class="et_nodirectory" style="font-style:italic;color:red;"><?php echo JText::_( 'NO_DIRECTORY_SET' ); ?></span>
+							<?php } ?>
 						</td>
 					</tr>
-			   		<tr class="hasTip" title="<?php echo JText::_( 'PUBLISHED_STATUS_DESC' ); ?>" >
-			   			<?php
-			   			$pubTitle = JText::_('THE___PUBLISHED___STATUS_OF_THIS_TABLE_');
-			   			if(!$this->ettd)
-				   			{
-				   				$pubTitle .= JText::_( 'A_TABLE_CAN__T_BE_PUBLISHED_WITHOUT_DATA_BEING_ADDED_' );
-				   			}
-			   			?>
+					<tr class="hasTip" title="<?php echo JText::_( 'PUBLISHED_STATUS_DESC' ); ?>" >
+						<?php
+						$pubTitle = JText::_('THE___PUBLISHED___STATUS_OF_THIS_TABLE_');
+						if(!$this->ettd)
+							{
+								$pubTitle .= JText::_( 'A_TABLE_CAN__T_BE_PUBLISHED_WITHOUT_DATA_BEING_ADDED_' );
+							}
+						?>
 						<td width="100" align="right" class="key">
 							<label for="published" title="<?php echo $pubTitle ?>">
 								<?php echo JText::_( 'PUBLISHED' ); ?>:
@@ -97,7 +97,7 @@ defined('_JEXEC') or die('Restricted Access');
 							<?php echo $this->published;?>
 						</td>
 					</tr>
-			        <tr>
+					<tr>
 						<td width="100" align="right" class="key">
 							<label for="tableimport">
 							<?php
@@ -110,7 +110,7 @@ defined('_JEXEC') or die('Restricted Access');
 							?>:
 							</label>
 						</td>
-			        	<td>
+						<td>
 							<!-- MAX_FILE_SIZE must precede the file input field -->
 							<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
 							<!-- Name of input element determines name in $_FILES array -->

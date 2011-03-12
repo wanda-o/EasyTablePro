@@ -17,8 +17,11 @@ define("_cppl_this_com_name","easytablepro"); // REMEMBER: so you must update in
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'controllers'.DS.'easytable.php');
 
 $controller = new EasyTableController();
+/* Table Manager Fn's */
 $controller->registerTask('unpublish','publish');
 $controller->registerTask('apply', 'save');
+
+/* Data Import Fn's */
 $controller->registerTask('createETDTable', 'save');
 $controller->registerTask('updateETDTable', 'save');
 $controller->registerTask('editdata', 'editData');
@@ -26,6 +29,8 @@ $controller->registerTask('presentUploadScreen', 'presentUploadScreen');
 $controller->registerTask('uploadData', 'uploadData');
 $controller->registerTask('uploadFile', 'uploadData');
 $controller->registerTask('uploadResult', 'uploadResult');
+
+/* Data Edit Fn's */
 $controller->registerTask('addrow', 'addRow');
 $controller->registerTask('deleteRecords', 'deleteRecords');
 $controller->registerTask('editrow', 'editrow');
