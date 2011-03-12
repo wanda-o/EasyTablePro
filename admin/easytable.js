@@ -424,6 +424,11 @@ function submitbutton(pressbutton)
 		toggleModifyControls();
 		return 0;
 	}
+	else if (pressbutton == 'linkTable')
+	{
+		checkTableSelection();
+		return 0;
+	}
 	else {
 		if(document.adminForm.id.value == 0 && pressbutton != 'createETDTable')
 		{

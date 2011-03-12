@@ -16,6 +16,10 @@
     background: url(assets/images/Table-Modification32.png) no-repeat left;
 }
 
+.icon-32-linkTable {
+    background: url(assets/images/Linked_Table_32x32.png) no-repeat left;
+}
+
 .info-tip {
 	width:250px;
 	position:absolute;

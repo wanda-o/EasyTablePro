@@ -50,13 +50,22 @@ class EasyTableViewEasyTables extends JView
 	}
 
 
-	function getDataEditorIcon ($locked, $i, $rowId, $tableName)
+	function getDataEditorIcon ($locked, $i, $rowId, $tableName, $extTable)
 	{
-		$btn_text = JText::_( 'EDIT_TABLE_DATA_IN_' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
-		$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'edit.png';
+		if($extTable)
+		{
+			$btn_text = JText::sprintf ( 'LINKED_TABLE_NO_DATA_EDITING' , $tableName);
+			$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/disabled_edit.png';
+		}
+		else
+		{
+			$btn_text = JText::_( 'EDIT_TABLE_DATA_IN_' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
+			$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'edit.png';
+		}
+
 		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'EDIT_RECORDS' ).'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
 
-		if( !$locked )
+		if( !$locked && !$extTable)
 		{
 			$theEditBtn = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\'editData\');" title="'.$btn_text.'" >'.$theEditBtn.'</a>';
 		}
@@ -64,13 +73,22 @@ class EasyTableViewEasyTables extends JView
 		return($theEditBtn);
 	}
 
-	function getDataUploadIcon ($locked, $i, $rowId, $tableName)
+	function getDataUploadIcon ($locked, $i, $rowId, $tableName, $extTable)
 	{
-		$btn_text = JText::_( 'UPLOAD_NEW_DESC' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
-		$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'upload.png';
+		if($extTable)
+		{
+			$btn_text = JText::sprintf ( 'LINKED_TABLE_NO_UPLOAD' , $tableName);
+			$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/disabled_upload.png';
+		}
+		else
+		{
+			$btn_text = JText::_( 'UPLOAD_NEW_DESC' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
+			$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'upload.png';
+		}
+
 		$theBtn = '<span class="hasTip" title="'.JText::_( 'UPLOAD_DATA' ).'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
 
-		if( !$locked )
+		if( !$locked && !$extTable)
 		{
 			$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&task=presentUploadScreen&view=easytableupload&cid='.$rowId.'&tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
 		}

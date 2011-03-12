@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted Access');
 	JHTML::_('behavior.tooltip');
 		if($this->row->id)
 		{
-			JToolBarHelper::custom( 'modifyTable', 'modifyTable', 'modifyTable', 'Modify Structure', false, false );
+			if(!$this->etet) JToolBarHelper::custom( 'modifyTable', 'modifyTable', 'modifyTable', 'Modify Structure', false, false );
 			JToolBarHelper::title(JText::_( 'EDIT_TABLE' ), 'addedit.png');
 		}
 		else
@@ -55,7 +55,12 @@ defined('_JEXEC') or die('Restricted Access');
 							</label>
 						</td>
 						<td>
-							<input class="text_area" type="text" name="easytablealias" id="easytablealias" onchange="javascript:validateTableNameAlias()" size="32" maxlength="250" value="<?php echo $this->row->easytablealias;?>" />			</td>
+						<?php if($this->etet) { ?>
+							<input type="hidden" name="easytablealias" id="easytablealias" value="<?php echo $this->row->easytablealias;?>" /><?php echo $this->row->easytablealias;?>
+						<?php } else { ?>
+							<input class="text_area" type="text" name="easytablealias" id="easytablealias" onchange="javascript:validateTableNameAlias()" size="32" maxlength="250" value="<?php echo $this->row->easytablealias;?>" />
+						<?php } ?>
+						</td>
 					</tr>
 					<tr class="hasTip" title="<?php echo JText::_( 'EASYTABLE_DESCRIPTION_DESC' ); ?>" >
 						<td width="100" align="right" class="key">
@@ -67,7 +72,7 @@ defined('_JEXEC') or die('Restricted Access');
 							<input class="text_area" type="text" name="description" id="description" size="32" maxlength="250" value="<?php echo $this->row->description;?>" />
 						</td>
 					</tr>
-			   		<tr class="hasTip" title="<?php echo JText::_( 'IMAGE_DIRECTORY_DESC' ); ?>" >
+					<tr class="hasTip" title="<?php echo JText::_( 'IMAGE_DIRECTORY_DESC' ); ?>" >
 						<td width="100" align="right" class="key">
 							<label for="defaultimagedir">
 								<?php echo JText::_( 'IMAGE_DIRECTORY' ); ?>:
@@ -97,6 +102,7 @@ defined('_JEXEC') or die('Restricted Access');
 							<?php echo $this->published;?>
 						</td>
 					</tr>
+					<?php if(!$this->etet) { ?>
 					<tr>
 						<td width="100" align="right" class="key">
 							<label for="tableimport">
@@ -136,7 +142,7 @@ defined('_JEXEC') or die('Restricted Access');
 						</td>
 						<td><p id="uploadWhileModifyingNotice"><?php echo JText::_('DATA_FILES_CANNOT_BE_UPLOADED_ONCE_TABLE_STRUCTURE_MODIFCATION_HAS_BEEN_ENABLED_'); ?><BR /><em><?php echo JText::_('SAVE_APPLY_OR_CLOSE_THE_TABLE_TO_RE_ENABLE_DATA_UPLOADS_'); ?></em></p>
 </td>
-					</tr>
+					</tr><?php } ?>
 				</table>
 				</fieldset>
 				</td>
@@ -167,8 +173,9 @@ defined('_JEXEC') or die('Restricted Access');
 										}
 										else
 										{
-											echo '<span style="font-style:italic;color:red;">'.JText::_( 'NO_DATA_TABLE_FOUND_FOR_' ).$this->ettd_tname.'! </span>';
+											echo '<br /><span style="font-style:italic;color:red;">'.JText::_( 'NO_DATA_TABLE_FOUND_FOR_' ).$this->ettd_tname.'! </span>';
 										}
+										if($this->etet) echo '<br /><span style="font-style:italic;color:red;">'.JText::_( 'THIS_IS_DESC' ).' <strong>'.$this->ettd_tname.'!</strong> </span>';
 									?>
 								</td>
 							</tr>
@@ -209,58 +216,69 @@ defined('_JEXEC') or die('Restricted Access');
 							$k = 0;
 							foreach ($this->easytables_table_meta as $metaRow)
 							{
-								$mRId = $metaRow[0];
-								$mRIds[] = $mRId;
-								$rowID = 'et_rID'.$mRId;
-
-								echo '<tr valign="top" class="row'.$k.'" id="'.$rowID.'">';																		// Open the row
-								
-								echo('<td align="center"><input type="hidden" name="id'.$mRId.'" value="'.$mRId.'">'.$mRId.'<BR /><a href="javascript:void(0);" class="deleteFieldButton-nodisplay" onclick="deleteField(\''.$metaRow[3].'\', \''.$rowID.'\');"><img src="images/publish_x.png"></a></td>');				// Id
-								echo('<td align="center"><input type="text" value="'.$metaRow[2].'" size="3" name="position'.$mRId.'"  class="hasTip" title="'.JText::_( 'POSITION__DETERMINE_DESC' ).'"></td>');		// Position
-								echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'" id="label'.$mRId.'" class="hasTip" title="'.JText::_( 'LABEL__DESC' ).'" ><br>'.									// label <BR />
-									'<span  class="hasTip" title="'.JText::_( 'ALIAS___T_DESC' ).'"><input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.
-									'<input type="text" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" onchange="validateAlias(this)" disabled >'.
-									'<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'locked.gif" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></span></td>');		// alias
-								echo('<td><textarea cols="30" rows="2" name="description'.$mRId.'" class="hasTip" title="'.JText::_( 'DESCRIPTION__TH_DESC' ).'" >'.$metaRow[4].'</textarea></td>');				// Description
-								echo('<td>'.$this->getTypeList($mRId, $metaRow[5]).'<BR />'.
-									'<input type="hidden" name="origfieldtype'.$mRId.'" value="'.$metaRow[5].'" >'.
-										'<input type="text" value="'.$this->getFieldOptions($metaRow[10]).'" name="fieldoptions'.$mRId.'" class="hasTip" title="'.JText::_( 'FIELD_OPTIONS_DESC' ).'" ></td>');			// Type / Field Options
-								
-								$tdName			= 'list_view'.$mRId;
-								$tdStart		= '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[6].'">';			// List View Flag
-								$tdEnd			= '</td>';
-								$tdFlagImg		= $this->getListViewImage($tdName, $metaRow[6]);
-								$tdjs			= 'toggleTick(\'list_view\', '.$mRId.');';
-								$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
-								echo($tdStart.$tdFlagImgLink.$tdEnd);
-								
-								$tdName			= 'detail_link'.$mRId;
-								$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[7].'">';				// Detail Link Flag
-								$tdFlagImg     = $this->getListViewImage($tdName, $metaRow[7]);
-								$tdjs			= 'toggleTick(\'detail_link\', '.$mRId.');';
-								$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
-								echo($tdStart.$tdFlagImgLink.$tdEnd);
-								
-								$tdName			= 'detail_view'.$mRId;
-								$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[8].'">';				// Detail View Flag
-								$tdFlagImg     = $this->getListViewImage($tdName, $metaRow[8]);
-								$tdjs			= 'toggleTick(\'detail_view\', '.$mRId.');';
-								$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
-								echo($tdStart.$tdFlagImgLink.$tdEnd);
-								
-								$tdName			= 'search_field'.$mRId;
-								$tdParamsObj = new JParameter ($metaRow[10]);
-								$tdSearchField = $tdParamsObj->get('search_field',1);
-								$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$tdSearchField.'">';				// Search This Field Flag
-								$tdFlagImg     = $this->getListViewImage($tdName, $tdSearchField);
-								$tdjs			= 'toggleTick(\'search_field\', '.$mRId.');';
-								$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
-								echo($tdStart.$tdFlagImgLink.$tdEnd);
-								
-								echo "</tr>\r\r";                                                                                                        // Close the row
-								$k = 1 - $k;
+								if($metaRow[9] != 'id')
+								{
+									$mRId = $metaRow[0];
+									$mRIds[] = $mRId;
+									$rowID = 'et_rID'.$mRId;
+	
+									echo '<tr valign="top" class="row'.$k.'" id="'.$rowID.'">';																		// Open the row
+									
+									echo('<td align="center"><input type="hidden" name="id'.$mRId.'" value="'.$mRId.'">'.$mRId );if(!$this->etet){echo( '<BR /><a href="javascript:void(0);" class="deleteFieldButton-nodisplay" onclick="deleteField(\''.$metaRow[3].'\', \''.$rowID.'\');"><img src="images/publish_x.png"></a>'); } echo ('</td>');				// Id
+									echo('<td align="center"><input type="text" value="'.$metaRow[2].'" size="3" name="position'.$mRId.'"  class="hasTip" title="'.JText::_( 'POSITION__DETERMINE_DESC' ).'"></td>');		// Position
+									echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'" id="label'.$mRId.'" class="hasTip" title="'.JText::_( 'LABEL__DESC' ).'" > <br>');	// label <BR />
+									if($this->etet)
+									{
+										echo '<input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" ><input type="hidden" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.$metaRow[9];
+									}
+									else
+									{
+										echo ('<span  class="hasTip" title="'.JText::_( 'ALIAS___T_DESC' ).'"><input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.
+										'<input type="text" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" onchange="validateAlias(this)" disabled >'.
+										'<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'locked.gif" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></span></td>');		// alias
+									}
+									echo('<td><textarea cols="30" rows="2" name="description'.$mRId.'" class="hasTip" title="'.JText::_( 'DESCRIPTION__TH_DESC' ).'" >'.$metaRow[4].'</textarea></td>');				// Description
+									echo('<td>'.$this->getTypeList($mRId, $metaRow[5]).'<BR />'.
+										'<input type="hidden" name="origfieldtype'.$mRId.'" value="'.$metaRow[5].'" >'.
+											'<input type="text" value="'.$this->getFieldOptions($metaRow[10]).'" name="fieldoptions'.$mRId.'" class="hasTip" title="'.JText::_( 'FIELD_OPTIONS_DESC' ).'" ></td>');			// Type / Field Options
+									
+									$tdName			= 'list_view'.$mRId;
+									$tdStart		= '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[6].'">';			// List View Flag
+									$tdEnd			= '</td>';
+									$tdFlagImg		= $this->getListViewImage($tdName, $metaRow[6]);
+									$tdjs			= 'toggleTick(\'list_view\', '.$mRId.');';
+									$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
+									echo($tdStart.$tdFlagImgLink.$tdEnd);
+									
+									$tdName			= 'detail_link'.$mRId;
+									$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[7].'">';				// Detail Link Flag
+									$tdFlagImg     = $this->getListViewImage($tdName, $metaRow[7]);
+									$tdjs			= 'toggleTick(\'detail_link\', '.$mRId.');';
+									$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
+									echo($tdStart.$tdFlagImgLink.$tdEnd);
+									
+									$tdName			= 'detail_view'.$mRId;
+									$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[8].'">';				// Detail View Flag
+									$tdFlagImg     = $this->getListViewImage($tdName, $metaRow[8]);
+									$tdjs			= 'toggleTick(\'detail_view\', '.$mRId.');';
+									$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
+									echo($tdStart.$tdFlagImgLink.$tdEnd);
+									
+									$tdName			= 'search_field'.$mRId;
+									$tdParamsObj = new JParameter ($metaRow[10]);
+									$tdSearchField = $tdParamsObj->get('search_field',1);
+									$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$tdSearchField.'">';				// Search This Field Flag
+									$tdFlagImg     = $this->getListViewImage($tdName, $tdSearchField);
+									$tdjs			= 'toggleTick(\'search_field\', '.$mRId.');';
+									$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
+									echo($tdStart.$tdFlagImgLink.$tdEnd);
+									
+									echo "</tr>\r\r";                                                                                                        // Close the row
+									$k = 1 - $k;
+								}
 							}
-							echo('<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" onclick="addField()"><img class="et_addField" src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'icon-add.png" alt="'.JText::_( 'ADD_A_NEW_FIELD_' ).'"></a><input type="hidden" id="mRIds" name="mRIds" value="'.implode(', ',$mRIds).'"><input type="hidden" name="newFlds" id="newFlds" value=""><input type="hidden" name="deletedFlds" id="deletedFlds" value=""></td><td colspan=2><a href="javascript:void(0);" onclick="addField()">'.JText::_('PLUS_NEW_FIELD').'</a></td><td colspan=6><em>'.JText::_('CLICK_THE_PLUS_SIGN_TO_ADD_A_NEW_FIELD_').'</em></td></tr>');
+							if(!$this->etet) echo('<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" onclick="addField()"><img class="et_addField" src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'icon-add.png" alt="'.JText::_( 'ADD_A_NEW_FIELD_' ).'"></a><input type="hidden" name="newFlds" id="newFlds" value=""><input type="hidden" name="deletedFlds" id="deletedFlds" value=""></td><td colspan=2><a href="javascript:void(0);" onclick="addField()">'.JText::_('PLUS_NEW_FIELD').'</a></td><td colspan=6><em>'.JText::_('CLICK_THE_PLUS_SIGN_TO_ADD_A_NEW_FIELD_').'</em></td></tr>');
+							echo '<input type="hidden" id="mRIds" name="mRIds" value="'.implode(', ',$mRIds).'">';
 						?>
 						</tbody>
 						</table>
@@ -315,6 +333,7 @@ defined('_JEXEC') or die('Restricted Access');
 <div class="clr"></div>
 
 <input type="hidden" name="option" value="<?php echo $option; ?>" />
+<input type="hidden" name="et_linked_et" value="<?php echo $this->etet; ?>" />
 <input type="hidden" name="id" value="<?php echo $this->row->id; ?>" />
 <input type="hidden" name="task" value="" />
 <?php echo JHTML::_('form.token'); ?>

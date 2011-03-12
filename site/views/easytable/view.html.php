@@ -76,6 +76,7 @@ class EasyTableViewEasyTable extends JView
 		$modification_date_label = $params->get('modification_date_label','');
 		$show_page_title = $params->get('show_page_title',1);
 		$pageclass_sfx = $params->get('pageclass_sfx','');
+		$etet = $easytable->datatablename?TRUE:FALSE;
 
 		$pathway->addItem($easytable->easytablename, 'index.php?option='.$option.'&id='.$id.'&start='.$start_page);
 		// because the application sets a default page title, we need to get it
@@ -115,6 +116,9 @@ class EasyTableViewEasyTable extends JView
 		
 		$easytables_table_meta = $db->loadRowList();
 		$etmCount = count($easytables_table_meta); //Make sure at least 1 field is set to display
+		// If any of the fields are designated as eMail load the JS file to allow cloaking.
+		if(ET_VHelper::hasEmailType($easytables_table_meta))
+			$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'easytablepro.js');
 
 		if($etmCount)  //Make sure at least 1 field is set to display
 		{
@@ -133,14 +137,18 @@ class EasyTableViewEasyTable extends JView
 			// Get pagination object
 			$pagination =& $this->get('pagination');
 
-			// If any of the fields are designated as eMail load the JS file to allow cloaking.
-			if(ET_VHelper::hasEmailType($easytables_table_meta))
-				$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'easytablepro.js');
 		}
 		else
 		{
-			$easytables_table_meta = array(array("Warning EasyTable List View Empty","","","",""));
-			$paginatedRecords = array(array("id" => 0, "Message" => "No fields selceted to display in list view for this table"));
+			$show_pagination_footer = FALSE;
+			$show_pagination_header = FALSE;
+			$show_search = FALSE;
+			$pagination = FALSE;
+			$easytables_table_meta = array(array("Warning EasyTable List View Empty","","","","",""));
+			$errObj = new stdClass;
+			$errObj->id = 0;
+			$errObj->Message = "No fields selceted to display in list view for this table";
+			$paginatedRecords = array('Error'=>$errObj);
 		}
 		// Search
 		$search = $db->getEscaped($this->get('search'));

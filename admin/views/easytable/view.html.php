@@ -19,6 +19,25 @@ jimport( 'joomla.application.component.view');
 
 class EasyTableViewEasyTable extends JView
 {
+	function getTableIDForName ($tableName)
+	{
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,JText::_("Couldn't talk to the database while trying to get a table ID for table:").' '.$tableName);
+		}
+		// Get the id for this table
+		$query = "SELECT id FROM ".$db->nameQuote('#__easytables')." WHERE `datatablename` ='".$tableName."'";
+		$db->setQuery($query);
+		
+		$id = $db->loadResult();
+		if($id) {
+			return $id;
+		} else {
+			return 0;
+		}
+	}
+
 	/*
 	 * getListView	- accepts the name of an element and a flog
 	 *				- returns img url for either the tick or the X used in backend components
@@ -121,8 +140,18 @@ class EasyTableViewEasyTable extends JView
 		$row =& JTable::getInstance('EasyTable', 'Table');
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
 		$id = $cid[0];
-		$row->load($id);
+		if($id == 0)
+		{
+			$datatablename = JRequest::getVar('datatablename','');
+			if($datatablename == "")
+			{
+				JError::raiseError( 500, JText::_( "HEY__WHA_DESC" ) );
+			}
+			$id = $this->getTableIDForName($datatablename);
+			if($id == 0) JError::raiseError( 500, JText::_( "SORRY__THA_DESC" ).$datatablename );
+		}
 
+		$row->load($id);
 		// Where do we come from
 		$from = JRequest::getVar( 'from', '' );
 		$default_order_sql = " ORDER BY position;";
@@ -146,12 +175,21 @@ class EasyTableViewEasyTable extends JView
 
 		// Check for the existence of a matching data table
 		$ettd = FALSE;
+		$etet = FALSE;
 		$ettd_tname = $db->getPrefix().'easytables_table_data_'.$id;
 		$allTables = $db->getTableList();
 
 		$ettd = in_array($ettd_tname, $allTables);
 
 		$state = 'Unpublished';
+		
+		$ettd_datatablename = $row->datatablename;
+		if($ettd_datatablename != '')
+		{
+			$ettd = TRUE;
+			$etet = TRUE;
+			$ettd_tname = $ettd_datatablename;
+		}
 
 		if( $ettd )
 		{
@@ -203,6 +241,7 @@ class EasyTableViewEasyTable extends JView
 		$this->assignRef('easytables_table_meta',$easytables_table_meta);
 		$this->assignRef('ettm_field_count',$ettm_field_count);
 		$this->assignRef('ettd',$ettd);
+		$this->assignRef('etet',$etet);
 		$this->assignRef('ettd_tname',$ettd_tname);
 		$this->assignRef('CSVFileHasHeaders', JHTML::_('select.booleanlist', 'CSVFileHasHeaders', 'class="inputbox"', 0 ));
 		if($ettd)

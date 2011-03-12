@@ -26,7 +26,42 @@ class EasyTableModelEasyTable extends JModel
 	var $_search = null;
 	var $_search_query = null;
 	var $_search_query_FNILV = null;
-	
+	var $_datatablename = null;
+
+	/*
+		Get the table name 
+	 */
+	function getDataTableName()
+	{
+		$id = (int)JRequest::getVar('id', 0);
+		$easytable =& JTable::getInstance('EasyTable','Table');
+		$easytable->load($id);
+		$_datatablename = $easytable->datatablename;
+		if($_datatablename == '')
+		{
+			$_datatablename = '#__easytables_table_data'.$id;
+		}
+		return $_datatablename;
+	}
+
+	/*
+		Get the primary key sql segment
+	 */
+	 function getPrimaryKeyForDataTable()
+	 {
+	 	$q = "SHOW KEYS FROM `".$this->getDataTableName()."` WHERE Key_name = 'PRIMARY'";
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,"Problems trying to get the primary key: ".$db);
+		}
+		$db->setQuery($q);
+
+		$pkeys = $db->loadAssocList();
+		$firstPrimary = $pkeys[0];
+		return '`'.$firstPrimary['Column_name'].'` AS `id`';
+	 }
+
 	/**
 	 * Register a hit
 	*/
@@ -95,9 +130,12 @@ class EasyTableModelEasyTable extends JModel
 				$orderField = $this->getOrderFieldMeta($id, $ofid);
 				
 				$searchFields = $this->getSearchFields($id); // Gets the alias of all text fields in table (URL & Image values are not searched)
-						
+
+				// Get the primary key (it's always ID in our tables but externals well…
+				$pKeySQL = $this->getPrimaryKeyForDataTable();
+
 				// As a default get the table data for this table
-				$newSearch = "SELECT `id`, `".$fields."` FROM #__easytables_table_data_$id";  // If there is no search parameter this will return the list view fields of all records
+				$newSearch = "SELECT ".$pKeySQL.", `".$fields."` FROM `".$this->getDataTableName().'`';  // If there is no search parameter this will return the list view fields of all records
 
 				if(($ffid) || ($search != '') || $user_filter_enabled) { // If theres a filter, user search text or user filter we will need to add a where clause.
 					$newSearch .= ' WHERE ';
@@ -344,6 +382,19 @@ class EasyTableModelEasyTable extends JModel
 			$this->_pagination = new JPagination($this->getTotal(), JRequest::getVar('limitstart',0), $limit );
 		}
 		return $this->_pagination;
+	}
+
+	function &getExternalData()
+	{
+		$id = (int)JRequest::getVar('id', 0);
+		$easytable =& JTable::getInstance('EasyTable','Table');
+		$easytable->load($id);
+		$_datatablename = $easytable->datatablename;
+		if($_datatablename == '')
+		{
+			$_datatablename = '#__easytables_table_data'.$id;
+		}
+		return TRUE;
 	}
 
 	/**

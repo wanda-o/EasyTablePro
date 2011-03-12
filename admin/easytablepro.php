@@ -20,6 +20,7 @@ $controller = new EasyTableController();
 /* Table Manager Fn's */
 $controller->registerTask('unpublish','publish');
 $controller->registerTask('apply', 'save');
+$controller->registerTask('linkTable','linkTable');
 
 /* Data Import Fn's */
 $controller->registerTask('createETDTable', 'save');

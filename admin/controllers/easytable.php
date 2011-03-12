@@ -42,10 +42,100 @@ class EasyTableController extends JController
 	
 	function edit()
 	{
-		 $this->checkOutEasyTable();
-		 
-		 JRequest::setVar('view', 'EasyTable');
-		 $this->display();
+		$this->checkOutEasyTable();
+		
+		JRequest::setVar('view', 'EasyTable');
+		$this->display();
+	}
+
+	/***************/
+	/* Link Table  */
+	/***************/
+	function linkTable()
+	{
+		$linkTable = JRequest::getVar('tablesForLinking');
+		// Create a linked table entry
+		$id = $this->createLinkedTableEntry($linkTable);
+		// Create Meta records
+		$this->createMetaForLinkedTable($linkTable, $id);
+
+		// and then parse them into our meta records.
+		JRequest::setVar('cid',array($id));
+		JRequest::setVar('task','edit');
+		JRequest::setVar('view', 'EasyTable');
+		$this->display();
+	}
+
+	function createLinkedTableEntry ($tableName)
+	{
+		JRequest::setVar('easytablealias',$tableName);
+		JRequest::setVar('easytablename',$tableName);
+		JRequest::setVar('defaultimagedir','/images/stories/');
+		JRequest::setVar('description', JText::sprintf ( 'LINKED_TO_DESC',$tableName));
+		JRequest::setVar('datatablename',$tableName);
+		$id = $this->saveApplyETdata();
+
+		return $id;
+	}
+
+	function createMetaForLinkedTable ($tableName, $id)
+	{
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,"Couldn't get the database object checking the existence of data table: $id");
+		}
+
+		$tablesArray = $db->getTableFields($tableName);
+		$fieldsArray = $tablesArray[$tableName];
+		$theColumnCount = count($fieldsArray);
+
+		// Construct the SQL
+		$insert_Meta_SQL_start = 'INSERT INTO `#__easytables_table_meta` ( `id` , `easytable_id` , `position` , `label` , `fieldalias`, `type` ) VALUES ';
+		$insert_Meta_SQL_row = '';
+
+		$pos_in_Array = 0;
+		foreach ( $fieldsArray as $fname=>$ftype )
+		{
+			if($pos_in_Array > 0) $insert_Meta_SQL_row .= ', ';
+			$ftypeAsInt = $this->convertType($ftype);
+			$insert_Meta_SQL_row .= "( NULL , '$id', '$pos_in_Array', '$fname', '$fname', '$ftypeAsInt')";
+			$pos_in_Array++;
+		}
+
+		// better terminate the statement
+		$insert_Meta_SQL_end = ';';
+		// pull it altogether
+		$insert_Meta_SQL = $insert_Meta_SQL_start.$insert_Meta_SQL_row.$insert_Meta_SQL_end;
+		// Run the SQL to insert the Meta records
+		$db->setQuery($insert_Meta_SQL);
+		$insert_Meta_result = $db->query();
+
+		if(!$insert_Meta_result)
+		{
+			JError::raiseError(500,'Meta insert failed for linked table: '.$id.'<BR />'.$db->explain());
+		}
+	}
+
+	function convertType($ftype)
+	{
+		switch ( $ftype )
+		{
+			case "int":
+			case "tinyint":
+			case "float":
+				$ftypeAsInt = 4;
+				break;
+			case "datetime":
+			case "time":
+				$ftypeAsInt = 5;
+				break;
+			default:
+				$ftypeAsInt = 0;
+				break;
+		}
+
+		return $ftypeAsInt;
 	}
 
 	/***************/
@@ -439,16 +529,18 @@ function toggleSearch()
 		{
 			$jAp->enqueueMessage(JText::_( 'NEW_DATA_DESC' ));
 			$ettd = FALSE;
+			$etet = FALSE;
 		}
 		else
 		{
 			// better check one exists...
 			$ettd = $this->ettdExists($id);
+			$etet = $this->etetExists($id);
 		}
 
 		// 1.3. If ETTD exists then update meta & load any new data if required
-		if($ettd)
-		{	// Lets update the meta data
+		if($ettd || $etet)
+		{ // Lets update the meta data
 			$updateMetaResult = $this->updateMeta();
 
 			if($updateMetaResult["status"])
@@ -566,17 +658,17 @@ function toggleSearch()
 		}
 		$row->modifiedby_ = $user->id;
 
+		// Apparently the Check() passed so we can bind the post data to the ET record
+		if (!$row->bind(JRequest::get('post',JREQUEST_ALLOWRAW)))
+		{
+			JError::raiseError(500, 'Error in saveApplyETdata() bind call-> '.$row->getError());
+		}
+
 		// 1.2 Check it
 		if (!$row->check())
 		{
 			JError::raiseError(500, 'Error in saveApplyETdata() -> Table Check() failed... call for help!');
 			return;
-		}
-
-		// Apparently the Check() passed so we can bind the post data to the ET record
-		if (!$row->bind(JRequest::get('post',JREQUEST_ALLOWRAW)))
-		{
-			JError::raiseError(500, 'Error in saveApplyETdata() bind call-> '.$row->getError());
 		}
 
 		// 1.3 Update modified and if necessary created datetime stamps
@@ -770,6 +862,22 @@ function toggleSearch()
 		return(in_array($db->getPrefix().'easytables_table_data_'.$id, $db->getTableList()));
 	}
 	
+	function etetExists($id)
+	{
+				 
+		// Check for the existence of a LINKED data table
+		$row =& JTable::getInstance('EasyTable', 'Table');
+
+		if(!$id){
+			$id = JRequest::getVar( 'id', 0);
+		}
+
+		$row->load($id);
+		if($row->datatablename) return TRUE;
+
+		return FALSE;
+	}
+
 	function uniqueInArray($ettdColumnAliass, $columnAlias, $maxLen= 64)
 	{
 		// Recursive function to make an URL safe string that isn't in the supplied array.
@@ -1029,6 +1137,9 @@ function toggleSearch()
 	
 	function alterEasyTableColumn ( $origFldAlias, $newFldAlias, $fieldType )
 	{
+		if(JRequest::getVar('et_linked_et')) // External tables we don't mess with — bad things will happen to your data if you take this out. You have been warned.
+			return true;
+
 		if( ($origFldAlias == '') || ($newFldAlias == '') || ($fieldType == '') || ($origFldAlias == null) || ($newFldAlias == null) || ($fieldType == null) || ($newFldAlias == 'id') )
 		{
 			return false;
@@ -1241,6 +1352,9 @@ function toggleSearch()
 	
 	function conformFieldAlias ($rawAlias)
 	{
+		// It's a linked table lets not change anything…
+		if(JRequest::getVar('et_linked_et')) return $rawAlias;
+
 		// Make the raw alias url safe & limit to 64 chars for mysql column names
 		$columnAlias = substr( JFilterOutput::stringURLSafe(trim( addslashes ( $rawAlias ))), 0, 64);
 		if($columnAlias == 'id') $columnAlias = 'tmp-id';

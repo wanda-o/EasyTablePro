@@ -80,56 +80,53 @@
 				$alt_rv = 0; $rowNumber = 0;
 				foreach ($this->paginatedRecords as $prow )  // looping through the rows of paginated data
 				{
-					$prowFNILV = $this->paginatedRecordsFNILV[$rowNumber++];
-					if($this->pagination->total == $prow->id)
+					if(is_object ( $prow ))
 					{
-						echo "<tr class='row$alt_rv et_last_row' id='row-$prow->id'>";  // Open the row
-					}
-					else
-					{
-						echo "<tr class='row$alt_rv' id='row-$prow->id'>";  // Open the row
-					}
-					$labelNumber = 0;
-				try {
-					foreach($prow as $k => $f)  // looping through the fields of the row
-					{
-						if(!($k == 'id'))
-						{	// we skip the row id which is in position 0
-							$cellData = '';				// make sure cellData is empty before we start this cell.
-							$cellClass    = $this->easytables_table_meta[$labelNumber][1];
-							$cellType     = (int)$this->easytables_table_meta[$labelNumber][2];
-							$cellDetailLink = (int)$this->easytables_table_meta[$labelNumber][3];
-							$cellOptions = $this->easytables_table_meta[$labelNumber++][5];  // we increment labelnumber for next pass.
-							$cellData = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $prowFNILV); //getFWO($field,$type,$params,$row,$rowFNILV)
-
-							if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
-							{
-								$linkToDetail = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&view=easytablerecord&id='.$this->tableId.':'.$this->easytable->easytablealias.'&rid='.$rowId);
-								$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
-								$cellDetailLink ='';
-							}														// End of detail link If
-							// Finally we can echo the cell string.
-							echo "<td class='colfld ".$cellClass."'>".trim($cellData).'</td>';
-						}
-						else // we store the rowID for possible use in a detaillink
+						$prowFNILV = $this->paginatedRecordsFNILV[$rowNumber++];
+						if($this->pagination && ($this->pagination->total == $prow->id))
 						{
-							$rowId = (int)$f;
-							//echo '<BR />'.$k.' == '.$f;
-						}														// End of field check for 'id' If 
-						// End of row stuff should follow after this.
-						unset($f);
-					}	// End of foreach for field in row
-				}	// End of try
-				catch (Exception $e)
-				{
-					echo($e->getMessage());
-				}
-					echo '</tr>';  // Close the Row
-					$alt_rv = (int)!$alt_rv;
-					$k = '';
-					$rowId = '';   // Clear the rowId to prevent any issues.
-					unset($prow);
-					unset($prowFNILV);
+							echo "<tr class='row$alt_rv et_last_row' id='row-$prow->id'>";  // Open the row
+						}
+						else
+						{
+							echo '<tr class=\'row'.$alt_rv.'\' id=\'row-'.$prow->id.'\'>';  // Open the row
+						}
+						$labelNumber = 0;
+						foreach($prow as $k => $f)  // looping through the fields of the row
+						{
+							if(!($k == 'id'))
+							{	// we skip the row id which is in position 0
+								$cellData = '';				// make sure cellData is empty before we start this cell.
+								$cellClass    = $this->easytables_table_meta[$labelNumber][1];
+								$cellType     = (int)$this->easytables_table_meta[$labelNumber][2];
+								$cellDetailLink = (int)$this->easytables_table_meta[$labelNumber][3];
+								$cellOptions = $this->easytables_table_meta[$labelNumber++][5];  // we increment labelnumber for next pass.
+								$cellData = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $prowFNILV); //getFWO($field,$type,$params,$row,$rowFNILV)
+	
+								if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
+								{
+									$linkToDetail = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&view=easytablerecord&id='.$this->tableId.':'.$this->easytable->easytablealias.'&rid='.$rowId);
+									$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
+									$cellDetailLink ='';
+								}														// End of detail link If
+								// Finally we can echo the cell string.
+								echo "<td class='colfld ".$cellClass."'>".trim($cellData).'</td>';
+							}
+							else // we store the rowID for possible use in a detaillink
+							{
+								$rowId = (int)$f;
+								//echo '<BR />'.$k.' == '.$f;
+							}														// End of field check for 'id' If 
+							// End of row stuff should follow after this.
+							unset($f);
+						}	// End of foreach for field in row
+						echo '</tr>';  // Close the Row
+						$alt_rv = (int)!$alt_rv;
+						$k = '';
+						$rowId = '';   // Clear the rowId to prevent any issues.
+						unset($prow);
+						unset($prowFNILV);
+					}
 				}	// End of foreach for rows
 			?>
 		</tbody>

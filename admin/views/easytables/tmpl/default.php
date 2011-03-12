@@ -15,6 +15,8 @@ defined('_JEXEC') or die('Restricted Access');
 	JToolBarHelper::editList();
 	JToolBarHelper::deleteList(JText::_( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' ));
 	JToolBarHelper::addNew();
+	$toolbar=& JToolBar::getInstance( 'toolbar' );
+	$toolbar->appendButton( 'Popup', 'linkTable', 'Link Table', 'index.php?option=com_easytablepro&view=easytablelink&tmpl=component', 500, 280 );
 	JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 420 );
 ?>
 <div id="et-versionCheck" style="text-size:0.9em;text-align:center; color:grey;position:relative;z-index:1;" >
@@ -68,6 +70,7 @@ defined('_JEXEC') or die('Restricted Access');
 		$rowParamsObj = new JParameter ($row->params);
 		$locked = ($row->checked_out && ($row->checked_out != $user->id));
 		$published = $this->publishedIcon($locked, $row, $i);
+		$etet = $row->datatablename?true:false;
 		
 		$searchableFlag = $rowParamsObj->get('searchable_by_joomla');
 		$searchableImage  = $this->getSearchableTick( $i, $searchableFlag, $locked );
@@ -81,13 +84,13 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo JHTML::_( 'grid.checkedout', $row, $i ); ?>
 			</td>
 			<td>
-				<?php echo $this->getEditorLink($locked,$i,$row->easytablename) ?>
+				<?php echo $this->getEditorLink($locked,$i,$row->easytablename); ?>
 			</td>
 			<td>
-				<?php echo $this->getDataEditorIcon($locked,$i,$row->id,$row->easytablename) ?>
+				<?php echo $this->getDataEditorIcon($locked,$i,$row->id,$row->easytablename,$etet); ?>
 			</td>
 			<td>
-				<?php echo $this->getDataUploadIcon($locked,$i,$row->id,$row->easytablename) ?>
+				<?php echo $this->getDataUploadIcon($locked,$i,$row->id,$row->easytablename,$etet); ?>
 			</td>
 			<td>
 				<?php echo $published; ?>

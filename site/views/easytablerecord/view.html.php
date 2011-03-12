@@ -65,7 +65,7 @@ class EasyTableViewEasyTableRecord extends JView
 	{
 		// Convert the list of meta records into the list of fields that can be used in the SQL
 		$fields = array();
-		$fields[] = 'id'; //put the id in first for accessing detail view of a table row
+		$fields[] = ' `'.$this->getKeyFieldName().'` AS `id'; //put the primary key as id in first for accessing detail view of a table row
 
 		foreach($metaArray as $aRow) 
 		{
@@ -92,7 +92,7 @@ class EasyTableViewEasyTableRecord extends JView
 	{
 		// Convert the list of meta records into the list of fields that can be used in the SQL
 		$fields = array();
-		$fields[] = 'id'; //put the id in first for accessing detail view of a table row
+		$fields[] = ' `'.$this->getKeyFieldName().'` AS `id'; //put the primary key as id in first for accessing detail view of a table row
 
 		foreach($metaArray as $aRow) 
 		{
@@ -177,6 +177,34 @@ class EasyTableViewEasyTableRecord extends JView
 		return $this->recordLink($tableId, $tableAlias, $currentRecordId, TRUE);
 	}
 
+	function getDataTableName()
+	{
+		$id = (int)JRequest::getVar('id', 0);
+		$easytable =& JTable::getInstance('EasyTable','Table');
+		$easytable->load($id);
+		$_datatablename = $easytable->datatablename;
+		if($_datatablename == '')
+		{
+			$_datatablename = '#__easytables_table_data'.$id;
+		}
+		return $_datatablename;
+	}
+
+	function getKeyFieldName()
+	{
+	 	$q = "SHOW KEYS FROM `".$this->getDataTableName()."` WHERE Key_name = 'PRIMARY'";
+		// Get a database object
+		$db =& JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,"Problems trying to get the primary key: ".$db);
+		}
+		$db->setQuery($q);
+
+		$pkeys = $db->loadAssocList();
+		$firstPrimary = $pkeys[0];
+		return $firstPrimary['Column_name'];
+	}
+
 	function recordLink($tableId=0,$tableAlias='',$currentRecordId=0,$next=FALSE)
 	{
 		// Next record?
@@ -199,11 +227,12 @@ class EasyTableViewEasyTableRecord extends JView
 		}
 
 		// Build the table name - in prep for using any DB table in ETPro
-		$currentTable = $db->nameQuote( '#__easytables_table_data_'.$tableId );
+		$currentTable = $db->nameQuote( $this->getDataTableName() );
 
 		// Assemble the SQL to get the previous record if it exists. Along the lines of:
 		// select id from jos_easytables_table_data_2 where `id` < 11 order by `id` desc limit 1
-		$selectSQLQuery = 'select `id` from '.$currentTable.' where `id` '.$eqSym.' '.$currentRecordId.' order by `id` '.$sortOrder.' limit 1';
+		$kfid_name = $this->getKeyFieldName();
+		$selectSQLQuery = 'select `'.$kfid_name.'` from '.$currentTable.' where `'.$kfid_name.'` '.$eqSym.' '.$currentRecordId.' order by `'.$kfid_name.'` '.$sortOrder.' limit 1';
 		// Get the record
 		$db->setQuery($selectSQLQuery);
 
@@ -318,7 +347,7 @@ class EasyTableViewEasyTableRecord extends JView
 		 * Get the specific DATA record using sql of detail_view fields
 		 *
 		 */
-		$query = "SELECT `".$fields."` FROM ".$db->nameQuote('#__easytables_table_data_'.$id)." WHERE id=$rid;";
+		$query = "SELECT ".$fields."` FROM ".$db->nameQuote($this->getDataTableName())." WHERE ".$this->getKeyFieldName()."=$rid;";
 		$db->setQuery($query);
 		$easytables_table_record =$db->loadRow();
 		$db->setQuery($query);
@@ -412,7 +441,7 @@ class EasyTableViewEasyTableRecord extends JView
 				 * Get the specific DATA record using sql for fields NOT in the detail_view
 				 *
 				 */
-				$query = "SELECT `".$fields_NIV."` FROM ".$db->nameQuote('#__easytables_table_data_'.$id)." WHERE id=$rid;";
+				$query = "SELECT ".$fields_NIV."` FROM ".$db->nameQuote($this->getDataTableName())." WHERE ".$this->getKeyFieldName()."=$rid;";
 				$db->setQuery($query);
 				$easytables_table_record_FNILV =$db->loadAssoc();
 				// Get the fields of the linked records that are not shown in the list view
