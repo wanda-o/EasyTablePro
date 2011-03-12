@@ -416,7 +416,7 @@ class EasyTableController extends JController
 
 			foreach ($cid as $id)
 			{
-				if($this->ettdExists($id))
+				if(($this->ettdExists($id)) || $this->etetExists($id))
 				{ $s_array[] = $id;}
 				else
 				{ $f_array[] = $id;}
