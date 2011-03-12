@@ -220,7 +220,7 @@ class EasyTableController extends JController
 
 		global $option;
 		// Go back to the table page
-		$this->setRedirect('index.php?option='.$option.'&task=editdata&cid[]='.$id, '<p style="margin-left:35px">'.$this->msg.'</p>' );
+		$this->setRedirect('index.php?option='.$option.'&task=editdata&cid[]='.$id, $this->msg );
 	}
 
 	function applyRecord()
@@ -278,10 +278,10 @@ class EasyTableController extends JController
 		global $option;
 		if(($ctask == 'applyRecord') || ($ctask == 'applyNewRecord')) {
 		// Go back to the record page
-			$this->setRedirect('index.php?option='.$option.'&task=editrow&cid[]='.$rid.'&id='.$id, '<p style="margin-left:35px">'.$this->msg.'</p>' );
+			$this->setRedirect('index.php?option='.$option.'&task=editrow&cid[]='.$rid.'&id='.$id, $this->msg );
 		} else {
 		// Go back to the table page
-			$this->setRedirect('index.php?option='.$option.'&task=editdata&cid[]='.$id, '<p style="margin-left:35px">'.$this->msg.'</p>' );
+			$this->setRedirect('index.php?option='.$option.'&task=editdata&cid[]='.$id, $this->msg );
 		}
 	}
 
@@ -361,25 +361,25 @@ class EasyTableController extends JController
 			{
 				JError::raiseError(500, JText::sprintf( 'COULD_NOT_REM_DESC', $id));
 			}
-			$msg .= '<BR />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1) Meta data removed. id= '.$id;
+			$msg .= '<BR />(1) Meta data removed. id= '.$id;
 			if($this->ettdExists($id))
 			{
 				if(!$this->removeETTD($id))
 				{
 					JError::raiseError(500, 'Could not remove ETTD data table: '.$id);
 				}
-				$msg .= '<BR />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2) ETTD data table removed. id= '.$id;
+				$msg .= '<BR />(2) ETTD data table removed. id= '.$id;
 			}
 			else
 			{
-				$msg .= '<BR />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2) No ETTD data table found for id ='.$id;
+				$msg .= '<BR />(2) No ETTD data table found for id ='.$id;
 			}
 			
 			if (!$row->delete($id))
 			{
 				JError::raiseError(500, $row->getError());
 			}
-			$msg .= '<BR />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(3) ET Table record removed. id= '.$id;
+			$msg .= '<BR />(3) ET Table record removed. id= '.$id;
 		}
 		$s = '';
 		
@@ -512,12 +512,11 @@ function toggleSearch()
 		$currentTask = $this->getTask();
 		
 		// 1.1 Save/Apply tasks
-		$this->msg = '<div>';
 		global $option;
 
 		if($id = $this->saveApplyETdata())
 		{
-			$this->msg .= '<p style=\'font-size:14px;margin:0px;\'>Changes Applied</p><p style=\'margin:0px;margin-left:30px;\'>';
+			$jAp->enqueueMessage(JText::_( 'TABLE_RECORD_DESC' ));
 		}
 
 		// Get a reference to a file if it exists, and load it into an array
@@ -621,22 +620,20 @@ function toggleSearch()
 			}
 		}
 
-		$this->msg .= '</p></div>';
-
 		switch ($currentTask) {
 		case 'apply':
-			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, '<p style="margin-left:35px">'.$this->msg.'</p>' );
+			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, $this->msg );
 			break;
 		case 'save':
 			// Now that all the saving is done we can checkIN the table
 			$this->checkInEasyTable();
-			$this->setRedirect('index.php?option='.$option, '<p style="margin-left:35px">'.$this->msg.'</p>' );
+			$this->setRedirect('index.php?option='.$option, $this->msg );
 			break;
 		case 'createETDTable':
-			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id.'&from=create', '<p style="margin-left:35px">'.$this->msg.'</p>' );
+			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id.'&from=create', $this->msg );
 			break;
 		case 'updateETDTable':
-			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, '<p style="margin-left:35px">'.$this->msg.'</p>' );
+			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, $this->msg );
 			break;
 		}
 	}
@@ -1323,7 +1320,7 @@ function toggleSearch()
 
 			if(!$insert_Meta_result)
 			{
-				JError::raiseError(500,'Meta insert failed for table: '.$id.'<BR />'.$msg);
+				JError::raiseError(500,'Meta insert failed for table: '.$id.'<BR />'.$msg.'<BR />'.$db->explain());
 			}
 		}
 		else
