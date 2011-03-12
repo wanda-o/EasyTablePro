@@ -49,7 +49,14 @@ function AliassAreUnique() {
 			the_NewIds == '' ? the_NewIds = '' : the_NewIds = 'fieldalias_nf_' + the_NewIds;
 			the_NewIds = the_NewIds.split(', ').join(', fieldalias_nf_').split(', ');
 		}
-		the_RIds = the_MRIds.concat(the_NewIds);
+		if(the_NewIds != "")
+		{
+			the_RIds = the_MRIds.concat(the_NewIds);
+		}
+		else
+		{
+			the_RIds = the_MRIds;
+		}
 
 		// Build an array of alias'
 		aliasArray = [];
