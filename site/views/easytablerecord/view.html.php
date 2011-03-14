@@ -7,8 +7,8 @@
  */
 defined('_JEXEC') or die('Restricted Access');
 jimport('joomla.application.component.view');
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
-$pvf = ''.JPATH_COMPONENT_SITE.DS.'views'.DS.'viewfunctions.php';
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
+$pvf = ''.JPATH_COMPONENT_SITE.'/views/viewfunctions.php';
 require_once $pvf;
 
 class EasyTableViewEasyTableRecord extends JView
@@ -333,7 +333,7 @@ class EasyTableViewEasyTableRecord extends JView
 		$doc =& JFactory::getDocument();
 		if(ET_VHelper::hasEmailType($easytables_table_meta))
 		{
-			$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'easytablepro.js');
+			$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/assets/easytablepro.js');
 		}
 
 		// Convert the list of meta records into the list of fields that can be used in the SQL

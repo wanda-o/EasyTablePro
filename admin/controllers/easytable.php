@@ -17,7 +17,7 @@ jimport('joomla.application.component.controller');
  * @package    EasyTables
  * @subpackage Controllers
  */
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
 jimport('joomla.application.component.controller');
 class EasyTableController extends JController
 {
@@ -777,7 +777,7 @@ function toggleSearch()
 			 
 			//Set up the source and destination of the file
 			$src = $file['tmp_name'];
-			$dest = JPATH_COMPONENT_ADMINISTRATOR . DS . "uploads" . DS . $origFilename;
+			$dest = JPATH_COMPONENT_ADMINISTRATOR.'/uploads/'.$origFilename;
 	
 			if ( JFile::upload($src, $dest) ) {
 				//Process the file

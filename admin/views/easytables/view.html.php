@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 jimport( 'joomla.application.component.view');
 
-$pvf = ''.JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'viewfunctions.php';
+$pvf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/views/viewfunctions.php';
 require_once $pvf;
 
 /**
@@ -38,7 +38,7 @@ class EasyTableViewEasyTables extends JView
 	function publishedIcon ($locked, $row, $i)
 	{
 		$btn_text = JText::_( ( $row->published ? 'PUBLISHED_BTN':'UNPUBLISHED_BTN') ).' \''.$row->easytablename.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
-		$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'publish_g.png';
+		$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( $locked ? 'disabled_' : '' ).'publish_g.png';
 		$theBtn = '<span  class="hasTip" title="'.$btn_text.'" style="margin-left:15px;" ><img src="'.$theImageURL.'" border="0" ></span>';
 
 		if( !$locked )
@@ -55,12 +55,12 @@ class EasyTableViewEasyTables extends JView
 		if($extTable)
 		{
 			$btn_text = JText::sprintf ( 'LINKED_TABLE_NO_DATA_EDITING' , $tableName);
-			$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/disabled_edit.png';
+			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/disabled_edit.png';
 		}
 		else
 		{
 			$btn_text = JText::_( 'EDIT_TABLE_DATA_IN_' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
-			$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'edit.png';
+			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( $locked ? 'disabled_' : '' ).'edit.png';
 		}
 
 		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'EDIT_RECORDS' ).'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
@@ -78,12 +78,12 @@ class EasyTableViewEasyTables extends JView
 		if($extTable)
 		{
 			$btn_text = JText::sprintf ( 'LINKED_TABLE_NO_UPLOAD' , $tableName);
-			$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/disabled_upload.png';
+			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/disabled_upload.png';
 		}
 		else
 		{
 			$btn_text = JText::_( 'UPLOAD_NEW_DESC' ).' \''.$tableName.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
-			$theImageURL = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' ).'upload.png';
+			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( $locked ? 'disabled_' : '' ).'upload.png';
 		}
 
 		$theBtn = '<span class="hasTip" title="'.JText::_( 'UPLOAD_DATA' ).'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
@@ -99,7 +99,7 @@ class EasyTableViewEasyTables extends JView
 	function getSearchableTick ($rowId, $flag, $locked=true)
 	{
 		$btn_text = '';
-		$theImageString = 'components'.DS.'com_'._cppl_this_com_name.DS.'assets/images/'.( $locked ? 'disabled_' : '' );
+		$theImageString = 'components/com_'._cppl_this_com_name.'/assets/images/'.( $locked ? 'disabled_' : '' );
 		if( $flag == '' )
 		{
 			$theImageString .= 'GlobalIcon16x16.png';
@@ -131,8 +131,8 @@ class EasyTableViewEasyTables extends JView
 	{
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
-		$doc->addStyleSheet(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS._cppl_base_com_name.'.css');
-		$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS._cppl_base_com_name.'.js');
+		$doc->addStyleSheet(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.css');
+		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.js');
 		
 		/**
 		 *

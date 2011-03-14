@@ -207,7 +207,7 @@ defined('_JEXEC') or die('Restricted Access');
 								<th class="hasTip" title="<?php echo JText::_( 'LIST_VIEW_DESC' ); ?>" ><?php echo JText::_( 'LIST_VIEW' ); ?></th>
 								<th class="hasTip" title="<?php echo JText::_( 'DETAIL_LINK_DESC' ); ?>" ><?php echo JText::_( 'DETAIL_LINK' ); ?></th>
 								<th class="hasTip" title="<?php echo JText::_( 'DETAIL_VIEW_DESC' ); ?>" ><?php echo JText::_( 'DETAIL_VIEW' ); ?></th>
-								<th class="hasTip" title="<?php echo JText::_( 'SEARCHABLE__THI_DESC' ); ?>" ><?php echo '<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'search.png" alt="'.JText::_( 'INCLUDE_IN_SEARCH' ).'"'; ?></th>
+								<th class="hasTip" title="<?php echo JText::_( 'SEARCHABLE__THI_DESC' ); ?>" ><?php echo '<img src="components/com_'._cppl_this_com_name.'/assets/images/search.png" alt="'.JText::_( 'INCLUDE_IN_SEARCH' ).'"'; ?></th>
 							</tr>
 						</thead>
 						<tbody id='et_meta_table_rows'>
@@ -235,7 +235,7 @@ defined('_JEXEC') or die('Restricted Access');
 									{
 										echo ('<span  class="hasTip" title="'.JText::_( 'ALIAS___T_DESC' ).'"><input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.
 										'<input type="text" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" onchange="validateAlias(this)" disabled >'.
-										'<img src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'locked.gif" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></span></td>');		// alias
+										'<img src="components/com_'._cppl_this_com_name.'/assets/images/locked.gif" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></span></td>');		// alias
 									}
 									echo('<td><textarea cols="30" rows="2" name="description'.$mRId.'" class="hasTip" title="'.JText::_( 'DESCRIPTION__TH_DESC' ).'" >'.$metaRow[4].'</textarea></td>');				// Description
 									echo('<td>'.$this->getTypeList($mRId, $metaRow[5]).'<BR />'.
@@ -277,7 +277,7 @@ defined('_JEXEC') or die('Restricted Access');
 									$k = 1 - $k;
 								}
 							}
-							if(!$this->etet) echo('<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" onclick="addField()"><img class="et_addField" src="components'.DS.'com_'._cppl_this_com_name.DS.'assets'.DS.'images'.DS.'icon-add.png" alt="'.JText::_( 'ADD_A_NEW_FIELD_' ).'"></a><input type="hidden" name="newFlds" id="newFlds" value=""><input type="hidden" name="deletedFlds" id="deletedFlds" value=""></td><td colspan=2><a href="javascript:void(0);" onclick="addField()">'.JText::_('PLUS_NEW_FIELD').'</a></td><td colspan=6><em>'.JText::_('CLICK_THE_PLUS_SIGN_TO_ADD_A_NEW_FIELD_').'</em></td></tr>');
+							if(!$this->etet) echo('<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" onclick="addField()"><img class="et_addField" src="components/com_'._cppl_this_com_name.'/assets/images/icon-add.png" alt="'.JText::_( 'ADD_A_NEW_FIELD_' ).'"></a><input type="hidden" name="newFlds" id="newFlds" value=""><input type="hidden" name="deletedFlds" id="deletedFlds" value=""></td><td colspan=2><a href="javascript:void(0);" onclick="addField()">'.JText::_('PLUS_NEW_FIELD').'</a></td><td colspan=6><em>'.JText::_('CLICK_THE_PLUS_SIGN_TO_ADD_A_NEW_FIELD_').'</em></td></tr>');
 							echo '<input type="hidden" id="mRIds" name="mRIds" value="'.implode(', ',$mRIds).'">';
 						?>
 						</tbody>

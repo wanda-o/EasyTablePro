@@ -7,8 +7,8 @@
  */
 defined('_JEXEC') or die('Restricted Access');
 jimport('joomla.application.component.view');
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
-$pvf = ''.JPATH_COMPONENT_SITE.DS.'views'.DS.'viewfunctions.php';
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
+$pvf = ''.JPATH_COMPONENT_SITE.'/views/viewfunctions.php';
 require_once $pvf;
 
 class EasyTableViewEasyTableRecord extends JView
@@ -79,8 +79,8 @@ class EasyTableViewEasyTableRecord extends JView
 
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
-		$doc->addScript(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS._cppl_base_com_name.'data.js');
-		$doc->addStyleSheet(JURI::base().'components'.DS.'com_'._cppl_this_com_name.DS._cppl_base_com_name.'.css');
+		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'data.js');
+		$doc->addStyleSheet(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.css');
 
 		// Get a database object
 		$db =& JFactory::getDBO();

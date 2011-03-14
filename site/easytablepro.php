@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted Access');
 define("_cppl_base_com_name","easytable");
 define("_cppl_this_com_name","easytablepro");
 
-require_once(JPATH_COMPONENT.DS.'controllers'.DS.'easytable.php');
+require_once(JPATH_COMPONENT.'/controllers/easytable.php');
 
 $controller = new EasyTableController();
 $controller->execute( $task );

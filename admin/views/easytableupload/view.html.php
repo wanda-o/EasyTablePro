@@ -110,7 +110,7 @@ class EasyTableVieweasytableupload extends JView
 		
 		// Parameters for this table instance
 		$paramsdata = $row->params;
-		$paramsdefs = JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'easytable.xml';
+		$paramsdefs = JPATH_COMPONENT_ADMINISTRATOR.'/models/easytable.xml';
 		$params = new JParameter( $paramsdata, $paramsdefs );
 		
 		$this->assignRef('params', $params);

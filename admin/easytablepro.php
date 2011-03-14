@@ -14,7 +14,7 @@
 defined('_JEXEC') or die('Restricted Access');
 define("_cppl_base_com_name","easytable");    // REMEMBER: we can't use defined values in installer obj
 define("_cppl_this_com_name","easytablepro"); // REMEMBER: so you must update install/uninstall manually
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'controllers'.DS.'easytable.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.'/controllers/easytable.php');
 
 $controller = new EasyTableController();
 /* Table Manager Fn's */
