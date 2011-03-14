@@ -185,7 +185,7 @@ class EasyTableViewEasyTableRecord extends JView
 		$_datatablename = $easytable->datatablename;
 		if($_datatablename == '')
 		{
-			$_datatablename = '#__easytables_table_data'.$id;
+			$_datatablename = '#__easytables_table_data_'.$id;
 		}
 		return $_datatablename;
 	}

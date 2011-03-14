@@ -39,7 +39,7 @@ class EasyTableModelEasyTable extends JModel
 		$_datatablename = $easytable->datatablename;
 		if($_datatablename == '')
 		{
-			$_datatablename = '#__easytables_table_data'.$id;
+			$_datatablename = '#__easytables_table_data_'.$id;
 		}
 		return $_datatablename;
 	}
@@ -49,7 +49,7 @@ class EasyTableModelEasyTable extends JModel
 	 */
 	 function getPrimaryKeyForDataTable()
 	 {
-	 	$q = "SHOW KEYS FROM `".$this->getDataTableName()."` WHERE Key_name = 'PRIMARY'";
+		$q = "SHOW KEYS FROM `".$this->getDataTableName()."` WHERE Key_name = 'PRIMARY'";
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
