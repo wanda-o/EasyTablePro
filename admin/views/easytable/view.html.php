@@ -136,11 +136,14 @@ class EasyTableViewEasyTable extends JView
 
 		JRequest::setVar( 'hidemainmenu', 1 );
 
+		//get the current task
+		$et_task = JRequest::getVar('task');
+
 		//get the EasyTable
 		$row =& JTable::getInstance('EasyTable', 'Table');
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
 		$id = $cid[0];
-		if($id == 0)
+		if(($id == 0) && ($et_task != 'add'))
 		{
 			$datatablename = JRequest::getVar('datatablename','');
 			if($datatablename == "")
