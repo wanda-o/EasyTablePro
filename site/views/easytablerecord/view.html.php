@@ -300,6 +300,14 @@ class EasyTableViewEasyTableRecord extends JView
 		$fields = implode('`, `', $this->fieldAliassForDetail($easytables_table_meta, $kf_id) );
 		// Also get the fields not in the detail view
 		$fields_NIV = implode('`, `', $this->fieldAliassForDetail_NIV($easytables_table_meta, $kf_id) );
+		/*
+		 *
+		 * Get the specific DATA record using sql for fields NOT in the detail_view
+		 *
+		 */
+		$query = "SELECT `".$fields_NIV."` FROM ".$db->nameQuote('#__easytables_table_data_'.$id)." WHERE id=$rid;";
+		$db->setQuery($query);
+		$easytables_table_record_FNILV =$db->loadAssoc();
 
 		/*
 		 *
@@ -384,14 +392,6 @@ class EasyTableViewEasyTableRecord extends JView
 			$this->assign('tableHasRecords', $tableHasRecords);
 			if($tableHasRecords)
 			{
-				/*
-				 *
-				 * Get the specific DATA record using sql for fields NOT in the detail_view
-				 *
-				 */
-				$query = "SELECT `".$fields_NIV."` FROM ".$db->nameQuote('#__easytables_table_data_'.$id)." WHERE id=$rid;";
-				$db->setQuery($query);
-				$easytables_table_record_FNILV =$db->loadAssoc();
 				// Get the fields of the linked records that are not shown in the list view
 				$linked_fields_to_get_FNILV = implode('`, `', $this->fieldAliassForList_NIV($linked_table_meta,$lkf_id) );
 				$linked_records_FNILV_SQL = "SELECT `$linked_fields_to_get_FNILV` FROM `#__easytables_table_data_$lt_id` WHERE `$lkf_alias` = '$kf_search_value'";
