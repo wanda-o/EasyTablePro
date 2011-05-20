@@ -28,7 +28,7 @@ class ET_VHelper
 		{
 			$paramsObj = new JParameter ($params);
 			$rawFieldOptions = $paramsObj->get('fieldoptions','');
-			if(strlen ( $rawFieldOptions )){
+			if(strlen ( $rawFieldOptions ) > 1){
 				$fieldOptions = pack("H*", substr ( $rawFieldOptions, 1 ));
 			}
 		}
