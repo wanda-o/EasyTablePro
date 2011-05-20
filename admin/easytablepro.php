@@ -42,6 +42,9 @@ $controller->registerTask('applyNewRecord', 'applyRecord');
 $controller->registerTask('cancelRecord', 'cancelRecord');
 $controller->registerTask('cancelNewRecord', 'cancelRecord');
 
+/* Operation Preferences */
+$controller->registerTask('applyPreferences','savePreferences');
+
 $controller->execute( $task );
 
 $controller->redirect();
