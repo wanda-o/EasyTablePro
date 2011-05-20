@@ -277,8 +277,9 @@ class EasyTableViewEasyTableRecord extends JView
 		$menuitemid = JRequest::getInt( 'Itemid' );
 		if ($menuitemid)
 		{
-			$menu = JSite::getMenu();
-			$menuparams = $menu->getParams( $menuitemid );
+			$menus = JSite::getMenu();
+			$menu  = $menus->getActive();
+			$menuparams = $menus->getParams( $menuitemid );
 			$params->merge( $menuparams );
 		}
 
