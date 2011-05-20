@@ -19,6 +19,9 @@ jimport('joomla.application.component.controller');
  */
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
 jimport('joomla.application.component.controller');
+$pmf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
+require_once $pmf;
+
 class EasyTableController extends JController
 {
 	public $msg;
@@ -45,6 +48,117 @@ class EasyTableController extends JController
 		$this->checkOutEasyTable();
 		
 		JRequest::setVar('view', 'EasyTable');
+		$this->display();
+	}
+
+	function settings()
+	{
+		JRequest::setVar('view', 'EasyTablePreferences');
+		$this->display();
+	}
+
+	function savePreferences()
+	{
+		// Time to grab ye olde preferences and store them…
+		$paramsObj = ET_MgrHelpers::getSettings();							// Get the params obj for the component settings
+
+		$allThePostData = JRequest::get('');							// Get the data from the settings form
+
+		// If the forms data is different from the existing Params we update them
+
+		//Allow Settings Access — who can change these settings?
+		if(isset ( $allThePostData['allowAccess'] ))
+		{
+			$newSettings = $allThePostData['allowAccess'];
+			array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
+		}
+		else
+		{
+			$newSettings = array('Super Administrator');
+		}
+		$paramsObj->set('allowAccess', implode ( ',', $newSettings));
+
+		//Allow Table Linking Access — who can change these settings?
+		if(isset ( $allThePostData['allowLinkingAccess'] ))
+		{
+			$newSettings = $allThePostData['allowLinkingAccess'];
+			array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
+		}
+		else
+		{
+			$newSettings = array('Super Administrator');
+		}
+		$paramsObj->set('allowLinkingAccess', implode ( ',', $newSettings));
+
+		//Allow Table Management
+		if(isset ( $allThePostData['allowTableManagement'] ))
+		{
+			$newSettings = $allThePostData['allowTableManagement'];
+			array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
+		}
+		else
+		{
+			$newSettings = array('Super Administrator');
+		}
+		$paramsObj->set('allowTableManagement', implode ( ',', $newSettings));
+
+		//Allow Table Data Uploads
+		if(isset ( $allThePostData['allowDataUpload'] ))
+		{
+			$newSettings = $allThePostData['allowDataUpload'];
+			array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
+		}
+		else
+		{
+			$newSettings = array('Super Administrator');
+		}
+		$paramsObj->set('allowDataUpload', implode ( ',', $newSettings));
+
+		//Allow Table Data Editing
+		if(isset ( $allThePostData['allowDataEditing'] ))
+		{
+			$newSettings = $allThePostData['allowDataEditing'];
+			array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
+		}
+		else
+		{
+			$newSettings = array('Super Administrator');
+		}
+		$paramsObj->set('allowDataEditing', implode ( ',', $newSettings));
+
+		//Max File Size
+		if($paramsObj->get('maxFileSize') != $allThePostData['maxFileSize']) {
+			$paramsObj->set('maxFileSize',$allThePostData['maxFileSize']);
+		}
+
+		//Chunk Size
+		if($paramsObj->get('chunkSize') != $allThePostData['chunkSize']) {
+			$paramsObj->set('chunkSize',$allThePostData['chunkSize']);
+		}
+
+		//Restricted Tables
+		$newRestrictedTables = ET_MgrHelpers::convertToOneLine(trim($allThePostData['restrictedTables']));
+		if($paramsObj->get('restrictedTables') != $newRestrictedTables) {
+			$paramsObj->set('restrictedTables',$newRestrictedTables);
+		}
+
+		//Uninstall Type
+		dump( $allThePostData['uninstall_type'],'uninstall_type');
+		if($paramsObj->get('uninstall_type') != $allThePostData['uninstall_type']) {
+			$paramsObj->set('uninstall_type',$allThePostData['uninstall_type']);
+		}
+
+		$jAp=& JFactory::getApplication();
+		if( ET_MgrHelpers::setSettings($paramsObj) )
+		{
+			$jAp->enqueueMessage(JText::_( 'Setting successfully updated.' ));
+		}
+		else
+		{
+			$jAp->enqueueMessage(JText::_( 'Settings FAILED to update.' ),'error');
+		}
+
+		if(JRequest::getVar('task')=='applyPreferences') JRequest::setVar('view', 'EasyTablePreferences');
 		$this->display();
 	}
 

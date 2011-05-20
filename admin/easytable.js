@@ -422,6 +422,7 @@ function submitbutton(pressbutton)
 		pressbutton == 'remove' ||
 		pressbutton == 'add' ||
 		pressbutton == 'toggleSearch' ||
+		pressbutton == 'settings' ||
 		pressbutton == 'cancel')
 	{
 		submitform(pressbutton);
