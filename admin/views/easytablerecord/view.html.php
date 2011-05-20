@@ -79,7 +79,7 @@ class EasyTableViewEasyTableRecord extends JView
 
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
-		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'data.js');
+		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/assets/js/'._cppl_base_com_name.'data.js');
 		$doc->addStyleSheet(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.css');
 
 		// Get a database object
