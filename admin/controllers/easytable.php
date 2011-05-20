@@ -1111,7 +1111,7 @@ function toggleSearch()
 	{
 		$msg = 'Starting field additions.<BR />';
 		$id = JRequest::getInt('id',0);
-		$tableName = 'jos_easytables_table_data_'.$id;
+		$tableName = '#__easytables_table_data_'.$id;
 		$newFldsArray = explode(', ', $newFlds);
 		$newFldsAlterArray = array();
 		// Process new fields
@@ -1119,7 +1119,7 @@ function toggleSearch()
 		
 		// 1.0 Process new fields array
 	    // Create 'insert' SQL for new meta record(s) from post data
-	    $insertSQL = '	INSERT INTO `jos_easytables_table_meta` (`easytable_id`, `position`, `label`, `description`, `type`, `list_view`, `detail_link`, `detail_view`, `fieldalias`, `params`) VALUES ';
+	    $insertSQL = '	INSERT INTO `#__easytables_table_meta` (`easytable_id`, `position`, `label`, `description`, `type`, `list_view`, `detail_link`, `detail_view`, `fieldalias`, `params`) VALUES ';
 
 		foreach ( $newFldsArray as $newFldId )
 		{
@@ -1186,7 +1186,7 @@ function toggleSearch()
 		$msg = 'Starting field removal.<BR />';
 		$id = JRequest::getInt('id',0);
 		$selDelFlds = '`id` = '. implode(explode(', ', $deletedFldIds), ' or `id` =');
-		$deleteSelectSQL = ' from `jos_easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
+		$deleteSelectSQL = ' from `#_easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
 
 		// Get a database object
 		$db =& JFactory::getDBO();
@@ -1199,7 +1199,7 @@ function toggleSearch()
 		$select_Result = $db->loadResultArray();
 
 		// Process the fields to drop from data table
-		$tableName = 'jos_easytables_table_data_'.$id;
+		$tableName = '#_easytables_table_data_'.$id;
 		$dropSQL = 'ALTER TABLE `'.$tableName.'` ';
 		$dropSQL .= 'DROP COLUMN `'.implode($select_Result, '`, DROP COLUMN `');
 		$dropSQL .=  '`';
