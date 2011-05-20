@@ -17,7 +17,11 @@
 }
 
 .icon-32-linkTable {
-    background: url(assets/images/Linked_Table_32x32.png) no-repeat left;
+	background: url(assets/images/Linked_Table_32x32.png) no-repeat left;
+}
+
+.icon-32-Gear_Icon_48x48 {
+	background: url(assets/images/Gear_Icon_32x32.png) no-repeat left;
 }
 
 .info-tip {
