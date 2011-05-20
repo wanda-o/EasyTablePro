@@ -102,7 +102,7 @@
 								$cellDetailLink = (int)$this->easytables_table_meta[$labelNumber][3];
 								$cellOptions = $this->easytables_table_meta[$labelNumber++][5];  // we increment labelnumber for next pass.
 								$cellData = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $prowFNILV); //getFWO($field,$type,$params,$row,$rowFNILV)
-	
+
 								if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
 								{
 									$linkToDetail = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&view=easytablerecord&id='.$this->tableId.':'.$this->easytable->easytablealias.'&rid='.$rowId);

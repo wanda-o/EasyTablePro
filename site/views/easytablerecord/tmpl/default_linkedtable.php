@@ -40,7 +40,7 @@
 							$cellType	    = (int)$this->linked_field_types[$fieldNumber];
 							$cellOptions    = $this->linked_field_options[$fieldNumber];
 							$cellDetailLink = (int)$this->linked_field_links_to_detail[$fieldNumber++];
-							$cellData       = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $this->linked_records_FNILV); //getFWO($field,$type,$params,$row)
+							$cellData       = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $this->linked_records_FNILV); //getFWO($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
 
 							if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
 							{

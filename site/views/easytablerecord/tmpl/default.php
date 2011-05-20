@@ -42,7 +42,7 @@
 
 								$cellType     = (int)$f_type;
 
-								$cellData = ET_VHelper::getFWO($f, $cellType, $f_params, $row_assoc, $row_FNILV); //getFWO($field,$type,$params,$row)
+								$cellData = ET_VHelper::getFWO($f, $cellType, $f_params, $row_assoc, $row_FNILV); //getFWO($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
 
 								echo '<tr>';  // Open the row
 								$titleString = ''; // Setup the titleString if required
