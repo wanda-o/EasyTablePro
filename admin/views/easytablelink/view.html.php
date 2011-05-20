@@ -51,7 +51,9 @@ class EasyTableVieweasytablelink extends JView
 	function stripRestrictedTables ($arr)
 	{
 		// Temporarily use this array - we'll get it from user preferences later
-		$arrOfRestrictedTables = array("easytables","jos_core_acl","jos_session");
+		$arrOfRestrictedTables = array("easytables","_core_acl","_session"); // these are defaults that can't be changed and are merged with the user set restrictions
+
+		// Get & Merge the user restricted tables into our array here.
 		$arrOfTablesAlreadyLinked = $this->getAlreadyLinkedTables();
 		$arrOfRestrictedTables = array_merge ( $arrOfRestrictedTables, $arrOfTablesAlreadyLinked );
 
