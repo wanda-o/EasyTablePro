@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTablePro</name>
-	<version>0.9.0 (6f74bf9)</version>
+	<version>1.0.0a1 (019b569)</version>
 	<author>Craig Phillips</author>
-	<creationDate>08-Feb-2011</creationDate>
+	<creationDate>21-May-2011</creationDate>
 	<copyright>Copyright (C) 2011.</copyright>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
@@ -47,7 +47,6 @@
 			<filename>config.xml</filename>
 			<filename>easytable.css</filename>
 			<filename>easytable.js</filename>
-			<filename>easytabledata.js</filename>
 			<filename>easytablepro.php</filename>
 		</files>
 	</administration>
