@@ -24,7 +24,7 @@ class ET_MgrHelpers
 		}
 		else
 		{
-			$rawSettings =  ''; // Return the default values…
+			$rawSettings =  ''; // Create the default values…
 			$rawSettings .= "allowAccess=Super Administrator\r";
 			$rawSettings .= "allowLinkingAccess=Super Administrator\r";
 			$rawSettings .= "allowTableManagement=Super Administrator,Administrator,Manager\r";
@@ -36,6 +36,22 @@ class ET_MgrHelpers
 			$rawSettings .= "uninstall_type=0\r";
 			$rawSettings .= "\r";
 			$easytables_table_settings = new JParameter( $rawSettings );
+
+			// Now we'll insert the defaults into the DB
+			$et_settings_query = "INSERT INTO `jos_easytables_table_meta` ".
+								"(`easytable_id`,`position`,`label`,`description`,`type`,`list_view`,`detail_link`,`detail_view`,`fieldalias`,`params`) ".
+								"VALUES (".$db->Quote($rawSettings->toString()).");";
+			$db->setQuery($et_settings_query);
+			if( $et_settings_result = $db->query() )
+			{
+				$msg .= $img_OK.JText::_( 'EASYTABLE_META_SETTINGS' ).$BR;
+			}
+			else
+			{
+				$msg .=  $img_ERROR.JText::_( 'UNABLE_TO_CREATE_SETTINGS' ).$BR;
+				$msg .=  $db->getErrorMsg().$BR;
+				$no_errors = FALSE;
+			}
 		}
 		return $easytables_table_settings;
 	}
