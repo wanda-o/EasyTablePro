@@ -597,7 +597,7 @@ function toggleSearch()
 		$row->params = $paramsObj->toString();								// Update the row with the updated params obj...
 
 		if (!$row->store()) {												// Then we can store it away...
-			JError::raiseError(500, 'toggleSearch raised and error.<BR />'.$row->getError() );
+			JError::raiseError(500, 'toggleSearch raised an error.<BR />'.$row->getError() );
 		}
 
 		 JRequest::setVar('view', 'EasyTables');							// Return to EasyTables Mgr view
