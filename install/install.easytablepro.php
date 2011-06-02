@@ -71,7 +71,7 @@ function com_install()
 	} else {
 			$msg .= $img_OK.JText::_( 'EASYTABLE_META_TABLE_SETUP_SUCCESSFUL_' ).$BR;
 			$et_settings_exist_query = "SELECT `params` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE `easytable_id` = '0'";
-			$db->setQueryData($et_settings_exist_query);
+			$db->setQuery($et_settings_exist_query);
 			$settingsExist = $db->query();
 			if(!$settingsExist)
 			{
