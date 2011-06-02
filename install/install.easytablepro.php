@@ -9,16 +9,13 @@
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
 
-$pmf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
-require_once $pmf;
-
 /**
  * Main installer
  */
 function com_install()
 {
 	$no_errors = TRUE;
-	
+
 	//-- common images
 	$img_OK = '<img src="images/publish_g.png" />';
 	$img_ERROR = '<img src="images/publish_r.png" />';
@@ -79,7 +76,6 @@ function com_install()
 			if(!$settingsExist)
 			{
 				// Add default settings records to meta table.
-				$default_settings = ET_MgrHelpers::getSettings();
 				$et_settings_query = "INSERT INTO `jos_easytables_table_meta` ".
 				"(`easytable_id`,`position`,`label`,`description`,`type`,`list_view`,`detail_link`,`detail_view`,`fieldalias`,`params`) ".
 				"VALUES (0, 0, 'Settings', 'Component Settings', 0, 0, 0, 0, 'settings', ".
