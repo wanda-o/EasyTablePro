@@ -24,7 +24,7 @@ function com_uninstall()
 	$BR = '<BR />';
 
 	//-- common text
-	$msg = '<h1>'.JText::_( 'EASYTABLE_UN_INSTALL_PROCESS___' ).'</h1>'.$BR;
+	$msg = '<h1>'.JText::_( 'EASYTABLE_UN_INSTALL_PROCESS' ).'</h1>'.$BR;
 
 	//-- OK, to make the installer aware of our translations we need to explicitly load
 	//   the components language file - this should work as the should already be copied in.
@@ -32,20 +32,10 @@ function com_uninstall()
     $language->load('com_easytablepro');  // Can't use defined values in installer obj
 
 	//-- first step is this a complete or partial uninstall
-	$params = & JComponentHelper::getParams('com_easytable');
-	
-	if($params->get('uninstall_type') == $partial__uninstall)
-	{
-		echo $img_OK.JText::_( 'PARTIAL_UNINSTALL___SOFTWARE_ONLY_REMOVED_' ).$BR;
-		return TRUE;
-	}
-	else
-	{
-		$msg .= $img_OK.JText::_( 'COMPLETE_UNINSTALL___DATA___SOFTWARE_TO_BE_REMOVED_' ).$BR;
-	}
-
-	//--get the db object...
-	$db = & JFactory::getDBO();
+	// $params = & JComponentHelper::getParams('com_easytable'); this won't work because the component entry has already been removed
+	// Get a database object
+	$db =& JFactory::getDBO();
+	$jAp=& JFactory::getApplication();
 
 	// Check for a DB connection
 	if(!$db){
@@ -56,6 +46,30 @@ function com_uninstall()
 	else
 	{
 		$msg .= $img_OK.JText::_('CONNECTED_TO_THE_DATABASE_').$BR;
+	}
+	// Get the settings meta data for the component
+	$query = "SELECT `params` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE `easytable_id` = '0'";
+	$db->setQuery($query);
+
+	$rawSettings = $db->loadResult();
+	if(!empty( $rawSettings ))
+	{
+		$easytables_table_settings = new JParameter( $rawSettings );
+		$uninstall_type = $easytables_table_settings->get('uninstall_type');
+	}
+	else
+	{	// Default to a partial uninstall
+		$uninstall_type = 0;
+	}
+
+	if($uninstall_type == $partial__uninstall)
+	{
+		echo $img_OK.JText::_( 'PARTIAL_UNINSTALL___SOFTWARE_ONLY_REMOVED_' ).$BR;
+		return TRUE;
+	}
+	else
+	{
+		$msg .= $img_OK.JText::_( 'COMPLETE_UNINSTALL___DATA___SOFTWARE_TO_BE_REMOVED_' ).$BR;
 	}
 
 	// OK DROP the data tables first
@@ -85,7 +99,7 @@ function com_uninstall()
 				// make sure it dropped.
 				if(!$et_drop_result)
 				{
-					$msg .= $img_ERROR.JText::_( 'UNABLE_TO_DROP_DATA_TABLE_' ).' '.$item['easytablename'].' (ID = '.$item['id'].JText::_( '__DURING_THE_UNINSTALL__SQL_____' ).$et_query.' ]'.$BR;
+					$msg .= $img_ERROR.JText::_( 'UNABLE_TO_DROP_DATA_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].JText::_( 'DURING_THE_UNINSTALL__SQL' ).' '.$et_query.' ]'.$BR;
 					$no_errors = FALSE;
 				}
 				else
@@ -100,8 +114,6 @@ function com_uninstall()
 		$msg .= $img_OK.JText::_('NO_DATA_TABLES_TO_DROP_').$BR;
 	}
 
-
-	
 	// Now DROP the meta data
 	$et_query = 'DROP TABLE `#__easytables_table_meta`;';
 	$db->setQuery($et_query);
@@ -141,7 +153,7 @@ function com_uninstall()
 	}
 	else
 	{
-		$msg .= $img_ERROR.JText::_('EASYTABLE_COMPONENT_REMOVAL_FAILED_____MANUAL_REMOVAL_MAY_BE_REQUIRED___').$BR;
+		$msg .= $img_ERROR.JText::_('EASYTABLE_COMPONENT_REMOVAL_FAILED_____MANUAL_REMOVAL_MAY_BE_REQUIRED').$BR;
 	}
 	
 	echo $msg;
