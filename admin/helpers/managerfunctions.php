@@ -7,6 +7,8 @@ class ET_MgrHelpers
 	{
 		// Get a database object
 		$db =& JFactory::getDBO();
+		$jAp=& JFactory::getApplication();
+
 		if(!$db){
 			JError::raiseError( 500, JText::_("Database unavailable while trying to get settings meta record.") );
 		}
@@ -15,7 +17,7 @@ class ET_MgrHelpers
 		$db->setQuery($query);
 
 		$rawSettings = $db->loadResult();
-		if($rawSettings)
+		if(!empty( $rawSettings ))
 		{
 			$easytables_table_settings = new JParameter( $rawSettings );
 			//Explode restricted tables into lines
@@ -25,34 +27,33 @@ class ET_MgrHelpers
 		else
 		{
 			$rawSettings =  ''; // Create the default values…
-			$rawSettings .= "allowAccess=Super Administrator\r";
-			$rawSettings .= "allowLinkingAccess=Super Administrator\r";
-			$rawSettings .= "allowTableManagement=Super Administrator,Administrator,Manager\r";
-			$rawSettings .= "allowDataUpload=Super Administrator,Administrator,Manager\r";
-			$rawSettings .= "allowDataEditing=Super Administrator,Administrator,Manager\r";
-			$rawSettings .= "restrictedTables="; // hardcoded restrictions are handled in the functoin that tests the tablename
-			$rawSettings .= "maxFileSize=3000000\r"; // approx 3Mb
-			$rawSettings .= "chunkSize=50\r";
-			$rawSettings .= "uninstall_type=0\r";
-			$rawSettings .= "\r";
+			$rawSettings .= "allowAccess=Super Administrator\n";
+			$rawSettings .= "allowLinkingAccess=Super Administrator\n";
+			$rawSettings .= "allowTableManagement=Super Administrator,Administrator,Manager\n";
+			$rawSettings .= "allowDataUpload=Super Administrator,Administrator,Manager\n";
+			$rawSettings .= "allowDataEditing=Super Administrator,Administrator,Manager\n";
+			$rawSettings .= "restrictedTables=\n"; // hardcoded restrictions are handled in the functoin that tests the tablename
+			$rawSettings .= "maxFileSize=3000000\n"; // approx 3Mb
+			$rawSettings .= "chunkSize=50\n";
+			$rawSettings .= "uninstall_type=0\n";
+			$rawSettings .= "\n";
 			$easytables_table_settings = new JParameter( $rawSettings );
 
 			// Now we'll insert the defaults into the DB
 			$et_settings_query = "INSERT INTO `jos_easytables_table_meta` ".
 								"(`easytable_id`,`position`,`label`,`description`,`type`,`list_view`,`detail_link`,`detail_view`,`fieldalias`,`params`) ".
-								"VALUES (".$db->Quote($rawSettings->toString()).");";
+								"VALUES (0,0,'','',0,0,0,0,'', ".$db->Quote($rawSettings).");";
 			$db->setQuery($et_settings_query);
 			if( $et_settings_result = $db->query() )
 			{
-				$msg .= $img_OK.JText::_( 'EASYTABLE_META_SETTINGS' ).$BR;
+				$jAp->enqueueMessage('Settings created.');
 			}
 			else
 			{
-				$msg .=  $img_ERROR.JText::_( 'UNABLE_TO_CREATE_SETTINGS' ).$BR;
-				$msg .=  $db->getErrorMsg().$BR;
-				$no_errors = FALSE;
+				$jAp->enqueueMessage('Unable to create EasyTable Pro Settings','error');
 			}
 		}
+
 		return $easytables_table_settings;
 	}
 
