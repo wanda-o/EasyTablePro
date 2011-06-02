@@ -1593,7 +1593,7 @@ function toggleSearch()
 		// Setup basic variables
 		$msg = '';
 		
- 		// Get a database object
+		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while doing SAVE() for table: $id");
@@ -1602,17 +1602,18 @@ function toggleSearch()
 		// Setup start of SQL
 		$insert_ettd_data_SQL_start  = 'INSERT INTO `#__easytables_table_data_';
 		$insert_ettd_data_SQL_start .= $id.'` ( `id`, `';
+
 		$insert_ettd_data_SQL_start .= implode('` , `', $ettdColumnAliass);
 		$insert_ettd_data_SQL_start .= '` ) VALUES ';
-		
-		
+
 		$insert_ettd_data_values ='';
 		$insertLoopFirstPass = TRUE;
 		$csvRowCount = count($CSVFileChunk);
-		
+
 		for($csvRowNum = 0; $csvRowNum < $csvRowCount; $csvRowNum++)
 		{
 			$tempRowArray = $CSVFileChunk[$csvRowNum];
+
 			if( count($tempRowArray) ) // make sure it not a null row (ie. empty line)
 			{
 				if($insertLoopFirstPass)
@@ -1626,11 +1627,10 @@ function toggleSearch()
 			
 				$tempString = implode("\t",$tempRowArray);
 				$tempString = addslashes($tempString);
-				//$tempString = $db->getEscaped($tempString, TRUE);
 				$tempRowArray = explode("\t",$tempString);
 				$tempSQLDataString = implode("' , '", $tempRowArray );
-				
-				$insert_ettd_data_values .= "( NULL , '". $tempSQLDataString."')";
+
+				$insert_ettd_data_values .= "( NULL , '". $tempSQLDataString."') ";
 			}
 
 		}
@@ -1641,8 +1641,9 @@ function toggleSearch()
 
 		// Run the SQL to load the data into the ettd
 		$db->setQuery($insert_ettd_data_SQL);
+
 		$insert_ettd_data_result = $db->query();
-		
+
 		if(!$insert_ettd_data_result)
 		{
 			JError::raiseError(500,'Data insert failed for table: '.$id.' in updateETTDWithChunk() <BR />Possibly your CSV file is malformed<BR />'.$db->explain().'<BR />'.'<BR />'.$msg);
