@@ -126,26 +126,31 @@ class EasyTableController extends JController
 		}
 		$paramsObj->set('allowDataEditing', implode ( ',', $newSettings));
 
-		//Max File Size
-		if($paramsObj->get('maxFileSize') != $allThePostData['maxFileSize']) {
-			$paramsObj->set('maxFileSize',$allThePostData['maxFileSize']);
-		}
+		// Get the current user
+		$user =& JFactory::getUser();
 
-		//Chunk Size
-		if($paramsObj->get('chunkSize') != $allThePostData['chunkSize']) {
-			$paramsObj->set('chunkSize',$allThePostData['chunkSize']);
-		}
+		if( $user->usertype  == 'Super Administrator' )
+		{
+			//Max File Size
+			if($paramsObj->get('maxFileSize') != $allThePostData['maxFileSize']) {
+				$paramsObj->set('maxFileSize',$allThePostData['maxFileSize']);
+			}
 
-		//Restricted Tables
-		$newRestrictedTables = ET_MgrHelpers::convertToOneLine(trim($allThePostData['restrictedTables']));
-		if($paramsObj->get('restrictedTables') != $newRestrictedTables) {
-			$paramsObj->set('restrictedTables',$newRestrictedTables);
-		}
+			//Chunk Size
+			if($paramsObj->get('chunkSize') != $allThePostData['chunkSize']) {
+				$paramsObj->set('chunkSize',$allThePostData['chunkSize']);
+			}
 
-		//Uninstall Type
-		dump( $allThePostData['uninstall_type'],'uninstall_type');
-		if($paramsObj->get('uninstall_type') != $allThePostData['uninstall_type']) {
-			$paramsObj->set('uninstall_type',$allThePostData['uninstall_type']);
+			//Restricted Tables
+			$newRestrictedTables = ET_MgrHelpers::convertToOneLine(trim($allThePostData['restrictedTables']));
+			if($paramsObj->get('restrictedTables') != $newRestrictedTables) {
+				$paramsObj->set('restrictedTables',$newRestrictedTables);
+			}
+
+			//Uninstall Type
+			if($paramsObj->get('uninstall_type') != $allThePostData['uninstall_type']) {
+				$paramsObj->set('uninstall_type',$allThePostData['uninstall_type']);
+			}
 		}
 
 		$jAp=& JFactory::getApplication();
