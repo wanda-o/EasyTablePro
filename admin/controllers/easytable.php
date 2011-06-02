@@ -1646,7 +1646,7 @@ function toggleSearch()
 
 		if(!$insert_ettd_data_result)
 		{
-			JError::raiseError(500,'Data insert failed for table: '.$id.' in updateETTDWithChunk() <BR />Possibly your CSV file is malformed<BR />'.$db->explain().'<BR />'.'<BR />'.$msg);
+			JError::raiseError(500,'Data insert failed for table: '.$id.' in updateETTDWithChunk() <BR />Possibly your CSV file is malformed<BR />'.$db->explain().'<BR />'.'<BR />'.$insert_ettd_data_SQL);
 		}
 		
 		return $csvRowCount;
