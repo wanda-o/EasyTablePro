@@ -171,8 +171,8 @@ class EasyTableViewEasyTables extends JView
 		**/
 
 		// Get data from the model
-		$subscriber_ver_array = ET_VHelpers::et_version('subscriber');
 		$rows =& $this->get('data');
+		$subscriber_ver_array = ET_VHelpers::et_version('subscriber');
 		$this->assignRef('rows',$rows);
 		$this->assign('et_current_version',ET_VHelpers::current_version());
 		$this->assign('et_subscriber_version',$subscriber_ver_array["version"]);

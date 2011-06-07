@@ -13,9 +13,9 @@ defined('_JEXEC') or die('Restricted Access');
 <div id="et-versionCheck" style="text-size:0.9em;text-align:center; color:grey;position:relative;z-index:1;" >
 	<?php echo JText::_( 'INSTALLED_EASYTABLE_VERSION' ); ?>: <?php echo ( $this->et_current_version ); ?> | 
 	<span id="et-subverinfo" onmouseover="ShowTip('et-subverinfo-panel'); return false;" onMouseOut="HideTip('et-subverinfo-panel'); return false;">
-		<?php echo JText::_( 'CURRENT_SUBSCRIBERS_RELEASE_IS' ).'&nbsp;'; ?>: <?php echo ( $this->et_subscriber_version ); if(strcmp($this->et_current_version,$this->et_subscriber_version) != 0 ){echo '<img src="'.JURI::base().'components/com_'._cppl_this_com_name.'/assets/images/attention.gif">';} ?>
-		<div id="et-subverinfo-panel" class="info-tip" style="left:60%;">
-			<?php echo ( $this->et_subscriber_tip ); ?>
+		<?php echo JText::_( 'CURRENT_SUBSCRIBERS_RELEASE_IS' ).'&nbsp;'; ?>: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro" target="_blank" title="<?php echo JText::_( 'OPEN_RELEASE_DESC' ); ?>" class="hasTip"><?php echo ( $this->et_subscriber_version ); if(strcmp($this->et_current_version,$this->et_subscriber_version) != 0 ){echo '<img src="'.JURI::base().'components/com_'._cppl_this_com_name.'/assets/images/attention.gif">';} ?></a>
+		<div id="et-subverinfo-panel" class="info-tip" >
+
 		</div>
 	</span>
 </div>

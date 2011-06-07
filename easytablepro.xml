@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTablePro</name>
-	<version>1.0.0a5 (188973d)</version>
+	<version>1.0.0a6 (bb20043)</version>
 	<author>Craig Phillips</author>
-	<creationDate>02-Jun-2011</creationDate>
+	<creationDate>03-Jun-2011</creationDate>
 	<copyright>Copyright (C) 2011.</copyright>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
