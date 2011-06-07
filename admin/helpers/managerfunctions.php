@@ -21,7 +21,7 @@ class ET_MgrHelpers
 		{
 			$easytables_table_settings = new JParameter( $rawSettings );
 			//Explode restricted tables into lines
-			$rs = str_replace ( array(",,",","), "\r", $easytables_table_settings->get('restrictedTables'));
+			$rs = str_replace ( array(",,",","), "\n", $easytables_table_settings->get('restrictedTables'));
 			$easytables_table_settings->set('restrictedTables',$rs);
 		}
 		else
@@ -32,7 +32,7 @@ class ET_MgrHelpers
 			$rawSettings .= "allowTableManagement=Super Administrator,Administrator,Manager\n";
 			$rawSettings .= "allowDataUpload=Super Administrator,Administrator,Manager\n";
 			$rawSettings .= "allowDataEditing=Super Administrator,Administrator,Manager\n";
-			$rawSettings .= "restrictedTables=\n"; // hardcoded restrictions are handled in the functoin that tests the tablename
+			$rawSettings .= "restrictedTables=\n"; // hardcoded restrictions are handled in the function that tests the tablename
 			$rawSettings .= "maxFileSize=3000000\n"; // approx 3Mb
 			$rawSettings .= "chunkSize=50\n";
 			$rawSettings .= "uninstall_type=0\n";
@@ -53,7 +53,6 @@ class ET_MgrHelpers
 				$jAp->enqueueMessage('Unable to create EasyTable Pro Settings','error');
 			}
 		}
-
 		return $easytables_table_settings;
 	}
 
