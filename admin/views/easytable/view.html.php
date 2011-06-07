@@ -234,8 +234,13 @@ class EasyTableViewEasyTable extends JView
 		$paramsdata = $row->params;
 		$paramsdefs = JPATH_COMPONENT_ADMINISTRATOR.'/models/easytable.xml';
 		$params = new JParameter( $paramsdata, $paramsdefs );
-		
+		// Get the settings meta record
+		$settings = ET_MgrHelpers::getSettings();
+		// Max file size for uploading
+		$maxFileSize = $settings->get('maxFileSize', 3000000); //Get the max file size for uploads from Pref's, default to about 3Mb.
+
 		$this->assignRef('params', $params);
+		$this->assign('maxFileSize', $maxFileSize);
 
 		$this->assign('id',$id);		
 		$this->assignRef('state',$state);
