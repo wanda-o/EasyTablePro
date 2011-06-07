@@ -38,8 +38,9 @@ class EasyTableViewEasyTables extends JView
 
 	function publishedIcon ($locked, $row, $i, $hasPermission,$userName='')
 	{
-		$btn_text = JText::_( ( $row->published ? 'PUBLISHED_BTN':'UNPUBLISHED_BTN') ).' \''.$row->easytablename.'\' '.($locked ? JText::_( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_' ) : '');
-		$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( $locked ? 'disabled_' : '' ).'publish_g.png';
+		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_',$userName) : '') : JText::_( 'DISABLED_BECAUSE_YOU_DONT_HAVE_PERM' ));
+		$btn_text = JText::_( ( $row->published ? 'PUBLISHED_BTN':'UNPUBLISHED_BTN') ).' \''.$row->easytablename.'\' '.$lockText;
+		$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).($row->published?'publish_g.png':'publish_x.png');
 		$theBtn = '<span  class="hasTip" title="'.$btn_text.'" style="margin-left:15px;" ><img src="'.$theImageURL.'" border="0" ></span>';
 
 		if( !$locked && $hasPermission )
