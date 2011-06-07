@@ -50,13 +50,24 @@ class EasyTableVieweasytablelink extends JView
 
 	function stripRestrictedTables ($arr)
 	{
-		// Temporarily use this array - we'll get it from user preferences later
-		$arrOfRestrictedTables = array("easytables","_core_acl","_session"); // these are defaults that can't be changed and are merged with the user set restrictions
-
+		// Setup defaults
+		$arrOfRestrictedTables = array("easytables","_core_acl","_session");
+		// and are merged with the user set restrictions
+		$settings = ET_MgrHelpers::getSettings();
+		if(trim($settings->get('restrictedTables')) == '')
+		{
+			$userRestrictedTable = array();
+		}
+		else
+		{
+			$userRestrictedTable = explode ( "\n", trim($settings->get('restrictedTables')) );
+		}
 		// Get & Merge the user restricted tables into our array here.
+		$arrOfRestrictedTables = array_unique(array_merge( $userRestrictedTable, $arrOfRestrictedTables ));
+		// Get & Merge the already linked tables into our array here.
 		$arrOfTablesAlreadyLinked = $this->getAlreadyLinkedTables();
 		$arrOfRestrictedTables = array_merge ( $arrOfRestrictedTables, $arrOfTablesAlreadyLinked );
-
+		// Loop through and clean out restricted tables from selection list
 		foreach ( $arrOfRestrictedTables as $restrictedElement )
 		{
 			foreach ( $arr as $key=>$tableNameArray )
@@ -104,6 +115,7 @@ class EasyTableVieweasytablelink extends JView
 
 		// Parameters for this table instance
 		$this->assignRef('tableList',$tableList);
+		$this->assign('tablesAvailableForSelection',$tablesAvailableForSelection);
 		parent::display($tpl);
 	}
 }
