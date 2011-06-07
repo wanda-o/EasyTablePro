@@ -46,7 +46,7 @@
 						<label for="tableimport"><span class="hasTip" title="<?php echo JText::_( 'UPDATE_FILE_TOOLTIP' );?>"><h3>2) - <?php echo JText::_( 'UPDATE_FILE' ); ?>:</h3></label>
 					</td>
 					<td><!-- MAX_FILE_SIZE must precede the file input field -->
-						<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
+						<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $this->maxFileSize ?>" />
 						<input name="tablefile" type="file" id="fileInputBox" />
 					</td>
 				</tr>
