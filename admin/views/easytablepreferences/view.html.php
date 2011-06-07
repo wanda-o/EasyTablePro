@@ -68,7 +68,7 @@ class EasyTableVieweasytablepreferences extends JView
 		{
 			global $mainframe;
 			$url = 'index.php?option=com_'._cppl_this_com_name;
-			$mainframe->redirect($url, JText::_( 'You are not authorised to access the settings screen.' ));
+			$mainframe->redirect($url, JText::_( 'YOU_ARE_NOT_AUTH' ));
 		}
 
 		$allowAccess = $this->createAccessCheckboxes( 'allowAccess[]',$aaSettings );
