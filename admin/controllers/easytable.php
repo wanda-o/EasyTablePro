@@ -1559,7 +1559,11 @@ function toggleSearch()
 		// Setup basic variables
 		$hasHeaders = JRequest::getVar('CSVFileHasHeaders');
 		$totalCSVRows = count($CSVFileArray);
-		$chunkSize = 50;		// Arbitrary chunking size at this point, will have to add a global for fine tuning.
+		// Get the settings meta record
+		$settings = ET_MgrHelpers::getSettings();
+		// Chunk size for file processing
+		$chunkSize = $settings->get('chunkSize', 50); //Get the chunk size from Pref's, default to 50.
+
 		$csvRowCount = 0;
 
 		// Check our CSV column count matches our ETTD
