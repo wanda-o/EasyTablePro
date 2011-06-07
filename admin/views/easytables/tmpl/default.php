@@ -60,11 +60,12 @@ defined('_JEXEC') or die('Restricted Access');
 		$row = &$this->rows[$i];
 		$rowParamsObj = new JParameter ($row->params);
 		$locked = ($row->checked_out && ($row->checked_out != $user->id));
-		$published = $this->publishedIcon($locked, $row, $i);
+		if($locked) { $lockedBy = JFactory::getUser($row->checked_out); $lockedByName = $lockedBy->name; } else $lockedByName = '';
+		$published = $this->publishedIcon($locked, $row, $i,$this->et_hasTableMgrPermission, $lockedByName);
 		$etet = $row->datatablename?true:false;
 		
 		$searchableFlag = $rowParamsObj->get('searchable_by_joomla');
-		$searchableImage  = $this->getSearchableTick( $i, $searchableFlag, $locked );
+		$searchableImage  = $this->getSearchableTick( $i, $searchableFlag, $locked, $this->et_hasTableMgrPermission, $lockedByName);
 
 		?>
 		<tr class="<?php echo "row$k"; ?>">
@@ -72,16 +73,16 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo $row->id; ?>
 			</td>
 			<td>
-				<?php echo JHTML::_( 'grid.checkedout', $row, $i ); ?>
+				<?php if($this->et_hasTableMgrPermission){echo JHTML::_( 'grid.checkedout', $row, $i );} else {echo ('<span class="editlinktip hasTip" title="'.JText::_( 'TABLE_MANAGER_DESC' ).'"><img src="images/checked_out.png"></span>');} ?>
 			</td>
 			<td>
-				<?php echo $this->getEditorLink($locked,$i,$row->easytablename); ?>
+				<?php echo $this->getEditorLink($locked,$i,$row->easytablename,$this->et_hasTableMgrPermission, $lockedByName); ?>
 			</td>
 			<td>
-				<?php echo $this->getDataEditorIcon($locked,$i,$row->id,$row->easytablename,$etet); ?>
+				<?php echo $this->getDataEditorIcon($locked,$i,$row->id,$row->easytablename,$etet,$this->et_hasDataEditingPermission, $lockedByName); ?>
 			</td>
 			<td>
-				<?php echo $this->getDataUploadIcon($locked,$i,$row->id,$row->easytablename,$etet); ?>
+				<?php echo $this->getDataUploadIcon($locked,$i,$row->id,$row->easytablename,$etet,$this->et_hasDataUploadPermission, $lockedByName); ?>
 			</td>
 			<td>
 				<?php echo $published; ?>
