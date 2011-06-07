@@ -134,6 +134,36 @@ class EasyTableViewEasyTables extends JView
 		$doc->addStyleSheet(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.css');
 		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.js');
 		
+		// Get the current user
+		$user =& JFactory::getUser();
+
+		// Get the settings meta record
+		$settings = ET_MgrHelpers::getSettings();
+		// Allow Access settings
+		$aaSettings = explode(',', $settings->get('allowAccess'));
+		// Allow Linking Access settings
+		$alaSettings = explode(',', $settings->get('allowLinkingAccess'));
+
+		/*
+			Setup the Toolbar
+		*/
+		JToolBarHelper::title(JText::_( 'EASYTABLEPRO' ), 'easytables');
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::editList();
+		JToolBarHelper::deleteList(JText::_( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' ));
+		JToolBarHelper::addNew();
+		if(in_array($user->usertype, $alaSettings))
+		{
+			$toolbar=& JToolBar::getInstance( 'toolbar' );
+			$toolbar->appendButton( 'Popup', 'linkTable', 'Link Table', 'index.php?option=com_easytablepro&view=easytablelink&tmpl=component', 500, 280 );
+		}
+		JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 420 );
+		if(in_array($user->usertype, $aaSettings))
+		{
+			JToolBarHelper::custom( 'settings','Gear_Icon_48x48.png','',JText::_('SETTINGS'), FALSE );
+		}
+
 		/**
 		 *
 		 * Let's do a version check - it's always good to use the newest version.

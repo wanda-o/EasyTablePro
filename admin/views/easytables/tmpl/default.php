@@ -9,16 +9,6 @@
 defined('_JEXEC') or die('Restricted Access');
 
 	JHTML::_('behavior.tooltip');
-	JToolBarHelper::title(JText::_( 'EASYTABLEPRO' ), 'easytables');
-	JToolBarHelper::publishList();
-	JToolBarHelper::unpublishList();
-	JToolBarHelper::editList();
-	JToolBarHelper::deleteList(JText::_( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' ));
-	JToolBarHelper::addNew();
-	$toolbar=& JToolBar::getInstance( 'toolbar' );
-	$toolbar->appendButton( 'Popup', 'linkTable', 'Link Table', 'index.php?option=com_easytablepro&view=easytablelink&tmpl=component', 500, 280 );
-	JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 420 );
-	JToolBarHelper::custom( 'settings','Gear_Icon_48x48.png','',JText::_('SETTINGS'), FALSE );
 ?>
 <div id="et-versionCheck" style="text-size:0.9em;text-align:center; color:grey;position:relative;z-index:1;" >
 	<?php echo JText::_( 'INSTALLED_EASYTABLE_VERSION' ); ?>: <?php echo ( $this->et_current_version ); ?> | 
