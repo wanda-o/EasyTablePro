@@ -104,15 +104,24 @@ class EasyTableVieweasytablelink extends JView
 		$allTables = $this->convertValueArrToKVObjArr($allTables);
 		// strip out tables in the restricted list
 		$this->stripRestrictedTables (& $allTables);
-
-		// prefix with a 'None Selected' option
-		$noneSelected = array();
-		$noneSelected[] = array('value' => 0,'text' => '-- '.JText::_( "None Selected" ).' --');
-		array_splice($allTables,0,0,$noneSelected);
+		if(count($allTables))
+		{
+			// prefix with a 'None Selected' option
+			$noneSelected = array();
+			$noneSelected[] = array('value' => 0,'text' => '-- '.JText::_( "None Selected" ).' --');
+			array_splice($allTables,0,0,$noneSelected);
+			$tablesAvailableForSelection = TRUE;
+		}
+		else
+		{	// dang an empty list of tables.
+			$noneAvailable = array();
+			$noneAvailable[] = array('value' => 0,'text' => '-- '.JText::_( "None Available" ).' --');
+			array_splice($allTables,0,0,$noneAvailable);
+			$tablesAvailableForSelection = FALSE;
+		}
 
 		// covert to a HTML select otpion
 		$tableList = JHTML::_('select.genericlist',  $allTables, 'tablesForLinking');
-
 		// Parameters for this table instance
 		$this->assignRef('tableList',$tableList);
 		$this->assign('tablesAvailableForSelection',$tablesAvailableForSelection);

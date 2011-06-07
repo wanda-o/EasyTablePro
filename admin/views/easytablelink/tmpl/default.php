@@ -30,7 +30,7 @@
 					</td>
 					<td>
 						<?php echo $this->tableList; ?>
-						<button type="button" onclick="selectTable();"><?php echo JText::_( 'USE_TABLE' ); ?></button>
+						<button type="button" onclick="selectTable();" <?php echo ($this->tablesAvailableForSelection ? '' : 'disabled="disabled"') ?> ><?php echo JText::_( 'USE_TABLE' ); ?></button>
 					</td>
 				</tr>
 				<tr class="row1">
