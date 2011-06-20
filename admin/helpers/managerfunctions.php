@@ -33,6 +33,7 @@ class ET_MgrHelpers
 			$rawSettings .= "allowTableManagement=Super Administrator,Administrator,Manager\n";
 			$rawSettings .= "allowDataUpload=Super Administrator,Administrator,Manager\n";
 			$rawSettings .= "allowDataEditing=Super Administrator,Administrator,Manager\n";
+			$rawSettings .= "allowRawDataEntry=Super Administrator\n";
 			$rawSettings .= "restrictedTables=\n"; // hardcoded restrictions are handled in the function that tests the tablename
 			$rawSettings .= 'maxFileSize='.$umfs."\n"; // use servers php setting
 			$rawSettings .= "chunkSize=50\n";
@@ -99,10 +100,24 @@ class ET_MgrHelpers
 			default: return $size_str;
 		}
 	}
-	
+
 	function umfs()
 	{
 		return ET_MgrHelpers::return_as_bytes(ini_get ( 'upload_max_filesize' ));
+	}
+
+	function userIs($allowedTo = '')
+	{
+		if($allowedTo == '') return false;
+		// Get the current user
+		$user =& JFactory::getUser();
+		// Get the settings meta record
+		$settings = ET_MgrHelpers::getSettings();
+		// Allow Raw Data Entry
+		$accessSettings = explode(',', $settings->get('allowRawDataEntry'));
+		if(in_array($user->usertype, $accessSettings)) return true;
+
+		return false;
 	}
 }
 

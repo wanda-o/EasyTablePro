@@ -111,6 +111,15 @@
 					</td>
 					<td><em><?php echo JText::_( 'restrictedTables_TT' );?></em></td>
 				</tr>
+				<tr class="row0">
+					<td width="150" align="left" class="key">
+						<label for="allowRawDataEntry"><span class="hasTip" title="<?php echo JText::_( 'ALLOW_RAW_DATA_ENTRY_DESC' ).'::'.JText::_( 'ALLOW_RAW_DATA_ENTRY_TT' );?>"><h3><?php echo JText::_( 'ALLOW_RAW_DATA_ENTRY_DESC' ); ?>:</h3></label>
+					</td>
+					<td width="475">
+						<?php echo $this->allowRawDataEntry; ?>
+					</td>
+					<td><em><?php echo JText::_( 'ALLOW_RAW_DATA_ENTRY_TT' );?></em></td>
+				</tr>
 			</table>
 			</td>
 		</tr>

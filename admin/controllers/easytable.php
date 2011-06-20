@@ -407,9 +407,13 @@ class EasyTableController extends JController
 	function getFldValuesFor($fldArray)
 	{
 		$fldValues = array ( );
+		$getFilter = 0;
+
+		if(ET_MgrHelpers::userIs('allowRawDataEntry')) $getFilter = JREQUEST_ALLOWRAW;
+
 		foreach ( $fldArray as $fldName )
 		{
-			$theValue = addslashes ( JRequest::getVar( 'et_fld_'.$fldName,'' ) );
+			$theValue = addslashes ( JRequest::getVar( 'et_fld_'.$fldName,null,'default','none',$getFilter));
 			$theOrigValue = JRequest::getVar( 'et_fld_orig_'.$fldName,'' );
 			if(($theValue != $theOrigValue)){
 				$fldValues[$fldName] = $theValue;
