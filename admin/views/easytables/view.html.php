@@ -192,14 +192,11 @@ class EasyTableViewEasyTables extends JView
 
 		// Get data from the model
 		$rows =& $this->get('data');
-		$subscriber_ver_array = ET_VHelpers::et_version('subscriber');
 		$this->assignRef('rows',$rows);
 		$this->assign('et_hasTableMgrPermission',$hasTableMgrPermission);
 		$this->assign('et_hasDataUploadPermission',in_array($user->usertype, $aduSettings));
 		$this->assign('et_hasDataEditingPermission',in_array($user->usertype, $adeSettings));
 		$this->assign('et_current_version',ET_VHelpers::current_version());
-		$this->assign('et_subscriber_version',$subscriber_ver_array["version"]);
-		$this->assign('et_subscriber_tip',$subscriber_ver_array["tip"]);
 		parent::display($tpl);
 	}
 }
