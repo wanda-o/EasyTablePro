@@ -87,7 +87,9 @@
 						<label for="maxFileSize"><span class="hasTip" title="<?php echo JText::_( 'MAXFILESIZE_DESC' ).'::'.JText::_( 'MAXFILESIZE_TT' );?>"><h3><?php echo JText::_( 'MAXFILESIZE_DESC' ); ?>:</h3></span></label>
 					</td>
 					<td width="475">
-						<input type="text" name="maxFileSize" id="maxFileSize" value="<?php echo $this->maxFileSize; ?>" />
+						<input type="text" name="maxFileSize" id="maxFileSize" value="<?php echo $this->maxFileSize; ?>" onchange="check_umfs();" />
+						<input type="hidden" name="orig_maxFileSize" id="orig_maxFileSize" value="<?php echo $this->maxFileSize; ?>" />
+						<input type="hidden" name="phpUMFS_setting" id="phpUMFS_setting" value="<?php $umfs = ET_MgrHelpers::umfs(); echo $umfs? $umfs: '0'; ?>">
 					</td>
 					<td><em><?php echo JText::_( 'MAXFILESIZE_TT' );?></em></td>
 				</tr>

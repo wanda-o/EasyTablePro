@@ -26,6 +26,7 @@ class ET_MgrHelpers
 		}
 		else
 		{
+			$umfs = ET_MgrHelpers::umfs();
 			$rawSettings =  ''; // Create the default values…
 			$rawSettings .= "allowAccess=Super Administrator\n";
 			$rawSettings .= "allowLinkingAccess=Super Administrator\n";
@@ -33,7 +34,7 @@ class ET_MgrHelpers
 			$rawSettings .= "allowDataUpload=Super Administrator,Administrator,Manager\n";
 			$rawSettings .= "allowDataEditing=Super Administrator,Administrator,Manager\n";
 			$rawSettings .= "restrictedTables=\n"; // hardcoded restrictions are handled in the function that tests the tablename
-			$rawSettings .= "maxFileSize=3000000\n"; // approx 3Mb
+			$rawSettings .= 'maxFileSize='.$umfs."\n"; // use servers php setting
 			$rawSettings .= "chunkSize=50\n";
 			$rawSettings .= "uninstall_type=0\n";
 			$rawSettings .= "\n";
@@ -88,5 +89,20 @@ class ET_MgrHelpers
 		return str_replace ( $lineEnding, $newDelimiter, ET_MgrHelpers::removeEmptyLines($string) );
 	}
 
+	function return_as_bytes ($size_str)
+	{
+		switch (substr ($size_str, -1))
+		{
+			case 'M': case 'm': return (int)$size_str * 1048576;
+			case 'K': case 'k': return (int)$size_str * 1024;
+			case 'G': case 'g': return (int)$size_str * 1073741824;
+			default: return $size_str;
+		}
+	}
+	
+	function umfs()
+	{
+		return ET_MgrHelpers::return_as_bytes(ini_get ( 'upload_max_filesize' ));
+	}
 }
 

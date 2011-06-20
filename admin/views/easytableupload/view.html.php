@@ -10,6 +10,8 @@ defined('_JEXEC') or die('Restricted Access');
 
 jimport( 'joomla.application.component.view');
 
+$pmf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
+require_once $pmf;
 /**
  * HTML View class for the EasyTables Component
  *
@@ -116,7 +118,8 @@ class EasyTableVieweasytableupload extends JView
 		// Get the settings meta record
 		$settings = ET_MgrHelpers::getSettings();
 		// Max file size for uploading
-		$maxFileSize = $settings->get('maxFileSize', 3000000); //Get the max file size for uploads from Pref's, default to about 3Mb.
+		$umfs = ET_MgrHelpers::umfs();
+		$maxFileSize = $settings->get('maxFileSize', $umfs); //Get the max file size for uploads from Pref's, default to php settings.
 
 		$this->assignRef('params', $params);
 		$this->assign('maxFileSize', $maxFileSize);

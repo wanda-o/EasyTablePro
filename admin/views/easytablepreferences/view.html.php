@@ -93,7 +93,8 @@ class EasyTableVieweasytablepreferences extends JView
 		$restrictedTables = $settings->get('restrictedTables','');
 
 		// Maximum File upload size
-		$maxFileSize = $settings->get('maxFileSize',3000000);
+		$umfs = ET_MgrHelpers::umfs();
+		$maxFileSize = $settings->get('maxFileSize',$umfs);
 
 		// Chunk size for file processing
 		$chunkSize = $settings->get('chunkSize', 50);
