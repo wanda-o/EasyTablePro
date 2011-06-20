@@ -130,7 +130,7 @@ defined('_JEXEC') or die('Restricted Access');
 						<thead>
 							<tr valign="top">
 							<th width="20px">ID</th>
-							<th width="20px"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->et_table_data ); ?>);" /></th
+							<th width="20px"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->et_table_data ); ?>);" /></th>
 							<th width="30px"><?php echo JText::_( 'DELETE' ); ?></th>
 							<th width="20px"><?php echo JText::_( 'EDIT' ); ?></th>
 							<?php
