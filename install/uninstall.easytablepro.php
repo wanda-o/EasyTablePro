@@ -24,7 +24,7 @@ function com_uninstall()
 	$BR = '<BR />';
 
 	//-- common text
-	$msg = '<h1>'.JText::_( 'EASYTABLE_UN_INSTALL_PROCESS' ).'</h1>'.$BR;
+	$msg = '<h1>'.JText::_( 'EasyTable Un-Install process' ).'…</h1>'.$BR;
 
 	//-- OK, to make the installer aware of our translations we need to explicitly load
 	//   the components language file - this should work as the should already be copied in.

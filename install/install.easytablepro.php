@@ -9,9 +9,6 @@
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
 
-$pmf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
-require_once $pmf;
-
 /**
  * Main installer
  */
@@ -78,27 +75,7 @@ function com_install()
 			$settingsExist = $db->query();
 			if(!$settingsExist)
 			{
-				// Add default settings records to meta table.
-				$umfs = ET_MgrHelpers::umfs();
-				$et_settings_query = "INSERT INTO `jos_easytables_table_meta` ".
-				"(`easytable_id`,`position`,`label`,`description`,`type`,`list_view`,`detail_link`,`detail_view`,`fieldalias`,`params`) ".
-				"VALUES (0, 0, 'Settings', 'Component Settings', 0, 0, 0, 0, 'settings', ".
-				"'allowAccess=Super Administrator\nallowLinkingAccess=Super Administrator,".
-				"Manager\nallowTableManagement=Super Administrator,Manager\nallowDataUpload=".
-				"Super Administrator,Administrator,Manager\nallowDataEditing=Super Administrator".
-				",Administrator,Manager\nrestrictedTables=\nmaxFileSize=".$umfs."\nchunkSize=50\nuninstall_type=0\n\n');";
-
-				$db->setQuery($et_settings_query);
-				if( $et_settings_result = $db->query() )
-				{
-					$msg .= $img_OK.JText::_( 'EASYTABLE_META_SETTINGS' ).$BR;
-				}
-				else
-				{
-					$msg .=  $img_ERROR.JText::_( 'UNABLE_TO_CREATE_SETTINGS' ).$BR;
-					$msg .=  $db->getErrorMsg().$BR;
-					$no_errors = FALSE;
-				}
+				$msg .= $img_OK.JText::_( 'EASYTABLE_META_SETTINGS_RECORD_NOT_FOUND' ).$BR;
 			} else {
 				$msg .= $img_OK.JText::_( 'EASYTABLE_META_SETTING_RECORD_EXISTS' ).$BR;
 			}
