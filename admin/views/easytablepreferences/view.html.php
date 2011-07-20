@@ -92,6 +92,10 @@ class EasyTableVieweasytablepreferences extends JView
 		// List of restricted tables
 		$restrictedTables = $settings->get('restrictedTables','');
 
+		// Allow Raw Data Entry settings
+		$rdeSettings = explode(',', $settings->get('allowRawDataEntry'));
+		$allowRawDataEntry = $this->createAccessCheckboxes( 'allowRawDataEntry[]',$rdeSettings );
+
 		// Maximum File upload size
 		$umfs = ET_MgrHelpers::umfs();
 		$maxFileSize = $settings->get('maxFileSize',$umfs);
@@ -108,6 +112,7 @@ class EasyTableVieweasytablepreferences extends JView
 		$this->assign('allowDataUpload', $allowDataUpload);
 		$this->assign('allowDataEditing', $allowDataEditing);
 		$this->assign('restrictedTables', $restrictedTables);
+		$this->assign('allowRawDataEntry', $allowRawDataEntry);
 		$this->assign('maxFileSize', $maxFileSize);
 		$this->assign('chunkSize', $chunkSize);
 		$this->assign('uninstall_type', $uninstall_type);
