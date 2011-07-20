@@ -48,11 +48,11 @@ class ET_MgrHelpers
 			$db->setQuery($et_settings_query);
 			if( $et_settings_result = $db->query() )
 			{
-				$jAp->enqueueMessage('Settings created.');
+				$jAp->enqueueMessage(JText::_( 'SETTINGS_CREATED' ));
 			}
 			else
 			{
-				$jAp->enqueueMessage('Unable to create EasyTable Pro Settings','error');
+				$jAp->enqueueMessage(JText::_( 'UNABLE_TO_CREATE_DESC' ),'error');
 			}
 		}
 		return $easytables_table_settings;
