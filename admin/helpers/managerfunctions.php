@@ -42,7 +42,7 @@ class ET_MgrHelpers
 			$easytables_table_settings = new JParameter( $rawSettings );
 
 			// Now we'll insert the defaults into the DB
-			$et_settings_query = "INSERT INTO `jos_easytables_table_meta` ".
+			$et_settings_query = "INSERT INTO `#__easytables_table_meta` ".
 								"(`easytable_id`,`position`,`label`,`description`,`type`,`list_view`,`detail_link`,`detail_view`,`fieldalias`,`params`) ".
 								"VALUES (0,0,'','',0,0,0,0,'', ".$db->Quote($rawSettings).");";
 			$db->setQuery($et_settings_query);
