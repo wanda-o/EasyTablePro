@@ -31,7 +31,7 @@ class EasyTableVieweasytablepreferences extends JView
 
 	function createAccessCheckboxes ($groupName, $initialValuesArray)
 	{
-		$theCBHTML  = $this->getCheckbox($groupName,'Super Administrator',JText::_( 'Super Administrator' ), in_array( 'Super Administrator', $initialValuesArray ), true).'<br />';
+		$theCBHTML  = $this->getCheckbox($groupName,'Super Administrator',JText::_( 'Super Administrator' ), true, true).'<br />';
 		$theCBHTML .= $this->getCheckbox($groupName,'Administrator',JText::_( 'Administrator' ), in_array( 'Administrator', $initialValuesArray )).'<br />';
 		$theCBHTML .= $this->getCheckbox($groupName,'Manager',JText::_( 'Manager' ), in_array( 'Manager', $initialValuesArray ));
 		return $theCBHTML;
