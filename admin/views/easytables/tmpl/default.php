@@ -73,7 +73,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo $row->id; ?>
 			</td>
 			<td>
-				<?php if($this->et_hasTableMgrPermission){echo JHTML::_( 'grid.checkedout', $row, $i );} else {echo ('<span class="editlinktip hasTip" title="'.JText::_( 'TABLE_MANAGER_DESC' ).'"><img src="images/checked_out.png"></span>');} ?>
+				<?php if($this->et_hasTableMgrPermission){echo JHTML::_( 'grid.checkedout', $row, $i );} else {echo str_replace('"checkbox"','"hidden"',JHTML::_( 'grid.checkedout', $row, $i ));echo ('<span class="editlinktip hasTip" title="'.JText::_( 'TABLE_MANAGER_DESC' ).'"><img src="images/checked_out.png"></span>');} ?>
 			</td>
 			<td>
 				<?php echo $this->getEditorLink($locked,$i,$row->easytablename,$this->et_hasTableMgrPermission, $lockedByName); ?>
