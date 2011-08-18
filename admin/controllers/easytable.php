@@ -264,7 +264,6 @@ class EasyTableController extends JController
 	{
 
 		$jAp=& JFactory::getApplication();
-		$this->checkOutEasyTable();
 
 		JRequest::setVar('view', 'EasyTableUpload');
 		JRequest::setVar('tmpl', 'component');
@@ -279,6 +278,7 @@ class EasyTableController extends JController
 		$updateType = JRequest::getVar('uploadType',0) ? 'append' : 'replace' ;
 
 		$this->processNewDataFile($currentTask, $updateType);
+		$this->checkInEasyTable();
 		JRequest::setVar('view', 'EasyTableUpload');
 		JRequest::setVar('tmpl', 'component');
 		$this->display();
