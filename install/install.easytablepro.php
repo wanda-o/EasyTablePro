@@ -108,7 +108,37 @@ function com_install()
 		$msg .= $img_OK.JText::_( 'EASYTABLE_TABLE_STRUCTURES_ARE_UP_TO_DATE_' ).$BR;
 	}
 
-    // 2. Add the params field to the meta table for Pro features.
+	// 2. Check that #__easytables has the new larger 'text' description
+	if(array_key_exists('description', $columnNames))
+	{
+		if($columnNames['description'] != 'text')
+		{
+			$msg .= $img_ERROR.JText::_( "DESC_COLUMN_OLD_STYLE_FOUND" ).$BR;
+			$et_updateQry = "ALTER TABLE `#__easytables` CHANGE `description` `description` TEXT";
+			$db->setQuery($et_updateQry);
+			$et_updateResult = $db->query();
+			if(!$et_updateResult)
+			{
+				$msg .= $img_ERROR.JText::_( 'DESC_COLUMN_FAILED_TO_ALTER' ).$BR;
+				$no_errors = FALSE;
+			}
+			else
+			{
+				$msg .= $img_OK.JText::_( 'DESC_COLUMN_SUCCESSFULLY_ALTERED' ).$BR;
+			}
+		}
+		else
+		{
+			$msg .= $img_OK.JText::_( 'DESC_COLUMN_ALREADY_TEXT_TYPE' ).$BR;
+		}
+	}
+	else
+	{
+		$msg .= $img_ERROR.JText::sprintf( 'DESC_COLUMN_TEXT_UPDATE',$db->getPrefix().'easytables.' ).$BR;
+		$no_errors = FALSE;
+	}
+
+	// 3. Add the params field to the meta table for Pro features.
 	//-- See if the column exists --//
 	$tableFieldsResult = $db->getTableFields('#__easytables_table_meta');
 	$columnNames = $tableFieldsResult['#__easytables_table_meta'];
