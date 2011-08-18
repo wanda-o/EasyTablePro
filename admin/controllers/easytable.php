@@ -1424,7 +1424,7 @@ function toggleSearch()
 				{
 					$insert_Meta_SQL_row .= ', ';
 				}
-				$insert_Meta_SQL_row .= "( NULL , '$id', '$csvColumnLabels[$colnum]', '$ettdColumnAliass[$colnum]')";
+				$insert_Meta_SQL_row .= "( NULL , '$id', '".addslashes($csvColumnLabels[$colnum])."', '$ettdColumnAliass[$colnum]')";
 				
 			}
 			// better terminate the statement
