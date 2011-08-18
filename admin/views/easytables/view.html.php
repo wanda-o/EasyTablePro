@@ -142,7 +142,7 @@ class EasyTableViewEasyTables extends JView
 		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.js');
 		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/assets/js/easytablemanager.js');
 		$doc->addScript('http://seepeoplesoftware.com/cpplversions/cppl_et_versions.js');
-
+		JHTML::_('behavior.modal');
 		// Get the current user
 		$user =& JFactory::getUser();
 
