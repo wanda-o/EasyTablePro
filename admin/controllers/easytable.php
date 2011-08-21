@@ -610,7 +610,7 @@ class EasyTableController extends JController
 				{
 					$insert_Meta_SQL_row .= ', ';
 				}
-				$insert_Meta_SQL_row .= "( NULL , '$id', '$csvColumnLabels[$colnum]', '$ettdColumnAliass[$colnum]')";
+				$insert_Meta_SQL_row .= "( NULL , '$id', '".mysql_real_escape_string($csvColumnLabels[$colnum])."', '$ettdColumnAliass[$colnum]')";
 				
 			}
 			// better terminate the statement
