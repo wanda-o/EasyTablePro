@@ -105,7 +105,7 @@ defined('_JEXEC') or die('Restricted Access');
 							<?php echo $this->published;?>
 						</td>
 					</tr>
-					<?php if(!$this->etet) { ?>
+					<?php if((!$this->etet) && $this->etupld) { ?>
 					<tr>
 						<td width="100" align="right" class="key">
 							<label for="tableimport">
@@ -143,8 +143,10 @@ defined('_JEXEC') or die('Restricted Access');
 							<label for="uploadType1"><?php echo JText::_( 'APPEND' ); ?></label>
 							<?php }; ?>
 						</td>
-						<td><p id="uploadWhileModifyingNotice"><?php echo JText::_('DATA_FILES_CANNOT_BE_UPLOADED_ONCE_TABLE_STRUCTURE_MODIFCATION_HAS_BEEN_ENABLED_'); ?><BR /><em><?php echo JText::_('SAVE_APPLY_OR_CLOSE_THE_TABLE_TO_RE_ENABLE_DATA_UPLOADS_'); ?></em></p>
-</td>
+						<td>
+							<p id="uploadWhileModifyingNotice"><?php echo JText::_('DATA_FILES_CANNOT_BE_UPLOADED_ONCE_TABLE_STRUCTURE_MODIFCATION_HAS_BEEN_ENABLED_'); ?><BR />
+							<em><?php echo JText::_('SAVE_APPLY_OR_CLOSE_THE_TABLE_TO_RE_ENABLE_DATA_UPLOADS_'); ?></em></p>
+						</td>
 					</tr><?php } ?>
 				</table>
 				</fieldset>

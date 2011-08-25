@@ -131,6 +131,15 @@ class EasyTableViewEasyTable extends JView
 	 **/
 	function display($tpl = null)
 	{
+		// Get the settings meta record
+		$settings = ET_MgrHelpers::getSettings();
+		// Allow Table Management
+		$atmSettings = explode(',', $settings->get('allowTableManagement'));
+		// Allow Data Upload
+		$aduSettings = explode(',', $settings->get('allowDataUpload'));
+		// Get the current user
+		$user =& JFactory::getUser();
+		$etupld = in_array($user->usertype, $aduSettings) ? true : false;
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
 		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.js');
@@ -253,6 +262,7 @@ class EasyTableViewEasyTable extends JView
 		$this->assignRef('ettm_field_count',$ettm_field_count);
 		$this->assignRef('ettd',$ettd);
 		$this->assignRef('etet',$etet);
+		$this->assignRef('etupld',$etupld);
 		$this->assignRef('ettd_tname',$ettd_tname);
 		$this->assignRef('CSVFileHasHeaders', JHTML::_('select.booleanlist', 'CSVFileHasHeaders', 'class="inputbox"', 0 ));
 		if($ettd)
