@@ -10,17 +10,21 @@ defined('_JEXEC') or die('Restricted Access');
 
 	JHTML::_('behavior.tooltip');
 ?>
-<div id="et-versionCheck" style="text-size:0.9em;text-align:center; color:grey;position:relative;z-index:1;" >
-	<?php echo JText::_( 'INSTALLED_EASYTABLE_VERSION' ); ?>: <span id="installedVersionSpan"><?php echo ( $this->et_current_version ); ?></span> | 
-	<span id="et-subverinfo">
-		<?php echo JText::_( 'CURRENT_SUBSCRIBERS_RELEASE_IS' ).'&nbsp;'; ?>: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro" target="_blank" title="<?php echo JText::_( 'OPEN_RELEASE_DESC' ); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a>
-		<div id="et-subverinfo-panel" class="info-tip" >
-
-		</div>
-	</span>
-</div>
 <form action="index.php" method="post" name="adminForm">
 <div id="editcell">
+	<table>
+		<tr>
+			<td width="40%"><?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" id="search" value="<?php echo $this->search; ?>" class="text_area" onchange="document.adminForm.submit();" />
+				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+			</td>
+			<td class="nowrap et_version_info"><?php echo JText::_( 'INSTALLED_EASYTABLE_VERSION' ); ?>: <span id="installedVersionSpan"><?php echo ( $this->et_current_version ); ?></span> |
+				<span id="et-subverinfo">
+				<?php echo JText::_( 'CURRENT_SUBSCRIBERS_RELEASE_IS' ).'&nbsp;'; ?>: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro" target="_blank" title="<?php echo JText::_( 'OPEN_RELEASE_DESC' ); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a></span>
+			</td>			
+		</tr>
+	</table>
 	<table class="adminlist">
 	<thead>
 		<tr>
@@ -50,6 +54,7 @@ defined('_JEXEC') or die('Restricted Access');
 			</th>
 		</tr>
 	</thead>
+	<tbody>
 	<?php
 	$k = 0;
 	$user = JFactory::getUser();
@@ -97,11 +102,12 @@ defined('_JEXEC') or die('Restricted Access');
 		<?php
 		$k = 1 - $k;
 	}
-	?>
+	?></tbody>
 	</table>
 </div>
 <?php echo JHTML::_('form.token'); ?>
 <input type="hidden" name="option" value="<?php echo $option ?>" />
+<input type="hidden" name="view" value="easytables">
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
 </form>

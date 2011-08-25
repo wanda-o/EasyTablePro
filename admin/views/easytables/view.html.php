@@ -184,15 +184,13 @@ class EasyTableViewEasyTables extends JView
 			JToolBarHelper::custom( 'settings','Gear_Icon_48x48.png','',JText::_('SETTINGS'), FALSE );
 		}
 
-		/**
-		 *
-		 * Let's do a version check - it's always good to use the newest version.
-		 *
-		**/
+		// Search
+		$search = mysql_real_escape_string($this->get('search'));
 
 		// Get data from the model
 		$rows =& $this->get('data');
 		$this->assignRef('rows',$rows);
+		$this->assign('search',$search);
 		$this->assign('et_hasTableMgrPermission',$hasTableMgrPermission);
 		$this->assign('et_hasDataUploadPermission',in_array($user->usertype, $aduSettings));
 		$this->assign('et_hasDataEditingPermission',in_array($user->usertype, $adeSettings));

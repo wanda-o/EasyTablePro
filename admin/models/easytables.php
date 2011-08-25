@@ -21,12 +21,38 @@ class EasyTableModelEasyTables extends JModel
 {
 
 	/**
+ 	/**
+ 	 * 
+ 	 * Search text
+ 	 * @var string
+ 	 */
+ 	var $_search = null;
+ 
 	 * EasyTables data array
 	 *
 	 * @var array
 	 */
 	var $data;
 
+	/**
+	 * 
+	 * Returns the users search term for the EasyTableMgr
+	 */
+	function getSearch()
+	{
+		// echo '<BR />Entered getSearch()';
+		if(!$this->_search)
+		{
+			global $mainframe, $option;
+			$search = $mainframe->getUserStateFromRequest("$option.easytablemgr.search", 'search','');
+			if($search == '')
+			{
+				$search = JRequest::getVar('search','');
+			}
+			$this->_search = JString::strtolower($search);
+		}
+		return $this->_search;
+	}
 
 	/**
 	 * Returns the query
@@ -34,10 +60,18 @@ class EasyTableModelEasyTables extends JModel
 	 */
 	function _buildQuery()
 	{
+		$searchTerm = $this->getSearch();
+		if(empty($searchTerm) || ($searchTerm == ''))
+		{
+			$searchQuery = '';
+		}
+		else
+		{
+			$searchQuery = ' WHERE ets.easytablename LIKE \'%'.$searchTerm.'%\'';
+		}
 		$query = ' SELECT ets.*, u.name AS editor'.
 			' FROM #__easytables AS ets'.
-			' LEFT JOIN #__users AS u ON u.id = ets.checked_out'
-		;
+			' LEFT JOIN #__users AS u ON u.id = ets.checked_out'.$searchQuery;
 
 		return $query;
 	}

@@ -51,6 +51,10 @@
 	display:none;
 }
 
+.et_version_info {
+	color:grey;
+}
+
 #et_meta_table_rows tr.et_new_row, #et_meta_table_rows tr.et_new_row td {
 	background-color:#c3ffc3;
 }
