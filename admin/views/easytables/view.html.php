@@ -189,7 +189,11 @@ class EasyTableViewEasyTables extends JView
 
 		// Get data from the model
 		$rows =& $this->get('data');
+		// A little pagination for our users with *lots* of tables.
+		$pagination = & $this->get('Pagination');
+
 		$this->assignRef('rows',$rows);
+		$this->assignRef('pagination',$pagination);
 		$this->assign('search',$search);
 		$this->assign('et_hasTableMgrPermission',$hasTableMgrPermission);
 		$this->assign('et_hasDataUploadPermission',in_array($user->usertype, $aduSettings));

@@ -103,6 +103,11 @@ defined('_JEXEC') or die('Restricted Access');
 		$k = 1 - $k;
 	}
 	?></tbody>
+	<tfoot>
+		<tr>
+			<td colspan="13"><?php echo $this->pagination->getListFooter(); ?></td>
+		</tr>
+	</tfoot>
 	</table>
 </div>
 <?php echo JHTML::_('form.token'); ?>

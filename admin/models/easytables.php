@@ -21,6 +21,17 @@ class EasyTableModelEasyTables extends JModel
 {
 
 	/**
+	 * Items total
+	 * @var integer
+	 */
+	var $_total = null;
+
+ 	/**
+ 	 * Pagination object
+	 * @var object
+	 */
+ 	var $_pagination = null;
+
  	/**
  	 * 
  	 * Search text
@@ -28,11 +39,62 @@ class EasyTableModelEasyTables extends JModel
  	 */
  	var $_search = null;
  
+  	/**
 	 * EasyTables data array
 	 *
 	 * @var array
 	 */
-	var $data;
+	var $_data;
+
+	/**
+	 * 
+	 * Sets up the JPagination variables
+	 */
+	function __construct()
+	{
+		parent::__construct();
+		
+		global $mainframe, $option;
+		
+		// Get pagination request variables
+		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		
+		// In case limit has been changed, adjust it
+		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		
+		$this->setState('limit', $limit);
+		$this->setState('limitstart', $limitstart);
+	}
+
+	/**
+	 * getTotal()
+	 * Returns the total number of tables
+	 */
+	function getTotal()
+	{
+		if (empty($this->_total))
+		{
+			$query = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
+		}
+		return $this->_total;
+	}
+
+	/**
+	 * getPagination()
+	 * Returns the JPagination object of tables
+	 */
+	function getPagination()
+	{
+		// Load the content if it doesn't already exist
+		if (empty($this->_pagination))
+		{
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+		}
+		return $this->_pagination;
+	}
 
 	/**
 	 * 
@@ -78,18 +140,17 @@ class EasyTableModelEasyTables extends JModel
 
 	/**
 	 * Retrieves the data
-	 * @return array Array of objects containing the data from the database
+	 * @return array Array of objects containing the data from the database using pagination limits
 	 */
 	function getData()
 	{
 		// Lets load the data if it doesn't already exist
-		if (empty( $this->data ))
+		if (empty( $this->_data ))
 		{
 			$query = $this->_buildQuery();
-			$this->data = $this->_getList( $query );
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
-
-		return $this->data;
+		return $this->_data;
 	}
 
 }
