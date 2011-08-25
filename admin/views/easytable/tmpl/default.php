@@ -69,7 +69,10 @@ defined('_JEXEC') or die('Restricted Access');
 							</label>
 						</td>
 						<td>
-							<input class="text_area" type="text" name="description" id="description" size="32" maxlength="250" value="<?php echo $this->row->description;?>" />
+						<?php
+							$editor =& JFactory::getEditor();
+							echo $editor->display('description', $this->row->description, '550', '200', '60', '20', false);
+						?>
 						</td>
 					</tr>
 					<tr class="hasTip" title="<?php echo JText::_( 'IMAGE_DIRECTORY_DESC' ); ?>" >
