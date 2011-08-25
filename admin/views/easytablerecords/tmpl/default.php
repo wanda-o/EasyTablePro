@@ -8,6 +8,7 @@
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
 	$et_tableName = $this->easytable->easytablename;
+	$et_total_col_count = count($this->et_list_meta)+4;
 	JHTML::_('behavior.tooltip');
 	JToolBarHelper::title(JText::_( 'EDIT_RECORDS_IN' ).' '.$et_tableName, 'easytableeditrecords');
 
@@ -126,6 +127,15 @@ defined('_JEXEC') or die('Restricted Access');
 				<td colspan="2">
 					<fieldset class="adminform hasTip" title="<?php echo JText::sprintf( 'DATA__RECORD_IN_TABLE_DESC', $et_tableName, $this->easytable->easytablealias); ?>!">
 						<legend><?php echo $et_tableName.' - '.JText::_( 'DATA_RECORDS_' ); ?></legend>
+						<table>
+							<tr>
+								<td width="100%"><?php echo JText::_( 'Filter' ); ?>:
+									<input type="text" name="search" id="search" value="<?php echo $this->search; ?>" class="text_area" onchange="document.adminForm.submit();" />
+									<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+									<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+								</td>
+							</tr>
+						</table>
 						<table class="adminlist" id="et_fieldList">
 						<thead>
 							<tr valign="top">
@@ -144,8 +154,13 @@ defined('_JEXEC') or die('Restricted Access');
 							</tr>
 						</thead>
 						<tbody id='et_data_table_rows'>
-<?php
-								$alt_rv = 0;$cid=0;
+						<?php
+							$alt_rv = 0;$cid=0;
+							if(empty($this->et_table_data)) {
+								echo '<tr valign="top" class="row'.$alt_rv.'" id="et_record'.$cid.'">'."\r";
+								echo '<td colspan="'.$et_total_col_count.'">'.JText::_('NO_MATCH')."</td>\r";
+								echo "</tr>\r";
+							} else {
 								foreach ( $this->et_table_data as $et_table_row )
 								{
 									$rowId = $et_table_row['id'];
@@ -158,9 +173,10 @@ defined('_JEXEC') or die('Restricted Access');
 									echo "</tr>\r";
 									$alt_rv = (int)!$alt_rv;
 								}
-							?>
+							}
+						?>
 							<tr>
-								<td colspan="<?php echo(count($this->et_list_meta)+4); ?>">
+								<td colspan="<?php echo $et_total_col_count; ?>">
 									<?php echo( $this->pageNav->getListFooter() ); ?>
 								</td>
 							</tr>
@@ -175,6 +191,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="option" value="<?php echo $option; ?>" />
+<input type="hidden" name="view" value="easytablerecords" />
 <input type="hidden" name="id" value="<?php echo $this->easytable->id; ?>" />
 <input type="hidden" name="task" value="editData" />
 <?php echo JHTML::_('form.token'); ?>

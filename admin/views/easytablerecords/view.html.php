@@ -43,12 +43,17 @@ class EasyTableViewEasyTableRecords extends JView
 		return($theEditLink);
 	}
 
+	/**
+	 * Get searchable fields - specifically exlude fields marked as URLs and image paths
+	 */
 	function getSearchFieldsIn ($tableID)
 	{
+		// Get a database object
 		$db =& JFactory::getDBO();
-		$query = "SELECT `fieldalias` FROM #__easytables_table_meta WHERE `easytable_id` = $tableID AND (`params` LIKE '%search_field=1%')";
+		// Get the search fields for this table
+		$query = "SELECT `fieldalias` FROM #__easytables_table_meta WHERE `easytable_id` = $tableID AND (type = '0' || type = '3') AND (`params` LIKE '%search_field=1%')";
 		$db->setQuery($query);
-		$fields = $db->loadAssocList();
+		$fields = $db->loadResultArray();
 		return $fields;
 	}
 
@@ -107,15 +112,27 @@ class EasyTableViewEasyTableRecords extends JView
 		if($etmCount)  //Make sure at least 1 field is set to display
 		{
 			//Search setup
-			$search = $mainframe->getUserStateFromRequest("$option.easytable.etsearch".$id, 'etsearch','');
+			$search = $mainframe->getUserStateFromRequest("$option.easytabledata.search".$id, 'search','');
 			if($search == '')
 			{
-				$search = JRequest::getVar('etsearch','');
+				$search = JRequest::getVar('search','');
 			}
 			$this->_search = JString::strtolower($search);
 			if($search == '')
 			{
 				$sqlWhere = '';
+			}
+			else
+			{
+				$searchFields = $this->getSearchFieldsIn($id);
+
+				$where = array();
+				
+				foreach($searchFields as $field)
+				{
+					$where[] = '`'.$field. "` LIKE '%{$search}%'";
+				}
+				$sqlWhere = ' WHERE ( '. implode(' OR ', $where).' ) ';
 			}
 
 			//Setup for pagination
@@ -123,22 +140,23 @@ class EasyTableViewEasyTableRecords extends JView
 			$lim   = $mainframe->getUserStateFromRequest("$option.limit", 'limit', 25, 'int');
 
 			$ettd_tname = $db->nameQuote('#__easytables_table_data_'.$id);
-			$query = "SELECT SQL_CALC_FOUND_ROWS * FROM ".$ettd_tname;
+			$query = "SELECT SQL_CALC_FOUND_ROWS * FROM ".$ettd_tname.$sqlWhere;
 			$db->setQuery($query, $lim0, $lim);
 			// Store the table data in a variable
 			$easytables_table_data =$db->loadAssocList();
-			if (empty($easytables_table_data)) {$jAp->enqueueMessage($db->getErrorMsg(),'error'); return;}
-			else {
-				$db->setQuery('SELECT FOUND_ROWS();');  //no reloading the query! Just asking for total without limit
-				jimport('joomla.html.pagination');
-				$pageNav = new JPagination( $db->loadResult(), $lim0, $lim );
-
-				// Get the record count for this table
-				$query = "SELECT COUNT(*) FROM ".$ettd_tname;
-				$db->setQuery($query);
-				$ettd_db_obj = $db->query();
-				$ettd_record_count = mysql_result($ettd_db_obj,0);
+			if (empty($easytables_table_data)) {
+				$jAp->enqueueMessage('No matching records found.<br />'.$db->getErrorMsg(),'error');
 			}
+
+			$db->setQuery('SELECT FOUND_ROWS();');  //no reloading the query! Just asking for total without limit
+			jimport('joomla.html.pagination');
+			$pageNav = new JPagination( $db->loadResult(), $lim0, $lim );
+
+			// Get the record count for this table
+			$query = "SELECT COUNT(*) FROM ".$ettd_tname;
+			$db->setQuery($query);
+			$ettd_db_obj = $db->query();
+			$ettd_record_count = mysql_result($ettd_db_obj,0);
 		}
 		else
 		{
@@ -146,8 +164,6 @@ class EasyTableViewEasyTableRecords extends JView
 			$jAp->enqueueMessage(JText::_( 'NO_DATA_DESC').' '.$easytable->easytablename,'error');
 			return;
 		}
-		// Search
-		$search = $db->getEscaped($this->get('search'));
 
 		// Assing these items for use in the tmpl
 		$this->assign('tableId', $id);
