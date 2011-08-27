@@ -1381,6 +1381,7 @@ function toggleSearch()
 		{
 			foreach($csvColumnLabels as $label)
 			{
+				if(empty($label) || $label == ''){$label=JText::_('NO_COLUMN_HEADING');}
 				$columnAlias = substr( JFilterOutput::stringURLSafe(trim(addslashes ( $label ))), 0, 64);
 				if($columnAlias == 'id') $columnAlias = 'tmp-id';
 				// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)
