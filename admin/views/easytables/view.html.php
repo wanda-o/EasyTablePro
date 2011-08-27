@@ -139,7 +139,6 @@ class EasyTableViewEasyTables extends JView
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
 		$doc->addStyleSheet(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.css');
-		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.js');
 		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/assets/js/easytablemanager.js');
 		$doc->addScript('http://seepeoplesoftware.com/cpplversions/cppl_et_versions.js');
 		JHTML::_('behavior.modal');
@@ -178,7 +177,7 @@ class EasyTableViewEasyTables extends JView
 			$toolbar=& JToolBar::getInstance( 'toolbar' );
 			$toolbar->appendButton( 'Popup', 'linkTable', 'Link Table', 'index.php?option=com_easytablepro&view=easytablelink&tmpl=component', 500, 280 );
 		}
-		JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 420 );
+		JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 425 );
 		if(in_array($user->usertype, $aaSettings))
 		{
 			JToolBarHelper::custom( 'settings','Gear_Icon_48x48.png','',JText::_('SETTINGS'), FALSE );

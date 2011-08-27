@@ -20,3 +20,24 @@ $('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_
 	};
 });
 
+function submitbutton(pressbutton)
+{
+	if (pressbutton == 'publish' ||
+		pressbutton == 'unpublish' ||
+		pressbutton == 'edit' ||
+		pressbutton == 'editData' ||
+		pressbutton == 'uploadData' ||
+		pressbutton == 'remove' ||
+		pressbutton == 'add' ||
+		pressbutton == 'toggleSearch' ||
+		pressbutton == 'settings' ||
+		pressbutton == 'cancel')
+	{
+		submitform(pressbutton);
+	}
+	else 
+	{
+		alert("OK - you broke something, not really sure how you got here.  If you want this fixed I'd make some serious notes about how you ended up here. PB-> "+pressbutton);
+		return 0;
+	}
+}
