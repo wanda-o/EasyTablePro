@@ -209,10 +209,19 @@ defined('_JEXEC') or die('Restricted Access');
 								<th class="hasTip" title="<?php echo JText::_( 'LABEL__DESC' ); ?>" ><?php echo JText::_( 'LABEL__ALIAS_' ); ?></th>
 								<th class="hasTip" title="<?php echo JText::_( 'DESCRIPTION__TH_DESC' ) ?>" ><?php echo JText::_( 'DESCRIPTION' ); ?></th>
 								<th class="hasTip" title="<?php echo JText::_( 'FIELD_OPTIONS_DESC' ); ?>" ><?php echo JText::_( 'TYPE' ).' / '.JText::_( 'OPTIONS' ); ?></th>
-								<th class="hasTip" title="<?php echo JText::_( 'LIST_VIEW_DESC' ); ?>" ><?php echo JText::_( 'LIST_VIEW' ); ?></th>
+								<th class="hasTip" title="<?php echo JText::_( 'LIST_VIEW_DESC' ); ?>" ><?php echo JText::_( 'LIST_VIEW' ); ?><br />
+								<a href="#" onclick="flipAll('list')"title="<?php echo JText::_('FLIP_ALL_FIELDS_IN_LIST_VIEW'); ?>" class="hasTip"> F </a> | 
+								<a href="#" onclick="turnAll('on','list')" title="<?php echo JText::_('TURN_ON_ALL_FIELDS_IN_LIST_VIEW'); ?>" class="hasTip" > √ </a> | 
+								<a href="#" onclick="turnAll('off','list')" title="<?php echo JText::_('TURN_OFF_ALL_FIELDS_IN_LIST_VIEW'); ?>" class="hasTip" > X </a></th>
 								<th class="hasTip" title="<?php echo JText::_( 'DETAIL_LINK_DESC' ); ?>" ><?php echo JText::_( 'DETAIL_LINK' ); ?></th>
-								<th class="hasTip" title="<?php echo JText::_( 'DETAIL_VIEW_DESC' ); ?>" ><?php echo JText::_( 'DETAIL_VIEW' ); ?></th>
-								<th class="hasTip" title="<?php echo JText::_( 'SEARCHABLE__THI_DESC' ); ?>" ><?php echo '<img src="components/com_'._cppl_this_com_name.'/assets/images/search.png" alt="'.JText::_( 'INCLUDE_IN_SEARCH' ).'"'; ?></th>
+								<th class="hasTip" title="<?php echo JText::_( 'DETAIL_VIEW_DESC' ); ?>" ><?php echo JText::_( 'DETAIL_VIEW' ); ?><br />
+								<a href="#" onclick="flipAll('detail')"title="<?php echo JText::_('FLIP_ALL_FIELDS_IN_DETAIL_VIEW'); ?>" class="hasTip"> F </a> | 
+								<a href="#" onclick="turnAll('on','detail')" title="<?php echo JText::_('TURN_ON_ALL_FIELDS_IN_DETAIL_VIEW'); ?>" class="hasTip" > √ </a> | 
+								<a href="#" onclick="turnAll('off','detail')" title="<?php echo JText::_('TURN_OFF_ALL_FIELDS_IN_DETAIL_VIEW'); ?>" class="hasTip" > X </a></th>
+								<th class="hasTip" title="<?php echo JText::_( 'SEARCHABLE__THI_DESC' ); ?>" ><?php echo '<img src="components/com_'._cppl_this_com_name.'/assets/images/search-sm.png" style="clear:both;">'; ?><br />
+								<a href="#" onclick="flipAll('search')"title="<?php echo JText::_('FLIP_ALL_FIELDS_SEARCH_FLAG'); ?>" class="hasTip"> F </a> | 
+								<a href="#" onclick="turnAll('on','search')" title="<?php echo JText::_('TURN_ON_ALL_FIELDS_SEARCH_FLAG'); ?>" class="hasTip" > √ </a> | 
+								<a href="#" onclick="turnAll('off','search')" title="<?php echo JText::_('TURN_OFF_ALL_FIELDS_SEARCH_FLAG'); ?>" class="hasTip" > X </a></th>
 							</tr>
 						</thead>
 						<tbody id='et_meta_table_rows'>
