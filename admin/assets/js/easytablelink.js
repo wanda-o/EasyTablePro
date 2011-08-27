@@ -10,7 +10,6 @@ function selectTable()
 	et_table_select_form = document.adminForm;
 	if(et_selectedTableName = checkTableSelection())
 	{
-//		window.top.setTimeout('window.parent.document.getElementById(\'sbox-window\').close()', 200);
 		window.top.setTimeout('window.location=\'/administrator/index.php?option=com_easytablepro&view=easytable&task=edit&datatablename='+et_selectedTableName+'\'', 250);
 		et_table_select_form.submit();
 		return 1;

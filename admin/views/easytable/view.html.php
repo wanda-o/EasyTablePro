@@ -142,7 +142,7 @@ class EasyTableViewEasyTable extends JView
 		$etupld = in_array($user->usertype, $aduSettings) ? true : false;
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
-		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.js');
+		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/assets/js/'._cppl_base_com_name.'table.js');
 		$doc->addStyleSheet(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.css');
 
 		JRequest::setVar( 'hidemainmenu', 1 );
