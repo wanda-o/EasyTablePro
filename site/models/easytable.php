@@ -103,7 +103,7 @@ class EasyTableModelEasyTable extends JModel
 			$ofid = isset($linkparts['sort_field'])?$linkparts['sort_field']:0;
 			$ofdir = isset($linkparts['sort_order'])?$linkparts['sort_order']:'ASC';
 			$ffid = isset($linkparts['filter_field'])?$linkparts['filter_field']:0;
-			$fvtext = isset($linkparts['filter_value'])?$linkparts['filter_value']:'';
+			$fvtext = trim(isset($linkparts['filter_value'])?$linkparts['filter_value']:'');
 			$ftype = isset($linkparts['filter_type'])?$linkparts['filter_type']:0;
 
 			// Are records to be filtered by user id/name?
@@ -164,19 +164,44 @@ class EasyTableModelEasyTable extends JModel
 				}
 
 				// Create the Filter Search
-				if($ffid) {
+				if($ffid && strlen($fvtext)) {
 					$ffname = $this->getFieldName($id, $ffid);
-					
-					$filterSearch = '( `'.$ffname.'`';
-					
-					if($ftype == 'LIKE') {
-						$filterSearch .= " like '%".$fvtext."%' )";
+					$filterSearch = '';
+
+					// Single search string or multiple?
+					$moreThanOne = strpos($fvtext, '|');
+
+					if(!$moreThanOne) {
+						$filterSearch = '( `'.$ffname.'`';
+						if($ftype == 'LIKE') {
+							$filterSearch .= " like '%".$fvtext."%' )";
+						}
+						else // treat anything else as IS
+						{
+							$filterSearch .= "= '".$fvtext."' )";
+						}
+					} else {
+						$fvtextarray = explode('|', $fvtext);
+						$filterSearchArray = array();
+						foreach ($fvtextarray as $filtervalue) {
+							if(strlen($filtervalue)){
+								$filterSearchText = '( `'.$ffname.'`';
+								if($ftype == 'LIKE') {
+									$filterSearchText .= " like '%".$filtervalue."%' )";
+								}
+								else // treat anything else as IS
+								{
+									$filterSearchText .= "= '".$filtervalue."' )";
+								}
+								$filterSearchArray[] = $filterSearchText;
+							}
+						}
+						if(count($filterSearchArray)) {
+							$filterSearch = implode(' OR ', $filterSearchArray);
+						}
 					}
-					else // treat anything else as IS
-					{
-						$filterSearch .= "= '".$fvtext."' )";
-					}
-					if($search != '') { $filterSearch .= ' AND '; } // If there is user search text append an AND
+
+					if($search != '') { $filterSearch = '( '.$filterSearch.' ) AND '; } // If there is user search text append an AND
 
 					$newSearch .= $filterSearch;
 				}
