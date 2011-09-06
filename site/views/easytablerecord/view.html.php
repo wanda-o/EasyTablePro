@@ -432,7 +432,7 @@ class EasyTableViewEasyTableRecord extends JView
 			$linked_fields_to_get = implode('`, `', $this->fieldAliassForList($linked_table_meta,$lkf_id) );
 
 			// Get linked Records
-			$linked_records_SQL = "SELECT `$linked_fields_to_get` FROM `#__easytables_table_data_$lt_id` WHERE `$lkf_alias` = '$kf_search_value'";
+			$linked_records_SQL = "SELECT $linked_fields_to_get` FROM `#__easytables_table_data_$lt_id` WHERE `$lkf_alias` = '$kf_search_value'";
 			$db->setQuery($linked_records_SQL);
 			$linked_records = $db->loadAssocList();
 			
