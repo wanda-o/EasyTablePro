@@ -23,7 +23,7 @@
 		$mod_dl = $this->modification_date_label.' '.JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'));
 	}
 	echo ($this->show_modified_date ? '<p class="modifydate">'.$mod_dl.'</p>' : '') ?>
-<?php echo ($this->show_description ? '<p class="et_description">'.$this->easytable->description.'</p>' : '') ?>
+<?php echo ($this->show_description ? '<div class="et_description">'.$this->easytable->description.'</div>' : '') ?>
 <BR />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
 	<form class="search_result" name="adminForm" method="post" action="<?php echo $this->paginationLink ?>" onreset="javascript:document.adminForm.etsearch.value = '';document.adminForm.submit();">

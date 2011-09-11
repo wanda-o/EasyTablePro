@@ -38,7 +38,7 @@ if($this->show_page_title) {
 		echo '<li class="et_list_table_'.$row->easytablealias.'"><a href="'.$link.'">'.$row->easytablename.$lockImage.'</a>';
 		if($this->show_description)
 		{
-			echo '<BR /><p class="et_description">'.$row->description.'<p>';
+			echo '<BR /><div class="et_description '.$row->easytablealias.'">'.$row->description.'</div>';
 		}
 		echo '</li>';
    }
