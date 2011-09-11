@@ -27,6 +27,7 @@
 		<tbody>
 			<?php
 				$this->assign('currentImageDir',$this->linked_table_imageDir);
+				$rowNum = 0;
 				foreach ($this->linked_records as $prow )  // looping through the rows of data
 				{
 					$rowId = $prow["id"];
@@ -40,7 +41,7 @@
 							$cellType	    = (int)$this->linked_field_types[$fieldNumber];
 							$cellOptions    = $this->linked_field_options[$fieldNumber];
 							$cellDetailLink = (int)$this->linked_field_links_to_detail[$fieldNumber++];
-							$cellData       = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $this->linked_records_FNILV); //getFWO($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
+							$cellData       = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $this->linked_records_FNILV[$rowNum]); //getFWO($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
 
 							if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
 							{
@@ -56,6 +57,7 @@
 					echo '</tr>';  // Close the Row
 					$k = '';
 					$rowId = '';   // Clear the rowId to prevent any issues.
+					$rowNum++;
 				}
 			?>
 		</tbody>
