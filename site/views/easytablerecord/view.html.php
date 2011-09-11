@@ -13,6 +13,7 @@ require_once $pvf;
 
 class EasyTableViewEasyTableRecord extends JView
 {
+	var $_etvetr_currenttable = null;
 
 	function getFieldAliasForMetaID ($mId = 0)
 	{
@@ -39,11 +40,11 @@ class EasyTableViewEasyTableRecord extends JView
 		}
 		if($restrict_to_view == '')
 		{
-			$query = "SELECT label, fieldalias, type, detail_link, description, id, detail_view, list_view, params FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' ORDER BY position;";
+			$query = "SELECT `label`, `fieldalias`, `type`, `detail_link`, `description`, `id`, `detail_view`, `list_view`, `params` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE `easytable_id` ='$id' ORDER BY position;";
 		}
 		else
 		{
-			$query = "SELECT label, fieldalias, type, detail_link, description, id, detail_view, list_view, params FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' AND `$restrict_to_view` = '1' ORDER BY position;";
+			$query = "SELECT  `label`, `fieldalias`, `type`, `detail_link`, `description`, `id`, `detail_view`, `list_view`, `params` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id ='$id' AND `$restrict_to_view` = '1' ORDER BY position;";
 		}
 
 		$db->setQuery($query);
@@ -179,13 +180,16 @@ class EasyTableViewEasyTableRecord extends JView
 
 	function getDataTableName()
 	{
-		$id = (int)JRequest::getVar('id', 0);
-		$easytable =& JTable::getInstance('EasyTable','Table');
-		$easytable->load($id);
-		$_datatablename = $easytable->datatablename;
+		if($this->_etvetr_currenttable == null)
+		{
+			$id = (int)JRequest::getVar('id', 0);
+			$this->_etvetr_currenttable =& JTable::getInstance('EasyTable','Table');
+			$this->_etvetr_currenttable->load($id);
+		}
+		$_datatablename = $this->_etvetr_currenttable->datatablename;
 		if($_datatablename == '')
 		{
-			$_datatablename = '#__easytables_table_data_'.$id;
+			$_datatablename = '#__easytables_table_data_'.$this->_etvetr_currenttable->id;
 		}
 		return $_datatablename;
 	}
@@ -260,13 +264,13 @@ class EasyTableViewEasyTableRecord extends JView
 		 * Get the current ET details and make sure it's published.
 		 *
 		 */
-		$easytable =& JTable::getInstance('EasyTable','Table');
-		$easytable->load($id);
-		if($easytable->published == 0) {
+		$this->_etvetr_currenttable =& JTable::getInstance('EasyTable','Table');
+		$this->_etvetr_currenttable->load($id);
+		if($this->_etvetr_currenttable->published == 0) {
 			JError::raiseError(404, JText::_( "THE_TABLE_RECORD_YOU_REQUESTED_IS_NOT_PUBLISHED_OR_DOESN_T_EXIST_BR___RECORD_ID__" ).$id.' / '.$rid);
 		}
 		
-		$imageDir = $easytable->defaultimagedir;
+		$imageDir = $this->_etvetr_currenttable->defaultimagedir;
 
 		/*
 		 * Get Params for linked tables as we'll need them soon
@@ -283,7 +287,7 @@ class EasyTableViewEasyTableRecord extends JView
 			$params->merge( $menuparams );
 		}
 
-		$tableParams = new JParameter( $easytable->params );
+		$tableParams = new JParameter( $this->_etvetr_currenttable->params );
 		$params->merge( $tableParams ); // Merge with this tables params
 
 		$show_linked_table = $params->get('show_linked_table','');
@@ -387,12 +391,12 @@ class EasyTableViewEasyTableRecord extends JView
 		// Generate Page title
 		if( $title_links_to_table ) {
 			// Create a backlink
-			$backlink = "index.php?option=com_"._cppl_this_com_name."&view=easytable&id=$id:$easytable->easytablealias&start=$start_page";
+			$backlink = "index.php?option=com_"._cppl_this_com_name."&view=easytable&id=$id:$this->_etvetr_currenttable->easytablealias&start=$start_page";
 			$backlink = JRoute::_($backlink);
 
-			$pt = '<a href="'.$backlink.'">'.htmlspecialchars($easytable->easytablename.$titleSuffix).'</a>';
+			$pt = '<a href="'.$backlink.'">'.htmlspecialchars($this->_etvetr_currenttable->easytablename.$titleSuffix).'</a>';
 		} else {
-			$pt = htmlspecialchars($easytable->easytablename.$titleSuffix);
+			$pt = htmlspecialchars($this->_etvetr_currenttable->easytablename.$titleSuffix);
 		}
 
 		// Generate Table description
@@ -401,8 +405,8 @@ class EasyTableViewEasyTableRecord extends JView
 
 		if($show_next_prev_record_links)
 		{
-			$prevrecord = $this->prevRecordLink($id,$easytable->easytablealias,$rid);
-			$nextrecord = $this->nextRecordLink($id,$easytable->easytablealias,$rid);
+			$prevrecord = $this->prevRecordLink($id,$this->_etvetr_currenttable->easytablealias,$rid);
+			$nextrecord = $this->nextRecordLink($id,$this->_etvetr_currenttable->easytablealias,$rid);
 		}
 		else
 		{
@@ -410,6 +414,9 @@ class EasyTableViewEasyTableRecord extends JView
 			$nextrecord = '';
 		}
 
+		// Before we 'possibly' load the linked table, we store a copy for the view to use
+		$this->assignRef('easytable',$this->_etvetr_currenttable);
+		
 		/*
 		 *
 		 * If there is a Linked Table we need to assemble the SQL
@@ -419,7 +426,10 @@ class EasyTableViewEasyTableRecord extends JView
 		// Using the linked table bits assemble the SQL to get the related records
 		if($lt_id)
 		{
-			// First get the fieldalias of the Key_Field ie. the col name in the primary table
+			// First, get the meta about our linked table
+			$this->_etvetr_currenttable->load($lt_id);
+			
+			// Then get the fieldalias of the Key_Field ie. the col name in the primary table
 			$kf_alias = $this->getFieldAliasForMetaID($kf_id);
 
 			// From the record for the primary table get the value to match against in the linked table
@@ -432,7 +442,7 @@ class EasyTableViewEasyTableRecord extends JView
 			$linked_fields_to_get = implode('`, `', $this->fieldAliassForList($linked_table_meta,$lkf_id) );
 
 			// Get linked Records
-			$linked_records_SQL = "SELECT $linked_fields_to_get` FROM `#__easytables_table_data_$lt_id` WHERE `$lkf_alias` = '$kf_search_value'";
+			$linked_records_SQL = "SELECT $linked_fields_to_get` FROM ".$db->nameQuote($this->getDataTableName())." WHERE `$lkf_alias` = '$kf_search_value'";
 			$db->setQuery($linked_records_SQL);
 			$linked_records = $db->loadAssocList();
 			
@@ -442,8 +452,8 @@ class EasyTableViewEasyTableRecord extends JView
 			if($tableHasRecords)
 			{
 				// Get the fields of the linked records that are not shown in the list view
-				$linked_fields_to_get_FNILV = implode('`, `', $this->fieldAliassForList_NIV($linked_table_meta,$lkf_id) );
-				$linked_records_FNILV_SQL = "SELECT `$linked_fields_to_get_FNILV` FROM `#__easytables_table_data_$lt_id` WHERE `$lkf_alias` = '$kf_search_value'";
+				$linked_fields_to_get_FNILV = implode('`, `', $this->fieldAliassForList_NIV($this->fieldMeta($lt_id),$lkf_id) );
+				$linked_records_FNILV_SQL = "SELECT $linked_fields_to_get_FNILV` FROM ".$db->nameQuote($this->getDataTableName())." WHERE `$lkf_alias` = '$kf_search_value'";
 				$db->setQuery($linked_records_FNILV_SQL);
 				$linked_records_FNILV = $db->loadAssocList();
 				$this->assignRef('linked_records_FNILV',$linked_records_FNILV);
@@ -497,7 +507,6 @@ class EasyTableViewEasyTableRecord extends JView
 		$this->assign('imageDir', $imageDir);
 		$this->assign('currentImageDir', $imageDir);
 		$this->assignRef('backlink', $backlink);
-		$this->assignRef('easytable',$easytable);
 		$this->assignRef('easytables_table_meta',$easytables_table_meta);
 		$this->assignRef('easytables_table_record',$easytables_table_record);
 		$this->assignRef('et_tr_assoc', $et_tr_assoc);
