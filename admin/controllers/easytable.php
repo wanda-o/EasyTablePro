@@ -146,6 +146,18 @@ class EasyTableController extends JController
 			if($paramsObj->get('restrictedTables') != $newRestrictedTables) {
 				$paramsObj->set('restrictedTables',$newRestrictedTables);
 			}
+			
+			//Raw Data Entry
+			if(isset ( $allThePostData['allowRawDataEntry'] ))
+			{
+				$newSettings = $allThePostData['allowRawDataEntry'];
+				array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
+			}
+			else
+			{
+				$newSettings = array('Super Administrator');
+			}
+			$paramsObj->set('allowRawDataEntry', implode ( ',', $newSettings));
 
 			//Uninstall Type
 			if($paramsObj->get('uninstall_type') != $allThePostData['uninstall_type']) {
