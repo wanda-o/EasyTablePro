@@ -65,6 +65,8 @@ class EasyTableViewEasyTable extends JView
 				return;
 			}
 		}
+		// So our column headings pop out :D (Handy for users that want to put a note in about the field or column sorting
+		JHTML::_('behavior.tooltip');
 
 		$show_description = $params->get('show_description',1);
 		$show_search = $params->get('show_search',1);

@@ -68,8 +68,8 @@
 				<?php foreach ($this->easytables_table_meta as $heading )
 						{
 							$titleString = '';
-							if(strlen($heading[4])){ $titleString = 'title="'.htmlspecialchars($heading[4]).'" ';}
-							echo '<td class="sectiontableheader '.$heading[1].'" '.$titleString.'>'.$heading[0].'</td>';
+							if(strlen($heading[4])){ $titleString = 'class="hasTip" title="'.htmlspecialchars($heading[4]).'" ';}
+							echo '<td class="sectiontableheader '.$heading[1].'" ><span '.$titleString.'" >'.$heading[0].'</span></td>';
 						}
 				?>
 			</tr>
