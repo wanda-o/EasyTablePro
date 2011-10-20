@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" method="upgrade" version="1.5.0">
 	<name>EasyTablePro</name>
-	<version>1.0.0RC5 (b5f8f2c)</version>
+	<version>1.0.0RC5 (b37c2fd)</version>
 	<author>Craig Phillips</author>
 	<creationDate>09-Oct-2011</creationDate>
 	<copyright>Copyright (C) 2011.</copyright>

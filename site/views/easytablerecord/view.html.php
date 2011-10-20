@@ -396,7 +396,7 @@ class EasyTableViewEasyTableRecord extends JView
 		// Generate Page title
 		if( $title_links_to_table ) {
 			// Create a backlink
-			$backlink = "index.php?option=com_"._cppl_this_com_name."&view=easytable&id=$id:$this->_etvetr_currenttable->easytablealias&start=$start_page";
+			$backlink = 'index.php?option=com_'._cppl_this_com_name.'&view=easytable&id='.$id.':'.$this->_etvetr_currenttable->easytablealias.'&start='.$start_page;
 			$backlink = JRoute::_($backlink);
 
 			$pt = '<a href="'.$backlink.'">'.htmlspecialchars($this->_etvetr_currenttable->easytablename.$titleSuffix).'</a>';
