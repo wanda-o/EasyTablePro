@@ -270,15 +270,15 @@ function addField()
 {
 	nfField = $('newFlds');
 
-	idCellHTML = '<input type=\"hidden\" name=\"id#id#\" value=\"#id#\">#id#<br><a href=\"javascript:void(0);\" class=\"deleteFieldButton\" onclick=\"deleteField(\'#id#\', \'et_rID#id#\');\"><img src=\"images/publish_x.png\"></a>';
+	idCellHTML = '<input type=\"hidden\" name=\"id#id#\" value=\"#id#\">#id#<br /><a href=\"javascript:void(0);\" class=\"deleteFieldButton\" onclick=\"deleteField(\'#id#\', \'et_rID#id#\');\"><img src=\"images/publish_x.png\"></a>';
 
 	posCellHTML = '<input type=\"text\" value=\"9999\" size=\"3\" name=\"position#id#\">';
 
-	labelCellHTML = '<input type=\"text\" value=\"\" name=\"label#id#\" id=\"label#id#\"><br><input type=\"hidden\" name=\"origfieldalias#id#\" value=\"\"><input type=\"text\" name=\"fieldalias#id#\" id=\"fieldalias#id#\" value=\"\" onchange=\"validateAlias(this)\" disabled=\"\"><img src=\"components/com_easytablepro/assets/images/locked.gif\" onclick=\"unlock(this, \'#id#\');\" id=\"unlock#id#\">';
+	labelCellHTML = '<input type=\"text\" value=\"\" name=\"label#id#\" id=\"label#id#\"><br /><input type=\"hidden\" name=\"origfieldalias#id#\" value=\"\"><input type=\"text\" name=\"fieldalias#id#\" id=\"fieldalias#id#\" value=\"\" onchange=\"validateAlias(this)\" disabled=\"\"><img src=\"components/com_easytablepro/assets/images/locked.gif\" onclick=\"unlock(this, \'#id#\');\" id=\"unlock#id#\">';
 
 	descCellHTML = '<textarea cols=\"30\" rows=\"2\" name=\"description#id#\"></textarea>';
 
-	typeCellHTML = '<select name=\"type#id#\"><option value=\"0\" selected=\"\">Text</option><option value=\"1\">Image</option><option value=\"2\">Link (URL)</option><option value=\"3\">eMail Address</option><option value=\"4\">Number</option><option value=\"5\">Date</option></select><br><input type=\"hidden\" name=\"origfieldtype#id#\" value=\"\"><input type=\"text\" value=\"\" name=\"fieldoptions#id#\">';
+	typeCellHTML = '<select name=\"type#id#\"><option value=\"0\" selected=\"\">Text</option><option value=\"1\">Image</option><option value=\"2\">Link (URL)</option><option value=\"3\">eMail Address</option><option value=\"4\">Number</option><option value=\"5\">Date</option></select><br /><input type=\"hidden\" name=\"origfieldtype#id#\" value=\"\"><input type=\"text\" value=\"\" name=\"fieldoptions#id#\">';
 
 	listVCellHTML = '<input type=\"hidden\" name=\"list_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'list_view\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"list_view#id#_img\" border=\"0\" title=\"Click this to toggle it\'s appearance in the List View\"></a>';
 

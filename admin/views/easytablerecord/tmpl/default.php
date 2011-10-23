@@ -53,7 +53,7 @@ defined('_JEXEC') or die('Restricted Access');
 		$type = $label_row['type'];
 		echo '<tr valign="top" class="row'.$alt_rv.'" >'."\r";
 		echo '<td>'.$label.'</td>';
-		echo('<td>'.$this->getFieldInputType($fld_alias, $type, $value).'<input name="et_fld_orig_'.$fld_alias.'" type=hidden value="'.$value.'"></td>');
+		echo('<td>'.$this->getFieldInputType($fld_alias, $type, $value).'<input name="et_fld_orig_'.$fld_alias.'" type="hidden" value="'.$value.'" /></td>');
 		echo('<td>'.($value == '' ? '<em>'.JText::_( 'CLICK__APPL_DESC' ).'</em>' : ($type == '1' ? $this->getImageTag($value,''):ET_VHelper::getFWO(html_entity_decode( $value ), $type, $f_params, $this->et_record, $this->et_record))).'</td>');
 		echo "</tr>\r";
 		$alt_rv = (int)!$alt_rv;

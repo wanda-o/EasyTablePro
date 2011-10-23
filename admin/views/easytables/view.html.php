@@ -41,7 +41,7 @@ class EasyTableViewEasyTables extends JView
 		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_',$userName) : '') : JText::_( 'DISABLED_BECAUSE_YOU_DONT_HAVE_PERM' ));
 		$btn_text = JText::_( ( $row->published ? 'PUBLISHED_BTN':'UNPUBLISHED_BTN') ).' \''.$row->easytablename.'\' '.$lockText;
 		$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).($row->published?'publish_g.png':'publish_x.png');
-		$theBtn = '<span  class="hasTip" title="'.$btn_text.'" style="margin-left:15px;" ><img src="'.$theImageURL.'" border="0" ></span>';
+		$theBtn = '<span  class="hasTip" title="'.$btn_text.'" style="margin-left:15px;" ><img src="'.$theImageURL.'" border="0" alt="'.$btn_text.'"></span>';
 
 		if( !$locked && $hasPermission )
 		{
@@ -66,7 +66,7 @@ class EasyTableViewEasyTables extends JView
 			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'edit.png';
 		}
 
-		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'EDIT_RECORDS' ).'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
+		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'EDIT_RECORDS' ).'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
 
 		if( !$locked && !$extTable && $hasPermission)
 		{
@@ -90,11 +90,11 @@ class EasyTableViewEasyTables extends JView
 			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'upload.png';
 		}
 
-		$theBtn = '<span class="hasTip" title="'.JText::_( 'UPLOAD_DATA' ).'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" />';
+		$theBtn = '<span class="hasTip" title="'.JText::_( 'UPLOAD_DATA' ).'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
 
 		if( !$locked && !$extTable && $hasPermission)
 		{
-			$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&task=presentUploadScreen&view=easytableupload&cid='.$rowId.'&tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
+			$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&amp;task=presentUploadScreen&amp;view=easytableupload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
 		}
 
 		return($theBtn);
@@ -122,7 +122,7 @@ class EasyTableViewEasyTables extends JView
 			$btn_text = JText::_( "CLICK_HERE_TO_USE_THE_GLOBAL_PREFERENCES_TO_CONTROL_JOOMLA_S_BUILT_IN_SEARCH_FUNCTION_TO_ACCESS_THIS_TABLE_" ).$lockText;
 		}
 
-		$theSearchableImage = '<img src="'.$theImageString.'" name="'.$rowId.'_img" border="0" />';
+		$theSearchableImage = '<img src="'.$theImageString.'" name="'.$rowId.'_img" border="0" alt="'.$btn_text.'" />';
 
 		$theSearchableButton = (!$locked && $hasPermission) ? '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'toggleSearch\');" title="'.$btn_text.'" >'.$theSearchableImage.'</a>' : $theSearchableImage ;
 		$theSearchableButton = '<span class="hasTip" title="'.$btn_text.'" style="margin-left:20px;" >'.$theSearchableButton.'</span>';
@@ -167,7 +167,7 @@ class EasyTableViewEasyTables extends JView
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();
 			JToolBarHelper::editList();
-			JToolBarHelper::deleteList(JText::_( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' ));
+			JToolBarHelper::deleteList( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' );
 			JToolBarHelper::addNew();
 		}
 		else $hasTableMgrPermission = FALSE;
@@ -175,7 +175,7 @@ class EasyTableViewEasyTables extends JView
 		if(in_array($user->usertype, $alaSettings))
 		{
 			$toolbar=& JToolBar::getInstance( 'toolbar' );
-			$toolbar->appendButton( 'Popup', 'linkTable', 'Link Table', 'index.php?option=com_easytablepro&view=easytablelink&tmpl=component', 500, 280 );
+			$toolbar->appendButton( 'Popup', 'linkTable', 'Link Table', 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component', 500, 280 );
 		}
 		JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 425 );
 		if(in_array($user->usertype, $aaSettings))

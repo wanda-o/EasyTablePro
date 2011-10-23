@@ -54,8 +54,8 @@ class EasyTableViewEasyTable extends JView
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
 
-				$url  = 'index.php?option=com_user&view=login';
-				$url .= '&return='.base64_encode($return);
+				$url  = 'index.php?option=com_user&amp;view=login';
+				$url .= '&amp;return='.base64_encode($return);
 
 				//$url	= JRoute::_($url, false);
 				$mainframe->redirect($url, JText::_('YOU_MUST_LOGIN_TO_SEE_THIS_TABLE_') );
@@ -80,7 +80,7 @@ class EasyTableViewEasyTable extends JView
 		$pageclass_sfx = $params->get('pageclass_sfx','');
 		$etet = $easytable->datatablename?TRUE:FALSE;
 
-		$pathway->addItem($easytable->easytablename, 'index.php?option='.$option.'&id='.$id.'&start='.$start_page);
+		$pathway->addItem($easytable->easytablename, 'index.php?option='.$option.'&amp;id='.$id.'&amp;start='.$start_page);
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
 		// Get the menu item object
@@ -155,7 +155,7 @@ class EasyTableViewEasyTable extends JView
 		// Search
 		$search = $db->getEscaped($this->get('search'));
 		//Get form link
-		$paginationLink = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&view=easytable&id='.$id.':'.$easytable->easytablealias);
+		$paginationLink = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&amp;view=easytable&amp;id='.$id.':'.$easytable->easytablealias);
 
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);

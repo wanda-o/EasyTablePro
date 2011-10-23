@@ -40,7 +40,6 @@
 							$link = $menuItem->link;
 							$urlQry = parse_url ( $link, PHP_URL_QUERY );	// get just the qry section of the link
 							parse_str ($urlQry, $linkparts);				// convert it to an array
-							// echo 'ID from linkparts = '.$linkparts['id'].'<BR />';
 	
 							$id = (int) isset($linkparts['id'])?$linkparts['id']:0;
 						}

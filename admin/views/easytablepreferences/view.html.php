@@ -21,19 +21,20 @@ require_once $pmf;
 
 class EasyTableVieweasytablepreferences extends JView
 {
-	function getCheckbox( $n, $v, $l='', $chkd=false, $disabled=false )
+	function getCheckbox( $n,$id, $v, $l='', $chkd=false, $disabled=false )
 	{
 		if($l=='') $l = $v;
-		$cb = '<label><input type="checkbox" name="'.$n.'" value="'.$v.'" '.($chkd?'checked':'').' '.($disabled?'disabled':'').'>'.$l.'</label>';
+		$cb = '<label><input type="checkbox" name="'.$n.'" id="'.$id.'" value="'.$v.'" '.($chkd?'checked="checked"':'').' '.($disabled?'disabled="disabled"':'').' />'.$l.'</label>';
 		return $cb;
 	}
 
 
 	function createAccessCheckboxes ($groupName, $initialValuesArray)
 	{
-		$theCBHTML  = $this->getCheckbox($groupName,'Super Administrator',JText::_( 'Super Administrator' ), true, true).'<br />';
-		$theCBHTML .= $this->getCheckbox($groupName,'Administrator',JText::_( 'Administrator' ), in_array( 'Administrator', $initialValuesArray )).'<br />';
-		$theCBHTML .= $this->getCheckbox($groupName,'Manager',JText::_( 'Manager' ), in_array( 'Manager', $initialValuesArray ));
+		$id = substr($groupName,0,-2);
+		$theCBHTML  = $this->getCheckbox($groupName,$id,'Super Administrator',JText::_( 'Super Administrator' ), true, true).'<br />';
+		$theCBHTML .= $this->getCheckbox($groupName,$id.'1','Administrator',JText::_( 'Administrator' ), in_array( 'Administrator', $initialValuesArray )).'<br />';
+		$theCBHTML .= $this->getCheckbox($groupName,$id.'2','Manager',JText::_( 'Manager' ), in_array( 'Manager', $initialValuesArray ));
 		return $theCBHTML;
 	}
 

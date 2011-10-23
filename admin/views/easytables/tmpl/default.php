@@ -54,6 +54,11 @@ defined('_JEXEC') or die('Restricted Access');
 			</th>
 		</tr>
 	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="13"><?php echo $this->pagination->getListFooter(); ?></td>
+		</tr>
+	</tfoot>
 	<tbody>
 	<?php
 	$k = 0;
@@ -103,16 +108,11 @@ defined('_JEXEC') or die('Restricted Access');
 		$k = 1 - $k;
 	}
 	?></tbody>
-	<tfoot>
-		<tr>
-			<td colspan="13"><?php echo $this->pagination->getListFooter(); ?></td>
-		</tr>
-	</tfoot>
 	</table>
 </div>
 <?php echo JHTML::_('form.token'); ?>
 <input type="hidden" name="option" value="<?php echo $option ?>" />
-<input type="hidden" name="view" value="easytables">
+<input type="hidden" name="view" value="easytables" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
 </form>

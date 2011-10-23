@@ -28,17 +28,17 @@ if($this->show_page_title) {
 
 		if ($tableParams->get('access') > $aid)
 		{
-			$lockImage = ' <img class="etTableListLockElement" src="/administrator/images/checked_out.png" title="'.JText::_('YOU_MUST_BE_LOGGED_IN_TO_VIEW_THIS_TABLE_').'">';
+			$lockImage = ' <img class="etTableListLockElement" src="/administrator/images/checked_out.png" title="'.JText::_('YOU_MUST_BE_LOGGED_IN_TO_VIEW_THIS_TABLE_').'" alt="'.JText::_('COM_EASYTABLE_PRO_CLICK_TO_LOGI_DESC').'" />';
 		}
 		else
 		{
 			$lockImage ='';
 		}
-		$link = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&view='._cppl_base_com_name.'&id='.$row->id.':'.$row->easytablealias);
+		$link = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&amp;view='._cppl_base_com_name.'&amp;id='.$row->id.':'.$row->easytablealias);
 		echo '<li class="et_list_table_'.$row->easytablealias.'"><a href="'.$link.'">'.$row->easytablename.$lockImage.'</a>';
 		if($this->show_description)
 		{
-			echo '<BR /><div class="et_description '.$row->easytablealias.'">'.$row->description.'</div>';
+			echo '<br /><div class="et_description '.$row->easytablealias.'">'.$row->description.'</div>';
 		}
 		echo '</li>';
    }

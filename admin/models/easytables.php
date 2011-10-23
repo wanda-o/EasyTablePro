@@ -102,7 +102,6 @@ class EasyTableModelEasyTables extends JModel
 	 */
 	function getSearch()
 	{
-		// echo '<BR />Entered getSearch()';
 		if(!$this->_search)
 		{
 			global $mainframe, $option;

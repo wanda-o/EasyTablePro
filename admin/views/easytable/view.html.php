@@ -73,8 +73,7 @@ class EasyTableViewEasyTable extends JView
 			$theImageString = 'publish_x.png';
 		}
 
-		
-		$theListViewImage = '<img src="images/'.$theImageString.'" name="'.$rowElement.'_img" border="0" title="'.$btn_title.'"  class="hasTip"/>';
+		$theListViewImage = '<img src="images/'.$theImageString.'" name="'.$rowElement.'_img" border="0" title="'.$btn_title.'" alt="'.$btn_title.'" class="hasTip"/>';
 		
 		return($theListViewImage);
 	}
@@ -94,12 +93,12 @@ class EasyTableViewEasyTable extends JView
 	function getTypeList ($id, $selectedType=0)
 	{
 		$selectOptionText =	 '<select name="type'.$id.'" onchange="changeTypeWarning()" class="hasTip" title="'.JText::_( 'FIELD_TYPE_DESC' ).'">';// start our html select structure
-		$selectOptionText .= '<option value="0" '.($selectedType ? '':'selected').'>'.JText::_('TEXT').'</option>';				// Type 0 = Text
-		$selectOptionText .= '<option value="1" '.($selectedType==1 ? 'selected':'').'>'.JText::_('IMAGE').'</option>';			// Type 1 = Image URL
-		$selectOptionText .= '<option value="2" '.($selectedType==2 ? 'selected':'').'>'.JText::_('LINK__URL_').'</option>';	// Type 2 = Fully qualified URL
-		$selectOptionText .= '<option value="3" '.($selectedType==3 ? 'selected':'').'>'.JText::_('EMAIL').'</option>';			// Type 3 = Email address
-		$selectOptionText .= '<option value="4" '.($selectedType==4 ? 'selected':'').'>'.JText::_('NUMBER').'</option>';		// Type 4 = Numbers
-		$selectOptionText .= '<option value="5" '.($selectedType==5 ? 'selected':'').'>'.JText::_('DATE').'</option>';			// Type 5 = Dates
+		$selectOptionText .= '<option value="0" '.($selectedType ? '':'selected="selected"').'>'.JText::_('TEXT').'</option>';				// Type 0 = Text
+		$selectOptionText .= '<option value="1" '.($selectedType==1 ? 'selected="selected"':'').'>'.JText::_('IMAGE').'</option>';			// Type 1 = Image URL
+		$selectOptionText .= '<option value="2" '.($selectedType==2 ? 'selected="selected"':'').'>'.JText::_('LINK__URL_').'</option>';	// Type 2 = Fully qualified URL
+		$selectOptionText .= '<option value="3" '.($selectedType==3 ? 'selected="selected"':'').'>'.JText::_('EMAIL').'</option>';			// Type 3 = Email address
+		$selectOptionText .= '<option value="4" '.($selectedType==4 ? 'selected="selected"':'').'>'.JText::_('NUMBER').'</option>';		// Type 4 = Numbers
+		$selectOptionText .= '<option value="5" '.($selectedType==5 ? 'selected="selected"':'').'>'.JText::_('DATE').'</option>';			// Type 5 = Dates
 		$selectOptionText .= '</select>';																						// close our html select structure
 		
 		return($selectOptionText);

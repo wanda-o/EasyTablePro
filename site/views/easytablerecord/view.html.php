@@ -316,8 +316,8 @@ class EasyTableViewEasyTableRecord extends JView
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
 
-				$url  = 'index.php?option=com_user&view=login';
-				$url .= '&return='.base64_encode($return);;
+				$url  = 'index.php?option=com_user&amp;view=login';
+				$url .= '&amp;return='.base64_encode($return);;
 
 				$mainframe->redirect($url, JText::_('YOU_MUST_LOGIN_TO_SEE_THIS_TABLE_') );
 			}
@@ -396,7 +396,7 @@ class EasyTableViewEasyTableRecord extends JView
 		// Generate Page title
 		if( $title_links_to_table ) {
 			// Create a backlink
-			$backlink = 'index.php?option=com_'._cppl_this_com_name.'&view=easytable&id='.$id.':'.$this->_etvetr_currenttable->easytablealias.'&start='.$start_page;
+			$backlink = 'index.php?option=com_'._cppl_this_com_name.'&amp;view=easytable&amp;id='.$id.':'.$this->_etvetr_currenttable->easytablealias.'&amp;start='.$start_page;
 			$backlink = JRoute::_($backlink);
 
 			$pt = '<a href="'.$backlink.'">'.htmlspecialchars($this->_etvetr_currenttable->easytablename.$titleSuffix).'</a>';

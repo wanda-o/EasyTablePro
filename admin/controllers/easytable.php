@@ -244,7 +244,7 @@ class EasyTableController extends JController
 
 		if(!$insert_Meta_result)
 		{
-			JError::raiseError(500,'Meta insert failed for linked table: '.$id.'<BR />'.$db->explain());
+			JError::raiseError(500,'Meta insert failed for linked table: '.$id.'<br />'.$db->explain());
 		}
 	}
 
@@ -351,7 +351,7 @@ class EasyTableController extends JController
 
 		global $option;
 		// Go back to the table page
-		$this->setRedirect('index.php?option='.$option.'&task=editdata&cid[]='.$id, $this->msg );
+		$this->setRedirect('index.php?option='.$option.'&amp;task=editdata&amp;cid[]='.$id, $this->msg );
 	}
 
 	function applyRecord()
@@ -393,7 +393,7 @@ class EasyTableController extends JController
 			$successful = $db->query();
 			if(($ctask == 'applyRecord') || ($ctask == 'saveRecord'))
 				if(!$successful) {
-					JError::raiseWarning( 100, JText::_( 'WARNING___UNAB_DESC' ).'<BR>SQL:: '.$query );
+					JError::raiseWarning( 100, JText::_( 'WARNING___UNAB_DESC' ).'<br />SQL:: '.$query );
 				}
 				else { $this->msg = JText::_( 'RECORD_SUCCESSFULLY_DESC' ); }
 			else if(($ctask == 'applyNewRecord') || ($ctask == 'saveNewRecord')) {
@@ -409,10 +409,10 @@ class EasyTableController extends JController
 		global $option;
 		if(($ctask == 'applyRecord') || ($ctask == 'applyNewRecord')) {
 		// Go back to the record page
-			$this->setRedirect('index.php?option='.$option.'&task=editrow&cid[]='.$rid.'&id='.$id, $this->msg );
+			$this->setRedirect('index.php?option='.$option.'&amp;task=editrow&amp;cid[]='.$rid.'&amp;id='.$id, $this->msg );
 		} else {
 		// Go back to the table page
-			$this->setRedirect('index.php?option='.$option.'&task=editdata&cid[]='.$id, $this->msg );
+			$this->setRedirect('index.php?option='.$option.'&amp;task=editdata&amp;cid[]='.$id, $this->msg );
 		}
 	}
 
@@ -496,25 +496,25 @@ class EasyTableController extends JController
 			{
 				JError::raiseError(500, JText::sprintf( 'COULD_NOT_REM_DESC', $id));
 			}
-			$msg .= '<BR />(1) Meta data removed. id= '.$id;
+			$msg .= '<br />(1) Meta data removed. id= '.$id;
 			if($this->ettdExists($id))
 			{
 				if(!$this->removeETTD($id))
 				{
 					JError::raiseError(500, 'Could not remove ETTD data table: '.$id);
 				}
-				$msg .= '<BR />(2) ETTD data table removed. id= '.$id;
+				$msg .= '<br />(2) ETTD data table removed. id= '.$id;
 			}
 			else
 			{
-				$msg .= '<BR />(2) No ETTD data table found for id ='.$id;
+				$msg .= '<br />(2) No ETTD data table found for id ='.$id;
 			}
 			
 			if (!$row->delete($id))
 			{
 				JError::raiseError(500, $row->getError());
 			}
-			$msg .= '<BR />(3) ET Table record removed. id= '.$id;
+			$msg .= '<br />(3) ET Table record removed. id= '.$id;
 		}
 		$s = '';
 		
@@ -618,7 +618,7 @@ function toggleSearch()
 		$row->params = $paramsObj->toString();								// Update the row with the updated params obj...
 
 		if (!$row->store()) {												// Then we can store it away...
-			JError::raiseError(500, 'toggleSearch raised an error.<BR />'.$row->getError() );
+			JError::raiseError(500, 'toggleSearch raised an error.<br />'.$row->getError() );
 		}
 
 		 JRequest::setVar('view', 'EasyTables');							// Return to EasyTables Mgr view
@@ -679,7 +679,7 @@ function toggleSearch()
 
 			if($updateMetaResult["status"])
 			{
-				$userFeedback .= $updateMetaResult[1].'<BR />';
+				$userFeedback .= $updateMetaResult[1].'<br />';
 			}
 			else
 			{
@@ -751,13 +751,13 @@ function toggleSearch()
 			}
 			else
 			{
-				$this->msg .= '<BR />• No CSV file uploaded - noting to do... ';
+				$this->msg .= '<br />• No CSV file uploaded - noting to do... ';
 			}
 		}
 
 		switch ($currentTask) {
 		case 'apply':
-			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, $this->msg );
+			$this->setRedirect('index.php?option='.$option.'&amp;task=edit&amp;cid[]='.$id, $this->msg );
 			break;
 		case 'save':
 			// Now that all the saving is done we can checkIN the table
@@ -765,10 +765,10 @@ function toggleSearch()
 			$this->setRedirect('index.php?option='.$option, $this->msg );
 			break;
 		case 'createETDTable':
-			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id.'&from=create', $this->msg );
+			$this->setRedirect('index.php?option='.$option.'&amp;task=edit&amp;cid[]='.$id.'&amp;from=create', $this->msg );
 			break;
 		case 'updateETDTable':
-			$this->setRedirect('index.php?option='.$option.'&task=edit&cid[]='.$id, $this->msg );
+			$this->setRedirect('index.php?option='.$option.'&amp;task=edit&amp;cid[]='.$id, $this->msg );
 			break;
 		}
 	}
@@ -821,7 +821,7 @@ function toggleSearch()
 		$deletedFlds = JRequest::getVar( 'deletedFlds' );
 		if($deletedFlds!= '') // then it's time to remove some fields
 		{
-			$msg .= 'Deleted fields: '.$deletedFlds.'<BR />';
+			$msg .= 'Deleted fields: '.$deletedFlds.'<br />';
 			$msg .= $this->deleteFieldsFromEasyTable($deletedFlds);
 		}
 
@@ -829,7 +829,7 @@ function toggleSearch()
 		$newFlds = JRequest::getVar( 'newFlds' );
 		if($newFlds != '') // then it's time to add some fields
 		{
-			$msg .= 'New fields: '.$newFlds.'<BR />';
+			$msg .= 'New fields: '.$newFlds.'<br />';
 			$msg .= $this->addFieldsToEasyTable ( $newFlds );
 		}
 
@@ -893,7 +893,6 @@ function toggleSearch()
 			{
 			// If no file is attached we can go on our merry way.
 				$jAp->enqueueMessage(JText::_( 'NO_DATA_FILE' ));
-			// $this->msg .= '<BR />• Couldn\'t update the data records as no file was uploaded.';
 			}
 		}
 	}
@@ -972,7 +971,7 @@ function toggleSearch()
 			{
 				//Throw an error message
 				$fileArrayAsText = implode(', ', $file);
-				JError::raiseError(500, "<BR />$origFilename - could not be moved.<BR />Source: $src <BR />Destination: $dest <BR /> FILE ARRAY <BR /> $fileArrayAsText");
+				JError::raiseError(500, "<br />$origFilename - could not be moved.<br />Source: $src <br />Destination: $dest <br /> FILE ARRAY <br /> $fileArrayAsText");
 			}
 
 		}
@@ -1062,7 +1061,7 @@ function toggleSearch()
 		$ettm_field_count = count($easytables_table_meta);
 		$mRIdsCount = count($mRIds);
 		if($ettm_field_count != $mRIdsCount) {
-			$statusArray = array('status' => 0, 'msg' => "META mismatch between form response and data store: $ettm_field_count vs $mRIdsCount <BR /> $etMetaRIdAsSQL");
+			$statusArray = array('status' => 0, 'msg' => "META mismatch between form response and data store: $ettm_field_count vs $mRIdsCount <br /> $etMetaRIdAsSQL");
 			return $statusArray;
 		}
 
@@ -1119,8 +1118,7 @@ function toggleSearch()
 			
 			if(!$db_result)
 			{
-				// JERROR::raiseError(500, "Meta data update failed for row id ( $rowValue ):".$db->explain().'<BR /> SQL => '.$etMetaUpdateSQL);
-				$statusArray = array( 'status' => 0, 'msg' => "Meta data update failed at row id ( $rowValue ):".$db->explain().'<BR /> SQL => '.$etMetaUpdateSQL);
+				$statusArray = array( 'status' => 0, 'msg' => "Meta data update failed at row id ( $rowValue ):".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);
 				return $statusArray;
 			}
 		}
@@ -1130,7 +1128,7 @@ function toggleSearch()
 
 	function addFieldsToEasyTable ( $newFlds )
 	{
-		$msg = 'Starting field additions.<BR />';
+		$msg = 'Starting field additions.<br />';
 		$id = JRequest::getInt('id',0);
 		$tableName = '#__easytables_table_data_'.$id;
 		$newFldsArray = explode(', ', $newFlds);
@@ -1161,7 +1159,7 @@ function toggleSearch()
 		    // Create the insert values part of the SQL statement
 		    $insertValues = '( \''.$id.'\', '.'\''.$new_et_pos.'\', '.'\''.$new_et_label.'\', '.'\''.$new_et_desc.'\', '.'\''.$new_et_type.'\', '.'\''.$new_et_lv.'\', '.'\''.$new_et_dl.'\', '.'\''.$new_et_dv.'\', '.'\''.$new_et_fldAlias.'\', '.'\''.$new_et_params.'\' )'. ($newFldId == $lastNewFld ? ';' : ', ');
 		    $insertSQL .= $insertValues;
-		    $msg .= '• Adding meta data for field \"'.$new_et_label.'\"<BR />';
+		    $msg .= '• Adding meta data for field \"'.$new_et_label.'\"<br />';
 
 			// Store the new field data for the ALTER statement of the original
 			$newFldsAlterArray[] = '`'.$new_et_fldAlias.'` '.$this->getFieldTypeAsSQL($new_et_type);
@@ -1179,7 +1177,7 @@ function toggleSearch()
 		
 		if(!$db_result)
 		{
-			$msg = "Meta data update failed during new field insert: ".$db->explain().'<BR /> SQL => '.$insertSQL;
+			$msg = "Meta data update failed during new field insert: ".$db->explain().'<br /> SQL => '.$insertSQL;
 			return $msg;
 		}
 		
@@ -1194,7 +1192,7 @@ function toggleSearch()
 
 		if(!$db_result)
 		{
-			$msg = "Table update failed during addition of new columns: ".$db->explain().'<BR /> SQL => '.$addSQL;
+			$msg = "Table update failed during addition of new columns: ".$db->explain().'<br /> SQL => '.$addSQL;
 			return $msg;
 		}
 		
@@ -1204,7 +1202,7 @@ function toggleSearch()
 	
 	function deleteFieldsFromEasyTable ( $deletedFldIds )
 	{
-		$msg = 'Starting field removal.<BR />';
+		$msg = 'Starting field removal.<br />';
 		$id = JRequest::getInt('id',0);
 		$selDelFlds = '`id` = '. implode(explode(', ', $deletedFldIds), ' or `id` =');
 		$deleteSelectSQL = ' from `#_easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
@@ -1226,12 +1224,12 @@ function toggleSearch()
 		$dropSQL .=  '`';
 		$db->setQuery($dropSQL);
 		$drop_Result = $db->query();
-		if($drop_Result) $msg .= 'Columns dropped from '.$tableName.'<BR />';
+		if($drop_Result) $msg .= 'Columns dropped from '.$tableName.'<br />';
 
 		// Delete the reference to the fields in the meta table.
 		$db->setQuery('delete '.$deleteSelectSQL);
 		$deleteMeta_Result = $db->query();
-		if($deleteMeta_Result) $msg .= 'Records dropped from meta table.<BR />';
+		if($deleteMeta_Result) $msg .= 'Records dropped from meta table.<br />';
 
 		return $msg;
 	}
@@ -1295,7 +1293,7 @@ function toggleSearch()
 		$alter_result = $db->query();
 		if(!$alter_result)
 		{
-			JError::raiseError(500, "Failure to ALTER data table column, using:<BR /> Orig Alias {$origFldAlias};<BR />New Alias {$newFldAlias}<BR />Field Type {$fieldType}<BR />actually DB explanation: ".$db->explain());
+			JError::raiseError(500, "Failure to ALTER data table column, using:<br /> Orig Alias {$origFldAlias};<br />New Alias {$newFldAlias}<br />Field Type {$fieldType}<br />actually DB explanation: ".$db->explain());
 		}
 		return true;
 	}
@@ -1371,7 +1369,7 @@ function toggleSearch()
 
 		if(!$get_Meta_result)
 		{
-			JError::raiseError(500,'getFieldAliasForTable failed for table: '.$id.'<BR />'.$db->getErrorMsg());
+			JError::raiseError(500,'getFieldAliasForTable failed for table: '.$id.'<br />'.$db->getErrorMsg());
 		}
 
 
@@ -1456,7 +1454,7 @@ function toggleSearch()
 
 			if(!$insert_Meta_result)
 			{
-				JError::raiseError(500,'Meta insert failed for table: '.$id.'<BR />'.$msg.'<BR />'.$db->explain());
+				JError::raiseError(500,'Meta insert failed for table: '.$id.'<br />'.$msg.'<br />'.$db->explain());
 			}
 		}
 		else
@@ -1517,7 +1515,7 @@ function toggleSearch()
 		$create_ETTD_SQL .= '` TEXT NOT NULL ,  PRIMARY KEY ( `id` ) )';
 		
 		// Uncomment the next line if trying to debug a CSV file error
-		// JError::raiseError(500,'$id = '.$id.'<BR />$ettdColumnAliass = '.$ettdColumnAliass.'<BR />$ettdColumnSQL = '.$ettdColumnSQL.'<BR />createETTD SQL = '.$create_ETTD_SQL );
+		// JError::raiseError(500,'$id = '.$id.'<br />$ettdColumnAliass = '.$ettdColumnAliass.'<br />$ettdColumnSQL = '.$ettdColumnSQL.'<br />createETTD SQL = '.$create_ETTD_SQL );
 		
 	// Get a database object
 		$db =& JFactory::getDBO();
@@ -1526,7 +1524,6 @@ function toggleSearch()
 		}
 		
 	// Set and execute the SQL query
-		// echo '<BR /> createETTD() -> '.$create_ETTD_SQL;
 		$db->setQuery($create_ETTD_SQL);
 		$ettd_creation_result = $db->query();
 		if(!$ettd_creation_result)
@@ -1607,7 +1604,7 @@ function toggleSearch()
 			}
 			else
 			{
-				JError::raiseError(500,'Data insert appears to have failed for table: '.$id.' in updateETTDTableFrom() <BR />'.'<BR />Failed in chunk #'.$thisChunkNum.' '.$msg);
+				JError::raiseError(500,'Data insert appears to have failed for table: '.$id.' in updateETTDTableFrom() <br />'.'<br />Failed in chunk #'.$thisChunkNum.' '.$msg);
 			}
 		}
 
@@ -1672,7 +1669,7 @@ function toggleSearch()
 
 		if(!$insert_ettd_data_result)
 		{
-			JError::raiseError(500,'Data insert failed for table: '.$id.' in updateETTDWithChunk() <BR />Possibly your CSV file is malformed<BR />'.$db->explain().'<BR />'.'<BR />'.$insert_ettd_data_SQL);
+			JError::raiseError(500,'Data insert failed for table: '.$id.' in updateETTDWithChunk() <br />Possibly your CSV file is malformed<br />'.$db->explain().'<br />'.'<br />'.$insert_ettd_data_SQL);
 		}
 		
 		return $csvRowCount;

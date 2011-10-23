@@ -26,32 +26,32 @@
 			<table class="adminlist" id="et_uploadData">
 				<tr class="row0">
 					<td width="120" align="right" valign="top" class="key">
-						<label for="easytablename"><span style="font-size: 1.5em;font-weight: bold;"><?php echo JText::_( 'NOTES' ); ?>:</span></label>
+						<span style="font-size: 1.5em;font-weight: bold;"><label><?php echo JText::_( 'NOTES' ); ?>:</label></span>
 					</td>
-					<td><?php echo JText::_( 'FROM_THIS_DESC' );?></td>
+					<td><?php echo html_entity_decode(JText::_( 'FROM_THIS_DESC' ));?></td>
 				</tr>
 				<tr class="row1">
 					<td width="120" align="left" class="key">
-						<label for="uploadType"><span class="hasTip" title="<?php echo JText::_( 'UPLOAD_TYPE_TOOLTIP' );?>"><h3>1) - <?php echo JText::_( 'SELECT_UPLOAD_DESC' ); ?>:</h3></span></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'UPLOAD_TYPE_TOOLTIP' );?>"><label>1) - <?php echo JText::_( 'SELECT_UPLOAD_DESC' ); ?>:</label></span></h3>
 					</td>
 					<td>
-						<input type="radio" name="uploadType" id="uploadType0" value="0" class="inputbox" checked="checked">
+						<input type="radio" name="uploadType" id="uploadType0" value="0" class="inputbox" checked="checked" />
 						<label for="uploadType0"><?php echo JText::_( 'REPLACE' ); ?></label>
-						<input type="radio" name="uploadType" id="uploadType1" value="1" class="inputbox">
+						<input type="radio" name="uploadType" id="uploadType1" value="1" class="inputbox" />
 						<label for="uploadType1"><?php echo JText::_( 'APPEND' ); ?></label>
 					</td>
 				</tr>
 				<tr class="row0">
 					<td width="120" align="left" class="key">
-						<label for="tableimport"><span class="hasTip" title="<?php echo JText::_( 'UPDATE_FILE_TOOLTIP' );?>"><h3>2) - <?php echo JText::_( 'UPDATE_FILE' ); ?>:</h3></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'UPDATE_FILE_TOOLTIP' );?>"><label for="tableimport">2) - <?php echo JText::_( 'UPDATE_FILE' ); ?>:</label></span></h3>
 					</td>
-					<td><!-- MAX_FILE_SIZE must precede the file input field -->
+					<td><fieldset id="tableimport"><!-- MAX_FILE_SIZE must precede the file input field -->
 						<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $this->maxFileSize ?>" />
-						<input name="tablefile" type="file" id="fileInputBox" />
+						<input name="tablefile" type="file" id="fileInputBox" /></fieldset>
 					</td>
 				</tr>
 				<tr class="row1">
-					<td width="120" align="left" class="key"><span class="hasTip" title="<?php echo JText::_( 'CLICK__YE_DESC' );?>"><h3>3) - <?php echo JText::_( 'ST_LINE_DESC' ) ?></h3></span></td>
+					<td width="120" align="left" class="key"><h3><span class="hasTip" title="<?php echo JText::_( 'CLICK__YE_DESC' );?>">3) - <?php echo JText::_( 'ST_LINE_DESC' ) ?></span></h3></td>
 					<td><?php echo $this->CSVFileHasHeaders; ?></td>
 				</tr>
 				<tr class="row1">

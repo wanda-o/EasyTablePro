@@ -97,7 +97,7 @@ defined('_JEXEC') or die('Restricted Access');
 							}
 						?>
 						<td width="100" align="right" class="key">
-							<label for="published" title="<?php echo $pubTitle ?>">
+							<label  title="<?php echo $pubTitle ?>">
 								<?php echo JText::_( 'PUBLISHED' ); ?>:
 							</label>
 						</td>
@@ -119,32 +119,32 @@ defined('_JEXEC') or die('Restricted Access');
 							?>:
 							</label>
 						</td>
-						<td>
+						<td><fieldset id="tableimport">
 							<!-- MAX_FILE_SIZE must precede the file input field -->
 							<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $this->maxFileSize ?>" />
 							<!-- Name of input element determines name in $_FILES array -->
 							<input name="tablefile" type="file" id="fileInputBox" />
 							<?php
 								if($this->ettd) {
-									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'updateETDTable\')" id="fileUploadBtn" /><BR />';
+									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'updateETDTable\')" id="fileUploadBtn" /><br />';
 								}
 								else
 								{
-									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'createETDTable\')" id="fileUploadBtn" /><BR />';
+									echo '<input type="button" value="'.JText::_( 'UPLOAD_FILE' ).'" onclick="javascript: submitbutton(\'createETDTable\')" id="fileUploadBtn" /><br />';
 								}
 							?>
 							<?php echo JText::_( 'FIRST_LINE_OF_CSV_FILE_CONTAINS_COLUMN_HEADINGS_' ).' '.$this->CSVFileHasHeaders; ?>
 							<?php if($this->ettd) { ?>
-							<BR />
-							<label for="uploadType"><span class="hasTip" title="<?php echo JText::_( 'UPLOAD_TYPE_TOOLTIP' );?>"><?php echo JText::_( 'DO_YOU_DESC' ); ?></span></label>
-							<input type="radio" name="uploadType" id="uploadType0" value="0" class="inputbox" checked="checked">
+							<br />
+							<span class="hasTip" title="<?php echo JText::_( 'UPLOAD_TYPE_TOOLTIP' );?>"><label for="uploadType0"><?php echo JText::_( 'DO_YOU_DESC' ); ?></label></span>
+							<input type="radio" name="uploadType" id="uploadType0" value="0" class="inputbox" checked="checked" />
 							<label for="uploadType0"><?php echo JText::_( 'REPLACE' ); ?></label>
-							<input type="radio" name="uploadType" id="uploadType1" value="1" class="inputbox">
+							<input type="radio" name="uploadType" id="uploadType1" value="1" class="inputbox" />
 							<label for="uploadType1"><?php echo JText::_( 'APPEND' ); ?></label>
-							<?php }; ?>
+							<?php }; ?></fieldset>
 						</td>
 						<td>
-							<p id="uploadWhileModifyingNotice"><?php echo JText::_('DATA_FILES_CANNOT_BE_UPLOADED_ONCE_TABLE_STRUCTURE_MODIFCATION_HAS_BEEN_ENABLED_'); ?><BR />
+							<p id="uploadWhileModifyingNotice"><?php echo JText::_('DATA_FILES_CANNOT_BE_UPLOADED_ONCE_TABLE_STRUCTURE_MODIFCATION_HAS_BEEN_ENABLED_'); ?><br />
 							<em><?php echo JText::_('SAVE_APPLY_OR_CLOSE_THE_TABLE_TO_RE_ENABLE_DATA_UPLOADS_'); ?></em></p>
 						</td>
 					</tr><?php } ?>
@@ -159,7 +159,7 @@ defined('_JEXEC') or die('Restricted Access');
 								<td><?php echo $this->row->id; ?></td>
 							</tr>
 							<tr>
-								<td><strong><?php echo JText::_( 'STATE' ); ?>:<BR /></strong></td>
+								<td><strong><?php echo JText::_( 'STATE' ); ?>:<br /></strong></td>
 								<td><?php echo $this->state; ?></td>
 							</tr>
 							<tr>
@@ -170,8 +170,8 @@ defined('_JEXEC') or die('Restricted Access');
 								</td>
 								<td>
 									<?php
-										echo $this->ettm_field_count.' '.JText::_('FIELDS').'<BR />';
-										echo JText::_('TABLE__').$this->ettd_tname.' '.'<BR />';
+										echo $this->ettm_field_count.' '.JText::_('FIELDS').'<br />';
+										echo JText::_('TABLE__').$this->ettd_tname.' '.'<br />';
 										if($this->ettd)
 										{
 											echo $this->ettd_tname.' '.JText::_('HAS').' '.$this->ettd_record_count.' '.JText::_('RECORDS_');
@@ -185,8 +185,8 @@ defined('_JEXEC') or die('Restricted Access');
 								</td>
 							</tr>
 							<tr>
-								<td><BR /><strong><?php echo JText::_( 'CREATED' ); ?>:</strong></td>
-								<td><BR /><?php echo $this->createddate;?></td>
+								<td><br /><strong><?php echo JText::_( 'CREATED' ); ?>:</strong></td>
+								<td><br /><?php echo $this->createddate;?></td>
 							</tr>
 							<tr>
 								<td><strong><?php echo JText::_( 'MODIFIED' ); ?>:</strong></td>
@@ -218,7 +218,7 @@ defined('_JEXEC') or die('Restricted Access');
 								<a href="#" onclick="flipAll('detail')"title="<?php echo JText::_('FLIP_ALL_FIELDS_IN_DETAIL_VIEW'); ?>" class="hasTip"> F </a> | 
 								<a href="#" onclick="turnAll('on','detail')" title="<?php echo JText::_('TURN_ON_ALL_FIELDS_IN_DETAIL_VIEW'); ?>" class="hasTip" > √ </a> | 
 								<a href="#" onclick="turnAll('off','detail')" title="<?php echo JText::_('TURN_OFF_ALL_FIELDS_IN_DETAIL_VIEW'); ?>" class="hasTip" > X </a></th>
-								<th class="hasTip" title="<?php echo JText::_( 'SEARCHABLE__THI_DESC' ); ?>" ><?php echo '<img src="components/com_'._cppl_this_com_name.'/assets/images/search-sm.png" style="clear:both;">'; ?><br />
+								<th class="hasTip" title="<?php echo JText::_( 'SEARCHABLE__THI_DESC' ); ?>" ><?php echo '<img src="components/com_'._cppl_this_com_name.'/assets/images/search-sm.png" style="clear:both;" alt="Toggle Search Visibility" />'; ?><br />
 								<a href="#" onclick="flipAll('search')"title="<?php echo JText::_('FLIP_ALL_FIELDS_SEARCH_FLAG'); ?>" class="hasTip"> F </a> | 
 								<a href="#" onclick="turnAll('on','search')" title="<?php echo JText::_('TURN_ON_ALL_FIELDS_SEARCH_FLAG'); ?>" class="hasTip" > √ </a> | 
 								<a href="#" onclick="turnAll('off','search')" title="<?php echo JText::_('TURN_OFF_ALL_FIELDS_SEARCH_FLAG'); ?>" class="hasTip" > X </a></th>
@@ -238,26 +238,26 @@ defined('_JEXEC') or die('Restricted Access');
 	
 									echo '<tr valign="top" class="row'.$k.'" id="'.$rowID.'">';																		// Open the row
 									
-									echo('<td align="center"><input type="hidden" name="id'.$mRId.'" value="'.$mRId.'">'.$mRId );if(!$this->etet){echo( '<BR /><a href="javascript:void(0);" class="deleteFieldButton-nodisplay" onclick="deleteField(\''.$metaRow[3].'\', \''.$rowID.'\');"><img src="images/publish_x.png"></a>'); } echo ('</td>');				// Id
-									echo('<td align="center"><input type="text" value="'.$metaRow[2].'" size="3" name="position'.$mRId.'"  class="hasTip" title="'.JText::_( 'POSITION__DETERMINE_DESC' ).'"></td>');		// Position
-									echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'" id="label'.$mRId.'" class="hasTip" title="'.JText::_( 'LABEL__DESC' ).'" > <br>');	// label <BR />
+									echo('<td align="center"><input type="hidden" name="id'.$mRId.'" value="'.$mRId.'" />'.$mRId );if(!$this->etet){echo( '<br /><a href="javascript:void(0);" class="deleteFieldButton-nodisplay" onclick="deleteField(\''.$metaRow[3].'\', \''.$rowID.'\');"><img src="images/publish_x.png" alt="Toggle Publish state." /></a>'); } echo ('</td>');				// Id
+									echo('<td align="center"><input type="text" value="'.$metaRow[2].'" size="3" name="position'.$mRId.'"  class="hasTip" title="'.JText::_( 'POSITION__DETERMINE_DESC' ).'" /></td>');		// Position
+									echo('<td><input type="text" value="'.$metaRow[3].'" name="label'.$mRId.'" id="label'.$mRId.'" class="hasTip" title="'.JText::_( 'LABEL__DESC' ).'" /> <br />');	// label <br />
 									if($this->etet)
 									{
-										echo '<input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" ><input type="hidden" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.$metaRow[9];
+										echo '<input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" /><input type="hidden" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" />'.$metaRow[9];
 									}
 									else
 									{
-										echo ('<span  class="hasTip" title="'.JText::_( 'ALIAS___T_DESC' ).'"><input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" >'.
-										'<input type="text" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" onchange="validateAlias(this)" disabled >'.
-										'<img src="components/com_'._cppl_this_com_name.'/assets/images/locked.gif" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" ></span></td>');		// alias
+										echo ('<span  class="hasTip" title="'.JText::_( 'ALIAS___T_DESC' ).'"><input type="hidden" name="origfieldalias'.$mRId.'" value="'.$metaRow[9].'" />'.
+										'<input type="text" name="fieldalias'.$mRId.'" value="'.$metaRow[9].'" onchange="validateAlias(this)" disabled="disabled" />'.
+										'<img src="components/com_'._cppl_this_com_name.'/assets/images/locked.gif" onclick="unlock(this, '.$mRId.');" id="unlock'.$mRId.'" alt="Unlock Alias" /></span></td>');		// alias
 									}
 									echo('<td><textarea cols="30" rows="2" name="description'.$mRId.'" class="hasTip" title="'.JText::_( 'DESCRIPTION__TH_DESC' ).'" >'.$metaRow[4].'</textarea></td>');				// Description
-									echo('<td>'.$this->getTypeList($mRId, $metaRow[5]).'<BR />'.
-										'<input type="hidden" name="origfieldtype'.$mRId.'" value="'.$metaRow[5].'" >'.
-											'<input type="text" value="'.$this->getFieldOptions($metaRow[10]).'" name="fieldoptions'.$mRId.'" class="hasTip" title="'.JText::_( 'FIELD_OPTIONS_DESC' ).'" ></td>');			// Type / Field Options
+									echo('<td>'.$this->getTypeList($mRId, $metaRow[5]).'<br />'.
+										'<input type="hidden" name="origfieldtype'.$mRId.'" value="'.$metaRow[5].'" />'.
+											'<input type="text" value="'.$this->getFieldOptions($metaRow[10]).'" name="fieldoptions'.$mRId.'" class="hasTip" title="'.JText::_( 'FIELD_OPTIONS_DESC' ).'" /></td>');			// Type / Field Options
 									
 									$tdName			= 'list_view'.$mRId;
-									$tdStart		= '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[6].'">';			// List View Flag
+									$tdStart		= '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[6].'" />';			// List View Flag
 									$tdEnd			= '</td>';
 									$tdFlagImg		= $this->getListViewImage($tdName, $metaRow[6]);
 									$tdjs			= 'toggleTick(\'list_view\', '.$mRId.');';
@@ -265,14 +265,14 @@ defined('_JEXEC') or die('Restricted Access');
 									echo($tdStart.$tdFlagImgLink.$tdEnd);
 									
 									$tdName			= 'detail_link'.$mRId;
-									$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[7].'">';				// Detail Link Flag
+									$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[7].'" />';				// Detail Link Flag
 									$tdFlagImg     = $this->getListViewImage($tdName, $metaRow[7]);
 									$tdjs			= 'toggleTick(\'detail_link\', '.$mRId.');';
 									$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
 									echo($tdStart.$tdFlagImgLink.$tdEnd);
 									
 									$tdName			= 'detail_view'.$mRId;
-									$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[8].'">';				// Detail View Flag
+									$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$metaRow[8].'" />';				// Detail View Flag
 									$tdFlagImg     = $this->getListViewImage($tdName, $metaRow[8]);
 									$tdjs			= 'toggleTick(\'detail_view\', '.$mRId.');';
 									$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
@@ -281,7 +281,7 @@ defined('_JEXEC') or die('Restricted Access');
 									$tdName			= 'search_field'.$mRId;
 									$tdParamsObj = new JParameter ($metaRow[10]);
 									$tdSearchField = $tdParamsObj->get('search_field',1);
-									$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$tdSearchField.'">';				// Search This Field Flag
+									$tdStart       = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$tdSearchField.'" />';				// Search This Field Flag
 									$tdFlagImg     = $this->getListViewImage($tdName, $tdSearchField);
 									$tdjs			= 'toggleTick(\'search_field\', '.$mRId.');';
 									$tdFlagImgLink	= '<a href="javascript:void(0);" onclick="'.$tdjs.'">'.$tdFlagImg.'</a>';
@@ -291,11 +291,10 @@ defined('_JEXEC') or die('Restricted Access');
 									$k = 1 - $k;
 								}
 							}
-							if(!$this->etet) echo('<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" onclick="addField()"><img class="et_addField" src="components/com_'._cppl_this_com_name.'/assets/images/icon-add.png" alt="'.JText::_( 'ADD_A_NEW_FIELD_' ).'"></a><input type="hidden" name="newFlds" id="newFlds" value=""><input type="hidden" name="deletedFlds" id="deletedFlds" value=""></td><td colspan=2><a href="javascript:void(0);" onclick="addField()">'.JText::_('PLUS_NEW_FIELD').'</a></td><td colspan=6><em>'.JText::_('CLICK_THE_PLUS_SIGN_TO_ADD_A_NEW_FIELD_').'</em></td></tr>');
-							echo '<input type="hidden" id="mRIds" name="mRIds" value="'.implode(', ',$mRIds).'">';
-						?>
+							if(!$this->etet) echo('<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" onclick="addField()"><img class="et_addField" src="components/com_'._cppl_this_com_name.'/assets/images/icon-add.png" alt="'.JText::_( 'ADD_A_NEW_FIELD_' ).'" /></a><input type="hidden" name="newFlds" id="newFlds" value="" /><input type="hidden" name="deletedFlds" id="deletedFlds" value="" /></td><td colspan="2"><a href="javascript:void(0);" onclick="addField()">'.JText::_('PLUS_NEW_FIELD').'</a></td><td colspan="6"><em>'.JText::_('CLICK_THE_PLUS_SIGN_TO_ADD_A_NEW_FIELD_').'</em></td></tr>'); ?>
 						</tbody>
 						</table>
+						<?php echo '<input type="hidden" id="mRIds" name="mRIds" value="'.implode(', ',$mRIds).'" />'; ?>
 					</fieldset>
 				</td>
 				<td valign="top">

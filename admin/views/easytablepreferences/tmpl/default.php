@@ -25,7 +25,7 @@
 				</tr>
 				<tr class="row1">
 					<td width="150" align="left" class="key">
-						<label for="allowAccess"><span class="hasTip" title="<?php echo JText::_( 'ALLOW_ACCESS_DESC' ).'::'.JText::_( 'ALLOW_ACCESS_TT' );?>"><h3><?php echo JText::_( 'ALLOW_ACCESS_DESC' ); ?>:</h3></span></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'ALLOW_ACCESS_DESC' ).'::'.JText::_( 'ALLOW_ACCESS_TT' );?>"><label for="allowAccess"><?php echo JText::_( 'ALLOW_ACCESS_DESC' ); ?>:</label></span></h3>
 					</td>
 					<td width="475">
 						<?php echo $this->allowAccess; ?>
@@ -34,7 +34,7 @@
 				</tr>
 				<tr class="row0">
 					<td width="150" align="left" class="key">
-						<label for="allowLinkingAccess"><span class="hasTip" title="<?php echo JText::_( 'LINK_TABLES' ).'::'.JText::_( 'LINK_TABLES_TT' );?>"><h3><?php echo JText::_( 'LINK_TABLES' ); ?>:</h3></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'LINK_TABLES' ).'::'.JText::_( 'LINK_TABLES_TT' );?>"><label for="allowLinkingAccess"><?php echo JText::_( 'LINK_TABLES' ); ?>:</label></span></h3>
 					</td>
 					<td width="475">
 						<?php echo $this->allowLinkingAccess; ?>
@@ -43,7 +43,7 @@
 				</tr>
 				<tr class="row1">
 					<td width="150" align="left" class="key">
-						<label for="allowTableManagement"><span class="hasTip" title="<?php echo JText::_( 'ALLOW_TMGMT_DESC' ).'::'.JText::_( 'ALLOW_TMGMT_TT' );?>"><h3><?php echo JText::_( 'ALLOW_TMGMT_DESC' ); ?>:</h3></span></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'ALLOW_TMGMT_DESC' ).'::'.JText::_( 'ALLOW_TMGMT_TT' );?>"><label for="allowTableManagement"><?php echo JText::_( 'ALLOW_TMGMT_DESC' ); ?>:</label></span></h3>
 					</td>
 					<td width="475">
 						<?php echo $this->allowTableManagement; ?>
@@ -52,7 +52,7 @@
 				</tr>
 				<tr class="row0">
 					<td width="150" align="left" class="key">
-						<label for="allowDataUpload"><span class="hasTip" title="<?php echo JText::_( 'ALLOW_UPLOAD_DESC' ).'::'.JText::_( 'ALLOW_UPLOAD_TT' );?>"><h3><?php echo JText::_( 'ALLOW_UPLOAD_DESC' ); ?>:</h3></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'ALLOW_UPLOAD_DESC' ).'::'.JText::_( 'ALLOW_UPLOAD_TT' );?>"><label for="allowDataUpload"><?php echo JText::_( 'ALLOW_UPLOAD_DESC' ); ?>:</label></span></h3>
 					</td>
 					<td width="475">
 						<?php echo $this->allowDataUpload; ?>
@@ -61,7 +61,7 @@
 				</tr>
 				<tr class="row1">
 					<td width="150" align="left" class="key">
-						<label for="allowDataEditing"><span class="hasTip" title="<?php echo JText::_( 'ALLOW_DATA_EDITING_DESC' ).'::'.JText::_( 'ALLOW_DATA_EDITING_TT' );?>"><h3><?php echo JText::_( 'ALLOW_DATA_EDITING_DESC' ); ?>:</h3></span></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'ALLOW_DATA_EDITING_DESC' ).'::'.JText::_( 'ALLOW_DATA_EDITING_TT' );?>"><label for="allowDataEditing"><?php echo JText::_( 'ALLOW_DATA_EDITING_DESC' ); ?>:</label></span></h3>
 					</td>
 					<td width="475">
 						<?php echo $this->allowDataEditing; ?>
@@ -84,18 +84,18 @@
 				</tr>
 				<tr class="row1">
 					<td width="150" align="left" class="key">
-						<label for="maxFileSize"><span class="hasTip" title="<?php echo JText::_( 'MAXFILESIZE_DESC' ).'::'.JText::_( 'MAXFILESIZE_TT' );?>"><h3><?php echo JText::_( 'MAXFILESIZE_DESC' ); ?>:</h3></span></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'MAXFILESIZE_DESC' ).'::'.JText::_( 'MAXFILESIZE_TT' );?>"><label for="maxFileSize"><?php echo JText::_( 'MAXFILESIZE_DESC' ); ?>:</label></span></h3>
 					</td>
 					<td width="475">
 						<input type="text" name="maxFileSize" id="maxFileSize" value="<?php echo $this->maxFileSize; ?>" onchange="check_umfs();" />
 						<input type="hidden" name="orig_maxFileSize" id="orig_maxFileSize" value="<?php echo $this->maxFileSize; ?>" />
-						<input type="hidden" name="phpUMFS_setting" id="phpUMFS_setting" value="<?php $umfs = ET_MgrHelpers::umfs(); echo $umfs? $umfs: '0'; ?>">
+						<input type="hidden" name="phpUMFS_setting" id="phpUMFS_setting" value="<?php $umfs = ET_MgrHelpers::umfs(); echo $umfs? $umfs: '0'; ?>" />
 					</td>
 					<td><em><?php echo JText::_( 'MAXFILESIZE_TT' );?></em></td>
 				</tr>
 				<tr class="row0">
 					<td width="150" align="left" class="key">
-						<label for="chunkSize"><span class="hasTip" title="<?php echo JText::_( 'CHUNKSIZE_DESC' ).'::'.JText::_( 'CHUNKSIZE_TT' );?>"><h3><?php echo JText::_( 'CHUNKSIZE_DESC' ); ?>:</h3></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'CHUNKSIZE_DESC' ).'::'.JText::_( 'CHUNKSIZE_TT' );?>"><label for="chunkSize"><?php echo JText::_( 'CHUNKSIZE_DESC' ); ?>:</label></span></h3>
 					</td>
 					<td width="475">
 						<input type="text" name="chunkSize" id="chunkSize" value="<?php echo $this->chunkSize; ?>" />
@@ -104,7 +104,7 @@
 				</tr>
 				<tr class="row1">
 					<td width="150" align="left" class="key">
-						<label for="restrictedTables"><span class="hasTip" title="<?php echo JText::_( 'RESTRICTEDTABLES_DESC' ).'::'.JText::_( 'restrictedTables_TT' );?>"><h3><?php echo JText::_( 'restrictedTables_DESC' ); ?>:</h3></span></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'RESTRICTEDTABLES_DESC' ).'::'.JText::_( 'restrictedTables_TT' );?>"><label for="restrictedTables"><?php echo JText::_( 'restrictedTables_DESC' ); ?>:</label></span></h3>
 					</td>
 					<td width="475">
 						<textarea class="text_area" name="restrictedTables" id="restrictedTables" cols="64" rows="8"><?php echo $this->restrictedTables;?></textarea>
@@ -113,7 +113,7 @@
 				</tr>
 				<tr class="row0">
 					<td width="150" align="left" class="key">
-						<label for="allowRawDataEntry"><span class="hasTip" title="<?php echo JText::_( 'ALLOW_RAW_DATA_ENTRY_DESC' ).'::'.JText::_( 'ALLOW_RAW_DATA_ENTRY_TT' );?>"><h3><?php echo JText::_( 'ALLOW_RAW_DATA_ENTRY_DESC' ); ?>:</h3></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'ALLOW_RAW_DATA_ENTRY_DESC' ).'::'.JText::_( 'ALLOW_RAW_DATA_ENTRY_TT' );?>"><label for="allowRawDataEntry"><?php echo JText::_( 'ALLOW_RAW_DATA_ENTRY_DESC' ); ?>:</label></span></h3>
 					</td>
 					<td width="475">
 						<?php echo $this->allowRawDataEntry; ?>
@@ -130,17 +130,16 @@
 					<td width="150" align="right" valign="top" class="key">
 						<span style="font-size: 1.5em;font-weight: bold;"><?php echo JText::_( 'Uninstall' ); ?>:</span>
 					</td>
-					<td width="475"><?php echo JText::_( 'These preferences determine EasyTable Pro\'s behaviour during the "Uninstall" process.' );?></td>
+					<td width="475"><?php echo JText::_( 'COM_EASYTABLE_PROTHESE_PREFERENCES_DETERMIN_DESC' );?></td>
 					<td>&nbsp;</td>
 				</tr>
 				<tr class="row1">
 					<td width="150" align="left" class="key">
-						<label for="uninstall_type"><span class="hasTip" title="<?php echo JText::_( 'UNINSTALL_TYPE' ).'::'.JText::_( 'WHEN_UNINSTALLING' );?>"><h3><?php echo JText::_( 'UNINSTALL_TYPE' ); ?>:</h3></span></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'UNINSTALL_TYPE' ).'::'.JText::_( 'WHEN_UNINSTALLING' );?>"><label for="uninstall_type0"><?php echo JText::_( 'UNINSTALL_TYPE' ); ?>:</label></span></h3>
 					</td>
 					<td width="475">
-						
-						<INPUT type="radio" name="uninstall_type" value="1" id="uninstall_type1" <?php echo $this->uninstall_type ? 'checked="checked"' : ''; ?> > <?php echo JText::_('COMPLETE__COMPONENT___DATA_TABLES_'); ?><BR>
-						<INPUT type="radio" name="uninstall_type" value="0" id="uninstall_type1" <?php echo $this->uninstall_type ? '' : 'checked="checked"'; ?> > <?php echo JText::_('PARTIAL___COMPONENT_ONLY___LEAVE_DATA_ALONE_'); ?><BR>
+						<input type="radio" name="uninstall_type" value="1" id="uninstall_type1" <?php echo $this->uninstall_type ? 'checked="checked"' : ''; ?> /> <?php echo JText::_('COMPLETE__COMPONENT___DATA_TABLES_'); ?><br />
+						<input type="radio" name="uninstall_type" value="0" id="uninstall_type0" <?php echo $this->uninstall_type ? '' : 'checked="checked"'; ?> /> <?php echo JText::_('PARTIAL___COMPONENT_ONLY___LEAVE_DATA_ALONE_'); ?><br />
 					</td>
 					<td><em><?php echo JText::_( 'WHEN_UNINSTALLING' );?></em></td>
 				</tr>

@@ -21,13 +21,13 @@ class EasyTableViewEasyTableRecord extends JView
 		switch ($fldType) {
 			case 0:
 				$type = "textarea";
-				$size = 'rows=10 cols=100';
-				$inputFld = '<textarea name="et_fld_'.$fldAlias.'" type="'.$type.'" '.$size.' >'.$value.'</textarea>';
+				$size = 'rows="10" cols="100"';
+				$inputFld = '<textarea name="et_fld_'.$fldAlias.'" '.$size.' >'.$value.'</textarea>';
 				break;
 			default:
 				$type = "text";
-				$size = 'size=175 maxlength=255';
-				$inputFld = '<input name="et_fld_'.$fldAlias.'" type="'.$type.'" '.$size.' value="'.$value.'">';
+				$size = 'size="175" maxlength="255"';
+				$inputFld = '<input name="et_fld_'.$fldAlias.'" type="'.$type.'" '.$size.' value="'.$value.'" />';
 		}
 				
 
@@ -43,13 +43,13 @@ class EasyTableViewEasyTableRecord extends JView
 			$onclick = 'onclick=\'pop_Image("'.trim($pathToImage).'")\' '; 
 			if($fieldOptions = '')
 			{
-				$fieldWithOptions = '<img src="'.trim($pathToImage).'" width="100px">';
+				$fieldWithOptions = '<img src="'.trim($pathToImage).'" width="100px" alt="image" />';
 			}
 			else
 			{
-				$fieldWithOptions = '<img src="'.trim($pathToImage).'" '.$fieldOptions.' width="100px">';
+				$fieldWithOptions = '<img src="'.trim($pathToImage).'" '.$fieldOptions.' width="100px" alt="image" />';
 			}
-			$imgTag = '<span class="hasTip" title="'.JText::_( 'IMAGE_PREVIEW_DESC' ).'"><a href="javascript:void(0);" '.$onclick.'target="_blank" >'.$fieldWithOptions.'<BR />'.JText::_( 'PREVIEW_OF_DESC' ).'<BR /><em>('.JText::_( 'CLICK_TO_DESC' ).')</em></a></span>';
+			$imgTag = '<span class="hasTip" title="'.JText::_( 'IMAGE_PREVIEW_DESC' ).'"><a href="javascript:void(0);" '.$onclick.'target="_blank" >'.$fieldWithOptions.'<br />'.JText::_( 'PREVIEW_OF_DESC' ).'<br /><em>('.JText::_( 'CLICK_TO_DESC' ).')</em></a></span>';
 		}
 		else
 		{

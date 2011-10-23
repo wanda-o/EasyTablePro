@@ -26,7 +26,7 @@
 			<table class="adminlist" id="et_linkTable">
 				<tr class="row0">
 					<td width="120" align="left" class="key">
-						<label for="SELECT_TABLE"><span class="hasTip" title="<?php echo JText::_( 'SELECT_TABLE' );?>"><h3><?php echo JText::_( 'SELECT_TABLE' ); ?>:</h3></span></label>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'SELECT_TABLE' );?>"><label for="SELECT_TABLE"><?php echo JText::_( 'SELECT_TABLE' ); ?>:</label></span></h3>
 					</td>
 					<td>
 						<?php echo $this->tableList; ?>
@@ -35,7 +35,7 @@
 				</tr>
 				<tr class="row1">
 					<td width="120" align="right" valign="top" class="key">
-						<label for="easytablename"><span style="font-size: 1.5em;font-weight: bold;"><?php echo JText::_( 'NOTES' ); ?>:</span></label>
+						<span style="font-size: 1.5em;font-weight: bold;"><label for="easytablename"><?php echo JText::_( 'NOTES' ); ?>:</label></span>
 					</td>
 					<td><?php echo JText::_( 'YOU_CAN_DESC' );?></td>
 				</tr>

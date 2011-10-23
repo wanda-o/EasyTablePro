@@ -18,7 +18,7 @@ class EasyTableViewEasyTableRecords extends JView
 {
 	function getRecordCheckBox ($cid, $rowId)
 	{
-		$cb = '<input type="checkbox" id="cb'.$cid.'" name="cid[]" value="'.$rowId.'" onclick="isChecked(this.checked);">';
+		$cb = '<input type="checkbox" id="cb'.$cid.'" name="cid[]" value="'.$rowId.'" onclick="isChecked(this.checked);" />';
 
 		return($cb);
 	}
@@ -28,7 +28,7 @@ class EasyTableViewEasyTableRecords extends JView
 		$link_text = JText::_( 'DELETE_ROW' ).' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'deleterow\');" title="'.
-		$link_text.'" ><img src="components/com_'._cppl_this_com_name.'/assets/images/publish_x.png"></a></span>';
+		$link_text.'" ><img src="components/com_'._cppl_this_com_name.'/assets/images/publish_x.png" alt="'.$link_text.'"/></a></span>';
 
 		return($theEditLink);
 	}
@@ -38,7 +38,7 @@ class EasyTableViewEasyTableRecords extends JView
 		$link_text = JText::_( 'EDIT_ROW' ).' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:3px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'editrow\');" title="'.
-		$link_text.'" ><img src="components/com_'._cppl_this_com_name.'/assets/images/edit.png"></a></span>';
+		$link_text.'" ><img src="components/com_'._cppl_this_com_name.'/assets/images/edit.png" alt="'.$link_text.'" /></a></span>';
 
 		return($theEditLink);
 	}

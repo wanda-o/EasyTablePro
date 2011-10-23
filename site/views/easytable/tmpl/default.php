@@ -24,15 +24,15 @@
 	}
 	echo ($this->show_modified_date ? '<p class="modifydate">'.$mod_dl.'</p>' : '') ?>
 <?php echo ($this->show_description ? '<div class="et_description">'.$this->easytable->description.'</div>' : '') ?>
-<BR />
+<br />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
 	<form class="search_result" name="adminForm" method="post" action="<?php echo $this->paginationLink ?>" onreset="javascript:document.adminForm.etsearch.value = '';document.adminForm.submit();">
 		<div class="et_search_result">
 <?php
 			if( $this->show_search && $this->etmCount) // If search is enabled for this table, show the search box.
 			{
-				echo JText::_( 'SEARCH' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" > <button type="submit">'.JText::_( 'GO' ).'</button>';
-				echo '<input type="reset" value="'.JText::_( 'RESET' ).'">';
+				echo JText::_( 'SEARCH' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" /> <button type="submit">'.JText::_( 'GO' ).'</button>';
+				echo '<input type="reset" value="'.JText::_( 'RESET' ).'" />';
 			}
 		?>
 			<input type="hidden" value="0" name="limitstart" />
@@ -69,7 +69,7 @@
 						{
 							$titleString = '';
 							if(strlen($heading[4])){ $titleString = 'class="hasTip" title="'.htmlspecialchars($heading[4]).'" ';}
-							echo '<td class="sectiontableheader '.$heading[1].'" ><span '.$titleString.'" >'.$heading[0].'</span></td>';
+							echo '<td class="sectiontableheader '.$heading[1].'" ><span '.$titleString.' >'.$heading[0].'</span></td>';
 						}
 				?>
 			</tr>
@@ -115,7 +115,6 @@
 							else // we store the rowID for possible use in a detaillink
 							{
 								$rowId = (int)$f;
-								//echo '<BR />'.$k.' == '.$f;
 							}														// End of field check for 'id' If 
 							// End of row stuff should follow after this.
 							unset($f);

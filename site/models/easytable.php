@@ -254,7 +254,7 @@ class EasyTableModelEasyTable extends JModel
 			}
 			else
 			{
-				JError::raiseError(500,'buildSearch failed from a lack of identity - not appreciated Jan!<BR />ERROR 1337:: HANDCRAFTED URL RESPONSE 413:4');
+				JError::raiseError(500,'buildSearch failed from a lack of identity - not appreciated Jan!<br />ERROR 1337:: HANDCRAFTED URL RESPONSE 413:4');
 			}
 		}
 		if($list_view)
@@ -272,20 +272,16 @@ class EasyTableModelEasyTable extends JModel
 	 */
 	function getSearch($id='')
 	{
-		// echo '<BR />Entered getSearch()';
 		if(!$this->_search)
 		{
 			global $mainframe, $option;
 			$search = $mainframe->getUserStateFromRequest("$option.easytable.etsearch".$id, 'etsearch','');
 			if($search == '')
 			{
-				// echo '<BR />$search from UserState is empty, trying request var\'s; ';
 				$search = JRequest::getVar('etsearch','');
-				// echo '<BR />$search from getVar is -> '.$search.' <-';
 			}
 			else
 			{
-				// echo '<BR />$search from UserState is -> '.$search.' <-';
 
 			}
 			$this->_search = JString::strtolower($search);
@@ -374,7 +370,6 @@ class EasyTableModelEasyTable extends JModel
 		if(empty($this->_total))
 			{
 				$query = $this->buildSearch();
-				// echo '<BR />Query: '.$query;
 				
 				$this->_total = $this->_getListCount($query);
 			}
@@ -396,14 +391,9 @@ class EasyTableModelEasyTable extends JModel
 
 			if(($limit != 0) && empty($limit))
 			{
-				// echo '<BR />No limit in JRequest, defaulting to site Cfg: ';
 				$limit = $mainframe->getCfg('list_limit');
-				// echo '<BR />$limit = '.$limit;
 			}
-			else
-			{
-				// echo '<BR />JRequest limit value = '.$limit;
-			}
+
 			$this->_pagination = new JPagination($this->getTotal(), JRequest::getVar('limitstart',0), $limit );
 		}
 		return $this->_pagination;

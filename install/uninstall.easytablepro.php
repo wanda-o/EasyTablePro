@@ -21,7 +21,7 @@ function com_uninstall()
 	$partial__uninstall = 0;
 	$img_OK = '<img src="images/publish_g.png" />';
 	$img_ERROR = '<img src="images/publish_r.png" />';
-	$BR = '<BR />';
+	$BR = '<br />';
 
 	//-- common text
 	$msg = '<h1>'.JText::_( 'EasyTable Un-Install process' ).'…</h1>'.$BR;

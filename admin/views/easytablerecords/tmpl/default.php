@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted Access');
 	JToolBarHelper::title(JText::_( 'EDIT_RECORDS_IN' ).' '.$et_tableName, 'easytableeditrecords');
 
 	JToolBarHelper::editList( 'editrow',JText::_('EDIT_RECORD') );
-	JToolBarHelper::deleteListX( JText::_( 'DELETE_SELECTED_DESC' ),'deleteRecords',JText::_('DELETE_RECORDS') );
+	JToolBarHelper::deleteListX( 'DELETE_SELECTED_DESC','deleteRecords',JText::_('DELETE_RECORDS') );
 	JToolBarHelper::addNew( 'addrow',JText::_('NEW_RECORD') );
 
 	JToolBarHelper::divider();
@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<table class="admintable" id="et_tableDetails">
 					<tr>
 						<td width="100" align="right" class="key">
-							<label for="easytablename">
+							<label>
 								<?php echo JText::_( 'TABLE' ); ?>:
 							</label>
 						</td>
@@ -41,7 +41,7 @@ defined('_JEXEC') or die('Restricted Access');
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
-							<label for="easytablealias">
+							<label>
 								<?php echo JText::_( 'ALIAS' ); ?>:
 							</label>
 						</td>
@@ -51,7 +51,7 @@ defined('_JEXEC') or die('Restricted Access');
 					</tr>
 					<tr>
 						<td width="100" align="right" class="key">
-							<label for="description">
+							<label>
 								<?php echo JText::_( 'DESCRIPTION' ); ?>:
 							</label>
 						</td>
@@ -61,7 +61,7 @@ defined('_JEXEC') or die('Restricted Access');
 					</tr>
 			   		<tr>
 						<td width="100" align="right" class="key">
-							<label for="defaultimagedir" title="<?php echo JText::_( 'IMAGE_DIRECTORY' ).'::'.JText::_( 'THE_DEFAULT_LOCATION_OF_IMAGES_USED_WITH_THIS_TABLE_' ); ?>" class="hasTip" >
+							<label  title="<?php echo JText::_( 'IMAGE_DIRECTORY' ).'::'.JText::_( 'THE_DEFAULT_LOCATION_OF_IMAGES_USED_WITH_THIS_TABLE_' ); ?>" class="hasTip" >
 								<?php echo JText::_( 'IMAGE_DIRECTORY' ); ?>:
 							</label>
 						</td>
@@ -87,7 +87,7 @@ defined('_JEXEC') or die('Restricted Access');
 								<td><?php echo $this->easytable->id; ?></td>
 							</tr>
 							<tr>
-								<td><strong><?php echo JText::_( 'STATE' ); ?>:<BR /></strong></td>
+								<td><strong><?php echo JText::_( 'STATE' ); ?>:<br /></strong></td>
 								<td><?php echo $this->state; ?></td>
 							</tr>
 							<tr>
@@ -98,8 +98,8 @@ defined('_JEXEC') or die('Restricted Access');
 								</td>
 								<td>
 									<?php
-										echo $this->ettm_field_count.' '.JText::_('FIELDS').'<BR />';
-										echo JText::_('TABLE__').$et_tableName.' '.'<BR />';
+										echo $this->ettm_field_count.' '.JText::_('FIELDS').'<br />';
+										echo JText::_('TABLE__').$et_tableName.' '.'<br />';
 										if($et_tableName)
 										{
 											echo $et_tableName.' '.JText::_('HAS').' '.$this->ettd_record_count.' '.JText::_('RECORDS_');
@@ -112,8 +112,8 @@ defined('_JEXEC') or die('Restricted Access');
 								</td>
 							</tr>
 							<tr>
-								<td><BR /><strong><?php echo JText::_( 'CREATED' ); ?>:</strong></td>
-								<td><BR /><?php echo $this->easytable->created_;?></td>
+								<td><br /><strong><?php echo JText::_( 'CREATED' ); ?>:</strong></td>
+								<td><br /><?php echo $this->easytable->created_;?></td>
 							</tr>
 							<tr>
 								<td><strong><?php echo JText::_( 'MODIFIED' ); ?>:</strong></td>
