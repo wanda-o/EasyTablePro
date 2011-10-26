@@ -420,7 +420,7 @@ class EasyTableViewEasyTableRecord extends JView
 		}
 
 		// Before we 'possibly' load the linked table, we store a copy for the view to use
-		$this->assignRef('easytable',$this->_etvetr_currenttable);
+		$this->assign('easytable_parent',(clone $this->_etvetr_currenttable));
 		
 		/*
 		 *
