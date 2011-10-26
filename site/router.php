@@ -24,6 +24,11 @@
 				$segments[] = $query['rid'];
 				unset($query['rid']);
 			}
+		if(isset($query['rllabel']))
+		{
+			$segments[] = $query['rllabel'];
+			unset($query['rllabel']);
+		}
 		return $segments;
 	}
 	
@@ -39,6 +44,9 @@
 		if (isset($segments[2])) {
 			$vars['rid'] = $segments[2];
 		}
-	return $vars;
+		if (isset($segments[3])) {
+			$vars['rllabel'] = $segments[3];
+		}
+		return $vars;
 	}
 ?>
