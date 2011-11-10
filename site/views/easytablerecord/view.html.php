@@ -236,11 +236,14 @@ class EasyTableViewEasyTableRecord extends JView
 		// Assemble the SQL to get the previous record if it exists. Along the lines of:
 		// select id from jos_easytables_table_data_2 where `id` < 11 order by `id` desc limit 1
 		$kfid_name = $this->getKeyFieldName();
-		$selectSQLQuery = 'select `'.$kfid_name.'` from '.$currentTable.' where `'.$kfid_name.'` '.$eqSym.' '.$currentRecordId.' order by `'.$kfid_name.'` '.$sortOrder.' limit 1';
+		// $selectSQLQuery = 'select `'.$kfid_name.'` from '.$currentTable.' where `'.$kfid_name.'` '.$eqSym.' '.$currentRecordId.' order by `'.$kfid_name.'` '.$sortOrder.' limit 1';
+		$selectSQLQuery = 'select * from '.$currentTable.' where `'.$kfid_name.'` '.$eqSym.' '.$currentRecordId.' order by `'.$kfid_name.'` '.$sortOrder.' limit 1';
 		// Get the record
 		$db->setQuery($selectSQLQuery);
 
-		$recID = $db->loadResult();
+		// $recID = $db->loadResult();
+		$adjacentRow = $db->loadAssoc();
+		$recID = $adjacentRow[$kfid_name];
 
 		// Check we have a result
 		if($recID)
