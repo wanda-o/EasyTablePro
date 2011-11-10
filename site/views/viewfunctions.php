@@ -102,7 +102,7 @@ class ET_VHelper
 		if($f)
 		{
 			$pathToImage = JURI::root().$this->currentImageDir.'/'.$f;  // we concatenate the image URL with the tables default image path
-			if($fieldOptions = '')
+			if($fieldOptions == '')
 			{
 				$fieldWithOptions = '<img src="'.trim($pathToImage).'" alt="'.$f.'" />';
 			}
