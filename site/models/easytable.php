@@ -104,6 +104,7 @@ class EasyTableModelEasyTable extends JModel
 			$ofdir = isset($linkparts['sort_order'])?$linkparts['sort_order']:'ASC';
 			$ffid = isset($linkparts['filter_field'])?$linkparts['filter_field']:0;
 			$fvtext = trim(isset($linkparts['filter_value'])?$linkparts['filter_value']:'');
+			if($fvtext == ''){$ffid = 0;} // For those users that select to filter by a field but provide no text to filter against.
 			$ftype = isset($linkparts['filter_type'])?$linkparts['filter_type']:0;
 
 			// Are records to be filtered by user id/name?
