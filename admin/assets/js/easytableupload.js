@@ -33,7 +33,7 @@ function submitbutton(pressbutton)
 		}
 		else
 		{
-			submitForm(pressbutton);
+			submitform(pressbutton);
 		}
 	}
 	else 
