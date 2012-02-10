@@ -24,8 +24,8 @@ class EasyTableViewEasyTables extends JView
 {
 	function getEditorLink ($locked, $rowId, $tableName, $hasPermission,$userName='')
 	{
-		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_',$userName) : '') : JText::_( 'DISABLED_BECAUSE_YOU_DONT_HAVE_PERM' ));
-		$link_text = JText::_( 'EDIT_PROPERTIES_AND_STRUCTURE_OF' ).' \''.$tableName.'\' '.$lockText ;
+		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM' ));
+		$link_text = JText::_( 'COM_EASYTABLEPRO_MGR_EDIT_PROPERTIES_AND_STRUCTURE_OF' ).' \''.$tableName.'\' '.$lockText ;
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.$tableName.'</span>';
 
 		if( !$locked && $hasPermission)
@@ -38,8 +38,8 @@ class EasyTableViewEasyTables extends JView
 
 	function publishedIcon ($locked, $row, $i, $hasPermission,$userName='')
 	{
-		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_',$userName) : '') : JText::_( 'DISABLED_BECAUSE_YOU_DONT_HAVE_PERM' ));
-		$btn_text = JText::_( ( $row->published ? 'PUBLISHED_BTN':'UNPUBLISHED_BTN') ).' \''.$row->easytablename.'\' '.$lockText;
+		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM' ));
+		$btn_text = JText::_( ( $row->published ? 'COM_EASYTABLEPRO_MGR_PUBLISHED_BTN':'COM_EASYTABLEPRO_MGR_UNPUBLISHED_BTN') ).' \''.$row->easytablename.'\' '.$lockText;
 		$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).($row->published?'publish_g.png':'publish_x.png');
 		$theBtn = '<span  class="hasTip" title="'.$btn_text.'" style="margin-left:15px;" ><img src="'.$theImageURL.'" border="0" alt="'.$btn_text.'"></span>';
 
@@ -56,17 +56,17 @@ class EasyTableViewEasyTables extends JView
 	{
 		if($extTable)
 		{
-			$btn_text = JText::sprintf ( 'LINKED_TABLE_NO_DATA_EDITING' , $tableName);
+			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_DATA_EDITING' , $tableName);
 			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/disabled_edit.png';
 		}
 		else
 		{
-			$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_',$userName) : '') : JText::_( 'DISABLED_BECAUSE_YOU_DONT_HAVE_DATA_EDIT_PERM' ));
-			$btn_text = JText::_( 'EDIT_TABLE_DATA_IN_' ).' \''.$tableName.'\' '.$lockText;
+			$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_DATA_EDIT_PERM' ));
+			$btn_text = JText::_( 'COM_EASYTABLEPRO_MGR_EDIT_DATA_DESC_SEGMENT' ).' \''.$tableName.'\' '.$lockText;
 			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'edit.png';
 		}
 
-		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'EDIT_RECORDS' ).'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
+		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_MGR_EDIT_RECORDS_BTN_TT' ).'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
 
 		if( !$locked && !$extTable && $hasPermission)
 		{
@@ -80,17 +80,17 @@ class EasyTableViewEasyTables extends JView
 	{
 		if($extTable)
 		{
-			$btn_text = JText::sprintf ( 'LINKED_TABLE_NO_UPLOAD' , $tableName);
+			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_UPLOAD' , $tableName);
 			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/disabled_upload.png';
 		}
 		else
 		{
-			$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_',$userName) : '') : JText::_( 'DISABLED_BECAUSE_YOU_DONT_HAVE_UPLOAD_PERM' ));
-			$btn_text = JText::_( 'UPLOAD_NEW_DESC' ).' \''.$tableName.'\' '.$lockText;
+			$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_UPLOAD_PERM' ));
+			$btn_text = JText::_( 'COM_EASYTABLEPRO_MGR_UPLOAD_NEW_DESC' ).' \''.$tableName.'\' '.$lockText;
 			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'upload.png';
 		}
 
-		$theBtn = '<span class="hasTip" title="'.JText::_( 'UPLOAD_DATA' ).'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
+		$theBtn = '<span class="hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_MGR_UPLOAD_DATA' ).'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
 
 		if( !$locked && !$extTable && $hasPermission)
 		{
@@ -104,22 +104,22 @@ class EasyTableViewEasyTables extends JView
 	{
 		$btn_text = '';
 		$theImageString = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' );
-		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'DISABLED_BECAUSE_THE_TABLE_IS_LOCKED_',$userName) : '') : JText::_( 'DISABLED_BECAUSE_YOU_DONT_HAVE_PERM' ));
+		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM' ));
 
 		if( $flag == '' )
 		{
 			$theImageString .= 'GlobalIcon16x16.png';
-			$btn_text = JText::_( "CLICK_HERE_TO_ALLOW_ACCESS_BY_JOOMLA_S_BUILT_IN_SEARCH_FUNCTION_" ).$lockText;
+			$btn_text = JText::_( "COM_EASYTABLEPRO_MGR_ALLOW_JOOMLA_SEARCH" ).$lockText;
 		}
 		else if($flag)
 		{
 			$theImageString .= 'tick.png';
-			$btn_text = JText::_( "CLICK_HERE_TO_PREVENT_ACCESS_TO_THIS_TABLE_BY_JOOMLA_S_BUILT_IN_SEARCH_FUNCTION_" ).$lockText;
+			$btn_text = JText::_( "COM_EASYTABLEPRO_MGR_PREVENT_JOOMLA_SEARCH" ).$lockText;
 		}
 		else
 		{
 			$theImageString .= 'publish_x.png';
-			$btn_text = JText::_( "CLICK_HERE_TO_USE_THE_GLOBAL_PREFERENCES_TO_CONTROL_JOOMLA_S_BUILT_IN_SEARCH_FUNCTION_TO_ACCESS_THIS_TABLE_" ).$lockText;
+			$btn_text = JText::_( "COM_EASYTABLEPRO_MGR_GLOBAL_SETTING_FOR_JOOMLA_SEARCH" ).$lockText;
 		}
 
 		$theSearchableImage = '<img src="'.$theImageString.'" name="'.$rowId.'_img" border="0" alt="'.$btn_text.'" />';
@@ -160,14 +160,14 @@ class EasyTableViewEasyTables extends JView
 		/*
 			Setup the Toolbar
 		*/
-		JToolBarHelper::title(JText::_( 'EASYTABLEPRO' ), 'easytables');
+		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO' ), 'easytables');
 		if(in_array($user->usertype, $atmSettings))
 		{
 			$hasTableMgrPermission = TRUE;
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();
 			JToolBarHelper::editList();
-			JToolBarHelper::deleteList( 'ARE_YOU_SURE_YOU_TO_DELETE_THE_TABLE_S__' );
+			JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_MGR_DELETE_TABLE_BTN' );
 			JToolBarHelper::addNew();
 		}
 		else $hasTableMgrPermission = FALSE;
@@ -180,7 +180,7 @@ class EasyTableViewEasyTables extends JView
 		JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 425 );
 		if(in_array($user->usertype, $aaSettings))
 		{
-			JToolBarHelper::custom( 'settings','Gear_Icon_48x48.png','',JText::_('SETTINGS'), FALSE );
+			JToolBarHelper::custom( 'settings','Gear_Icon_48x48.png','',JText::_('COM_EASYTABLEPRO_MGR_SETTINGS_BTN'), FALSE );
 		}
 
 		// Search

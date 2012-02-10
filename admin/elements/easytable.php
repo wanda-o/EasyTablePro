@@ -29,7 +29,7 @@
                 $db->setQuery($elementQuery);
                 $options = $db->loadObjectList();
 				$noneSelected = array();
-				$noneSelected[] = array('id' => 0,'easytablename' => '-- '.JText::_( "None Selected" ).' --');
+				$noneSelected[] = array('id' => 0,'easytablename' => '-- '.JText::_( 'COM_EASYTABLEPRO_LABEL_NONE_SELECTED' ).' --');
                 array_splice($options,0,0,$noneSelected);
                 
                 $result = JHTML::_('select.genericlist',	$options,							// [array of value/label pairs, ie. the value of the labels shown in the list]

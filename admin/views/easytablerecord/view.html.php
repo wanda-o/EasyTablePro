@@ -49,12 +49,12 @@ class EasyTableViewEasyTableRecord extends JView
 			{
 				$fieldWithOptions = '<img src="'.trim($pathToImage).'" '.$fieldOptions.' width="100px" alt="image" />';
 			}
-			$imgTag = '<span class="hasTip" title="'.JText::_( 'IMAGE_PREVIEW_DESC' ).'"><a href="javascript:void(0);" '.$onclick.'target="_blank" >'.$fieldWithOptions.'<br />'.JText::_( 'PREVIEW_OF_DESC' ).'<br /><em>('.JText::_( 'CLICK_TO_DESC' ).')</em></a></span>';
+			$imgTag = '<span class="hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_RECORD_IMAGE_PREVIEW_TT' ).'"><a href="javascript:void(0);" '.$onclick.'target="_blank" >'.$fieldWithOptions.'<br />'.JText::_( 'COM_EASYTABLEPRO_RECORD_LABEL_PREVIEW_OF_IMG' ).'<br /><em>('.JText::_( 'COM_EASYTABLEPRO_RECORDS_CLICK_TO_SEE_FULL_SIZE_IMG' ).')</em></a></span>';
 		}
 		else
 		{
 			$onclick = '';
-			$imgTag = '<span class="hasTip" title="'.JText::_( 'IMAGE_PREVIEW_DESC' ).'"><em>('.JText::_( 'NO_IMAGE_NAME' ).')</em></a></span>';
+			$imgTag = '<span class="hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_RECORD_IMAGE_PREVIEW_TT' ).'"><em>('.JText::_( 'COM_EASYTABLEPRO_RECORD_NO_IMAGE_NAME' ).')</em></a></span>';
 		}
 		return $imgTag;
 	}
@@ -64,7 +64,7 @@ class EasyTableViewEasyTableRecord extends JView
 		global $mainframe, $option;
 		$id = JRequest::getVar( 'id', 0);
 		if($id == 0) {
-			JError::raiseNotice( 100, JText::_('AN_ERROR_DESC').$id );
+			JError::raiseNotice( 100, JText::_( 'COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR' ).$id );
 		}
 
 		// Lets lock out the main menu

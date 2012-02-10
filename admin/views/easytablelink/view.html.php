@@ -40,7 +40,7 @@ class EasyTableVieweasytablelink extends JView
 		//get the list of tables
 		$db =& JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,JText::_("UNABLE_TO_DESC"));
+			JError::raiseError(500,JText::_("COM_EASYTABLEPRO_LINK_NO_TABLE_LIST"));
 		}
 		$query = "SELECT `datatablename` FROM `#__easytables` WHERE `datatablename` > ''";
 		$db->setQuery($query);
@@ -95,7 +95,7 @@ class EasyTableVieweasytablelink extends JView
 		//get the list of tables
 		$db =& JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,JText::_("UNABLE_TO_DESC"));
+			JError::raiseError(500,JText::_("COM_EASYTABLEPRO_LINK_NO_TABLE_LIST"));
 		}
 		// Get the meta data for this table
 		$allTables = $db->getTableList();
@@ -108,14 +108,14 @@ class EasyTableVieweasytablelink extends JView
 		{
 			// prefix with a 'None Selected' option
 			$noneSelected = array();
-			$noneSelected[] = array('value' => 0,'text' => '-- '.JText::_( "None Selected" ).' --');
+			$noneSelected[] = array('value' => 0,'text' => '-- '.JText::_( 'COM_EASYTABLEPRO_LABEL_NONE_SELECTED' ).' --');
 			array_splice($allTables,0,0,$noneSelected);
 			$tablesAvailableForSelection = TRUE;
 		}
 		else
 		{	// dang an empty list of tables.
 			$noneAvailable = array();
-			$noneAvailable[] = array('value' => 0,'text' => '-- '.JText::_( "None Available" ).' --');
+			$noneAvailable[] = array('value' => 0,'text' => '-- '.JText::_( 'COM_EASYTABLEPRO_LABEL_NONE_AVAILABLE' ).' --');
 			array_splice($allTables,0,0,$noneAvailable);
 			$tablesAvailableForSelection = FALSE;
 		}

@@ -33,51 +33,51 @@ function com_install()
 
 	// Check for a DB connection
 	if(!$db){
-		$msg .= $img_ERROR.JText::_( 'UNABLE_TO_CONNECT_TO_DATABASE_' ).$BR;
+		$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_UNABLE_TO_CONNECT_TO_DATABASE' ).$BR;
 		$msg .= $db->getErrorMsg().$BR;
 		$no_errors = FALSE;
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_( 'CONNECTED_TO_THE_DATABASE_' ).$BR;
+		$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_CONNECTED_TO_THE_DATABASE' ).$BR;
 	}
 	
 	// Get the list of tables in $db
 	$et_table_list =  $db->getTableList();
 	if(!$et_table_list)
 	{
-		$msg .= $img_ERROR.JText::_( 'COULDN__T_GET_LIST_OF_TABLES_IN_DATABASE_FOR_INSTALL_' ).$BR;
+		$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_COULDNT_GET_LIST_OF_TABLES_IN_DATABASE_FOR_INSTALL' ).$BR;
 		$no_errors = FALSE;
 	} else {
-			$msg .= $img_OK.JText::_( 'SUCCESSFULLY_RETREIVED_LIST_OF_TABLES_IN_DATABASE_' ).$BR;
+			$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_SUCCESSFULLY_RETREIVED_LIST_OF_TABLES_IN_DATABASE' ).$BR;
 	}
 
 	// Check for the core table
 	if(!in_array($db->getPrefix().'easytables', $et_table_list))
 	{
-		$msg .= $img_ERROR.JText::_( 'CORE_EASYTABLE_TABLE_NOT_FOUND_' ).$BR;
+		$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_CORE_EASYTABLE_TABLE_NOT_FOUND' ).$BR;
 		$msg .= $db->getErrorMsg().$BR;
 		$no_errors = FALSE;
 	} else {
-			$msg .= $img_OK.JText::_( 'EASYTABLE_CORE_TABLE_SETUP_SUCCESSFUL_' ).$BR;
+			$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_EASYTABLE_CORE_TABLE_SETUP_SUCCESSFUL' ).$BR;
 	}
 
 	// Check for the metadata table
 	if(!in_array($db->getPrefix().'easytables_table_meta',$et_table_list))
 	{
-		$msg .=  $img_ERROR.JText::_( 'UNABLE_TO_FIND_META_TABLE' ).$BR;
+		$msg .=  $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNABLE_TO_FIND_META_TABLE' ).$BR;
 		$msg .=  $db->getErrorMsg().$BR;
 		$no_errors = FALSE;
 	} else {
-			$msg .= $img_OK.JText::_( 'EASYTABLE_META_TABLE_SETUP_SUCCESSFUL_' ).$BR;
+			$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_META_TABLE_SETUP_SUCCESSFUL_' ).$BR;
 			$et_settings_exist_query = "SELECT `params` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE `easytable_id` = '0'";
 			$db->setQuery($et_settings_exist_query);
 			$settingsExist = $db->query();
 			if(!$settingsExist)
 			{
-				$msg .= $img_OK.JText::_( 'EASYTABLE_META_SETTINGS_RECORD_NOT_FOUND' ).$BR;
+				$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_SETTINGS_RECORD_NOT_FOUND' ).$BR;
 			} else {
-				$msg .= $img_OK.JText::_( 'EASYTABLE_META_SETTING_RECORD_EXISTS' ).$BR;
+				$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_SETTINGS_RECORD_EXISTS' ).$BR;
 			}
 	}
 	
@@ -89,23 +89,23 @@ function com_install()
 
 	if(array_key_exists('showsearch', $columnNames))
 	{
-		$msg .= $img_ERROR.JText::_( 'EASYTABLES_HAS_COLUMN__SHOWSEARCH__' ).$BR;
+		$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_EASYTABLES_HAS_COLUMN_SHOWSEARCH' ).$BR;
 		$et_updateQry = "ALTER TABLE #__easytables DROP COLUMN `showsearch`;";
 		$db->setQuery($et_updateQry);
 		$et_updateResult = $db->query();
 		if(!$et_updateResult)
 		{
-			$msg .= $img_ERROR.JText::_( 'ALTER_TABLE_FAILED_FOR_COLUMN__SHOWSEARCH__' ).$BR;
+			$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_ALTER_TABLE_FAILED_FOR_COLUMN_SHOWSEARCH' ).$BR;
 			$no_errors = FALSE;
 		}
 		else
 		{
-			$msg .= $img_OK.JText::_( 'EASYTABLES_UPDATED___SUCCESSFULLY_REMOVED_COLUMN__SHOWSEARCH__' ).$BR;
+			$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_EASYTABLES_UPDATED_SUCCESSFULLY_REMOVED_COLUMN_SHOWSEARCH' ).$BR;
 		}
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_( 'EASYTABLE_TABLE_STRUCTURES_ARE_UP_TO_DATE_' ).$BR;
+		$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_EASYTABLE_TABLE_STRUCTURES_ARE_UPTODATE' ).$BR;
 	}
 
 	// 2. Check that #__easytables has the new larger 'text' description
@@ -113,28 +113,28 @@ function com_install()
 	{
 		if($columnNames['description'] != 'text')
 		{
-			$msg .= $img_ERROR.JText::_( "DESC_COLUMN_OLD_STYLE_FOUND" ).$BR;
+			$msg .= $img_ERROR.JText::_( "COM_EASYTABLEPRO_INSTALLER_DESC_COLUMN_OLD_STYLE_FOUND" ).$BR;
 			$et_updateQry = "ALTER TABLE `#__easytables` CHANGE `description` `description` TEXT";
 			$db->setQuery($et_updateQry);
 			$et_updateResult = $db->query();
 			if(!$et_updateResult)
 			{
-				$msg .= $img_ERROR.JText::_( 'DESC_COLUMN_FAILED_TO_ALTER' ).$BR;
+				$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_DESC_COLUMN_FAILED_TO_ALTER' ).$BR;
 				$no_errors = FALSE;
 			}
 			else
 			{
-				$msg .= $img_OK.JText::_( 'DESC_COLUMN_SUCCESSFULLY_ALTERED' ).$BR;
+				$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_DESC_COLUMN_SUCCESSFULLY_ALTERED' ).$BR;
 			}
 		}
 		else
 		{
-			$msg .= $img_OK.JText::_( 'DESC_COLUMN_ALREADY_TEXT_TYPE' ).$BR;
+			$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_DESC_COLUMN_ALREADY_TEXT_TYPE' ).$BR;
 		}
 	}
 	else
 	{
-		$msg .= $img_ERROR.JText::sprintf( 'DESC_COLUMN_TEXT_UPDATE',$db->getPrefix().'easytables.' ).$BR;
+		$msg .= $img_ERROR.JText::sprintf( 'COM_EASYTABLEPRO_INSTALLER_DESC_COLUMN_TEXT_UPDATE',$db->getPrefix().'easytables.' ).$BR;
 		$no_errors = FALSE;
 	}
 
@@ -144,22 +144,22 @@ function com_install()
 	$columnNames = $tableFieldsResult['#__easytables_table_meta'];
 	if(array_key_exists('params', $columnNames))
 	{
-		$msg .= $img_OK.JText::_( 'EASYTABLE_META_TABLE_STRUCTURES_ARE_UP_TO_DATE_' ).$BR;
+		$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_EASYTABLE_META_TABLE_STRUCTURES_ARE_UPTODATE' ).$BR;
 	}
 	else
 	{
-		$msg .= $img_ERROR.JText::_( 'EASYTABLE_META_TABLE_IS_MISSING__PARAMS__COLUMN_' ).$BR;
+		$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_META_TABLE_IS_MISSING_PARAMS_COLUMN' ).$BR;
 		$et_updateQry = "ALTER TABLE #__easytables_table_meta ADD COLUMN `params` TEXT;";
 		$db->setQuery($et_updateQry);
 		$et_updateResult = $db->query();
 		if(!$et_updateResult)
 		{
-			$msg .= $img_ERROR.JText::_( 'ALTER_TABLE_FAILED_FOR_COLUMN___PARAMS__' ).$BR;
+			$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_ALTER_TABLE_FAILED_FOR_COLUMN_PARAMS' ).$BR;
 			$no_errors = FALSE;
 		}
 		else
 		{
-			$msg .= $img_OK.JText::_( 'EASYTABLE_META_TABLE_SUCCESSFULLY_UPDATED_WITH___PARAMS___COLUMN_' ).$BR;
+			$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_META_TABLE_SUCCESSFULLY_UPDATED_WITH_PARAMS_COLUMN' ).$BR;
 		}
 	}
 
@@ -178,23 +178,23 @@ function com_install()
 		$et_updateResult = $db->query();
 		if(!$et_updateResult)
 		{
-			$msg .= $img_ERROR.JText::_( 'COULDN__T_UPDATE_VERSION_IN_TABLE_COMMENT_' ).$BR;
+			$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_COULDNT_UPDATE_VERSION_IN_TABLE_COMMENT' ).$BR;
 			$no_errors = FALSE;
 		}
 		else
 		{
-			$msg .= $img_OK.JText::_( 'EASYTABLES_UPDATED_VERSION_IN_TABLE_COMMENT_' ).$BR;
+			$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UPDATED_VERSION_IN_TABLE_COMMENT' ).$BR;
 		}
 	}
 
 	// Ok, lets append the wrap message and get the heck outta here.
 	if($no_errors)
 	{
-		$msg .= $img_OK.JText::_( 'EASYTABLE_INSTALLATION_SUCCESSFUL_' ).$BR;
+		$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_INSTALLATION_SUCCESSFUL' ).$BR;
 	}
 	else
 	{
-		$msg .= $img_ERROR.'<span style="color:red;">'.JText::_( 'EASYTABLE_INSTALLATION_FAILED_' ).'</span>'.$BR;
+		$msg .= $img_ERROR.'<span style="color:red;">'.JText::_( 'COM_EASYTABLEPRO_INSTALLER_INSTALLATION_FAILED' ).'</span>'.$BR;
 	}
 
 	echo $msg;

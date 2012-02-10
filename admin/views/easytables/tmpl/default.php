@@ -14,14 +14,14 @@ defined('_JEXEC') or die('Restricted Access');
 <div id="editcell">
 	<table>
 		<tr>
-			<td width="40%"><?php echo JText::_( 'Filter' ); ?>:
+			<td width="40%"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_FILTER' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $this->search; ?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+				<button onclick="this.form.submit();"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_GO' ); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_RESET' ); ?></button>
 			</td>
-			<td class="nowrap et_version_info"><?php echo JText::_( 'INSTALLED_EASYTABLE_VERSION' ); ?>: <span id="installedVersionSpan"><?php echo ( $this->et_current_version ); ?></span> |
+			<td class="nowrap et_version_info"><?php echo JText::_( 'COM_EASYTABLEPRO_MGR_INSTALLED_VERSION' ); ?>: <span id="installedVersionSpan"><?php echo ( $this->et_current_version ); ?></span> |
 				<span id="et-subverinfo">
-				<?php echo JText::_( 'CURRENT_SUBSCRIBERS_RELEASE_IS' ).'&nbsp;'; ?>: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro" target="_blank" title="<?php echo JText::_( 'OPEN_RELEASE_DESC' ); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a></span>
+				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_CURRENT_SUBSCRIBERS_RELEASE_IS' ).'&nbsp;'; ?>: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro" target="_blank" title="<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_OPEN_RELEASE_DESC' ); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a></span>
 			</td>			
 		</tr>
 	</table>
@@ -29,28 +29,28 @@ defined('_JEXEC') or die('Restricted Access');
 	<thead>
 		<tr>
 			<th width="5">
-				<?php echo JText::_( 'ID' ); ?>
+				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_ID' ); ?>
 			</th>
 			<th width="20">
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->rows ); ?>);" />
 			</th>			
 			<th>
-				<?php echo JText::_( 'TABLE' ); ?>
+				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_TABLE' ); ?>
 			</th>
 			<th width="20">
-				<?php echo JText::_( 'EDIT_DATA' ); ?>
+				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_EDIT_DATA' ); ?>
 			</th>
 			<th width="20">
-				<?php echo JText::_( 'UPLOAD_DATA' ); ?>
+				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_UPLOAD_DATA' ); ?>
 			</th>
 			<th width="20">
-				<?php echo JText::_( 'PUBLISHED' ); ?>
+				<?php echo JText::_( 'JPUBLISHED' ); ?>
 			</th>
 			<th width="20">
-				<?php echo JText::_( 'SEARCHABLE' ); ?>
+				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_SEARCHABLE' ); ?>
 			</th>
 			<th>
-				<?php echo JText::_( 'DESCRIPTION' ); ?>
+				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_DESCRIPTION' ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -83,7 +83,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo $row->id; ?>
 			</td>
 			<td>
-				<?php if($this->et_hasTableMgrPermission){echo JHTML::_( 'grid.checkedout', $row, $i );} else {echo str_replace('"checkbox"','"hidden"',JHTML::_( 'grid.checkedout', $row, $i ));echo ('<span class="editlinktip hasTip" title="'.JText::_( 'TABLE_MANAGER_DESC' ).'"><img src="images/checked_out.png"></span>');} ?>
+				<?php if($this->et_hasTableMgrPermission){echo JHTML::_( 'grid.checkedout', $row, $i );} else {echo str_replace('"checkbox"','"hidden"',JHTML::_( 'grid.checkedout', $row, $i ));echo ('<span class="editlinktip hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_MGR_NO_MGR_PERMISSIONS' ).'"><img src="images/checked_out.png"></span>');} ?>
 			</td>
 			<td>
 				<?php echo $this->getEditorLink($locked,$i,$row->easytablename,$this->et_hasTableMgrPermission, $lockedByName); ?>

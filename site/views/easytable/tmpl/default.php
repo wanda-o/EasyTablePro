@@ -31,8 +31,8 @@
 <?php
 			if( $this->show_search && $this->etmCount) // If search is enabled for this table, show the search box.
 			{
-				echo JText::_( 'SEARCH' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" /> <button type="submit">'.JText::_( 'GO' ).'</button>';
-				echo '<input type="reset" value="'.JText::_( 'RESET' ).'" />';
+				echo JText::_( 'COM_EASYTABLEPRO_SITE_SEARCH_LABEL' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" /> <button type="submit">'.JText::_( 'COM_EASYTABLEPRO_SITE_SEARCH_BTN' ).'</button>';
+				echo '<input type="reset" value="'.JText::_( 'COM_EASYTABLEPRO_SITE_SEARCH_RESET_BTN' ).'" />';
 			}
 		?>
 			<input type="hidden" value="0" name="limitstart" />
@@ -56,7 +56,7 @@
 				$pcntr = $this->pagination->limit;
 				if( isset( $pcntr )) {																	 // AND if there's more than one page then show the page display.
 					echo '<div class="display">';
-					echo JText::_('DISPLAY').': '.$this->pagination->getLimitBox().$pofp;
+					echo JText::_('COM_EASYTABLEPRO_SITE_DISPLAY_LABEL').': '.$this->pagination->getLimitBox().$pofp;
 					echo '</div>';
 				}
 			}

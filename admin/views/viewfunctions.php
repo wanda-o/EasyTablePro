@@ -18,7 +18,7 @@ class ET_VHelpers
 		}
 		else
 		{
-			JError::raiseError(500,JText::_('FAILED_TO_OPEN_EASYTABLE_XML_DURING_VERSION_CHECK___INSTALLATION_MAY_BE_CORRUPT_INCOMPLETE_'));
+			JError::raiseError(500,JText::_('COM_EASYTABLEPRO_MGR_VERSION_XML_FAILURE'));
 		}
 		
 		return $et_this_version;

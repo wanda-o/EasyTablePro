@@ -25,7 +25,7 @@ class EasyTableViewEasyTableRecords extends JView
 
 	function getDeleteRecordLink ($cid, $rowId, $tableName)
 	{
-		$link_text = JText::_( 'DELETE_ROW' ).' '.$rowId.' of table \''.$tableName.'\' ';
+		$link_text = JText::_( 'COM_EASYTABLEPRO_RECORDS_DELETE_LINK' ).' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'deleterow\');" title="'.
 		$link_text.'" ><img src="components/com_'._cppl_this_com_name.'/assets/images/publish_x.png" alt="'.$link_text.'"/></a></span>';
@@ -35,7 +35,7 @@ class EasyTableViewEasyTableRecords extends JView
 
 	function getEditRecordLink ($cid, $rowId, $tableName)
 	{
-		$link_text = JText::_( 'EDIT_ROW' ).' '.$rowId.' of table \''.$tableName.'\' ';
+		$link_text = JText::_( 'COM_EASYTABLEPRO_RECORDS_EDIT_LINK' ).' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:3px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'editrow\');" title="'.
 		$link_text.'" ><img src="components/com_'._cppl_this_com_name.'/assets/images/edit.png" alt="'.$link_text.'" /></a></span>';
@@ -161,7 +161,7 @@ class EasyTableViewEasyTableRecords extends JView
 		else
 		{
 //			In here we need to divert back to Mgr view and set an appropriate user error message.
-			$jAp->enqueueMessage(JText::_( 'NO_DATA_DESC').' '.$easytable->easytablename,'error');
+			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_RECORD_NO_DATA_SEGMENT').' '.$easytable->easytablename,'error');
 			return;
 		}
 
@@ -170,7 +170,7 @@ class EasyTableViewEasyTableRecords extends JView
 		$this->assign('imageDir', $imageDir);
 		$this->assignRef('easytable', $easytable);
 
-		$this->assign('state', $easytable->published ? JText::_( 'PUBLISHED' ): JText::_( 'UNPUBLISHED' ));
+		$this->assign('state', $easytable->published ? JText::_( 'JPUBLISHED' ): JText::_( 'COM_EASYTABLEPRO_UNPUBLISHED' ));
 
 		$this->assign('search',$search);
 		$this->assignRef('et_list_meta',$easytables_table_meta_for_List_view);

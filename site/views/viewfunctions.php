@@ -113,7 +113,7 @@ class ET_VHelper
 		}
 		else
 		{
-			$fieldWithOptions = '<!-- '.JText::_( 'NO_IMAGE_NAME' ).' -->';
+			$fieldWithOptions = '<!-- '.JText::_( 'COM_EASYTABLEPRO_SITE_NO_IMAGE_NAME' ).' -->';
 		}
 		return $fieldWithOptions;
 	}

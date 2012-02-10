@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="EASYTABLE_PRO___RECORD_LAYOUT">
+    <layout title="COM_EASYTABLEPRO_MENU_RECORD_LAYOUT_TITLE">
         <message>
         <![CDATA[SHOWS_A_SPECIFIC_RECORD_IN_A_TABLE_]]>
         </message>
     </layout>
     <state>
-        <name>EASYTABLE_RECORD_DISPLAY</name>
+        <name>COM_EASYTABLEPRO_MENU_RECORD_DISPLAY</name>
         <description>SHOWS_THE_SELECTED_RECORD_IN_A_TABLE_</description>
         <url addpath="/administrator/components/com_easytablepro/elements">
-            <param name="id" type="easytable" default="" label="SELECT_TABLE" description="THE_TABLE_TO_LINK_TO_" />
-            <param name="rid" type="text" default="" label="SELECT_RECORD" description="THE_RECORD_IN_THE_TABLE_TO_LINK_TO_" />
+            <param name="id" type="easytable" default="" label="COM_EASYTABLEPRO_LABEL_SELECT_TABLE" description="COM_EASYTABLEPRO_LABEL_SELECT_TABLE_DESC" />
+            <param name="rid" type="text" default="" label="COM_EASYTABLEPRO_MENU_RECORD_DISPLAY_SELECT_RECORD" description="COM_EASYTABLEPRO_MENU_RECORD_DISPLAY_SELECT_RECORD_DESC" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="title_links_to_table" type="radio" default="0" label="TITLE_LINKS_TO_TABLE" description="TITLE_LINKS_TO_TABLE_DESC" >
+			<param name="title_links_to_table" type="radio" default="0" label="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE" description="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE_DESC" >
 				<option value="1">Yes</option>
 				<option value="0">No</option>
 			</param>
-			<param name="show_linked_table" type="radio" default="0" label="SHOW_LINKED_TABLE" description="SHOW_LINKED_TABLE_DESC" >
+			<param name="show_linked_table" type="radio" default="0" label="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE" description="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE_DESC" >
 				<option value="1">Yes</option>
 				<option value="0">No</option>
 			</param>

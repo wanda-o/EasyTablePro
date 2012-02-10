@@ -168,11 +168,11 @@ class EasyTableController extends JController
 		$jAp=& JFactory::getApplication();
 		if( ET_MgrHelpers::setSettings($paramsObj) )
 		{
-			$jAp->enqueueMessage(JText::_( 'Setting successfully updated.' ));
+			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_SETTINGS_SUCCESSFULLY_UPDATED' ));
 		}
 		else
 		{
-			$jAp->enqueueMessage(JText::_( 'Settings FAILED to update.' ),'error');
+			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_SETTINGS_FAILED_TO_UPDATE' ),'error');
 		}
 
 		if(JRequest::getVar('task')=='applyPreferences') JRequest::setVar('view', 'EasyTablePreferences');
@@ -202,7 +202,7 @@ class EasyTableController extends JController
 		JRequest::setVar('easytablealias',$tableName);
 		JRequest::setVar('easytablename',$tableName);
 		JRequest::setVar('defaultimagedir','/images/stories/');
-		JRequest::setVar('description', JText::sprintf ( 'LINKED_TO_DESC',$tableName));
+		JRequest::setVar('description', JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TO_DESC',$tableName));
 		JRequest::setVar('datatablename',$tableName);
 		$id = $this->saveApplyETdata();
 
@@ -325,7 +325,7 @@ class EasyTableController extends JController
 
 		$id = JRequest::getVar( 'id', 0);
 		if($id == 0) {
-			JError::raiseNotice( 100, JText::_('AN_ERROR_DESC').$id );
+			JError::raiseNotice( 100, JText::_('COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR').$id );
 		}
 		// Get a database object
 		$db =& JFactory::getDBO();
@@ -343,9 +343,9 @@ class EasyTableController extends JController
 			$db->setQuery($delSQL.$db->quote($rid));
 			$goodResult = $db->query();
 			if(!$goodResult){
-				$jAp->enqueueMessage(JText::_( 'COULD_NOT_DESC' ).' '.$rid.' '.nl2br( $db->getErrorMsg() ),'error');
+				$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_MGR_DELETE_ERROR' ).' '.$rid.' '.nl2br( $db->getErrorMsg() ),'error');
 			} else {
-				$jAp->enqueueMessage(JText::_( 'SUCCESSFULY_DELETED_DESC' ).' '.$rid);
+				$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_MGR_SUCCESSFULY_DELETED_RECORD_SEGMENT' ).' '.$rid);
 			}
 		}
 
@@ -371,7 +371,7 @@ class EasyTableController extends JController
 		// Get the record ID
 		$rid = JRequest::getVar('rid',0);
 		if((!$rid) && ($ctask == 'applyRecord')){
-			JError::raiseError(500,JText::_( "NO_RECORD_DESC" ).' '.$rid);
+			JError::raiseError(500,JText::_( "COM_EASYTABLEPRO_RECORDS_ID_PASSED_SEGMENT" ).' '.$rid);
 		}
 
 		// Build the update values
@@ -385,7 +385,7 @@ class EasyTableController extends JController
 			} else if(($ctask == 'applyNewRecord') || ($ctask == 'saveNewRecord')) {
 				$query = "INSERT INTO ".$tableName.' SET '.$fldUpdateSQLSet.';';
 			} else {
-				JError::raiseError(500,JText::_( "INVALID__TAS_DESC" ).' applyRecord() => '.$ctask);
+				JError::raiseError(500,JText::_( "COM_EASYTABLEPRO_TABLE_APPLY_TASK_INVALID" ).' applyRecord() => '.$ctask);
 		}
 			$db->setQuery($query);
 
@@ -393,18 +393,18 @@ class EasyTableController extends JController
 			$successful = $db->query();
 			if(($ctask == 'applyRecord') || ($ctask == 'saveRecord'))
 				if(!$successful) {
-					JError::raiseWarning( 100, JText::_( 'WARNING___UNAB_DESC' ).'<br />SQL:: '.$query );
+					JError::raiseWarning( 100, JText::_( 'COM_EASYTABLEPRO_TABLE_SAVE_APPLY_UPDATE_RECORD_ERROR' ).'<br />SQL:: '.$query );
 				}
-				else { $this->msg = JText::_( 'RECORD_SUCCESSFULLY_DESC' ); }
+				else { $this->msg = JText::_( 'COM_EASYTABLEPRO_RECORD_SUCCESSFULLY_UPDATED_MSG' ); }
 			else if(($ctask == 'applyNewRecord') || ($ctask == 'saveNewRecord')) {
 				if($successful) {
 					$rid = $db->insertid();
-					$this->msg = JText::_( 'NEW_RECORD_DESC' );
+					$this->msg = JText::_( 'COM_EASYTABLEPRO_TABLE_NEW_RECORD_SAVED_MSG' );
 				}
 			} else {
-				JError::raiseError(500,JText::_( "INVALID__TAS_DESC" ).' insert/update of applyRecord() => '.$ctask);
+				JError::raiseError(500,JText::_( "COM_EASYTABLEPRO_TABLE_APPLY_TASK_INVALID" ).' insert/update of applyRecord() => '.$ctask);
 			}
-		} else {$this->msg = JText::_( 'NO_CHANGES_DESC' );}
+		} else {$this->msg = JText::_( 'COM_EASYTABLEPRO_RECORD_NO_CHANGES_MSG' );}
 
 		global $option;
 		if(($ctask == 'applyRecord') || ($ctask == 'applyNewRecord')) {
@@ -455,7 +455,7 @@ class EasyTableController extends JController
 		global $option;
 		$id = JRequest::getVar('id',0);
 		if($id == 0) {
-			JError::raiseNotice( 100, JText::_( 'AN_ERROR_DESC' ).$id );
+			JError::raiseNotice( 100, JText::_( 'COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR' ).$id );
 			$this->checkInEasyTable();
 			$this->setRedirect('index.php?option='.$option);
 		} else {
@@ -494,7 +494,7 @@ class EasyTableController extends JController
 			$msg = '';
 			if(!$this->removeMeta($id))
 			{
-				JError::raiseError(500, JText::sprintf( 'COULD_NOT_REM_DESC', $id));
+				JError::raiseError(500, JText::sprintf( 'COM_EASYTABLEPRO_MGR_DELETE_META_ERROR', $id));
 			}
 			$msg .= '<br />(1) Meta data removed. id= '.$id;
 			if($this->ettdExists($id))
@@ -651,7 +651,7 @@ function toggleSearch()
 
 		if($id = $this->saveApplyETdata())
 		{
-			$jAp->enqueueMessage(JText::_( 'TABLE_RECORD_DESC' ));
+			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_TABLE' ));
 		}
 
 		// Get a reference to a file if it exists, and load it into an array
@@ -661,7 +661,7 @@ function toggleSearch()
 		// 1.2 Are we creating a new ETTD?
 		if($currentTask == 'createETDTable')
 		{
-			$jAp->enqueueMessage(JText::_( 'NEW_DATA_DESC' ));
+			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_NEW_DATA_TABLE' ));
 			$ettd = FALSE;
 			$etet = FALSE;
 		}
@@ -689,29 +689,29 @@ function toggleSearch()
 			// Check for an update action
 			if ($currentTask == 'updateETDTable')
 			{
-				$jAp->enqueueMessage(JText::sprintf('PROCESSING__D',$currentTask));
+				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_SAVED_PROCESSING_REQ',$currentTask));
 				if($file)
 				{
-					$jAp->enqueueMessage(JText::_( 'DATA_FI_DESC' ));
+					$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_DATA_FILE_ATTACHED' ));
 					$updateType = JRequest::getVar('uploadType',0) ? 'append' : 'replace' ;
 
 					// Are we removing existing data?
 					$tableState = 1;
 					if($updateType == 'replace')
 					{
-						$jAp->enqueueMessage(JText::_( 'REPLACING_EXISTI_DESC' ));
+						$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_REPLACING_RECORDS' ));
 						if($tableState = $this->emptyETTD($id))
 						{
-							$jAp->enqueueMessage(JText::_( 'EMPTIED_EXISTI_DESC'));
+							$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_EMPTIED_EXISTI_ROWS'));
 						}
 						else
 						{
-							$jAp->enqueueMessage(JText::sprintf( 'COULD_N_DESC',$id));
+							$jAp->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_SAVED_ERROR_DELETING_EXISTING_RECORDS',$id));
 						}
 					}
 					else
 					{
-						$jAp->enqueueMessage(JText::_( 'ADDING_NEW_DESC' ));
+						$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_ADDING_RECORDS' ));
 					}
 
 					// Then we parse it and upload the data into the ettd
@@ -721,7 +721,7 @@ function toggleSearch()
 						if(!($csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray)))
 							JError::raiseError(500,"Update of data table failed (Column count mismatch) for table: $id");
 						else
-							$jAp->enqueueMessage(JText::_( 'NEW_DA_DESC'));
+							$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_NEW_DATA_LOADED'));
 					}
 					else
 					{
@@ -732,7 +732,7 @@ function toggleSearch()
 				else
 				{
 				// If no file is attached we can go on our merry way.
-					$jAp->enqueueMessage(JText::_( 'COULDN_DESC' ));
+					$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_NO_DATA_FILE_FOUND' ));
 				}
 			}
 		}
@@ -857,18 +857,18 @@ function toggleSearch()
 		{
 			if($file)
 			{
-				$jAp->enqueueMessage(JText::_( 'DATA_FI_DESC' ));
+				$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_DATA_FILE_ATTACHED' ));
 				if($updateType == 'replace')
 				{
 					// Clear out previous records before uploading new records.
 					if($this->emptyETTD($id))
 					{
-						$jAp->enqueueMessage(JText::_( 'EMPTIED_EXISTI_DESC' ));
-						$jAp->enqueueMessage(JText::sprintf( 'OLD_RECOR_DESC', $id));
+						$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_EMPTIED_EXISTI_ROWS' ));
+						$jAp->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_OLD_RECORDS_CLEARED', $id));
 					}
 					else
 					{
-						$jAp->enqueueMessage(JText::sprintf( 'COULD_NOT_DESC2',$id));
+						$jAp->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_COULD_NOT_DELETE_RECORDS',$id));
 						return;
 					}
 				} else {
@@ -879,10 +879,10 @@ function toggleSearch()
 				{
 					if(!($csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray)))
 					{
-						$jAp->enqueueMessage(JText::sprintf( 'UPDATE_OF_DESC', $id ));
+						$jAp->enqueueMessage(JText::sprintf( COM_EASYTABLEPRO_TABLE_UPLOAD_ERROR_COLUMN_MISMATCH, $id ));
 					}
 					else
-						$jAp->enqueueMessage(JText::sprintf( 'IMPORTED_DESC' , $csvRowCount ));
+						$jAp->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_IMPORTED_DESC' , $csvRowCount ));
 				}
 				else
 				{
@@ -892,7 +892,7 @@ function toggleSearch()
 			else
 			{
 			// If no file is attached we can go on our merry way.
-				$jAp->enqueueMessage(JText::_( 'NO_DATA_FILE' ));
+				$jAp->enqueueMessage(JText::_( COM_EASYTABLEPRO_TABLE_UPLOAD_ERROR_NO_FILE ));
 			}
 		}
 	}
@@ -1314,7 +1314,7 @@ function toggleSearch()
 		        $sqlFieldType = "FLOAT";
 		        break;
 		    case 5:
-		        $sqlFieldType = "DATE";
+		        $sqlFieldType = "COM_EASYTABLEPRO_LABEL_DATE";
 		        break;
 		    default:
 		    	$sqlFieldType =  false;
@@ -1391,7 +1391,7 @@ function toggleSearch()
 		{
 			foreach($csvColumnLabels as $label)
 			{
-				if(empty($label) || $label == ''){$label=JText::_('NO_COLUMN_HEADING');}
+				if(empty($label) || $label == ''){$label=JText::_('COM_EASYTABLEPRO_TABLE_IMPORT_NO_COLUMN_HEADING');}
 				$columnAlias = substr( JFilterOutput::stringURLSafe(trim(addslashes ( $label ))), 0, 64);
 				if($columnAlias == 'id') $columnAlias = 'tmp-id';
 				// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)

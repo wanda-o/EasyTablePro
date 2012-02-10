@@ -32,9 +32,9 @@ class EasyTableVieweasytablepreferences extends JView
 	function createAccessCheckboxes ($groupName, $initialValuesArray)
 	{
 		$id = substr($groupName,0,-2);
-		$theCBHTML  = $this->getCheckbox($groupName,$id,'Super Administrator',JText::_( 'Super Administrator' ), true, true).'<br />';
-		$theCBHTML .= $this->getCheckbox($groupName,$id.'1','Administrator',JText::_( 'Administrator' ), in_array( 'Administrator', $initialValuesArray )).'<br />';
-		$theCBHTML .= $this->getCheckbox($groupName,$id.'2','Manager',JText::_( 'Manager' ), in_array( 'Manager', $initialValuesArray ));
+		$theCBHTML  = $this->getCheckbox($groupName,$id,'Super Administrator',JText::_( 'COM_EASYTABLEPRO_PREF_SUPER_ADMINISTRATOR' ), true, true).'<br />';
+		$theCBHTML .= $this->getCheckbox($groupName,$id.'1','Administrator',JText::_( 'COM_EASYTABLEPRO_PREF_ADMINISTRATOR' ), in_array( 'Administrator', $initialValuesArray )).'<br />';
+		$theCBHTML .= $this->getCheckbox($groupName,$id.'2','Manager',JText::_( 'COM_EASYTABLEPRO_PREF_MANAGER' ), in_array( 'Manager', $initialValuesArray ));
 		return $theCBHTML;
 	}
 
@@ -53,10 +53,10 @@ class EasyTableVieweasytablepreferences extends JView
 		$doc->addStyleSheet(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.css');
 		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/assets/js/'._cppl_base_com_name.'settings.js');
 		JHTML::_('behavior.tooltip');
-		JToolBarHelper::title(JText::_( 'EasyTable Pro Settings' ), 'easytables');
+		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO_SETTINGS_TITLE' ), 'easytables');
 		JToolBarHelper::save('savePreferences');
 		JToolBarHelper::apply('applyPreferences');
-		JToolBarHelper::cancel('cancelPreferences', JText::_( 'Close' ));
+		JToolBarHelper::cancel('cancelPreferences', JText::_( 'COM_EASYTABLEPRO_LABEL_CLOSE' ));
 
 		// Get the current user
 		$user =& JFactory::getUser();
@@ -69,7 +69,7 @@ class EasyTableVieweasytablepreferences extends JView
 		{
 			global $mainframe;
 			$url = 'index.php?option=com_'._cppl_this_com_name;
-			$mainframe->redirect($url, JText::_( 'YOU_ARE_NOT_AUTH' ));
+			$mainframe->redirect($url, JText::_( 'COM_EASYTABLEPRO_SETTINGS_NOT_AUTH' ));
 		}
 
 		$allowAccess = $this->createAccessCheckboxes( 'allowAccess[]',$aaSettings );

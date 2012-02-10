@@ -34,7 +34,7 @@ class EasyTableViewEasyTable extends JView
 		$easytable =& JTable::getInstance('EasyTable','Table');
 		$easytable->load($id);
 		if($easytable->published == 0) {
-			JError::raiseError(404,JText::_( "THE_TABLE_YOU_REQUESTED_IS_NOT_PUBLISHED_OR_DOESN_T_EXIST_BR___RECORD_ID__" ).$id);
+			JError::raiseError(404,JText::_( "COM_EASYTABLEPRO_SITE_TABLE_NOT_AVAILABLE" ).$id);
 		}
 		$tableParams = new JParameter( $easytable->params );
 		$params->merge( $tableParams );// Merge them with specific table based params
@@ -58,7 +58,7 @@ class EasyTableViewEasyTable extends JView
 				$url .= '&amp;return='.base64_encode($return);
 
 				//$url	= JRoute::_($url, false);
-				$mainframe->redirect($url, JText::_('YOU_MUST_LOGIN_TO_SEE_THIS_TABLE_') );
+				$mainframe->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') );
 			}
 			else{
 				JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
@@ -110,7 +110,7 @@ class EasyTableViewEasyTable extends JView
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
+			JError::raiseError(500,JText::_( 'COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_FOR_TABLE_ID' ).$id);
 		}
 		// Get the meta data for this table
 		$query = "SELECT label, fieldalias, type, detail_link, description, params FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND list_view = '1' ORDER BY position;";

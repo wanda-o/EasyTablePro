@@ -28,7 +28,7 @@ if($this->show_page_title) {
 
 		if ($tableParams->get('access') > $aid)
 		{
-			$lockImage = ' <img class="etTableListLockElement" src="/administrator/images/checked_out.png" title="'.JText::_('YOU_MUST_BE_LOGGED_IN_TO_VIEW_THIS_TABLE_').'" alt="'.JText::_('COM_EASYTABLE_PRO_CLICK_TO_LOGI_DESC').'" />';
+			$lockImage = ' <img class="etTableListLockElement" src="/administrator/images/checked_out.png" title="'.JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE').'" alt="'.JText::_('COM_EASYTABLEPRO_SITE_CLICK_TO_LOGIN').'" />';
 		}
 		else
 		{

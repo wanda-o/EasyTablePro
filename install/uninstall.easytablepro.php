@@ -24,7 +24,7 @@ function com_uninstall()
 	$BR = '<br />';
 
 	//-- common text
-	$msg = '<h1>'.JText::_( 'EasyTable Un-Install process' ).'…</h1>'.$BR;
+	$msg = '<h1>'.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_PROCESS' ).'…</h1>'.$BR;
 
 	//-- OK, to make the installer aware of our translations we need to explicitly load
 	//   the components language file - this should work as the should already be copied in.
@@ -39,13 +39,13 @@ function com_uninstall()
 
 	// Check for a DB connection
 	if(!$db){
-		$msg .= $img_ERROR.JText::_('UNABLE_TO_CONNECT_TO_DATABASE_').$BR;
+		$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_UNABLE_TO_CONNECT_TO_DATABASE').$BR;
 		$msg .= $db->getErrorMsg().$BR;
 		$no_errors = FALSE;
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_('CONNECTED_TO_THE_DATABASE_').$BR;
+		$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_CONNECTED_TO_THE_DATABASE').$BR;
 	}
 	// Get the settings meta data for the component
 	$query = "SELECT `params` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE `easytable_id` = '0'";
@@ -64,12 +64,12 @@ function com_uninstall()
 
 	if($uninstall_type == $partial__uninstall)
 	{
-		echo $img_OK.JText::_( 'PARTIAL_UNINSTALL___SOFTWARE_ONLY_REMOVED_' ).$BR;
+		echo $img_OK.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_TYPE_PARTIAL' ).$BR;
 		return TRUE;
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_( 'COMPLETE_UNINSTALL___DATA___SOFTWARE_TO_BE_REMOVED_' ).$BR;
+		$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_TYPE_COMPLETE' ).$BR;
 	}
 
 	// OK DROP the data tables first
@@ -86,7 +86,7 @@ function com_uninstall()
 
 		if(!($no_errors = $data_Table_IDs))
 		{
-			$msg .= $img_ERROR.JText::_( 'UNABLE_TO_GET_THE_LIST_OF_DATA_TABLE_ID__S_DURING_THE_UNINSTALL_' ).$BR;
+			$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_FAILED_GETTING_TABLE_LIST' ).$BR;
 		}
 		else
 		{
@@ -99,19 +99,19 @@ function com_uninstall()
 				// make sure it dropped.
 				if(!$et_drop_result)
 				{
-					$msg .= $img_ERROR.JText::_( 'UNABLE_TO_DROP_DATA_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].JText::_( 'DURING_THE_UNINSTALL__SQL' ).' '.$et_query.' ]'.$BR;
+					$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_UNABLE_TO_DROP_DATA_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].JText::_( 'COM_EASYTABLEPRO_UNINSTALL_SQL_ERROR_SEGMENT' ).' '.$et_query.' ]'.$BR;
 					$no_errors = FALSE;
 				}
 				else
 				{
-					$msg .= $img_OK.JText::_( 'SUCCESSFULLY_DROPPED_DATA_TABLE_' ).' '.$item['easytablename'].' (ID = '.$item['id'].').'.$BR;
+					$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_DROPPED_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].').'.$BR;
 				}
 			}    
 		}
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_('NO_DATA_TABLES_TO_DROP_').$BR;
+		$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_UNINSTALL_NO_DATA_TABLES_TO_DROP').$BR;
 	}
 
 	// Now DROP the meta data
@@ -121,12 +121,12 @@ function com_uninstall()
 	// make sure it dropped.
 	if(!$et_drop_result)
 	{
-		$msg .= $img_ERROR.JText::_( 'UNABLE_TO_DROP_META_TABLE_DURING_THE_UNINSTALL_' ).$BR;
+		$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_DROP_META_ERROR' ).$BR;
 		$no_errors = FALSE;
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_( 'SUCCESSFULLY_DROPPED_META_TABLE_' ).$BR;
+		$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_DROP_META_SUCCESS' ).$BR;
 	}
 	
 	
@@ -137,23 +137,23 @@ function com_uninstall()
 	// make sure it dropped.
 	if(!$et_drop_result)
 	{
-		$msg .= $img_ERROR.JText::_( 'UNABLE_TO_DROP_CORE_TABLE_DURING_THE_UNINSTALL_' ).$BR;
+		$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_DROP_CORE_ERROR' ).$BR;
 		$no_errors = FALSE;
 	}
 	else
 	{
-		$msg .= $img_OK.JText::_( 'SUCCESSFULLY_DROPPED_CORE_TABLE_' ).$BR;
+		$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_DROP_CORE_SUCCESS' ).$BR;
 	}
 
 
 	if($no_errors)
 	{
-		$msg .= '<h3>'.JText::_( 'EASYTABLE_UN_INSTALL_COMPLETE___' ).'</h3>'.$BR;
-		$msg .= $img_OK.JText::_('EASYTABLE_COMPONENT_REMOVED_SUCCESSFULLY__FAREWELL___IT__S_BEEN_NICE_').$BR;
+		$msg .= '<h3>'.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_COMPLETE' ).'</h3>'.$BR;
+		$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_UNINSTALL_REMOVED_SUCCESS_MSG').$BR;
 	}
 	else
 	{
-		$msg .= $img_ERROR.JText::_('EASYTABLE_COMPONENT_REMOVAL_FAILED_____MANUAL_REMOVAL_MAY_BE_REQUIRED').$BR;
+		$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_UNINSTALL_FAILED_MSG').$BR;
 	}
 	
 	echo $msg;

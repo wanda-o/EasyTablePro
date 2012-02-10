@@ -10,17 +10,17 @@ defined('_JEXEC') or die('Restricted Access');
 	$et_tableName = $this->easytable->easytablename;
 	JHTML::_('behavior.tooltip');
 	if($this->recordId == 0) {
-		JToolBarHelper::title(JText::_( 'CREATING_NEW_DESC' ).' '.JText::_( 'IN' ).' '.$et_tableName, 'easytableeditrecords');
+		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO_RECORD_CREATING_NEW_RECORD' ).' '.JText::_( 'COM_EASYTABLEPRO_RECORD_VIEW_TITLE_SEGMENT_IN' ).' '.$et_tableName, 'easytableeditrecords');
 		JToolBarHelper::save('saveNewRecord');
 		JToolBarHelper::apply('applyNewRecord');
 		JToolBarHelper::divider();
-		JToolBarHelper::cancel('cancelNewRecord', JText::_( 'Cancel' ));
+		JToolBarHelper::cancel('cancelNewRecord', JText::_( 'COM_EASYTABLEPRO_LABEL_CANCEL' ));
 	} else {
-		JToolBarHelper::title(JText::_( 'EDITING_RECORD__' ).' '.$this->recordId .' '.JText::_( 'IN' ).' '.$et_tableName, 'easytableeditrecords');
+		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO_RECORD_VIEW_TITLE_SEGMENT_EDITING_RECORD' ).' '.$this->recordId .' '.JText::_( 'COM_EASYTABLEPRO_RECORD_VIEW_TITLE_SEGMENT_IN' ).' '.$et_tableName, 'easytableeditrecords');
 		JToolBarHelper::save('saveRecord');
 		JToolBarHelper::apply('applyRecord');
 		JToolBarHelper::divider();
-		JToolBarHelper::cancel('cancelRecord', JText::_( 'Cancel' ));
+		JToolBarHelper::cancel('cancelRecord', JText::_( 'COM_EASYTABLEPRO_LABEL_CANCEL' ));
 	}
 ?>
 
@@ -30,13 +30,13 @@ defined('_JEXEC') or die('Restricted Access');
 			<tr>
 				<td>
 					<fieldset class="adminform " >
-						<legend><?php echo $et_tableName.' - '.JText::_( 'DATA_RECORDS_' ); ?></legend>
+						<legend><?php echo $et_tableName.' - '.JText::_( 'COM_EASYTABLEPRO_RECORDS_DATA_SEGMENT' ); ?></legend>
 						<table class="adminlist" id="et_fieldList">
 						<thead>
 							<tr valign="top">
-								<th width= "100px"><?php echo (JText::_( 'LABEL' )); ?></th>
-								<th ><?php echo (JText::_( 'VALUE' )); ?></th>
-								<th ><?php echo (JText::_( 'PREVIEW' )); ?></th>
+								<th width= "100px"><?php echo (JText::_( 'COM_EASYTABLEPRO_RECORD_LABEL_LABEL' )); ?></th>
+								<th ><?php echo (JText::_( 'COM_EASYTABLEPRO_RECORD_LABEL_VALUE' )); ?></th>
+								<th ><?php echo (JText::_( 'COM_EASYTABLEPRO_LABEL_PREVIEW' )); ?></th>
 							</tr>
 						</thead>
 						<tbody id='et_data_table_rows'>
@@ -54,7 +54,7 @@ defined('_JEXEC') or die('Restricted Access');
 		echo '<tr valign="top" class="row'.$alt_rv.'" >'."\r";
 		echo '<td>'.$label.'</td>';
 		echo('<td>'.$this->getFieldInputType($fld_alias, $type, $value).'<input name="et_fld_orig_'.$fld_alias.'" type="hidden" value="'.$value.'" /></td>');
-		echo('<td>'.($value == '' ? '<em>'.JText::_( 'CLICK__APPL_DESC' ).'</em>' : ($type == '1' ? $this->getImageTag($value,''):ET_VHelper::getFWO(html_entity_decode( $value ), $type, $f_params, $this->et_record, $this->et_record))).'</td>');
+		echo('<td>'.($value == '' ? '<em>'.JText::_( 'COM_EASYTABLEPRO_RECORDS_CLICK_APPLY_TO_PREVIEW' ).'</em>' : ($type == '1' ? $this->getImageTag($value,''):ET_VHelper::getFWO(html_entity_decode( $value ), $type, $f_params, $this->et_record, $this->et_record))).'</td>');
 		echo "</tr>\r";
 		$alt_rv = (int)!$alt_rv;
 	}

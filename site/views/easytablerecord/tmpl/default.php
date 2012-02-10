@@ -21,11 +21,11 @@
 					$row_FNILV = $this->easytables_table_record_FNILV;
 					echo '<tr><td class="etr_prevrecord">';
 					if($this->prevrecord)
-						{ echo '<a href="'.$this->prevrecord.'">'.JText::_('LT__PREVIOUS_RECORD').'</a>'; }
+						{ echo '<a href="'.$this->prevrecord.'">'.JText::_('COM_EASYTABLEPRO_SITE_PREV_RECORD_LINK').'</a>'; }
 					echo '</td>';
 					echo '<td class="etr_nextrecord">';
 					if($this->nextrecord)
-						{ echo '<a href="'.$this->nextrecord.'">'.JText::_('NEXT_RECORD__GT_').'</a>'; }
+						{ echo '<a href="'.$this->nextrecord.'">'.JText::_('COM_EASYTABLEPRO_SITE_NEXT_RECORD_LINK').'</a>'; }
 					echo '</td></tr>';
 
 					foreach ($this->easytables_table_meta as $field_Meta )

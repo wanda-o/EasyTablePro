@@ -10,7 +10,7 @@ class ET_MgrHelpers
 		$jAp=& JFactory::getApplication();
 
 		if(!$db){
-			JError::raiseError( 500, JText::_("Database unavailable while trying to get settings meta record.") );
+			JError::raiseError( 500, JText::_("COM_EASYTABLEPRO_SETTINGS_GET_SETTINGS_DB_ERROR_MSG") );
 		}
 		// Get the settings meta data for the component
 		$query = "SELECT `params` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE `easytable_id` = '0'";
@@ -48,11 +48,11 @@ class ET_MgrHelpers
 			$db->setQuery($et_settings_query);
 			if( $et_settings_result = $db->query() )
 			{
-				$jAp->enqueueMessage(JText::_( 'SETTINGS_CREATED' ));
+				$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_MGR_SETTINGS_CREATED' ));
 			}
 			else
 			{
-				$jAp->enqueueMessage(JText::_( 'UNABLE_TO_CREATE_DESC' ),'error');
+				$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_SETTINGS_NOT_CREATED' ),'error');
 			}
 		}
 		return $easytables_table_settings;
@@ -67,7 +67,7 @@ class ET_MgrHelpers
 		$jAp=& JFactory::getApplication();
 
 		if(!$db){
-			$jAp->enqueueMessage(JText::_( 'Database unavailable while trying to SET settings meta record.' ).nl2br($db->getErrorMsg()),'error');
+			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_SETTINGS_SET_SETTINGS_DB_ERROR_MSG' ).nl2br($db->getErrorMsg()),'error');
 		}
 
 		// Get the settings meta data for the component
@@ -76,7 +76,7 @@ class ET_MgrHelpers
 		$result = $db->query();
 		if($result) return true;
 
-		$jAp->enqueueMessage(JText::_( 'Database error while trying to SET settings meta record.' ).nl2br($db->getErrorMsg()),'error');
+		$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_SETTINGS_DB_RESULT_ERROR_TRYING_TO_SET_SETTINGS' ).nl2br($db->getErrorMsg()),'error');
 		return false;
 	}
 

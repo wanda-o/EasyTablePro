@@ -57,7 +57,7 @@
 					$db->setQuery($elementQuery);
 					$options = $db->loadObjectList();
 					$noneSelected = array();
-					$noneSelected[] = array('id' => 0,'label' => '-- '.JText::_( "None Selected" ).' --');
+					$noneSelected[] = array('id' => 0,'label' => '-- '.JText::_( 'COM_EASYTABLEPRO_LABEL_NONE_SELECTED' ).' --');
 					array_splice($options,0,0,$noneSelected);
 
 					$result = JHTML::_('select.genericlist',  $options, $control_name. '[' . $name . ']', 'class="inputbox"', 'id','label', $value, $control_name . $name);

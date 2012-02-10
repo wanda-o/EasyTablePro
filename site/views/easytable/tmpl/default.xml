@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="EASYTABLE_PRO____TABLE_LAYOUT">
+	<layout title="COM_EASYTABLEPRO_MENU_TABLE_LAYOUT_TITLE">
 		<message>
 		<![CDATA[SHOWS_A_SPECIFIC_TABLE_]]>
 		</message>
 	</layout>
 	<state>
-		<name>EASYTABLE_DISPLAY</name>
+		<name>COM_EASYTABLEPRO_MENU_SELECT_TABLE</name>
 		<description>SHOWS_THE_SELECTED_TABLE_</description>
 		<url addpath="/administrator/components/com_easytablepro/elements">
-			<param name="id" type="easytable" default="" label="SELECT_TABLE" description="THE_TABLE_TO_LINK_TO_" />
-			<param name="sort_field" type="easytablefields" default="" label="SELECT_SORT_FIELD" description="SELECT_SORT_FIELD_DESC" />
-			<param name="sort_order" type="list" default="" label="SELECT_SORT_ORDER" description="SELECT_SORT_ORDER_DESC">
-				<option value="ASC">ASCENDING</option>
-				<option value="DESC">DESCENDING</option>
+			<param name="id" type="easytable" default="" label="COM_EASYTABLEPRO_LABEL_SELECT_TABLE" description="COM_EASYTABLEPRO_LABEL_SELECT_TABLE_DESC" />
+			<param name="sort_field" type="easytablefields" default="" label="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_PROMPT" description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_DESC" />
+			<param name="sort_order" type="list" default="" label="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_ORDER_PROMPT" description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_ORDER_DESC">
+				<option value="ASC">COM_EASYTABLEPRO_LABEL_ASCENDING</option>
+				<option value="DESC">COM_EASYTABLEPRO_LABEL_DESCENDING</option>
 			</param>
-			<param name="filter_field" type="easytablefields" default="" label="SELECT_FILTER_FIELD" description="SELECT_FILTER_FIELD_DESC" />
-			<param name="filter_type" type="list" default="" label="SELECT_FILTER_TYPE" description="SELECT_FILTER_TYPE_DESC">
-				<option value="LIKE">CONTAINS</option>
-				<option value="IS">IS</option>
+			<param name="filter_field" type="easytablefields" default="" label="COM_EASYTABLEPRO_MENU_SELECT_FILTER_FIELD_PROMPT" description="COM_EASYTABLEPRO_MENU_SELECT_FILTER_FIELD_DESC" />
+			<param name="filter_type" type="list" default="" label="COM_EASYTABLEPRO_MENU_SELECT_FILTER_OPERATOR_PROMPT" description="COM_EASYTABLEPRO_MENU_SELECT_FILTER_OPERATOR_DESC">
+				<option value="LIKE">COM_EASYTABLEPRO_LABEL_CONTAINS</option>
+				<option value="IS">COM_EASYTABLEPRO_LABEL_IS</option>
 			</param>
-			<param name="filter_value" type="text" default="" label="ENTER_FILTER_VALUE" description="ENTER_FILTER_VALUE_DESC" />
+			<param name="filter_value" type="text" default="" label="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_LABEL" description="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_DESC" />
 		</url>
 	</state>
 </metadata>

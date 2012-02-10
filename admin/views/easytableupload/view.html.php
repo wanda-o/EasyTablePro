@@ -53,7 +53,7 @@ class EasyTableVieweasytableupload extends JView
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,JText::_("COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_STATISTICS_FOR_EASYTABLE_ID_").' '.$id);
+			JError::raiseError(500,JText::_("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR").' '.$id);
 		}
 		// Get the meta data for this table
 		$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id.$default_order_sql;

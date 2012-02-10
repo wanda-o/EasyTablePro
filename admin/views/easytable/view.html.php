@@ -49,19 +49,19 @@ class EasyTableViewEasyTable extends JView
 		$btn_title = '';
 		if(substr($rowElement,0,4)=='list')
 		{
-			$btn_title = JText::_( "CLICK_THIS_TO_TOGGLE_IT_S_APPEARANCE_IN_THE_LIST_VIEW" );
+			$btn_title = JText::_( "COM_EASYTABLEPRO_TABLE_TOGGLE_APPEARS_IN_LIST_TT" );
 		}
 		elseif(substr($rowElement,7,4) == 'link')
 		{
-			$btn_title = JText::_( "CLICK_THIS_TO_MAKE_THIS_FIELD_ACT_AS_A_LINK_TO_THE_RECORD_DETAIL_VIEW__OR_NOT_" );
+			$btn_title = JText::_( "COM_EASYTABLEPRO_TABLE_TURN_ON_DETAIL_LINK_TT" );
 		}
 		elseif(substr($rowElement,0,6)=='detail')
 		{
-			$btn_title = JText::_( "CLICK_THIS_TO_MAKE_THIS_FIELD_APPEAR_IN_THE_RECORD_DETAIL_VIEW__OR_NOT_" );
+			$btn_title = JText::_( "COM_EASYTABLEPRO_TABLE_TURN_ON_IN_DETAIL_VIEW_TT" );
 		}
 		elseif(substr($rowElement,0,6)=='search')
 		{
-			$btn_title = JText::_( 'CLICK_TO_MAKE_THIS_FIELD_SEARCHABLE___OR_NOT__' );
+			$btn_title = JText::_( 'COM_EASYTABLEPRO_TABLE_TOGGLE_FIELD_SEARCH_VISIBILITY_TT' );
 		}
 
 		if($flag)
@@ -82,8 +82,8 @@ class EasyTableViewEasyTable extends JView
 	{
 		$img	= $row->published ? $imgY : $imgX;
 		$task	= $row->published ? 'unpublish' : 'publish';
-		$alt	= $row->published ? JText::_( 'PUBLISHED' ) : JText::_( 'UNPUBLISHED' );
-		$action = $row->published ? JText::_( 'UNPUBLISH_ITEM' ) : JText::_( 'PUBLISH_ITEM' );
+		$alt	= $row->published ? JText::_( 'JPUBLISHED' ) : JText::_( 'COM_EASYTABLEPRO_UNPUBLISHED' );
+		$action = $row->published ? JText::_( 'COM_EASYTABLEPRO_TABLE_TURN_OFF_SETTING' ) : JText::_( 'COM_EASYTABLEPRO_TABLE_TURN_ON_SETTING' );
 		$href	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i
 				 .'\',\''. $prefix.$task .'\')" title="'. $action .'"><img src="images/'
 				 . $img .'" border="0" alt="'. $alt .'" /></a>';
@@ -92,13 +92,13 @@ class EasyTableViewEasyTable extends JView
 
 	function getTypeList ($id, $selectedType=0)
 	{
-		$selectOptionText =	 '<select name="type'.$id.'" onchange="changeTypeWarning()" class="hasTip" title="'.JText::_( 'FIELD_TYPE_DESC' ).'">';// start our html select structure
-		$selectOptionText .= '<option value="0" '.($selectedType ? '':'selected="selected"').'>'.JText::_('TEXT').'</option>';				// Type 0 = Text
-		$selectOptionText .= '<option value="1" '.($selectedType==1 ? 'selected="selected"':'').'>'.JText::_('IMAGE').'</option>';			// Type 1 = Image URL
-		$selectOptionText .= '<option value="2" '.($selectedType==2 ? 'selected="selected"':'').'>'.JText::_('LINK__URL_').'</option>';	// Type 2 = Fully qualified URL
-		$selectOptionText .= '<option value="3" '.($selectedType==3 ? 'selected="selected"':'').'>'.JText::_('EMAIL').'</option>';			// Type 3 = Email address
-		$selectOptionText .= '<option value="4" '.($selectedType==4 ? 'selected="selected"':'').'>'.JText::_('NUMBER').'</option>';		// Type 4 = Numbers
-		$selectOptionText .= '<option value="5" '.($selectedType==5 ? 'selected="selected"':'').'>'.JText::_('DATE').'</option>';			// Type 5 = Dates
+		$selectOptionText =	 '<select name="type'.$id.'" onchange="changeTypeWarning()" class="hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_TABLE_FIELD_TYPE_DESC' ).'">';// start our html select structure
+		$selectOptionText .= '<option value="0" '.($selectedType ? '':'selected="selected"').'>'.JText::_('COM_EASYTABLEPRO_TABLE_LABEL_TEXT').'</option>';				// Type 0 = Text
+		$selectOptionText .= '<option value="1" '.($selectedType==1 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_TABLE_LABEL_IMAGE').'</option>';			// Type 1 = Image URL
+		$selectOptionText .= '<option value="2" '.($selectedType==2 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_TABLE_LABEL_LINK_URL').'</option>';	// Type 2 = Fully qualified URL
+		$selectOptionText .= '<option value="3" '.($selectedType==3 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_TABLE_LABEL_EMAIL').'</option>';			// Type 3 = Email address
+		$selectOptionText .= '<option value="4" '.($selectedType==4 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_TABLE_LABEL_NUMBER').'</option>';		// Type 4 = Numbers
+		$selectOptionText .= '<option value="5" '.($selectedType==5 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_LABEL_DATE').'</option>';			// Type 5 = Dates
 		$selectOptionText .= '</select>';																						// close our html select structure
 		
 		return($selectOptionText);
@@ -158,10 +158,10 @@ class EasyTableViewEasyTable extends JView
 			$datatablename = JRequest::getVar('datatablename','');
 			if($datatablename == "")
 			{
-				JError::raiseError( 500, JText::_( "HEY__WHA_DESC" ) );
+				JError::raiseError( 500, JText::_( "COM_EASYTABLEPRO_TABLE_NO_VIEW_GO_AWAY" ) );
 			}
 			$id = $this->getTableIDForName($datatablename);
-			if($id == 0) JError::raiseError( 500, JText::_( "SORRY__THA_DESC" ).$datatablename );
+			if($id == 0) JError::raiseError( 500, JText::_( "COM_EASYTABLEPRO_TABLE_NO_TABLE_GO_AWAY" ).$datatablename );
 		}
 
 		$row->load($id);
@@ -177,7 +177,7 @@ class EasyTableViewEasyTable extends JView
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,JText::_("COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_STATISTICS_FOR_EASYTABLE_ID_").' '.$id);
+			JError::raiseError(500,JText::_("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR").' '.$id);
 		}
 		// Get the meta data for this table
 		$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id.$default_order_sql;

@@ -2,57 +2,57 @@
 <root>
 	<params>
 	<url addpath="/administrator/components/com_easytablepro/elements">
-		<param name="id" type="easytable" scope="com_easytablepro" default="0" label="EASYTABLE_PREFERENCES" description="GLOBAL_PREFERENCES_FOR_EASYTABLE_COMPONENT_" />
+		<param name="id" type="easytable" scope="com_easytablepro" default="0" label="COM_EASYTABLEPRO_PREF_TITLE" description="COM_EASYTABLEPRO_PREF_GLOBAL_TITLE" />
 	</url>
-		<param name="title_links_to_table" type="radio" default="0" label="TITLE_LINKS_TO_TABLE" description="TITLE_LINKS_TO_TABLE_DESC" >
+		<param name="title_links_to_table" type="radio" default="0" label="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE" description="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE_DESC" >
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_description" type="radio" default="1" label="SHOW_TABLE_DESCRIPTION" description="THIS_WILL_SHOW_THE_TABLES_DESCRIPTION_WHEN_THIS_OPTION_IS_SET_TO__YES__">
+		<param name="show_description" type="radio" default="1" label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_DESCRIPTION" description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_DESCRIPTION_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_search" type="radio" default="1" label="SHOW_TABLE_SEARCH" description="THIS_WILL_SHOW_THE_SEARCH_FUNCTION_FOR_TABLES_WHEN_THIS_OPTION_IS_SET_TO__YES__">
+		<param name="show_search" type="radio" default="1" label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_SEARCH" description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_SEARCH_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_pagination" type="radio" default="1" label="SHOW_TABLE_PAGINATION" description="ENABLE_TABLE_PAGINATION">
+		<param name="show_pagination" type="radio" default="1" label="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION" description="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_pagination_header" type="radio" default="1" label="SHOW_PAGES_DESC" description="PAGINATION_CONTROLS_DESC">
+		<param name="show_pagination_header" type="radio" default="1" label="COM_EASYTABLEPRO_PREF_SHOW_PAGES_DESC" description="COM_EASYTABLEPRO_PREF_PAGINATION_CONTROLS_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_pagination_footer" type="radio" default="1" label="SHOW_TABLE_PAGINATION_FOOTER" description="THIS_WILL_SHOW_THE_PAGINATION_CONTROLS_IN_THE_FOOTER">
+		<param name="show_pagination_footer" type="radio" default="1" label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_PAGINATION_FOOTER" description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_PAGINATION_FOOTER_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_next_prev_record_links" type="radio" default="1" label="NEXT_PREV_LINKS" description="IN_A_RECORD_VIEW_THIS_WILL_SHOW_LINKS_TO_THE_NEXT_AND_PREVIOUS_RECORD_IF_THEY_EXIST_">
+		<param name="show_next_prev_record_links" type="radio" default="1" label="COM_EASYTABLEPRO_PREF_NEXT_PREV_LINKS_LABEL" description="COM_EASYTABLEPRO_PREF_SHOW_NEXT_PREV_LINKS">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_created_date" type="radio" default="0" label="SHOW_CREATION_DATE" description="THE_TABLES_CREATION_DATE_WILL_BE_DISPLAYED_WHEN_THIS_OPTION_IS_SET_TO__YES__">
+		<param name="show_created_date" type="radio" default="0" label="COM_EASYTABLEPRO_PREF_SHOW_CREATION_DATE" description="COM_EASYTABLEPRO_PREF_SHOW_CREATION_DATE_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="show_modified_date" type="radio" default="0" label="SHOW_MODIFIED_DATE" description="THE_TABLES_MODIFICATION_DATE_WILL_BE_DISPLAYED_WHEN_THIS_OPTION_IS_SET_TO__YES__">
+		<param name="show_modified_date" type="radio" default="0" label="COM_EASYTABLEPRO_PREF_SHOW_MODIFIED_DATE" description="COM_EASYTABLEPRO_PREF_SHOW_MODIFIED_DATE_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
-		<param name="modification_date_label" label="MODIFCATION_DATE_LABEL" type="text" default="" description="MODIFICATION_DATE_LABEL_DESC">
+		<param name="modification_date_label" label="COM_EASYTABLEPRO_PREF_MODIFICATION_DATE_LABEL" type="text" default="" description="COM_EASYTABLEPRO_PREF_USER_MOD_DATE_LABEL_DESC">
 		</param>
-		<param name="make_tables_sortable" type="radio" default="0" label="MAKE_TABLES_SORTABLE" description="WHEN_SET_TO_YES__WILL_MAKE_THE_TABLE_SORTABLE_BY_CLICK_COLUMN_HEADINGS_">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="show_linked_table" type="radio" default="0" label="SHOW_LINKED_TABLE" description="SHOW_LINKED_TABLE_DESC" >
+		<param name="make_tables_sortable" type="radio" default="0" label="COM_EASYTABLEPRO_PREF_MAKE_TABLES_SORTABLE" description="COM_EASYTABLEPRO_PREF_MAKE_TABLE_SORTABLE_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="searchable_by_joomla" type="radio" default="1" label="SEARCH_IN_JOOMLA_" description="SEARCH_IN_JOOMLA_DESC">
+		<param name="show_linked_table" type="radio" default="0" label="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE" description="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE_DESC" >
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="searchable_by_joomla" type="radio" default="1" label="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA" description="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA_DESC">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
