@@ -3,6 +3,10 @@ defined('_JEXEC') or die('Restricted Access');
 
 class ET_MgrHelpers
 {
+	public static $extension = 'com_easytablepro';
+	public static $base_assett = 'table';
+	private static $ext_actions = array( 'easytable.import', 'easytable.editrecords', 'easytable.rawdata', 'easytable.link' );
+
 	function getSettings()
 	{
 		// Get a database object
@@ -118,6 +122,34 @@ class ET_MgrHelpers
 		if(in_array($user->usertype, $accessSettings)) return true;
 
 		return false;
+	}
+
+	/**
+	* Gets a list of the actions that can be performed.
+	*
+	* @param	int		The Plan ID.
+	*
+	* @return	JObject
+	*/
+	public static function getActions($id = 0)
+	{
+		$user	= JFactory::getUser();
+		$result	= new JObject;
+	
+		if (empty($id)) {
+			$assetName = self::$extension;
+		}
+		else {
+			$assetName = self::$extension . '.' . self::$base_assett . '.' . (int) $id;
+		}
+	
+		$actions = array( 'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete' );
+	
+		foreach ($actions as $action) {
+			$result->set($action,	$user->authorise($action, $assetName));
+		}
+	
+		return $result;
 	}
 }
 
