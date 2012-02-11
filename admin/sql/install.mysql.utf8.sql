@@ -1,6 +1,6 @@
 /**
  * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2010- Craig Phillips Pty Ltd.
+ * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
  */
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `#__easytables` (
   `datatablename` varchar(255) NOT NULL,
   `params` text NOT NULL,
   PRIMARY KEY  (`id`)
-) COMMENT='0.1';
+) COMMENT='1.1';
 
 CREATE TABLE IF NOT EXISTS `#__easytables_table_meta` (
   `id` int(11) NOT NULL auto_increment,
@@ -38,4 +38,4 @@ CREATE TABLE IF NOT EXISTS `#__easytables_table_meta` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `easytable_id` (`easytable_id`,`position`,`label`)
-) COMMENT='0.1';
+) COMMENT='1.1';

@@ -1,6 +1,6 @@
 /*
  * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2010 Craig Phillips Pty Ltd.
+ * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
 */
@@ -414,27 +414,13 @@ function makeURLSafe(str)
 
 function submitbutton(pressbutton)
 {
-	if (pressbutton == 'publish' ||
-		pressbutton == 'unpublish' ||
-		pressbutton == 'edit' ||
-		pressbutton == 'editData' ||
-		pressbutton == 'uploadData' ||
-		pressbutton == 'remove' ||
-		pressbutton == 'add' ||
-		pressbutton == 'toggleSearch' ||
-		pressbutton == 'settings' ||
-		pressbutton == 'cancel')
+	if (pressbutton == 'cancel')
 	{
 		submitform(pressbutton);
 	}
 	else if (pressbutton == 'modifyTable')
 	{
 		toggleModifyControls();
-		return 0;
-	}
-	else if (pressbutton == 'linkTable')
-	{
-		checkTableSelection();
 		return 0;
 	}
 	else {
@@ -516,6 +502,64 @@ function toggleModifyControls()
 //		$('uploadWhileModifyingNotice').style.display = 'none';
 	}
 }
+
+function flipAll(inView) {
+	if(inView == null) {
+		inView = 'list';
+	}
+	
+	var allFields = $('mRIds').value.split(', ');
+	var allFieldsLn = allFields.length;
+
+	switch (inView) {
+	case 'list':
+	case 'detail':
+		tFieldName = inView+"_view";
+		break;
+	case 'search':
+		tFieldName = inView+"_field";
+	}
+	
+	for(i = 0; i < allFieldsLn; i++) {
+		toggleTick(tFieldName,allFields[i]);
+	}
+}
+
+function turnAll(OnOrOff, inView) {
+	if(OnOrOff == null) {
+		OnOrOff = 'on';
+	}
+
+	if(OnOrOff == 'on') {
+		tFNNShouldBe = 1;
+	} else {
+		tFNNShouldBe = 0;
+	}
+	
+	if(inView == null) {
+		inView = 'list';
+	}
+
+	var allFields = $('mRIds').value.split(', ');
+	var allFieldsLn = allFields.length;
+	var tFieldName;
+
+	switch (inView) {
+	case 'list':
+	case 'detail':
+		tFieldName = inView+"_view";
+		break;
+	case 'search':
+		tFieldName = inView+"_field";
+	}
+	
+	for(i = 0; i < allFieldsLn; i++) {
+		tRow = allFields[i];
+		tFNN = parseInt(eval('document.adminForm.'+tFieldName+tRow+'.value'));
+		if(tFNN != tFNNShouldBe) {toggleTick(tFieldName,tRow);}
+	}
+}
+
 
 function etSubmitForm (pressbutton)
 {
