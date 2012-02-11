@@ -1,77 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" method="upgrade" version="1.5.0">
+<install type="component" method="upgrade" version="1.6.0">
 	<name>EasyTablePro</name>
-	<version>1.0.0FC2 (403f65c)</version>
+	<creationDate>11-Feb-2012</creationDate>
 	<author>Craig Phillips</author>
-	<creationDate>11-Nov-2011</creationDate>
-	<copyright>Copyright (C) 2011.</copyright>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
+	<copyright>© 2012 Craig Phillips Pty Ltd</copyright>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<description>EasyTable Pro component imports and displays tables from CSV text files.</description>
-	<installfile>install/install.easytablepro.php</installfile>
-	<uninstallfile>install/uninstall.easytablepro.php</uninstallfile>
-	<install>
+	<version>1.1.0a1 (4e578e2)</version>
+	<description>COM_EASYTABLEPRO_XML_DESCRIPTION</description>
+	<install> <!-- Runs on install -->
 		<sql>
-			<file driver="mysql" charset="utf8">install/install.mysql.sql</file>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
 		</sql>
 	</install>
+	<media destination="com_easytablepro" folder="media">
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+		<file>index.html</file>
+	</media>
+	<administration>
+		<menu img="/media/com_easytablepro/images/easytablepro_logo.ico" link="option=com_easytablepro">COM_EASYTABLEPRO_XML_MENU_NAME</menu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>easytablepro.php</filename>
+			<filename>index.html</filename>
+			<folder>controllers</folder>
+			<folder>elements</folder>
+			<folder>helpers</folder>
+			<folder>language</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
+			<folder>uploads</folder>
+			<folder>views</folder>
+		</files>
+	</administration>
 	<files folder="site">
 		<filename>index.html</filename>
 		<filename>easytablepro.php</filename>
 		<filename>router.php</filename>
-		<folder>assets</folder>
 		<folder>controllers</folder>
+		<folder>language</folder>
 		<folder>models</folder>
 		<folder>views</folder>
 	</files>
-	<languages folder="language/site">
-		<language tag="en-GB">en-GB.com_easytablepro.ini</language>
-		<language tag="en-GB">en-GB.plg_search_easytables.ini</language>
-	</languages>
-	<administration>
-		<menu img="components/com_easytablepro/assets/images/easytablepro_logo.ico" link="option=com_easytablepro">EasyTable Pro</menu>
-		<languages folder="language/admin">
-			<language tag="en-GB">en-GB.com_easytablepro.ini</language>
-		</languages>
-		<files folder="admin">
-			<folder>assets</folder>
-			<folder>controllers</folder>
-			<folder>elements</folder>
-			<folder>helpers</folder>
-			<folder>install</folder>
-			<folder>models</folder>
-			<folder>tables</folder>
-			<folder>views</folder>
-			<filename>index.html</filename>
-			<filename>config.xml</filename>
-			<filename>easytable.css</filename>
-			<filename>easytable.js</filename>
-			<filename>easytablepro.php</filename>
-		</files>
-	</administration>
-	<params>
-		<param name="show_description" default="1">
-		</param>
-		<param name="show_search" default="1">
-		</param>
-		<param name="show_pagination" default="1">
-		</param>
-		<param name="show_next_prev_record_links" default="1">
-		</param>
-		<param name="show_created_date" default="0">
-		</param>
-		<param name="show_modified_date" default="0">
-		</param>
-		<param name="modification_date_label" default="">
-		</param>
-		<param name="id" default="" >
-		</param>
-		<param name="key_field" default="">
-		</param>
-		<param name="linked_key_field" default="">
-		</param>
-		<param name="make_table_sortable" default="0">
-		</param>
-	</params>
 </install>
