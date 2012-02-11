@@ -278,13 +278,15 @@ class EasyTableViewEasyTableRecord extends JView
 		/*
 		 * Get Params for linked tables as we'll need them soon
 		 */
-		global $mainframe, $option;
+		$jAp =& JFactory::getApplication();
+		$option = JRequest::getCmd('option');
+
 		// Better breadcrumbs
-		$pathway   =& $mainframe->getPathway();
+		$pathway   =& $jAp->getPathway();
 		$recordLinkLabel = JRequest::getVar('rllabel',$id);
 		$pathway->addItem($recordLinkLabel, '');
 		
-		$params =& $mainframe->getParams(); // Component wide & menu based params
+		$params =& $jAp->getParams(); // Component wide & menu based params
 
 		$menuitemid = JRequest::getInt( 'Itemid' );
 		if ($menuitemid)
@@ -322,7 +324,7 @@ class EasyTableViewEasyTableRecord extends JView
 				$url  = 'index.php?option=com_user&amp;view=login';
 				$url .= '&amp;return='.base64_encode($return);;
 
-				$mainframe->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') );
+				$jAp->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') );
 			}
 			else{
 				JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
@@ -391,7 +393,7 @@ class EasyTableViewEasyTableRecord extends JView
 		$title_links_to_table = $params->get('title_links_to_table',0);
 		$show_linked_table = $params->get('show_linked_table',0);
 
-		$start_page = $mainframe->getUserState( "$option.start_page", 0 );
+		$start_page = $jAp->getUserState( "$option.start_page", 0 );
 		$pageclass_sfx = $params->get('pageclass_sfx','');
 
 		// Generate Page title

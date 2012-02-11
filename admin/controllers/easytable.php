@@ -322,6 +322,7 @@ class EasyTableController extends JController
 	function deleteRecords()
 	{
 		$jAp=& JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 
 		$id = JRequest::getVar( 'id', 0);
 		if($id == 0) {
@@ -349,7 +350,6 @@ class EasyTableController extends JController
 			}
 		}
 
-		global $option;
 		// Go back to the table page
 		$this->setRedirect('index.php?option='.$option.'&amp;task=editdata&amp;cid[]='.$id, $this->msg );
 	}
@@ -406,7 +406,8 @@ class EasyTableController extends JController
 			}
 		} else {$this->msg = JText::_( 'COM_EASYTABLEPRO_RECORD_NO_CHANGES_MSG' );}
 
-		global $option;
+		$option = JRequest::getCmd('option');
+
 		if(($ctask == 'applyRecord') || ($ctask == 'applyNewRecord')) {
 		// Go back to the record page
 			$this->setRedirect('index.php?option='.$option.'&amp;task=editrow&amp;cid[]='.$rid.'&amp;id='.$id, $this->msg );
@@ -452,7 +453,7 @@ class EasyTableController extends JController
 
 	function cancelRecord()
 	{
-		global $option;
+		$option = JRequest::getCmd('option');
 		$id = JRequest::getVar('id',0);
 		if($id == 0) {
 			JError::raiseNotice( 100, JText::_( 'COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR' ).$id );
@@ -467,7 +468,7 @@ class EasyTableController extends JController
 
 	function cancel()
 	{
-		global $option;
+		$option = JRequest::getCmd('option');
 		$this->checkInEasyTable();
 		$this->setRedirect('index.php?option='.$option);
 	}
@@ -484,7 +485,7 @@ class EasyTableController extends JController
 	{
 		JRequest::checkToken() or jexit('Invalid Token');
 		
-		global $option;
+		$option = JRequest::getCmd('option');
 		$cid = JRequest::getVar('cid',array(0));
 		$row =& JTable::getInstance('EasyTable','Table');
 		
@@ -526,7 +527,7 @@ class EasyTableController extends JController
 		// We only publish if the Table is valid, ie. if it has an associated data table
 		JRequest::checkToken() or jexit('Invalid Token');
 		
-		global $option;
+		$option = JRequest::getCmd('option');
 		$cid = JRequest::getVar('cid',array());
 		$row =& JTable::getInstance('EasyTable','Table');
 		
@@ -647,7 +648,7 @@ function toggleSearch()
 		$currentTask = $this->getTask();
 		
 		// 1.1 Save/Apply tasks
-		global $option;
+		$option = JRequest::getCmd('option');
 
 		if($id = $this->saveApplyETdata())
 		{
@@ -777,7 +778,6 @@ function toggleSearch()
 	{
 		// Save/Apply tasks - stores the ET record
 		$msg = '';
-		global $option;
 
 		// 1.0 Update/Create table record from POST data
 		$row =& JTable::getInstance('EasyTable', 'Table');

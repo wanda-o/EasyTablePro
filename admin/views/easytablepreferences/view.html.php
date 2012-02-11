@@ -67,9 +67,10 @@ class EasyTableVieweasytablepreferences extends JView
 		$aaSettings = explode(',', $settings->get('allowAccess'));
 		if(!in_array($user->usertype, $aaSettings))
 		{
-			global $mainframe;
+			$jAp =& JFactory::getApplication();
+
 			$url = 'index.php?option=com_'._cppl_this_com_name;
-			$mainframe->redirect($url, JText::_( 'COM_EASYTABLEPRO_SETTINGS_NOT_AUTH' ));
+			$jAp->redirect($url, JText::_( 'COM_EASYTABLEPRO_SETTINGS_NOT_AUTH' ));
 		}
 
 		$allowAccess = $this->createAccessCheckboxes( 'allowAccess[]',$aaSettings );

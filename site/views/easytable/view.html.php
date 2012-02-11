@@ -16,19 +16,16 @@ class EasyTableViewEasyTable extends JView
 {
 	function display ($tpl = null)
 	{
-		global $mainframe, $option;
+		$jAp =& JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 		// Better breadcrumbs
-		$pathway   =& $mainframe->getPathway();
+		$pathway   =& $jAp->getPathway();
 		$id = (int) JRequest::getVar('id',0);
 		// For a better backlink - lets try this:
 		$start_page = JRequest::getVar('start',0,'','int');					// get the start var from JPagination
-		$mainframe =& JFactory::getApplication();							// get the app
-		$mainframe->setUserState( "$option.start_page", $start_page );		// store the start page
+		$jAp->setUserState( "$option.start_page", $start_page );		// store the start page
 
-		// Get Params
-		global $mainframe;
-
-		$params =& $mainframe->getParams(); // Component wide & menu based params
+		$params =& $jAp->getParams(); // Component wide & menu based params
 
 		// Get the table based on the id from the request - we do it here so we can merge the tables params in.
 		$easytable =& JTable::getInstance('EasyTable','Table');
@@ -58,7 +55,7 @@ class EasyTableViewEasyTable extends JView
 				$url .= '&amp;return='.base64_encode($return);
 
 				//$url	= JRoute::_($url, false);
-				$mainframe->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') );
+				$jAp->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') );
 			}
 			else{
 				JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );

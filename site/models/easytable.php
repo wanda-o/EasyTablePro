@@ -109,7 +109,6 @@ class EasyTableModelEasyTable extends JModel
 
 			// Are records to be filtered by user id/name?
 			// Get Params
-			global $mainframe;
 			$easytable =& JTable::getInstance('EasyTable','Table');
 			$easytable->load($id);
 			$params = new JParameter( $easytable->params );
@@ -275,8 +274,10 @@ class EasyTableModelEasyTable extends JModel
 	{
 		if(!$this->_search)
 		{
-			global $mainframe, $option;
-			$search = $mainframe->getUserStateFromRequest("$option.easytable.etsearch".$id, 'etsearch','');
+			$jAp =& JFactory::getApplication();
+			$option = JRequest::getCmd('option');
+
+			$search = $jAp->getUserStateFromRequest("$option.easytable.etsearch".$id, 'etsearch','');
 			if($search == '')
 			{
 				$search = JRequest::getVar('etsearch','');
@@ -386,13 +387,12 @@ class EasyTableModelEasyTable extends JModel
 		if(empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			global $mainframe;
-
 			$limit = $this->getState('limit');
 
 			if(($limit != 0) && empty($limit))
 			{
-				$limit = $mainframe->getCfg('list_limit');
+				$jAp =& JFactory::getApplication();
+				$limit = $jAp->getCfg('list_limit');
 			}
 
 			$this->_pagination = new JPagination($this->getTotal(), JRequest::getVar('limitstart',0), $limit );
@@ -470,10 +470,10 @@ class EasyTableModelEasyTable extends JModel
 	{
 		parent::__construct();
 		
-		global $mainframe, $option;
-		
+		$jAp =& JFactory::getApplication();
+
 		// Get pagination request variables
-		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		
 		// In case limit has been changed, adjust it

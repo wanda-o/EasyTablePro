@@ -59,7 +59,7 @@ class EasyTableViewEasyTableRecords extends JView
 
 	function display ($tpl = null)
 	{
-		global $mainframe, $option, $task;
+		$option = JRequest::getCmd('option');
 		$jAp=& JFactory::getApplication();
 
 
@@ -76,8 +76,8 @@ class EasyTableViewEasyTableRecords extends JView
 
 		// For a better backlink - lets try this:
 		$start_page = JRequest::getVar('start',0,'','int');					// get the start var from JPagination
-		$mainframe =& JFactory::getApplication();							// get the app
-		$mainframe->setUserState( "$option.start_page", $start_page );		// store the start page
+
+		$jAp->setUserState( "$option.start_page", $start_page );		// store the start page
 		
 		// Lets lock out the main menu
 		JRequest::setVar( 'hidemainmenu', 1 );
@@ -112,7 +112,7 @@ class EasyTableViewEasyTableRecords extends JView
 		if($etmCount)  //Make sure at least 1 field is set to display
 		{
 			//Search setup
-			$search = $mainframe->getUserStateFromRequest("$option.easytabledata.search".$id, 'search','');
+			$search = $jAp->getUserStateFromRequest("$option.easytabledata.search".$id, 'search','');
 			if($search == '')
 			{
 				$search = JRequest::getVar('search','');
@@ -137,7 +137,7 @@ class EasyTableViewEasyTableRecords extends JView
 
 			//Setup for pagination
 			$lim0  = JRequest::getVar('limitstart', 0, '', 'int');
-			$lim   = $mainframe->getUserStateFromRequest("$option.limit", 'limit', 25, 'int');
+			$lim   = $jAp->getUserStateFromRequest("$option.limit", 'limit', 25, 'int');
 
 			$ettd_tname = $db->nameQuote('#__easytables_table_data_'.$id);
 			$query = "SELECT SQL_CALC_FOUND_ROWS * FROM ".$ettd_tname.$sqlWhere;

@@ -61,7 +61,6 @@ class EasyTableViewEasyTableRecord extends JView
 
 	function display ($tpl = null)
 	{
-		global $mainframe, $option;
 		$id = JRequest::getVar( 'id', 0);
 		if($id == 0) {
 			JError::raiseNotice( 100, JText::_( 'COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR' ).$id );

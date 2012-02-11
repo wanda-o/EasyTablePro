@@ -66,7 +66,7 @@
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="option" value="<?php echo $option; ?>" />
+<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option'); ?>" />
 <input type="hidden" name="id" value="<?php echo $this->row->id; ?>" />
 <input type="hidden" name="task" value="uploadData" />
 <?php echo JHTML::_('form.token'); ?>

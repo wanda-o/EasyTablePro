@@ -151,7 +151,7 @@
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="option" value="<?php echo $option; ?>" />
+<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option'); ?>" />
 <input type="hidden" name="task" value="preferencesUpdate" />
 <?php echo JHTML::_('form.token'); ?>
 <!-- <input type="hidden" name="controller" value="easytable" /> -->

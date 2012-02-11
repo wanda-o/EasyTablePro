@@ -53,16 +53,16 @@ class EasyTableModelEasyTables extends JModel
 	function __construct()
 	{
 		parent::__construct();
-		
-		global $mainframe, $option;
-		
+
+		$jAp =& JFactory::getApplication();
+
 		// Get pagination request variables
-		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		
+
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 	}
@@ -104,8 +104,9 @@ class EasyTableModelEasyTables extends JModel
 	{
 		if(!$this->_search)
 		{
-			global $mainframe, $option;
-			$search = $mainframe->getUserStateFromRequest("$option.easytablemgr.search", 'search','');
+			$jAp =& JFactory::getApplication();
+			$option = JRequest::getCmd('option');
+			$search = $jAp->getUserStateFromRequest("$option.easytablemgr.search", 'search','');
 			if($search == '')
 			{
 				$search = JRequest::getVar('search','');
