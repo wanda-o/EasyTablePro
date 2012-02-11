@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<access component="com_easytablepro">
+	<section name="component">
+		<action name="core.admin" title="COM_EASYTABLEPRO_ACL_ADMINISTER_EASYTABLEPRO"
+			description="COM_EASYTABLEPRO_ACL_ALLOW_USERS_I_DESC" />
+		<action name="core.manage" title="COM_EASYTABLEPRO_ACL_ACCESS_EASYTABLEPRO"
+			description="COM_EASYTABLEPRO_ACL_ALLOW_USERS_ACCESS_DESC" />
+		<action name="core.create" title="COM_EASYTABLEPRO_ACL_CREATE_A_TABLE"
+			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_CREATE" />
+		<action name="core.delete" title="COM_EASYTABLEPRO_ACL_DELETE_A_TABLE"
+			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_DELETE" />
+		<action name="core.edit" title="COM_EASYTABLEPRO_ACL_EDIT_A_TABLE"
+			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_EDIT" />
+		<action name="core.edit.own" title="COM_EASYTABLEPRO_ACL_EDIT_A_TABLE"
+			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_EDIT" />
+		<action name="core.edit.state" title="COM_EASYTABLEPRO_ACL_EDIT_A_TABLE_STATE"
+			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_EDIT_STATE" />
+	</section>
+	<section name="TABLE">
+		<action name="easytable.import" title="COM_EASYTABLEPRO_ACL_IMPORT"
+			description="COM_EASYTABLEPRO_ACL_IMPORT_DESC" />
+		<action name="easytable.editrecords" title="COM_EASYTABLEPRO_ACL_EDIT_RECORDS"
+			description="COM_EASYTABLEPRO_ACL_EDIT_RECORDS_DESC" />
+		<action name="easytable.rawdata" title="COM_EASYTABLEPRO_ACL_RAW_DATA_ENTRY"
+			description="COM_EASYTABLEPRO_ACL_RAW_DATA_ENTRY_DESC" />
+		<action name="easytable.link" title="COM_EASYTABLEPRO_ACL_LINK_EXT_TABLES"
+			description="COM_EASYTABLEPRO_ACL_LINK_EXT_TABLES_DESC" />
+	</section>
+</access>
