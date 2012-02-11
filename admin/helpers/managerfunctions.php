@@ -151,5 +151,25 @@ class ET_MgrHelpers
 	
 		return $result;
 	}
+
+	public  static function loadJSLanguageKeys($jsFile) {
+		if(isset($jsFile))
+		{
+			$jsFile = JPATH_COMPONENT_ADMINISTRATOR.$jsFile;
+		} else {
+			return false;
+		}
+	
+		if($jsContents = file_get_contents($jsFile))
+		{
+			$languageKeys = array();
+			preg_match_all('/Joomla\.JText\._\(\'(.*?)\'\)\)?/', $jsContents, $languageKeys);
+			$languageKeys = $languageKeys[1];
+			foreach ($languageKeys as $lkey) {
+				JText::script($lkey);
+			}
+		}
+	}
+
 }
 
