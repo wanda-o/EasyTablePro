@@ -184,7 +184,8 @@ class EasyTableViewEasyTables extends JView
 		}
 
 		// Search
-		$search = mysql_real_escape_string($this->get('search'));
+		$db =& JFactory::getDBO();
+		$search = $db->getEscaped($this->get('search'));
 
 		// Get data from the model
 		$rows =& $this->get('data');
