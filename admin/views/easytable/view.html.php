@@ -207,11 +207,11 @@ class EasyTableViewEasyTable extends JView
 		if( $ettd )
 		{
 			// Get the record count for this table
-			$query = "SELECT COUNT(*) FROM ".$db->nameQuote($ettd_tname);
+			$query = "SELECT `id` FROM ".$db->nameQuote($ettd_tname);
 			$db->setQuery($query);
 			$ettd_records = $db->query();
 
-			$ettd_record_count = mysql_result($ettd_records,0);
+			$ettd_record_count = $db->getNumRows();
 
 			if($row->published)
 			{
