@@ -62,20 +62,30 @@ defined('_JEXEC') or die('Restricted Access');
 	<tbody>
 	<?php
 	$k = 0;
-	$user = JFactory::getUser();
-	$userId = $user->id;
+	$user		= JFactory::getUser();
+	$userId		= $user->get('id');
+	
 
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
 		$row = &$this->rows[$i];
+
+		$canCreate        = $this->canDo->get('core.create',              'com_easytablepro');
+		$canEdit          = $this->canDo->get('core.edit',                'com_easytablepro.table.'.$row->id);
+		$canCheckin       = $user->authorise('core.manage',               'com_checkin') || $row->checked_out == $userId || $row->checked_out == 0;
+		$canEditOwn       = $this->canDo->get('core.edit.own',            'com_easytablepro.table.'.$row->id) && $row->created_by == $userId;
+		$canChange        = $this->canDo->get('core.edit.state',          'com_easytablepro.table.'.$row->id) && $canCheckin;
+		$canEditRecords   = $this->canDo->get('easytablepro.editrecords', 'com_easytablepro.table.' . $row->id);
+		$canImportRecords = $this->canDo->get('easytablepro.import',      'com_easytablepro.table.' . $row->id);
+
 		$rowParamsObj = new JParameter ($row->params);
 		$locked = ($row->checked_out && ($row->checked_out != $user->id));
 		if($locked) { $lockedBy = JFactory::getUser($row->checked_out); $lockedByName = $lockedBy->name; } else $lockedByName = '';
-		$published = $this->publishedIcon($locked, $row, $i,$this->et_hasTableMgrPermission, $lockedByName);
+		$published = $this->publishedIcon($locked, $row, $i, $canCheckin, $lockedByName);
 		$etet = $row->datatablename?true:false;
-		
+
 		$searchableFlag = $rowParamsObj->get('searchable_by_joomla');
-		$searchableImage  = $this->getSearchableTick( $i, $searchableFlag, $locked, $this->et_hasTableMgrPermission, $lockedByName);
+		$searchableImage  = $this->getSearchableTick( $i, $searchableFlag, $locked, $canChange, $lockedByName);
 
 		?>
 		<tr class="<?php echo "row$k"; ?>">
@@ -83,16 +93,16 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php echo $row->id; ?>
 			</td>
 			<td>
-				<?php if($this->et_hasTableMgrPermission){echo JHTML::_( 'grid.checkedout', $row, $i );} else {echo str_replace('"checkbox"','"hidden"',JHTML::_( 'grid.checkedout', $row, $i ));echo ('<span class="editlinktip hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_MGR_NO_MGR_PERMISSIONS' ).'"><img src="images/checked_out.png"></span>');} ?>
+				<?php echo JHTML::_( 'grid.checkedout', $row, $i ); ?>
 			</td>
 			<td>
-				<?php echo $this->getEditorLink($locked,$i,$row->easytablename,$this->et_hasTableMgrPermission, $lockedByName); ?>
+				<?php echo $this->getEditorLink($locked,$i,$row->easytablename,$canEdit, $lockedByName); ?>
 			</td>
 			<td>
-				<?php echo $this->getDataEditorIcon($locked,$i,$row->id,$row->easytablename,$etet,$this->et_hasDataEditingPermission, $lockedByName); ?>
+				<?php echo $this->getDataEditorIcon($locked,$i,$row->id,$row->easytablename,$etet,$canEditRecords, $lockedByName); ?>
 			</td>
 			<td>
-				<?php echo $this->getDataUploadIcon($locked,$i,$row->id,$row->easytablename,$etet,$this->et_hasDataUploadPermission, $lockedByName); ?>
+				<?php echo $this->getDataUploadIcon($locked,$i,$row->id,$row->easytablename,$etet,$canImportRecords, $lockedByName); ?>
 			</td>
 			<td>
 				<?php echo $published; ?>

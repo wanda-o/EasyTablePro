@@ -10,8 +10,9 @@ defined('_JEXEC') or die('Restricted Access');
 
 jimport( 'joomla.application.component.view');
 
-$pvf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/views/viewfunctions.php';
-require_once $pvf;
+require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/viewfunctions.php';
+require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
+
 
 /**
  * HTML View class for the EasyTables Component
@@ -20,7 +21,7 @@ require_once $pvf;
  * @subpackage Views
  */
 
-class EasyTableViewEasyTables extends JView
+class EasyTableProViewTables extends JView
 {
 	function getEditorLink ($locked, $rowId, $tableName, $hasPermission,$userName='')
 	{
@@ -40,12 +41,12 @@ class EasyTableViewEasyTables extends JView
 	{
 		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM' ));
 		$btn_text = JText::_( ( $row->published ? 'COM_EASYTABLEPRO_MGR_PUBLISHED_BTN':'COM_EASYTABLEPRO_MGR_UNPUBLISHED_BTN') ).' \''.$row->easytablename.'\' '.$lockText;
-		$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).($row->published?'publish_g.png':'publish_x.png');
+		$theImageURL = '/media/com_'._cppl_this_com_name.'/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).($row->published?'publish_g.png':'publish_x.png');
 		$theBtn = '<span  class="hasTip" title="'.$btn_text.'" style="margin-left:15px;" ><img src="'.$theImageURL.'" border="0" alt="'.$btn_text.'"></span>';
 
 		if( !$locked && $hasPermission )
 		{
-			$theBtn = "<span class=\"hasTip\" title=\"$btn_text\" style=\"margin-left:15px;\" >".JHTML::_( 'grid.published',  $row, $i, '../'.$theImageURL ).'</span>';
+			$theBtn = "<span class=\"hasTip\" title=\"$btn_text\" style=\"margin-left:15px;\" >".JHTML::_( 'grid.published',  $row, $i).'</span>';
 		}
 
 		return $theBtn;
@@ -57,13 +58,13 @@ class EasyTableViewEasyTables extends JView
 		if($extTable)
 		{
 			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_DATA_EDITING' , $tableName);
-			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/disabled_edit.png';
+			$theImageURL = '/media/com_'._cppl_this_com_name.'/images/disabled_edit.png';
 		}
 		else
 		{
 			$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_DATA_EDIT_PERM' ));
 			$btn_text = JText::_( 'COM_EASYTABLEPRO_MGR_EDIT_DATA_DESC_SEGMENT' ).' \''.$tableName.'\' '.$lockText;
-			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'edit.png';
+			$theImageURL = '/media/com_'._cppl_this_com_name.'/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'edit.png';
 		}
 
 		$theEditBtn = '<span class="hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_MGR_EDIT_RECORDS_BTN_TT' ).'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
@@ -81,13 +82,13 @@ class EasyTableViewEasyTables extends JView
 		if($extTable)
 		{
 			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_UPLOAD' , $tableName);
-			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/disabled_upload.png';
+			$theImageURL = '/media/com_'._cppl_this_com_name.'/images/disabled_upload.png';
 		}
 		else
 		{
 			$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_UPLOAD_PERM' ));
 			$btn_text = JText::_( 'COM_EASYTABLEPRO_MGR_UPLOAD_NEW_DESC' ).' \''.$tableName.'\' '.$lockText;
-			$theImageURL = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'upload.png';
+			$theImageURL = '/media/com_'._cppl_this_com_name.'/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'upload.png';
 		}
 
 		$theBtn = '<span class="hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_MGR_UPLOAD_DATA' ).'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
@@ -103,7 +104,7 @@ class EasyTableViewEasyTables extends JView
 	function getSearchableTick ($rowId, $flag, $locked=true, $hasPermission,$userName='')
 	{
 		$btn_text = '';
-		$theImageString = 'components/com_'._cppl_this_com_name.'/assets/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' );
+		$theImageString = '/media/com_'._cppl_this_com_name.'/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' );
 		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM' ));
 
 		if( $flag == '' )
@@ -138,67 +139,81 @@ class EasyTableViewEasyTables extends JView
 	{
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
-		$doc->addStyleSheet(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.css');
-		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/assets/js/easytablemanager.js');
-		$doc->addScript('http://seepeoplesoftware.com/cpplversions/cppl_et_versions.js');
-		JHTML::_('behavior.modal');
 		// Get the current user
 		$user =& JFactory::getUser();
 
 		// Get the settings meta record
-		$settings = ET_MgrHelpers::getSettings();
-		// Allow Access settings
-		$aaSettings = explode(',', $settings->get('allowAccess'));
-		// Allow Table Linking
-		$alaSettings = explode(',', $settings->get('allowLinkingAccess'));
-		// Allow Table Management
-		$atmSettings = explode(',', $settings->get('allowTableManagement'));
-		// Allow Data Upload
-		$aduSettings = explode(',', $settings->get('allowDataUpload'));
-		// Allow Data Editing
-		$adeSettings = explode(',', $settings->get('allowDataEditing'));
-		/*
-			Setup the Toolbar
-		*/
-		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO' ), 'easytables');
-		if(in_array($user->usertype, $atmSettings))
-		{
-			$hasTableMgrPermission = TRUE;
-			JToolBarHelper::publishList();
-			JToolBarHelper::unpublishList();
-			JToolBarHelper::editList();
-			JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_MGR_DELETE_TABLE_BTN' );
-			JToolBarHelper::addNew();
-		}
-		else $hasTableMgrPermission = FALSE;
+		$canDo = ET_MgrHelpers::getActions();
 
-		if(in_array($user->usertype, $alaSettings))
-		{
-			$toolbar=& JToolBar::getInstance( 'toolbar' );
-			$toolbar->appendButton( 'Popup', 'linkTable', 'Link Table', 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component', 500, 280 );
-		}
-		JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 425 );
-		if(in_array($user->usertype, $aaSettings))
-		{
-			JToolBarHelper::custom( 'settings','Gear_Icon_48x48.png','',JText::_('COM_EASYTABLEPRO_MGR_SETTINGS_BTN'), FALSE );
-		}
+		// Setup toolbar, js, css
+		$this->addToolbar($canDo);
+		$this->addCSSEtc();
 
 		// Search
 		$db =& JFactory::getDBO();
 		$search = $db->getEscaped($this->get('search'));
 
 		// Get data from the model
-		$rows =& $this->get('data');
+		$rows =& $this->get('Items');
 		// A little pagination for our users with *lots* of tables.
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('rows',$rows);
 		$this->assignRef('pagination',$pagination);
 		$this->assign('search',$search);
-		$this->assign('et_hasTableMgrPermission',$hasTableMgrPermission);
-		$this->assign('et_hasDataUploadPermission',in_array($user->usertype, $aduSettings));
-		$this->assign('et_hasDataEditingPermission',in_array($user->usertype, $adeSettings));
+		$this->assign('canDo',$canDo);
 		$this->assign('et_current_version',ET_VHelpers::current_version());
 		parent::display($tpl);
+	}
+
+	private function addToolbar($canDo)
+	{
+		/*
+			Setup the Toolbar
+		*/
+		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO' ), 'easytables');
+		if($canDo->get('core.edit.state'))
+		{
+			JToolBarHelper::publishList();
+			JToolBarHelper::unpublishList();
+		}
+
+		if($canDo->get('core.edit'))
+		{
+			JToolBarHelper::editList();
+		}
+
+		if($canDo->get('core.delete'))
+		{
+			JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_MGR_DELETE_TABLE_BTN' );
+		}
+
+		if($canDo->get('core.create`'))
+		{
+			JToolBarHelper::addNew();
+		}
+
+		if($canDo->get('easytable.link`'))
+		{
+			$toolbar=& JToolBar::getInstance( 'toolbar' );
+			$toolbar->appendButton( 'Popup', 'linkTable', 'Link Table', 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component', 500, 280 );
+		}
+		JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 425 );
+	}
+
+	private function addCSSEtc ()
+	{
+		// Get the document object
+		$document = &JFactory::getDocument();
+
+		// First add CSS to the document
+		$document->addStyleSheet('/media/com_'._cppl_this_com_name.'/css/'._cppl_base_com_name.'.css');
+
+		// Then add JS to the document‚ - make sure all JS comes after CSS
+		JHTML::_('behavior.modal');
+		$document->addScript('http://www.seepeoplesoftware.com/cpplversions/cppl_et_versions.js');
+		$jsFile = '/media/com_'._cppl_this_com_name.'/js/easytablemanager.js';
+		$document->addScript($jsFile);
+		ET_MgrHelpers::loadJSLanguageKeys($jsFile);
 	}
 }

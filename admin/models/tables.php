@@ -9,7 +9,7 @@
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
 
-jimport( 'joomla.application.component.model' );
+jimport( 'joomla.application.component.modellist' );
 
 /**
  * EasyTables Model
@@ -17,7 +17,7 @@ jimport( 'joomla.application.component.model' );
  * @package    EasyTables
  * @subpackage Models
  */
-class EasyTableModelEasyTables extends JModel
+class EasyTableProModelTables extends JModelList
 {
 
 	/**
@@ -68,17 +68,20 @@ class EasyTableModelEasyTables extends JModel
 	}
 
 	/**
-	 * getTotal()
-	 * Returns the total number of tables
+	 * Method to build an SQL query to load the list data.
+	 *
+	 * @return	string	An SQL query
 	 */
-	function getTotal()
+	protected function getListQuery()
 	{
-		if (empty($this->_total))
-		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
-		}
-		return $this->_total;
+		// Create a new query object.		
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		// Select some fields
+		$query->select('*');
+		// From the EasyTables table
+		$query->from('#__easytables');
+		return $query;
 	}
 
 	/**
@@ -119,7 +122,7 @@ class EasyTableModelEasyTables extends JModel
 	/**
 	 * Returns the query
 	 * @return string The query to be used to retrieve the rows from the database
-	 */
+	 *
 	function _buildQuery()
 	{
 		$searchTerm = $this->getSearch();
@@ -136,7 +139,7 @@ class EasyTableModelEasyTables extends JModel
 			' LEFT JOIN #__users AS u ON u.id = ets.checked_out'.$searchQuery;
 
 		return $query;
-	}
+	}*/
 
 	/**
 	 * Retrieves the data
