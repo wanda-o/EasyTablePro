@@ -286,7 +286,7 @@ function addField()
 
 	detailVCellHTML = '<input type=\"hidden\" name=\"detail_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'detail_view\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"detail_view#id#_img\" border=\"0\" title=\"Click this to make this field appear in the record/detail view, or not.\"></a>';
 
-	searchableCellHTML='<input type=\"hidden\" name=\"search_field#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'search_field\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"search_field#id#_img\" border=\"0\" title=\"CLICK_TO_MAKE_THIS_FIELD_SEARCHABLE__OR_NOT_\"></a>';
+	searchableCellHTML='<input type=\"hidden\" name=\"search_field#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'search_field\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"search_field#id#_img\" border=\"0\" title=\"Click to make this field searchable, or not.\"></a>';
 
 	// Store the id of our new field meta record
 	if(nfField.value == '')
