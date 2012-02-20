@@ -16,17 +16,16 @@ class EasyTableViewEasyTable extends JView
 {
 	function display ($tpl = null)
 	{
-		global $mainframe, $option;
+		$mainframe =& JFactory::getApplication(); // get the app
+		$option = JRequest::getCmd('option');
 		// Better breadcrumbs
 		$pathway   =& $mainframe->getPathway();
 		$id = (int) JRequest::getVar('id',0);
 		// For a better backlink - lets try this:
 		$start_page = JRequest::getVar('start',0,'','int');					// get the start var from JPagination
-		$mainframe =& JFactory::getApplication();							// get the app
 		$mainframe->setUserState( "$option.start_page", $start_page );		// store the start page
 
 		// Get Params
-		global $mainframe;
 
 		$params =& $mainframe->getParams(); // Component wide & menu based params
 

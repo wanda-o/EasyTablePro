@@ -47,7 +47,7 @@
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="option" value="<?php echo $option; ?>" />
+<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option'); ?>" />
 <input type="hidden" name="task" value="linkTable" />
 <?php echo JHTML::_('form.token'); ?>
 </form>

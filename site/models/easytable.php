@@ -275,7 +275,8 @@ class EasyTableModelEasyTable extends JModel
 	{
 		if(!$this->_search)
 		{
-			global $mainframe, $option;
+			$mainframe =& JFactory::getApplication();
+			$option = JRequest::getCmd('option');
 			$search = $mainframe->getUserStateFromRequest("$option.easytable.etsearch".$id, 'etsearch','');
 			if($search == '')
 			{
@@ -470,17 +471,17 @@ class EasyTableModelEasyTable extends JModel
 	{
 		parent::__construct();
 		
-		global $mainframe, $option;
-		
+		$mainframe=& JFactory::getApplication();
+
 		// Get pagination request variables
 		$limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		
+
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-  }
+	}
 
 }// class

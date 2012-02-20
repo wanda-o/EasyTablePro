@@ -190,7 +190,7 @@ defined('_JEXEC') or die('Restricted Access');
 <div class="clr"></div>
 
 <input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="option" value="<?php echo $option; ?>" />
+<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option'); ?>" />
 <input type="hidden" name="view" value="easytablerecords" />
 <input type="hidden" name="id" value="<?php echo $this->easytable->id; ?>" />
 <input type="hidden" name="task" value="editData" />

@@ -70,7 +70,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 <input type="hidden" name="rid" value="<?php echo $this->recordId; ?>" />
 <input type="hidden" name="et_flds" value="<?php echo implode(',',$flds); ?>" />
-<input type="hidden" name="option" value="<?php echo $option; ?>" />
+<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option'); ?>" />
 <input type="hidden" name="id" value="<?php echo $this->easytable->id; ?>" />
 <input type="hidden" name="task" value="" />
 <?php echo JHTML::_('form.token'); ?>

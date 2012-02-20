@@ -349,7 +349,7 @@ class EasyTableController extends JController
 			}
 		}
 
-		global $option;
+		$option = JRequest::getCmd('option');
 		// Go back to the table page
 		$this->setRedirect('index.php?option='.$option.'&amp;task=editdata&amp;cid[]='.$id, $this->msg );
 	}
@@ -406,7 +406,7 @@ class EasyTableController extends JController
 			}
 		} else {$this->msg = JText::_( 'NO_CHANGES_DESC' );}
 
-		global $option;
+		$option = JRequest::getCmd('option');
 		if(($ctask == 'applyRecord') || ($ctask == 'applyNewRecord')) {
 		// Go back to the record page
 			$this->setRedirect('index.php?option='.$option.'&amp;task=editrow&amp;cid[]='.$rid.'&amp;id='.$id, $this->msg );
@@ -452,7 +452,7 @@ class EasyTableController extends JController
 
 	function cancelRecord()
 	{
-		global $option;
+		$option = JRequest::getCmd('option');
 		$id = JRequest::getVar('id',0);
 		if($id == 0) {
 			JError::raiseNotice( 100, JText::_( 'AN_ERROR_DESC' ).$id );
@@ -467,7 +467,7 @@ class EasyTableController extends JController
 
 	function cancel()
 	{
-		global $option;
+		$option = JRequest::getCmd('option');
 		$this->checkInEasyTable();
 		$this->setRedirect('index.php?option='.$option);
 	}
@@ -483,11 +483,10 @@ class EasyTableController extends JController
 	function remove()
 	{
 		JRequest::checkToken() or jexit('Invalid Token');
-		
-		global $option;
+		$option = JRequest::getCmd('option');;
 		$cid = JRequest::getVar('cid',array(0));
 		$row =& JTable::getInstance('EasyTable','Table');
-		
+
 		foreach ($cid as $id)
 		{
 			$id = (int) $id;
@@ -509,7 +508,7 @@ class EasyTableController extends JController
 			{
 				$msg .= '<br />(2) No ETTD data table found for id ='.$id;
 			}
-			
+
 			if (!$row->delete($id))
 			{
 				JError::raiseError(500, $row->getError());
@@ -525,15 +524,15 @@ class EasyTableController extends JController
 	{
 		// We only publish if the Table is valid, ie. if it has an associated data table
 		JRequest::checkToken() or jexit('Invalid Token');
-		
-		global $option;
+
+		$option = JRequest::getCmd('option');
 		$cid = JRequest::getVar('cid',array());
 		$row =& JTable::getInstance('EasyTable','Table');
-		
+
 		$msg = '';
 		$msg_failures = '';
 		$msg_successes = '';
-		
+
 		if($this->getTask() =='unpublish')
 		{
 			$publish = 0;
@@ -556,7 +555,7 @@ class EasyTableController extends JController
 				else
 				{ $f_array[] = $id;}
 			}
-			
+
 			// Check for tables we can successfully publish & generate part of the user msg.
 			$s = count($s_array);
 			if($s)
@@ -571,7 +570,6 @@ class EasyTableController extends JController
 				if($f > 1) {$f = '\'s';} else {$f = '';}
 				$msg_failures = 'Table id'.$f.' '.implode(', ',$f_array).' can\'t be published (no data table). ';
 			}
-			
 			$msg = $msg_failures.$msg_successes;
 		}
 		else
@@ -581,7 +579,6 @@ class EasyTableController extends JController
 			$msg = "Table ID$s".implode(', ',$s_array).' unpublished';
 		}
 
-		
 		if(count($s_array))
 		{
 			if(!$row->publish($s_array, $publish))
@@ -647,7 +644,7 @@ function toggleSearch()
 		$currentTask = $this->getTask();
 		
 		// 1.1 Save/Apply tasks
-		global $option;
+		$option = JRequest::getCmd('option');
 
 		if($id = $this->saveApplyETdata())
 		{
@@ -679,7 +676,7 @@ function toggleSearch()
 
 			if($updateMetaResult["status"])
 			{
-				$userFeedback .= $updateMetaResult[1].'<br />';
+				$userFeedback .= $updateMetaResult["status"].'<br />';
 			}
 			else
 			{
@@ -777,7 +774,6 @@ function toggleSearch()
 	{
 		// Save/Apply tasks - stores the ET record
 		$msg = '';
-		global $option;
 
 		// 1.0 Update/Create table record from POST data
 		$row =& JTable::getInstance('EasyTable', 'Table');

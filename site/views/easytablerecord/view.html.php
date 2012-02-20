@@ -278,7 +278,8 @@ class EasyTableViewEasyTableRecord extends JView
 		/*
 		 * Get Params for linked tables as we'll need them soon
 		 */
-		global $mainframe, $option;
+		$mainframe =& JFactory::getApplication();
+		$option = JRequest::getCmd('option');
 		// Better breadcrumbs
 		$pathway   =& $mainframe->getPathway();
 		$recordLinkLabel = JRequest::getVar('rllabel',$id);

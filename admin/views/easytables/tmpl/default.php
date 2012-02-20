@@ -111,7 +111,7 @@ defined('_JEXEC') or die('Restricted Access');
 	</table>
 </div>
 <?php echo JHTML::_('form.token'); ?>
-<input type="hidden" name="option" value="<?php echo $option ?>" />
+<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option'); ?>" />
 <input type="hidden" name="view" value="easytables" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />

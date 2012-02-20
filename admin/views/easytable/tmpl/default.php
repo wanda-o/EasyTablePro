@@ -345,7 +345,7 @@ defined('_JEXEC') or die('Restricted Access');
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="option" value="<?php echo $option; ?>" />
+<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option'); ?>" />
 <input type="hidden" name="et_linked_et" value="<?php echo $this->etet; ?>" />
 <input type="hidden" name="id" value="<?php echo $this->row->id; ?>" />
 <input type="hidden" name="task" value="" />
