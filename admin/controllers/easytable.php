@@ -1201,7 +1201,7 @@ function toggleSearch()
 		$msg = 'Starting field removal.<br />';
 		$id = JRequest::getInt('id',0);
 		$selDelFlds = '`id` = '. implode(explode(', ', $deletedFldIds), ' or `id` =');
-		$deleteSelectSQL = ' from `#_easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
+		$deleteSelectSQL = ' from `#__easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
 
 		// Get a database object
 		$db =& JFactory::getDBO();
@@ -1214,7 +1214,7 @@ function toggleSearch()
 		$select_Result = $db->loadResultArray();
 
 		// Process the fields to drop from data table
-		$tableName = '#_easytables_table_data_'.$id;
+		$tableName = '#__easytables_table_data_'.$id;
 		$dropSQL = 'ALTER TABLE `'.$tableName.'` ';
 		$dropSQL .= 'DROP COLUMN `'.implode($select_Result, '`, DROP COLUMN `');
 		$dropSQL .=  '`';
