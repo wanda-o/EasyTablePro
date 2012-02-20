@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `#__easytables` (
   `defaultimagedir` text NOT NULL,
   `linkedtable` int(11) NOT NULL,
   `created_` datetime NOT NULL,
+  `created_by` int(11) NOT NULL,
   `modified_` datetime NOT NULL,
   `modifiedby_` tinyint(3) NOT NULL,
   `checked_out` tinyint(1) NOT NULL,
