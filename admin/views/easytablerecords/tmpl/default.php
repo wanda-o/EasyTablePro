@@ -195,5 +195,4 @@ defined('_JEXEC') or die('Restricted Access');
 <input type="hidden" name="id" value="<?php echo $this->easytable->id; ?>" />
 <input type="hidden" name="task" value="editData" />
 <?php echo JHTML::_('form.token'); ?>
-<!-- <input type="hidden" name="controller" value="easytable" /> -->
 </form>
