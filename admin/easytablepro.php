@@ -12,11 +12,21 @@
 
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
+
+// define some bits
 define("_cppl_base_com_name","easytable");    // REMEMBER: we can't use defined values in installer obj
 define("_cppl_this_com_name","easytablepro"); // REMEMBER: so you must update install/uninstall manually
-require_once(JPATH_COMPONENT_ADMINISTRATOR.'/controllers/easytable.php');
 
-$controller = new EasyTableController();
+// Access check.
+if (!JFactory::getUser()->authorise('core.manage', 'com_easystaging')) {
+	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+}
+
+// Include dependencies
+jimport('joomla.application.component.controller');
+
+$controller = JController::getInstance('EasyTablePro');
+
 /* Table Manager Fn's */
 $controller->registerTask('unpublish','publish');
 $controller->registerTask('apply', 'save');
@@ -42,9 +52,9 @@ $controller->registerTask('applyNewRecord', 'applyRecord');
 $controller->registerTask('cancelRecord', 'cancelRecord');
 $controller->registerTask('cancelNewRecord', 'cancelRecord');
 
-/* Operation Preferences */
-$controller->registerTask('applyPreferences','savePreferences');
+// get the task
+$jinput = JFactory::getApplication()->input;
+$controller->execute($jinput->get('task'));
 
-$controller->execute( $task );
-
+// Redirect if set by the controller
 $controller->redirect();

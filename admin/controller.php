@@ -15,7 +15,7 @@ jimport('joomla.application.component.controller');
 /**
  * EasyTablePro Component Controller
  */
-class EasyStagingController extends JController
+class EasyTableProController extends JController
 {
     /**
      * Method to display the view
