@@ -8,7 +8,7 @@
 	defined('_JEXEC') or die ('Restricted Access');
 ?>
 <div class="contentpaneopen<?php echo $this->pageclass_sfx ?>" >
-	<table	id="<?php echo htmlspecialchars($this->linked_easytable_alias); ?>" summary="<?php echo htmlspecialchars($this->linked_easytable_description); ?>" width="100%">
+	<table	id="<?php echo htmlspecialchars($this->linked_easytable_alias); ?>" summary="<?php echo htmlspecialchars(strip_tags($this->linked_easytable_description)); ?>" width="100%">
 		<thead>
 			<tr>
 				<?php

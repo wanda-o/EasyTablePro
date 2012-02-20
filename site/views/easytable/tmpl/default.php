@@ -62,7 +62,7 @@
 			}
 		}
 ?>
-	<table id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars($this->easytable->description); ?>" width="100%">
+	<table id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars(strip_tags($this->easytable->description)); ?>" width="100%">
 		<thead>
 			<tr>
 				<?php foreach ($this->easytables_table_meta as $heading )
