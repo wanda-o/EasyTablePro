@@ -66,7 +66,8 @@ class ET_MgrHelpers
 			$assetName = self::$extension . '.' . self::$base_assett . '.' . (int) $id;
 		}
 	
-		$actions = array( 'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete' );
+		$actions = array_merge( array( 'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete' ),
+								self::$ext_actions );
 	
 		foreach ($actions as $action) {
 			$result->set($action,	$user->authorise($action, $assetName));
