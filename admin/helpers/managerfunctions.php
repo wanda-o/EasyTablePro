@@ -78,7 +78,7 @@ class ET_MgrHelpers
 	public  static function loadJSLanguageKeys($jsFile) {
 		if(isset($jsFile))
 		{
-			$jsFile = JPATH_COMPONENT_ADMINISTRATOR.$jsFile;
+			$jsFile = JPATH_SITE . $jsFile;
 		} else {
 			return false;
 		}

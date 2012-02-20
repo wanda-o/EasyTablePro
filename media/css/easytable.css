@@ -6,22 +6,22 @@
 */
 
 .icon-48-easytables {
-    background: url(assets/images/EasyTableProIcon.png) no-repeat left;
+    background: url(../images/EasyTableProIcon.png) no-repeat left;
 }
 .icon-48-easytableeditrecords {
-    background: url(assets/images/Edit-Icon48.png) no-repeat left;
+    background: url(../images/Edit-Icon48.png) no-repeat left;
 }
 
 .icon-32-modifyTable {
-    background: url(assets/images/Table-Modification32.png) no-repeat left;
+    background: url(../images/Table-Modification32.png) no-repeat left;
 }
 
 .icon-32-linkTable {
-	background: url(assets/images/Linked_Table_32x32.png) no-repeat left;
+	background: url(../images/Linked_Table_32x32.png) no-repeat left;
 }
 
 .icon-32-Gear_Icon_48x48 {
-	background: url(assets/images/Gear_Icon_32x32.png) no-repeat left;
+	background: url(../images/Gear_Icon_32x32.png) no-repeat left;
 }
 
 .info-tip {
