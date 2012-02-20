@@ -104,7 +104,7 @@
 				</tr>
 				<tr class="row1">
 					<td width="150" align="left" class="key">
-						<h3><span class="hasTip" title="<?php echo JText::_( 'RESTRICTEDTABLES_DESC' ).'::'.JText::_( 'restrictedTables_TT' );?>"><label for="restrictedTables"><?php echo JText::_( 'restrictedTables_DESC' ); ?>:</label></span></h3>
+						<h3><span class="hasTip" title="<?php echo JText::_( 'RESTRICTEDTABLES_DESC' ).'::'.JText::_( 'RESTRICTEDTABLES_TT' );?>"><label for="restrictedTables"><?php echo JText::_( 'RESTRICTEDTABLES_DESC' ); ?>:</label></span></h3>
 					</td>
 					<td width="475">
 						<textarea class="text_area" name="restrictedTables" id="restrictedTables" cols="64" rows="8"><?php echo $this->restrictedTables;?></textarea>

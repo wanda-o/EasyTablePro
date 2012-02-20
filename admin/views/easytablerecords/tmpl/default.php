@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 	JToolBarHelper::divider();
 
-	JToolBarHelper::cancel('cancel', JText::_( 'Close' ));
+	JToolBarHelper::cancel('cancel', JText::_( 'CLOSE' ));
 ?>
 
 <form action="index.php" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted Access');
 			<tr>
 				<td>
 				<fieldset class="adminform">
-				<legend>Details</legend>
+				<legend><?php JText::_( 'DETAILS' ); ?></legend>
 				<table class="admintable" id="et_tableDetails">
 					<tr>
 						<td width="100" align="right" class="key">

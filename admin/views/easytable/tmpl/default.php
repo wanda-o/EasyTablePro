@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted Access');
 		
 		if($this->row->id)
 		{
-			JToolBarHelper::cancel('cancel', JText::_( 'Close' ));
+			JToolBarHelper::cancel('cancel', JText::_( 'CLOSE' ));
 		}
 		else
 		{
@@ -37,7 +37,7 @@ defined('_JEXEC') or die('Restricted Access');
 			<tr>
 				<td>
 				<fieldset class="adminform">
-				<legend>Details</legend>
+				<legend><?php JText::_( 'DETAILS' ); ?></legend>
 				<table class="admintable" id="et_tableDetails">
 					<tr class="hasTip" title="<?php echo JText::_( 'EASYTABLE_NAME_DESC' ); ?>" >
 						<td width="100" align="right" class="key">
