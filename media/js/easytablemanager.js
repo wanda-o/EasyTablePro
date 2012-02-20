@@ -20,7 +20,7 @@ $('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_
 	};
 });
 
-function submitbutton(pressbutton)
+Joomla.submitbutton = function(pressbutton)
 {
 	if (pressbutton == 'publish' ||
 		pressbutton == 'unpublish' ||
@@ -33,7 +33,7 @@ function submitbutton(pressbutton)
 		pressbutton == 'settings' ||
 		pressbutton == 'cancel')
 	{
-		submitform(pressbutton);
+		Joomla.submitform(pressbutton);
 	}
 	else 
 	{
