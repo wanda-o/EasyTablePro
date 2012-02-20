@@ -6,24 +6,24 @@
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
  */
 
-	defined('_JEXEC') or die ('Restricted Access'); ?>
-<?php
+	defined('_JEXEC') or die ('Restricted Access');
+
 	echo '<div class="contentpaneopen'.$this->pageclass_sfx.'" id="et_table_page">';
 
     if($this->show_page_title) {
         echo '<h2 class="contentheading">'.htmlspecialchars($this->page_title).'</h2>';
     }
-?>
-<?php echo ($this->show_created_date ? '<p class="createdate">'.JHTML::_('date', $this->easytable->created_, JText::_('DATE_FORMAT_LC2')).'</p>' : '') ?>
-<?php
+
+    echo ($this->show_created_date ? '<p class="createdate">'.JHTML::_('date', $this->easytable->created_, JText::_('DATE_FORMAT_LC2')).'</p>' : '');
+   
 	if($this->modification_date_label === '')
 	{
 		$mod_dl =  JText::sprintf('LAST_UPDATED2', JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'))) ;
 	} else {
 		$mod_dl = $this->modification_date_label.' '.JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'));
 	}
-	echo ($this->show_modified_date ? '<p class="modifydate">'.$mod_dl.'</p>' : '') ?>
-<?php echo ($this->show_description ? '<div class="et_description">'.$this->easytable->description.'</div>' : '') ?>
+	echo ($this->show_modified_date ? '<p class="modifydate">'.$mod_dl.'</p>' : '');
+	echo ($this->show_description ? '<div class="et_description">'.$this->easytable->description.'</div>' : '') ?>
 <br />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
 	<form class="search_result" name="adminForm" method="post" action="<?php echo $this->paginationLink ?>" onreset="javascript:document.adminForm.etsearch.value = '';document.adminForm.submit();">
