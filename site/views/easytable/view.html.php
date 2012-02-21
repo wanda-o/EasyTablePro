@@ -152,7 +152,7 @@ class EasyTableViewEasyTable extends JView
 			$paginatedRecords = array('Error'=>$errObj);
 		}
 		// Search
-		$search = $db->getEscaped($this->get('search'));
+		$search = $db->getEscaped($mainframe->getUserStateFromRequest("$option.easytable.etsearch".$id, 'etsearch',''));
 		//Get form link
 		$paginationLink = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&amp;view=easytable&amp;id='.$id.':'.$easytable->easytablealias);
 
