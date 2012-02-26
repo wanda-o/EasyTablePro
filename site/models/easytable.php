@@ -128,6 +128,8 @@ class EasyTableModelEasyTable extends JModel
 			{
 				$search = $this->getSearch($id);             // Gets the USER search string...
 				$fields = $this->getFieldMeta($id, $list_view);          // Gets the alias of all fields in the list view
+				$fields = $fields ? ', `' . $fields  . '`' : '' ;
+
 				$orderField = $this->getOrderFieldMeta($id, $ofid);
 				
 				$searchFields = $this->getSearchFields($id); // Gets the alias of all text fields in table (URL & Image values are not searched)
@@ -136,7 +138,7 @@ class EasyTableModelEasyTable extends JModel
 				$pKeySQL = $this->getPrimaryKeyForDataTable();
 
 				// As a default get the table data for this table
-				$newSearch = "SELECT ".$pKeySQL.", `".$fields."` FROM `".$this->getDataTableName().'`';  // If there is no search parameter this will return the list view fields of all records
+				$newSearch = "SELECT ".$pKeySQL . $fields . " FROM `".$this->getDataTableName().'`';  // If there is no search parameter this will return the list view fields of all records
 
 				if(($ffid) || ($search != '') || $user_filter_enabled) { // If theres a filter, user search text or user filter we will need to add a where clause.
 					$newSearch .= ' WHERE ';
