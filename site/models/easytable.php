@@ -109,7 +109,6 @@ class EasyTableModelEasyTable extends JModel
 
 			// Are records to be filtered by user id/name?
 			// Get Params
-			global $mainframe;
 			$easytable =& JTable::getInstance('EasyTable','Table');
 			$easytable->load($id);
 			$params = new JParameter( $easytable->params );
@@ -389,7 +388,7 @@ class EasyTableModelEasyTable extends JModel
 		if(empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
-			global $mainframe;
+			$mainframe=& JFactory::getApplication();
 
 			$limit = $this->getState('limit');
 

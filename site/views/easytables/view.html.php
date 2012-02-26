@@ -26,8 +26,8 @@ class EasyTableViewEasyTables extends JView
      **/
 	function display($tpl = null)
 	{
-		global $mainframe;
-		
+		$mainframe=& JFactory::getApplication();
+
 		$params =& $mainframe->getParams();
 		$show_description = $params->get('show_description',0);
 		$page_title = $params->get('page_title','Easy Tables');

@@ -67,7 +67,7 @@ class EasyTableVieweasytablepreferences extends JView
 		$aaSettings = explode(',', $settings->get('allowAccess'));
 		if(!in_array($user->usertype, $aaSettings))
 		{
-			global $mainframe;
+			$mainframe=& JFactory::getApplication();
 			$url = 'index.php?option=com_'._cppl_this_com_name;
 			$mainframe->redirect($url, JText::_( 'YOU_ARE_NOT_AUTH' ));
 		}
