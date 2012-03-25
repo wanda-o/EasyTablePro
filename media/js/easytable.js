@@ -10,7 +10,7 @@
 $et_check_msg = '';
 $et_give_data_type_change_warning = true;
 
-function atLeast1ListField() {
+com_EasyTablePro.Table.atLeast1ListField = function(){
 	cppl_adminForm = document.adminForm;
 	cppl_numAFElements = cppl_adminForm.elements.length;
 
@@ -32,7 +32,7 @@ function atLeast1ListField() {
 	return false; // If we got here none are checked,
 }
 
-function AliassAreUnique() {
+com_EasyTablePro.Table.AliassAreUnique = function(){
 	if(document.adminForm.elements['et_linked_et'].value) return true; // If it's a linked table we bail as users can't modify alias (ie. they are column names).
 	the_MRIds_obj = $('mRIds');
 	if($defined(the_MRIds_obj))
@@ -90,7 +90,7 @@ function AliassAreUnique() {
 	return false;
 }
 
-function changeTypeWarning()
+com_EasyTablePro.Table.changeTypeWarning = function()
 {
 	if($et_give_data_type_change_warning)
 	{
@@ -99,7 +99,7 @@ function changeTypeWarning()
 	}
 }
 
-function unlock ( rowElement, rowId ) {
+com_EasyTablePro.Table.unlock  = function( rowElement, rowId ) {
 	// Setup our graphics
 	thisHost = this.location.protocol+"//"+this.location.host;
 	lockedIcon = thisHost+"/media/com_easytablepro/images/locked.gif";
@@ -128,7 +128,7 @@ function unlock ( rowElement, rowId ) {
 	}
 }
 
-function toggleTick (tFieldName, tRow, tImgSuffix) {
+com_EasyTablePro.Table.toggleTick  = function(tFieldName, tRow, tImgSuffix) {
 	if(arguments[2] == null) {
 		tImgSuffix = '_img';
 	}
@@ -152,7 +152,7 @@ function toggleTick (tFieldName, tRow, tImgSuffix) {
 	}
 }
 
-function firstAvailableNumber(numberList, firstAvailable)
+com_EasyTablePro.Table.firstAvailableNumber = function(numberList, firstAvailable)
 {
 	firstAvailable = (typeof firstAvailable == 'undefined') ? 1 : firstAvailable;
 	nlArray = numberList.split(', ');
@@ -165,13 +165,13 @@ function firstAvailableNumber(numberList, firstAvailable)
 	return firstAvailable;
 }
 
-function addToList(theList, itemToAdd)
+com_EasyTablePro.Table.addToList = function(theList, itemToAdd)
 {
 	newList = theList.split(', ');
 	newList.push(itemToAdd);
 	return newList.join(', ');
 }
-function deleteFromList(theList, itemToRemove)
+com_EasyTablePro.Table.deleteFromList = function(theList, itemToRemove)
 {
 	originalList = theList.split(', ');
 	newList = new Array();
@@ -182,7 +182,7 @@ function deleteFromList(theList, itemToRemove)
 	return newList.join(', ');
 }
 
-function aliasOK(str)
+com_EasyTablePro.Table.aliasOK = function(str)
 {
 	if(str != makeURLSafe(str)) return false;
 	
@@ -191,7 +191,7 @@ function aliasOK(str)
 	return true;
 }
 
-function updateAlias()
+com_EasyTablePro.Table.updateAlias = function()
 {
 	labelName = this.name;
 	aliasID = 'fieldalias'+labelName.substring(5);
@@ -204,7 +204,7 @@ function updateAlias()
 	}
 }
 
-function createTableNameAlias()
+com_EasyTablePro.Table.createTableNameAlias = function()
 {
 	et_alias = $('easytablealias');
 	et_name  = $('easytablename');
@@ -215,7 +215,7 @@ function createTableNameAlias()
 	
 }
 
-function validateTableNameAlias()
+com_EasyTablePro.Table.validateTableNameAlias = function()
 {
 	et_alias = $('easytablealias');
 	et_name  = $('easytablename');
@@ -232,7 +232,7 @@ function validateTableNameAlias()
 	}
 }
 
-function validateAlias(aliasElement)
+com_EasyTablePro.Table.validateAlias = function(aliasElement)
 {
 	proposedAliasValue = aliasElement.value;
 	// Check for empty alias
@@ -266,7 +266,7 @@ function validateAlias(aliasElement)
 	}
 }
 
-function addField()
+com_EasyTablePro.Table.addField = function()
 {
 	nfField = $('newFlds');
 
@@ -362,7 +362,7 @@ function addField()
 
 }
 
-function deleteField(fName,rowId)
+com_EasyTablePro.Table.deleteField = function(fName,rowId)
 {
 	deletedRowId = rowId.substring(6);
 	if((deletedRowId.length > 4) && (deletedRowId.substring(0,4)=="_nf_")) {
@@ -407,12 +407,12 @@ function deleteField(fName,rowId)
 	}
 }
 
-function makeURLSafe(str)
+com_EasyTablePro.Table.makeURLSafe = function(str)
 {
 	return str.replace(/\s+/g,"-").replace(/[^A-Za-z0-9\-]/g,'').toLowerCase();
 }
 
-function submitbutton(pressbutton)
+Joomla.submitbutton = function(pressbutton)
 {
 	if (pressbutton == 'publish' ||
 		pressbutton == 'unpublish' ||
@@ -495,7 +495,7 @@ function submitbutton(pressbutton)
 	}
 }
 
-function toggleModifyControls()
+com_EasyTablePro.Table.toggleModifyControls = function()
 {
 	if($('et_controlRow').hasClass('et_controlRow-nodisplay'))
 	{
@@ -517,7 +517,7 @@ function toggleModifyControls()
 	}
 }
 
-function etSubmitForm (pressbutton)
+com_EasyTablePro.Table.etSubmitForm  = function(pressbutton)
 {
 	// Enable all alias fields for prior to submit
 	cppl_adminForm = document.adminForm;
@@ -534,10 +534,10 @@ function etSubmitForm (pressbutton)
 	submitform(pressbutton);
 }
 
-function ShowTip(id) {
+com_EasyTablePro.Table.ShowTip = function(id) {
 	document.getElementById(id).style.display = 'block';
 }
 
-function HideTip(id) {
+com_EasyTablePro.Table.HideTip = function(id) {
 	document.getElementById(id).style.display = 'none';
 }
