@@ -9,9 +9,8 @@
 defined('_JEXEC') or die('Restricted Access');
 
 jimport( 'joomla.application.component.view');
+require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
 
-$pmf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
-require_once $pmf;
 /**
  * HTML View class for the EasyTables Component
  *
@@ -19,8 +18,120 @@ require_once $pmf;
  * @subpackage Views
  */
 
-class EasyTableViewEasyTable extends JView
+class EasyTableProViewTable extends JView
 {
+	/**
+	 * EasyTable view display method
+	 * 
+	 * @return void
+	 **/
+	function display($tpl = null)
+	{
+		// get the Data
+		$form = $this->get('Form');
+		$item = $this->get('Item');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) 
+		{
+			JError::raiseError(500, implode('<br />', $errors));
+			return false;
+		}
+		// Assign the Data
+		$this->form  = $form;
+		$this->item  = $item;
+
+		// Should we be here?
+		$this->canDo = ET_MgrHelpers::getActions($item->id);
+
+		// Setup the toolbar etc
+		$this->addToolBar();
+		$this->addCSSEtc();
+////
+		//get the current task
+		$et_task = JRequest::getVar('task');
+
+		if(!$this->item->ettd)	// Do not allow it to be published until a table is created.
+		{
+			$this->assignRef('published', JHTML::_('select.booleanlist', 'published', 'class="inputbox" disabled="disabled"', $this->item->published ));
+		}
+		else
+		{
+			$this->assignRef('published', JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $this->item->published ));
+		}
+		// Parameters for this table instance
+		$params = $item->params;
+
+		$this->assignRef('params', $params);
+
+		$this->assignRef('ettm_field_count',$this->item->ettm_field_count);
+		$this->assignRef('ettd',$this->item->ettd);
+		$this->assignRef('etet',$this->item->etet);
+		$this->assignRef('etupld',$etupld);
+		$this->assignRef('CSVFileHasHeaders', JHTML::_('select.booleanlist', 'CSVFileHasHeaders', 'class="inputbox"', 0 ));
+		if($this->item->ettd)
+		{
+			$this->assignRef('ettd_record_count',$ettd_record_count);
+		}
+
+		parent::display($tpl);
+	}
+
+	private function addToolbar()
+	{
+		JHTML::_('behavior.tooltip');
+
+		$jinput = JFactory::getApplication()->input;
+		$jinput->set('hidemainmenu', true);
+		$canDo	    = $this->canDo;
+		$user		= JFactory::getUser();
+
+		$isNew		= ($this->item->id == 0);
+		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+
+		if($canDo->get('core.edit') || $canDo->get('core.create')) {
+			JToolBarHelper::title($isNew ? JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW') : JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE'), 'easytablepro');
+			JToolBarHelper::apply('table.apply');
+			JToolBarHelper::save('table.save');
+		} 
+		if (!$checkedOut && ($canDo->get('core.create'))) {
+			JToolBarHelper::save2new('table.save2new');
+		}
+		JToolBarHelper::divider();
+
+		if($canDo->get('easytablepro.structure')) JToolBarHelper::custom( 'modifyTable', 'easytablpro-modifyTable', 'easytablpro-modifyTable', 'Modify Structure', false, false );
+		JToolBarHelper::divider();
+
+		JToolBarHelper::cancel('table.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+		JToolBarHelper::divider();
+
+		JToolBarHelper::help('COM_EASYTABLEPRO_MANAGER_HELP',false,'http://seepeoplesoftware.com/products/easytablepro/1.1/help/manager.html');
+
+	}
+
+	private function addCSSEtc()
+	{
+		//get the document
+		$doc =& JFactory::getDocument();
+
+		// First add CSS to the document
+		$doc->addStyleSheet('/media/com_'._cppl_this_com_name.'/css/'._cppl_base_com_name.'.css');
+
+		// Get the document object
+		$document = &JFactory::getDocument();
+		
+		// Load the defaults first so that our script loads after them
+		JHtml::_('behavior.framework', true);
+		JHtml::_('behavior.tooltip');
+		JHtml::_('behavior.multiselect');
+		
+		// Then add JS to the document‚ - make sure all JS comes after CSS
+		$jsFile = ('/media/com_easytablepro/js/easytabletable.js');
+		$document->addScript($jsFile);
+		ET_MgrHelpers::loadJSLanguageKeys($jsFile);
+		
+	}
+
 	function getTableIDForName ($tableName)
 	{
 		// Get a database object
@@ -123,153 +234,4 @@ class EasyTableViewEasyTable extends JView
 		return($fieldOptions);
 	}
 
-	/**
-	 * EasyTable view display method
-	 * 
-	 * @return void
-	 **/
-	function display($tpl = null)
-	{
-		// Get the settings meta record
-		$settings = ET_MgrHelpers::getSettings();
-		// Allow Table Management
-		$atmSettings = explode(',', $settings->get('allowTableManagement'));
-		// Allow Data Upload
-		$aduSettings = explode(',', $settings->get('allowDataUpload'));
-		// Get the current user
-		$user =& JFactory::getUser();
-		$etupld = in_array($user->usertype, $aduSettings) ? true : false;
-		//get the document and load the js support file
-		$doc =& JFactory::getDocument();
-		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/assets/js/'._cppl_base_com_name.'table.js');
-		$doc->addStyleSheet(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.css');
-
-		JRequest::setVar( 'hidemainmenu', 1 );
-
-		//get the current task
-		$et_task = JRequest::getVar('task');
-
-		//get the EasyTable
-		$row =& JTable::getInstance('EasyTable', 'Table');
-		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
-		$id = $cid[0];
-		if(($id == 0) && ($et_task != 'add'))
-		{
-			$datatablename = JRequest::getVar('datatablename','');
-			if($datatablename == "")
-			{
-				JError::raiseError( 500, JText::_( "COM_EASYTABLEPRO_TABLE_NO_VIEW_GO_AWAY" ) );
-			}
-			$id = $this->getTableIDForName($datatablename);
-			if($id == 0) JError::raiseError( 500, JText::_( "COM_EASYTABLEPRO_TABLE_NO_TABLE_GO_AWAY" ).$datatablename );
-		}
-
-		$row->load($id);
-		// Where do we come from
-		$from = JRequest::getVar( 'from', '' );
-		$default_order_sql = " ORDER BY position;";
-
-		if($from == 'create') {
-			$default_order_sql = " ORDER BY id;";
-		}
-
-		
-		// Get a database object
-		$db =& JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,JText::_("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR").' '.$id);
-		}
-		// Get the meta data for this table
-		$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id.$default_order_sql;
-		$db->setQuery($query);
-		
-		$easytables_table_meta = $db->loadRowList();
-		$ettm_field_count = count($easytables_table_meta);
-
-		// Check for the existence of a matching data table
-		$ettd = FALSE;
-		$etet = FALSE;
-		$ettd_tname = $db->getPrefix().'easytables_table_data_'.$id;
-		$allTables = $db->getTableList();
-
-		$ettd = in_array($ettd_tname, $allTables);
-
-		$state = 'Unpublished';
-		
-		$ettd_datatablename = $row->datatablename;
-		if($ettd_datatablename != '')
-		{
-			$ettd = TRUE;
-			$etet = TRUE;
-			$ettd_tname = $ettd_datatablename;
-		}
-
-		if( $ettd )
-		{
-			// Get the record count for this table
-			$query = "SELECT COUNT(*) FROM ".$db->nameQuote($ettd_tname);
-			$db->setQuery($query);
-			$ettd_records = $db->query();
-
-			$ettd_record_count = mysql_result($ettd_records,0);
-
-			if($row->published)
-			{
-				$state = 'Published';
-			}
-		}
-		else
-		{
-			$easytables_table_data ='';
-			$ettd_record_count = 0;
-			
-			// Make sure that a table with no associated data table is never published
-			$row->published = FALSE;
-			$state = 'Unpublished';
-		}
-		
-
-		// keep the data for the tmpl
-		$this->assignRef('row', $row);
-		if(!$ettd)	// Do not allow it to be published until a table is created.
-		{
-			$this->assignRef('published', JHTML::_('select.booleanlist', 'published', 'class="inputbox" disabled="disabled"', $row->published ));
-		}
-		else
-		{
-			$this->assignRef('published', JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $row->published ));
-		}
-		
-		// Parameters for this table instance
-		$paramsdata = $row->params;
-		$paramsdefs = JPATH_COMPONENT_ADMINISTRATOR.'/models/easytable.xml';
-		$params = new JParameter( $paramsdata, $paramsdefs );
-		// Get the settings meta record
-		$settings = ET_MgrHelpers::getSettings();
-		// Max file size for uploading
-		$umfs = ET_MgrHelpers::umfs();
-		$maxFileSize = $settings->get('maxFileSize', $umfs); //Get the max file size for uploads from Pref's, default to servers PHP setting.
-
-		$this->assignRef('params', $params);
-		$this->assign('maxFileSize', $maxFileSize);
-
-		$this->assign('id',$id);		
-		$this->assignRef('state',$state);
-		$this->assignRef('createddate', JHTML::date($row->created_));
-		$this->assignRef('modifieddate', JHTML::date($row->modified_));
-		$this->assignRef('easytables_table_meta',$easytables_table_meta);
-		$this->assignRef('ettm_field_count',$ettm_field_count);
-		$this->assignRef('ettd',$ettd);
-		$this->assignRef('etet',$etet);
-		$this->assignRef('etupld',$etupld);
-		$this->assignRef('ettd_tname',$ettd_tname);
-		$this->assignRef('CSVFileHasHeaders', JHTML::_('select.booleanlist', 'CSVFileHasHeaders', 'class="inputbox"', 0 ));
-		if($ettd)
-		{
-			$this->assignRef('easytables_table_data',$easytables_table_data);
-			$this->assignRef('ettd_record_count',$ettd_record_count);
-		}
-
-		parent::display($tpl);
-	}// function
 }// class
