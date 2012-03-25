@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
-	<url addpath="/administrator/components/com_easytablepro/elements">
-	</url>
 	<fieldset
 		name="tables"
 		label="EasyTable Pro Default Settings"
