@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted Access');
  *
  * 
  */
-class TableEasyTable extends JTable
+class EasyTableProTableTable extends JTable
 {
 	/**
 	 * Primary Key
