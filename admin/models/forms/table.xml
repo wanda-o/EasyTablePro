@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields>
+		<fieldset name="Table">
+			<field name="id"
+				label="JGLOBAL_FIELD_ID_LABEL"
+				desc="JGLOBAL_FIELD_ID_DESC"
+				type="text"
+				class="readonly"
+				default="0"
+				readonly="true" />
+			<field name="easytablename"
+				label="COM_EASYTABLEPRO_MGR_TABLE"
+				type="text"
+				class="inputbox"
+				description=""
+				required="true"
+				size="32"
+				maxlength="250" />
+			<field name="easytablealias"
+				label="COM_EASYTABLEPRO_LABEL_ALIAS"
+				type="text"
+				class="inputbox"
+				description=""
+				required="true"
+				size="32" />				
+			<field name="published"
+				type="radio"
+				label="JSTATUS"
+				description="JFIELD_PUBLISHED_DESC"
+				class="inputbox"
+				filter="intval"
+				size="1"
+				default="1" >
+				<option value="1">JPUBLISHED</option>
+				<option value="0">JUNPUBLISHED</option>
+			</field>
+			<field name="description"
+				type="editor"
+				class="inputbox"
+				label="COM_EASYTABLEPRO_MGR_DESCRIPTION"
+				description="COM_EASYTABLEPRO_MGR_DESCRIPTION_DESC"
+				buttons="true" />
+			<field name="defaultimagedir"
+				label="COM_EASYTABLEPRO_TABLE_IMAGE_DIR_LABEL"
+				description="COM_EASYTABLEPRO_TABLE_IMAGE_DIR_TT"
+				type="folderlist"
+				directory="/images/"
+				hide_default="1"
+				class="inputbox" />
+			<field name="created_"
+				type="calendar"
+				class="readonly"
+				label="COM_EASYTABLEPRO_TABLE_INFO_CREATED"
+				description="COM_EASYTABLEPRO_TABLE_INFO_CREATED_DESC"
+				size="22"
+				readonly="true"
+				format="%Y-%m-%d %H:%M:%S"
+				filter="user_utc" />
+	
+			<field name="created_by" type="user"
+				label="COM_EASYTABLEPRO_TABLE_INFO_CREATED_BY_LABEL" description="COM_EASYTABLEPRO_TABLE_INFO_CREATED_BY_DESC" />
+	
+			<field name="modified_"
+				type="calendar"
+				class="readonly"
+				label="COM_EASYTABLEPRO_TABLE_INFO_MODIFIED"
+				description="COM_EASYTABLEPRO_TABLE_INFO_MODIFIED_DESC"
+				size="22"
+				readonly="true"
+				format="%Y-%m-%d %H:%M:%S"
+				filter="user_utc" />
+	
+			<field name="modifiedby_" type="user"
+			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+			 />
+	
+			<field name="checked_out" type="hidden" filter="unset" />
+	
+			<field name="checked_out_time" type="hidden" filter="unset" />
+		</fieldset>
+	</fields>
+	<fields name="tableprefs"
+			addfieldpath="/administrator/components/com_easytablepro/models/fields" >
+		<fieldset name="EASYTABLE_PREFS" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_TABLE_SETTINGS">
+			<field name="show_description"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_SHOW_DESCRIPTION"
+				description="COM_EASYTABLEPRO_PREF_SHOW_DESCRIPTION_DESC">
+				<option selected="selected" value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+			<field name="show_search"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_SEARCH"
+				description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_SEARCH_DESC">
+				<option selected="selected" value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+			<field name="show_pagination"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION"
+				description="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION_DESC">
+				<option selected="selected" value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+			<field name="show_pagination_header"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_SHOW_PAGES_DESC"
+				description="COM_EASYTABLEPRO_PREF_PAGINATION_CONTROLS_DESC">
+				<option selected="selected" value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+			<field name="show_pagination_footer"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_PAGINATION_FOOTER"
+				description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_PAGINATION_FOOTER_DESC">
+				<option selected="selected" value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+			<field name="show_created_date"
+				label="COM_EASYTABLEPRO_PREF_SHOW_CREATION_DATE"
+				type="list"
+				default=""
+				description="COM_EASYTABLEPRO_PREF_CREATION_DATE_DISP_DESC">
+				<option selected="selected" value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+			<field name="show_modified_date"
+				label="COM_EASYTABLEPRO_PREF_SHOW_MODIFIED_DATE"
+				type="list"
+				default=""
+				description="COM_EASYTABLEPRO_PREF_SHOW_MODIFIED_DATE_DESC">
+				<option selected="selected" value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+			<field name="modification_date_label"
+				label="COM_EASYTABLEPRO_PREF_MODIFICATION_DATE_LABEL"
+				type="text"
+				default=""
+				description="COM_EASYTABLEPRO_PREF_USER_MOD_DATE_LABEL_DESC">
+			</field>
+			<field name="make_tables_sortable"
+				label="COM_EASYTABLEPRO_PREF_MAKE_TABLES_SORTABLE"
+				type="list"
+				default=""
+				description="COM_EASYTABLEPRO_PREF_MAKE_TABLE_SORTABLE_DESC">
+				<option selected="selected" value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+			<field
+				name="@spacer"
+				type="spacer"
+				default=""
+				label=""
+				description="" />
+			<field name="searchable_by_joomla"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA"
+				description="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA_DESC">
+				<option value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+		</fieldset>
+		<fieldset name="RECORD_VIEW" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_RECORD_VIEW_SETTINGS">
+			<field name="title_links_to_table"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE"
+				description="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE_DESC" >
+				<option selected="selected" value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+			<field name="title_field"
+				type="easytablefields"
+				default=""
+				label="COM_EASYTABLEPRO_TABLE_TITLE_FIELD"
+				description="COM_EASYTABLEPRO_TABLE_TITLE_FIELD_DESC" />
+			<field name="show_next_prev_record_links"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_NEXT_PREV_LINKS_LABEL"
+				description="COM_EASYTABLEPRO_PREF_SHOW_NEXT_PREV_LINKS">
+				<option selected="selected" value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+			<field name="show_linked_table"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE"
+				description="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE_DESC" >
+				<option value="">Use Global</option>
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>
+		</fieldset>
+		<fieldset name="LINKED_TABLE" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_LINKED_TABLE_SETTINGS">
+			<field name="id"
+				type="easytable"
+				default=""
+				label="COM_EASYTABLEPRO_LABEL_SELECT_TABLE"
+				description="COM_EASYTABLEPRO_LABEL_SELECT_TABLE_DESC" />
+			<field name="key_field"
+				type="easytablefields"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_SELECT_FIELD"
+				description="COM_EASYTABLEPRO_PREF_LINKED_TABLE_LINK_FIELD_DESC" />
+			<field name="linked_key_field"
+				label="COM_EASYTABLEPRO_PREF_LINKED_KEY_FIELD"
+				type="text"
+				default=""
+				description="COM_EASYTABLEPRO_PREF_LINKED_TABLE_LINK_FIELD_ID_DESC" />
+		</fieldset>
+		<fieldset name="USER_FILTER" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_USER_FILTER_SETTINGS">
+			<field name="enable_user_filter"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_ENABLE_USER_FILTER_LABEL"
+				description="COM_EASYTABLEPRO_PREF_ENABLE_USER_FILTER_DESC">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</field>
+			<field name="filter_records_by"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_FILTER_BY_USER_LABEL"
+				description="COM_EASYTABLEPRO_PREF_FILTER_BY_USER_DESC">
+				<option value="name">Name</option>
+				<option value="id">ID</option>
+			</field>
+			<field name="user_filter_field"
+				type="easytablefields"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_SELECT_FIELD"
+				description="COM_EASYTABLEPRO_PREF_USER_FILTER_FIELD_TT" />
+		</fieldset>
+	</fields>
+</form>
