@@ -171,7 +171,7 @@ class EasyTableProViewTables extends JView
 		/*
 			Setup the Toolbar
 		*/
-		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO' ), 'easytables');
+		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO' ), 'easytablepro');
 		if($canDo->get('core.edit.state'))
 		{
 			JToolBarHelper::publishList();
