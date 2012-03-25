@@ -31,7 +31,7 @@ class EasyTableViewEasyTable extends JView
 		// Get the id for this table
 		$query = "SELECT id FROM ".$db->nameQuote('#__easytables')." WHERE `datatablename` ='".$tableName."'";
 		$db->setQuery($query);
-		
+
 		$id = $db->loadResult();
 		if($id) {
 			return $id;
@@ -42,7 +42,7 @@ class EasyTableViewEasyTable extends JView
 
 	/*
 	 * getListView	- accepts the name of an element and a flog
-	 *				- returns img url for either the tick or the X used in backend components
+	*				- returns img url for either the tick or the X used in backend components
 	*/
 	function getListViewImage ($rowElement, $flag=0)
 	{
@@ -100,7 +100,7 @@ class EasyTableViewEasyTable extends JView
 		$selectOptionText .= '<option value="4" '.($selectedType==4 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_TABLE_LABEL_NUMBER').'</option>';		// Type 4 = Numbers
 		$selectOptionText .= '<option value="5" '.($selectedType==5 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_LABEL_DATE').'</option>';			// Type 5 = Dates
 		$selectOptionText .= '</select>';																						// close our html select structure
-		
+
 		return($selectOptionText);
 	}
 

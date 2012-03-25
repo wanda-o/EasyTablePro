@@ -52,7 +52,7 @@ defined('_JEXEC') or die('Restricted Access');
 					<tr>
 						<td width="100" align="right" class="key">
 							<label>
-								<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_DESCRIPTION'ß ); ?>:
+								<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_DESCRIPTION' ); ?>:
 							</label>
 						</td>
 						<td>

@@ -240,7 +240,7 @@ class EasyTableControllerTables extends JControllerAdmin
 
 		$row->checkin($id);
 	}
-
+	
 
 	function display()
 	{
