@@ -28,7 +28,7 @@ class EasyTableViewEasyTableRecords extends JView
 		$link_text = JText::_( 'COM_EASYTABLEPRO_RECORDS_DELETE_LINK' ).' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'deleterow\');" title="'.
-		$link_text.'" ><img src="components/com_'._cppl_this_com_name.'/assets/images/publish_x.png" alt="'.$link_text.'"/></a></span>';
+		$link_text.'" ><img src="/media/com_easytablepro/images/publish_x.png" alt="'.$link_text.'"/></a></span>';
 
 		return($theEditLink);
 	}
@@ -38,7 +38,7 @@ class EasyTableViewEasyTableRecords extends JView
 		$link_text = JText::_( 'COM_EASYTABLEPRO_RECORDS_EDIT_LINK' ).' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:3px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'editrow\');" title="'.
-		$link_text.'" ><img src="components/com_'._cppl_this_com_name.'/assets/images/edit.png" alt="'.$link_text.'" /></a></span>';
+		$link_text.'" ><img src="/media/com_easytablepro/images/edit.png" alt="'.$link_text.'" /></a></span>';
 
 		return($theEditLink);
 	}
@@ -92,8 +92,8 @@ class EasyTableViewEasyTableRecords extends JView
 
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
-		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/assets/js/'._cppl_base_com_name.'data.js');
-		$doc->addStyleSheet(JURI::base().'components/com_'._cppl_this_com_name.'/'._cppl_base_com_name.'.css');
+		$doc->addScript(JURI::base().'/media/com_easytablepro/js/easytabledata.js');
+		$doc->addStyleSheet(JURI::base().'/media/com_easytablepro/css/easytable.css');
 
 		// Get a database object
 		$db =& JFactory::getDBO();

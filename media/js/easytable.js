@@ -102,8 +102,8 @@ function changeTypeWarning()
 function unlock ( rowElement, rowId ) {
 	// Setup our graphics
 	thisHost = this.location.protocol+"//"+this.location.host;
-	lockedIcon = thisHost+"/administrator/components/com_easytablepro/assets/images/locked.gif";
-	saveIcon = thisHost+"/administrator/components/com_easytablepro/assets/images/unlocked.gif";
+	lockedIcon = thisHost+"/media/com_easytablepro/images/locked.gif";
+	saveIcon = thisHost+"/media/com_easytablepro/images/unlocked.gif";
 	// Get the input obj for the fieldalias
 	thisFieldAliasStr = "fieldalias"+rowId;
 	thisFieldAlias = (document.getElementsByName(thisFieldAliasStr))[0];
@@ -274,7 +274,7 @@ function addField()
 
 	posCellHTML = '<input type=\"text\" value=\"9999\" size=\"3\" name=\"position#id#\">';
 
-	labelCellHTML = '<input type=\"text\" value=\"\" name=\"label#id#\" id=\"label#id#\"><br /><input type=\"hidden\" name=\"origfieldalias#id#\" value=\"\"><input type=\"text\" name=\"fieldalias#id#\" id=\"fieldalias#id#\" value=\"\" onchange=\"validateAlias(this)\" disabled=\"\"><img src=\"components/com_easytablepro/assets/images/locked.gif\" onclick=\"unlock(this, \'#id#\');\" id=\"unlock#id#\">';
+	labelCellHTML = '<input type=\"text\" value=\"\" name=\"label#id#\" id=\"label#id#\"><br /><input type=\"hidden\" name=\"origfieldalias#id#\" value=\"\"><input type=\"text\" name=\"fieldalias#id#\" id=\"fieldalias#id#\" value=\"\" onchange=\"validateAlias(this)\" disabled=\"\"><img src=\"/media/com_easytablepro/images/locked.gif\" onclick=\"unlock(this, \'#id#\');\" id=\"unlock#id#\">';
 
 	descCellHTML = '<textarea cols=\"30\" rows=\"2\" name=\"description#id#\"></textarea>';
 

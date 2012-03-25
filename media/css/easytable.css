@@ -5,23 +5,23 @@
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
 */
 
-.icon-48-easytables {
-    background: url(../images/EasyTableProIcon.png) no-repeat left;
+.icon-48-easytablepro {
+    background: url(/media/com_easytablepro/images/EasyTableProIcon.png) no-repeat left;
 }
-.icon-48-easytableeditrecords {
-    background: url(../images/Edit-Icon48.png) no-repeat left;
-}
-
-.icon-32-modifyTable {
-    background: url(../images/Table-Modification32.png) no-repeat left;
+.icon-48-easytablpro-eeditrecords {
+    background: url(/media/com_easytablepro/images/Edit-Icon48.png) no-repeat left;
 }
 
-.icon-32-linkTable {
-	background: url(../images/Linked_Table_32x32.png) no-repeat left;
+.icon-32-easytablpro-modifyTable {
+    background: url(/media/com_easytablepro/images/Table-Modification32.png) no-repeat left;
 }
 
-.icon-32-Gear_Icon_48x48 {
-	background: url(../images/Gear_Icon_32x32.png) no-repeat left;
+.icon-32-easytablpro-linkTable {
+	background: url(/media/com_easytablepro/images/Linked_Table_32x32.png) no-repeat left;
+}
+
+.icon-32-easytablpro-Gear_Icon {
+	background: url(/media/com_easytablepro/images/Gear_Icon_32x32.png) no-repeat left;
 }
 
 .info-tip {

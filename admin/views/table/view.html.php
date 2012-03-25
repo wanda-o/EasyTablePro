@@ -73,8 +73,8 @@ class EasyTableViewEasyTable extends JView
 			$theImageString = 'publish_x.png';
 		}
 
-		$theListViewImage = '<img src="images/'.$theImageString.'" name="'.$rowElement.'_img" border="0" title="'.$btn_title.'" alt="'.$btn_title.'" class="hasTip"/>';
-		
+		$theListViewImage = '<img src="/media/com_easytablepro/images/'.$theImageString.'" name="'.$rowElement.'_img" border="0" title="'.$btn_title.'" alt="'.$btn_title.'" class="hasTip"/>';
+
 		return($theListViewImage);
 	}
 
@@ -85,8 +85,8 @@ class EasyTableViewEasyTable extends JView
 		$alt	= $row->published ? JText::_( 'JPUBLISHED' ) : JText::_( 'COM_EASYTABLEPRO_UNPUBLISHED' );
 		$action = $row->published ? JText::_( 'COM_EASYTABLEPRO_TABLE_TURN_OFF_SETTING' ) : JText::_( 'COM_EASYTABLEPRO_TABLE_TURN_ON_SETTING' );
 		$href	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i
-				 .'\',\''. $prefix.$task .'\')" title="'. $action .'"><img src="images/'
-				 . $img .'" border="0" alt="'. $alt .'" /></a>';
+		.'\',\''. $prefix.$task .'\')" title="'. $action .'"><img src="/media/com_easytablepro/images/'
+		. $img .'" border="0" alt="'. $alt .'" /></a>';
 		return $href;
 	}
 

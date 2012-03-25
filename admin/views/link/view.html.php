@@ -89,7 +89,7 @@ class EasyTableVieweasytablelink extends JView
 		$doc =& JFactory::getDocument();
 		$u = & JURI::getInstance();
 		$doc->addStyleSheet('/templates/system/css/system.css');
-		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/assets/js/easytablelink.js');
+		$doc->addScript(JURI::base().'media/com_easytablepro/js/easytablelink.js');
 
 
 		//get the list of tables

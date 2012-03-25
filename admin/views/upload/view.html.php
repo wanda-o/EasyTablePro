@@ -32,7 +32,7 @@ class EasyTableVieweasytableupload extends JView
 		//get the document and load the js support file
 		$doc =& JFactory::getDocument();
 		$u = & JURI::getInstance();
-		$doc->addScript(JURI::base().'components/com_'._cppl_this_com_name.'/assets/js/'._cppl_base_com_name.'upload.js');
+		$doc->addScript(JURI::base().'media/com_easytablepro/js/easytableupload.js');
 		$doc->addStyleSheet('templates/system/css/system.css');
 
 		//get the EasyTable
