@@ -6,68 +6,69 @@
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
  */
 	defined('_JEXEC') or die ('Restricted Access');
-	jimport( 'joomla.application.component.view');	
-	class JElementEasyTableFields extends JElement 
+
+
+jimport('joomla.html.html');
+jimport('joomla.form.formfield');
+jimport('joomla.form.helper');
+
+class JFormFieldEasyTableFields extends JFormFieldList
+{
+	/**
+	 * Element name
+	 *
+	 * @access	protected
+	 * @var		string
+	 */
+	public $type = 'EasyTableFields';
+
+	protected function getOptions()
 	{
-		/**
-		 * Element name
-		 *
-		 * @access	protected
-		 * @var		string
-		 */
-		var $_name = 'EasyTableFields';
-	
-		function fetchElement($name, $value, &$node, $control_name)
-		{
-			$db =& JFactory::getDBO();
-			$result ='';
+		$db =& JFactory::getDBO();
+		$result ='';
 
-			if(($name == 'key_field') || ($name == 'sort_field') || ($name == 'filter_field') || ($name == 'user_filter_field') || ($name == 'title_field'))
+		// Get our table ID
+		$jinput = JFactory::getApplication()->input;
+		$id = $jinput->get('id', null);
+
+		if(empty( $id )) {
+			$theOpt = $jinput->get('option','No Table Option');
+			if($theOpt == 'com_menus')
 			{
-				global $et_current_table_id;
-				$id = $et_current_table_id;
+				jimport( 'joomla.application.menu' );
+				$menuIdArray = JRequest::getVar('cid',0);
+				$menuId      = $menuIdArray[0];
+				$menu        =& JMenu::getInstance('site');
+				$menuItem    =& $menu->getItem($menuId);
+				if($menuItem) {
+					$link = $menuItem->link;
+					$urlQry = parse_url ( $link, PHP_URL_QUERY );	// get just the qry section of the link
+					parse_str ($urlQry, $linkparts);				// convert it to an array
 
-				if(empty( $id )) {
-					$theOpt = JRequest::getVar('option','No Table Option');
-					if($theOpt == 'com_menus')
-					{
-						jimport( 'joomla.application.menu' );
-						$menuIdArray = JRequest::getVar('cid',0);
-						$menuId = $menuIdArray[0];
-						$menu       =& JMenu::getInstance('site');
-						$menuItem =& $menu->getItem($menuId);
-						if($menuItem) {
-							$link = $menuItem->link;
-							$urlQry = parse_url ( $link, PHP_URL_QUERY );	// get just the qry section of the link
-							parse_str ($urlQry, $linkparts);				// convert it to an array
-	
-							$id = (int) isset($linkparts['id'])?$linkparts['id']:0;
-						}
-						else
-						{
-							$id = 0;
-						}
-					}
-				}
-
-				if($id)
-				{
-					$elementQuery = 'SELECT id,label FROM #__easytables_table_meta WHERE easytable_id = '.$id.' ORDER BY position';
-
-					$db->setQuery($elementQuery);
-					$options = $db->loadObjectList();
-					$noneSelected = array();
-					$noneSelected[] = array('id' => 0,'label' => '-- '.JText::_( 'COM_EASYTABLEPRO_LABEL_NONE_SELECTED' ).' --');
-					array_splice($options,0,0,$noneSelected);
-
-					$result = JHTML::_('select.genericlist',  $options, $control_name. '[' . $name . ']', 'class="inputbox"', 'id','label', $value, $control_name . $name);
+					$id = (int) isset($linkparts['id'])?$linkparts['id']:0;
 				}
 				else
 				{
-					$result = "A Table must be selected before you can use these settings.";
+					$id = 0;
 				}
 			}
-
-			return $result;
 		}
+
+		if($id)
+		{
+			$elementQuery = 'SELECT id as value, label as text FROM #__easytables_table_meta WHERE easytable_id = '.$id.' ORDER BY position';
+
+			$db->setQuery($elementQuery);
+			$options = $db->loadObjectList();
+			$noneSelected = new stdClass();
+			$noneSelected->value = 0;
+			$noneSelected->text = '-- '.JText::_( 'COM_EASYTABLEPRO_LABEL_NONE_SELECTED' ).' --';
+			array_splice($options,0,0,array($noneSelected));
+		}
+		else
+		{
+			$options = array(JText::_("Select A Table first..."));
+		}
+		return $options;
 	}
+}
