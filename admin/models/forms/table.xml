@@ -83,7 +83,7 @@
 			<field name="checked_out_time" type="hidden" filter="unset" />
 		</fieldset>
 	</fields>
-	<fields name="tableprefs"
+	<fields name="params"
 			addfieldpath="/administrator/components/com_easytablepro/models/fields" >
 		<fieldset name="EASYTABLE_PREFS" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_TABLE_SETTINGS">
 			<field name="show_description"

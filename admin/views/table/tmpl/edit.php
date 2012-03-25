@@ -122,7 +122,7 @@ defined('_JEXEC') or die('Restricted Access');
 	</fieldset>
 	<?php echo JHtml::_('sliders.start','easytable-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-	<?php $fieldSets = $this->form->getFieldsets('tableprefs'); ?>
+	<?php $fieldSets = $this->form->getFieldsets('params'); ?>
 	<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 		<?php echo JHtml::_('sliders.panel',JText::_($fieldSet->label), $name.'-options'); ?>
 		<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
