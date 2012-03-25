@@ -31,7 +31,7 @@ class EasyTableProViewTables extends JView
 
 		if( !$locked && $hasPermission)
 		{
-			$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'edit\');" title="'.$link_text.'" >'.$tableName.'</a></span>';
+			$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'table.edit\');" title="'.$link_text.'" >'.$tableName.'</a></span>';
 		}
 
 		return($theEditLink);
