@@ -28,7 +28,7 @@ com_EasyTablePro.Table.atLeast1ListField = function(){
 		}
 	}
 
-	$et_check_msg = "At least one field must be selected for the list view.";
+	$et_check_msg = Joomla.JText._("COM_EASYTABLEPRO_TABLE_JS_WARNING_AT_LEAST_ONE");
 	return false; // If we got here none are checked,
 }
 
@@ -67,7 +67,7 @@ com_EasyTablePro.Table.AliassAreUnique = function(){
 			document.adminForm.elements[fldAliasName].focus();
 			if(theValue == '')
 			{
-				$et_check_msg = "Field Alias' can not be empty and must be unique.\n • Please correct the alias and try again.";
+				$et_check_msg = Joomla.JText._("COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_CAN_NOT_BE_EMPTY");
 				return false; // Must have a valid alias
 			}
 			aliasArray.push(theValue);
@@ -81,7 +81,7 @@ com_EasyTablePro.Table.AliassAreUnique = function(){
 		{
 			if (aliasArray[i + 1] == aliasArray[i])
 			{
-				$et_check_msg = "Field Alias' must be unique, ie. two alias' can not have the same value.\n • Please correct the alias ( "+aliasArray[i]+" ) and try again.";
+				$et_check_msg = com_EasyTablePro.Tools.sprintf(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_MUST_BE_UNIQUE' ) , aliasArray[i]);
 				return false; // Oh noes we found a duplicate...
 			}
 		}
@@ -95,7 +95,7 @@ com_EasyTablePro.Table.changeTypeWarning = function()
 	if($et_give_data_type_change_warning)
 	{
 		$et_give_data_type_change_warning = false;
-		alert("WARNING: Changing a fields data type can result in the loss of data.\r\n\r\n (To undo this, simply change the TYPE menu back to it's original value.)");
+		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_CHANGING_FIELD_TYPE' ) );
 	}
 }
 
@@ -200,7 +200,7 @@ com_EasyTablePro.Table.updateAlias = function()
 	if(fldAlias.value.toLowerCase() == 'id')
 	{
 		fldAlias.value = 'tmpFldID';
-		alert("An alias can not be 'ID'.\r\r\nAn temporary alias has been created, please check that it is unique.");
+		alert( Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_ID' ) );
 	}
 }
 
@@ -228,7 +228,7 @@ com_EasyTablePro.Table.validateTableNameAlias = function()
 	if(! aliasOK(et_alias.value))
 	{
 		et_alias.value = makeURLSafe(et_alias.value);
-		alert("A table alias must not contain spaces or other special characters.\r\r\nYour alias has been changed to a workable option.");
+		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_TABLE_ALIAS_CHARACTERS' ) );
 	}
 }
 
@@ -241,7 +241,7 @@ com_EasyTablePro.Table.validateAlias = function(aliasElement)
 		labelId = 'label' + aliasElement.name.substring(10);
 		labelInput = $(labelId);
 		aliasElement.value = makeURLSafe(labelInput.value);
-		alert("An alias can not be empty.\r\r\nAn alias has been created from the label, please check that it is unique.");
+		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_EMPTY' ) );
 	}
 
 	if(proposedAliasValue.toLowerCase() == 'id') // Can't have an ID for an alias - we already use it.
@@ -256,13 +256,13 @@ com_EasyTablePro.Table.validateAlias = function(aliasElement)
 		{
 			aliasElement.value = 'tmpFldID';
 		}
-		alert("An alias can not be 'ID'.\r\r\nA temporary alias has been created, please check that it is unique.");
+		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_ID' ) );
 	}
 
 	if(! aliasOK(aliasElement.value))
 	{
 		aliasElement.value = makeURLSafe(aliasElement.value);
-		alert("An alias must not contain spaces or other special characters.\r\r\nYour alias has been changed to a workable option.");
+		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_CHARACTERS' ) );
 	}
 }
 
@@ -278,15 +278,15 @@ com_EasyTablePro.Table.addField = function()
 
 	descCellHTML = '<textarea cols=\"30\" rows=\"2\" name=\"description#id#\"></textarea>';
 
-	typeCellHTML = '<select name=\"type#id#\"><option value=\"0\" selected=\"\">Text</option><option value=\"1\">Image</option><option value=\"2\">Link (URL)</option><option value=\"3\">eMail Address</option><option value=\"4\">Number</option><option value=\"5\">Date</option></select><br /><input type=\"hidden\" name=\"origfieldtype#id#\" value=\"\"><input type=\"text\" value=\"\" name=\"fieldoptions#id#\">';
+	typeCellHTML = '<select name=\"type#id#\"><option value=\"0\" selected=\"\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_TEXT' )  + '</option><option value=\"1\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_IMAGE' )  + '</option><option value=\"2\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_LINK_URL' )  + '</option><option value=\"3\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_EMAIL_ADDRESS' )  + '</option><option value=\"4\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_NUMBER' )  + '</option><option value=\"5\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_DATE' )  + '</option></select><br /><input type=\"hidden\" name=\"origfieldtype#id#\" value=\"\"><input type=\"text\" value=\"\" name=\"fieldoptions#id#\">';
 
-	listVCellHTML = '<input type=\"hidden\" name=\"list_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'list_view\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"list_view#id#_img\" border=\"0\" title=\"Click this to toggle it\'s appearance in the List View\"></a>';
+	listVCellHTML = '<input type=\"hidden\" name=\"list_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'list_view\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"list_view#id#_img\" border=\"0\" title=\"' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_CLICK_LIST_VIEW_BTN_TT' )  + '"></a>';
 
-	detailLCellHTML = '<input type=\"hidden\" name=\"detail_link#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'detail_link\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"detail_link#id#_img\" border=\"0\" title=\"Click this to make this field act as a link to the record/detail view, or not.\"></a>';
+	detailLCellHTML = '<input type=\"hidden\" name=\"detail_link#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'detail_link\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"detail_link#id#_img\" border=\"0\" title=\"'+ Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_CLICK_DETAIL_LINK_BTN_TT' ) +'\"></a>';
 
-	detailVCellHTML = '<input type=\"hidden\" name=\"detail_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'detail_view\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"detail_view#id#_img\" border=\"0\" title=\"Click this to make this field appear in the record/detail view, or not.\"></a>';
+	detailVCellHTML = '<input type=\"hidden\" name=\"detail_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'detail_view\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"detail_view#id#_img\" border=\"0\" title=\"'+ Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_CLICK_SHOW_DETAIL_VIEW_TT' )  +'\"></a>';
 
-	searchableCellHTML='<input type=\"hidden\" name=\"search_field#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'search_field\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"search_field#id#_img\" border=\"0\" title=\"CLICK_TO_MAKE_THIS_FIELD_SEARCHABLE__OR_NOT_\"></a>';
+	searchableCellHTML='<input type=\"hidden\" name=\"search_field#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"toggleTick(\'search_field\', \'#id#\');\"><img src=\"images/publish_x.png\" name=\"search_field#id#_img\" border=\"0\" title=\"'+ Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_CLICK_TO_MAKE_SEARCHABLE_TT') +'\"></a>';
 
 	// Store the id of our new field meta record
 	if(nfField.value == '')
@@ -371,7 +371,7 @@ com_EasyTablePro.Table.deleteField = function(fName,rowId)
 
 	if(itsNotANewField)
 	{
-		et_deleteThisField = confirm('Deleting the field "'+fName+'" will cause it & any data to be removed from the database when you "SAVE" or "APPLY" the changes to this EasyTable. \r\rEasyTable Pro will now delete "'+fName+'"');
+		et_deleteThisField = confirm(this.Tools.sprintf(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_DELETING_FIELD' ) , fName, fName));
 		if(et_deleteThisField) {
 			// Get the field
 			dfField = $('deletedFlds');
@@ -440,7 +440,7 @@ Joomla.submitbutton = function(pressbutton)
 	else {
 		if(document.adminForm.id.value == 0 && pressbutton != 'createETDTable')
 		{
-			alert ("This table can't be saved without loading a data file first.");
+			alert (Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_THIS_TABLE_REQUIRES_DATA' ) );
 			return 0;
 		}
 		if (pressbutton == 'updateETDTable' || pressbutton == 'createETDTable')
@@ -449,7 +449,7 @@ Joomla.submitbutton = function(pressbutton)
 			var dot = tFileName.lastIndexOf(".");
 			if(dot == -1)
 			{
-				alert ("Only files with a CSV or TAB extension are supported. No Extension found.");
+				alert (Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_CSV_OR_TAB_FILES' ));
 				return 0;
 			}
 			
@@ -458,7 +458,7 @@ Joomla.submitbutton = function(pressbutton)
 	
 			if((tFileExt != ".csv") && (tFileExt != ".tab"))
 			{
-				alert ("Only files with an extension of CSV or TAB are supported. Found: "+tFileExt);
+				alert (this.Tools.sprintf(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_TAB_CSV' ) ,tFileExt));
 				return 0;
 			}
 			else
@@ -479,7 +479,7 @@ Joomla.submitbutton = function(pressbutton)
 		{
 			if(document.adminForm.easytablename.value == '')
 			{
-				alert("Please enter the name of the table.");
+				alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_MISSING_TABLE_NAME' ));
 			return 0;
 			}
 			else
@@ -489,7 +489,7 @@ Joomla.submitbutton = function(pressbutton)
 		}
 		else 
 		{
-			alert("OK - you broke something, not really sure how you got here.  If you want this fixed I'd make some serious notes about how you ended up here. PB-> "+pressbutton);
+			alert(this.Tools.sprintf(Joomla.JText._("COM_EASYTABLEPRO_TABLE_JS_WARNING_OK_YOU_BROKE_IT"), pressbutton));
 			return 0;
 		}
 	}
@@ -531,7 +531,7 @@ com_EasyTablePro.Table.etSubmitForm  = function(pressbutton)
 		}
 	}
 
-	submitform(pressbutton);
+	Joomla.submitform(pressbutton);
 }
 
 com_EasyTablePro.Table.ShowTip = function(id) {
