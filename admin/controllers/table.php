@@ -9,7 +9,9 @@
 //--No direct access
 defined('_JEXEC') or die ('Restricted Access');
 
-jimport('joomla.application.component.controller');
+// import Joomla controllerform library
+jimport('joomla.application.component.controllerform');
+ 
 
 /**
  * EasyTables Controller
@@ -18,11 +20,9 @@ jimport('joomla.application.component.controller');
  * @subpackage Controllers
  */
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
-jimport('joomla.application.component.controller');
-$pmf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
-require_once $pmf;
+require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
 
-class EasyTableControllerTables extends JController
+class EasyTableProControllerTable extends JControllerForm
 {
 	public $msg;
 
@@ -43,14 +43,6 @@ class EasyTableControllerTables extends JController
 		$this->display();
 	}
 	
-	function edit()
-	{
-		$this->checkOutEasyTable();
-		
-		JRequest::setVar('view', 'EasyTable');
-		$this->display();
-	}
-
 	function settings()
 	{
 		JRequest::setVar('view', 'EasyTablePreferences');
@@ -1673,15 +1665,6 @@ function toggleSearch()
 		}
 		
 		return $csvRowCount;
-	}
-
-	function display()
-	{
-		$view =  JRequest::getVar('view');
-		if (!$view) {
-			JRequest::setVar('view', 'EasyTables');
-		}
-		parent::display();
 	}
 }
 
