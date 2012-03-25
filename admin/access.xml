@@ -17,6 +17,8 @@
 			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_EDIT_STATE" />
 	</section>
 	<section name="TABLE">
+		<action name="easytable.structure" title="COM_EASYTABLEPRO_ACL_STRUCTURE"
+			description="COM_EASYTABLEPRO_ACL_STRUCTURE_DESC" />
 		<action name="easytable.import" title="COM_EASYTABLEPRO_ACL_IMPORT"
 			description="COM_EASYTABLEPRO_ACL_IMPORT_DESC" />
 		<action name="easytable.editrecords" title="COM_EASYTABLEPRO_ACL_EDIT_RECORDS"

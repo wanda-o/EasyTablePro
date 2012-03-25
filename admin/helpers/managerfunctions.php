@@ -5,7 +5,7 @@ class ET_MgrHelpers
 {
 	public static $extension = 'com_easytablepro';
 	public static $base_assett = 'table';
-	private static $ext_actions = array( 'easytable.import', 'easytable.editrecords', 'easytable.rawdata', 'easytable.link' );
+	private static $ext_actions = array( 'easytablepro.structure', 'easytablepro.import', 'easytablepro.editrecords', 'easytablepro.rawdata', 'easytablepro.link' );
 
 	function removeEmptyLines($string)
 	{
