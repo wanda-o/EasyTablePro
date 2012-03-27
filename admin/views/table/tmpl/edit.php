@@ -56,45 +56,9 @@ defined('_JEXEC') or die('Restricted Access');
 			<?php echo $this->form->getInput('description'); ?>
 		</div>
 	</fieldset>
-	<fieldset class="adminform" id="tableimport">
-		<?php if((!$this->item->etet) && $this->canDo->get('easytablepro.import')) { ?>
-		<!-- MAX_FILE_SIZE must precede the file input field -->
-		<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $this->maxFileSize ?>" />
-		<ul>
-			<li><label for="tableimport">
-			<?php
-				if($this->item->ettd) {
-					echo JText::_( 'COM_EASYTABLEPRO_TABLE_SELECT_AN_UPDATE_FILE' ); 
-				} else {
-					echo JText::_( 'COM_EASYTABLEPRO_TABLE_SELECT_A_NEW_CSV_FILE' );
-				}
-			?>:</label><input name="tablefile" type="file" id="fileInputBox" /><?php
-			if($this->item->ettd) {
-				echo '<input type="button" value="'.JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_BTN' ).'" onclick="javascript: submitbutton(\'updateETDTable\')" id="fileUploadBtn" /><br />';
-			}
-			else
-			{
-				echo '<input type="button" value="'.JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_BTN' ).'" onclick="javascript: submitbutton(\'createETDTable\')" id="fileUploadBtn" /><br />';
-			}
-		?></li>
-			<li><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_HAS_HEADINGS' ).' '.$this->CSVFileHasHeaders; ?></li>
-			<li>
-				<p id="uploadWhileModifyingNotice"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_DISABLED_TABLE_MODIFIED_MSG' ); ?><br />
-				<em><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_RE_ENABLE_BY_SAVING_MSG' ); ?></em></p>
-			</li><?php } ?>
-		</ul>
-
-		
-		
-		<?php if($this->item->ettd) { ?>
-		<br />
-		<span class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_TYPE_TT' );?>"><label for="uploadType0"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_INTENTION_TT' ); ?></label></span>
-		<input type="radio" name="uploadType" id="uploadType0" value="0" class="inputbox" checked="checked" />
-		<label for="uploadType0"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_REPLACE' ); ?></label>
-		<input type="radio" name="uploadType" id="uploadType1" value="1" class="inputbox" />
-		<label for="uploadType1"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_APPEND' ); ?></label>
-		<?php }; ?>
-	</fieldset>
+	<?php if((!$this->item->etet) && $this->canDo->get('easytablepro.import')) { // It's not an external table and the user has permission to import new data.
+			echo $this->loadTemplate('upload');
+		} ?>
 </div>
 
 <div class="width-30 fltrt">
