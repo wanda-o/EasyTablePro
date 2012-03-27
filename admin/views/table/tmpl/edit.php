@@ -66,7 +66,7 @@ defined('_JEXEC') or die('Restricted Access');
 	<ul id="et_tableStatus" class="adminformlist">
 		<li><strong><?php echo $this->form->getLabel('id'); ?></strong>
 			<?php echo $this->form->getInput('id');?></li>
-		<li><label><strong><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_PUBLISH_STATE' ); ?>:</strong></label><input type="text" value="<?php echo $this->item->state; ?>" class="readonly" readonly="readonly"></li>
+		<li><label><strong><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_PUBLISH_STATE' ); ?>:</strong></label><input type="text" value="<?php echo $this->item->pub_state; ?>" class="readonly" readonly="readonly"></li>
 		<li class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_PRIM_KEY_MSG_TT' ); ?>"><label><strong><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_INFO_STRUCTURE' ); ?>:</strong></label><input type="text" value="<?php echo JText::sprintf('COM_EASYTABLEPRO_LABEL_FIELDS', $this->item->ettm_field_count); ?>" class="readonly" readonly="readonly">
 		<li><label><strong><?php echo JText::_('COM_EASYTABLEPRO_LABEL_TABLE'); ?>:</strong></label>
 		<?php if($this->item->ettd) {

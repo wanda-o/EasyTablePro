@@ -167,10 +167,23 @@ class EasyTableProModelTable extends JModelAdmin
 				$state = 'Unpublished';
 			}
 
-			$item->set('state', $state);
+			$item->set('pub_state', $state);
 		}
 
 		return $item;
+	}
+
+	protected function populateState() 
+	{
+		// Get the table id
+		$id = JRequest::getInt('id');
+		$this->setState('table.id', $id);
+ 
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_easytablepro');
+		$this->setState('params', $params);
+
+		parent::populateState();
 	}
 
 	/**
@@ -189,7 +202,6 @@ class EasyTableProModelTable extends JModelAdmin
 		if (!$this->_data) {
 			$this->_data = new stdClass();
 			$this->_data->id = 0;
-			$this->_data->greeting = null;
 		}
 		return $this->_data;
 	}//function

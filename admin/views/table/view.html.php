@@ -30,6 +30,7 @@ class EasyTableProViewTable extends JView
 		// get the Data
 		$form = $this->get('Form');
 		$item = $this->get('Item');
+		$state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) 
@@ -40,6 +41,7 @@ class EasyTableProViewTable extends JView
 		// Assign the Data
 		$this->form  = $form;
 		$this->item  = $item;
+		$this->state = $state;
 
 		// Should we be here?
 		$this->canDo = ET_MgrHelpers::getActions($item->id);
