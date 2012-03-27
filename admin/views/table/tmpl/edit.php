@@ -113,7 +113,7 @@ defined('_JEXEC') or die('Restricted Access');
 }
 ?>
 
-	<input type="hidden" name="et_linked_et" value="<?php echo $this->etet; ?>" />
+	<input type="hidden" name="et_linked_et" value="<?php echo $this->item->etet; ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHTML::_('form.token'); ?>
 </form>
