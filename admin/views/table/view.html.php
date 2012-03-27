@@ -63,14 +63,18 @@ class EasyTableProViewTable extends JView
 		}
 		// Parameters for this table instance
 		$params = $item->params;
-
 		$this->assignRef('params', $params);
 
-		$this->assignRef('ettm_field_count',$this->item->ettm_field_count);
-		$this->assignRef('ettd',$this->item->ettd);
-		$this->assignRef('etet',$this->item->etet);
-		$this->assignRef('etupld',$etupld);
-		$this->assignRef('CSVFileHasHeaders', JHTML::_('select.booleanlist', 'CSVFileHasHeaders', 'class="inputbox"', 0 ));
+		// Max file size for uploading
+
+		$umfs = ET_MgrHelpers::umfs();
+		//Get the max file size for uploads from Pref's, default to servers PHP setting if not found or > greater than server allows.
+
+		$maxFileSize = ($umfs > $state->params->get('maxFileSize')) ? $umfs : $state->params->get('maxFileSize',$umfs);
+
+		$this->assign('maxFileSize', $maxFileSize);
+
+
 		if($this->item->ettd)
 		{
 			$this->assignRef('ettd_record_count',$ettd_record_count);
