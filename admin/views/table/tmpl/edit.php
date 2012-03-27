@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted Access');
 <form action="<?php echo JRoute::_('index.php?option=com_easytablepro&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div class="width-70 fltlft">
 	<fieldset class="adminform">
-	<legend><?php JText::_( 'COM_EASYTABLEPRO_LABEL_DETAILS' ); ?></legend>
+	<legend><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_DETAILS' ); ?></legend>
 		<ul class="adminformlist">
 			<li class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_TABLENAME_TT' ); ?>"><?php echo $this->form->getLabel('easytablename'); ?>
 			<?php echo $this->form->getInput('easytablename'); ?></li>
@@ -63,6 +63,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 <div class="width-30 fltrt">
 	<fieldset class="adminform">
+	<legend><?php echo JText::_('COM_EASYTABLEPRO_TABLE_STATISTICS_LABEL')?></legend>
 	<ul id="et_tableStatus" class="adminformlist">
 		<li><strong><?php echo $this->form->getLabel('id'); ?></strong>
 			<?php echo $this->form->getInput('id');?></li>
