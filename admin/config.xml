@@ -37,7 +37,7 @@
 			name="show_pagination"
 			type="radio" default="1"
 			label="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION"
-			description="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION"
+			description="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION_DESC"
 		>
 			<option value="1">Yes</option>
 			<option value="0">No</option>
