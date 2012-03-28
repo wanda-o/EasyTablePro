@@ -132,6 +132,11 @@ class EasyTableProViewTable extends JView
 		JHtml::_('behavior.multiselect');
 		
 		// Then add JS to the document‚ - make sure all JS comes after CSS
+		// Tools first
+		$jsFile = ('/media/com_easytablepro/js/atools.js');
+		$document->addScript($jsFile);
+		ET_MgrHelpers::loadJSLanguageKeys($jsFile);
+		// Component view specific next...
 		$jsFile = ('/media/com_easytablepro/js/easytabletable.js');
 		$document->addScript($jsFile);
 		ET_MgrHelpers::loadJSLanguageKeys($jsFile);
