@@ -112,6 +112,23 @@ defined('_JEXEC') or die('Restricted Access');
 	echo $this->loadTemplate('metatable');		
 }
 ?>
+<!-- Permissions UI -->
+	<div class="width-100 fltlft">
+		<div class="clr"></div>
+	<?php if ($this->canDo->get('core.admin')): ?>
+		<div class="width-100 fltlft">
+			<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+				<?php echo JHtml::_('sliders.panel',JText::_('COM_EASYTABLEPRO_FIELDSET_RULES'), 'access-rules'); ?>
+				<fieldset class="panelform">
+					<?php echo $this->form->getLabel('rules'); ?>
+					<?php echo $this->form->getInput('rules'); ?>
+				</fieldset>
+			<?php echo JHtml::_('sliders.end'); ?>
+		</div>
+	<?php endif; ?>
+
+	</div>
+
 
 	<input type="hidden" name="et_linked_et" value="<?php echo $this->item->etet; ?>" />
 	<input type="hidden" name="task" value="" />

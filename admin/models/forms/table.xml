@@ -83,6 +83,24 @@
 			<field name="checked_out_time" type="hidden" filter="unset" />
 		</fieldset>
 	</fields>
+		<fieldset>
+			<field
+				name="asset_id"
+				type="hidden"
+				filter="unset" />
+			<field
+				name="rules"
+				type="rules"
+				label="JFIELD_RULES_LABEL"
+				translate_label="false"
+				filter="rules"
+				validate="rules"
+				class="inputbox"
+				component="com_easytablepro"
+				section="table"
+				
+			/>
+		</fieldset>
 	<fields name="params"
 			addfieldpath="/administrator/components/com_easytablepro/models/fields" >
 		<fieldset name="EASYTABLE_PREFS" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_TABLE_SETTINGS">

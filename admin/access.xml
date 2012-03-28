@@ -5,27 +5,35 @@
 			description="COM_EASYTABLEPRO_ACL_ALLOW_USERS_I_DESC" />
 		<action name="core.manage" title="COM_EASYTABLEPRO_ACL_ACCESS_EASYTABLEPRO"
 			description="COM_EASYTABLEPRO_ACL_ALLOW_USERS_ACCESS_DESC" />
+		<action name="easytable.link" title="COM_EASYTABLEPRO_ACL_LINK_EXT_TABLES"
+			description="COM_EASYTABLEPRO_ACL_LINK_EXT_TABLES_DESC" />
 		<action name="core.create" title="COM_EASYTABLEPRO_ACL_CREATE_A_TABLE"
 			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_CREATE" />
 		<action name="core.delete" title="COM_EASYTABLEPRO_ACL_DELETE_A_TABLE"
 			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_DELETE" />
 		<action name="core.edit" title="COM_EASYTABLEPRO_ACL_EDIT_A_TABLE"
 			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_EDIT" />
-		<action name="core.edit.own" title="COM_EASYTABLEPRO_ACL_EDIT_A_TABLE"
-			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_EDIT" />
+		<action name="core.edit.own" title="COM_EASYTABLEPRO_ACL_EDIT_OWN_TABLE"
+			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_EDIT_OWN" />
+		<action name="easytable.rawdata" title="COM_EASYTABLEPRO_ACL_RAW_DATA_ENTRY"
+			description="COM_EASYTABLEPRO_ACL_RAW_DATA_ENTRY_DESC" />
 		<action name="core.edit.state" title="COM_EASYTABLEPRO_ACL_EDIT_A_TABLE_STATE"
 			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_EDIT_STATE" />
 	</section>
-	<section name="TABLE">
+	<section name="table">
 		<action name="easytable.structure" title="COM_EASYTABLEPRO_ACL_STRUCTURE"
 			description="COM_EASYTABLEPRO_ACL_STRUCTURE_DESC" />
 		<action name="easytable.import" title="COM_EASYTABLEPRO_ACL_IMPORT"
 			description="COM_EASYTABLEPRO_ACL_IMPORT_DESC" />
 		<action name="easytable.editrecords" title="COM_EASYTABLEPRO_ACL_EDIT_RECORDS"
 			description="COM_EASYTABLEPRO_ACL_EDIT_RECORDS_DESC" />
+		<action name="core.delete" title="COM_EASYTABLEPRO_ACL_DELETE_A_TABLE"
+			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_DELETE" />
+		<action name="core.edit" title="COM_EASYTABLEPRO_ACL_EDIT_A_TABLE"
+			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_EDIT" />
+		<action name="core.edit.own" title="COM_EASYTABLEPRO_ACL_EDIT_OWN_TABLE"
+			description="COM_EASYTABLEPRO_ACL_ALLOWS_USERS_EDIT_OWN" />
 		<action name="easytable.rawdata" title="COM_EASYTABLEPRO_ACL_RAW_DATA_ENTRY"
 			description="COM_EASYTABLEPRO_ACL_RAW_DATA_ENTRY_DESC" />
-		<action name="easytable.link" title="COM_EASYTABLEPRO_ACL_LINK_EXT_TABLES"
-			description="COM_EASYTABLEPRO_ACL_LINK_EXT_TABLES_DESC" />
 	</section>
 </access>
