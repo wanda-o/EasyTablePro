@@ -9,7 +9,7 @@
 defined('_JEXEC') or die('Restricted Access');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_easytablepro&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_easytablepro&layout=edit'); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div class="width-70 fltlft">
 	<fieldset class="adminform">
 	<legend><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_DETAILS' ); ?></legend>
@@ -130,6 +130,7 @@ defined('_JEXEC') or die('Restricted Access');
 	</div>
 
 
+	<input type="hidden" name="id" id="id" value="<?php echo $this->item->id; ?>" />
 	<input type="hidden" name="et_linked_et" value="<?php echo $this->item->etet; ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHTML::_('form.token'); ?>
