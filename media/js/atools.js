@@ -8,6 +8,12 @@
 // Only define com_EasyTablePro if it doesn't exist.
 if (typeof(com_EasyTablePro) === 'undefined') {
 	var com_EasyTablePro = {};
+	com_EasyTablePro.Manager      = {};
+	com_EasyTablePro.Table        = {};
+	com_EasyTablePro.Record       = {};
+	com_EasyTablePro.Upload       = {};
+	com_EasyTablePro.requestData  = {};
+	com_EasyTablePro.Tools        = {};
 }
 
 window.addEvent('domready', function () {
@@ -16,13 +22,6 @@ window.addEvent('domready', function () {
 
 com_EasyTablePro.setUp = function ()
 {
-	this.Manager      = {};
-	this.Table        = {};
-	this.Record       = {};
-	this.Upload       = {};
-	this.requestData  = {};
-	this.Tools        = {};
-
 	var token         = this.Tools.getToken();
 	this.requestData[token]  = 1;
 	this.requestData.id = this.Tools.getID();
@@ -30,7 +29,7 @@ com_EasyTablePro.setUp = function ()
 		url:    'index.php?option=com_easytablepro&format=json',
 		method: 'get'
 	});
-};
+}
 
 com_EasyTablePro.Tools.getToken = function ()
 {
@@ -42,12 +41,12 @@ com_EasyTablePro.Tools.getToken = function ()
 		}
 	}
 	return theToken;
-};
+}
 
 com_EasyTablePro.Tools.getID  = function ()
 {
 	return $('id').value;
-};
+}
 
 /**
 sprintf() for JavaScript 0.7-beta1
@@ -77,36 +76,6 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-
-Changelog:
-2010.09.06 - 0.7-beta1
-  - features: vsprintf, support for named placeholders
-  - enhancements: format cache, reduced global namespace pollution
-
-2010.05.22 - 0.6:
- - reverted to 0.4 and fixed the bug regarding the sign of the number 0
- Note:
- Thanks to Raphael Pigulla <raph (at] n3rd [dot) org> (http://www.n3rd.org/)
- who warned me about a bug in 0.5, I discovered that the last update was
- a regress. I appologize for that.
-
-2010.05.09 - 0.5:
- - bug fix: 0 is now preceeded with a + sign
- - bug fix: the sign was not at the right position on padded results (Kamal Abdali)
- - switched from GPL to BSD license
-
-2007.10.21 - 0.4:
- - unit test and patch (David Baird)
-
-2007.09.17 - 0.3:
- - bug fix: no longer throws exception on empty paramenters (Hans Pufal)
-
-2007.09.11 - 0.2:
- - feature: added argument swapping
-
-2007.04.03 - 0.1:
- - initial release
 **/
 com_EasyTablePro.Tools.sprintf = (function() {
 	function get_type(variable) {
