@@ -31,6 +31,6 @@ defined('_JEXEC') or die('Restricted Access');
 		</thead>
 		<?php echo $this->loadTemplate('metatable_body'); ?>
 		</table>
-		<input type="hidden" id="mRIds" name="mRIds" value="<?php echo implode(', ',$mRIds); ?>" />
+		<input type="hidden" id="mRIds" name="mRIds" value="<?php echo implode(', ',$this->mRIds); ?>" />
 	</fieldset>
 </div>

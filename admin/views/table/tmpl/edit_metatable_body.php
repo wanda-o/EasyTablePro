@@ -70,5 +70,7 @@ defined('_JEXEC') or die('Restricted Access');
 			$k = 1 - $k;
 		}
 	}
-	if(!$this->item->etet) echo('<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" onclick="addField()"><img class="et_addField" src="/media/com_easytablepro/images/icon-add.png" alt="'.JText::_( 'COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_LABEL' ).'" /></a><input type="hidden" name="newFlds" id="newFlds" value="" /><input type="hidden" name="deletedFlds" id="deletedFlds" value="" /></td><td colspan="2"><a href="javascript:void(0);" onclick="addField()">'.JText::_('COM_EASYTABLEPRO_TABLE_ADD_FIELD_BTN').'</a></td><td colspan="6"><em>'.JText::_('COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_DESC').'</em></td></tr>'); ?>
+	if(!$this->item->etet) echo('<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" onclick="addField()"><img class="et_addField" src="/media/com_easytablepro/images/icon-add.png" alt="'.JText::_( 'COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_LABEL' ).'" /></a><input type="hidden" name="newFlds" id="newFlds" value="" /><input type="hidden" name="deletedFlds" id="deletedFlds" value="" /></td><td colspan="2"><a href="javascript:void(0);" onclick="addField()">'.JText::_('COM_EASYTABLEPRO_TABLE_ADD_FIELD_BTN').'</a></td><td colspan="6"><em>'.JText::_('COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_DESC').'</em></td></tr>');
+	$this->mRIds = $mRIds;
+	?>
 </tbody>
