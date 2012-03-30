@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<input type="hidden" name="easytablealias" id="easytablealias" value="<?php echo $this->item->easytablealias;?>" /></li>
 			<?php } else { ?>
 				<li class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_ALIAS_TT' ); ?>" ><?php echo $this->form->getLabel('easytablealias'); ?>
-				<input class="text_area" type="text" name="easytablealias" id="easytablealias" onchange="javascript:validateTableNameAlias()" size="32" maxlength="250" value="<?php echo $this->item->easytablealias;?>" />
+				<input class="text_area" type="text" name="easytablealias" id="easytablealias" onchange="javascript:com_EasyTablePro.Table.validateTableNameAlias()" size="32" maxlength="250" value="<?php echo $this->item->easytablealias;?>" />
 			<?php } ?>
 
 			<li><?php echo $this->form->getLabel('published'); ?>
