@@ -348,7 +348,7 @@ class EasyTableViewEasyTableRecord extends JView
 		$doc =& JFactory::getDocument();
 		if(ET_VHelper::hasEmailType($easytables_table_meta))
 		{
-			$doc->addScript(JURI::base().'media/com_easytablepro/js/easytablepro.js');
+			$doc->addScript(JURI::base().'media/com_easytablepro/js/easytableprotable_fe.js');
 		}
 
 		// Convert the list of meta records into the list of fields that can be used in the SQL

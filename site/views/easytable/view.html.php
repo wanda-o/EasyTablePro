@@ -117,7 +117,7 @@ class EasyTableViewEasyTable extends JView
 		$etmCount = count($easytables_table_meta); //Make sure at least 1 field is set to display
 		// If any of the fields are designated as eMail load the JS file to allow cloaking.
 		if(ET_VHelper::hasEmailType($easytables_table_meta))
-			$doc->addScript(JURI::base().'media/com_easytablepro/js/easytablepro.js');
+			$doc->addScript(JURI::base().'media/com_easytablepro/js/easytableprotable_fe.js');
 
 		if($etmCount)  //Make sure at least 1 field is set to display
 		{
