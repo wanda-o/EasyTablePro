@@ -414,106 +414,26 @@ com_EasyTablePro.Table.makeURLSafe = function(str)
 
 Joomla.submitbutton = function(pressbutton)
 {
-	if (pressbutton == 'publish' ||
-		pressbutton == 'unpublish' ||
-		pressbutton == 'edit' ||
-		pressbutton == 'editData' ||
-		pressbutton == 'uploadData' ||
-		pressbutton == 'remove' ||
-		pressbutton == 'add' ||
-		pressbutton == 'toggleSearch' ||
-		pressbutton == 'settings' ||
-		pressbutton == 'cancel')
-	{
-		submitform(pressbutton);
-	}
-	else if (pressbutton == 'modifyTable')
-	{
-		toggleModifyControls();
+	switch (pressbutton) {
+	case 'table.cancel':
+		Joomla.submitform(pressbutton);
+		break;
+	case 'modifyTable':
+		com_EasyTablePro.Table.toggleModifyControls();
 		return 0;
-	}
-	else if (pressbutton == 'linkTable')
-	{
-		checkTableSelection();
+		break;
+	case 'table.apply':
+	case 'table.save':
+	case 'table.save2new':
+		com_EasyTablePro.Table.save();
+		break;
+	case 'table.updateETDTable':
+	case 'table.createETDTable':
+		com_EasyTablePro.Table.upload();
+		break;
+	default :
+		alert(com_EasyTablePro.Tools.sprintf(Joomla.JText._("COM_EASYTABLEPRO_TABLE_JS_WARNING_OK_YOU_BROKE_IT"), pressbutton));
 		return 0;
-	}
-	else {
-		if(document.adminForm.id.value == 0 && pressbutton != 'createETDTable')
-		{
-			alert (Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_THIS_TABLE_REQUIRES_DATA' ) );
-			return 0;
-		}
-		if (pressbutton == 'updateETDTable' || pressbutton == 'createETDTable')
-		{
-			var tFileName = document.adminForm.tablefile.value;
-			var dot = tFileName.lastIndexOf(".");
-			if(dot == -1)
-			{
-				alert (Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_CSV_OR_TAB_FILES' ));
-				return 0;
-			}
-			
-			var tFileExt = tFileName.substr(dot,tFileName.length);
-			tFileExt = tFileExt.toLowerCase();
-	
-			if((tFileExt != ".csv") && (tFileExt != ".tab"))
-			{
-				alert (this.Tools.sprintf(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_TAB_CSV' ) ,tFileExt));
-				return 0;
-			}
-			else
-			{
-				etSubmitForm(pressbutton);
-			}
-		}
-		else if (! atLeast1ListField() && (pressbutton =='save' || pressbutton == 'apply') ){
-			alert( $et_check_msg );
-			return 0;
-		}
-		else if ( !AliassAreUnique()  && (pressbutton =='save' || pressbutton == 'apply') )
-		{
-			alert( $et_check_msg );
-			return 0;
-		}
-		else if(pressbutton =='save' || pressbutton == 'apply')
-		{
-			if(document.adminForm.easytablename.value == '')
-			{
-				alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_MISSING_TABLE_NAME' ));
-			return 0;
-			}
-			else
-			{
-				etSubmitForm(pressbutton);
-			}
-		}
-		else 
-		{
-			alert(this.Tools.sprintf(Joomla.JText._("COM_EASYTABLEPRO_TABLE_JS_WARNING_OK_YOU_BROKE_IT"), pressbutton));
-			return 0;
-		}
-	}
-}
-
-com_EasyTablePro.Table.toggleModifyControls = function()
-{
-	if($('et_controlRow').hasClass('et_controlRow-nodisplay'))
-	{
-		$('et_controlRow').addClass('et_controlRow')
-		$('et_controlRow').removeClass('et_controlRow-nodisplay')
-		$$('.deleteFieldButton-nodisplay').addClass('deleteFieldButton');
-		$$('.deleteFieldButton').removeClass('deleteFieldButton-nodisplay');
-		$('fileInputBox').disabled = true;
-		$('fileUploadBtn').disabled = true;
-		$('uploadWhileModifyingNotice').style.display = 'block';
-	}
-	else
-	{
-		$('et_controlRow').addClass('et_controlRow-nodisplay')
-		$('et_controlRow').removeClass('et_controlRow')
-		$$('.deleteFieldButton').addClass('deleteFieldButton-nodisplay');
-		$$('.deleteFieldButton-nodisplay').removeClass('deleteFieldButton');
-//		$('uploadWhileModifyingNotice').style.display = 'none';
 	}
 }
 
@@ -532,6 +452,139 @@ com_EasyTablePro.Table.etSubmitForm  = function(pressbutton)
 	}
 
 	Joomla.submitform(pressbutton);
+}
+
+com_EasyTablePro.Table.save = function()
+{
+	// First check that an initial data file has been uploaded.
+	if(document.adminForm.id.value == 0)
+	{
+		alert (Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_THIS_TABLE_REQUIRES_DATA' ) );
+		return 0;
+	}
+	
+	// Then we can check user changes are valid.
+	// At list one field must be visible in the table list view
+	if ( !com_EasyTablePro.Table.atLeast1ListField() ){
+		alert( $et_check_msg );
+		return 0;
+	}
+
+	// Check all Alias' for columns are unique
+	 if ( !com_EasyTablePro.Table.AliassAreUnique() )
+	{
+		alert( $et_check_msg );
+		return 0;
+	}
+	 
+	// Check the tablename exists
+	if(document.adminForm.easytablename.value == '')
+	{
+		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_MISSING_TABLE_NAME' ));
+		return 0;
+	}
+
+	com_EasyTablePro.Table.etSubmitForm(pressbutton);
+}
+
+com_EasyTablePro.Table.upload = function()
+{
+	var tFileName = document.adminForm.tablefile.value;
+	var dot = tFileName.lastIndexOf(".");
+	if(dot == -1)
+	{
+		alert (Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_CSV_OR_TAB_FILES' ));
+		return 0;
+	}
+	
+	var tFileExt = tFileName.substr(dot,tFileName.length);
+	tFileExt = tFileExt.toLowerCase();
+
+	if((tFileExt != ".csv") && (tFileExt != ".tab"))
+	{
+		alert (this.Tools.sprintf(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_TAB_CSV' ) ,tFileExt));
+		return 0;
+	}
+}
+
+com_EasyTablePro.Table.toggleModifyControls = function()
+{
+	if($('et_controlRow').hasClass('et_controlRow-nodisplay'))
+	{
+		$('et_controlRow').addClass('et_controlRow')
+		$('et_controlRow').removeClass('et_controlRow-nodisplay')
+		$$('.deleteFieldButton-nodisplay').addClass('deleteFieldButton');
+		$$('.deleteFieldButton').removeClass('deleteFieldButton-nodisplay');
+		$('fileInputBox').disabled = true;
+		$('fileUploadBtn').disabled = true;
+		$('uploadWhileModifyingNotice').style.display = 'block';
+		$('tableimport').style.display = 'none';
+	}
+	else
+	{
+		$('et_controlRow').addClass('et_controlRow-nodisplay')
+		$('et_controlRow').removeClass('et_controlRow')
+		$$('.deleteFieldButton').addClass('deleteFieldButton-nodisplay');
+		$$('.deleteFieldButton-nodisplay').removeClass('deleteFieldButton');
+		// We don't show the upload again until the table has been saved.
+	}
+}
+
+com_EasyTablePro.Table.flipAll = function (inView) {
+	if(inView == null) {
+		inView = 'list';
+	}
+	
+	var allFields = $('mRIds').value.split(', ');
+	var allFieldsLn = allFields.length;
+
+	switch (inView) {
+	case 'list':
+	case 'detail':
+		tFieldName = inView+"_view";
+		break;
+	case 'search':
+		tFieldName = inView+"_field";
+	}
+	
+	for(i = 0; i < allFieldsLn; i++) {
+		this.toggleTick(tFieldName,allFields[i]);
+	}
+}
+
+com_EasyTablePro.Table.turnAll = function (OnOrOff, inView) {
+	if(OnOrOff == null) {
+		OnOrOff = 'on';
+	}
+
+	if(OnOrOff == 'on') {
+		tFNNShouldBe = 1;
+	} else {
+		tFNNShouldBe = 0;
+	}
+	
+	if(inView == null) {
+		inView = 'list';
+	}
+
+	var allFields = $('mRIds').value.split(', ');
+	var allFieldsLn = allFields.length;
+	var tFieldName;
+
+	switch (inView) {
+	case 'list':
+	case 'detail':
+		tFieldName = inView+"_view";
+		break;
+	case 'search':
+		tFieldName = inView+"_field";
+	}
+	
+	for(i = 0; i < allFieldsLn; i++) {
+		tRow = allFields[i];
+		tFNN = parseInt(eval('document.adminForm.'+tFieldName+tRow+'.value'));
+		if(tFNN != tFNNShouldBe) {this.toggleTick(tFieldName,tRow);}
+	}
 }
 
 com_EasyTablePro.Table.ShowTip = function(id) {
