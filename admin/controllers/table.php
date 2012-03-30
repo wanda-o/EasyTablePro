@@ -26,221 +26,7 @@ class EasyTableProControllerTable extends JControllerForm
 {
 	public $msg;
 
-	/*
-	 *
-	 * Views branch from here.
-	 *  • Add a Table
-	 *  • Edit a Table
-	 *  • Cancel Edit of a Table
-	 *
-	*/
-	/*****************/
-	/* Table Manager */
-	/*****************/
-	function add()
-	{
-		JRequest::setVar('view', 'EasyTable');
-		$this->display();
-	}
-	
-	function settings()
-	{
-		JRequest::setVar('view', 'EasyTablePreferences');
-		$this->display();
-	}
-
-	function savePreferences()
-	{
-		// Time to grab ye olde preferences and store them…
-		$paramsObj = ET_MgrHelpers::getSettings();							// Get the params obj for the component settings
-
-		$allThePostData = JRequest::get('');							// Get the data from the settings form
-
-		// If the forms data is different from the existing Params we update them
-
-		//Allow Settings Access — who can change these settings?
-		if(isset ( $allThePostData['allowAccess'] ))
-		{
-			$newSettings = $allThePostData['allowAccess'];
-			array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
-		}
-		else
-		{
-			$newSettings = array('Super Administrator');
-		}
-		$paramsObj->set('allowAccess', implode ( ',', $newSettings));
-
-		//Allow Table Linking Access — who can change these settings?
-		if(isset ( $allThePostData['allowLinkingAccess'] ))
-		{
-			$newSettings = $allThePostData['allowLinkingAccess'];
-			array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
-		}
-		else
-		{
-			$newSettings = array('Super Administrator');
-		}
-		$paramsObj->set('allowLinkingAccess', implode ( ',', $newSettings));
-
-		//Allow Table Management
-		if(isset ( $allThePostData['allowTableManagement'] ))
-		{
-			$newSettings = $allThePostData['allowTableManagement'];
-			array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
-		}
-		else
-		{
-			$newSettings = array('Super Administrator');
-		}
-		$paramsObj->set('allowTableManagement', implode ( ',', $newSettings));
-
-		//Allow Table Data Uploads
-		if(isset ( $allThePostData['allowDataUpload'] ))
-		{
-			$newSettings = $allThePostData['allowDataUpload'];
-			array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
-		}
-		else
-		{
-			$newSettings = array('Super Administrator');
-		}
-		$paramsObj->set('allowDataUpload', implode ( ',', $newSettings));
-
-		//Allow Table Data Editing
-		if(isset ( $allThePostData['allowDataEditing'] ))
-		{
-			$newSettings = $allThePostData['allowDataEditing'];
-			array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
-		}
-		else
-		{
-			$newSettings = array('Super Administrator');
-		}
-		$paramsObj->set('allowDataEditing', implode ( ',', $newSettings));
-
-		// Get the current user
-		$user =& JFactory::getUser();
-
-		if( $user->usertype  == 'Super Administrator' )
-		{
-			//Max File Size
-			if($paramsObj->get('maxFileSize') != $allThePostData['maxFileSize']) {
-				$paramsObj->set('maxFileSize',$allThePostData['maxFileSize']);
-			}
-
-			//Chunk Size
-			if($paramsObj->get('chunkSize') != $allThePostData['chunkSize']) {
-				$paramsObj->set('chunkSize',$allThePostData['chunkSize']);
-			}
-
-			//Restricted Tables
-			$newRestrictedTables = ET_MgrHelpers::convertToOneLine(trim($allThePostData['restrictedTables']));
-			if($paramsObj->get('restrictedTables') != $newRestrictedTables) {
-				$paramsObj->set('restrictedTables',$newRestrictedTables);
-			}
-			
-			//Raw Data Entry
-			if(isset ( $allThePostData['allowRawDataEntry'] ))
-			{
-				$newSettings = $allThePostData['allowRawDataEntry'];
-				array_unshift($newSettings, 'Super Administrator'); //Always all the Super Administrator
-			}
-			else
-			{
-				$newSettings = array('Super Administrator');
-			}
-			$paramsObj->set('allowRawDataEntry', implode ( ',', $newSettings));
-
-			//Uninstall Type
-			if($paramsObj->get('uninstall_type') != $allThePostData['uninstall_type']) {
-				$paramsObj->set('uninstall_type',$allThePostData['uninstall_type']);
-			}
-		}
-
-		$jAp=& JFactory::getApplication();
-		if( ET_MgrHelpers::setSettings($paramsObj) )
-		{
-			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_SETTINGS_SUCCESSFULLY_UPDATED' ));
-		}
-		else
-		{
-			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_SETTINGS_FAILED_TO_UPDATE' ),'error');
-		}
-
-		if(JRequest::getVar('task')=='applyPreferences') JRequest::setVar('view', 'EasyTablePreferences');
-		$this->display();
-	}
-
-	/***************/
-	/* Link Table  */
-	/***************/
-	function linkTable()
-	{
-		$linkTable = JRequest::getVar('tablesForLinking');
-		// Create a linked table entry
-		$id = $this->createLinkedTableEntry($linkTable);
-		// Create Meta records
-		$this->createMetaForLinkedTable($linkTable, $id);
-
-		// and then parse them into our meta records.
-		JRequest::setVar('cid',array($id));
-		JRequest::setVar('task','edit');
-		JRequest::setVar('view', 'EasyTable');
-		$this->display();
-	}
-
-	function createLinkedTableEntry ($tableName)
-	{
-		JRequest::setVar('easytablealias',$tableName);
-		JRequest::setVar('easytablename',$tableName);
-		JRequest::setVar('defaultimagedir','/images/stories/');
-		JRequest::setVar('description', JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TO_DESC',$tableName));
-		JRequest::setVar('datatablename',$tableName);
-		$id = $this->saveApplyETdata();
-
-		return $id;
-	}
-
-	function createMetaForLinkedTable ($tableName, $id)
-	{
-		// Get a database object
-		$db =& JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object checking the existence of data table: $id");
-		}
-
-		$tablesArray = $db->getTableFields($tableName);
-		$fieldsArray = $tablesArray[$tableName];
-		$theColumnCount = count($fieldsArray);
-
-		// Construct the SQL
-		$insert_Meta_SQL_start = 'INSERT INTO `#__easytables_table_meta` ( `id` , `easytable_id` , `position` , `label` , `fieldalias`, `type` ) VALUES ';
-		$insert_Meta_SQL_row = '';
-
-		$pos_in_Array = 0;
-		foreach ( $fieldsArray as $fname=>$ftype )
-		{
-			if($pos_in_Array > 0) $insert_Meta_SQL_row .= ', ';
-			$ftypeAsInt = $this->convertType($ftype);
-			$insert_Meta_SQL_row .= "( NULL , '$id', '$pos_in_Array', '$fname', '$fname', '$ftypeAsInt')";
-			$pos_in_Array++;
-		}
-
-		// better terminate the statement
-		$insert_Meta_SQL_end = ';';
-		// pull it altogether
-		$insert_Meta_SQL = $insert_Meta_SQL_start.$insert_Meta_SQL_row.$insert_Meta_SQL_end;
-		// Run the SQL to insert the Meta records
-		$db->setQuery($insert_Meta_SQL);
-		$insert_Meta_result = $db->query();
-
-		if(!$insert_Meta_result)
-		{
-			JError::raiseError(500,'Meta insert failed for linked table: '.$id.'<br />'.$db->explain());
-		}
-	}
-
-	function convertType($ftype)
+	protected function convertType($ftype)
 	{
 		switch ( $ftype )
 		{
@@ -261,379 +47,28 @@ class EasyTableProControllerTable extends JControllerForm
 		return $ftypeAsInt;
 	}
 
-	/***************/
-	/* Data Import */
-	/***************/
-	function presentUploadScreen()
-	{
-
-		$jAp=& JFactory::getApplication();
-
-		JRequest::setVar('view', 'EasyTableUpload');
-		JRequest::setVar('tmpl', 'component');
-		$this->display();
-	}
-
-	function uploadData()
-	{
-
-		$this->checkOutEasyTable();
-		$currentTask = JRequest::getVar( 'task','');
-		$updateType = JRequest::getVar('uploadType',0) ? 'append' : 'replace' ;
-
-		$this->processNewDataFile($currentTask, $updateType);
-		$this->checkInEasyTable();
-		JRequest::setVar('view', 'EasyTableUpload');
-		JRequest::setVar('tmpl', 'component');
-		$this->display();
-	}
-
-	/**********************/
-	/* Table Data Editing */
-	/**********************/
-	function editData()
-	{
-		 $this->checkOutEasyTable();
-		 
-		 JRequest::setVar('view', 'EasyTableRecords');
-		 $this->display();
-	}
-
-	function addRow()
-	{
-		 JRequest::setVar('view', 'EasyTableRecord');
-		 $this->display();
-	}
-
-	function editrow()
-	{
-		 JRequest::setVar('view', 'EasyTableRecord');
-		 $this->display();
-	}
-
-	function deleteRecords()
-	{
-		$jAp=& JFactory::getApplication();
-		$option = JRequest::getCmd('option');
-
-		$id = JRequest::getVar( 'id', 0);
-		if($id == 0) {
-			JError::raiseNotice( 100, JText::_('COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR').$id );
-		}
-		// Get a database object
-		$db =& JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
-		}
-		// Get the table name
-		$tableName = $db->nameQuote('#__easytables_table_data_'.$id);
-
-		$cid = JRequest::getVar( 'cid', array(0), '', 'array'); // get the cid array
-		$delSQL = 'DELETE FROM '.$tableName.' WHERE `id`=';
-
-		foreach ( $cid as $rid )
-		{
-			$db->setQuery($delSQL.$db->quote($rid));
-			$goodResult = $db->query();
-			if(!$goodResult){
-				$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_MGR_DELETE_ERROR' ).' '.$rid.' '.nl2br( $db->getErrorMsg() ),'error');
-			} else {
-				$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_MGR_SUCCESSFULY_DELETED_RECORD_SEGMENT' ).' '.$rid);
-			}
-		}
-
-		// Go back to the table page
-		$this->setRedirect('index.php?option='.$option.'&amp;task=editdata&amp;cid[]='.$id, $this->msg );
-	}
-
-	function applyRecord()
-	{
-		// Get the task, afterall, is it an applyRecord or an applyNewRecord?
-		$ctask = $this->getTask();
-		$id = JRequest::getVar('id',0);
-		// Get a database object
-		$db =& JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
-		}
-
-		// Get the table name
-		$tableName = $db->nameQuote('#__easytables_table_data_'.$id);
-
-		// Get the record ID
-		$rid = JRequest::getVar('rid',0);
-		if((!$rid) && ($ctask == 'applyRecord')){
-			JError::raiseError(500,JText::_( "COM_EASYTABLEPRO_RECORDS_ID_PASSED_SEGMENT" ).' '.$rid);
-		}
-
-		// Build the update values
-		$fldArray = explode (',', JRequest::getVar('et_flds'));
-		$fldValues = $this->getFldValuesFor($fldArray);
-		if(count($fldValues)) { // Count will be zero if none of the data has changed.
-			$fldUpdateSQLSet = $this->makeFldUpdateSQL($fldArray, $fldValues);
-			if(($ctask == 'applyRecord') || ($ctask == 'saveRecord')) {
-				// Build the SQL to update the record
-				$query = "UPDATE ".$tableName.' SET '.$fldUpdateSQLSet.' WHERE `id` ='.$rid.';';
-			} else if(($ctask == 'applyNewRecord') || ($ctask == 'saveNewRecord')) {
-				$query = "INSERT INTO ".$tableName.' SET '.$fldUpdateSQLSet.';';
-			} else {
-				JError::raiseError(500,JText::_( "COM_EASYTABLEPRO_TABLE_APPLY_TASK_INVALID" ).' applyRecord() => '.$ctask);
-		}
-			$db->setQuery($query);
-
-			// Execute the query and check the result.
-			$successful = $db->query();
-			if(($ctask == 'applyRecord') || ($ctask == 'saveRecord'))
-				if(!$successful) {
-					JError::raiseWarning( 100, JText::_( 'COM_EASYTABLEPRO_TABLE_SAVE_APPLY_UPDATE_RECORD_ERROR' ).'<br />SQL:: '.$query );
-				}
-				else { $this->msg = JText::_( 'COM_EASYTABLEPRO_RECORD_SUCCESSFULLY_UPDATED_MSG' ); }
-			else if(($ctask == 'applyNewRecord') || ($ctask == 'saveNewRecord')) {
-				if($successful) {
-					$rid = $db->insertid();
-					$this->msg = JText::_( 'COM_EASYTABLEPRO_TABLE_NEW_RECORD_SAVED_MSG' );
-				}
-			} else {
-				JError::raiseError(500,JText::_( "COM_EASYTABLEPRO_TABLE_APPLY_TASK_INVALID" ).' insert/update of applyRecord() => '.$ctask);
-			}
-		} else {$this->msg = JText::_( 'COM_EASYTABLEPRO_RECORD_NO_CHANGES_MSG' );}
-
-		$option = JRequest::getCmd('option');
-
-		if(($ctask == 'applyRecord') || ($ctask == 'applyNewRecord')) {
-		// Go back to the record page
-			$this->setRedirect('index.php?option='.$option.'&amp;task=editrow&amp;cid[]='.$rid.'&amp;id='.$id, $this->msg );
-		} else {
-		// Go back to the table page
-			$this->setRedirect('index.php?option='.$option.'&amp;task=editdata&amp;cid[]='.$id, $this->msg );
-		}
-	}
-
-	function getFldValuesFor($fldArray)
-	{
-		$fldValues = array ( );
-		$getFilter = 0;
-
-		if(ET_MgrHelpers::userIs('allowRawDataEntry')) $getFilter = JREQUEST_ALLOWRAW;
-
-		foreach ( $fldArray as $fldName )
-		{
-			$theValue = addslashes ( JRequest::getVar( 'et_fld_'.$fldName,null,'default','none',$getFilter));
-			$theOrigValue = JRequest::getVar( 'et_fld_orig_'.$fldName,'' );
-			if(($theValue != $theOrigValue)){
-				$fldValues[$fldName] = $theValue;
-				$chkValue = $fldValues[$fldName];
-			}
-		}
-		return $fldValues;
-	}
-
-	function makeFldUpdateSQL( $fldArray, $fldValues )
-	{
-		$updateSQL = '';
-		$numFlds = count($fldValues);
-		$i = 1;
-
-		foreach ( $fldValues as $key=>$value )
-		{
-			$updateSQL .= '`'.$key."` = '".$value."'";
-			if($i++ < $numFlds){$updateSQL .= ', ';} else {$updateSQL .= ' ';}
-		}
-
-		return $updateSQL;
-	}
-
-	function cancelRecord()
-	{
-		$option = JRequest::getCmd('option');
-		$id = JRequest::getVar('id',0);
-		if($id == 0) {
-			JError::raiseNotice( 100, JText::_( 'COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR' ).$id );
-			$this->checkInEasyTable();
-			$this->setRedirect('index.php?option='.$option);
-		} else {
-			JRequest::setVar('view', 'EasyTableRecords' );
-		}
-		$this->display();
-	}
-	
-
-	function cancel()
-	{
-		$option = JRequest::getCmd('option');
-		$this->checkInEasyTable();
-		$this->setRedirect('index.php?option='.$option);
-	}
-	
-	/*
-	 *
-	 * Basic Functionality.
-	 *  • Remove Table
-	 *  • Publish/Unpublish
-	 *  • Toggle Search status
-	 *
-	*/
-	function remove()
-	{
-		JRequest::checkToken() or jexit('Invalid Token');
-		
-		$option = JRequest::getCmd('option');
-		$cid = JRequest::getVar('cid',array(0));
-		$row =& JTable::getInstance('EasyTable','Table');
-		
-		foreach ($cid as $id)
-		{
-			$id = (int) $id;
-			$msg = '';
-			if(!$this->removeMeta($id))
-			{
-				JError::raiseError(500, JText::sprintf( 'COM_EASYTABLEPRO_MGR_DELETE_META_ERROR', $id));
-			}
-			$msg .= '<br />(1) Meta data removed. id= '.$id;
-			if($this->ettdExists($id))
-			{
-				if(!$this->removeETTD($id))
-				{
-					JError::raiseError(500, 'Could not remove ETTD data table: '.$id);
-				}
-				$msg .= '<br />(2) ETTD data table removed. id= '.$id;
-			}
-			else
-			{
-				$msg .= '<br />(2) No ETTD data table found for id ='.$id;
-			}
-			
-			if (!$row->delete($id))
-			{
-				JError::raiseError(500, $row->getError());
-			}
-			$msg .= '<br />(3) ET Table record removed. id= '.$id;
-		}
-		$s = '';
-		
-		$this->setRedirect('index.php?option='.$option, 'Success!'.$msg);
-	}
-
-	function publish()
-	{
-		// We only publish if the Table is valid, ie. if it has an associated data table
-		JRequest::checkToken() or jexit('Invalid Token');
-		
-		$option = JRequest::getCmd('option');
-		$cid = JRequest::getVar('cid',array());
-		$row =& JTable::getInstance('EasyTable','Table');
-		
-		$msg = '';
-		$msg_failures = '';
-		$msg_successes = '';
-		
-		if($this->getTask() =='unpublish')
-		{
-			$publish = 0;
-		}
-		else
-		{
-			$publish = 1;
-		}
-		
-
-		if($publish)
-		{
-			$f_array = array();  // array to keep id's of failed to publish records
-			$s_array = array();  // similar array for successfully published records
-
-			foreach ($cid as $id)
-			{
-				if(($this->ettdExists($id)) || $this->etetExists($id))
-				{ $s_array[] = $id;}
-				else
-				{ $f_array[] = $id;}
-			}
-			
-			// Check for tables we can successfully publish & generate part of the user msg.
-			$s = count($s_array);
-			if($s)
-			{ 
-				if($s > 1) {$s = '\'s';} else {$s = '';}
-				$msg_successes = 'Table ID'.$s.' '.implode(', ',$s_array).' published.';
-			}
-			// Check for tables we can't publish & generate part of the user msg.
-			$f = count($f_array);
-			if($f)
-			{ 
-				if($f > 1) {$f = '\'s';} else {$f = '';}
-				$msg_failures = 'Table id'.$f.' '.implode(', ',$f_array).' can\'t be published (no data table). ';
-			}
-			
-			$msg = $msg_failures.$msg_successes;
-		}
-		else
-		{
-			$s_array = $cid;
-			if(count($s_array)>1) $s = '\'s '; else $s = '';
-			$msg = "Table ID$s".implode(', ',$s_array).' unpublished';
-		}
-
-		
-		if(count($s_array))
-		{
-			if(!$row->publish($s_array, $publish))
-			{
-				JError::raiseError(500, $row->getError() );
-				
-			}
-		}
-
-		$this->setRedirect('index.php?option='.$option, $msg);
-	}
-
-function toggleSearch()
-	{
-		$row =& JTable::getInstance('EasyTable', 'Table');					// Get the table of tables
-		$cid = JRequest::getVar( 'cid', array(0), '', 'array');				// Get the Checkbox id from the std Joomla admin form array
-		$id = $cid[0];
-		$row->load($id);													// Load the record we want
-
-		$paramsObj = new JParameter ($row->params);							// Get the params for this table
-		$make_tables_searchable = $paramsObj->get('searchable_by_joomla','');	// Get the 'Searchable by Joomla' flag
-		if($make_tables_searchable) {										// Flip item
-			$paramsObj->set('searchable_by_joomla', '0');					// Update the params obj, use a literal other wise parameter becomes '' ie. null blank caput gonesky dumbass JParameter!
-		}
-		else if( $make_tables_searchable == '' )
-		{
-			$paramsObj->set('searchable_by_joomla', 1);						// Update the params obj
-		}
-		else
-		{
-			$paramsObj->set('searchable_by_joomla', '');					// Update the params obj
-		}
-
-		$row->params = $paramsObj->toString();								// Update the row with the updated params obj...
-
-		if (!$row->store()) {												// Then we can store it away...
-			JError::raiseError(500, 'toggleSearch raised an error.<br />'.$row->getError() );
-		}
-
-		 JRequest::setVar('view', 'EasyTables');							// Return to EasyTables Mgr view
-		 $this->display();
-	}
-
 	/*
 	 * Save/Apply functions
 	 *
-	 * The save/apply function has to deal with serveral states, including new a TABLE,
-	 * incomplete states (ie. no data table), new csv data files and updated records
-	 * from csv files.
-	 * The key steps are:
-	 * 1. Determine the task
-	 *    1.1 Save/Apply steps are done for all tasks
-	 *    1.2 createETDTable
-	 *    1.3 updateETDTable
+	 * The save/apply function has to be over-ridden to allow for the saving of the meta data records.
 	 * 
 	*/
-	function save()
+	public function save()
 	{
+		// We will need the app.
 		$jAp=& JFactory::getApplication();
+
+		// Call to our parent save() to save the base JTable ie. our EasyTableProTable
+		if(!parent::save('id')){
+			$jAp->enqueueMessage(JText::sprintf('WOW! Completely bombed on saving the EasyTable Record for %s ( %s ).', $this->tablename, $this->id));
+			$this->setRedirect(JRoute::_('index.php?option=com_easytablepro&view=tables'));
+			return false;
+		}
+
+		
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		JRequest::checkToken() or jexit ( 'Invalid Token' );
 		$userFeedback = '';
 
@@ -768,6 +203,9 @@ function toggleSearch()
 
 	function saveApplyETdata()
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		// Save/Apply tasks - stores the ET record
 		$msg = '';
 
@@ -834,7 +272,13 @@ function toggleSearch()
 	*/
 	function processNewDataFile($currentTask, $updateType)
 	{
+		/*
 
+		 * WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+
+		*/
+
+		
 		$jAp=& JFactory::getApplication();
 		// Get a reference to a file if it exists, and load it into an array
 		$file = JRequest::getVar('tablefile', null, 'files', 'array');
@@ -891,6 +335,9 @@ function toggleSearch()
 
 	function parseCSVFile (&$file)
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		// Setup
 		$CSVTableArray = FALSE;
 		if(isset( $file['name']) && $file['name'] != '')
@@ -973,7 +420,13 @@ function toggleSearch()
 
 	function ettdExists($id)
 	{
-				 
+		/*
+
+		 * WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+
+		*/
+
+		
 		// Check for the existence of a matching data table
 		// Get a database object
 		$db =& JFactory::getDBO();
@@ -987,7 +440,13 @@ function toggleSearch()
 	
 	function etetExists($id)
 	{
-				 
+		/*
+
+		 * WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+
+		*/
+
+		
 		// Check for the existence of a LINKED data table
 		$row =& JTable::getInstance('EasyTable', 'Table');
 
@@ -1003,6 +462,9 @@ function toggleSearch()
 
 	function uniqueInArray($ettdColumnAliass, $columnAlias, $maxLen= 64)
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		// Recursive function to make an URL safe string that isn't in the supplied array.
 		// Limited to 64 by default to fit MySQL column limits.
 		$columnAlias .= count($ettdColumnAliass);
@@ -1029,6 +491,9 @@ function toggleSearch()
 
 	function updateMeta()
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		// Now we have to store the meta data
 		// 1. Get a database object
 		$db =& JFactory::getDBO();
@@ -1120,6 +585,9 @@ function toggleSearch()
 
 	function addFieldsToEasyTable ( $newFlds )
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		$msg = 'Starting field additions.<br />';
 		$id = JRequest::getInt('id',0);
 		$tableName = '#__easytables_table_data_'.$id;
@@ -1194,6 +662,9 @@ function toggleSearch()
 	
 	function deleteFieldsFromEasyTable ( $deletedFldIds )
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		$msg = 'Starting field removal.<br />';
 		$id = JRequest::getInt('id',0);
 		$selDelFlds = '`id` = '. implode(explode(', ', $deletedFldIds), ' or `id` =');
@@ -1228,6 +699,9 @@ function toggleSearch()
 	
 	function checkOutEasyTable()
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		// Get User ID
 		$user =& JFactory::getUser();
 
@@ -1250,6 +724,9 @@ function toggleSearch()
 	
 	function checkInEasyTable()
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		// Check back in
 		$id = JRequest::getInt('id',0);
 		$row =& JTable::getInstance('EasyTable','Table');
@@ -1259,6 +736,9 @@ function toggleSearch()
 	
 	function alterEasyTableColumn ( $origFldAlias, $newFldAlias, $fieldType )
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		if(JRequest::getVar('et_linked_et')) // External tables we don't mess with — bad things will happen to your data if you take this out. You have been warned.
 			return true;
 
@@ -1292,6 +772,9 @@ function toggleSearch()
 	
 	function getFieldTypeAsSQL ($fieldType)
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		switch ( $fieldType )
 		{
 		    case 0:
@@ -1316,6 +799,9 @@ function toggleSearch()
 	
 	function getFieldFromPostMeta ()
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		// Now we have to retreive the fieldalias from the post data
 
 		// 1. Get the list of mRIds into an array we can use
@@ -1347,6 +833,11 @@ function toggleSearch()
 	}
 	function getFieldAliasForTable($id)
 	{
+		/*
+
+		 * WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+
+		*/
 
 		// Get a database object
 		$db =& JFactory::getDBO();
@@ -1370,7 +861,10 @@ function toggleSearch()
 
 	function createMetaFrom ($CSVFileArray, $id)
 	{
-	// We Parse the csv file into an array of URL safe Column names 
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
+		// We Parse the csv file into an array of URL safe Column names 
 		$csvColumnLabels = $CSVFileArray[0];
 
 		$csvColumnCount = count($csvColumnLabels);
@@ -1459,6 +953,9 @@ function toggleSearch()
 	
 	function removeMeta ($id)
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
@@ -1475,6 +972,9 @@ function toggleSearch()
 	
 	function conformFieldAlias ($rawAlias)
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		// It's a linked table lets not change anything…
 		if(JRequest::getVar('et_linked_et')) return $rawAlias;
 
@@ -1495,6 +995,12 @@ function toggleSearch()
 	
 	function createETTD ($id, $ettdColumnAliass)
 	{
+		/*
+
+		 * WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+
+		*/
+
 		
 	// we turn the arrays of column names into the middle section of the SQL create statement 
 		$ettdColumnSQL = implode('` TEXT NOT NULL , `', $ettdColumnAliass);
@@ -1525,24 +1031,12 @@ function toggleSearch()
 		return $this->ettdExists($id);
 	}
 
-	function removeETTD ($id)
-	{
- 		// Get a database object
-		$db =& JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object while trying to remove ETTD: $id");
-		}
-		// Build the DROP SQL
-		$ettd_table_name = $db->nameQuote('#__easytables_table_data_'.$id);
-		$query = 'DROP TABLE '.$ettd_table_name.';';
-
-		$db->setQuery($query);
-		return($theResult=$db->query());		
-	}
-
 	function emptyETTD ($id)
 	{
- 		// Get a database object
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
+		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to remove ETTD: $id");
@@ -1562,6 +1056,9 @@ function toggleSearch()
 	
 	function updateETTDTableFrom ($id, $ettdColumnAliass, $CSVFileArray)
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		// Setup basic variables
 		$hasHeaders = JRequest::getVar('CSVFileHasHeaders');
 		$totalCSVRows = count($CSVFileArray);
@@ -1605,6 +1102,9 @@ function toggleSearch()
 
 	function updateETTDWithChunk ($CSVFileChunk, $id, $ettdColumnAliass)
 	{
+		/*
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		*/
 		// Setup basic variables
 		$msg = '';
 		
