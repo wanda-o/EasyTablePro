@@ -62,7 +62,7 @@ defined('_JEXEC') or die('Restricted Access');
 </div>
 
 <div class="width-30 fltrt">
-	<fieldset class="adminform">
+	<fieldset class="adminform" id="etp_stats_panel">
 	<legend><?php echo JText::_('COM_EASYTABLEPRO_TABLE_STATISTICS_LABEL')?></legend>
 	<ul id="et_tableStatus" class="adminformlist">
 		<li><strong><?php echo $this->form->getLabel('id'); ?></strong>
