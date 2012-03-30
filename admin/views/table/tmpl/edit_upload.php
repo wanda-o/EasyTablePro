@@ -29,13 +29,16 @@ defined('_JEXEC') or die('Restricted Access');
 			echo '<input type="button" value="'.JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_BTN' ).'" onclick="javascript: joomla.submitbutton(\'table.updateETDTable\')" id="fileUploadBtn" />';
 		} else {
 			echo '<input type="button" value="'.JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_BTN' ).'" onclick="javascript: joomla.submitbutton(\'table.createETDTable\')" id="fileUploadBtn" />';
-		} ?><legend style="clear:both;"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_HAS_HEADINGS' ); ?></legend>
+		} ?>
+		<div style="clear:both;"></div>
+		<h3><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_HAS_HEADINGS' ); ?></h3>
 		<label for="CSVFileHasHeaders0" id="CSVFileHasHeaders0-lbl" class="radiobtn">No</label>
 		<input type="radio" name="CSVFileHasHeaders" id="CSVFileHasHeaders0" value="0" checked="checked" class="inputbox">
 		<label for="CSVFileHasHeaders1" id="CSVFileHasHeaders1-lbl" class="radiobtn">Yes</label>
 		<input type="radio" name="CSVFileHasHeaders" id="CSVFileHasHeaders1" value="1" class="inputbox">
 	<?php if($this->item->ettd) { // For those uses that manage to save a table without importing data... ?>
-		<legend style="clear:both;"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_INTENTION_TT' );?></legend>
+		<div  style="clear:both;"> </div>
+		<h3><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_INTENTION_TT' );?></h3>
 		<label for="uploadType0"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_REPLACE' ); ?></label>
 		<input type="radio" name="uploadType" id="uploadType0" value="0" class="inputbox" checked="checked" />
 		<label for="uploadType1"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_APPEND' ); ?></label>
