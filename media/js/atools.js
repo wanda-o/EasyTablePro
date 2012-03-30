@@ -22,9 +22,9 @@ window.addEvent('domready', function () {
 
 com_EasyTablePro.setUp = function ()
 {
-	var token         = this.Tools.getToken();
+	var token         = com_EasyTablePro.Tools.getToken();
 	this.requestData[token]  = 1;
-	this.requestData.id = this.Tools.getID();
+	this.requestData.id = com_EasyTablePro.Tools.getID();
 	this.jsonRequestObj      = new Request.JSON({
 		url:    'index.php?option=com_easytablepro&format=json',
 		method: 'get'
