@@ -7,11 +7,11 @@
 
 function OpenMC()
 {
-var MCURL ='';
-var URLLabel = arguments[0];
-for( var i = 1; i < arguments.length; i++ ) {
+	var MCURL ='';
+	var URLLabel = arguments[0];
+	for( var i = 1; i < arguments.length; i++ ) {
 		MCURL = '' + MCURL + arguments[i];
 	}
 
-document.write( '<a'+' h'+'re'+'f=\''+'ma'+'il'+'to'+':' + MCURL + '\'>' + URLLabel +"</A>" );
+	document.write( '<a'+' h'+'re'+'f=\''+'ma'+'il'+'to'+':' + MCURL + '\'>' + URLLabel +"</A>" );
 }
