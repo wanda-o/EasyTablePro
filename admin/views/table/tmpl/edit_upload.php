@@ -26,9 +26,9 @@ defined('_JEXEC') or die('Restricted Access');
 			}
 		?>:</label><input name="tablefile" type="file" id="fileInputBox" />
 		<?php if($this->item->ettd) {
-			echo '<input type="button" value="'.JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_BTN' ).'" onclick="javascript: joomla.submitbutton(\'updateETDTable\')" id="fileUploadBtn" />';
+			echo '<input type="button" value="'.JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_BTN' ).'" onclick="javascript: joomla.submitbutton(\'table.updateETDTable\')" id="fileUploadBtn" />';
 		} else {
-			echo '<input type="button" value="'.JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_BTN' ).'" onclick="javascript: joomla.submitbutton(\'createETDTable\')" id="fileUploadBtn" />';
+			echo '<input type="button" value="'.JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_BTN' ).'" onclick="javascript: joomla.submitbutton(\'table.createETDTable\')" id="fileUploadBtn" />';
 		} ?><legend style="clear:both;"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_HAS_HEADINGS' ); ?></legend>
 		<label for="CSVFileHasHeaders0" id="CSVFileHasHeaders0-lbl" class="radiobtn">No</label>
 		<input type="radio" name="CSVFileHasHeaders" id="CSVFileHasHeaders0" value="0" checked="checked" class="inputbox">
