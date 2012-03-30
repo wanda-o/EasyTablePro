@@ -68,8 +68,12 @@
 	border-width:2px;
 	border-right-style:solid;
 	border-bottom-style:solid;
-	width: 300px;
-	margin-left: 60px;
+	width: 100%;
+}
+
+#uploadWhileModifyingNotice p {
+	margin:10px;
+	padding:0;
 }
 
 #upload-sliders {
