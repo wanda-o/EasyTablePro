@@ -172,33 +172,43 @@ class EasyTableProViewTables extends JView
 			Setup the Toolbar
 		*/
 		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO' ), 'easytablepro');
+		if($canDo->get('core.create'))
+		{
+			JToolBarHelper::addNew('tables.add', JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW'));
+		}
+		if($canDo->get('core.edit'))
+		{
+			JToolBarHelper::editList();
+		}
+		JToolBarHelper::divider();
+		
 		if($canDo->get('core.edit.state'))
 		{
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();
 		}
+		if($canDo->get('easytable.link'))
 
-		if($canDo->get('core.edit'))
 		{
-			JToolBarHelper::editList();
+
+			$toolbar=& JToolBar::getInstance( 'toolbar' );
+
+			$toolbar->appendButton( 'Popup', 'tables.linkTable', 'Link Table', 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component', 500, 280 );
+
 		}
+		JToolBarHelper::divider();
+
 
 		if($canDo->get('core.delete'))
 		{
 			JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_MGR_DELETE_TABLE_BTN' );
 		}
+		JToolBarHelper::divider();
 
-		if($canDo->get('core.create`'))
-		{
-			JToolBarHelper::addNew();
-		}
-
-		if($canDo->get('easytable.link`'))
-		{
-			$toolbar=& JToolBar::getInstance( 'toolbar' );
-			$toolbar->appendButton( 'Popup', 'linkTable', 'Link Table', 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component', 500, 280 );
-		}
 		JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 425 );
+		JToolBarHelper::divider();
+
+		JToolBarHelper::help('COM_EASYTABLEPRO_HELP_TABLES_VIEW',false,'http://seepeoplesoftware.com/products/easytablepro/1.1/help/tables.html');
 	}
 
 	private function addCSSEtc ()
