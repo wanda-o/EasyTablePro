@@ -22,16 +22,15 @@ $('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_
 
 Joomla.submitbutton = function(pressbutton)
 {
-	if (pressbutton == 'publish' ||
-		pressbutton == 'unpublish' ||
-		pressbutton == 'edit' ||
-		pressbutton == 'editData' ||
-		pressbutton == 'uploadData' ||
-		pressbutton == 'remove' ||
-		pressbutton == 'add' ||
-		pressbutton == 'toggleSearch' ||
-		pressbutton == 'settings' ||
-		pressbutton == 'cancel')
+	if (pressbutton == 'tables.publish' ||
+		pressbutton == 'tables.unpublish' ||
+		pressbutton == 'table.edit' ||
+		pressbutton == 'tables.editData' ||
+		pressbutton == 'tables.uploadData' ||
+		pressbutton == 'tables.remove' ||
+		pressbutton == 'table.add' ||
+		pressbutton == 'tables.toggleSearch' ||
+		pressbutton == 'tables.cancel')
 	{
 		Joomla.submitform(pressbutton);
 	}
