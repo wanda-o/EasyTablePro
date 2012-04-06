@@ -3,7 +3,10 @@ defined('_JEXEC') or die('Restricted Access');
 	// Get Field With Options
 class ET_VHelpers
 {
-	function current_version()
+	public static $extension = 'com_easytablepro';
+
+
+	public static function current_version()
 	{
 		//
 		// Let's see what version we have installed.
@@ -26,7 +29,7 @@ class ET_VHelpers
 	}
 
 	// Return the rows params
-	function et_row_params ($the_row)
+	public static function et_row_params ($the_row)
 	{
 		if ( isset ($the_row) )
 		{
@@ -36,19 +39,19 @@ class ET_VHelpers
 	}
 
 	// Return Meta for Fields in List View
-	function et_List_View_Fields ($allFieldsMeta)
+	public static function et_List_View_Fields ($allFieldsMeta)
 	{
 		return ET_VHelpers::et_View_Fields_From($allFieldsMeta, 'list');
 	}
 
 	// Return Meta for Fields in Detail View
-	function et_Detail_View_Fields ($allFieldsMeta)
+	public static function et_Detail_View_Fields ($allFieldsMeta)
 	{
 		return ET_VHelpers::et_View_Fields_From($allFieldsMeta, 'detail');
 	}
 
 	// Return Meta for Fields by type
-	function et_View_Fields_From($allFieldsMeta, $view='list')
+	public static function et_View_Fields_From($allFieldsMeta, $view='list')
 	{
 		$returnArray = Array();
 		foreach ( $allFieldsMeta as $metaRecord )

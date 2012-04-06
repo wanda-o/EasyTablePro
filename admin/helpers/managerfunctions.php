@@ -7,17 +7,17 @@ class ET_MgrHelpers
 	public static $base_assett = 'table';
 	private static $ext_actions = array( 'easytablepro.structure', 'easytablepro.import', 'easytablepro.editrecords', 'easytablepro.rawdata', 'easytablepro.link' );
 
-	function removeEmptyLines($string)
+	public static function removeEmptyLines($string)
 	{
 		return preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $string);
 	}
 	
-	function convertToOneLine($string, $lineEnding=array("\r\n","\r","\n"), $newDelimiter=',')
+	public static function convertToOneLine($string, $lineEnding=array("\r\n","\r","\n"), $newDelimiter=',')
 	{
 		return str_replace ( $lineEnding, $newDelimiter, ET_MgrHelpers::removeEmptyLines($string) );
 	}
 
-	function return_as_bytes ($size_str)
+	public static function return_as_bytes ($size_str)
 	{
 		switch (substr ($size_str, -1))
 		{
@@ -28,12 +28,12 @@ class ET_MgrHelpers
 		}
 	}
 
-	function umfs()
+	public static function umfs()
 	{
 		return ET_MgrHelpers::return_as_bytes(ini_get ( 'upload_max_filesize' ));
 	}
 
-	function userIs($allowedTo = '')
+	public static function userIs($allowedTo = '')
 	{
 		if($allowedTo == '') return false;
 		// Get the current user

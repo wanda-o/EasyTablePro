@@ -242,7 +242,7 @@ class EasyTableControllerTables extends JControllerAdmin
 	}
 	
 
-	function display()
+	function display($cachable = false, $urlparams = false)
 	{
 		$view =  JRequest::getVar('view');
 		if (!$view) {

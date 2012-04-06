@@ -22,7 +22,7 @@ class EasyTableProController extends JController
      *
      * @access    public
      */
-    function display($cachable = false)
+    function display($cachable = false, $urlparams = false)
     {	// Set the default view if required
 		JRequest::setVar('view', JRequest::getCmd('view', 'Tables'));
 
