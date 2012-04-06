@@ -44,9 +44,9 @@
 			<field name="defaultimagedir"
 				label="COM_EASYTABLEPRO_TABLE_IMAGE_DIR_LABEL"
 				description="COM_EASYTABLEPRO_TABLE_IMAGE_DIR_TT"
-				type="folderlist"
-				directory="/images/"
-				hide_default="1"
+				type="text"
+				size="40"
+				default="/images/stories"
 				class="inputbox" />
 			<field name="created_"
 				type="calendar"
