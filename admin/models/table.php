@@ -87,9 +87,12 @@ class EasyTableProModelTable extends JModelAdmin
 
 	function getItem($pk = null) {
 		$item = parent::getItem($pk);
+		$kPubState = 'Published';
+		$kUnpubState = 'Unpublished';
 		
 		// If we have an actual record (and not a new item) then we need to load the meta records
-		if($item->id > 0) {
+		if($item->id > 0)
+		{
 			// Now that we have the base easytable record we have to retrieve the associated field records (ie. the meta about each field in the table)
 			// Get a database object
 			$db = JFactory::getDBO();
@@ -154,7 +157,7 @@ class EasyTableProModelTable extends JModelAdmin
 				// Only if we have a data table and the owner has published it we set the state
 				if($item->published)
 				{
-					$state = 'Published';
+					$state = $kPubState;
 				}
 			}
 			else
@@ -164,10 +167,21 @@ class EasyTableProModelTable extends JModelAdmin
 				
 				// Make sure that a table with no associated data table is never published
 				$item->published = FALSE;
-				$state = 'Unpublished';
+				$state = $kUnpubState;
 			}
 
 			$item->set('pub_state', $state);
+		} else {
+			// We have a new Table record beign created...
+			$item->set('table_meta', array());
+			$item->set('ettm_field_count', 0);
+			$item->set('ettd', false);
+
+			$item->set('etet', false);
+
+			$item->set('ettd_tname', '');
+			$item->set('ettd_record_count',0);
+			$item->set('pub_state', $kUnpubState);
 		}
 
 		return $item;
@@ -236,30 +250,6 @@ class EasyTableProModelTable extends JModelAdmin
 			return false;
 		}
 
-		return true;
-	}//function
-
-	/**
-	 * Method to delete record(s)
-	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 */
-	function delete()
-	{
-		$cids = JRequest::getVar( 'cid', array(0), 'post', 'array' );
-
-		$row =& $this->getTable();
-
-		if (count( $cids ))
-		{
-			foreach($cids as $cid) {
-				if (!$row->delete( $cid )) {
-					$this->setError( $row->getErrorMsg() );
-					return false;
-				}
-			}//foreach
-		}
 		return true;
 	}//function
 
