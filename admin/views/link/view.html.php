@@ -38,7 +38,7 @@ class EasyTableVieweasytablelink extends JView
 	function getAlreadyLinkedTables()
 	{
 		//get the list of tables
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,JText::_("COM_EASYTABLEPRO_LINK_NO_TABLE_LIST"));
 		}
@@ -86,14 +86,14 @@ class EasyTableVieweasytablelink extends JView
 	function display($tpl = null)
 	{
 		//get the document and load the js support file
-		$doc =& JFactory::getDocument();
-		$u = & JURI::getInstance();
+		$doc = JFactory::getDocument();
+		$u = JURI::getInstance();
 		$doc->addStyleSheet('/templates/system/css/system.css');
 		$doc->addScript(JURI::base().'media/com_easytablepro/js/easytablelink.js');
 
 
 		//get the list of tables
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,JText::_("COM_EASYTABLEPRO_LINK_NO_TABLE_LIST"));
 		}

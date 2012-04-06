@@ -92,7 +92,7 @@ class EasyTableProModelTable extends JModelAdmin
 		if($item->id > 0) {
 			// Now that we have the base easytable record we have to retrieve the associated field records (ie. the meta about each field in the table)
 			// Get a database object
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			if(!$db){
 				JError::raiseError(500,JText::_("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR").' '.$pk);
 			}
@@ -214,7 +214,7 @@ class EasyTableProModelTable extends JModelAdmin
 	 */
 	function store()
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		$data = JRequest::get( 'post' );
 

@@ -70,19 +70,19 @@ class EasyTableViewEasyTableRecord extends JView
 		JRequest::setVar( 'hidemainmenu', 1 );
 
 		// Get the table based on the id from the request
-		$easytable =& JTable::getInstance('EasyTable','Table');
+		$easytable = JTable::getInstance('EasyTable','Table');
 		$easytable->load($id);
 
 		// Get the default image directory from the table.
 		$currentImageDir = $easytable->defaultimagedir;
 
 		//get the document and load the js support file
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 		$doc->addScript(JURI::base().'media/com_easytablepro/js/easytabledata.js');
 		$doc->addStyleSheet(JURI::base().'media/com_easytablepro/css/easytable.css');
 
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
 		}

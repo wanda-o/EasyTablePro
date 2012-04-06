@@ -24,7 +24,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 
 	protected function getOptions()
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$result ='';
 
 		// Get our table ID
@@ -38,8 +38,8 @@ class JFormFieldEasyTableFields extends JFormFieldList
 				jimport( 'joomla.application.menu' );
 				$menuIdArray = JRequest::getVar('cid',0);
 				$menuId      = $menuIdArray[0];
-				$menu        =& JMenu::getInstance('site');
-				$menuItem    =& $menu->getItem($menuId);
+				$menu        = JMenu::getInstance('site');
+				$menuItem    = $menu->getItem($menuId);
 				if($menuItem) {
 					$link = $menuItem->link;
 					$urlQry = parse_url ( $link, PHP_URL_QUERY );	// get just the qry section of the link

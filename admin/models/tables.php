@@ -54,7 +54,7 @@ class EasyTableProModelTables extends JModelList
 	{
 		parent::__construct();
 
-		$jAp =& JFactory::getApplication();
+		$jAp = JFactory::getApplication();
 
 		// Get pagination request variables
 		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
@@ -107,7 +107,7 @@ class EasyTableProModelTables extends JModelList
 	{
 		if(!$this->_search)
 		{
-			$jAp =& JFactory::getApplication();
+			$jAp = JFactory::getApplication();
 			$option = JRequest::getCmd('option');
 			$search = $jAp->getUserStateFromRequest("$option.easytablemgr.search", 'search','');
 			if($search == '')

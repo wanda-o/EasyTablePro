@@ -30,13 +30,13 @@ class EasyTableVieweasytableupload extends JView
 	{
 		
 		//get the document and load the js support file
-		$doc =& JFactory::getDocument();
-		$u = & JURI::getInstance();
+		$doc = JFactory::getDocument();
+		$u = JURI::getInstance();
 		$doc->addScript(JURI::base().'media/com_easytablepro/js/easytableupload.js');
 		$doc->addStyleSheet('templates/system/css/system.css');
 
 		//get the EasyTable
-		$row =& JTable::getInstance('EasyTable', 'Table');
+		$row = JTable::getInstance('EasyTablePro', 'Table');
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
 		$id = $cid[0];
 		$row->load($id);
@@ -51,7 +51,7 @@ class EasyTableVieweasytableupload extends JView
 
 		
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,JText::_("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR").' '.$id);
 		}

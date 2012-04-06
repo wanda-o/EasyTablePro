@@ -118,13 +118,13 @@ class EasyTableProViewTable extends JView
 	private function addCSSEtc()
 	{
 		//get the document
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 
 		// First add CSS to the document
 		$doc->addStyleSheet('/media/com_'._cppl_this_com_name.'/css/'._cppl_base_com_name.'.css');
 
 		// Get the document object
-		$document = &JFactory::getDocument();
+		$document =JFactory::getDocument();
 		
 		// Load the defaults first so that our script loads after them
 		JHtml::_('behavior.framework', true);
@@ -146,7 +146,7 @@ class EasyTableProViewTable extends JView
 	function getTableIDForName ($tableName)
 	{
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,JText::_("Couldn't talk to the database while trying to get a table ID for table:").' '.$tableName);
 		}

@@ -49,7 +49,7 @@ class EasyTableViewEasyTableRecords extends JView
 	function getSearchFieldsIn ($tableID)
 	{
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		// Get the search fields for this table
 		$query = "SELECT `fieldalias` FROM #__easytables_table_meta WHERE `easytable_id` = $tableID AND (type = '0' || type = '3') AND (`params` LIKE '%search_field=1%')";
 		$db->setQuery($query);
@@ -60,7 +60,7 @@ class EasyTableViewEasyTableRecords extends JView
 	function display ($tpl = null)
 	{
 		$option = JRequest::getCmd('option');
-		$jAp=& JFactory::getApplication();
+		$jAp= JFactory::getApplication();
 
 
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
@@ -84,19 +84,19 @@ class EasyTableViewEasyTableRecords extends JView
 
 
 		// Get the table based on the id from the request
-		$easytable =& JTable::getInstance('EasyTable','Table');
+		$easytable = JTable::getInstance('EasyTable','Table');
 		$easytable->load($id);
 
 		// Get the default image directory from the table.
 		$imageDir = $easytable->defaultimagedir;
 
 		//get the document and load the js support file
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 		$doc->addScript(JURI::base().'/media/com_easytablepro/js/easytabledata.js');
 		$doc->addStyleSheet(JURI::base().'/media/com_easytablepro/css/easytable.css');
 
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
 		}

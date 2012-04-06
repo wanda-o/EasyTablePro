@@ -37,7 +37,7 @@ class ET_MgrHelpers
 	{
 		if($allowedTo == '') return false;
 		// Get the current user
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		// Get the settings meta record
 		$settings = ET_MgrHelpers::getSettings();
 		// Allow Raw Data Entry

@@ -26,7 +26,7 @@ class JFormFieldEasyTable extends JFormFieldList
 	{
 		// Initialise variables.
 		$options	= array();
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$result ='';
 
 		// Get array of tables to build each option from...

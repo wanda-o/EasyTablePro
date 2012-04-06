@@ -213,9 +213,9 @@ class EasyTableControllerTables extends JControllerAdmin
 	function checkOutEasyTable()
 	{
 		// Get User ID
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
-		$row =& JTable::getInstance('EasyTable', 'Table');
+		$row = JTable::getInstance('EasyTable', 'Table');
 		// Look for a CID first
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
 
@@ -236,7 +236,7 @@ class EasyTableControllerTables extends JControllerAdmin
 	{
 		// Check back in
 		$id = JRequest::getInt('id',0);
-		$row =& JTable::getInstance('EasyTable','Table');
+		$row = JTable::getInstance('EasyTable','Table');
 
 		$row->checkin($id);
 	}

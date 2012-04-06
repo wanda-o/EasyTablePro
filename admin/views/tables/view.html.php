@@ -138,9 +138,9 @@ class EasyTableProViewTables extends JView
 	function display($tpl = null)
 	{
 		//get the document and load the js support file
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 		// Get the current user
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Get the settings meta record
 		$canDo = ET_MgrHelpers::getActions();
@@ -150,11 +150,11 @@ class EasyTableProViewTables extends JView
 		$this->addCSSEtc();
 
 		// Search
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$search = $db->getEscaped($this->get('search'));
 
 		// Get data from the model
-		$rows =& $this->get('Items');
+		$rows = $this->get('Items');
 		// A little pagination for our users with *lots* of tables.
 		$pagination = $this->get('Pagination');
 
@@ -214,10 +214,10 @@ class EasyTableProViewTables extends JView
 	private function addCSSEtc ()
 	{
 		// Get the document object
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		// First add CSS to the document
-		$document->addStyleSheet('/media/com_'._cppl_this_com_name.'/css/'._cppl_base_com_name.'.css');
+		$document->addStyleSheet('/media/com_easytablepro/css/'._cppl_base_com_name.'.css');
 
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		JHTML::_('behavior.modal');

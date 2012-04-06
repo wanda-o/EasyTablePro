@@ -16,19 +16,19 @@ class EasyTableViewEasyTable extends JView
 {
 	function display ($tpl = null)
 	{
-		$jAp =& JFactory::getApplication();
+		$jAp = JFactory::getApplication();
 		$option = JRequest::getCmd('option');
 		// Better breadcrumbs
-		$pathway   =& $jAp->getPathway();
+		$pathway   = $jAp->getPathway();
 		$id = (int) JRequest::getVar('id',0);
 		// For a better backlink - lets try this:
 		$start_page = JRequest::getVar('start',0,'','int');					// get the start var from JPagination
 		$jAp->setUserState( "$option.start_page", $start_page );		// store the start page
 
-		$params =& $jAp->getParams(); // Component wide & menu based params
+		$params = $jAp->getParams(); // Component wide & menu based params
 
 		// Get the table based on the id from the request - we do it here so we can merge the tables params in.
-		$easytable =& JTable::getInstance('EasyTable','Table');
+		$easytable = JTable::getInstance('EasyTable','Table');
 		$easytable->load($id);
 		if($easytable->published == 0) {
 			JError::raiseError(404,JText::_( "COM_EASYTABLEPRO_SITE_TABLE_NOT_AVAILABLE" ).$id);
@@ -38,7 +38,7 @@ class EasyTableViewEasyTable extends JView
 
 		/* Check the user against table access */
 		// Create a user $access object for the current $user
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$access = new stdClass();
 		// Check to see if the user has access to view the table
 		$aid	= $user->get('aid');
@@ -81,7 +81,7 @@ class EasyTableViewEasyTable extends JView
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
 		// Get the menu item object
-		$menus = &JSite::getMenu();
+		$menus =JSite::getMenu();
 		$menu  = $menus->getActive();
 
 		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'easytable' && isset($menu->query['id']) && $menu->query['id'] == $id) {
@@ -98,14 +98,14 @@ class EasyTableViewEasyTable extends JView
 		$imageDir = $easytable->defaultimagedir;
 
 		//If required get the document and load the js for table sorting
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 		$SortableTable = $params->get ( 'make_tables_sortable' );
 		if( $SortableTable ) {
 			$doc->addScript(JURI::base().'media/com_easytablepro/js/webtoolkit.sortabletable.js');
 		}
 
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,JText::_( 'COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_FOR_TABLE_ID' ).$id);
 		}
@@ -124,17 +124,17 @@ class EasyTableViewEasyTable extends JView
 			// Get paginated table data
 			if($show_pagination)
 			{
-				$paginatedRecords =& $this->get('data');
-				$paginatedRecordsFNILV =& $this->get('dataFieldsNotInListView');
+				$paginatedRecords = $this->get('data');
+				$paginatedRecordsFNILV = $this->get('dataFieldsNotInListView');
 			}
 			else
 			{
-				$paginatedRecords =& $this->get('alldata');
-				$paginatedRecordsFNILV =& $this->get('alldataFieldsNotInListView');
+				$paginatedRecords = $this->get('alldata');
+				$paginatedRecordsFNILV = $this->get('alldataFieldsNotInListView');
 			}
 
 			// Get pagination object
-			$pagination =& $this->get('pagination');
+			$pagination = $this->get('pagination');
 
 		}
 		else

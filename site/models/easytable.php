@@ -34,7 +34,7 @@ class EasyTableModelEasyTable extends JModel
 	function getDataTableName()
 	{
 		$id = (int)JRequest::getVar('id', 0);
-		$easytable =& JTable::getInstance('EasyTable','Table');
+		$easytable = JTable::getInstance('EasyTable','Table');
 		$easytable->load($id);
 		$_datatablename = $easytable->datatablename;
 		if($_datatablename == '')
@@ -51,7 +51,7 @@ class EasyTableModelEasyTable extends JModel
 	 {
 		$q = "SHOW KEYS FROM `".$this->getDataTableName()."` WHERE Key_name = 'PRIMARY'";
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Problems trying to get the primary key: ".$db);
 		}
@@ -85,8 +85,8 @@ class EasyTableModelEasyTable extends JModel
 		{
 			// Get the current menu settings
 			jimport( 'joomla.application.menu' );
-			$menu     =& JMenu::getInstance('site');
-			$menuItem =& $menu->getActive();
+			$menu     = JMenu::getInstance('site');
+			$menuItem = $menu->getActive();
 			if($menuItem)
 			{
 				$link = $menuItem->link;					// get the menu link
@@ -109,7 +109,7 @@ class EasyTableModelEasyTable extends JModel
 
 			// Are records to be filtered by user id/name?
 			// Get Params
-			$easytable =& JTable::getInstance('EasyTable','Table');
+			$easytable = JTable::getInstance('EasyTable','Table');
 			$easytable->load($id);
 			$params = new JParameter( $easytable->params );
 			$user_filter_enabled = $params->get('enable_user_filter',0);
@@ -274,7 +274,7 @@ class EasyTableModelEasyTable extends JModel
 	{
 		if(!$this->_search)
 		{
-			$jAp =& JFactory::getApplication();
+			$jAp = JFactory::getApplication();
 			$option = JRequest::getCmd('option');
 
 			$search = $jAp->getUserStateFromRequest("$option.easytable.etsearch".$id, 'etsearch','');
@@ -297,7 +297,7 @@ class EasyTableModelEasyTable extends JModel
 	 function &getFieldMeta($id, $list_view = '1')
 	 {
 			// Get a database object
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			if(!$db){
 				JError::raiseError(500,"Couldn't get the database object while getFieldMeta() of EasyTable id: $id");
 			}
@@ -330,7 +330,7 @@ class EasyTableModelEasyTable extends JModel
 		$fieldName = '';
 		if($fid) {
 			// Get a database object
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			if(!$db){
 				JError::raiseError(500,"Couldn't get the database object while getFieldMeta() of EasyTable id: $id");
 			}
@@ -349,7 +349,7 @@ class EasyTableModelEasyTable extends JModel
 	function getSearchFields($id)
 	{
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while getSearchFields() for EasyTable id: $id");
 		}
@@ -391,7 +391,7 @@ class EasyTableModelEasyTable extends JModel
 
 			if(($limit != 0) && empty($limit))
 			{
-				$jAp =& JFactory::getApplication();
+				$jAp = JFactory::getApplication();
 				$limit = $jAp->getCfg('list_limit');
 			}
 
@@ -403,7 +403,7 @@ class EasyTableModelEasyTable extends JModel
 	function &getExternalData()
 	{
 		$id = (int)JRequest::getVar('id', 0);
-		$easytable =& JTable::getInstance('EasyTable','Table');
+		$easytable = JTable::getInstance('EasyTable','Table');
 		$easytable->load($id);
 		$_datatablename = $easytable->datatablename;
 		if($_datatablename == '')
@@ -423,7 +423,7 @@ class EasyTableModelEasyTable extends JModel
 	}
 	function &getData($et_paged=TRUE, $list_view = '1')
 	{
-		$pagination =& $this->getPagination();
+		$pagination = $this->getPagination();
 		if($list_view)
 		{
 			if(empty($this->_data))
@@ -470,7 +470,7 @@ class EasyTableModelEasyTable extends JModel
 	{
 		parent::__construct();
 		
-		$jAp =& JFactory::getApplication();
+		$jAp = JFactory::getApplication();
 
 		// Get pagination request variables
 		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');

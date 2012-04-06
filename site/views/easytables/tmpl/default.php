@@ -21,7 +21,7 @@ if($this->show_page_title) {
 		$tableParams = new JParameter( $row->params );
 		/* Check the user against table access */
 		// Create a user $access object for the current $user
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$access = new stdClass();
 		// Check to see if the user has access to view the table
 		$aid	= $user->get('aid');

@@ -19,7 +19,7 @@ class EasyTableViewEasyTableRecord extends JView
 	{
 		if($mId)
 		{
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			if(!$db){
 				JError::raiseError(500,JText::_( "COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_PROCESSING_LINKED_TABLE" ).$mId );
 			}
@@ -34,7 +34,7 @@ class EasyTableViewEasyTableRecord extends JView
 
 	function &fieldMeta($id, $restrict_to_view ='')
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500, JText::_( "COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_WHEN_GETTING_META_RECORD" ));
 		}
@@ -183,7 +183,7 @@ class EasyTableViewEasyTableRecord extends JView
 		if($this->_etvetr_currenttable == null)
 		{
 			$id = (int)JRequest::getVar('id', 0);
-			$this->_etvetr_currenttable =& JTable::getInstance('EasyTable','Table');
+			$this->_etvetr_currenttable = JTable::getInstance('EasyTable','Table');
 			$this->_etvetr_currenttable->load($id);
 		}
 		$_datatablename = $this->_etvetr_currenttable->datatablename;
@@ -198,7 +198,7 @@ class EasyTableViewEasyTableRecord extends JView
 	{
 	 	$q = "SHOW KEYS FROM `".$this->getDataTableName()."` WHERE Key_name = 'PRIMARY'";
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Problems trying to get the primary key: ".$db);
 		}
@@ -225,7 +225,7 @@ class EasyTableViewEasyTableRecord extends JView
 		
 		$recordLink = '';
 		// Get the current database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,JText::_( "COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_CREATING_NEXTPREV_RECORD_LINK" ).$mId );
 		}
@@ -267,7 +267,7 @@ class EasyTableViewEasyTableRecord extends JView
 		 * Get the current ET details and make sure it's published.
 		 *
 		 */
-		$this->_etvetr_currenttable =& JTable::getInstance('EasyTable','Table');
+		$this->_etvetr_currenttable = JTable::getInstance('EasyTable','Table');
 		$this->_etvetr_currenttable->load($id);
 		if($this->_etvetr_currenttable->published == 0) {
 			JError::raiseError(404, JText::_( "COM_EASYTABLEPRO_SITE_A_RECORD_OF_THIS_ID_IS_NOT_AVAILABLE" ).$id.' / '.$rid);
@@ -278,15 +278,15 @@ class EasyTableViewEasyTableRecord extends JView
 		/*
 		 * Get Params for linked tables as we'll need them soon
 		 */
-		$jAp =& JFactory::getApplication();
+		$jAp = JFactory::getApplication();
 		$option = JRequest::getCmd('option');
 
 		// Better breadcrumbs
-		$pathway   =& $jAp->getPathway();
+		$pathway   = $jAp->getPathway();
 		$recordLinkLabel = JRequest::getVar('rllabel',$id);
 		$pathway->addItem($recordLinkLabel, '');
 		
-		$params =& $jAp->getParams(); // Component wide & menu based params
+		$params = $jAp->getParams(); // Component wide & menu based params
 
 		$menuitemid = JRequest::getInt( 'Itemid' );
 		if ($menuitemid)
@@ -308,7 +308,7 @@ class EasyTableViewEasyTableRecord extends JView
 
 		/* Check the user against table access */
 		// Create a user $access object for the current $user
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$access = new stdClass();
 		// Check to see if the user has access to view the table
 		$aid	= $user->get('aid');
@@ -337,7 +337,7 @@ class EasyTableViewEasyTableRecord extends JView
 		 * Get the META records for this EasyTable and use them to create sql for data table selection
 		 *
 		 */
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,JText::_( 'COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_FOR_TABLE_ID' ).$id);
 		}
@@ -345,7 +345,7 @@ class EasyTableViewEasyTableRecord extends JView
 		$easytables_table_meta = $this->fieldMeta($id);
 
 		// If any of the fields are designated as eMail load the JS file to allow cloaking.
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 		if(ET_VHelper::hasEmailType($easytables_table_meta))
 		{
 			$doc->addScript(JURI::base().'media/com_easytablepro/js/easytableprotable_fe.js');
@@ -466,7 +466,7 @@ class EasyTableViewEasyTableRecord extends JView
 				$linked_records_FNILV = $db->loadAssocList();
 				$this->assignRef('linked_records_FNILV',$linked_records_FNILV);
 
-				$linked_easytable =& JTable::getInstance('EasyTable','Table');
+				$linked_easytable = JTable::getInstance('EasyTable','Table');
 				$linked_easytable->load($lt_id);
 
 				$linked_easytable_alias = $linked_easytable->easytablealias; // We get the alias for use in the table id
@@ -478,19 +478,19 @@ class EasyTableViewEasyTableRecord extends JView
 				$linked_table_imageDir = $linked_easytable->defaultimagedir;   // We use this to prepend all image type data
 				$this->assign('linked_table_imageDir', $linked_table_imageDir );
 
-				$linked_field_types =& $this->fieldTypes($linked_table_meta);  // Heading, types and other meta for the linked table
+				$linked_field_types = $this->fieldTypes($linked_table_meta);  // Heading, types and other meta for the linked table
 				$this->assignRef('linked_field_types', $linked_field_types );
 
-				$linked_field_links_to_detail =& $this->fieldDetailLink($linked_table_meta); // Flags for the detail link
+				$linked_field_links_to_detail = $this->fieldDetailLink($linked_table_meta); // Flags for the detail link
 				$this->assignRef('linked_field_links_to_detail', $linked_field_links_to_detail);
 
 				$linked_fields_alias = $this->fieldAliassForList($linked_table_meta,$lkf_id);  // Field alias for use in CSS class for each field
 				$this->assignRef('linked_fields_alias', $linked_fields_alias );
 
-				$linked_field_options =& $this->fieldOptions($linked_table_meta); // Field Options for use in table
+				$linked_field_options = $this->fieldOptions($linked_table_meta); // Field Options for use in table
 				$this->assignRef('linked_field_options', $linked_field_options );
 
-				$linked_field_labels =& $this->fieldLabelsForList($linked_table_meta,$lkf_id); // Labels/field headings for use in table
+				$linked_field_labels = $this->fieldLabelsForList($linked_table_meta,$lkf_id); // Labels/field headings for use in table
 				$this->assignRef('linked_field_labels', $linked_field_labels );
 
 				$this->assignRef('linked_records', $linked_records );

@@ -127,7 +127,7 @@ class EasyTableControllerTables extends JController
 		$paramsObj->set('allowDataEditing', implode ( ',', $newSettings));
 
 		// Get the current user
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if( $user->usertype  == 'Super Administrator' )
 		{
@@ -165,7 +165,7 @@ class EasyTableControllerTables extends JController
 			}
 		}
 
-		$jAp=& JFactory::getApplication();
+		$jAp= JFactory::getApplication();
 		if( ET_MgrHelpers::setSettings($paramsObj) )
 		{
 			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_SETTINGS_SUCCESSFULLY_UPDATED' ));
@@ -212,7 +212,7 @@ class EasyTableControllerTables extends JController
 	function createMetaForLinkedTable ($tableName, $id)
 	{
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object checking the existence of data table: $id");
 		}
@@ -275,7 +275,7 @@ class EasyTableControllerTables extends JController
 	function presentUploadScreen()
 	{
 
-		$jAp=& JFactory::getApplication();
+		$jAp= JFactory::getApplication();
 
 		JRequest::setVar('view', 'EasyTableUpload');
 		JRequest::setVar('tmpl', 'component');
@@ -321,7 +321,7 @@ class EasyTableControllerTables extends JController
 
 	function deleteRecords()
 	{
-		$jAp=& JFactory::getApplication();
+		$jAp= JFactory::getApplication();
 		$option = JRequest::getCmd('option');
 
 		$id = JRequest::getVar( 'id', 0);
@@ -329,7 +329,7 @@ class EasyTableControllerTables extends JController
 			JError::raiseNotice( 100, JText::_('COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR').$id );
 		}
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
 		}
@@ -360,7 +360,7 @@ class EasyTableControllerTables extends JController
 		$ctask = $this->getTask();
 		$id = JRequest::getVar('id',0);
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
 		}
@@ -487,7 +487,7 @@ class EasyTableControllerTables extends JController
 		
 		$option = JRequest::getCmd('option');
 		$cid = JRequest::getVar('cid',array(0));
-		$row =& JTable::getInstance('EasyTable','Table');
+		$row = JTable::getInstance('EasyTable','Table');
 		
 		foreach ($cid as $id)
 		{
@@ -529,7 +529,7 @@ class EasyTableControllerTables extends JController
 		
 		$option = JRequest::getCmd('option');
 		$cid = JRequest::getVar('cid',array());
-		$row =& JTable::getInstance('EasyTable','Table');
+		$row = JTable::getInstance('EasyTable','Table');
 		
 		$msg = '';
 		$msg_failures = '';
@@ -597,7 +597,7 @@ class EasyTableControllerTables extends JController
 
 function toggleSearch()
 	{
-		$row =& JTable::getInstance('EasyTable', 'Table');					// Get the table of tables
+		$row = JTable::getInstance('EasyTable', 'Table');					// Get the table of tables
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array');				// Get the Checkbox id from the std Joomla admin form array
 		$id = $cid[0];
 		$row->load($id);													// Load the record we want
@@ -641,7 +641,7 @@ function toggleSearch()
 	*/
 	function save()
 	{
-		$jAp=& JFactory::getApplication();
+		$jAp= JFactory::getApplication();
 		JRequest::checkToken() or jexit ( 'Invalid Token' );
 		$userFeedback = '';
 
@@ -742,7 +742,7 @@ function toggleSearch()
 		{
 			if( $CSVFileArray )
 			{
-				$ettdColumnAliass =& $this->createMetaFrom($CSVFileArray, $id);  // creates the ETTD and if that works adds the meta records
+				$ettdColumnAliass = $this->createMetaFrom($CSVFileArray, $id);  // creates the ETTD and if that works adds the meta records
 				if($ettdColumnAliass)
 				{
 					$csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray);
@@ -780,10 +780,10 @@ function toggleSearch()
 		$msg = '';
 
 		// 1.0 Update/Create table record from POST data
-		$row =& JTable::getInstance('EasyTable', 'Table');
+		$row = JTable::getInstance('EasyTable', 'Table');
 
 		// 1.1 Record the user's id that performed the modification
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if (!$user)
 		{
 			JError::raiseError(500, 'Error in saveApplyETdata() getting current user -> '.$user->getError());
@@ -843,7 +843,7 @@ function toggleSearch()
 	function processNewDataFile($currentTask, $updateType)
 	{
 
-		$jAp=& JFactory::getApplication();
+		$jAp= JFactory::getApplication();
 		// Get a reference to a file if it exists, and load it into an array
 		$file = JRequest::getVar('tablefile', null, 'files', 'array');
 		$CSVFileArray = $this->parseCSVFile($file);
@@ -984,7 +984,7 @@ function toggleSearch()
 				 
 		// Check for the existence of a matching data table
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object checking the existence of data table: $id");
 		}
@@ -997,7 +997,7 @@ function toggleSearch()
 	{
 				 
 		// Check for the existence of a LINKED data table
-		$row =& JTable::getInstance('EasyTable', 'Table');
+		$row = JTable::getInstance('EasyTable', 'Table');
 
 		if(!$id){
 			$id = JRequest::getVar( 'id', 0);
@@ -1039,7 +1039,7 @@ function toggleSearch()
 	{
 		// Now we have to store the meta data
 		// 1. Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			// JError::raiseError(500,"Couldn't get the database object while setting up for META update: $id");
 			$statusArray = array('status' => 0, 'msg' => "Couldn't get the database object while setting up for META update: $id");
@@ -1166,7 +1166,7 @@ function toggleSearch()
 		}
 		// 2.0 Perfrom the actual Meta insert.
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			$msg .= "Couldn't get the database object while setting up for META update: $id";
 			return $msg;
@@ -1208,7 +1208,7 @@ function toggleSearch()
 		$deleteSelectSQL = ' from `#_easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
 
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
 		}
@@ -1237,9 +1237,9 @@ function toggleSearch()
 	function checkOutEasyTable()
 	{
 		// Get User ID
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
-		$row =& JTable::getInstance('EasyTable', 'Table');
+		$row = JTable::getInstance('EasyTable', 'Table');
 		// Look for a CID first
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
 
@@ -1260,7 +1260,7 @@ function toggleSearch()
 	{
 		// Check back in
 		$id = JRequest::getInt('id',0);
-		$row =& JTable::getInstance('EasyTable','Table');
+		$row = JTable::getInstance('EasyTable','Table');
 
 		$row->checkin($id);
 	}
@@ -1283,7 +1283,7 @@ function toggleSearch()
 		$alterSQL = 'ALTER TABLE #__easytables_table_data_'.$id.'  CHANGE `'.$origFldAlias.'` `'.$newFldAlias.'` '.$fieldType.';';
 
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
 		}
@@ -1357,7 +1357,7 @@ function toggleSearch()
 	{
 
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while creating meta for table: $id");
 		}
@@ -1444,7 +1444,7 @@ function toggleSearch()
 			$insert_Meta_SQL = $insert_Meta_SQL_start.$insert_Meta_SQL_row.$insert_Meta_SQL_end;
 			
 	 		// Get a database object
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			if(!$db){
 				JError::raiseError(500,"Couldn't get the database object while creating meta for table: $id");
 			}
@@ -1468,7 +1468,7 @@ function toggleSearch()
 	function removeMeta ($id)
 	{
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to remove META: $id");
 		}
@@ -1518,7 +1518,7 @@ function toggleSearch()
 		// JError::raiseError(500,'$id = '.$id.'<br />$ettdColumnAliass = '.$ettdColumnAliass.'<br />$ettdColumnSQL = '.$ettdColumnSQL.'<br />createETTD SQL = '.$create_ETTD_SQL );
 		
 	// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to create table: $id");
 		}
@@ -1536,7 +1536,7 @@ function toggleSearch()
 	function removeETTD ($id)
 	{
  		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to remove ETTD: $id");
 		}
@@ -1551,7 +1551,7 @@ function toggleSearch()
 	function emptyETTD ($id)
 	{
  		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to remove ETTD: $id");
 		}
@@ -1617,7 +1617,7 @@ function toggleSearch()
 		$msg = '';
 		
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while doing SAVE() for table: $id");
 		}

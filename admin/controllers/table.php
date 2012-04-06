@@ -56,7 +56,7 @@ class EasyTableProControllerTable extends JControllerForm
 	public function save()
 	{
 		// We will need the app.
-		$jAp=& JFactory::getApplication();
+		$jAp= JFactory::getApplication();
 
 		// Call to our parent save() to save the base JTable ie. our EasyTableProTable
 		if(!parent::save('id')){
@@ -169,7 +169,7 @@ class EasyTableProControllerTable extends JControllerForm
 		{
 			if( $CSVFileArray )
 			{
-				$ettdColumnAliass =& $this->createMetaFrom($CSVFileArray, $id);  // creates the ETTD and if that works adds the meta records
+				$ettdColumnAliass = $this->createMetaFrom($CSVFileArray, $id);  // creates the ETTD and if that works adds the meta records
 				if($ettdColumnAliass)
 				{
 					$csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray);
@@ -210,10 +210,10 @@ class EasyTableProControllerTable extends JControllerForm
 		$msg = '';
 
 		// 1.0 Update/Create table record from POST data
-		$row =& JTable::getInstance('EasyTable', 'Table');
+		$row = JTable::getInstance('EasyTable', 'Table');
 
 		// 1.1 Record the user's id that performed the modification
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if (!$user)
 		{
 			JError::raiseError(500, 'Error in saveApplyETdata() getting current user -> '.$user->getError());
@@ -279,7 +279,7 @@ class EasyTableProControllerTable extends JControllerForm
 		*/
 
 		
-		$jAp=& JFactory::getApplication();
+		$jAp= JFactory::getApplication();
 		// Get a reference to a file if it exists, and load it into an array
 		$file = JRequest::getVar('tablefile', null, 'files', 'array');
 		$CSVFileArray = $this->parseCSVFile($file);
@@ -429,7 +429,7 @@ class EasyTableProControllerTable extends JControllerForm
 		
 		// Check for the existence of a matching data table
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object checking the existence of data table: $id");
 		}
@@ -448,7 +448,7 @@ class EasyTableProControllerTable extends JControllerForm
 
 		
 		// Check for the existence of a LINKED data table
-		$row =& JTable::getInstance('EasyTable', 'Table');
+		$row = JTable::getInstance('EasyTable', 'Table');
 
 		if(!$id){
 			$id = JRequest::getVar( 'id', 0);
@@ -496,7 +496,7 @@ class EasyTableProControllerTable extends JControllerForm
 		*/
 		// Now we have to store the meta data
 		// 1. Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			// JError::raiseError(500,"Couldn't get the database object while setting up for META update: $id");
 			$statusArray = array('status' => 0, 'msg' => "Couldn't get the database object while setting up for META update: $id");
@@ -626,7 +626,7 @@ class EasyTableProControllerTable extends JControllerForm
 		}
 		// 2.0 Perfrom the actual Meta insert.
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			$msg .= "Couldn't get the database object while setting up for META update: $id";
 			return $msg;
@@ -671,7 +671,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$deleteSelectSQL = ' from `#_easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
 
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
 		}
@@ -703,9 +703,9 @@ class EasyTableProControllerTable extends JControllerForm
 		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
 		*/
 		// Get User ID
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
-		$row =& JTable::getInstance('EasyTable', 'Table');
+		$row = JTable::getInstance('EasyTable', 'Table');
 		// Look for a CID first
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
 
@@ -729,7 +729,7 @@ class EasyTableProControllerTable extends JControllerForm
 		*/
 		// Check back in
 		$id = JRequest::getInt('id',0);
-		$row =& JTable::getInstance('EasyTable','Table');
+		$row = JTable::getInstance('EasyTable','Table');
 
 		$row->checkin($id);
 	}
@@ -755,7 +755,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$alterSQL = 'ALTER TABLE #__easytables_table_data_'.$id.'  CHANGE `'.$origFldAlias.'` `'.$newFldAlias.'` '.$fieldType.';';
 
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
 		}
@@ -840,7 +840,7 @@ class EasyTableProControllerTable extends JControllerForm
 		*/
 
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while creating meta for table: $id");
 		}
@@ -930,7 +930,7 @@ class EasyTableProControllerTable extends JControllerForm
 			$insert_Meta_SQL = $insert_Meta_SQL_start.$insert_Meta_SQL_row.$insert_Meta_SQL_end;
 			
 	 		// Get a database object
-			$db =& JFactory::getDBO();
+			$db = JFactory::getDBO();
 			if(!$db){
 				JError::raiseError(500,"Couldn't get the database object while creating meta for table: $id");
 			}
@@ -957,7 +957,7 @@ class EasyTableProControllerTable extends JControllerForm
 		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
 		*/
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to remove META: $id");
 		}
@@ -1016,7 +1016,7 @@ class EasyTableProControllerTable extends JControllerForm
 		// JError::raiseError(500,'$id = '.$id.'<br />$ettdColumnAliass = '.$ettdColumnAliass.'<br />$ettdColumnSQL = '.$ettdColumnSQL.'<br />createETTD SQL = '.$create_ETTD_SQL );
 		
 	// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to create table: $id");
 		}
@@ -1037,7 +1037,7 @@ class EasyTableProControllerTable extends JControllerForm
 		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
 		*/
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to remove ETTD: $id");
 		}
@@ -1109,7 +1109,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$msg = '';
 		
 		// Get a database object
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while doing SAVE() for table: $id");
 		}
