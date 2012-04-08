@@ -36,7 +36,7 @@ Joomla.submitbutton = function(pressbutton)
 	}
 	else 
 	{
-		alert("OK - you broke something, not really sure how you got here.  If you want this fixed I'd make some serious notes about how you ended up here. PB-> "+pressbutton);
+		alert(com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_OK_YOU_BROKE_IT'), pressbutton));
 		return 0;
 	}
 }

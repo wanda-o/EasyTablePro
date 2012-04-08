@@ -13,11 +13,11 @@ function check_version()
 	{
 		if($('phpUMFS_setting').value < $('maxFileSize').value)
 		{
-			alert("Warning - your new \"MAX_FILE_SIZE\" is larger than the servers default PHP setting.");
+			alert(Joomla.JText._('COM_EASYTABLEPRO_DATA_JS_WARNING_MAX_FILE_TOO_LARGE'));
 		}
 	}
 	else
 	{
-		alert("The 'upload_max_filesize' setting could not be retrieved from your PHP settings this should be rectified.");
+		alert(Joomla.JText._('COM_EASYTABLEPRO_DATA_JS_THE_UPLOAD_MAX_FILESIZE_NOT_RETREIVED'));
 	}
 }

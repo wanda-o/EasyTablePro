@@ -15,7 +15,7 @@ function submitbutton(pressbutton)
 	if(pressbutton == 'deleterow') {
 		if(et_give_delete_warning) {
 			et_give_delete_warning = false;
-			et_deleteThisRecord = confirm('This action will delete this record permenantly from the table. \r\rEasyTable Pro will now delete the record.');
+			et_deleteThisRecord = confirm(Joomla.JText._('COM_EASYTABLEPRO_DATA_JS_THIS_ACTION_WILL_DELETE_RECORD'));
 			if(et_deleteThisRecord) {
 				submitform('deleteRecords');
 			}

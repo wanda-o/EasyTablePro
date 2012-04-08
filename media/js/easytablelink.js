@@ -24,6 +24,6 @@ function checkTableSelection()
 		return et_aTableIsSelected;
 	}
 
-	alert("Please select a table before clicking the 'Use Table' button.");
+	alert(Joomla.JText._('COM_EASYTABLEPRO_DATA_JS_PLEASE_SELECT_A_TABLE'));
 	return 0;
 }

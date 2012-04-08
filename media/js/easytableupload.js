@@ -12,14 +12,14 @@ function submitbutton(pressbutton)
 		var tFileName = document.adminForm.tablefile.value;
 		if(tFileName == '')
 		{
-			alert("Please choose a file before pressing the \"Upload file\" button.");
+			alert(Joomla.JText._('COM_EASYTABLEPRO_DATA_JS_PLEASE_CHOOSE_A_FILE'));
 			return 0;
 		}
 		
 		var dot = tFileName.lastIndexOf(".");
 		if(dot == -1)
 		{
-			alert ("Only files with a CSV or TAB extension are supported. No Extension found.");
+			alert (Joomla.JText._('Only files with a CSV or TAB extension are supported. No Extension found.'));
 			return 0;
 		}
 		
@@ -28,7 +28,7 @@ function submitbutton(pressbutton)
 
 		if((tFileExt != ".csv") && (tFileExt != ".tab"))
 		{
-			alert ("Only files with an extension of CSV or TAB are supported. Found: "+tFileExt);
+			alert (com_EasyTablePro.Tools.sprintf(Joomla.JText._('Only files with an extension of CSV or TAB are supported. Found: '), tFileExt));
 			return 0;
 		}
 		else
@@ -38,7 +38,7 @@ function submitbutton(pressbutton)
 	}
 	else 
 	{
-		alert("OK - you broke something, not really sure how you got here.  If you want this fixed I'd make some serious notes about how you ended up here. PB-> "+pressbutton);
+		alert(com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_OK_YOU_BROKE_IT'), pressbutton));
 		return 0;
 	}
 }
