@@ -5,7 +5,7 @@
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
 */
 
-function submitbutton(pressbutton)
+function Joomla.submitbutton(pressbutton)
 {
 	if (pressbutton == 'uploadFile')
 	{
