@@ -45,7 +45,11 @@ com_EasyTablePro.Tools.getToken = function ()
 
 com_EasyTablePro.Tools.getID  = function ()
 {
-	return $('id').value;
+	if($('id')) {
+		return $('id').value;
+	} else {
+		return null;
+	}
 }
 
 /**
