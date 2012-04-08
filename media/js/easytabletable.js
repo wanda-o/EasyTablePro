@@ -28,7 +28,7 @@ com_EasyTablePro.Table.atLeast1ListField = function(){
 		}
 	}
 
-	$et_check_msg = Joomla.JText._("COM_EASYTABLEPRO_TABLE_JS_WARNING_AT_LEAST_ONE");
+	$et_check_msg = Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_AT_LEAST_ONE');
 	return false; // If we got here none are checked,
 }
 
@@ -67,7 +67,7 @@ com_EasyTablePro.Table.AliassAreUnique = function(){
 			document.adminForm.elements[fldAliasName].focus();
 			if(theValue == '')
 			{
-				$et_check_msg = Joomla.JText._("COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_CAN_NOT_BE_EMPTY");
+				$et_check_msg = Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_CAN_NOT_BE_EMPTY');
 				return false; // Must have a valid alias
 			}
 			aliasArray.push(theValue);
@@ -81,7 +81,7 @@ com_EasyTablePro.Table.AliassAreUnique = function(){
 		{
 			if (aliasArray[i + 1] == aliasArray[i])
 			{
-				$et_check_msg = com_EasyTablePro.Tools.sprintf(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_MUST_BE_UNIQUE' ) , aliasArray[i]);
+				$et_check_msg = com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_MUST_BE_UNIQUE') , aliasArray[i]);
 				return false; // Oh noes we found a duplicate...
 			}
 		}
@@ -95,7 +95,7 @@ com_EasyTablePro.Table.changeTypeWarning = function()
 	if($et_give_data_type_change_warning)
 	{
 		$et_give_data_type_change_warning = false;
-		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_CHANGING_FIELD_TYPE' ) );
+		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_CHANGING_FIELD_TYPE') );
 	}
 }
 
@@ -200,7 +200,7 @@ com_EasyTablePro.Table.updateAlias = function()
 	if(fldAlias.value.toLowerCase() == 'id')
 	{
 		fldAlias.value = 'tmpFldID';
-		alert( Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_ID' ) );
+		alert( Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_ID') );
 	}
 }
 
@@ -228,7 +228,7 @@ com_EasyTablePro.Table.validateTableNameAlias = function()
 	if(! aliasOK(et_alias.value))
 	{
 		et_alias.value = this.makeURLSafe(et_alias.value);
-		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_TABLE_ALIAS_CHARACTERS' ) );
+		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_TABLE_ALIAS_CHARACTERS') );
 	}
 }
 
@@ -241,7 +241,7 @@ com_EasyTablePro.Table.validateAlias = function(aliasElement)
 		labelId = 'label' + aliasElement.name.substring(10);
 		labelInput = $(labelId);
 		aliasElement.value = this.makeURLSafe(labelInput.value);
-		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_EMPTY' ) );
+		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_EMPTY') );
 	}
 
 	if(proposedAliasValue.toLowerCase() == 'id') // Can't have an ID for an alias - we already use it.
@@ -256,13 +256,13 @@ com_EasyTablePro.Table.validateAlias = function(aliasElement)
 		{
 			aliasElement.value = 'tmpFldID';
 		}
-		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_ID' ) );
+		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_ID') );
 	}
 
 	if(! aliasOK(aliasElement.value))
 	{
 		aliasElement.value = this.makeURLSafe(aliasElement.value);
-		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_CHARACTERS' ) );
+		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_CHARACTERS') );
 	}
 }
 
@@ -278,13 +278,13 @@ com_EasyTablePro.Table.addField = function()
 
 	descCellHTML = '<textarea cols=\"30\" rows=\"2\" name=\"description#id#\"></textarea>';
 
-	typeCellHTML = '<select name=\"type#id#\"><option value=\"0\" selected=\"\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_TEXT' )  + '</option><option value=\"1\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_IMAGE' )  + '</option><option value=\"2\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_LINK_URL' )  + '</option><option value=\"3\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_EMAIL_ADDRESS' )  + '</option><option value=\"4\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_NUMBER' )  + '</option><option value=\"5\">' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_LABEL_DATE' )  + '</option></select><br /><input type=\"hidden\" name=\"origfieldtype#id#\" value=\"\"><input type=\"text\" value=\"\" name=\"fieldoptions#id#\">';
+	typeCellHTML = '<select name=\"type#id#\"><option value=\"0\" selected=\"\">' + Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_LABEL_TEXT')  + '</option><option value=\"1\">' + Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_LABEL_IMAGE')  + '</option><option value=\"2\">' + Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_LABEL_LINK_URL')  + '</option><option value=\"3\">' + Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_LABEL_EMAIL_ADDRESS')  + '</option><option value=\"4\">' + Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_LABEL_NUMBER')  + '</option><option value=\"5\">' + Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_LABEL_DATE')  + '</option></select><br /><input type=\"hidden\" name=\"origfieldtype#id#\" value=\"\"><input type=\"text\" value=\"\" name=\"fieldoptions#id#\">';
 
-	listVCellHTML = '<input type=\"hidden\" name=\"list_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"com_EasyTablePro.Table.toggleTick(\'list_view\', \'#id#\');\"><img src=\"/media/com_easytablepro/images/publish_x.png\" name=\"list_view#id#_img\" border=\"0\" title=\"' + Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_CLICK_LIST_VIEW_BTN_TT' )  + '"></a>';
+	listVCellHTML = '<input type=\"hidden\" name=\"list_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"com_EasyTablePro.Table.toggleTick(\'list_view\', \'#id#\');\"><img src=\"/media/com_easytablepro/images/publish_x.png\" name=\"list_view#id#_img\" border=\"0\" title=\"' + Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_CLICK_LIST_VIEW_BTN_TT')  + '"></a>';
 
-	detailLCellHTML = '<input type=\"hidden\" name=\"detail_link#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"com_EasyTablePro.Table.toggleTick(\'detail_link\', \'#id#\');\"><img src=\"/media/com_easytablepro/images/publish_x.png\" name=\"detail_link#id#_img\" border=\"0\" title=\"'+ Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_CLICK_DETAIL_LINK_BTN_TT' ) +'\"></a>';
+	detailLCellHTML = '<input type=\"hidden\" name=\"detail_link#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"com_EasyTablePro.Table.toggleTick(\'detail_link\', \'#id#\');\"><img src=\"/media/com_easytablepro/images/publish_x.png\" name=\"detail_link#id#_img\" border=\"0\" title=\"'+ Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_CLICK_DETAIL_LINK_BTN_TT') +'\"></a>';
 
-	detailVCellHTML = '<input type=\"hidden\" name=\"detail_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"com_EasyTablePro.Table.toggleTick(\'detail_view\', \'#id#\');\"><img src=\"/media/com_easytablepro/images/publish_x.png\" name=\"detail_view#id#_img\" border=\"0\" title=\"'+ Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_CLICK_SHOW_DETAIL_VIEW_TT' )  +'\"></a>';
+	detailVCellHTML = '<input type=\"hidden\" name=\"detail_view#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"com_EasyTablePro.Table.toggleTick(\'detail_view\', \'#id#\');\"><img src=\"/media/com_easytablepro/images/publish_x.png\" name=\"detail_view#id#_img\" border=\"0\" title=\"'+ Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_CLICK_SHOW_DETAIL_VIEW_TT')  +'\"></a>';
 
 	searchableCellHTML='<input type=\"hidden\" name=\"search_field#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"com_EasyTablePro.Table.toggleTick(\'search_field\', \'#id#\');\"><img src=\"/media/com_easytablepro/images/publish_x.png\" name=\"search_field#id#_img\" border=\"0\" title=\"'+ Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_CLICK_TO_MAKE_SEARCHABLE_TT') +'\"></a>';
 
@@ -371,7 +371,7 @@ com_EasyTablePro.Table.deleteField = function(fName,rowId)
 
 	if(itsNotANewField)
 	{
-		et_deleteThisField = confirm(this.Tools.sprintf(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_DELETING_FIELD' ) , fName, fName));
+		et_deleteThisField = confirm(this.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_DELETING_FIELD') , fName, fName));
 		if(et_deleteThisField) {
 			// Get the field
 			dfField = $('deletedFlds');
@@ -425,14 +425,14 @@ Joomla.submitbutton = function(pressbutton)
 	case 'table.apply':
 	case 'table.save':
 	case 'table.save2new':
-		com_EasyTablePro.Table.save();
+		com_EasyTablePro.Table.save(pressbutton);
 		break;
 	case 'table.updateETDTable':
 	case 'table.createETDTable':
 		com_EasyTablePro.Table.upload();
 		break;
 	default :
-		alert(com_EasyTablePro.Tools.sprintf(Joomla.JText._("COM_EASYTABLEPRO_TABLE_JS_WARNING_OK_YOU_BROKE_IT"), pressbutton));
+		alert(com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_OK_YOU_BROKE_IT'), pressbutton));
 		return 0;
 	}
 }
@@ -454,12 +454,12 @@ com_EasyTablePro.Table.etSubmitForm  = function(pressbutton)
 	Joomla.submitform(pressbutton);
 }
 
-com_EasyTablePro.Table.save = function()
+com_EasyTablePro.Table.save = function(pressbutton)
 {
 	// First check that an initial data file has been uploaded.
 	if(document.adminForm.id.value == 0)
 	{
-		alert (Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_THIS_TABLE_REQUIRES_DATA' ) );
+		alert (Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_THIS_TABLE_REQUIRES_DATA') );
 		return 0;
 	}
 	
@@ -476,13 +476,6 @@ com_EasyTablePro.Table.save = function()
 		alert( $et_check_msg );
 		return 0;
 	}
-	 
-	// Check the tablename exists
-	if(document.adminForm.easytablename.value == '')
-	{
-		alert(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_MISSING_TABLE_NAME' ));
-		return 0;
-	}
 
 	com_EasyTablePro.Table.etSubmitForm(pressbutton);
 }
@@ -493,7 +486,7 @@ com_EasyTablePro.Table.upload = function()
 	var dot = tFileName.lastIndexOf(".");
 	if(dot == -1)
 	{
-		alert (Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_CSV_OR_TAB_FILES' ));
+		alert (Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_CSV_OR_TAB_FILES'));
 		return 0;
 	}
 	
@@ -502,7 +495,7 @@ com_EasyTablePro.Table.upload = function()
 
 	if((tFileExt != ".csv") && (tFileExt != ".tab"))
 	{
-		alert (this.Tools.sprintf(Joomla.JText._( 'COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_TAB_CSV' ) ,tFileExt));
+		alert (this.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_TAB_CSV') ,tFileExt));
 		return 0;
 	}
 }
