@@ -12,7 +12,7 @@ class ET_VHelpers
 		// Let's see what version we have installed.
 		//
 		$et_this_version = '';
-		$et_com_xml_file = JPATH_COMPONENT_ADMINISTRATOR.'/'._cppl_this_com_name.'.xml';
+		$et_com_xml_file = JPATH_COMPONENT_ADMINISTRATOR.'/easytablepro.xml';
 		$et_com_xml_exists = file_exists($et_com_xml_file);
 		if ($et_com_xml_exists)
 		{

@@ -121,7 +121,7 @@ class EasyTableProViewTable extends JView
 		$doc = JFactory::getDocument();
 
 		// First add CSS to the document
-		$doc->addStyleSheet('/media/com_'._cppl_this_com_name.'/css/'._cppl_base_com_name.'.css');
+		$doc->addStyleSheet('/media/com_easytablepro/css/easytable.css');
 
 		// Get the document object
 		$document =JFactory::getDocument();

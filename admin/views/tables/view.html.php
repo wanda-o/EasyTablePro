@@ -217,12 +217,13 @@ class EasyTableProViewTables extends JView
 		$document = JFactory::getDocument();
 
 		// First add CSS to the document
-		$document->addStyleSheet('/media/com_easytablepro/css/'._cppl_base_com_name.'.css');
+		$document->addStyleSheet('/media/com_easytablepro/css/easytable.css');
 
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		JHTML::_('behavior.modal');
 		$document->addScript('http://www.seepeoplesoftware.com/cpplversions/cppl_et_versions.js');
-		$jsFile = '/media/com_'._cppl_this_com_name.'/js/easytabletables.js';
+		// Load this views js
+		$jsFile = '/media/com_easytablepro/js/easytabletables.js';
 		$document->addScript($jsFile);
 		ET_MgrHelpers::loadJSLanguageKeys($jsFile);
 	}
