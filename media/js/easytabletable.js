@@ -167,7 +167,7 @@ com_EasyTablePro.Table.firstAvailableNumber = function(numberList, firstAvailabl
 
 com_EasyTablePro.Table.aliasOK = function(str)
 {
-	if(str != this.makeURLSafe(str)) return false;
+	if(str != com_EasyTablePro.Tools.makeURLSafe(str)) return false;
 	
 	if(str.toLowerCase() == 'id') return false;
 
@@ -179,7 +179,7 @@ com_EasyTablePro.Table.updateAlias = function()
 	labelName = this.name;
 	aliasID = 'fieldalias'+labelName.substring(5);
 	fldAlias = $(aliasID);
-	if(fldAlias.value == '') fldAlias.value = this.makeURLSafe(this.value);
+	if(fldAlias.value == '') fldAlias.value = com_EasyTablePro.Tools.makeURLSafe(this.value);
 	if(fldAlias.value.toLowerCase() == 'id')
 	{
 		fldAlias.value = 'tmpFldID';
@@ -189,28 +189,28 @@ com_EasyTablePro.Table.updateAlias = function()
 
 com_EasyTablePro.Table.createTableNameAlias = function()
 {
-	et_alias = $('easytablealias');
-	et_name  = $('easytablename');
+	et_alias = $('jform_easytablealias');
+	et_name  = $('jform_easytablename');
 	if(et_alias.value == '')
 	{
-		et_alias.value = this.makeURLSafe(et_name.value);
+		et_alias.value = com_EasyTablePro.Tools.makeURLSafe(et_name.value);
 	}
 	
 }
 
 com_EasyTablePro.Table.validateTableNameAlias = function()
 {
-	et_alias = $('easytablealias');
-	et_name  = $('easytablename');
+	et_alias = $('jform_easytablealias');
+	et_name  = $('jform_easytablename');
 	// Check for empty alias
 	if(et_alias.value == '' && et_name != '')
 	{
-		et_alias.value = this.makeURLSafe(et_name.value);
+		et_alias.value = com_EasyTablePro.Tools.makeURLSafe(et_name.value);
 	}
 	
-	if(! aliasOK(et_alias.value))
+	if(! this.aliasOK(et_alias.value))
 	{
-		et_alias.value = this.makeURLSafe(et_alias.value);
+		et_alias.value = com_EasyTablePro.Tools.makeURLSafe(et_alias.value);
 		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_TABLE_ALIAS_CHARACTERS') );
 	}
 }
@@ -223,7 +223,7 @@ com_EasyTablePro.Table.validateAlias = function(aliasElement)
 	{
 		labelId = 'label' + aliasElement.name.substring(10);
 		labelInput = $(labelId);
-		aliasElement.value = this.makeURLSafe(labelInput.value);
+		aliasElement.value = com_EasyTablePro.Tools.makeURLSafe(labelInput.value);
 		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_EMPTY') );
 	}
 
@@ -233,7 +233,7 @@ com_EasyTablePro.Table.validateAlias = function(aliasElement)
 		labelInput = $(labelId);
 		if(labelInput.value != 'id')
 		{
-			aliasElement.value = this.makeURLSafe(labelInput.value);
+			aliasElement.value = com_EasyTablePro.Tools.makeURLSafe(labelInput.value);
 		}
 		else
 		{
@@ -242,9 +242,9 @@ com_EasyTablePro.Table.validateAlias = function(aliasElement)
 		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_ID') );
 	}
 
-	if(! aliasOK(aliasElement.value))
+	if(! this.aliasOK(aliasElement.value))
 	{
-		aliasElement.value = this.makeURLSafe(aliasElement.value);
+		aliasElement.value = com_EasyTablePro.Tools.makeURLSafe(aliasElement.value);
 		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_CHARACTERS') );
 	}
 }
@@ -281,7 +281,7 @@ com_EasyTablePro.Table.addField = function()
 	{
 		next_id_value =this.firstAvailableNumber(nfField.value);
 		new_id = '_nf_' + next_id_value;
-		nfField.value =this.addToList(nfField.value, next_id_value);
+		nfField.value =com_EasyTablePro.Tools.addToList(nfField.value, next_id_value);
 	}
 
 	newRow = document.createElement('tr');
@@ -354,7 +354,7 @@ com_EasyTablePro.Table.deleteField = function(fName,rowId)
 
 	if(itsNotANewField)
 	{
-		et_deleteThisField = confirm(this.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_DELETING_FIELD') , fName, fName));
+		et_deleteThisField = confirm(com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_DELETING_FIELD') , fName, fName));
 		if(et_deleteThisField) {
 			// Get the field
 			dfField = $('deletedFlds');
@@ -367,11 +367,11 @@ com_EasyTablePro.Table.deleteField = function(fName,rowId)
 			itsNotANewField = true;
 	
 			if(dfField.value != '') {
-				dfField.value =this.addToList(dfField.value, deletedRowId);
+				dfField.value =com_EasyTablePro.Tools.addToList(dfField.value, deletedRowId);
 			} else {
 				dfField.value = deletedRowId;
 			}
-			masterRecordIds.value = deleteFromList(masterRecordIds.value, deletedRowId);
+			masterRecordIds.value = com_EasyTablePro.Tools.deleteFromList(masterRecordIds.value, deletedRowId);
 		}
 	} else {
 		// Ok in here you're going to 
@@ -381,7 +381,7 @@ com_EasyTablePro.Table.deleteField = function(fName,rowId)
 		if(listOfNewFlds.value == idToRemove) {
 			listOfNewFlds.value = "";
 		} else {
-			listOfNewFlds.value = deleteFromList(listOfNewFlds.value, idToRemove);
+			listOfNewFlds.value = com_EasyTablePro.Tools.deleteFromList(listOfNewFlds.value, idToRemove);
 		}
 		// 2. remove the row from the table
 		etMetaTableRows = $("et_meta_table_rows");
@@ -473,7 +473,7 @@ com_EasyTablePro.Table.upload = function()
 
 	if((tFileExt != ".csv") && (tFileExt != ".tab"))
 	{
-		alert (this.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_TAB_CSV') ,tFileExt));
+		alert (com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_TAB_CSV') ,tFileExt));
 		return 0;
 	}
 }
