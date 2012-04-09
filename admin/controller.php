@@ -17,16 +17,46 @@ jimport('joomla.application.component.controller');
  */
 class EasyTableProController extends JController
 {
-    /**
-     * Method to display the view
-     *
-     * @access    public
-     */
-    function display($cachable = false, $urlparams = false)
-    {	// Set the default view if required
-		JRequest::setVar('view', JRequest::getCmd('view', 'Tables'));
+	/**
+
+	 * @var		string	The default view.
+
+	 *
+
+	 */
+
+	protected $default_view = 'tables';
+
+
+	/**
+	 * Method to display a view.
+	 *
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	JController		$this object to support chaining.
+	 *
+	 */
+	public function display($cachable = false, $urlparams = false)
+    {
+    	
+		$view		= JRequest::getCmd('view', 'tables');
+		$layout 	= JRequest::getCmd('layout', 'tables');
+		$id			= JRequest::getInt('id');
+
+		// Check for edit form.
+		if ($view == 'table' && $layout == 'edit' && !$this->checkEditId('com_easytablepro.edit.table', $id)) {
+			// Somehow the person just went to the form - we don't allow that.
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+			$this->setMessage($this->getError(), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_easytablepro&view=tables', false));
+
+			return false;
+		}
 
     	parent::display($cachable);
+		
+		return $this;
     }
  
 }
