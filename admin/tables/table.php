@@ -39,13 +39,20 @@ class EasyTableProTableTable extends JTable
 	 */
 	function bind($array, $ignore = '')
 	{
-	        if (key_exists( 'params', $array ) && is_array( $array['params'] ))
+		// Change the params back to a string for storage
+		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
 	        {
-	                $registry = new JRegistry();
-	                $registry->loadArray($array['params']);
-	                $array['params'] = $registry->toString();
-	        }
-	        return parent::bind($array, $ignore);
+				$registry = new JRegistry();
+				$registry->loadArray($array['params']);
+				$array['params'] = $registry->toString();
+			}
+
+			// Bind the rules.
+			if (isset($array['rules']) && is_array($array['rules'])) {
+				$rules = new JRules($array['rules']);
+				$this->setRules($rules);
+			}
+			return parent::bind($array, $ignore);
 	}
 
 	/**
@@ -55,6 +62,27 @@ class EasyTableProTableTable extends JTable
 	 */
 	function __construct(& $db) {
 		parent::__construct('#__easytables', 'id', $db);
+	}
+
+	/**
+	 * Redefined asset name, as we support action control
+	 */
+
+	protected function _getAssetName() {
+		$k = $this->_tbl_key;
+		return 'com_easytablepro.table.'.(int) $this->$k;
+	}
+
+	/**
+	 * We provide our global ACL as parent
+	 * @see JTable::_getAssetParentId()
+	 */
+
+	protected function _getAssetParentId($table = null, $id = null)
+	{
+		$asset = JTable::getInstance('Asset');
+		$asset->loadByName('com_easytablepro');
+		return $asset->id;
 	}
 }
 ?>

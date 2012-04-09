@@ -78,9 +78,22 @@ class EasyTableProModelTables extends JModelList
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		// Select some fields
-		$query->select('*');
+		$query->select('t.*');
 		// From the EasyTables table
-		$query->from('#__easytables');
+		$query->from('#__easytables AS t');
+
+		// Join over the users for the checked out user.
+		$query->select('uc.name AS editor');
+		$query->join('LEFT', '#__users AS uc ON uc.id = t.checked_out');
+
+		// Join over the asset groups.
+		$query->select('ag.title AS access_level');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = t.access');
+
+		// Join over the users for the author.
+		$query->select('ua.name AS author_name');
+		$query->join('LEFT', '#__users AS ua ON ua.id = t.created_by');
+
 		return $query;
 	}
 
