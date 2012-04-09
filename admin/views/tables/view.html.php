@@ -187,14 +187,12 @@ class EasyTableProViewTables extends JView
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();
 		}
-		if($canDo->get('easytable.link'))
+		if($canDo->get('easytablepro.link'))
 
 		{
-
-			$toolbar=& JToolBar::getInstance( 'toolbar' );
-
-			$toolbar->appendButton( 'Popup', 'tables.linkTable', 'Link Table', 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component', 500, 280 );
-
+			$linkURL = 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component';
+			$toolbar = JToolBar::getInstance( 'toolbar' );
+			$toolbar->appendButton( 'Popup', 'easytablpro-linkTable', 'COM_EASYTABLEPRO_LABEL_LINK_TABLE', $linkURL, 500, 280 );
 		}
 		JToolBarHelper::divider();
 
