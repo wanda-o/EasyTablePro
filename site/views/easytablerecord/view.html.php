@@ -249,7 +249,7 @@ class EasyTableViewEasyTableRecord extends JView
 		if($recID)
 		{
 			// Build the link.
-			$recordLink = JRoute::_("index.php?option=com_"._cppl_this_com_name."&view=easytablerecord&id=$tableId:$tableAlias&rid=$recID");
+			$recordLink = JRoute::_("index.php?option=com_easytablepro&view=easytablerecord&id=$tableId:$tableAlias&rid=$recID");
 		}
 		
 		return $recordLink;
@@ -399,7 +399,7 @@ class EasyTableViewEasyTableRecord extends JView
 		// Generate Page title
 		if( $title_links_to_table ) {
 			// Create a backlink
-			$backlink = 'index.php?option=com_'._cppl_this_com_name.'&amp;view=easytable&amp;id='.$id.':'.$this->_etvetr_currenttable->easytablealias.'&amp;start='.$start_page;
+			$backlink = 'index.php?option=com_easytablepro&amp;view=easytable&amp;id='.$id.':'.$this->_etvetr_currenttable->easytablealias.'&amp;start='.$start_page;
 			$backlink = JRoute::_($backlink);
 
 			$pt = '<a href="'.$backlink.'">'.htmlspecialchars($this->_etvetr_currenttable->easytablename.$titleSuffix).'</a>';

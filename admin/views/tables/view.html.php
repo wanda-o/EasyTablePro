@@ -205,7 +205,7 @@ class EasyTableProViewTables extends JView
 		}
 		JToolBarHelper::divider();
 
-		JToolBarHelper::preferences( 'com_'._cppl_this_com_name, 425 );
+		JToolBarHelper::preferences( 'com_easytablepro', 425 );
 		JToolBarHelper::divider();
 
 		JToolBarHelper::help('COM_EASYTABLEPRO_HELP_TABLES_VIEW',false,'http://seepeoplesoftware.com/products/easytablepro/1.1/help/tables.html');

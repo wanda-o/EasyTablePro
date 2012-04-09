@@ -12,8 +12,6 @@
 
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
-define("_cppl_base_com_name","easytable");
-define("_cppl_this_com_name","easytablepro");
 
 require_once(JPATH_COMPONENT.'/controllers/easytable.php');
 

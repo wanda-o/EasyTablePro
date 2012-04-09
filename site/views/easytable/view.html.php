@@ -152,7 +152,7 @@ class EasyTableViewEasyTable extends JView
 		// Search
 		$search = $db->getEscaped($this->get('search'));
 		//Get form link
-		$paginationLink = JRoute::_('index.php?option=com_'._cppl_this_com_name.'&amp;view=easytable&amp;id='.$id.':'.$easytable->easytablealias);
+		$paginationLink = JRoute::_('index.php?option=com_easytablepro&amp;view=easytable&amp;id='.$id.':'.$easytable->easytablealias);
 
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);
