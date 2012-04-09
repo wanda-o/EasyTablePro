@@ -68,6 +68,24 @@ class EasyTableProModelTables extends JModelList
 	}
 
 	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string		$id	A prefix for the store id.
+	 *
+	 * @return	string		A store id.
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':'.$this->getState('filter.search');
+		return parent::getStoreId($id);
+	}
+
+	/**
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return	string	An SQL query
@@ -90,11 +108,47 @@ class EasyTableProModelTables extends JModelList
 		$query->select('ag.title AS access_level');
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = t.access');
 
-		// Join over the users for the author.
+		// Join over the users for the author for ACL actions like edit.own.
 		$query->select('ua.name AS author_name');
 		$query->join('LEFT', '#__users AS ua ON ua.id = t.created_by');
 
+		// Filter by search in table name, alias, author or id.
+		$search = $this->state->get('filter.search');
+		if (!empty($search)) {
+			if (stripos($search, 'id:') === 0) {
+				$query->where('t.id = '.(int) substr($search, 3));
+			}
+			elseif (stripos($search, 'author:') === 0) {
+				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
+				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
+			}
+			else {
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
+				$query->where('(t.easytablename LIKE '.$search.' OR t.easytablealias LIKE '.$search.')');
+			}
+		}
 		return $query;
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return	void
+	 * 
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		// Initialise variables.
+		$app = JFactory::getApplication();
+		$session = JFactory::getSession();
+
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+		
+		// List state information.
+		parent::populateState('t.easytablename', 'asc');
 	}
 
 	/**

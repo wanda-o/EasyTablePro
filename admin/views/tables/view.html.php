@@ -23,6 +23,7 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
 
 class EasyTableProViewTables extends JView
 {
+	protected $state;
 	function getEditorLink ($locked, $rowId, $tableName, $hasPermission,$userName='')
 	{
 		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM' ));
@@ -121,16 +122,16 @@ class EasyTableProViewTables extends JView
 
 		// Search
 		$db = JFactory::getDBO();
-		$search = $db->getEscaped($this->get('search'));
 
 		// Get data from the model
 		$rows = $this->get('Items');
+		$state = $this->get('State');
 		// A little pagination for our users with *lots* of tables.
 		$pagination = $this->get('Pagination');
 
+		$this->state = $state;
 		$this->assignRef('rows',$rows);
 		$this->assignRef('pagination',$pagination);
-		$this->assign('search',$search);
 		$this->assign('canDo',$canDo);
 		$this->assign('et_current_version',ET_VHelpers::current_version());
 		parent::display($tpl);

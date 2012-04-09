@@ -15,9 +15,9 @@ defined('_JEXEC') or die('Restricted Access');
 	<table>
 		<tr>
 			<td width="40%"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_FILTER' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo $this->search; ?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="text_area" onchange="document.adminForm.submit();" />
 				<button onclick="this.form.submit();"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_GO' ); ?></button>
-				<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_RESET' ); ?></button>
+				<button onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_RESET' ); ?></button>
 			</td>
 			<td class="nowrap et_version_info"><?php echo JText::_( 'COM_EASYTABLEPRO_MGR_INSTALLED_VERSION' ); ?>: <span id="installedVersionSpan"><?php echo ( $this->et_current_version ); ?></span> |
 				<span id="et-subverinfo">
