@@ -28,27 +28,13 @@ defined('_JEXEC') or die('Restricted Access');
 	<table class="adminlist">
 	<thead>
 		<tr>
-			<th width="5">
-				<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
-			</th>
-			<th width="20">
-				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_ID' ); ?>
-			</th>			
-			<th>
-				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_TABLE' ); ?>
-			</th>
-			<th width="20">
-				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_EDIT_DATA' ); ?>
-			</th>
-			<th width="20">
-				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_UPLOAD_DATA' ); ?>
-			</th>
-			<th width="20">
-				<?php echo JText::_( 'JPUBLISHED' ); ?>
-			</th>
-			<th>
-				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_DESCRIPTION' ); ?>
-			</th>
+			<th width="1%"><input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" /></th>
+			<th width="25%"><?php echo JText::_( 'COM_EASYTABLEPRO_MGR_TABLE' ); ?></th>
+			<th width="5%"><?php echo JText::_( 'COM_EASYTABLEPRO_MGR_EDIT_DATA' ); ?></th>
+			<th width="5%"><?php echo JText::_( 'COM_EASYTABLEPRO_MGR_UPLOAD_DATA' ); ?></th>
+			<th width="5%"><?php echo JText::_( 'JPUBLISHED' ); ?></th>
+			<th><?php echo JText::_( 'COM_EASYTABLEPRO_MGR_DESCRIPTION' ); ?></th>
+			<th width="1%"><?php echo JText::_( 'COM_EASYTABLEPRO_MGR_ID' ); ?></th>			
 		</tr>
 	</thead>
 	<tfoot>
