@@ -63,141 +63,11 @@ class EasyTableProControllerTable extends JControllerForm
 			$jAp->enqueueMessage(JText::sprintf('WOW! Completely bombed on saving the EasyTable Record for %s ( %s ).', $this->tablename, $this->id));
 			$this->setRedirect(JRoute::_('index.php?option=com_easytablepro&view=tables'));
 			return false;
-		}
-
-		
-		/*
-		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
-		*/
-		JRequest::checkToken() or jexit ( 'Invalid Token' );
-		$userFeedback = '';
-
-		$currentTask = $this->getTask();
-		
-		// 1.1 Save/Apply tasks
-		$option = JRequest::getCmd('option');
-
-		if($id = $this->saveApplyETdata())
-		{
+		} else {
 			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_TABLE' ));
-		}
-
-		// Get a reference to a file if it exists, and load it into an array
-		$file = JRequest::getVar('tablefile', null, 'files', 'array');
-		$CSVFileArray = $this->parseCSVFile($file);
-
-		// 1.2 Are we creating a new ETTD?
-		if($currentTask == 'createETDTable')
-		{
-			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_NEW_DATA_TABLE' ));
-			$ettd = FALSE;
-			$etet = FALSE;
-		}
-		else
-		{
-			// better check one exists...
-			$ettd = $this->ettdExists($id);
-			$etet = $this->etetExists($id);
-		}
-
-		// 1.3. If ETTD exists then update meta & load any new data if required
-		if($ettd || $etet)
-		{ // Lets update the meta data
+			// Time to save the meta records
 			$updateMetaResult = $this->updateMeta();
-
-			if($updateMetaResult["status"])
-			{
-				$userFeedback .= $updateMetaResult[1].'<br />';
-			}
-			else
-			{
-				return $updateMetaResult;
-			}
-
-			// Check for an update action
-			if ($currentTask == 'updateETDTable')
-			{
-				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_SAVED_PROCESSING_REQ',$currentTask));
-				if($file)
-				{
-					$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_DATA_FILE_ATTACHED' ));
-					$updateType = JRequest::getVar('uploadType',0) ? 'append' : 'replace' ;
-
-					// Are we removing existing data?
-					$tableState = 1;
-					if($updateType == 'replace')
-					{
-						$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_REPLACING_RECORDS' ));
-						if($tableState = $this->emptyETTD($id))
-						{
-							$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_EMPTIED_EXISTI_ROWS'));
-						}
-						else
-						{
-							$jAp->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_SAVED_ERROR_DELETING_EXISTING_RECORDS',$id));
-						}
-					}
-					else
-					{
-						$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_ADDING_RECORDS' ));
-					}
-
-					// Then we parse it and upload the data into the ettd
-					$ettdColumnAliass = $this->getFieldFromPostMeta();
-					if($ettdColumnAliass && $tableState)
-					{
-						if(!($csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray)))
-							JError::raiseError(500,"Update of data table failed (Column count mismatch) for table: $id");
-						else
-							$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_NEW_DATA_LOADED'));
-					}
-					else
-					{
-						if(!$ettdColumnAliass)
-							JError::raiseError(500,"Couldn't get the fieldaliass for table: $id");
-					}
-				}
-				else
-				{
-				// If no file is attached we can go on our merry way.
-					$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_NO_DATA_FILE_FOUND' ));
-				}
-			}
-		}
-		// 4.4 Otherwise CREATE the new ETTD for this table if a file was supplied
-		elseif($currentTask == 'createETDTable')
-		{
-			if( $CSVFileArray )
-			{
-				$ettdColumnAliass = $this->createMetaFrom($CSVFileArray, $id);  // creates the ETTD and if that works adds the meta records
-				if($ettdColumnAliass)
-				{
-					$csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray);
-				}
-				else
-				{ JError::raiseError(500,"Unable to create ETTD or add Meta records for table: $id"); }
-			}
-			else
-			{
-				$this->msg .= '<br />• No CSV file uploaded - noting to do... ';
-			}
-		}
-
-		switch ($currentTask) {
-		case 'apply':
-			$this->setRedirect('index.php?option='.$option.'&amp;task=edit&amp;cid[]='.$id, $this->msg );
-			break;
-		case 'save':
-			// Now that all the saving is done we can checkIN the table
-			$this->checkInEasyTable();
-			$this->setRedirect('index.php?option='.$option, $this->msg );
-			break;
-		case 'createETDTable':
-			$this->setRedirect('index.php?option='.$option.'&amp;task=edit&amp;cid[]='.$id.'&amp;from=create', $this->msg );
-			break;
-		case 'updateETDTable':
-			$this->setRedirect('index.php?option='.$option.'&amp;task=edit&amp;cid[]='.$id, $this->msg );
-			break;
+			return $updateMetaResult;
 		}
 	}
 
@@ -489,18 +359,18 @@ class EasyTableProControllerTable extends JControllerForm
 		return $s;
 	}
 
-	function updateMeta()
+	private function updateMeta()
 	{
 		/*
 		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
 		*/
-		// Now we have to store the meta data
-		// 1. Get a database object
+		// 1. Do some initialisation
+		$jAp = JFactory::getApplication();
+		// Get a database object
 		$db = JFactory::getDBO();
 		if(!$db){
-			// JError::raiseError(500,"Couldn't get the database object while setting up for META update: $id");
-			$statusArray = array('status' => 0, 'msg' => "Couldn't get the database object while setting up for META update: $id");
-			return $statusArray;
+			// Oh shit - PANIC!
+			JError::raiseError(500,JText::sprintf("Couldn't get the database object while setting up for META update: %s",$id));
 		}
 
 		// 2. Get the list of mRIds into an array we can use
@@ -518,8 +388,8 @@ class EasyTableProControllerTable extends JControllerForm
 		$ettm_field_count = count($easytables_table_meta);
 		$mRIdsCount = count($mRIds);
 		if($ettm_field_count != $mRIdsCount) {
-			$statusArray = array('status' => 0, 'msg' => "META mismatch between form response and data store: $ettm_field_count vs $mRIdsCount <br /> $etMetaRIdAsSQL");
-			return $statusArray;
+			$jAp->enqueueMessage(JText::sprintf("META mismatch between form response and data store: %s vs %s <br /><pre>%s</pre>", $ettm_field_count, $mRIdsCount,$etMetaRIdAsSQL ));
+			return false;
 		}
 
 		// Start building the SQL to perform the update
@@ -543,8 +413,8 @@ class EasyTableProControllerTable extends JControllerForm
 			{
 				if( !$this->alterEasyTableColumn($origFldAlias, $reqFldAlias, $fieldType) )
 				{
-					$statusArray = array('status' => 0, 'msg' => "FAILED to alter table field (COLUMN) from <strong>$origFldAlias</strong> to <strong>$reqFldAlias</strong> as type <strong>".$this->getFieldTypeAsSQL($fieldType)." ($fieldType)</strong>");
-					return $statusArray;
+					$jAp->enqueueMessage(JText::sprintf('FAILED to alter table field (COLUMN) from <strong>%s</strong> to <strong>%s</strong> as type <strong>%s (%s)</strong>', $origFldAlias, $reqFldAlias, $this->getFieldTypeAsSQL($fieldType), $fieldType));
+					return false;
 				}
 			}
 
@@ -575,12 +445,12 @@ class EasyTableProControllerTable extends JControllerForm
 			
 			if(!$db_result)
 			{
-				$statusArray = array( 'status' => 0, 'msg' => "Meta data update failed at row id ( $rowValue ):".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);
-				return $statusArray;
+				$jAp->enqueueMessage(JText::sprintf('Meta data update failed at row id ( %s ): %s<br /> <pre>SQL => %s</pre>', $rowValue, $db->explain(), $etMetaUpdateSQL));
+				return false;
 			}
 		}
-		$statusArray = array('status' => 1, 'msg' => "META updated successfully.");
-		return $statusArray;
+		$jAp->enqueueMessage(JText::_('META updated successfully.'));
+		return true;
 	}
 
 	function addFieldsToEasyTable ( $newFlds )
