@@ -29,10 +29,10 @@ defined('_JEXEC') or die('Restricted Access');
 	<thead>
 		<tr>
 			<th width="5">
-				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_ID' ); ?>
+				<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 			</th>
 			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->rows ); ?>);" />
+				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_ID' ); ?>
 			</th>			
 			<th>
 				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_TABLE' ); ?>
@@ -45,9 +45,6 @@ defined('_JEXEC') or die('Restricted Access');
 			</th>
 			<th width="20">
 				<?php echo JText::_( 'JPUBLISHED' ); ?>
-			</th>
-			<th width="20">
-				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_SEARCHABLE' ); ?>
 			</th>
 			<th>
 				<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_DESCRIPTION' ); ?>
@@ -68,7 +65,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
-		$row = &$this->rows[$i];
+		$row =$this->rows[$i];
 
 		$canCreate        = $this->canDo->get('core.create',              'com_easytablepro');
 		$canEdit          = $this->canDo->get('core.edit',                'com_easytablepro.table.'.$row->id);
@@ -93,12 +90,15 @@ defined('_JEXEC') or die('Restricted Access');
 		?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td>
+				<?php echo JHtml::_('grid.id', $i, $row->id); ?>
+			</td>
+			<td>
 				<?php echo $row->id; ?>
 			</td>
 			<td>
-				<?php echo JHTML::_( 'grid.checkedout', $row, $i ); ?>
-			</td>
-			<td>
+				<?php if ($row->checked_out) : ?>
+					<?php echo JHTML::_( 'jgrid.checkedout', $i, $row->editor, $row->checked_out_time, 'tables.', $canCheckin ); ?>
+				<?php endif; ?>
 				<?php echo $this->getEditorLink($locked,$i,$row->easytablename,$canEdit, $lockedByName); ?>
 			</td>
 			<td>

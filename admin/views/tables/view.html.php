@@ -46,7 +46,7 @@ class EasyTableProViewTables extends JView
 
 		if( !$locked && $hasPermission )
 		{
-			$theBtn = "<span class=\"hasTip\" title=\"$btn_text\" style=\"margin-left:15px;\" >".JHTML::_( 'grid.published',  $row, $i).'</span>';
+			$theBtn = "<span class=\"hasTip\" title=\"$btn_text\" style=\"margin-left:15px;\" >".JHTML::_( 'grid.published',  $row->published, $i, 'tick.png', 'publish_x.png', 'tables.').'</span>';
 		}
 
 		return $theBtn;
@@ -71,7 +71,7 @@ class EasyTableProViewTables extends JView
 
 		if( !$locked && !$extTable && $hasPermission)
 		{
-			$theEditBtn = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\'editData\');" title="'.$btn_text.'" >'.$theEditBtn.'</a>';
+			$theEditBtn = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\'tables.editData\');" title="'.$btn_text.'" >'.$theEditBtn.'</a>';
 		}
 
 		return($theEditBtn);
@@ -95,7 +95,7 @@ class EasyTableProViewTables extends JView
 
 		if( !$locked && !$extTable && $hasPermission)
 		{
-			$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&amp;task=presentUploadScreen&amp;view=easytableupload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
+			$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&amp;task=presentUploadScreen&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
 		}
 
 		return($theBtn);
