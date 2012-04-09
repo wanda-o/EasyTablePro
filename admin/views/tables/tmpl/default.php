@@ -99,7 +99,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<?php if ($row->checked_out) : ?>
 					<?php echo JHTML::_( 'jgrid.checkedout', $i, $row->editor, $row->checked_out_time, 'tables.', $canCheckin ); ?>
 				<?php endif; ?>
-				<?php echo $this->getEditorLink($locked,$i,$row->easytablename,$canEdit, $lockedByName); ?>
+				<?php echo $this->getEditorLink($locked,$i,$row->easytablename,$canEdit, $lockedByName); ?><div class="clr"></div><span class="ept_tablelist_table_details"><?php echo $row->easytablealias . JText::_(' by ') . $row->author_name; ?></span>
 			</td>
 			<td>
 				<?php echo $this->getDataEditorIcon($locked,$i,$row->id,$row->easytablename,$etet,$canEditRecords, $lockedByName); ?>
