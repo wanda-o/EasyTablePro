@@ -178,14 +178,14 @@ class EasyTableProViewTables extends JView
 		}
 		if($canDo->get('core.edit'))
 		{
-			JToolBarHelper::editList();
+			JToolBarHelper::editList('table.edit');
 		}
 		JToolBarHelper::divider();
 		
 		if($canDo->get('core.edit.state'))
 		{
-			JToolBarHelper::publishList();
-			JToolBarHelper::unpublishList();
+			JToolBarHelper::publishList('tables.publish');
+			JToolBarHelper::unpublishList('tables.unpublish');
 		}
 		if($canDo->get('easytablepro.link'))
 
@@ -199,7 +199,7 @@ class EasyTableProViewTables extends JView
 
 		if($canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_MGR_DELETE_TABLE_BTN' );
+			JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_MGR_DELETE_TABLE_BTN', 'tables.delete' );
 		}
 		JToolBarHelper::divider();
 

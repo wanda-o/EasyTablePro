@@ -27,7 +27,7 @@ Joomla.submitbutton = function(pressbutton)
 		pressbutton == 'table.edit' ||
 		pressbutton == 'tables.editData' ||
 		pressbutton == 'tables.uploadData' ||
-		pressbutton == 'tables.remove' ||
+		pressbutton == 'tables.delete' ||
 		pressbutton == 'table.add' ||
 		pressbutton == 'tables.toggleSearch' ||
 		pressbutton == 'tables.cancel')
