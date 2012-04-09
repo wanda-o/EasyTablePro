@@ -88,8 +88,7 @@ defined('_JEXEC') or die('Restricted Access');
 		$published = $this->publishedIcon($locked, $row, $i, $canCheckin, $lockedByName);
 		$etet = $row->datatablename?true:false;
 
-		$searchableFlag = $rowParamsObj->get('searchable_by_joomla');
-		$searchableImage  = $this->getSearchableTick( $i, $searchableFlag, $locked, $canChange, $lockedByName);
+		$searchableFlag = $rowParamsObj->get('searchable_by_joomla',0);
 
 		?>
 		<tr class="<?php echo "row$k"; ?>">
@@ -110,9 +109,6 @@ defined('_JEXEC') or die('Restricted Access');
 			</td>
 			<td>
 				<?php echo $published; ?>
-			</td>
-			<td>
-				<?php echo $searchableImage; ?>
 			</td>
 			<td>
 				<?php echo $row->description; ?>

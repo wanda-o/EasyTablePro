@@ -101,36 +101,6 @@ class EasyTableProViewTables extends JView
 		return($theBtn);
 	}
 
-	function getSearchableTick ($rowId, $flag, $locked=true, $hasPermission,$userName='')
-	{
-		$btn_text = '';
-		$theImageString = '/media/com_'._cppl_this_com_name.'/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' );
-		$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM' ));
-
-		if( $flag == '' )
-		{
-			$theImageString .= 'GlobalIcon16x16.png';
-			$btn_text = JText::_( "COM_EASYTABLEPRO_MGR_ALLOW_JOOMLA_SEARCH" ).$lockText;
-		}
-		else if($flag)
-		{
-			$theImageString .= 'tick.png';
-			$btn_text = JText::_( "COM_EASYTABLEPRO_MGR_PREVENT_JOOMLA_SEARCH" ).$lockText;
-		}
-		else
-		{
-			$theImageString .= 'publish_x.png';
-			$btn_text = JText::_( "COM_EASYTABLEPRO_MGR_GLOBAL_SETTING_FOR_JOOMLA_SEARCH" ).$lockText;
-		}
-
-		$theSearchableImage = '<img src="'.$theImageString.'" name="'.$rowId.'_img" border="0" alt="'.$btn_text.'" />';
-
-		$theSearchableButton = (!$locked && $hasPermission) ? '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'toggleSearch\');" title="'.$btn_text.'" >'.$theSearchableImage.'</a>' : $theSearchableImage ;
-		$theSearchableButton = '<span class="hasTip" title="'.$btn_text.'" style="margin-left:20px;" >'.$theSearchableButton.'</span>';
-		
-		return($theSearchableButton);
-	}
-
 	/**
 	 * EasyTables view display method
 	 * @return void
