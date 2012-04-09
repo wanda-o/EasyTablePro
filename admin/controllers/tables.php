@@ -22,7 +22,7 @@ jimport('joomla.application.component.controller');
 $pmf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
 require_once $pmf;
 
-class EasyTableControllerTables extends JControllerAdmin
+class EasyTableProControllerTables extends JControllerAdmin
 {
 	public $msg;
 

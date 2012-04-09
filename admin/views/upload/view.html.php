@@ -19,7 +19,7 @@ require_once $pmf;
  * @subpackage Views
  */
 
-class EasyTableVieweasytableupload extends JView
+class EasyTableProViewUpload extends JView
 {
 	/**
 	 * View display method
