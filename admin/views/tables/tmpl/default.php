@@ -71,15 +71,10 @@ defined('_JEXEC') or die('Restricted Access');
 		$published = $this->publishedIcon($locked, $row, $i, $canCheckin, $lockedByName);
 		$etet = $row->datatablename?true:false;
 
-		$searchableFlag = $rowParamsObj->get('searchable_by_joomla',0);
-
 		?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td>
 				<?php echo JHtml::_('grid.id', $i, $row->id); ?>
-			</td>
-			<td>
-				<?php echo $row->id; ?>
 			</td>
 			<td>
 				<?php if ($row->checked_out) : ?>
@@ -99,6 +94,9 @@ defined('_JEXEC') or die('Restricted Access');
 			<td>
 				<?php echo $row->description; ?>
 			</td>
+			<td>
+				<?php echo $row->id; ?>
+			</td>
 		</tr>
 		<?php
 		$k = 1 - $k;
@@ -108,7 +106,7 @@ defined('_JEXEC') or die('Restricted Access');
 </div>
 <?php echo JHTML::_('form.token'); ?>
 <input type="hidden" name="option" value="<?php echo JRequest::getCmd('option') ?>" />
-<input type="hidden" name="view" value="easytables" />
+<input type="hidden" name="view" value="tables" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
 </form>
