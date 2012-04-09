@@ -231,7 +231,8 @@ class EasyTableProViewTable extends JView
 		$fieldOptions = '';
 		if ( isset ($params) )
 		{
-			$paramsObj = new JParameter ($params);
+			$paramsObj = new JRegistry;
+			$paramsObj->loadString($params);
 			$rawFieldOptions = $paramsObj->get('fieldoptions','');
 			if(strlen ( $rawFieldOptions )) {
 				if(substr($rawFieldOptions,0,1) == 'x') {

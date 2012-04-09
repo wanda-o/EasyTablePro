@@ -58,7 +58,7 @@ defined('_JEXEC') or die('Restricted Access');
 			echo($tdStart.$tdFlagImgLink.$tdEnd);
 
 			$tdName          = 'search_field'.$mRId;
-			$tdParamsObj     = new JParameter ($metaRow[10]);
+			$tdParamsObj     = new JRegistry(); $tdParamsObj->loadString($metaRow[10]);
 			$tdSearchField   = $tdParamsObj->get('search_field',1);
 			$tdStart         = '<td align="center"><input type="hidden" name="'.$tdName.'" value="'.$tdSearchField.'" />';                   // Search This Field Flag
 			$tdFlagImg       = $this->getListViewImage($tdName, $tdSearchField);
