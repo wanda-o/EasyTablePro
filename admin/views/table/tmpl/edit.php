@@ -17,13 +17,13 @@ defined('_JEXEC') or die('Restricted Access');
 			<li class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_TABLENAME_TT' ); ?>"><?php echo $this->form->getLabel('easytablename'); ?>
 			<?php echo $this->form->getInput('easytablename'); ?></li>
 
-			<li class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_ALIAS_TT' ); ?>" ><?php echo $this->form->getLabel('easytablealias'); ?>
-			<?php if($this->item->etet) { ?>
-				<?php echo $this->form->getValue('easytablealias'); ?>
-				<input type="hidden" name="jform[easytablealias]" id="jform_easytablealias" value="<?php echo $this->item->easytablealias;?>" />
-			<?php } else { ?>
-				<input class="inputbox required" type="text" name="jform[easytablealias]" id="jform_easytablealias" onchange="javascript:com_EasyTablePro.Table.validateTableNameAlias()" size="32" maxlength="250" value="<?php echo $this->item->easytablealias;?>" />
-			<?php } ?></li>
+			<li class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_ALIAS_TT' ); ?>" ><?php echo $this->form->getLabel('easytablealias');
+			if($this->item->etet)
+			{
+				$this->form->setFieldAttribute('easytablealias','class','readonly');
+				$this->form->setFieldAttribute('easytablealias','readonly','true');
+			}
+			echo $this->form->getInput('easytablealias'); ?></li>
 
 			<li><?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?></li>

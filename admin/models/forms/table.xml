@@ -16,6 +16,7 @@
 				description=""
 				required="true"
 				size="32"
+				onchange="com_EasyTablePro.Table.createTableNameAlias()"
 				maxlength="250" />
 			<field name="easytablealias"
 				label="COM_EASYTABLEPRO_LABEL_ALIAS"
@@ -23,7 +24,9 @@
 				class="inputbox"
 				description=""
 				required="true"
-				size="32" />				
+				size="32"
+				onchange="com_EasyTablePro.Table.validateTableNameAlias()"
+				maxlength="250" />				
 			<field name="published"
 				type="radio"
 				label="JSTATUS"
