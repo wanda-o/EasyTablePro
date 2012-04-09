@@ -6,10 +6,6 @@
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
  */
  
-/*
- * Admin Component
-**/
-
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
 
@@ -18,11 +14,13 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_easystaging')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
+
+
+
 // Include dependencies
 jimport('joomla.application.component.controller');
 
 $controller = JController::getInstance('EasyTablePro');
-// get the task
 $jinput = JFactory::getApplication()->input;
 $controller->execute($jinput->get('task'));
 
