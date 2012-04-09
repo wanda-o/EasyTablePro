@@ -45,7 +45,7 @@ defined('_JEXEC') or die('Restricted Access');
 			<?php echo $this->form->getInput('id'); ?></li>
 			<li ><?php echo $this->form->getLabel('defaultimagedir') . $this->form->getInput('defaultimagedir'); ?>
 				<?php if(! $this->item->defaultimagedir ) { ?>
-						<span class="et_nodirectory" style="font-style:italic;color:red;"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_NO_IMAGE_DIR_SET' ); ?></span>
+						<span class="et_nodirectory"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_NO_IMAGE_DIR_SET' ); ?></span>
 				<?php } ?></li>
 		</ul>
 

@@ -85,3 +85,9 @@
 	margin-left:0px;
 	margin-right:0px;
 }
+
+.et_nodirectory {
+	font-style:italic;
+	color:red;
+	float:right;
+}
