@@ -165,23 +165,6 @@ com_EasyTablePro.Table.firstAvailableNumber = function(numberList, firstAvailabl
 	return firstAvailable;
 }
 
-com_EasyTablePro.Table.addToList = function(theList, itemToAdd)
-{
-	newList = theList.split(', ');
-	newList.push(itemToAdd);
-	return newList.join(', ');
-}
-com_EasyTablePro.Table.deleteFromList = function(theList, itemToRemove)
-{
-	originalList = theList.split(', ');
-	newList = new Array();
-	// Remove the matching element from the array
-	for(var i=0; i<originalList.length; i++) {
-		if(originalList[i] != itemToRemove) newList.push(originalList[i]);
-	}
-	return newList.join(', ');
-}
-
 com_EasyTablePro.Table.aliasOK = function(str)
 {
 	if(str != this.makeURLSafe(str)) return false;
@@ -405,11 +388,6 @@ com_EasyTablePro.Table.deleteField = function(fName,rowId)
 		thisRow = $(rowId);
 		etMetaTableRows.removeChild(thisRow);
 	}
-}
-
-com_EasyTablePro.Table.makeURLSafe = function(str)
-{
-	return str.replace(/\s+/g,"-").replace(/[^A-Za-z0-9\-]/g,'').toLowerCase();
 }
 
 Joomla.submitbutton = function(pressbutton)

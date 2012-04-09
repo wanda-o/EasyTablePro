@@ -52,6 +52,29 @@ com_EasyTablePro.Tools.getID  = function ()
 	}
 }
 
+com_EasyTablePro.Tools.addToList = function(theList, itemToAdd)
+{
+	newList = theList.split(', ');
+	newList.push(itemToAdd);
+	return newList.join(', ');
+}
+
+com_EasyTablePro.Tools.deleteFromList = function(theList, itemToRemove)
+{
+	originalList = theList.split(', ');
+	newList = new Array();
+	// Remove the matching element from the array
+	for(var i=0; i<originalList.length; i++) {
+		if(originalList[i] != itemToRemove) newList.push(originalList[i]);
+	}
+	return newList.join(', ');
+}
+
+com_EasyTablePro.Tools.makeURLSafe = function(str)
+{
+	return str.replace(/\s+/g,"-").replace(/[^A-Za-z0-9\-]/g,'').toLowerCase();
+}
+
 /**
 sprintf() for JavaScript 0.7-beta1
 http://www.diveintojavascript.com/projects/javascript-sprintf
