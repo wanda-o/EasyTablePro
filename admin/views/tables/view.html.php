@@ -174,7 +174,7 @@ class EasyTableProViewTables extends JView
 		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO' ), 'easytablepro');
 		if($canDo->get('core.create'))
 		{
-			JToolBarHelper::addNew('tables.add', JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW'));
+			JToolBarHelper::addNew('table.add', JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW'));
 		}
 		if($canDo->get('core.edit'))
 		{
