@@ -47,6 +47,7 @@
 				class="inputbox"
 				label="COM_EASYTABLEPRO_MGR_DESCRIPTION"
 				description="COM_EASYTABLEPRO_MGR_DESCRIPTION_DESC"
+				filter="safehtml"
 				buttons="true" />
 			<field name="defaultimagedir"
 				label="COM_EASYTABLEPRO_TABLE_IMAGE_DIR_LABEL"
