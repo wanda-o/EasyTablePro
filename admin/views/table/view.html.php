@@ -102,7 +102,7 @@ class EasyTableProViewTable extends JView
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
 		if($canDo->get('core.edit') || $canDo->get('core.create')) {
-			JToolBarHelper::title($isNew ? JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW') : JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE'), 'easytablepro');
+			JToolBarHelper::title($isNew ? JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW') : JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE'), 'easytablepro-editrecords');
 			JToolBarHelper::apply('table.apply');
 			JToolBarHelper::save('table.save');
 		} 
