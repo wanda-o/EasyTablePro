@@ -68,7 +68,8 @@
 				readonly="true"
 				format="%Y-%m-%d %H:%M:%S"
 				filter="user_utc" />
-	
+			<field name="datatablename"
+				type="hidden" />
 			<field name="created_by" type="user"
 				label="COM_EASYTABLEPRO_TABLE_INFO_CREATED_BY_LABEL" description="COM_EASYTABLEPRO_TABLE_INFO_CREATED_BY_DESC" />
 	

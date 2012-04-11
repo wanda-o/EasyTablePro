@@ -56,7 +56,13 @@ class EasyTableProControllerTable extends JControllerForm
 	public function save()
 	{
 		// We will need the app.
-		$jAp= JFactory::getApplication();
+		$jAp = JFactory::getApplication();
+		$jInput = $jAp->input;
+		// And so default variables
+		$id = $jInput->get('id', 0, 'INT');
+		$datatablename = $jInput->get('datatablename', '');
+		$newFlds = $jInput->get('newFlds', '');
+		$deletedFlds = $jInput->get('deletedFlds','','string');
 
 		// Call to our parent save() to save the base JTable ie. our EasyTableProTable
 		if(!parent::save('id')){
@@ -65,75 +71,31 @@ class EasyTableProControllerTable extends JControllerForm
 			return false;
 		} else {
 			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_TABLE' ));
-			// Time to save the meta records
+			// OK table record saved time to do the same for meta
+			// If it's not a linked table then...
+			if( $datatablename == '' ){
+				// 1. Any fields to delete?
+				if(!empty($deletedFlds)) {
+					if( $this->deleteFieldsFromEasyTable($id, $deletedFlds) ){
+						$jAp->enqueueMessage(JText::_('• Successfully deleted the fields.'));
+					} else {
+						$jAp->enqueueMessage(JText::_('• There were problems deleting the fields.'), 'Notice');
+					}
+				}
+				
+				// 2. Any fields to add?
+				if(!empty($newFlds)) {
+					if( $this->addFieldsToEasyTable($id, $newFlds) ){
+						$jAp->enqueueMessage(JText::_('• Successfully added the new fields.'));
+					} else {
+						$jAp->enqueueMessage(JText::_('• There were problems deleting the fields.'), 'Notice');
+					}
+				}
+			}
+			// 3. Time to save the meta records
 			$updateMetaResult = $this->updateMeta();
 			return $updateMetaResult;
 		}
-	}
-
-	function saveApplyETdata()
-	{
-		/*
-		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
-		*/
-		// Save/Apply tasks - stores the ET record
-		$msg = '';
-
-		// 1.0 Update/Create table record from POST data
-		$row = JTable::getInstance('EasyTable', 'Table');
-
-		// 1.1 Record the user's id that performed the modification
-		$user = JFactory::getUser();
-		if (!$user)
-		{
-			JError::raiseError(500, 'Error in saveApplyETdata() getting current user -> '.$user->getError());
-		}
-		$row->modifiedby_ = $user->id;
-
-		// Apparently the Check() passed so we can bind the post data to the ET record
-		if (!$row->bind(JRequest::get('post',JREQUEST_ALLOWRAW)))
-		{
-			JError::raiseError(500, 'Error in saveApplyETdata() bind call-> '.$row->getError());
-		}
-
-		// 1.2 Check it
-		if (!$row->check())
-		{
-			JError::raiseError(500, 'Error in saveApplyETdata() -> Table Check() failed... call for help!');
-			return;
-		}
-
-		// 1.3 Update modified and if necessary created datetime stamps
-		if(!$row->id)
-		{
-			$row->created_ = date( 'Y-m-d H:i:s' );
-		}
-		$row->modified_ = date( 'Y-m-d H:i:s' );
-
-		// 2.0 Store the TABLE record
-		if (!$row->store())
-		{
-			JError::raiseError(500, 'Error in saveApplyETdata() -> '.$row->getError());
-		}
-		
-		// 3.0 Check for structural changes ie. did the user add or remove any fields.
-		// 3.1 Check for deleted fields.
-		$deletedFlds = JRequest::getVar( 'deletedFlds' );
-		if($deletedFlds!= '') // then it's time to remove some fields
-		{
-			$msg .= 'Deleted fields: '.$deletedFlds.'<br />';
-			$msg .= $this->deleteFieldsFromEasyTable($deletedFlds);
-		}
-
-		// 3.2 Check for new fields.
-		$newFlds = JRequest::getVar( 'newFlds' );
-		if($newFlds != '') // then it's time to add some fields
-		{
-			$msg .= 'New fields: '.$newFlds.'<br />';
-			$msg .= $this->addFieldsToEasyTable ( $newFlds );
-		}
-
-		return $row->id;
 	}
 
 	/*
@@ -143,11 +105,8 @@ class EasyTableProControllerTable extends JControllerForm
 	function processNewDataFile($currentTask, $updateType)
 	{
 		/*
-
 		 * WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
-
 		*/
-
 		
 		$jAp= JFactory::getApplication();
 		// Get a reference to a file if it exists, and load it into an array
@@ -156,7 +115,6 @@ class EasyTableProControllerTable extends JControllerForm
 		global $et_current_table_id;
 		$id = $et_current_table_id;
 		$jAp->enqueueMessage('About to '.$updateType.' records in table id: '.$id);
-
 
 		// Check for an update action
 		if (($currentTask == 'updateETDTable') || ($currentTask  == 'uploadFile') || ($currentTask == 'uploadData'))
@@ -291,9 +249,7 @@ class EasyTableProControllerTable extends JControllerForm
 	function ettdExists($id)
 	{
 		/*
-
 		 * WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
-
 		*/
 
 		
@@ -311,9 +267,7 @@ class EasyTableProControllerTable extends JControllerForm
 	function etetExists($id)
 	{
 		/*
-
 		 * WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
-
 		*/
 
 		
@@ -362,7 +316,7 @@ class EasyTableProControllerTable extends JControllerForm
 	private function updateMeta()
 	{
 		/*
-		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST, updated but old.
 		*/
 		// 1. Do some initialisation
 		$jAp = JFactory::getApplication();
@@ -388,7 +342,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$ettm_field_count = count($easytables_table_meta);
 		$mRIdsCount = count($mRIds);
 		if($ettm_field_count != $mRIdsCount) {
-			$jAp->enqueueMessage(JText::sprintf("META mismatch between form response and data store: %s vs %s <br /><pre>%s</pre>", $ettm_field_count, $mRIdsCount,$etMetaRIdAsSQL ));
+			$jAp->enqueueMessage(JText::sprintf('• META mismatch between form response and data store: %s vs %s <br /><pre>%s</pre>', $ettm_field_count, $mRIdsCount,$etMetaRIdAsSQL ));
 			return false;
 		}
 
@@ -413,7 +367,7 @@ class EasyTableProControllerTable extends JControllerForm
 			{
 				if( !$this->alterEasyTableColumn($origFldAlias, $reqFldAlias, $fieldType) )
 				{
-					$jAp->enqueueMessage(JText::sprintf('FAILED to alter table field (COLUMN) from <strong>%s</strong> to <strong>%s</strong> as type <strong>%s (%s)</strong>', $origFldAlias, $reqFldAlias, $this->getFieldTypeAsSQL($fieldType), $fieldType));
+					$jAp->enqueueMessage(JText::sprintf('• FAILED to alter table field (COLUMN) from <strong>%s</strong> to <strong>%s</strong> as type <strong>%s (%s)</strong>', $origFldAlias, $reqFldAlias, $this->getFieldTypeAsSQL($fieldType), $fieldType));
 					return false;
 				}
 			}
@@ -449,20 +403,23 @@ class EasyTableProControllerTable extends JControllerForm
 				return false;
 			}
 		}
-		$jAp->enqueueMessage(JText::_('META updated successfully.'));
+		$jAp->enqueueMessage(JText::_('• Field settings updated successfully.'));
 		return true;
 	}
 
-	function addFieldsToEasyTable ( $newFlds )
+	private function addFieldsToEasyTable ( $id, $newFlds )
 	{
 		/*
-		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST, updated but old.
 		*/
-		$msg = 'Starting field additions.<br />';
-		$id = JRequest::getInt('id',0);
+		$jAp = JFactory::getApplication();
+		$jAp->enqueueMessage( JText::_( 'Starting field additions.' ) );
+		$jInput = JFactory::getApplication()->input;
+
 		$tableName = '#__easytables_table_data_'.$id;
 		$newFldsArray = explode(', ', $newFlds);
 		$newFldsAlterArray = array();
+
 		// Process new fields
 		$lastNewFld = $newFldsArray[count($newFldsArray)-1];
 		
@@ -489,7 +446,7 @@ class EasyTableProControllerTable extends JControllerForm
 		    // Create the insert values part of the SQL statement
 		    $insertValues = '( \''.$id.'\', '.'\''.$new_et_pos.'\', '.'\''.$new_et_label.'\', '.'\''.$new_et_desc.'\', '.'\''.$new_et_type.'\', '.'\''.$new_et_lv.'\', '.'\''.$new_et_dl.'\', '.'\''.$new_et_dv.'\', '.'\''.$new_et_fldAlias.'\', '.'\''.$new_et_params.'\' )'. ($newFldId == $lastNewFld ? ';' : ', ');
 		    $insertSQL .= $insertValues;
-		    $msg .= '• Adding meta data for field \"'.$new_et_label.'\"<br />';
+		    $jAp->enqueueMessage( JText::sprintf( '• Adding meta data for field "%s"', $new_et_label ));
 
 			// Store the new field data for the ALTER statement of the original
 			$newFldsAlterArray[] = '`'.$new_et_fldAlias.'` '.$this->getFieldTypeAsSQL($new_et_type);
@@ -498,8 +455,8 @@ class EasyTableProControllerTable extends JControllerForm
 		// Get a database object
 		$db = JFactory::getDBO();
 		if(!$db){
-			$msg .= "Couldn't get the database object while setting up for META update: $id";
-			return $msg;
+			$jAp->enqueueMessage( JText::sprintf( 'Couldn\'t get the database object while setting up for META update: ', $id ) );
+			return false;
 		}
 		// 2. Set the insertSQL as the query and execute it.
 		$db->setQuery($insertSQL);
@@ -507,8 +464,8 @@ class EasyTableProControllerTable extends JControllerForm
 		
 		if(!$db_result)
 		{
-			$msg = "Meta data update failed during new field insert: ".$db->explain().'<br /> SQL => '.$insertSQL;
-			return $msg;
+			$jAp->enqueueMessage( JText::sprintf( 'Meta data update failed during new field insert: %s<br /> SQL => %s', $db->explain(), $insertSQL));
+			return false;
 		}
 		
 		// 3.0 Now to actually alter the data table to match the stored meta data
@@ -522,49 +479,49 @@ class EasyTableProControllerTable extends JControllerForm
 
 		if(!$db_result)
 		{
-			$msg = "Table update failed during addition of new columns: ".$db->explain().'<br /> SQL => '.$addSQL;
-			return $msg;
+			$jAp->enqueueMessage( JText::sprintf( 'Table update failed during addition of new columns: %s<br /> SQL => %s', $db->explain(), $addSQL ) );
+			return false;
 		}
-		
-
-		return $msg;
+		return true;
 	}
 	
-	function deleteFieldsFromEasyTable ( $deletedFldIds )
+	private function deleteFieldsFromEasyTable ( $tableID, $deletedFldIds )
 	{
 		/*
-		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST, updated but old.
 		*/
-		$msg = 'Starting field removal.<br />';
-		$id = JRequest::getInt('id',0);
+		if(empty($deletedFldIds)) return false;
+		$jAp = JFactory::getApplication();
+		$jAp->enqueueMessage( JText::_( 'Starting field removal.' ));
+		$id = $tableID;
 		$selDelFlds = '`id` = '. implode(explode(', ', $deletedFldIds), ' or `id` =');
-		$deleteSelectSQL = ' from `#_easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
+		$fromWhereSQL = ' from `#__easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
 
 		// Get a database object
 		$db = JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
+			// Oh shit! - PANIC
+			JError::raiseError(500,JText::sprintf('Couldn\'t get the database object while trying to ALTER data table: %s', $id));
 		}
 		
 		// Set and execute the SQL select query
-		$db->setQuery('select `fieldalias` '.$deleteSelectSQL);
-		$select_Result = $db->loadResultArray();
+		$db->setQuery('select `fieldalias` '.$fromWhereSQL);
+		$columns_to_drop = $db->loadResultArray();
 
 		// Process the fields to drop from data table
-		$tableName = '#_easytables_table_data_'.$id;
-		$dropSQL = 'ALTER TABLE `'.$tableName.'` ';
-		$dropSQL .= 'DROP COLUMN `'.implode($select_Result, '`, DROP COLUMN `');
+		$tableName = '#__easytables_table_data_'.$id;
+		$dropSQL = 'ALTER TABLE `' . $tableName . '` ';
+		$dropSQL .= 'DROP COLUMN `' . implode($columns_to_drop, '`, DROP COLUMN `');
 		$dropSQL .=  '`';
 		$db->setQuery($dropSQL);
 		$drop_Result = $db->query();
-		if($drop_Result) $msg .= 'Columns dropped from '.$tableName.'<br />';
+		if($drop_Result) $jAp->enqueueMessage( JText::sprintf( '• Columns dropped from %s.', $tableName ) );
 
 		// Delete the reference to the fields in the meta table.
-		$db->setQuery('delete '.$deleteSelectSQL);
+		$db->setQuery('delete ' . $fromWhereSQL);
 		$deleteMeta_Result = $db->query();
-		if($deleteMeta_Result) $msg .= 'Records dropped from meta table.<br />';
 
-		return $msg;
+		return $deleteMeta_Result;
 	}
 	
 	function checkOutEasyTable()
@@ -840,12 +797,20 @@ class EasyTableProControllerTable extends JControllerForm
 		return($theResult=$db->query());
 	}
 	
-	function conformFieldAlias ($rawAlias)
+	/**
+	 * Method to make sure field alias can be used as column names in a DB or CSS classes/id's
+	 * 
+	 * @param string $rawAlias
+	 * @return string
+	 */
+	private function conformFieldAlias ($rawAlias)
 	{
 		/*
 		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
 		*/
-		// It's a linked table lets not change anything…
+		// @todo Use a different mechanism for detecting a linked table...
+		// We should check before here and therefore never get to this place... but...
+		// It's a linked table lets not change anything...
 		if(JRequest::getVar('et_linked_et')) return $rawAlias;
 
 		// Make the raw alias url safe & limit to 64 chars for mysql column names

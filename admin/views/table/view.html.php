@@ -53,16 +53,22 @@ class EasyTableProViewTable extends JView
 		//get the current task
 		$et_task = JRequest::getVar('task');
 
-		if(!$this->item->ettd)	// Do not allow it to be published until a table is created.
+		if(!isset($this->item->ettd) or !$this->item->ettd)	// Do not allow it to be published until a table is created.
 		{
-			$this->assignRef('published', JHTML::_('select.booleanlist', 'published', 'class="inputbox" disabled="disabled"', $this->item->published ));
+			$this->published = JHTML::_('select.booleanlist', 'published', 'class="inputbox" disabled="disabled"', $this->item->published );
+			$this->item->ettd ='';
 		}
 		else
 		{
-			$this->assignRef('published', JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $this->item->published ));
+			$this->published = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $this->item->published );
 		}
 		// Parameters for this table instance
-		$params = $item->params;
+		if(isset($item->params)) {
+			$params = $item->params;
+		} else {
+			$params = '';
+		}
+
 		$this->assignRef('params', $params);
 
 		// Max file size for uploading

@@ -33,7 +33,8 @@ com_EasyTablePro.Table.atLeast1ListField = function(){
 }
 
 com_EasyTablePro.Table.AliassAreUnique = function(){
-	if(document.adminForm.elements['et_linked_et'].value) return true; // If it's a linked table we bail as users can't modify alias (ie. they are column names).
+	// If it's a linked table we bail as users can't modify alias (ie. they are column names).
+	if(document.adminForm.elements['et_linked_et'].value) return true;
 	the_MRIds_obj = $('mRIds');
 	if($defined(the_MRIds_obj))
 	{
@@ -67,25 +68,31 @@ com_EasyTablePro.Table.AliassAreUnique = function(){
 			document.adminForm.elements[fldAliasName].focus();
 			if(theValue == '')
 			{
-				$et_check_msg = Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_CAN_NOT_BE_EMPTY');
-				return false; // Must have a valid alias
+				// Must have a valid alias
+				fldId = fldAliasName.substring(10);
+				fldLabel = 'label' + fldId;
+				fldLabel = $(fldLabel).name;
+				$et_check_msg = com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_CAN_NOT_BE_EMPTY'), fldLabel, fldId);
+				return false;
 			}
 			aliasArray.push(theValue);
 		}
 	
-		// Sort the alias array
-		aliasArray = aliasArray.sort(); // Default js string comparison
+		// Sort the alias array using Default js string comparison
+		aliasArray = aliasArray.sort();
 	
 		// Scan for matches in sequential entries
 		for (var i = 0; i < aliasArray.length; i++ )
 		{
 			if (aliasArray[i + 1] == aliasArray[i])
 			{
+				// Oh noes we found a duplicate...
 				$et_check_msg = com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_MUST_BE_UNIQUE') , aliasArray[i]);
-				return false; // Oh noes we found a duplicate...
+				return false;
 			}
 		}
-		return true; // If we got here it's all good.
+		// If we got here it's all good.
+		return true;
 	}
 	return false;
 }
@@ -174,12 +181,12 @@ com_EasyTablePro.Table.aliasOK = function(str)
 	return true;
 }
 
-com_EasyTablePro.Table.updateAlias = function()
+com_EasyTablePro.Table.updateAlias = function(fieldObj)
 {
-	labelName = this.name;
+	labelName = fieldObj.name;
 	aliasID = 'fieldalias'+labelName.substring(5);
 	fldAlias = $(aliasID);
-	if(fldAlias.value == '') fldAlias.value = com_EasyTablePro.Tools.makeURLSafe(this.value);
+	if(fldAlias.value == '') fldAlias.value = com_EasyTablePro.Tools.makeURLSafe(fieldObj.value);
 	if(fldAlias.value.toLowerCase() == 'id')
 	{
 		fldAlias.value = 'tmpFldID';
@@ -257,7 +264,7 @@ com_EasyTablePro.Table.addField = function()
 
 	posCellHTML = '<input type=\"text\" value=\"9999\" size=\"3\" name=\"position#id#\">';
 
-	labelCellHTML = '<input type=\"text\" value=\"\" name=\"label#id#\" id=\"label#id#\"><br /><input type=\"hidden\" name=\"origfieldalias#id#\" value=\"\"><input type=\"text\" name=\"fieldalias#id#\" id=\"fieldalias#id#\" value=\"\" onchange=\"com_EasyTablePro.Table.validateAlias(this)\" disabled=\"\"><img src=\"/media/com_easytablepro/images/locked.gif\" onclick=\"com_EasyTablePro.Table.unlock(this, \'#id#\');\" id=\"unlock#id#\">';
+	labelCellHTML = '<input type=\"text\" value=\"\" name=\"label#id#\" id=\"label#id#\" onclick=\"com_EasyTablePro.Table.updateAlias(this);\" onblur=\"com_EasyTablePro.Table.updateAlias(this);\"><br /><input type=\"hidden\" name=\"origfieldalias#id#\" value=\"\"><input type=\"text\" name=\"fieldalias#id#\" id=\"fieldalias#id#\" value=\"\" onchange=\"com_EasyTablePro.Table.validateAlias(this)\" disabled=\"\"><img src=\"/media/com_easytablepro/images/locked.gif\" onclick=\"com_EasyTablePro.Table.unlock(this, \'#id#\');\" id=\"unlock#id#\">';
 
 	descCellHTML = '<textarea cols=\"30\" rows=\"2\" name=\"description#id#\"></textarea>';
 
@@ -338,11 +345,6 @@ com_EasyTablePro.Table.addField = function()
 	searchableCell.injectAfter(detailVCell);
 	
 	etMetaTableRows.insertBefore(newRow, etControlRow);
-
-	// Add on change to label to auto create an alias
-	aliasInput = $('label'+new_id);
-	aliasInput.onchange = this.updateAlias();
-
 }
 
 com_EasyTablePro.Table.deleteField = function(fName,rowId)
