@@ -153,6 +153,12 @@ class EasyTableProViewTables extends JView
 		{
 			JToolBarHelper::addNew('table.add', JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW'));
 		}
+		if($canDo->get('easytablepro.link'))
+		{
+			$linkURL = 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component';
+			$toolbar = JToolBar::getInstance( 'toolbar' );
+			$toolbar->appendButton( 'Popup', 'easytablpro-linkTable', 'COM_EASYTABLEPRO_LABEL_LINK_TABLE', $linkURL, 500, 280 );
+		}
 		if($canDo->get('core.edit'))
 		{
 			JToolBarHelper::editList('table.edit');
@@ -163,13 +169,6 @@ class EasyTableProViewTables extends JView
 		{
 			JToolBarHelper::publishList('tables.publish');
 			JToolBarHelper::unpublishList('tables.unpublish');
-		}
-		if($canDo->get('easytablepro.link'))
-
-		{
-			$linkURL = 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component';
-			$toolbar = JToolBar::getInstance( 'toolbar' );
-			$toolbar->appendButton( 'Popup', 'easytablpro-linkTable', 'COM_EASYTABLEPRO_LABEL_LINK_TABLE', $linkURL, 500, 280 );
 		}
 		JToolBarHelper::divider();
 
