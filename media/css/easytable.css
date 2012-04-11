@@ -20,8 +20,10 @@
 	background: url(/media/com_easytablepro/images/Linked_Table_32x32.png) no-repeat left;
 }
 
-.icon-32-easytablpro-Gear_Icon {
-	background: url(/media/com_easytablepro/images/Gear_Icon_32x32.png) no-repeat left;
+.icon-32-easytablpro-uploadTable {
+	background: url(/media/com_easytablepro/images/Upload-Button_32x64.png) no-repeat left;
+	background-position-y: 0px;
+	height: 32px;
 }
 
 .ept_tablelist_table_details {

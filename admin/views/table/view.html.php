@@ -75,7 +75,7 @@ class EasyTableProViewTable extends JView
 		$this->assign('maxFileSize', $maxFileSize);
 
 
-		if($this->item->ettd)
+		if(isset($this->item->ettd))
 		{
 			$this->assignRef('ettd_record_count',$ettd_record_count);
 		}
@@ -103,9 +103,17 @@ class EasyTableProViewTable extends JView
 		if (!$checkedOut && ($canDo->get('core.create'))) {
 			JToolBarHelper::save2new('table.save2new');
 		}
-		JToolBarHelper::divider();
+		if((!$this->item->etet) && $canDo->get('easytablepro.import')){
+			JToolBarHelper::divider();
+			$importURL = 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component';
 
-		if($canDo->get('easytablepro.structure')) JToolBarHelper::custom( 'modifyTable', 'easytablpro-modifyTable', 'easytablpro-modifyTable', 'Modify Structure', false, false );
+			$toolbar = JToolBar::getInstance( 'toolbar' );
+
+			$toolbar->appendButton( 'Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, 500, 280 );
+
+		}
+		JToolBarHelper::divider();
+		if($canDo->get('easytablepro.structure')) JToolBarHelper::custom( 'modifyTable', 'easytablpro-modifyTable', 'easytablpro-modifyTable', 'COM_EASYTABLEPRO_LABEL_MODIFY_STRUCTURE', false, false );
 		JToolBarHelper::divider();
 
 		JToolBarHelper::cancel('table.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');

@@ -55,11 +55,8 @@ defined('_JEXEC') or die('Restricted Access');
 			<?php echo $this->form->getInput('description'); ?>
 		</div>
 	</fieldset>
-	<?php if((!$this->item->etet) && $this->canDo->get('easytablepro.import')) { // It's not an external table and the user has permission to import new data.
-			echo $this->loadTemplate('upload');
-		} ?>
 </div>
-
+<!-- Table Settings Panel UI -->
 <div class="width-30 fltrt">
 	<fieldset class="adminform" id="etp_stats_panel">
 	<legend><?php echo JText::_('COM_EASYTABLEPRO_TABLE_STATISTICS_LABEL')?></legend>
@@ -106,7 +103,7 @@ defined('_JEXEC') or die('Restricted Access');
 </div>
 
 <div class="clr"></div>
-
+<!-- Field Metadata UI -->
 <?php if($this->item->ettd) {
 	echo $this->loadTemplate('metatable');		
 }
