@@ -92,7 +92,7 @@ class EasyTableProViewTables extends JView
 		{
 			$lockText = ($hasPermission ? ($locked ? JText::sprintf( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_NO_UPLOAD_PERM' ));
 			$btn_text = JText::_( 'COM_EASYTABLEPRO_MGR_UPLOAD_NEW_DESC' ).' \''.$tableName.'\' '.$lockText;
-			$theImageURL = '/media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'upload.png';
+			$theImageURL = '/media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'upload_16x16.png';
 		}
 
 		$theBtn = '<span class="hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_MGR_UPLOAD_DATA' ).'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
