@@ -8,6 +8,7 @@
 .icon-48-easytablepro {
     background: url(/media/com_easytablepro/images/EasyTableProIcon.png) no-repeat left;
 }
+
 .icon-48-easytablepro-editrecords {
     background: url(/media/com_easytablepro/images/Edit-Icon48.png) no-repeat left;
 }
@@ -86,11 +87,6 @@
 #uploadWhileModifyingNotice p {
 	margin:10px;
 	padding:0;
-}
-
-#upload-sliders {
-	margin-left:10px;
-	margin-right:10px;
 }
 
 #etp_stats_panel {
