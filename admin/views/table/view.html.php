@@ -111,11 +111,11 @@ class EasyTableProViewTable extends JView
 		}
 		if((!$this->item->etet) && $canDo->get('easytablepro.import')){
 			JToolBarHelper::divider();
-			$importURL = 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component';
+			$importURL = 'index.php?option=com_easytablepro&amp;view=upload&task=upload&id=' . $this->item->id . '&amp;tmpl=component';
 
 			$toolbar = JToolBar::getInstance( 'toolbar' );
 
-			$toolbar->appendButton( 'Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, 500, 280 );
+			$toolbar->appendButton( 'Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, 700, 495 );
 
 		}
 		JToolBarHelper::divider();
