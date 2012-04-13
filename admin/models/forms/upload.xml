@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields>
+		<fieldset name="Table">
+			<field name="id"
+				label="JGLOBAL_FIELD_ID_LABEL"
+				desc="JGLOBAL_FIELD_ID_DESC"
+				type="text"
+				class="readonly"
+				default="0"
+				readonly="true" />
+			<field name="easytablename"
+				label="COM_EASYTABLEPRO_MGR_TABLE"
+				type="text"
+				class="inputbox"
+				description=""
+				required="true"
+				size="32"
+				onchange="com_EasyTablePro.Table.createTableNameAlias()"
+				maxlength="250" />
+			<field name="easytablealias"
+				label="COM_EASYTABLEPRO_LABEL_ALIAS"
+				type="text"
+				class="inputbox"
+				description=""
+				required="true"
+				size="32"
+				onchange="com_EasyTablePro.Table.validateTableNameAlias()"
+				maxlength="250" />				
+			<field name="access"
+				type="accesslevel"
+				label="JFIELD_ACCESS_LABEL"
+				description="JFIELD_ACCESS_DESC"
+				class="inputbox"
+				size="1" />
+			<field name="description"
+				type="editor"
+				class="inputbox"
+				label="COM_EASYTABLEPRO_MGR_DESCRIPTION"
+				description="COM_EASYTABLEPRO_MGR_DESCRIPTION_DESC"
+				filter="safehtml"
+				buttons="true" />
+			<field name="datatablename"
+				type="hidden" />
+			<field name="MAX_FILE_SIZE"
+				type="hidden"
+				default="300000" />
+			<field name="tablefile"
+				type="file"
+				label="COM_EASYTABLEPRO_TABLE_UPLOAD_SELECT_FILE"
+				description="COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_TT"
+				accept="text/csv, text/tab"
+				class="inputbox" />
+			<field name="CSVFileHasHeaders"
+				type="radio"
+				label="COM_EASYTABLEPRO_TABLE_UPLOAD_CHECKBOX_FILE_HEADINGS"
+				description="COM_EASYTABLEPRO_MGR_FILE_HEADINGS_DESC"
+				class="inputbox"
+				default="1" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="uploadType"
+				type="radio"
+				label="COM_EASYTABLEPRO_TABLE_UPLOAD_TYPE"
+				description="COM_EASYTABLEPRO_TABLE_UPLOAD_TYPE_TT"
+				default="0" >
+				<option value="0">COM_EASYTABLEPRO_TABLE_UPLOAD_REPLACE</option>
+				<option value="1">COM_EASYTABLEPRO_TABLE_UPLOAD_APPEND</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>
