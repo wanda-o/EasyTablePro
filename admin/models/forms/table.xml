@@ -44,7 +44,6 @@
 				description="JFIELD_ACCESS_DESC"
 				class="inputbox"
 				size="1" />
-			
 			<field name="description"
 				type="editor"
 				class="inputbox"
@@ -71,8 +70,8 @@
 			<field name="datatablename"
 				type="hidden" />
 			<field name="created_by" type="user"
-				label="COM_EASYTABLEPRO_TABLE_INFO_CREATED_BY_LABEL" description="COM_EASYTABLEPRO_TABLE_INFO_CREATED_BY_DESC" />
-	
+				label="COM_EASYTABLEPRO_TABLE_INFO_CREATED_BY_LABEL"
+				description="COM_EASYTABLEPRO_TABLE_INFO_CREATED_BY_DESC" />
 			<field name="modified_"
 				type="calendar"
 				class="readonly"
@@ -82,16 +81,13 @@
 				readonly="true"
 				format="%Y-%m-%d %H:%M:%S"
 				filter="user_utc" />
-	
 			<field name="modifiedby_" type="user"
-			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
-			class="readonly"
-			readonly="true"
-			filter="unset"
+				label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+				class="readonly"
+				readonly="true"
+				filter="unset"
 			 />
-	
 			<field name="checked_out" type="hidden" filter="unset" />
-	
 			<field name="checked_out_time" type="hidden" filter="unset" />
 		</fieldset>
 	</fields>
@@ -110,7 +106,6 @@
 				class="inputbox"
 				component="com_easytablepro"
 				section="table"
-				
 			/>
 		</fieldset>
 	<fields name="params"
