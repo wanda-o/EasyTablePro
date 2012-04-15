@@ -99,7 +99,11 @@ class EasyTableProViewTables extends JView
 
 		if( !$locked && !$extTable && $hasPermission)
 		{
-			$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&amp;task=presentUploadScreen&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
+			if(JDEBUG){
+				$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
+			} else {
+				$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 400}}">'.$theBtn.'</a>';
+			}
 		}
 
 		return($theBtn);
