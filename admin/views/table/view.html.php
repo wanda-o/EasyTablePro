@@ -117,7 +117,7 @@ class EasyTableProViewTable extends JView
 			if(JDEBUG) {
 				$toolbar->appendButton( 'Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, 700, 495 );
 			} else {
-				$toolbar->appendButton( 'Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, 700, 400 );
+				$toolbar->appendButton( 'Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, 700, 425 );
 			}
 
 		}

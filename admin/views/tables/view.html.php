@@ -102,7 +102,7 @@ class EasyTableProViewTables extends JView
 			if(JDEBUG){
 				$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
 			} else {
-				$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 400}}">'.$theBtn.'</a>';
+				$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 425}}">'.$theBtn.'</a>';
 			}
 		}
 
