@@ -652,13 +652,13 @@ class EasyTableProControllerUpload extends JControllerForm
 		return $csvRowCount;
 	}
 
-	function display()
+	function display($cachable = false, $urlparams = false)
 	{
 		$view =  JRequest::getVar('view');
 		if (!$view) {
 			JRequest::setVar('view', 'upload');
 		}
-		parent::display();
+		return parent::display($cachable, $urlparams);
 	}
 }
 
