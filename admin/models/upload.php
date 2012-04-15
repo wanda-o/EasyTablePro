@@ -87,7 +87,13 @@ class EasyTableProModelUpload extends JModelAdmin
 	function getItem($pk = null) {
 		if(empty($pk))
 		{
-			$pk = JFactory::getApplication()->input->get('cid');
+			// If we're being called from the `tables` list.
+			$jInput = JFactory::getApplication()->input;
+			$pk = $jInput->get('cid');
+			// If that didn't work it might be from the `table` view.
+			if(empty($pk)) $pk = $jInput->get('id');
+			// of course it could all be in error...
+			if(empty($pk)) return false;
 		}
 		$item = parent::getItem($pk);
 		$item->CSVFileHasHeaders = 0;
