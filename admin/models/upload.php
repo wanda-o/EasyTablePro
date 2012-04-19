@@ -85,6 +85,8 @@ class EasyTableProModelUpload extends JModelAdmin
 
 
 	function getItem($pk = null) {
+		$jInput = JFactory::getApplication()->input;
+
 		if(empty($pk))
 		{
 			// If we're being called from the `tables` list.
@@ -97,6 +99,7 @@ class EasyTableProModelUpload extends JModelAdmin
 		}
 		$item = parent::getItem($pk);
 		$item->CSVFileHasHeaders = 0;
+		$item->previousTask = $jInput->get('task');
 		return $item;
 	}
 
