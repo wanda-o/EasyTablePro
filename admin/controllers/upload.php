@@ -49,16 +49,6 @@ class EasyTableProControllerUpload extends JControllerForm
 	/***************/
 	/* Data Import */
 	/***************/
-	function presentUploadScreen()
-	{
-
-		$jAp= JFactory::getApplication();
-
-		JRequest::setVar('view', 'EasyTableUpload');
-		JRequest::setVar('tmpl', 'component');
-		$this->display();
-	}
-
 	function uploadData()
 	{
 
