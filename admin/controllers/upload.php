@@ -384,6 +384,14 @@ class EasyTableProControllerUpload extends JControllerForm
 		return $get_Meta_result;
 	}
 
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+		$params = JComponentHelper::getParams('com_easytablepro');
+		$model->setState('params',$params);
+		return $model;
+	}
+
 	function createMetaFrom ($CSVFileArray, $id)
 	{
 	// We Parse the csv file into an array of URL safe Column names 

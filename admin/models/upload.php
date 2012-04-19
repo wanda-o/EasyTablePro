@@ -109,10 +109,6 @@ class EasyTableProModelUpload extends JModelAdmin
 		$id = JRequest::getInt('id');
 		$this->setState('table.id', $id);
  
-		// Load the parameters.
-		$params = JComponentHelper::getParams('com_easytablepro');
-		$this->setState('params', $params);
-
 		parent::populateState();
 	}
 
