@@ -25,6 +25,12 @@ require_once $pmf;
 
 class EasyTableProControllerUpload extends JControllerForm
 {
+	public function __construct($config = array())
+	{
+		// Add in the `table` model and table. Confusing huh?
+		parent::__construct($config);
+	}
+
 	function convertType($ftype)
 	{
 		switch ( $ftype )
@@ -53,159 +59,236 @@ class EasyTableProControllerUpload extends JControllerForm
 	{
 		$Ap= JFactory::getApplication();
 
-		$this->checkOutEasyTable();
-		$currentTask = JRequest::getVar( 'task','');
-		$updateType = JRequest::getVar('uploadType',0) ? 'append' : 'replace' ;
 		$jInput = $Ap->input;
+		// Prepare for failure
+		$jInput->set('uploadedRecords', 0);
 
-		$this->processNewDataFile($currentTask, $updateType);
-		$this->checkInEasyTable();
-		JRequest::setVar('view', 'EasyTableUpload');
-		JRequest::setVar('tmpl', 'component');
+		$updateType = $jInput->get('uploadType', 1, 'INT') ? 'replace' : 'append' ;
+		$pk = $jInput->get('id');
+		$model = $this->getModel();
+		$item = $model->getItem();
+		$this->model = $model;
+		$this->item = $item;
+		$importWorked = $this->processNewDataFile($updateType, $pk);
+
+		$jInput->set('tmpl', 'component');
+		$jInput->set('step', 'uploadCompleted');
+		$jInput->set('prevAction', $updateType);
+		$jInput->set('datafile', $this->dataFile);
+		$jInput->set('uploadedRecords', (int) $importWorked);
 		$this->display();
 	}
 
-	/*
-		Takes the data file and either appends it to the existing records or
-		replaces them with the contents of the file.
-	*/
-	function processNewDataFile($currentTask, $updateType)
+	/**
+	 *	processNewDataFile() performs the main process of importing a data file
+	 *
+	 * @param string $updateType - used to determine whether new records 'replace' existing or 'append' to them.
+	 * @param int $id - table primiary key value.
+	 * @return boolean True on success, False on failure
+	 */
+	private function processNewDataFile($updateType, $id)
 	{
+		$Ap= JFactory::getApplication();
 
-		$jAp= JFactory::getApplication();
-		// Get a reference to a file if it exists, and load it into an array
-		$file = JRequest::getVar('tablefile', null, 'files', 'array');
-		$CSVFileArray = $this->parseCSVFile($file);
-		global $et_current_table_id;
-		$id = $et_current_table_id;
-		$jAp->enqueueMessage('About to '.$updateType.' records in table id: '.$id);
+		if($file = $this->getFile()){
+			$CSVFileArray = $this->parseCSVFile($file);
+			if(!$CSVFileArray) {
+				$Ap->enqueueMessage(JText::sprintf('Unable to open data file:<br />%s', $file));
+				return false;
+			}
+		} else {
+			return false;
+		}
 
+		$Ap->enqueueMessage(JText::sprintf('About to %s records in table id: %s', $updateType, $id));
 
 		// Check for an update action
-		if (($currentTask == 'updateETDTable') || ($currentTask  == 'uploadFile') || ($currentTask == 'uploadData'))
+		$Ap->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_DATA_FILE_ATTACHED' ));
+		if($updateType == 'replace')
 		{
-			if($file)
+			// Clear out previous records before uploading new records.
+			if($this->emptyETTD($id))
 			{
-				$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_DATA_FILE_ATTACHED' ));
-				if($updateType == 'replace')
-				{
-					// Clear out previous records before uploading new records.
-					if($this->emptyETTD($id))
-					{
-						$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_EMPTIED_EXISTI_ROWS' ));
-						$jAp->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_OLD_RECORDS_CLEARED', $id));
-					}
-					else
-					{
-						$jAp->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_COULD_NOT_DELETE_RECORDS',$id));
-						return;
-					}
-				} else {
-				}
-				// Then we parse it and upload the data into the ettd
-				$ettdColumnAliass = $this->getFieldAliasForTable($id);
-				if($ettdColumnAliass)
-				{
-					if(!($csvRowCount = $this->updateETTDTableFrom($id, $ettdColumnAliass, $CSVFileArray)))
-					{
-						$jAp->enqueueMessage(JText::sprintf( COM_EASYTABLEPRO_TABLE_UPLOAD_ERROR_COLUMN_MISMATCH, $id ));
-					}
-					else
-						$jAp->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_IMPORTED_DESC' , $csvRowCount ));
-				}
-				else
-				{
-					JError::raiseError(500,"Couldn't get the fieldalias\'s for table: $id");
-				}
+				$Ap->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_EMPTIED_EXISTI_ROWS' ));
+				$Ap->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_OLD_RECORDS_CLEARED', $id));
 			}
 			else
 			{
-			// If no file is attached we can go on our merry way.
-				$jAp->enqueueMessage(JText::_( COM_EASYTABLEPRO_TABLE_UPLOAD_ERROR_NO_FILE ));
+				$Ap->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_COULD_NOT_DELETE_RECORDS',$id));
+				return;
 			}
+		}
+
+		// All Seems good now we can update the data table with the contents of the file.
+		if(!($csvRowCount = $this->updateETTDTableFrom($id, $CSVFileArray)))
+		{
+			$Ap->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_UPLOAD_ERROR_COLUMN_MISMATCH', $id ), 'Error');
+			return false;
+		}
+		else
+			$Ap->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_IMPORTED_DESC' , $csvRowCount ));
+
+		return $csvRowCount;
+	}
+
+	private function getFile()
+	{
+		$jFileInput = new JInput($_FILES);
+		$theFile = $jFileInput->get('jform',array(),'array');
+
+		// Make sure that file uploads are enabled in php
+		if (!(bool) ini_get('file_uploads')) {
+			JError::raiseWarning('', JText::_('PHP does not have `file_uploads` enabled.'));
+			return false;
+		}
+		
+		// Make sure that zlib is loaded so that the package can be unpacked
+		if (!extension_loaded('zlib')) {
+			JError::raiseWarning('', JText::_('PHP does not have the `zlib` extensions enabled.'));
+			return false;
+		}
+		
+		// If there is no uploaded file, we have a problem...
+		if (!is_array($theFile)) {
+			JError::raiseWarning('', JText::_('No file was selected.'));
+			return false;
+		}
+		
+		// Check if there was a problem uploading the file.
+		if ($theFile['error']['tablefile'] || $theFile['size']['tablefile'] < 1) {
+			JError::raiseWarning('', JText::_('An error was encountered, possibly the file is larger than the PHP `upload_max_filesize` limit.'));
+			return false;
+		}
+		
+		// Build the paths for our file to move to the components 'upload' directory
+		$theFileName = $theFile['name']['tablefile'];
+		$tmp_src	= $theFile['tmp_name']['tablefile'];
+		$tmp_dest	= JPATH_COMPONENT_ADMINISTRATOR . '/uploads/' . $theFileName;
+		$this->dataFile = $theFileName;
+
+		// Check our file suffix before moving on...
+		$fileSuffix = strtolower ( substr ( $theFileName, strlen ( $theFileName )-3,  3 ));
+		if(($fileSuffix != 'csv') && ($fileSuffix != 'tab')) {
+			JError::raiseWarning('', 'Data files must be \'tab\' or \'csv\' and end with the correct suuffix.');
+			return false;
+		}
+
+		// Move uploaded file
+		jimport('joomla.filesystem.file');
+		$uploaded = JFile::upload($tmp_src, $tmp_dest);
+		if ($uploaded)
+		{
+			return $tmp_dest;
+		} else {
+			return false;
 		}
 	}
 
-	function parseCSVFile (&$file)
+	private function parseCSVFile ($filename)
 	{
 		// Setup
 		$CSVTableArray = FALSE;
-		if(isset( $file['name']) && $file['name'] != '')
-		{
-			//Import filesystem libraries. Perhaps not necessary, but does not hurt
-			jimport('joomla.filesystem.file');
-			 
-			//Clean up filename to get rid of strange characters like spaces etc
-			$origFilename = JFile::makeSafe($file['name']);
-			 
-			//Set up the source and destination of the file
-			$src = $file['tmp_name'];
-			$dest = JPATH_COMPONENT_ADMINISTRATOR.'/uploads/'.$origFilename;
-	
-			if ( JFile::upload($src, $dest) ) {
-				//Process the file
-				//Get the ADLE setting and set it to TRUE while we process our CSV file
-				$original_ADLE = ini_get('auto_detect_line_endings');
-				ini_set('auto_detect_line_endings', true);
 
-				// Create a new empy array and get our temp file's full/path/to/name
-				$CSVTableArray = array();
-	
-				$filename = $dest;
-				if($filename == '')
+		//Process the file
+		//Get the ADLE setting and set it to TRUE while we process our CSV file
+		$original_ADLE = ini_get('auto_detect_line_endings');
+		ini_set('auto_detect_line_endings', true);
+
+		// Create a new empy array and get our temp file's full/path/to/name
+		$CSVTableArray = array();
+
+		$fileSuffix = strtolower ( substr ( $filename, strlen ( $filename )-3,  3 ));
+		$fileDelimiter = ( $fileSuffix == 'csv' ) ? "," : "\t";
+		$fileLength = 0;
+		
+		$handle = fopen($filename, "r");
+		if(!$handle) {
+			return false;
+		}
+
+		if($fileDelimiter == ",")
+		{
+			while (($data = fgetcsv($handle)) !== FALSE)
+			{
+				if( count($data)==0 )
 				{
-					JError::raiseError(500, '$filename for temp file is empty. File is possibly bigger than MAX upload size.');
-				}
-				$fileSuffix = strtolower ( substr ( $filename, strlen ( $filename )-3,  3 ));
-				$fileDelimiter = ( $fileSuffix == 'csv' ) ? "," : "\t";
-				$fileLength = 0;
-				
-				$handle = fopen($filename, "r");
-				if($fileDelimiter == ",")
-				{
-				while (($data = fgetcsv($handle)) !== FALSE)
-				{
-					if( count($data)==0 )
-					{
-						// fgetcsv creates a single null field for blank lines - we can skip them...
-					}
-					else
-					{
-						$CSVTableArray[] = $data;	// We store the row array
-					}
-				}
+					// fgetcsv creates a single null field for blank lines - we can skip them...
 				}
 				else
 				{
-					while (($data = fgetcsv($handle, $fileLength, $fileDelimiter)) !== FALSE)
-					{
-						if( count($data)==0 )
-						{
-							// fgetcsv creates a single null field for blank lines - we can skip them...
-						}
-						else
-						{
-							$CSVTableArray[] = $data;	// We store the row array
-						}
-					}
+					$CSVTableArray[] = $data;	// We store the row array
 				}
-		
-				fclose($handle);
-				
-				// Make sure we return the ADLE ini to it's original value - who know's what'll happen if we don't.
-				ini_set('auto_detect_line_endings', $original_ADLE);
-				
 			}
-			else
+		}
+		else
+		{
+			while (($data = fgetcsv($handle, $fileLength, $fileDelimiter)) !== FALSE)
 			{
-				//Throw an error message
-				$fileArrayAsText = implode(', ', $file);
-				JError::raiseError(500, "<br />$origFilename - could not be moved.<br />Source: $src <br />Destination: $dest <br /> FILE ARRAY <br /> $fileArrayAsText");
+				if( count($data)==0 )
+				{
+					// fgetcsv creates a single null field for blank lines - we can skip them...
+				}
+				else
+				{
+					$CSVTableArray[] = $data;	// We store the row array
+				}
 			}
-
 		}
 
+		fclose($handle);
+		
+		// Make sure we return the ADLE ini to it's original value - who know's what'll happen if we don't.
+		ini_set('auto_detect_line_endings', $original_ADLE);
+
 		return $CSVTableArray;
+	}
+
+
+	private function emptyETTD ($id)
+	{
+ 		// Get a database object
+		$db = JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,"Couldn't get the database object while trying to remove ETTD: $id");
+		}
+		// Build the TRUNCATE SQL -- NB. using truncate resets the AUTO_INCREMENT value of ID
+		$ettd_table_name = $db->nameQuote('#__easytables_table_data_'.$id);
+		$query = 'TRUNCATE TABLE '.$db->nameQuote('#__easytables_table_data_'.$id).';';
+
+		$db->setQuery($query);
+		$theResult=$db->query();
+		if(!$theResult)
+		{
+			JError::raiseWarning(500, "Failed to TRUNCATE table data in $ettd_table_name");
+		}
+		return($theResult);		
+	}
+
+	private function getFieldAliasForTable($id)
+	{
+		// Get a database object
+		$db = JFactory::getDBO();
+		if(!$db){
+			JError::raiseError('',"Couldn't get the database object while retrieving meta for table: $id");
+		}
+		// Run the SQL to insert the Meta records
+		// Get the meta data for this table
+		$q = $db->getQuery(true);
+		$q->select('fieldalias');
+		$q->from($db->quoteName('#__easytables_table_meta'));
+		$q->where($db->quoteName('easytable_id') . '= ' . $id );
+		$q->order($db->quoteName('id'));
+
+		// $query = "SELECT `fieldalias` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE `easytable_id` =".$id." ORDER BY `id`;";
+		$db->setQuery($q);
+		$get_Meta_result = $db->loadColumn();
+
+		if(!$get_Meta_result)
+		{
+			JError::raiseError('','getFieldAliasForTable failed for table: '.$id.'<br />'.$db->getErrorMsg());
+		}
+
+		return $get_Meta_result;
 	}
 
 	function ettdExists($id)
@@ -351,29 +434,6 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			return FALSE;
 		}
-	}
-
-	function getFieldAliasForTable($id)
-	{
-
-		// Get a database object
-		$db = JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object while creating meta for table: $id");
-		}
-		// Run the SQL to insert the Meta records
-		// Get the meta data for this table
-		$query = "SELECT `fieldalias` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE `easytable_id` =".$id." ORDER BY `id`;";
-		$db->setQuery($query);
-		$get_Meta_result = $db->loadResultArray();
-
-		if(!$get_Meta_result)
-		{
-			JError::raiseError(500,'getFieldAliasForTable failed for table: '.$id.'<br />'.$db->getErrorMsg());
-		}
-
-
-		return $get_Meta_result;
 	}
 
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
@@ -525,41 +585,31 @@ class EasyTableProControllerUpload extends JControllerForm
 		return $this->ettdExists($id);
 	}
 
-	function emptyETTD ($id)
-	{
- 		// Get a database object
-		$db = JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object while trying to remove ETTD: $id");
-		}
-		// Build the TRUNCATE SQL -- NB. using truncate resets the AUTO_INCREMENT value of ID
-		$ettd_table_name = $db->nameQuote('#__easytables_table_data_'.$id);
-		$query = 'TRUNCATE TABLE '.$db->nameQuote('#__easytables_table_data_'.$id).';';
-
-		$db->setQuery($query);
-		$theResult=$db->query();
-		if(!$theResult)
-		{
-			JError::raiseWarning(500, "Failed to TRUNCATE table data in $ettd_table_name");
-		}
-		return($theResult);		
-	}
-
-	function updateETTDTableFrom ($id, $ettdColumnAliass, $CSVFileArray)
+	/**
+	 * @param int $id - EasyTable table id.
+	 * @param array $ettdColumnAliass - array of column alias used to build the insert sql
+	 * @param array $CSVFileArray of 
+	 * @return boolean|number false on failure, record count on success
+	 */
+	private function updateETTDTableFrom ($id, $CSVFileArray)
 	{
 		// Setup basic variables
-		$hasHeaders = JRequest::getVar('CSVFileHasHeaders');
+		$Ap = JFactory::getApplication();
+		$ettdColumnAliass = $this->getFieldAliasForTable($id);
+		$hasHeaders = $this->item->get('CSVFileHasHeaders');
 		$totalCSVRows = count($CSVFileArray);
-		// Get the settings meta record
-		$settings = ET_MgrHelpers::getSettings();
 		// Chunk size for file processing
-		$chunkSize = $settings->get('chunkSize', 50); //Get the chunk size from Pref's, default to 50.
+		$chunkSize = $this->model->getState('chunkSize', 50); //Get the chunk size from Pref's, default to 50.
 
 		$csvRowCount = 0;
 
 		// Check our CSV column count matches our ETTD
 		if( count($ettdColumnAliass) != count($CSVFileArray[0]))
-		{ return FALSE; } // Our existing column count doesn't match those found in the first line of the CSV
+		{
+			// Our existing column count doesn't match those found in the first line of the CSV
+			$Ap->enqueueMessage(JText::sprintf('The existing column count (%s) doesn\'t match those found in the first line of the CSV (%s).', count($ettdColumnAliass), count($CSVFileArray[0])), 'Warning' );
+			return FALSE;
+		}
 		
 		// Break the array up into manageable chunks for processing
 		$CSVFileChunks = array_chunk($CSVFileArray, $chunkSize);
