@@ -98,7 +98,11 @@ class EasyTableProModelUpload extends JModelAdmin
 			if(empty($pk)) return false;
 		}
 		$item = parent::getItem($pk);
-		$item->CSVFileHasHeaders = 0;
+		// @todo replace with JInput when it (JInput) get's it shit together...
+		$ourJform = JRequest::getVar('jform', array(), 'deault', 'array');
+		if(array_key_exists('CSVFileHasHeaders', $ourJform))
+			$item->CSVFileHasHeaders = $ourJform['CSVFileHasHeaders'];
+
 		$item->previousTask = $jInput->get('task');
 		return $item;
 	}
