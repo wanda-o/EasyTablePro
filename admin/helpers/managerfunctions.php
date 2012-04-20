@@ -33,20 +33,6 @@ class ET_MgrHelpers
 		return ET_MgrHelpers::return_as_bytes(ini_get ( 'upload_max_filesize' ));
 	}
 
-	public static function userIs($allowedTo = '')
-	{
-		if($allowedTo == '') return false;
-		// Get the current user
-		$user = JFactory::getUser();
-		// Get the settings meta record
-		$settings = ET_MgrHelpers::getSettings();
-		// Allow Raw Data Entry
-		$accessSettings = explode(',', $settings->get('allowRawDataEntry'));
-		if(in_array($user->usertype, $accessSettings)) return true;
-
-		return false;
-	}
-
 	/**
 	* Gets a list of the actions that can be performed.
 	*
