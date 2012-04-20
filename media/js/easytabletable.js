@@ -488,10 +488,7 @@ com_EasyTablePro.Table.toggleModifyControls = function()
 		$('et_controlRow').removeClass('et_controlRow-nodisplay')
 		$$('.deleteFieldButton-nodisplay').addClass('deleteFieldButton');
 		$$('.deleteFieldButton').removeClass('deleteFieldButton-nodisplay');
-		$('fileInputBox').disabled = true;
-		$('fileUploadBtn').disabled = true;
-		$('uploadWhileModifyingNotice').style.display = 'block';
-		$('tableimport').style.display = 'none';
+		com_EasyTablePro.Tools.disableToolbarBtn('toolbar-popup-easytablpro-uploadTable', Joomla.JText._('COM_EASYTABLEPRO_TABLE_UPLOAD_DISABLED_TABLE_MODIFIED_MSG'));
 	}
 	else
 	{

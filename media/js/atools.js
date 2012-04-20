@@ -52,6 +52,35 @@ com_EasyTablePro.Tools.getID  = function ()
 	}
 }
 
+com_EasyTablePro.Tools.disableToolbarBtn = function (toolBarBtn, newToolTipText)
+{
+	// Disable the link
+	var ourBtn = $(toolBarBtn);
+	var ourBtnLink = ourBtn.childNodes[1]
+	ourBtnLink.removeEvents();
+	ourBtnLink.removeAttribute('href');
+	ourBtnLink.removeAttribute('rel');
+	ourBtnLink.addClass('hasTip')
+
+	// Setup the new tooltip message
+	newTitle = newToolTipText;
+	ourBtnLink.set('title', newTitle);
+	var ourBtnTips = ourBtnLink.get('title').split('::',2);
+	ourBtnLink.store('tip:title', ourBtnTips[0]);
+	ourBtnLink.store('tip:text', ourBtnTips[1]);
+	// Re-init Tooltips - @todo find a less nuclear way of doing this...
+	var JTooltips = new Tips($$('.hasTip'), { maxTitleChars: 50, fixed: false});
+
+	// Change icon
+	ourBtnSpan = ourBtnLink.childNodes[1];
+	// This could be a problem if buttons ever end up with multiple classes if different orders.
+	var ourBtnSpanClassArray = ourBtnSpan.get('class').split(' ');
+	ourBtnSpanClassOff = ourBtnSpanClassArray[0] + '-off';
+
+	ourBtnSpan.addClass( ourBtnSpanClassOff );
+	ourBtnSpan.removeClass( ourBtnSpanClassArray[0] );
+}
+
 com_EasyTablePro.Tools.addToList = function(theList, itemToAdd)
 {
 	newList = theList.split(', ');

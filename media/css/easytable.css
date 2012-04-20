@@ -29,6 +29,12 @@
 	height: 32px;
 }
 
+.icon-32-easytablpro-uploadTable-off {
+	background: url(/media/com_easytablepro/images/Upload-Button_32x64.png) no-repeat left;
+	background-position-y: -32px;
+	height: 32px;
+}
+
 .ept_tablelist_table_details {
 	clear:both;
 	color:silver;
