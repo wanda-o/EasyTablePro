@@ -23,7 +23,11 @@
 			</fieldset>
 			<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_RECORDS_DESC').' \'' . $this->form->getValue('easytablename') . '\''; ?></legend>
-			<?php echo $this->loadTemplate('form'); ?>
+			<?php if($this->step == 'uploadCompleted') {
+				echo $this->loadTemplate('completed'); 
+			} else {
+				echo $this->loadTemplate('form');
+			}?>
 			</fieldset>
 			</td>
 		</tr>
