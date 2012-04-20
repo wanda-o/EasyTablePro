@@ -43,7 +43,13 @@ class EasyTableProViewUpload extends JView
 		$this->form = $form;
 		$this->item = $item;
 		
-		// Set our layout
+		// Set up our layout details
+		$jInput = JFactory::getApplication()->input;
+		$this->step = $jInput->get('step','');
+		$this->prevAction = $jInput->get('prevAction','');
+		$this->dataFile = $jInput->get('datafile', JText::_('COM_EASYTABLEPRO_UPLOAD_NOFILENAME'));
+		$this->uploadedRecords = $jInput->get('uploadedRecords', 0);
+		$this->status = ($jInput->get('uploadedRecords',0) > 0) ? 'SUCCESS' : 'FAIL';
 		$this->setLayout('upload');
 		
 		parent::display($tpl);
