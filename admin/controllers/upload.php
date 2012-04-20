@@ -51,10 +51,12 @@ class EasyTableProControllerUpload extends JControllerForm
 	/***************/
 	function uploadData()
 	{
+		$Ap= JFactory::getApplication();
 
 		$this->checkOutEasyTable();
 		$currentTask = JRequest::getVar( 'task','');
 		$updateType = JRequest::getVar('uploadType',0) ? 'append' : 'replace' ;
+		$jInput = $Ap->input;
 
 		$this->processNewDataFile($currentTask, $updateType);
 		$this->checkInEasyTable();
