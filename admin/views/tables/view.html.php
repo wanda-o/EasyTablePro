@@ -75,7 +75,7 @@ class EasyTableProViewTables extends JView
 
 		if( !$locked && !$extTable && $hasPermission)
 		{
-			$theEditBtn = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\'tables.editData\');" title="'.$btn_text.'" >'.$theEditBtn.'</a>';
+			$theEditBtn = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\'records.records\');" title="'.$btn_text.'" >'.$theEditBtn.'</a>';
 		}
 
 		return($theEditBtn);
