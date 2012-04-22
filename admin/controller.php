@@ -39,10 +39,11 @@ class EasyTableProController extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
     {
-    	
-		$view		= JRequest::getCmd('view', 'tables');
-		$layout 	= JRequest::getCmd('layout', 'tables');
-		$id			= JRequest::getInt('id');
+    	$jInput = JFactory::getApplication()->input;
+    	$rawTask = $jInput->get('task', '');
+		$view		= $jInput->get('view', 'tables');
+		$layout 	= $jInput->get('layout', 'tables');
+		$id			= $jInput->get('id');
 
 		// Check for edit form.
 		if ($view == 'table' && $layout == 'edit' && !$this->checkEditId('com_easytablepro.edit.table', $id)) {
@@ -53,10 +54,12 @@ class EasyTableProController extends JController
 
 			return false;
 		}
+		
+		// Are we going for the 'records' view?
+		if($rawTask == 'records') $jInput->set('view', 'records');
 
     	parent::display($cachable);
-		
+
 		return $this;
     }
- 
 }
