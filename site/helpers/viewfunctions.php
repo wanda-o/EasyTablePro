@@ -14,7 +14,7 @@ class ET_VHelper
 		$type = user defined type
 		$params = field options 
 	*/
-	function getFWO ($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
+	public static function getFWO ($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
 	{
 		/* The next two lines are a work around for a nested foreach bug in early versions of PHP 5.2.x */
 		is_object( $OrigRow ) ? $row = clone $OrigRow : $row = $OrigRow;
@@ -26,7 +26,8 @@ class ET_VHelper
 		$fieldOptions = '';
 		if ( isset ($params) )
 		{
-			$paramsObj = new JParameter ($params);
+			$paramsObj = new JRegistry();
+			$paramsObj->loadString($params);
 			$rawFieldOptions = $paramsObj->get('fieldoptions','');
 			if(strlen ( $rawFieldOptions ) > 1){
 				$fieldOptions = pack("H*", substr ( $rawFieldOptions, 1 ));
@@ -73,7 +74,7 @@ class ET_VHelper
 		return $fieldWithOptions;
 	}
 
-	function addOptions ($fieldOptions, $tokenArray)
+	public static function addOptions ($fieldOptions, $tokenArray)
 	{
 		if(empty($fieldOptions))
 		{
@@ -85,7 +86,7 @@ class ET_VHelper
 		}
 	}
 
-	function applyOptions ($f, $fieldOptions, $tokenArray)
+	public static function applyOptions ($f, $fieldOptions, $tokenArray)
 	{
 		if(empty($fieldOptions))
 		{
@@ -97,7 +98,7 @@ class ET_VHelper
 		}
 	}
 
-	function getImageWithOptions($f, $fieldOptions, $row)
+	public static function getImageWithOptions($f, $fieldOptions, $row)
 	{
 		if($f)
 		{
@@ -118,7 +119,7 @@ class ET_VHelper
 		return $fieldWithOptions;
 	}
 
-	function getURLWithOptions($f, $fieldOptions, $row)
+	public static function getURLWithOptions($f, $fieldOptions, $row)
 	{
 		//For fully qualified URL's starting with HTTP we open in a new window, for everything else its the same window.
 		$URLTarget = 'target="_blank"'; 
@@ -144,7 +145,7 @@ class ET_VHelper
 		return $fieldWithOptions;
 	}
 
-	function getMailWithOptions($f, $fieldOptions, $row)
+	public static function getMailWithOptions($f, $fieldOptions, $row)
 	{
 		$fieldWithOptions = '';
 		if(empty($fieldOptions))
@@ -164,7 +165,7 @@ class ET_VHelper
 		return $fieldWithOptions;
 	}
 
-	function getNumberWithOptions($f, $fieldOptions, $row)
+	public static function getNumberWithOptions($f, $fieldOptions, $row)
 	{
 		$fieldWithOptions = '';
 		if(empty ( $fieldOptions ))
@@ -188,7 +189,7 @@ class ET_VHelper
 		return $fieldWithOptions;
 	}
 
-	function getDateWithOptions($f, $fieldOptions, $row)
+	public static function getDateWithOptions($f, $fieldOptions, $row)
 	{
 		$fieldWithOptions = '';
 		
@@ -209,7 +210,7 @@ class ET_VHelper
 		return $fieldWithOptions;
 	}
 
-	function hasEmailType ($metaArray)
+	public static function hasEmailType ($metaArray)
 	{
 		foreach ( $metaArray as $metaRecordArray )
 		{

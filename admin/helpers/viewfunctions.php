@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restricted Access');
 	// Get Field With Options
-class ET_VHelpers
+class ET_VHelper
 {
 	public static $extension = 'com_easytablepro';
 
@@ -41,13 +41,13 @@ class ET_VHelpers
 	// Return Meta for Fields in List View
 	public static function et_List_View_Fields ($allFieldsMeta)
 	{
-		return ET_VHelpers::et_View_Fields_From($allFieldsMeta, 'list');
+		return ET_VHelper::et_View_Fields_From($allFieldsMeta, 'list');
 	}
 
 	// Return Meta for Fields in Detail View
 	public static function et_Detail_View_Fields ($allFieldsMeta)
 	{
-		return ET_VHelpers::et_View_Fields_From($allFieldsMeta, 'detail');
+		return ET_VHelper::et_View_Fields_From($allFieldsMeta, 'detail');
 	}
 
 	// Return Meta for Fields by type
