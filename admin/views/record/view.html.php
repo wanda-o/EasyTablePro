@@ -8,10 +8,13 @@
 defined('_JEXEC') or die('Restricted Access');
 jimport('joomla.application.component.view');
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
-$pvf = ''.JPATH_COMPONENT_SITE.'/views/viewfunctions.php';
-require_once $pvf;
 
-class EasyTableViewEasyTableRecord extends JView
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
+require_once JPATH_COMPONENT_SITE.'/helpers/viewfunctions.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/dataviewfunctions.php';
+
+
+class EasyTableProViewRecord extends JView
 {
 	function getFieldInputType ($fldAlias, $fldType, $value)
 	{
@@ -29,10 +32,8 @@ class EasyTableViewEasyTableRecord extends JView
 				$size = 'size="175" maxlength="255"';
 				$inputFld = '<input name="et_fld_'.$fldAlias.'" type="'.$type.'" '.$size.' value="'.$value.'" />';
 		}
-				
-
-			// Set up the input field string
-			return $inputFld;
+		// Set up the input field string
+		return $inputFld;
 	}
 
 	function getImageTag ($f, $fieldOptions='')
@@ -61,61 +62,107 @@ class EasyTableViewEasyTableRecord extends JView
 
 	function display ($tpl = null)
 	{
-		$id = JRequest::getVar( 'id', 0);
+		// get the Data
+		$item = $this->get('Item');
+		$state = $this->get('State');
+	
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode('<br />', $errors));
+			return false;
+		}
+		// Assign the Data
+		$this->item  = $item;
+		$this->state = $state;
+		$easytable = $item['easytable'];
+	
+		// Should we be here?
+		$this->canDo = ET_Helper::getActions($easytable->id);
+		
+		// Load the doc bits
+		$this->addToolbar();
+		$this->addCSSEtc();
+	
+		$id = $easytable->id;
 		if($id == 0) {
 			JError::raiseNotice( 100, JText::_( 'COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR' ).$id );
 		}
 
-		// Lets lock out the main menu
-		JRequest::setVar( 'hidemainmenu', 1 );
-
-		// Get the table based on the id from the request
-		$easytable = JTable::getInstance('EasyTable','Table');
-		$easytable->load($id);
-
 		// Get the default image directory from the table.
 		$currentImageDir = $easytable->defaultimagedir;
 
-		//get the document and load the js support file
-		$doc = JFactory::getDocument();
-		$doc->addScript(JURI::base().'media/com_easytablepro/js/easytabledata.js');
-		$doc->addStyleSheet(JURI::base().'media/com_easytablepro/css/easytable.css');
-
-		// Get a database object
-		$db = JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
-		}
 		// Get the meta data for this table
-		$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." ORDER BY position;";
-		$db->setQuery($query);
+		$easytables_table_meta = $easytable->table_meta;
+		// Get the data for this record
 
-		$easytables_table_meta = $db->loadAssocList();
-
-		// If we're editing an existing record
-		$cTask = JRequest::getVar('task');
-		if($cTask == 'editrow') {
-			// Get the record id and then
-			$cid = JRequest::getVar( 'cid', array(0), '', 'array'); // get the cid array
-			$rid = $cid[0]; // record id for the table data being edited (we're only interested in the first one)
-			// Build the SQL to get the record
-			$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_data_'.$id)."WHERE `id`=".$rid.";";
-			$db->setQuery($query);
-			// Store the record in a variable
-			$easytable_data_record = $db->loadAssoc();
-		} else if($cTask == 'addrow') {
-			$easytable_data_record = '';
-			$rid = 0;
-		}
+		$easytable_data_record = $item['record'];
 
 		// Assing these items for use in the tmpl
-		$this->assign('tableId', $id);
-		$this->assign('recordId', $rid);
-		$this->assign('currentImageDir', $currentImageDir);
-		$this->assignRef('easytable', $easytable);
+		$this->tableId = $id;
+		$this->recordId = $easytable_data_record->id;
+		$this->currentImageDir = $currentImageDir;
+		$this->easytable = $easytable;
+		$this->et_meta = $easytables_table_meta;
+		$this->et_record = JArrayHelper::fromObject($easytable_data_record);
 
-		$this->assignRef('et_meta',$easytables_table_meta);
-		$this->assignRef('et_record',$easytable_data_record);
 		parent::display($tpl);
 	}
+
+	private function addToolbar()
+
+	{
+		JHTML::_('behavior.tooltip');
+	
+		$jinput = JFactory::getApplication()->input;
+		$jinput->set('hidemainmenu', true);
+		$canDo	    = $this->canDo;
+		$user		= JFactory::getUser();
+
+		$easytable = $this->item['easytable'];
+		$isNew		= ($easytable->id == 0);
+		$checkedOut	= !($easytable->checked_out == 0 || $easytable->checked_out == $user->get('id'));
+	
+		if($canDo->get('easytablepro.editrecords')) {
+			JToolBarHelper::title($isNew ? JText::_('COM_EASYTABLEPRO_RECORD_CREATING_NEW_RECORD') : JText::sprintf('COM_EASYTABLEPRO_RECORD_VIEW_TITLE_SEGMENT_EDITING_RECORD',$easytable->id), 'easytablepro-editrecord');
+			JToolBarHelper::apply('record.apply');
+			JToolBarHelper::save('record.save');
+			JToolBarHelper::save2new('record.save2new');
+		}
+		JToolBarHelper::divider();
+	
+		JToolBarHelper::cancel('table.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+		JToolBarHelper::divider();
+	
+		JToolBarHelper::help('COM_EASYTABLEPRO_MANAGER_HELP',false,'http://seepeoplesoftware.com/products/easytablepro/1.1/help/record.html');
+	}
+	
+	private function addCSSEtc()
+	{
+		//get the document
+		$doc = JFactory::getDocument();
+	
+		// First add CSS to the document
+		$doc->addStyleSheet('/media/com_easytablepro/css/easytable.css');
+	
+		// Get the document object
+		$document =JFactory::getDocument();
+	
+		// Load the defaults first so that our script loads after them
+		JHtml::_('behavior.framework', true);
+		JHtml::_('behavior.tooltip');
+		JHtml::_('behavior.multiselect');
+	
+		// Then add JS to the document‚ - make sure all JS comes after CSS
+		// Tools first
+		$jsFile = ('/media/com_easytablepro/js/atools.js');
+		$document->addScript($jsFile);
+		ET_Helper::loadJSLanguageKeys($jsFile);
+		// Component view specific next...
+		$jsFile = ('/media/com_easytablepro/js/easytabledata.js');
+		$document->addScript($jsFile);
+		ET_Helper::loadJSLanguageKeys($jsFile);
+	
+	}
+	
 }

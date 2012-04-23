@@ -8,20 +8,6 @@
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
 	$et_tableName = $this->easytable->easytablename;
-	JHTML::_('behavior.tooltip');
-	if($this->recordId == 0) {
-		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO_RECORD_CREATING_NEW_RECORD' ).' '.JText::_( 'COM_EASYTABLEPRO_RECORD_VIEW_TITLE_SEGMENT_IN' ).' '.$et_tableName, 'easytableeditrecords');
-		JToolBarHelper::save('saveNewRecord');
-		JToolBarHelper::apply('applyNewRecord');
-		JToolBarHelper::divider();
-		JToolBarHelper::cancel('cancelNewRecord', JText::_( 'COM_EASYTABLEPRO_LABEL_CANCEL' ));
-	} else {
-		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO_RECORD_VIEW_TITLE_SEGMENT_EDITING_RECORD' ).' '.$this->recordId .' '.JText::_( 'COM_EASYTABLEPRO_RECORD_VIEW_TITLE_SEGMENT_IN' ).' '.$et_tableName, 'easytableeditrecords');
-		JToolBarHelper::save('saveRecord');
-		JToolBarHelper::apply('applyRecord');
-		JToolBarHelper::divider();
-		JToolBarHelper::cancel('cancelRecord', JText::_( 'COM_EASYTABLEPRO_LABEL_CANCEL' ));
-	}
 ?>
 
 <form action="index.php" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
@@ -30,7 +16,7 @@ defined('_JEXEC') or die('Restricted Access');
 			<tr>
 				<td>
 					<fieldset class="adminform " >
-						<legend><?php echo $et_tableName.' - '.JText::_( 'COM_EASYTABLEPRO_RECORDS_DATA_SEGMENT' ); ?></legend>
+						<legend><?php echo JText::sprintf( 'COM_EASYTABLEPRO_RECORDS_DATA_SEGMENT', $et_tableName ); ?></legend>
 						<table class="adminlist" id="et_fieldList">
 						<thead>
 							<tr valign="top">
