@@ -9,16 +9,137 @@
 defined('_JEXEC') or die('Restricted Access');
 jimport('joomla.application.component.view');
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
-$dvf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/views/dataviewfunctions.php';
-$pvf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/views/viewfunctions.php';
-require_once $dvf;
-require_once $pvf;
+require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/recordsviewfunctions.php';
+require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
+require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/viewfunctions.php';
+require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/dataviewfunctions.php';
 
-class EasyTableViewEasyTableRecords extends JView
+class EasyTableProViewRecords extends JView
 {
+	protected $state;
+	protected $items;
+	protected $pagination;
+
+	function display ($tpl = null)
+	{
+		// Get the settings meta record
+		$canDo = ET_Helper::getActions();
+
+		// Get data from our virtual model
+		$items = $this->get('Items');
+		$this->items = $items;
+		$easytables_table_data = JArrayHelper::fromObject($items);
+		$state = $this->get('State');
+		$pagination = $this->get('Pagination');
+
+		// Get the Easytable that owns these records
+		$easytable = ET_Helper::getEasytableMetaItem();
+
+		// Get the default image directory from the table.
+		$imageDir = $easytable->defaultimagedir;
+
+		$easytables_table_meta = $easytable->table_meta;
+		$easytables_table_meta_for_List_view = ET_VHelper::et_List_View_Fields($easytables_table_meta);
+		$easytables_table_meta_for_Detail_view = ET_VHelper::et_Detail_View_Fields($easytables_table_meta);
+		$etmCount = count($easytables_table_meta_for_List_view);
+		$ettd_record_count = $easytable->ettd_record_count;
+		
+		//Make sure at least 1 field is set to display
+		if($etmCount == 0)
+		{
+			// In here we need to divert back to Mgr view and set an appropriate user error message.
+			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_RECORD_NO_DATA_SEGMENT').' '.$easytable->easytablename,'error');
+			return;
+		}
+
+		// Assing these items for use in the tmpl
+		$this->state = $state;
+		$this->pagination = $pagination;
+		
+		$this->canDo = $canDo;
+		$this->tableId = $easytable->id;
+		$this->imageDir = $imageDir;
+		$this->easytable = $easytable;
+
+		$this->assign('status', $easytable->published ? JText::_( 'JPUBLISHED' ): JText::_( 'COM_EASYTABLEPRO_UNPUBLISHED' ));
+
+		$this->search = $state->get('filter.search');
+		$this->assignRef('et_list_meta',$easytables_table_meta_for_List_view);
+		$this->assign('ettm_field_count', count($easytables_table_meta_for_Detail_view));
+		$this->assign('ettd_record_count', $ettd_record_count);
+		$this->assignRef('et_table_data',$easytables_table_data);
+		$this->assignRef('pageNav', $pageNav);
+
+		// Lets lock out the main menu
+
+		JRequest::setVar( 'hidemainmenu', 1 );
+
+
+
+		// Setup layout, toolbar, js, css
+
+		$this->addToolbar($canDo);
+
+		$this->addCSSEtc();
+
+
+		parent::display($tpl);
+	}
+
+	private function addToolbar($canDo)
+	{
+		/*
+			Setup the Toolbar
+		*/
+		JToolBarHelper::title(JText::sprintf('COM_EASYTABLEPRO_RECORDS_VIEW_TITLE', $this->easytable->easytablename), 'easytablepro-editrecords');
+		if($canDo->get('core.create'))
+		{
+			JToolBarHelper::addNew('record.add', JText::_('COM_EASYTABLEPRO_RECORDS_NEW_RECORD_BTN'));
+		}
+		if($canDo->get('core.edit'))
+		{
+			JToolBarHelper::editList('record.edit');
+		}
+		JToolBarHelper::divider();
+		
+		if($canDo->get('core.delete'))
+		{
+			JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_LINK', 'records.delete',JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_BTN') );
+		}
+		JToolBarHelper::divider();
+		
+		JToolBarHelper::cancel('cancel', JText::_( 'COM_EASYTABLEPRO_LABEL_CLOSE' ));
+		
+		JToolBarHelper::divider();
+
+		$vn = $this->name;
+		JToolBarHelper::help('COM_EASYTABLEPRO_HELP_TABLES_VIEW',false,'http://seepeoplesoftware.com/products/easytablepro/1.1/help/' . $vn . '.html');
+	}
+
+	private function addCSSEtc ()
+	{
+		// Get the document object
+		$document = JFactory::getDocument();
+
+		// First add CSS to the document
+		$document->addStyleSheet('/media/com_easytablepro/css/easytable.css');
+
+		// Then add JS to the document‚ - make sure all JS comes after CSS
+		JHTML::_('behavior.modal');
+		// Tools first
+		$jsFile = ('/media/com_easytablepro/js/atools.js');
+		$document->addScript($jsFile);
+		ET_Helper::loadJSLanguageKeys($jsFile);
+
+		// Load this views js
+		$jsFile = '/media/com_easytablepro/js/easytabledata.js';
+		$document->addScript($jsFile);
+		ET_Helper::loadJSLanguageKeys($jsFile);
+	}
+
 	function getRecordCheckBox ($cid, $rowId)
 	{
-		$cb = '<input type="checkbox" id="cb'.$cid.'" name="cid[]" value="'.$rowId.'" onclick="isChecked(this.checked);" />';
+		$cb = JHtml::_('grid.id', $cid, $rowId);
 
 		return($cb);
 	}
@@ -27,7 +148,7 @@ class EasyTableViewEasyTableRecords extends JView
 	{
 		$link_text = JText::_( 'COM_EASYTABLEPRO_RECORDS_DELETE_LINK' ).' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.
-		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'deleterow\');" title="'.
+		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'records.delete\');" title="'.
 		$link_text.'" ><img src="/media/com_easytablepro/images/publish_x.png" alt="'.$link_text.'"/></a></span>';
 
 		return($theEditLink);
@@ -37,7 +158,7 @@ class EasyTableViewEasyTableRecords extends JView
 	{
 		$link_text = JText::_( 'COM_EASYTABLEPRO_RECORDS_EDIT_LINK' ).' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:3px;" >'.
-		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'editrow\');" title="'.
+		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'record.edit\');" title="'.
 		$link_text.'" ><img src="/media/com_easytablepro/images/edit.png" alt="'.$link_text.'" /></a></span>';
 
 		return($theEditLink);
@@ -55,130 +176,6 @@ class EasyTableViewEasyTableRecords extends JView
 		$db->setQuery($query);
 		$fields = $db->loadResultArray();
 		return $fields;
-	}
-
-	function display ($tpl = null)
-	{
-		$option = JRequest::getCmd('option');
-		$jAp= JFactory::getApplication();
-
-
-		$cid = JRequest::getVar( 'cid', array(0), '', 'array');
-		$id = $cid[0];
-
-		if( $id == 0) {
-			$id = JRequest::getVar( 'id', 0 );
-		}
-
-		if(($id == 0) || ($id == '')) {
-			JError::raiseNotice( 8001, 'Error: Table ID not available.' );
-		}
-
-		// For a better backlink - lets try this:
-		$start_page = JRequest::getVar('start',0,'','int');					// get the start var from JPagination
-
-		$jAp->setUserState( "$option.start_page", $start_page );		// store the start page
-		
-		// Lets lock out the main menu
-		JRequest::setVar( 'hidemainmenu', 1 );
-
-
-		// Get the table based on the id from the request
-		$easytable = JTable::getInstance('EasyTable','Table');
-		$easytable->load($id);
-
-		// Get the default image directory from the table.
-		$imageDir = $easytable->defaultimagedir;
-
-		//get the document and load the js support file
-		$doc = JFactory::getDocument();
-		$doc->addScript(JURI::base().'/media/com_easytablepro/js/easytabledata.js');
-		$doc->addStyleSheet(JURI::base().'/media/com_easytablepro/css/easytable.css');
-
-		// Get a database object
-		$db = JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,JText::_( "COULDN_T_GET_THE_DATABASE_OBJECT_WHILE_GETTING_EASYTABLE_ID__" ).$id);
-		}
-		// Get the meta data for this table
-		$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." ORDER BY position;";
-		$db->setQuery($query);
-
-		$easytables_table_meta = $db->loadAssocList();
-		$easytables_table_meta_for_List_view = ET_VHelpers::et_List_View_Fields($easytables_table_meta);
-		$easytables_table_meta_for_Detail_view = ET_VHelpers::et_Detail_View_Fields($easytables_table_meta);
-		$etmCount = count($easytables_table_meta_for_List_view); //Make sure at least 1 field is set to display
-
-		if($etmCount)  //Make sure at least 1 field is set to display
-		{
-			//Search setup
-			$search = $jAp->getUserStateFromRequest("$option.easytabledata.search".$id, 'search','');
-			if($search == '')
-			{
-				$search = JRequest::getVar('search','');
-			}
-			$this->_search = JString::strtolower($search);
-			if($search == '')
-			{
-				$sqlWhere = '';
-			}
-			else
-			{
-				$searchFields = $this->getSearchFieldsIn($id);
-
-				$where = array();
-				
-				foreach($searchFields as $field)
-				{
-					$where[] = '`'.$field. "` LIKE '%{$search}%'";
-				}
-				$sqlWhere = ' WHERE ( '. implode(' OR ', $where).' ) ';
-			}
-
-			//Setup for pagination
-			$lim0  = JRequest::getVar('limitstart', 0, '', 'int');
-			$lim   = $jAp->getUserStateFromRequest("$option.limit", 'limit', 25, 'int');
-
-			$ettd_tname = $db->nameQuote('#__easytables_table_data_'.$id);
-			$query = "SELECT SQL_CALC_FOUND_ROWS * FROM ".$ettd_tname.$sqlWhere;
-			$db->setQuery($query, $lim0, $lim);
-			// Store the table data in a variable
-			$easytables_table_data =$db->loadAssocList();
-			if (empty($easytables_table_data)) {
-				$jAp->enqueueMessage('No matching records found.<br />'.$db->getErrorMsg(),'error');
-			}
-
-			$db->setQuery('SELECT FOUND_ROWS();');  //no reloading the query! Just asking for total without limit
-			jimport('joomla.html.pagination');
-			$pageNav = new JPagination( $db->loadResult(), $lim0, $lim );
-
-			// Get the record count for this table
-			$query = "SELECT COUNT(*) FROM ".$ettd_tname;
-			$db->setQuery($query);
-			$ettd_db_obj = $db->query();
-			$ettd_record_count = mysql_result($ettd_db_obj,0);
-		}
-		else
-		{
-//			In here we need to divert back to Mgr view and set an appropriate user error message.
-			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_RECORD_NO_DATA_SEGMENT').' '.$easytable->easytablename,'error');
-			return;
-		}
-
-		// Assing these items for use in the tmpl
-		$this->assign('tableId', $id);
-		$this->assign('imageDir', $imageDir);
-		$this->assignRef('easytable', $easytable);
-
-		$this->assign('state', $easytable->published ? JText::_( 'JPUBLISHED' ): JText::_( 'COM_EASYTABLEPRO_UNPUBLISHED' ));
-
-		$this->assign('search',$search);
-		$this->assignRef('et_list_meta',$easytables_table_meta_for_List_view);
-		$this->assign('ettm_field_count', count($easytables_table_meta_for_Detail_view));
-		$this->assign('ettd_record_count', $ettd_record_count);
-		$this->assignRef('et_table_data',$easytables_table_data);
-		$this->assignRef('pageNav', $pageNav);
-		parent::display($tpl);
 	}
 }
 ?>

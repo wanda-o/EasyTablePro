@@ -10,9 +10,10 @@
 defined('_JEXEC') or die('Restricted Access');
 
 jimport( 'joomla.application.component.modellist' );
+require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/recordsviewfunctions.php';
 
 /**
- * EasyTables Model
+ * EasyTables Virtual Model for User Tables
  *
  * @package    EasyTables
  * @subpackage Models
@@ -92,8 +93,9 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$jInput = JFactory::getApplication()->input; 
-		$pk = $jInput->get('id');
+		$jInput = JFactory::getApplication()->input;
+		$trid = ET_Helper::getTableRecordID();
+		$pk = $trid[0];
 		// Create a new query object.		
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
@@ -101,22 +103,11 @@ class EasyTableProModelRecords extends JModelList
 		$query->select('t.*');
 
 		// Get the table name.
-		$theTable = ET_RecordsHelper::getEasytableMetaItem();
+		$theTable = ET_Helper::getEasytableMetaItem();
 
 		// From the EasyTables table
-		$query->from('#__easytables AS t');
+		$query->from($theTable->ettd_tname . ' AS t');
 
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id = t.checked_out');
-
-		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = t.access');
-
-		// Join over the users for the author for ACL actions like edit.own.
-		$query->select('ua.name AS author_name');
-		$query->join('LEFT', '#__users AS ua ON ua.id = t.created_by');
 
 		// Filter by search in table name, alias, author or id.
 		$search = $this->state->get('filter.search');
@@ -124,13 +115,10 @@ class EasyTableProModelRecords extends JModelList
 			if (stripos($search, 'id:') === 0) {
 				$query->where('t.id = '.(int) substr($search, 3));
 			}
-			elseif (stripos($search, 'author:') === 0) {
-				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
-				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
-			}
 			else {
 				$search = $db->Quote('%'.$db->escape($search, true).'%');
-				$query->where('(t.easytablename LIKE '.$search.' OR t.easytablealias LIKE '.$search.')');
+				$searchArray = $this->getSearch($theTable, $search);
+				$query->where($searchArray, 'OR');
 			}
 		}
 		return $query;
@@ -154,7 +142,7 @@ class EasyTableProModelRecords extends JModelList
 		$this->setState('filter.search', $search);
 		
 		// List state information.
-		parent::populateState('t.easytablename', 'asc');
+		parent::populateState();
 	}
 
 	/**
@@ -174,59 +162,17 @@ class EasyTableProModelRecords extends JModelList
 
 	/**
 	 * 
-	 * Returns the users search term for the EasyTableMgr
+	 * Returns the search term equated to each field alias in array
 	 */
-	function getSearch()
+	function getSearch($theTable, $search)
 	{
-		if(!$this->_search)
-		{
-			$jAp = JFactory::getApplication();
-			$option = JRequest::getCmd('option');
-			$search = $jAp->getUserStateFromRequest("$option.easytablemgr.search", 'search','');
-			if($search == '')
-			{
-				$search = JRequest::getVar('search','');
-			}
-			$this->_search = JString::strtolower($search);
-		}
-		return $this->_search;
-	}
+		$fieldMeta = $theTable->table_meta;
+		$db = JFactory::getDBO();
 
-	/**
-	 * Returns the query
-	 * @return string The query to be used to retrieve the rows from the database
-	 *
-	function _buildQuery()
-	{
-		$searchTerm = $this->getSearch();
-		if(empty($searchTerm) || ($searchTerm == ''))
-		{
-			$searchQuery = '';
+		foreach ($fieldMeta as $row) {
+			$fieldSearch[] = ( 't.' . $db->nameQuote( $row['fieldalias']) ) . " LIKE " . $search;
 		}
-		else
-		{
-			$searchQuery = ' WHERE ets.easytablename LIKE \'%'.$searchTerm.'%\'';
-		}
-		$query = ' SELECT ets.*, u.name AS editor'.
-			' FROM #__easytables AS ets'.
-			' LEFT JOIN #__users AS u ON u.id = ets.checked_out'.$searchQuery;
-
-		return $query;
-	}*/
-
-	/**
-	 * Retrieves the data
-	 * @return array Array of objects containing the data from the database using pagination limits
-	 */
-	function getData()
-	{
-		// Lets load the data if it doesn't already exist
-		if (empty( $this->_data ))
-		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-		}
-		return $this->_data;
+		return $fieldSearch;
 	}
 
 }
