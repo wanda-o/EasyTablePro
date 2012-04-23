@@ -56,7 +56,12 @@ class EasyTableProController extends JController
 		}
 		
 		// Are we going for the 'records' view?
-		if($rawTask == 'records') $jInput->set('view', 'records');
+		$currView = $jInput->get('view');
+		if($rawTask == 'records') {
+			$jInput->set('view', 'records');
+		} elseif (( $currView == 'records')){
+			$jInput->set('view', $this->default_view);
+		}
 
     	parent::display($cachable);
 
