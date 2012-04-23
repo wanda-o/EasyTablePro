@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted Access');
 jimport( 'joomla.application.component.view');
 
 require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/viewfunctions.php';
-require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
+require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 
 
 /**
@@ -115,20 +115,12 @@ class EasyTableProViewTables extends JView
 	 **/
 	function display($tpl = null)
 	{
-		//get the document and load the js support file
-		$doc = JFactory::getDocument();
-		// Get the current user
-		$user = JFactory::getUser();
-
 		// Get the settings meta record
-		$canDo = ET_MgrHelpers::getActions();
+		$canDo = ET_Helper::getActions();
 
 		// Setup toolbar, js, css
 		$this->addToolbar($canDo);
 		$this->addCSSEtc();
-
-		// Search
-		$db = JFactory::getDBO();
 
 		// Get data from the model
 		$rows = $this->get('Items');
@@ -143,7 +135,7 @@ class EasyTableProViewTables extends JView
 		$this->assignRef('rows',$rows);
 		$this->assignRef('pagination',$pagination);
 		$this->assign('canDo',$canDo);
-		$this->assign('et_current_version',ET_VHelpers::current_version());
+		$this->assign('et_current_version',ET_VHelper::current_version());
 		parent::display($tpl);
 	}
 
@@ -205,7 +197,7 @@ class EasyTableProViewTables extends JView
 
 		$document->addScript($jsFile);
 
-		ET_MgrHelpers::loadJSLanguageKeys($jsFile);
+		ET_Helper::loadJSLanguageKeys($jsFile);
 
 
 		// Get the remote version data
@@ -213,6 +205,6 @@ class EasyTableProViewTables extends JView
 		// Load this views js
 		$jsFile = '/media/com_easytablepro/js/easytabletables.js';
 		$document->addScript($jsFile);
-		ET_MgrHelpers::loadJSLanguageKeys($jsFile);
+		ET_Helper::loadJSLanguageKeys($jsFile);
 	}
 }

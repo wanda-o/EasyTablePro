@@ -9,7 +9,7 @@
 defined('_JEXEC') or die('Restricted Access');
 
 jimport( 'joomla.application.component.view');
-require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
+require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 
 /**
  * HTML View class for the EasyTables Component
@@ -44,7 +44,7 @@ class EasyTableProViewTable extends JView
 		$this->state = $state;
 
 		// Should we be here?
-		$this->canDo = ET_MgrHelpers::getActions($item->id);
+		$this->canDo = ET_Helper::getActions($item->id);
 
 		// Setup the toolbar etc
 		$this->addToolBar();
@@ -73,7 +73,7 @@ class EasyTableProViewTable extends JView
 
 		// Max file size for uploading
 
-		$umfs = ET_MgrHelpers::umfs();
+		$umfs = ET_Helper::umfs();
 		//Get the max file size for uploads from Pref's, default to servers PHP setting if not found or > greater than server allows.
 
 		$maxFileSize = ($umfs > $state->params->get('maxFileSize')) ? $umfs : $state->params->get('maxFileSize',$umfs);
@@ -152,11 +152,11 @@ class EasyTableProViewTable extends JView
 		// Tools first
 		$jsFile = ('/media/com_easytablepro/js/atools.js');
 		$document->addScript($jsFile);
-		ET_MgrHelpers::loadJSLanguageKeys($jsFile);
+		ET_Helper::loadJSLanguageKeys($jsFile);
 		// Component view specific next...
 		$jsFile = ('/media/com_easytablepro/js/easytabletable.js');
 		$document->addScript($jsFile);
-		ET_MgrHelpers::loadJSLanguageKeys($jsFile);
+		ET_Helper::loadJSLanguageKeys($jsFile);
 		
 	}
 
