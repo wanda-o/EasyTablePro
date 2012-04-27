@@ -25,30 +25,32 @@ class EasyTableProViewRecord extends JView
 			case 0:
 				$type = "textarea";
 				$size = 'rows="10" cols="100"';
-				$inputFld = '<textarea name="et_fld_'.$fldAlias.'" '.$size.' >'.$value.'</textarea>';
+				$inputFld = '<textarea name="et_fld['.$fldAlias.']" '.$size.' >'.$value.'</textarea>';
 				break;
 			default:
 				$type = "text";
 				$size = 'size="175" maxlength="255"';
-				$inputFld = '<input name="et_fld_'.$fldAlias.'" type="'.$type.'" '.$size.' value="'.$value.'" />';
+				$inputFld = '<input name="et_fld['.$fldAlias.']" type="'.$type.'" '.$size.' value="'.$value.'" />';
 		}
-		// Set up the input field string
-		return $inputFld;
+				
+
+			// Set up the input field string
+			return $inputFld;
 	}
 
-	function getImageTag ($f, $fieldOptions='')
+	function getImageTag ($f, $fieldOptions='', $fld_alias)
 	{
 		if($f)
 		{
 			$pathToImage =  JURI::root().$this->currentImageDir.'/'.$f;  // we concatenate the image URL with the tables default image path
-			$onclick = 'onclick=\'pop_Image("'.trim($pathToImage).'")\' '; 
+			$onclick = 'onclick=\'com_EasyTablePro.pop_Image("' . trim($pathToImage) . '", "' . $fld_alias . '_img")\''; 
 			if($fieldOptions = '')
 			{
-				$fieldWithOptions = '<img src="'.trim($pathToImage).'" width="100px" alt="image" />';
+				$fieldWithOptions = '<img src="'.trim($pathToImage).'" id="' . $fld_alias . '_img" style="width:200px" alt="image" />';
 			}
 			else
 			{
-				$fieldWithOptions = '<img src="'.trim($pathToImage).'" '.$fieldOptions.' width="100px" alt="image" />';
+				$fieldWithOptions = '<img src="'.trim($pathToImage).'" '.$fieldOptions.' id="' . $fld_alias . '_img" style="width:200px" alt="image" />';
 			}
 			$imgTag = '<span class="hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_RECORD_IMAGE_PREVIEW_TT' ).'"><a href="javascript:void(0);" '.$onclick.'target="_blank" >'.$fieldWithOptions.'<br />'.JText::_( 'COM_EASYTABLEPRO_RECORD_LABEL_PREVIEW_OF_IMG' ).'<br /><em>('.JText::_( 'COM_EASYTABLEPRO_RECORDS_CLICK_TO_SEE_FULL_SIZE_IMG' ).')</em></a></span>';
 		}
@@ -80,10 +82,6 @@ class EasyTableProViewRecord extends JView
 		// Should we be here?
 		$this->canDo = ET_Helper::getActions($easytable->id);
 		
-		// Load the doc bits
-		$this->addToolbar();
-		$this->addCSSEtc();
-	
 		$id = $easytable->id;
 		if($id == 0) {
 			JError::raiseNotice( 100, JText::_( 'COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR' ).$id );
@@ -101,16 +99,20 @@ class EasyTableProViewRecord extends JView
 		// Assing these items for use in the tmpl
 		$this->tableId = $id;
 		$this->recordId = $easytable_data_record->id;
+		$this->trid = $id . '.' . $easytable_data_record->id;
 		$this->currentImageDir = $currentImageDir;
 		$this->easytable = $easytable;
 		$this->et_meta = $easytables_table_meta;
 		$this->et_record = JArrayHelper::fromObject($easytable_data_record);
 
+		// Load the doc bits
+		$this->addToolbar();
+		$this->addCSSEtc();
+	
 		parent::display($tpl);
 	}
 
 	private function addToolbar()
-
 	{
 		JHTML::_('behavior.tooltip');
 	
@@ -121,17 +123,17 @@ class EasyTableProViewRecord extends JView
 
 		$easytable = $this->item['easytable'];
 		$isNew		= ($easytable->id == 0);
-		$checkedOut	= !($easytable->checked_out == 0 || $easytable->checked_out == $user->get('id'));
 	
 		if($canDo->get('easytablepro.editrecords')) {
-			JToolBarHelper::title($isNew ? JText::_('COM_EASYTABLEPRO_RECORD_CREATING_NEW_RECORD') : JText::sprintf('COM_EASYTABLEPRO_RECORD_VIEW_TITLE_SEGMENT_EDITING_RECORD',$easytable->id), 'easytablepro-editrecord');
+			JToolBarHelper::title($isNew ? JText::_('COM_EASYTABLEPRO_RECORD_CREATING_NEW_RECORD') : JText::sprintf('COM_EASYTABLEPRO_RECORD_VIEW_TITLE_EDITING_RECORD',$this->recordId), 'easytablepro-editrecord');
 			JToolBarHelper::apply('record.apply');
 			JToolBarHelper::save('record.save');
 			JToolBarHelper::save2new('record.save2new');
+			JToolBarHelper::save2copy('record.save2copy');
 		}
 		JToolBarHelper::divider();
 	
-		JToolBarHelper::cancel('table.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+		JToolBarHelper::cancel('record.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 		JToolBarHelper::divider();
 	
 		JToolBarHelper::help('COM_EASYTABLEPRO_MANAGER_HELP',false,'http://seepeoplesoftware.com/products/easytablepro/1.1/help/record.html');

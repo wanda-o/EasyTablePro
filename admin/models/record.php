@@ -20,6 +20,7 @@ jimport('joomla.application.component.modeladmin');
  */
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 
+
 class EasyTableProModelRecord extends JModelAdmin
 {
 	/**
@@ -50,12 +51,35 @@ class EasyTableProModelRecord extends JModelAdmin
 		$trid = ET_Helper::getTableRecordID();
 		
 		$record = parent::getItem($trid[1]);
-		
 		$easytable = ET_Helper::getEasytableMetaItem($trid[0]);
-
 		$item = array('trid' => $trid, 'record' => $record, 'easytable' => $easytable);
-
 		return $item;
+	}
+
+	public function save($data)
+	{
+		// Alter the title for save as copy
+		if (JRequest::getVar('task') == 'save2copy') {
+			list($title, $alias) = $this->generateNewTitle('', $data['alias'], $data['title']);
+			$data['title']	= $title;
+			$data['alias']	= $alias;
+		}
+		return parent::save($data);
+	}
+	
+	/* We override this method as an EasyTable doesn't currently have a category...
+	 * @see JModelAdmin::generateNewTitle()
+	 */
+	protected function generateNewTitle($cat_id, $alias, $title)
+	{
+		// Alter the title & alias
+		$table = $this->getTable();
+		while ($table->load(array('alias' => $alias)))
+		{
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
+		}
+		return array($title, $alias);
 	}
 
 	public function delete(&$pks)
@@ -80,19 +104,30 @@ class EasyTableProModelRecord extends JModelAdmin
 	public function populateState()
 	{
 		// Initialise variables.
+
 		$table = $this->getTable();
+
 		$key = $table->getKeyName();
+
 		
+
 		// Get the pk of the record from the request.
+
 		$trid = ET_Helper::getTableRecordID();
 		$tid = $trid[0];
 		$this->setState('table' . '.id', $tid);
 		$pk = $trid[1];
+
 		$this->setState($this->getName() . '.id', $pk);
+
 		
+
 		// Load the parameters.
+
 		$value = JComponentHelper::getParams($this->option);
+
 		$this->setState('params', $value);
+
 	}
 
 	/**

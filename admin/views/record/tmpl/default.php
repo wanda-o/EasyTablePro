@@ -10,13 +10,13 @@ defined('_JEXEC') or die('Restricted Access');
 	$et_tableName = $this->easytable->easytablename;
 ?>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+<form action="/administrator/index.php?option=com_easytablepro&id=<?php echo $this->trid; ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div class="col100">
 		<table width="100%">
 			<tr>
 				<td>
 					<fieldset class="adminform " >
-						<legend><?php echo JText::sprintf( 'COM_EASYTABLEPRO_RECORDS_DATA_SEGMENT', $et_tableName ); ?></legend>
+						<legend><?php echo JText::sprintf( 'COM_EASYTABLEPRO_RECORDS_DATA_RECORD', $et_tableName, $this->recordId ); ?></legend>
 						<table class="adminlist" id="et_fieldList">
 						<thead>
 							<tr valign="top">
@@ -39,8 +39,8 @@ defined('_JEXEC') or die('Restricted Access');
 		$type = $label_row['type'];
 		echo '<tr valign="top" class="row'.$alt_rv.'" >'."\r";
 		echo '<td>'.$label.'</td>';
-		echo('<td>'.$this->getFieldInputType($fld_alias, $type, $value).'<input name="et_fld_orig_'.$fld_alias.'" type="hidden" value="'.$value.'" /></td>');
-		echo('<td>'.($value == '' ? '<em>'.JText::_( 'COM_EASYTABLEPRO_RECORDS_CLICK_APPLY_TO_PREVIEW' ).'</em>' : ($type == '1' ? $this->getImageTag($value,''):ET_VHelper::getFWO(html_entity_decode( $value ), $type, $f_params, $this->et_record, $this->et_record))).'</td>');
+		echo('<td>'.$this->getFieldInputType($fld_alias, $type, $value).'<input name="et_fld_orig['.$fld_alias.']" type="hidden" value="'.$value.'" /></td>');
+		echo('<td>'.($value == '' ? '<em>'.JText::_( 'COM_EASYTABLEPRO_RECORDS_CLICK_APPLY_TO_PREVIEW' ).'</em>' : ($type == '1' ? $this->getImageTag($value,'',$fld_alias):ET_VHelper::getFWO(html_entity_decode( $value ), $type, $f_params, $this->et_record, $this->et_record))).'</td>');
 		echo "</tr>\r";
 		$alt_rv = (int)!$alt_rv;
 	}
@@ -53,12 +53,8 @@ defined('_JEXEC') or die('Restricted Access');
 		</table>
 </div>
 <div class="clr"></div>
-
-<input type="hidden" name="rid" value="<?php echo $this->recordId; ?>" />
+<input type="hidden" name="et_fld[id]" value="<?php echo $this->recordId; ?>" >
 <input type="hidden" name="et_flds" value="<?php echo implode(',',$flds); ?>" />
-<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option'); ?>" />
-<input type="hidden" name="id" value="<?php echo $this->easytable->id; ?>" />
 <input type="hidden" name="task" value="" />
 <?php echo JHTML::_('form.token'); ?>
-<!-- <input type="hidden" name="controller" value="easytable" /> -->
 </form>
