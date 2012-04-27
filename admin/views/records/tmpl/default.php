@@ -118,7 +118,7 @@ defined('_JEXEC') or die('Restricted Access');
 		</tr>
 	</table>
 	<fieldset class="adminform hasTip" title="<?php echo JText::sprintf( 'COM_EASYTABLEPRO_RECORD_RECORDS_FIELDSET_TT', $et_tableName, $this->easytable->easytablealias); ?>!">
-		<legend><?php echo $et_tableName.' - '.JText::_( 'COM_EASYTABLEPRO_RECORDS_DATA_SEGMENT' ); ?></legend>
+		<legend><?php echo JText::sprintf( 'COM_EASYTABLEPRO_RECORDS_DATA_RECORDS', $et_tableName ); ?></legend>
 		<div>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="text_area" onchange="document.adminForm.submit();" />
 			<button onclick="this.form.submit();"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_GO' ); ?></button>
