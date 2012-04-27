@@ -34,8 +34,18 @@ Joomla.submitbutton= function (pressbutton)
 	}
 }
 
-com_EasyTablePro.pop_Image = function (theURL)
+com_EasyTablePro.pop_Image = function (theURL, theImageElement)
 {
-	window.open (theURL, 'newwindow', config='height=400, width=400, toolbar=no, menubar=no, scrollbars=yes, resizable=no, location=no, directories=no, status=no')
+	theImage = document.getElementById(theImageElement);
+	theHeight = theImage.naturalHeight;
+	if(theHeight != 'undefined')
+	{
+		theWidth = theImage.naturalWidth;
+	} else {
+		theHeight = 400;
+		theWidth = 400;
+	}
+	theWindowConfig = 'height=' + theHeight + ', width=' + theWidth + ', toolbar=no, menubar=no, scrollbars=no, resizable=yes, location=no, directories=no, status=no'
+	window.open (theURL, 'newwindow', config=theWindowConfig)
 
 }
