@@ -40,7 +40,6 @@ class EasyTableProController extends JController
 	public function display($cachable = false, $urlparams = false)
     {
     	$jInput = JFactory::getApplication()->input;
-    	$rawTask = $jInput->get('task', '');
 		$view		= $jInput->get('view', 'tables');
 		$layout 	= $jInput->get('layout', 'tables');
 		$id			= $jInput->get('id');
@@ -55,14 +54,6 @@ class EasyTableProController extends JController
 			return false;
 		}
 		
-		// Are we going for the 'records' view?
-		$currView = $jInput->get('view');
-		if($rawTask == 'records') {
-			$jInput->set('view', 'records');
-		} elseif (( $currView == 'records')){
-			$jInput->set('view', $this->default_view);
-		}
-
     	parent::display($cachable);
 
 		return $this;
