@@ -56,6 +56,9 @@ class EasyTableProModelTables extends JModelList
 
 		$jAp = JFactory::getApplication();
 
+		// Set our 'option' & 'context'
+		$this->option = 'com_easytablepro';
+		$this->context = 'tables';
 		// Get pagination request variables
 		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
@@ -152,21 +155,6 @@ class EasyTableProModelTables extends JModelList
 	}
 
 	/**
-	 * getPagination()
-	 * Returns the JPagination object of tables
-	 */
-	function getPagination()
-	{
-		// Load the content if it doesn't already exist
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
-		}
-		return $this->_pagination;
-	}
-
-	/**
 	 * 
 	 * Returns the users search term for the EasyTableMgr
 	 */
@@ -185,28 +173,6 @@ class EasyTableProModelTables extends JModelList
 		}
 		return $this->_search;
 	}
-
-	/**
-	 * Returns the query
-	 * @return string The query to be used to retrieve the rows from the database
-	 *
-	function _buildQuery()
-	{
-		$searchTerm = $this->getSearch();
-		if(empty($searchTerm) || ($searchTerm == ''))
-		{
-			$searchQuery = '';
-		}
-		else
-		{
-			$searchQuery = ' WHERE ets.easytablename LIKE \'%'.$searchTerm.'%\'';
-		}
-		$query = ' SELECT ets.*, u.name AS editor'.
-			' FROM #__easytables AS ets'.
-			' LEFT JOIN #__users AS u ON u.id = ets.checked_out'.$searchQuery;
-
-		return $query;
-	}*/
 
 	/**
 	 * Retrieves the data
