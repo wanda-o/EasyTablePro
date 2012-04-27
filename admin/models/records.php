@@ -47,6 +47,8 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	var $_data;
 
+	protected $option;
+	protected $context;
 	/**
 	 * 
 	 * Sets up the JPagination variables
@@ -57,6 +59,9 @@ class EasyTableProModelRecords extends JModelList
 
 		$jAp = JFactory::getApplication();
 
+		// Set our 'option' & 'context'
+		$this->option = 'com_easytablepro';
+		$this->context = 'records';
 		// Get pagination request variables
 		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
@@ -83,7 +88,7 @@ class EasyTableProModelRecords extends JModelList
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.search');
-		return parent::getStoreId($id);
+		return md5($this->context . ':' . $id);
 	}
 
 	/**
