@@ -14,7 +14,6 @@ jimport('joomla.application.component.controlleradmin');
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/models');
 
-
 require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 
 class EasyTableProControllerRecords extends JControllerAdmin
@@ -28,7 +27,6 @@ class EasyTableProControllerRecords extends JControllerAdmin
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
-	
 	}
 
 	public function getModel($name = 'Record', $prefix = 'EasyTableProModel', $config = array('ignore_request' => true)) 

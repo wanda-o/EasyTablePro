@@ -160,7 +160,5 @@ class EasyTableProViewRecord extends JView
 		$jsFile = ('/media/com_easytablepro/js/easytabledata.js');
 		$document->addScript($jsFile);
 		ET_Helper::loadJSLanguageKeys($jsFile);
-	
 	}
-	
 }

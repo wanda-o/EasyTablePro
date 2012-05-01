@@ -564,7 +564,6 @@ class EasyTableProControllerUpload extends JControllerForm
 
 	private function createETTD ($id, $ettdColumnAliass)
 	{
-	
 		// we turn the arrays of column names into the middle section of the SQL create statement
 		$ettdColumnSQL = implode('` TEXT NOT NULL , `', $ettdColumnAliass);
 	
