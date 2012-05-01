@@ -142,13 +142,22 @@ class EasyTableProViewTables extends JView
 	private function addToolbar($canDo)
 	{
 		/*
-			Setup the Toolbar
-		*/
+		 *	Setup the Toolbar
+		 */
 		JToolBarHelper::title(JText::_( 'COM_EASYTABLEPRO' ), 'easytablepro');
+
+		// Add New Table
 		if($canDo->get('core.create'))
 		{
-			JToolBarHelper::addNew('table.add', JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW'));
+			$addTableURL = 'index.php?option=com_easytablepro&amp;view=upload&amp;step=new&amp;task=upload.new&amp;tmpl=component';
+			$toolbar = JToolBar::getInstance( 'toolbar' );
+			if(JDEBUG) {
+				$toolbar->appendButton( 'Popup', 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 495 );
+			} else {
+				$toolbar->appendButton( 'Popup', 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 425 );
+			}
 		}
+
 		if($canDo->get('easytablepro.link'))
 		{
 			$linkURL = 'index.php?option=com_easytablepro&amp;view=easytablelink&amp;tmpl=component';
