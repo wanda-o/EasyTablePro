@@ -108,7 +108,7 @@ class EasyTableProViewRecords extends JView
 		}
 		JToolBarHelper::divider();
 		
-		JToolBarHelper::cancel('cancel', JText::_( 'COM_EASYTABLEPRO_LABEL_CLOSE' ));
+		JToolBarHelper::cancel('records.cancel', JText::_( 'COM_EASYTABLEPRO_LABEL_CLOSE' ));
 		
 		JToolBarHelper::divider();
 
