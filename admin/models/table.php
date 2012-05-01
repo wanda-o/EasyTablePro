@@ -295,4 +295,48 @@ class EasyTableProModelTable extends JModelAdmin
 		}
 	}
 
+	public function createETTD ($id, $ettdColumnAliass)
+
+	{
+
+		// Check for request forgeries
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$app	= JFactory::getApplication();
+
+		/*
+		 * WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
+		 */
+		// we turn the arrays of column names into the middle section of the SQL create statement
+		$ettdColumnSQL = implode('` TEXT NOT NULL , `', $ettdColumnAliass);
+		
+		// Build the SQL create the ettd
+		$create_ETTD_SQL = 'CREATE TABLE `#__easytables_table_data_'.$id.'` (`id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT , `';
+		
+		// Insert exlpoded
+		$create_ETTD_SQL .= $ettdColumnSQL;
+		
+		// close the sql with the primary key
+		$create_ETTD_SQL .= '` TEXT NOT NULL ,  PRIMARY KEY ( `id` ) )';
+		
+		// Uncomment the next line if trying to debug a CSV file error
+		// JError::raiseError(500,'$id = '.$id.'<br />$ettdColumnAliass = '.$ettdColumnAliass.'<br />$ettdColumnSQL = '.$ettdColumnSQL.'<br />createETTD SQL = '.$create_ETTD_SQL );
+		
+		// Get a database object
+		$db = JFactory::getDBO();
+		if(!$db){
+			JError::raiseError(500,"Couldn't get the database object while trying to create table: $id");
+		}
+		
+		// Set and execute the SQL query
+		$db->setQuery($create_ETTD_SQL);
+		$ettd_creation_result = $db->query();
+
+		if(!$ettd_creation_result)
+		{
+			JError::raiseError(500, "Failure in data table creation, likely cause is invalid column headings; actually DB explanation: ".$db->explain());
+		}
+		return $this->ettdExists($id);
+	}
+
+
 }// class
