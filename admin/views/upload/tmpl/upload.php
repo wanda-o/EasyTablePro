@@ -7,7 +7,6 @@
 
 //--No direct access
 	defined('_JEXEC') or die('Restricted Access');
-	JHTML::_('behavior.tooltip');
 ?>
 
 <form action="index.php?option=com_easytablepro" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
@@ -17,17 +16,25 @@
 			<td>
 			<fieldset>
 				<div style="float: right">
-					<button type="button" onclick="window.parent.SqueezeBox.close();;"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_CLOSE' ); ?></button>
+					<button type="button" onclick="window.parent.location='/administrator/index.php?option=com_easytablepro';window.parent.SqueezeBox.close();"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_CLOSE' ); ?></button>
 				</div>
-				<div class="configuration"><?php echo JText::_( 'COM_EASYTABLEPRO' );?> - <?php echo JText::_( 'COM_EASYTABLEPRO_MGR_UPLOAD_DATA' );?></div>
+				<div class="configuration"><?php echo JText::_( 'COM_EASYTABLEPRO' );?> - <?php echo $this->stepLabel; ?></div>
 			</fieldset>
 			<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_RECORDS_DESC').' \'' . $this->form->getValue('easytablename') . '\''; ?></legend>
-			<?php if($this->step == 'uploadCompleted') {
-				echo $this->loadTemplate('completed'); 
-			} else {
-				echo $this->loadTemplate('form');
-			}?>
+			<legend><?php echo $this->stepLegend; ?></legend>
+			<?php switch ($this->step) {
+				case 'new':
+					echo $this->loadTemplate('new');
+					break;
+
+				case 'uploadCompleted':
+					echo $this->loadTemplate('completed');
+					break;
+
+				default:
+					echo $this->loadTemplate('form');
+					break;
+			} ?>
 			</fieldset>
 			</td>
 		</tr>
@@ -39,3 +46,9 @@
 <input type="hidden" name="id" value="<?php echo $this->form->getValue('id'); ?>" />
 <?php echo JHTML::_('form.token'); ?>
 </form>
+<?php if(($this->step == 'uploadCompleted') && ($this->prevStep == 'new')) {?>
+<script type="text/javascript">
+<!--
+parent.document.getElementById('sbox-btn-close').toggle();
+//-->
+</script><?php } ?>
