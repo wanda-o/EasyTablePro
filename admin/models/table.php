@@ -263,7 +263,7 @@ class EasyTableProModelTable extends JModelAdmin
 			{
 				// Set the query
 				$query = $db->getQuery(true);
-				$query->delete('#__easytables_tables_meta');
+				$query->delete('#__easytables_table_meta');
 				// Set the 'where' to the table id
 				$query->where('easytable_id = \''.$pk.'\'');
 				$db->setQuery($query);
@@ -280,7 +280,7 @@ class EasyTableProModelTable extends JModelAdmin
 
 				// Build the DROP SQL
 
-				$ettd_table_name = $db->quoteName('#__easytables_table_data_'.$id);
+				$ettd_table_name = $db->quoteName('#__easytables_table_data_'.$pk);
 
 				$query = 'DROP TABLE '.$ettd_table_name.';';
 				$db->setQuery($query);
