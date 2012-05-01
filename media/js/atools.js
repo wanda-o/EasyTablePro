@@ -54,9 +54,16 @@ com_EasyTablePro.Tools.getID  = function ()
 
 com_EasyTablePro.Tools.disableToolbarBtn = function (toolBarBtn, newToolTipText)
 {
-	// Disable the link
+	// Setup the default vars
 	var ourBtn = $(toolBarBtn);
 	var ourBtnLink = ourBtn.childNodes[1]
+	var ourBtnSpan = ourBtnLink.childNodes[1];
+	// Check to see if button class is already set to -off
+	if(ourBtnSpan.get('class').indexOf('-off') > 0)
+	{
+		return;
+	}
+	// Disable the link
 	ourBtnLink.removeEvents();
 	ourBtnLink.removeAttribute('href');
 	ourBtnLink.removeAttribute('rel');
@@ -72,7 +79,6 @@ com_EasyTablePro.Tools.disableToolbarBtn = function (toolBarBtn, newToolTipText)
 	var JTooltips = new Tips($$('.hasTip'), { maxTitleChars: 50, fixed: false});
 
 	// Change icon
-	ourBtnSpan = ourBtnLink.childNodes[1];
 	// This could be a problem if buttons ever end up with multiple classes if different orders.
 	var ourBtnSpanClassArray = ourBtnSpan.get('class').split(' ');
 	ourBtnSpanClassOff = ourBtnSpanClassArray[0] + '-off';
