@@ -49,6 +49,10 @@
 <?php if(($this->step == 'uploadCompleted') && ($this->prevStep == 'new')) {?>
 <script type="text/javascript">
 <!--
+sbx = parent.document.getElementById('sbox-content');
+sbx.setStyle('height','335px');
+sbx.firstChild.setStyle('height','330px');
+parent.SqueezeBox.resize({x: 700, y: 330});
 parent.document.getElementById('sbox-btn-close').toggle();
 //-->
 </script><?php } ?>
