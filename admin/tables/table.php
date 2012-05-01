@@ -39,20 +39,29 @@ class EasyTableProTableTable extends JTable
 	 */
 	function bind($array, $ignore = '')
 	{
+		// Update record modified and if necessary created datetime stamps
+		if(key_exists( 'id', $array ) && !$array['id'])
+		{
+			$array['created_'] = date( 'Y-m-d H:i:s' );
+			$array['created_by'] = JUser::getInstance()->get('id',0);
+		}
+		$array['modified_'] = date( 'Y-m-d H:i:s' );
+		$array['modifiedby_'] = JUser::getInstance()->get('id',0);
+
 		// Change the params back to a string for storage
 		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
-	        {
-				$registry = new JRegistry();
-				$registry->loadArray($array['params']);
-				$array['params'] = $registry->toString();
-			}
+        {
+			$registry = new JRegistry();
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
 
-			// Bind the rules.
-			if (isset($array['rules']) && is_array($array['rules'])) {
-				$rules = new JRules($array['rules']);
-				$this->setRules($rules);
-			}
-			return parent::bind($array, $ignore);
+		// Bind the rules.
+		if (isset($array['rules']) && is_array($array['rules'])) {
+			$rules = new JRules($array['rules']);
+			$this->setRules($rules);
+		}
+		return parent::bind($array, $ignore);
 	}
 
 	/**
