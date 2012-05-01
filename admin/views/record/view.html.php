@@ -13,7 +13,6 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 require_once JPATH_COMPONENT_SITE.'/helpers/viewfunctions.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/dataviewfunctions.php';
 
-
 class EasyTableProViewRecord extends JView
 {
 	function getFieldInputType ($fldAlias, $fldType, $value)
@@ -32,10 +31,7 @@ class EasyTableProViewRecord extends JView
 				$size = 'size="175" maxlength="255"';
 				$inputFld = '<input name="et_fld['.$fldAlias.']" type="'.$type.'" '.$size.' value="'.$value.'" />';
 		}
-				
-
-			// Set up the input field string
-			return $inputFld;
+		return $inputFld;
 	}
 
 	function getImageTag ($f, $fieldOptions='', $fld_alias)
