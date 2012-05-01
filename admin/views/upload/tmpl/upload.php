@@ -44,6 +44,7 @@
 
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="id" value="<?php echo $this->form->getValue('id'); ?>" />
+<input type="hidden" name="jform[id]" value="<?php echo $this->form->getValue('id'); ?>" />
 <?php echo JHTML::_('form.token'); ?>
 </form>
 <?php if(($this->step == 'uploadCompleted') && ($this->prevStep == 'new')) {?>
