@@ -27,38 +27,35 @@ class JFormFieldEasyTableFields extends JFormFieldList
 		$db = JFactory::getDBO();
 		$result ='';
 
-		// Get our table ID
-		$jinput = JFactory::getApplication()->input;
+		// Get our menu item ID
+		$Ap = JFactory::getApplication();
+		$jinput = $Ap->input;
 		$id = $jinput->get('id', null);
+		$theOpt = $jinput->get('option','No Table Option');
 
-		if(empty( $id )) {
-			$theOpt = $jinput->get('option','No Table Option');
-			if($theOpt == 'com_menus')
+		if($theOpt == 'com_menus')
+		{
+			$menus = $Ap->getMenu('site');
+			$menuItem = $menus->getItem($id);
+			if($menuItem) {
+				$id = $menuItem->params->get('id',0);
+			}
+			else
 			{
-				jimport( 'joomla.application.menu' );
-				$menuIdArray = JRequest::getVar('cid',0);
-				$menuId      = $menuIdArray[0];
-				$menu        = JMenu::getInstance('site');
-				$menuItem    = $menu->getItem($menuId);
-				if($menuItem) {
-					$link = $menuItem->link;
-					$urlQry = parse_url ( $link, PHP_URL_QUERY );	// get just the qry section of the link
-					parse_str ($urlQry, $linkparts);				// convert it to an array
-
-					$id = (int) isset($linkparts['id'])?$linkparts['id']:0;
-				}
-				else
-				{
-					$id = 0;
-				}
+				$id = 0;
 			}
 		}
 
 		if($id)
 		{
-			$elementQuery = 'SELECT id as value, label as text FROM #__easytables_table_meta WHERE easytable_id = '.$id.' ORDER BY position';
+			$query = $db->getQuery(true);
+			$query->select('id as value');
+			$query->select('label as text');
+			$query->from('#__easytables_table_meta');
+			$query->where($db->quoteName('easytable_id') . ' = ' . $id);
+			$query->order($db->quoteName('position'));
 
-			$db->setQuery($elementQuery);
+			$db->setQuery($query);
 			$options = $db->loadObjectList();
 			$noneSelected = new stdClass();
 			$noneSelected->value = 0;
