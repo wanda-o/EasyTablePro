@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_EASYTABLEPRO_MENU_LIST_LAYOUT_TITLE">
+	<layout title="COM_EASYTABLEPRO_MENU_LIST_LAYOUT_TITLE" option="COM_EASYTABLEPRO_TABLES_VIEW_DEFAULT_OPTION">
+		<help
+			key = "COM_EASYTABLEPRO_HELP_MENU_TABLESVIEW"
+		/>
 		<message>
-		<![CDATA[SHOWS_A_LIST_OF_PUBLISHED_TABLES_]]>
+		<![CDATA[COM_EASYTABLEPRO_SHOWS_A_LIST_OF_PUBLISHED_TABLES_]]>
 		</message>
 	</layout>
-	<state>
-		<name>COM_EASYTABLEPRO_MENU_LIST_ITEM</name>
-		<description>SHOW_S_A_LISTING_OF_ALL_PUBLISHED_TABLES_</description>
-		<url addpath="/administrator/components/com_easytable/elements">
-		<param name="table_list_sort_order" type="list" default="" label="COM_EASYTABLEPRO_MENU_TABLE_LIST_SORT_ORDER" description="COM_EASYTABLEPRO_MENU_LIST_SORT_ORDER_DESC">
-			<option selected="selected" value="0">COM_EASYTABLEPRO_MENU_LIST_SORT_NA</option>
-			<option value="1">COM_EASYTABLEPRO_MENU_LIST_SORT_ND</option>
-			<option value="2">COM_EASYTABLEPRO_MENU_LIST_SORT_CDA</option>
-			<option value="3">COM_EASYTABLEPRO_MENU_LIST_SORT_CDD</option>
-			<option value="4">COM_EASYTABLEPRO_MENU_LIST_SORT_MDA</option>
-			<option value="5">COM_EASYTABLEPRO_MENU_LIST_SORT_MDD</option>
-		</param>
-		</url>
-	</state>
+	<fields name="params">
+		<fieldset name="basic"
+			label="COM_EASYTABLEPRO_MENU_LIST_ITEM" >
+			<field name="table_list_sort_order"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_MENU_TABLE_LIST_SORT_ORDER"
+				description="COM_EASYTABLEPRO_MENU_LIST_SORT_ORDER_DESC">
+				<option selected="selected" value="0">COM_EASYTABLEPRO_MENU_LIST_SORT_NA</option>
+				<option value="1">COM_EASYTABLEPRO_MENU_LIST_SORT_ND</option>
+				<option value="2">COM_EASYTABLEPRO_MENU_LIST_SORT_CDA</option>
+				<option value="3">COM_EASYTABLEPRO_MENU_LIST_SORT_CDD</option>
+				<option value="4">COM_EASYTABLEPRO_MENU_LIST_SORT_MDA</option>
+				<option value="5">COM_EASYTABLEPRO_MENU_LIST_SORT_MDD</option>
+			</field>
+		</fieldset>
+	</fields>
 </metadata>

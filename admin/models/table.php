@@ -174,7 +174,7 @@ class EasyTableProModelTable extends JModelAdmin
 
 			$item->set('pub_state', $state);
 		} else {
-			// We have a new Table record beign created...
+			// We have a new Table record being created...
 			$item->set('table_meta', array());
 			$item->set('ettm_field_count', 0);
 			$item->set('ettd', false);
