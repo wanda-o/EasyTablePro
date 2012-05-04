@@ -49,23 +49,41 @@ class ET_Helper
 	}
 
 	public static function getEasytableMetaItem ($pk = '')
+
 	{
+
 		// Make sure we have a pk to work with
+
 		if(empty($pk))
+
 		{
+
 			if(!($trid = ET_Helper::getTableRecordID()))
+
 			{
+
 				return false;
+
 			} else {
+
 				$pk = $trid[0];
+
 			}
+
 		}
+
 	
+
 		// Load the table model and get the item
+
 		$model = JModel::getInstance('table','EasyTableProModel');
+
 		$item = $model->getItem($pk);
+
 	
+
 		return $item;
+
 	}
 
 	public static function removeEmptyLines($string)
@@ -140,5 +158,28 @@ class ET_Helper
 				JText::script($lkey);
 			}
 		}
+	}
+
+	/**
+	 * Utility method to retreive the label for an access level...
+	 * @param int $id
+	 * @return NULL | string Returns null or the title column.
+	 */
+	public static function accessLabel($id) {
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select('*');
+		$query->from('#__viewlevels');
+		$query->where('id = '.$id);
+
+		// Get the access level record.
+		$db->setQuery($query);
+		$al = $db->loadObject();
+		if($al) {
+			return $al->title;
+		}
+
+		return null;
 	}
 }

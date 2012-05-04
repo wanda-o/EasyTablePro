@@ -36,8 +36,7 @@
 }
 
 .ept_tablelist_table_details {
-	clear:both;
-	color:silver;
+	color:grey;
 	font-style:italic;
 	font-size:90%;
 	margin-left:10px;
