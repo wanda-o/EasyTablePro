@@ -8,6 +8,13 @@
 
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
+// Get our user for locking access to/hiding tables from view
+$user = JFactory::getUser();
+$groups = $user->getAuthorisedViewLevels();
+
+
+
+// Basic start of list...
 echo '<div class="contentpaneopen'.$this->pageclass_sfx.'" id="et_list_page">';
 
 if($this->show_page_title) {
@@ -18,17 +25,19 @@ if($this->show_page_title) {
 <?php
 	foreach ($this->rows as $row )
 	{
-		$tableParams = new JParameter( $row->params );
-		/* Check the user against table access */
-		// Create a user $access object for the current $user
-		$user = JFactory::getUser();
-		$access = new stdClass();
-		// Check to see if the user has access to view the table
-		$aid	= $user->get('aid');
+		// 0 - All table visible to all users - so all public and all others with a lock on them
+		// 1 - All tables visible if logged in - only public if not logged in, otherwise public and all tables
+		// 2 - Only tables visible to users group
+		if(($this->tables_appear_in_listview == 1) || ($this->tables_appear_in_listview == 2)) {
+			if($user->guest && !in_array($row->access, $groups)) continue;
+			if(($this->tables_appear_in_listview == 2) && !in_array($row->access, $groups)) continue;
+		}
 
-		if ($tableParams->get('access') > $aid)
+		/* Check the user against table access */
+		if (!in_array($row->access, $groups))
 		{
-			$lockImage = ' <img class="etTableListLockElement" src="/administrator/images/checked_out.png" title="'.JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE').'" alt="'.JText::_('COM_EASYTABLEPRO_SITE_CLICK_TO_LOGIN').'" />';
+			$altText = $user->guest ? JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') : JText::_('You do not have viewing access for this table.');
+			$lockImage = ' <img class="etTableListLockElement" src="/media/com_easytablepro/images/locked.gif" title="'. $altText .'" alt="'.JText::_('COM_EASYTABLEPRO_SITE_CLICK_TO_LOGIN').'" />';
 		}
 		else
 		{
@@ -41,7 +50,7 @@ if($this->show_page_title) {
 			echo '<br /><div class="et_description '.$row->easytablealias.'">'.$row->description.'</div>';
 		}
 		echo '</li>';
-   }
+	}
 ?>
 </ul>
 </div>

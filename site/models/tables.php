@@ -9,15 +9,15 @@
 //--No direct access
 defined('_JEXEC') or die ('Restricted Access');
 
-jimport( 'joomla.application.component.model' );
+jimport( 'joomla.application.component.modellist' );
 
 /**
- * EasyTables Model
+ * EasyTableProTables Model
  *
- * @package	   EasyTables
+ * @package	   EasyTablePro
  * @subpackage Models
  */
-class EasyTableModelEasyTables extends JModel
+class EasyTableProModelTables extends JModelList
 {
 	var $_data = null;
 	

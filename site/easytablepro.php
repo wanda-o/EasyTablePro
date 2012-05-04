@@ -12,8 +12,11 @@
 
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
+// Include dependancies
+jimport('joomla.application.component.controller');
+
 $jInput = JFactory::getApplication()->input;
 
-$controller = JController::getInstance('EasyTableProController');
+$controller = JController::getInstance('EasyTablePro');
 $controller->execute( $jInput->get('task' ));
 $controller->redirect();

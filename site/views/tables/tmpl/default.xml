@@ -23,6 +23,14 @@
 				<option value="4">COM_EASYTABLEPRO_MENU_LIST_SORT_MDA</option>
 				<option value="5">COM_EASYTABLEPRO_MENU_LIST_SORT_MDD</option>
 			</field>
+			<field name="tables_appear_in_listview"
+				label="C0M_EASYTABLEPRO_MENU_TABLES_APPEAR_IN_LISTVIEW"
+				type="list"
+				description="C0M_EASYTABLEPRO_MENU_TABLES_APPEAR_IN_LISTVIEW_DESC">
+				<option selected="selected" value="0">C0M_EASYTABLEPRO_MENU_TABLES_ALL_APPEAR_TO_ALL</option>
+				<option value="1">C0M_EASYTABLEPRO_MENU_TABLES_ALL_APPEAR_TO_LOGGED_IN</option>
+				<option value="2">C0M_EASYTABLEPRO_MENU_TABLES_APPEAR_ONLY_TO_ALLOWED_GROUPS</option>
+			</field>
 		</fieldset>
 	</fields>
 </metadata>

@@ -18,7 +18,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage Views
  */
 
-class EasyTableViewEasyTables extends JView
+class EasyTableProViewTables extends JView
 {
     /**
      * EasyTables view display method
@@ -27,20 +27,23 @@ class EasyTableViewEasyTables extends JView
 	function display($tpl = null)
 	{
 		$jAp = JFactory::getApplication();
-		$params = $jAp->getParams();
+		$params = $jAp->getParams('com_easytablepro');
 		$show_description = $params->get('show_description',0);
 		$page_title = $params->get('page_title','Easy Tables');
 		$show_page_title = $params->get('show_page_title',1);
 		$pageclass_sfx = $params->get('pageclass_sfx','');
-		$sortOrder = (int) JRequest::getVar('table_list_sort_order',0);
+		$sortOrder = (int) $params->get('table_list_sort_order',0);
+		$tables_appear_in_listview = (int) $params->get('tables_appear_in_listview',0);
+
+		// Get our list of tables
 		$rows = $this->get('dataSort'.$sortOrder);
 
-		$this->assignRef('rows', $rows);
-		$this->assign('show_description', $show_description);
-		$this->assign('page_title', $page_title);
-		$this->assign('show_page_title', $show_page_title);
-
-		$this->assign('pageclass_sfx',$pageclass_sfx);
+		$this->rows = $rows;
+		$this->show_description = $show_description;
+		$this->page_title = $page_title;
+		$this->show_page_title = $show_page_title;
+		$this->pageclass_sfx = $pageclass_sfx;
+		$this->tables_appear_in_listview = $tables_appear_in_listview;
 
 		parent::display($tpl);
 	}

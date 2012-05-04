@@ -37,7 +37,7 @@ class EasyTableProController extends JController
 		$vName		= $jInput->get('view', 'Tables');
 		$jInput->set('view', $vName);
 
-		parent::display($cachable, $safeurlparams);
+		parent::display($cachable, $urlparams);
 
 		return $this;
 	}
