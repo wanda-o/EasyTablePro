@@ -12,9 +12,8 @@
 
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
+$jInput = JFactory::getApplication()->input;
 
-require_once(JPATH_COMPONENT.'/controllers/easytable.php');
-
-$controller = new EasyTableController();
-$controller->execute( $task );
+$controller = JController::getInstance('EasyTableProController');
+$controller->execute( $jInput->get('task' ));
 $controller->redirect();
