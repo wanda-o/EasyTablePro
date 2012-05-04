@@ -107,7 +107,14 @@ com_EasyTablePro.Tools.deleteFromList = function(theList, itemToRemove)
 
 com_EasyTablePro.Tools.makeURLSafe = function(str)
 {
-	return str.replace(/\s+/g,"-").replace(/[^A-Za-z0-9\-]/g,'').toLowerCase();
+	urlSafeStr = str.replace(/\s+/g,"-").replace(/[^A-Za-z0-9\-\%]/g,'').toLowerCase();
+	if(urlSafeStr == '')
+	{
+		theAlias = encodeURIComponent(str).toLowerCase();
+	} else {
+		theAlias = urlSafeStr;
+	}
+	return theAlias; 
 }
 
 /**

@@ -174,9 +174,22 @@ com_EasyTablePro.Table.firstAvailableNumber = function(numberList, firstAvailabl
 
 com_EasyTablePro.Table.aliasOK = function(str)
 {
-	if(str != com_EasyTablePro.Tools.makeURLSafe(str)) return false;
+	if(str == '')
+	{
+		alert( Joomla.JText._('The table alias can not be empty (nor should it contain spaces or other characters not suitable for use in URLs.') );
+		return false
+	}
+	if(str != com_EasyTablePro.Tools.makeURLSafe(str))
+	{
+		alert( Joomla.JText._('The table alias can not contain spaces or other characters not suitable for use in URLs.') );
+		return false
+	}
 	
-	if(str.toLowerCase() == 'id') return false;
+	if(str.toLowerCase() == 'id') 
+	{
+		alert( Joomla.JText._('The table alias can not be ID (or id).') );
+		return false
+	}
 
 	return true;
 }
@@ -210,7 +223,7 @@ com_EasyTablePro.Table.validateTableNameAlias = function()
 	et_alias = $('jform_easytablealias');
 	et_name  = $('jform_easytablename');
 	// Check for empty alias
-	if(et_alias.value == '' && et_name != '')
+	if(et_alias.value == '' && et_name.value != '')
 	{
 		et_alias.value = com_EasyTablePro.Tools.makeURLSafe(et_name.value);
 	}
@@ -219,7 +232,9 @@ com_EasyTablePro.Table.validateTableNameAlias = function()
 	{
 		et_alias.value = com_EasyTablePro.Tools.makeURLSafe(et_alias.value);
 		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_TABLE_ALIAS_CHARACTERS') );
+		return false;
 	}
+	return true;
 }
 
 com_EasyTablePro.Table.validateAlias = function(aliasElement)
@@ -450,6 +465,12 @@ com_EasyTablePro.Table.save = function(pressbutton)
 		return 0;
 	}
 
+	// Check table has a valid alias
+	if(!this.validateTableNameAlias())
+	{
+		return 0;
+	}
+	
 	// Check all Alias' for columns are unique
 	 if ( !com_EasyTablePro.Table.AliassAreUnique() )
 	{
