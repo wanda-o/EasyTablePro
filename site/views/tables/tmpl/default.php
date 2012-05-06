@@ -43,7 +43,7 @@ if($this->show_page_title) {
 		{
 			$lockImage ='';
 		}
-		$link = JRoute::_('index.php?option=com_easytablepro&amp;view=easytable&amp;id='.$row->id.':'.$row->easytablealias);
+		$link = JRoute::_('index.php?option=com_easytablepro&amp;view=records&amp;id='.$row->id.':'.$row->easytablealias);
 		echo '<li class="et_list_table_'.$row->easytablealias.'"><a href="'.$link.'">'.$row->easytablename.$lockImage.'</a>';
 		if($this->show_description)
 		{

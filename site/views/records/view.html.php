@@ -9,59 +9,66 @@
 defined('_JEXEC') or die('Restricted Access');
 jimport('joomla.application.component.view');
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
-$pvf = ''.JPATH_COMPONENT_SITE.'/views/viewfunctions.php';
-require_once $pvf;
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
+require_once JPATH_COMPONENT_SITE.'/helpers/viewfunctions.php';
 
-class EasyTableViewEasyTable extends JView
+class EasyTableProViewRecords extends JView
 {
+	protected $item;
+	protected $params;
+	protected $state;
+	protected $user;
+
 	function display ($tpl = null)
 	{
-		$jAp = JFactory::getApplication();
-		$option = JRequest::getCmd('option');
-		// Better breadcrumbs
-		$pathway   = $jAp->getPathway();
-		$id = (int) JRequest::getVar('id',0);
-		// For a better backlink - lets try this:
-		$start_page = JRequest::getVar('start',0,'','int');					// get the start var from JPagination
-		$jAp->setUserState( "$option.start_page", $start_page );		// store the start page
+		// Initialise variables.
+		$jAp		= JFactory::getApplication();
+		$jInput		= $jAp->input;
+		$user		= JFactory::getUser();
+		$userId		= $user->get('id');
+		$dispatcher	= JDispatcher::getInstance();
 
-		$params = $jAp->getParams(); // Component wide & menu based params
+		$item			= $this->get('Item');
+		$this->item		= $item;
+		$this->state	= $this->get('State');
+		
+		$this->user		= $user;
 
-		// Get the table based on the id from the request - we do it here so we can merge the tables params in.
-		$easytable = JTable::getInstance('EasyTable','Table');
-		$easytable->load($id);
-		if($easytable->published == 0) {
-			JError::raiseError(404,JText::_( "COM_EASYTABLEPRO_SITE_TABLE_NOT_AVAILABLE" ).$id);
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseWarning(500, implode("\n", $errors));
+
+			return false;
 		}
-		$tableParams = new JParameter( $easytable->params );
-		$params->merge( $tableParams );// Merge them with specific table based params
 
-		/* Check the user against table access */
-		// Create a user $access object for the current $user
-		$user = JFactory::getUser();
-		$access = new stdClass();
-		// Check to see if the user has access to view the table
-		$aid	= $user->get('aid');
 
-		if ($tableParams->get('access') > $aid)
-		{
-			if ( ! $aid )
-			{
+		$id = $item->id;
+
+		// Component wide & menu based params
+		$GMParams = $jAp->getParams();
+		$params = clone $GMParams;
+
+		$tableParams = new JRegistry();
+		$tableParams->loadString( $item->params );
+		// Merge them with specific table based params
+		$params->merge( $tableParams );
+
+		// Check the view access to the article (the model has already computed the values).
+		if ($item->params->get('access-view') != true) {
+			if($user->guest) {
 				// Redirect to login
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
 
-				$url  = 'index.php?option=com_user&amp;view=login';
-				$url .= '&amp;return='.base64_encode($return);
+				$url  = 'index.php?option=com_user&amp;view=login&amp;return='.base64_encode($return);
 
-				//$url	= JRoute::_($url, false);
-				$jAp->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') );
-			}
-			else{
-				JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
+				$jAp->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') );				
+			} else {
+				JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 				return;
 			}
 		}
+
 		// So our column headings pop out :D (Handy for users that want to put a note in about the field or column sorting
 		JHTML::_('behavior.tooltip');
 
@@ -75,27 +82,30 @@ class EasyTableViewEasyTable extends JView
 		$modification_date_label = $params->get('modification_date_label','');
 		$show_page_title = $params->get('show_page_title',1);
 		$pageclass_sfx = $params->get('pageclass_sfx','');
-		$etet = $easytable->datatablename?TRUE:FALSE;
+		$etet = $item->datatablename?TRUE:FALSE;
 
-		$pathway->addItem($easytable->easytablename, 'index.php?option='.$option.'&amp;id='.$id.'&amp;start='.$start_page);
-		// because the application sets a default page title, we need to get it
-		// right from the menu item itself
+		// Better breadcrumbs
+		$pathway   = $jAp->getPathway();
+		$pathway->addItem($item->easytablename, 'index.php?option=easytablepro&amp;view=table&amp;id='.$id);
+
+		// because the application sets a default page title, we need to get it right from the menu item itself
 		// Get the menu item object
 		$menus =JSite::getMenu();
 		$menu  = $menus->getActive();
 
-		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'easytable' && isset($menu->query['id']) && $menu->query['id'] == $id) {
-			$menu_params = new JParameter( $menu->params );
+		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'table' && isset($menu->query['id']) && $menu->query['id'] == $id) {
+			$menu_params = new JRegistry();
+			$menu_params->loadString( $menu->params );
 			if (!$menu_params->get( 'page_title')) {
-				$params->set('page_title',$easytable->easytablename);
+				$params->set('page_title',$item->easytablename);
 			}
 		} else {
-			$params->set('page_title',$easytable->easytablename);
+			$params->set('page_title',$item->easytablename);
 		}
 		$page_title = $params->get( 'page_title' );
 
 		// Get the default image directory from the table.
-		$imageDir = $easytable->defaultimagedir;
+		$imageDir = $item->defaultimagedir;
 
 		//If required get the document and load the js for table sorting
 		$doc = JFactory::getDocument();
@@ -104,22 +114,14 @@ class EasyTableViewEasyTable extends JView
 			$doc->addScript(JURI::base().'media/com_easytablepro/js/webtoolkit.sortabletable.js');
 		}
 
-		// Get a database object
-		$db = JFactory::getDBO();
-		if(!$db){
-			JError::raiseError(500,JText::_( 'COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_FOR_TABLE_ID' ).$id);
-		}
-		// Get the meta data for this table
-		$query = "SELECT label, fieldalias, type, detail_link, description, params FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id." AND list_view = '1' ORDER BY position;";
-		$db->setQuery($query);
-		
-		$easytables_table_meta = $db->loadRowList();
+		$easytables_table_meta = $item->table_meta;
 		$etmCount = count($easytables_table_meta); //Make sure at least 1 field is set to display
 		// If any of the fields are designated as eMail load the JS file to allow cloaking.
 		if(ET_VHelper::hasEmailType($easytables_table_meta))
 			$doc->addScript(JURI::base().'media/com_easytablepro/js/easytableprotable_fe.js');
 
-		if($etmCount)  //Make sure at least 1 field is set to display
+		// Make sure at least 1 field is set to display - how were users managing to save without a field set ?
+		if($etmCount)
 		{
 			// Get paginated table data
 			if($show_pagination)
@@ -152,7 +154,7 @@ class EasyTableViewEasyTable extends JView
 		// Search
 		$search = $db->getEscaped($this->get('search'));
 		//Get form link
-		$paginationLink = JRoute::_('index.php?option=com_easytablepro&amp;view=easytable&amp;id='.$id.':'.$easytable->easytablealias);
+		$paginationLink = JRoute::_('index.php?option=com_easytablepro&amp;view=easytable&amp;id='.$id.':'.$item->easytablealias);
 
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);

@@ -18,16 +18,15 @@ jimport('joomla.application.component.controller');
  * @subpackage Controllers
  */
 jimport('joomla.application.component.controller');
-class EasyTableProControllerTables extends JController
+class EasyTableProControllerTable extends JController
 {
 	
 	function display()
 	{
-		$view =  JRequest::getVar('view');
+		$jInput = JFactory::getApplication()->input;
+		$view =  $jInput->get('view', 'Table');
+		$jInput->set('view', $view);
 
-		if (!$view) {
-			JRequest::setVar('view', 'EasyTables');
-		}
 		parent::display();
 	}
 }
