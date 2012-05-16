@@ -8,20 +8,24 @@
         <![CDATA[COM_EASYTABLEPRO_MENU_SHOWS_A_SPECIFIC_RECORD_IN_A_TABLE_]]>
         </message>
     </layout>
-	<fields name="params">
-		<fieldset name="basic"
-        	label="COM_EASYTABLEPRO_MENU_RECORD_DISPLAY" >
+	<fields name="request">
+		<fieldset name="request"
+        	label="COM_EASYTABLEPRO_MENU_RECORD_DISPLAY"
+			addfieldpath="/administrator/components/com_easytablepro/models/fields">
+
 			<field name="id"
 				type="easytable"
 				default=""
 				label="COM_EASYTABLEPRO_LABEL_SELECT_TABLE"
 				description="COM_EASYTABLEPRO_LABEL_SELECT_TABLE_DESC"
-				addfieldpath="/administrator/components/com_easytablepro/models/fields" />
+				required="true"
+			/>
 			<field name="rid"
 				type="text"
 				default=""
 				label="COM_EASYTABLEPRO_MENU_RECORD_DISPLAY_SELECT_RECORD"
-				description="COM_EASYTABLEPRO_MENU_RECORD_DISPLAY_SELECT_RECORD_DESC" />
+				description="COM_EASYTABLEPRO_MENU_RECORD_DISPLAY_SELECT_RECORD_DESC"
+				required="true" />
 	    </fieldset>
     </fields>
 </metadata>
