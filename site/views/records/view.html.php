@@ -7,14 +7,15 @@
  */
 
 defined('_JEXEC') or die('Restricted Access');
+
 jimport('joomla.application.component.view');
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
+
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 require_once JPATH_COMPONENT_SITE.'/helpers/viewfunctions.php';
 
 class EasyTableProViewRecords extends JView
 {
-	protected $item;
+	protected $easytable;
 	protected $params;
 	protected $state;
 	protected $user;
@@ -28,9 +29,11 @@ class EasyTableProViewRecords extends JView
 		$userId		= $user->get('id');
 		$dispatcher	= JDispatcher::getInstance();
 
-		$item			= $this->get('Item');
-		$this->item		= $item;
+		$easytable		= $this->get('EasyTable');
+		$items			= $this->get('Items');
+		$this->items	= $items;
 		$this->state	= $this->get('State');
+		$this->pagination = $this->get('Pagination');
 		
 		$this->user		= $user;
 
@@ -41,26 +44,25 @@ class EasyTableProViewRecords extends JView
 			return false;
 		}
 
-
-		$id = $item->id;
+		$id = $easytable->id;
 
 		// Component wide & menu based params
 		$GMParams = $jAp->getParams();
 		$params = clone $GMParams;
 
 		$tableParams = new JRegistry();
-		$tableParams->loadString( $item->params );
+		$tableParams->loadString( $easytable->params );
 		// Merge them with specific table based params
 		$params->merge( $tableParams );
 
 		// Check the view access to the article (the model has already computed the values).
-		if ($item->params->get('access-view') != true) {
+		if ($easytable->access_view != true) {
 			if($user->guest) {
 				// Redirect to login
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
 
-				$url  = 'index.php?option=com_user&amp;view=login&amp;return='.base64_encode($return);
+				$url  = 'index.php?option=com_users&amp;view=login&amp;return='.urlencode(base64_encode($return));
 
 				$jAp->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') );				
 			} else {
@@ -82,30 +84,33 @@ class EasyTableProViewRecords extends JView
 		$modification_date_label = $params->get('modification_date_label','');
 		$show_page_title = $params->get('show_page_title',1);
 		$pageclass_sfx = $params->get('pageclass_sfx','');
-		$etet = $item->datatablename?TRUE:FALSE;
+		$etet = $easytable->datatablename?TRUE:FALSE;
+		$title_leaf_id = $params->get('title_field',0);
+		$title_leaf = $title_leaf_id ? $this->getLeafField($title_leaf_id, $easytable->table_meta) : 'id';
+		$full_page_title = $easytable->easytablename;
 
 		// Better breadcrumbs
 		$pathway   = $jAp->getPathway();
-		$pathway->addItem($item->easytablename, 'index.php?option=easytablepro&amp;view=table&amp;id='.$id);
+		$pathway->addItem($easytable->easytablename, 'index.php?option=easytablepro&amp;view=table&amp;id='.$id);
 
 		// because the application sets a default page title, we need to get it right from the menu item itself
 		// Get the menu item object
-		$menus =JSite::getMenu();
+		$menus = $jAp->getMenu();
 		$menu  = $menus->getActive();
 
 		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'table' && isset($menu->query['id']) && $menu->query['id'] == $id) {
 			$menu_params = new JRegistry();
 			$menu_params->loadString( $menu->params );
 			if (!$menu_params->get( 'page_title')) {
-				$params->set('page_title',$item->easytablename);
+				$params->set('page_title',$full_page_title);
 			}
 		} else {
-			$params->set('page_title',$item->easytablename);
+			$params->set('page_title',$full_page_title);
 		}
 		$page_title = $params->get( 'page_title' );
 
 		// Get the default image directory from the table.
-		$imageDir = $item->defaultimagedir;
+		$imageDir = $easytable->defaultimagedir;
 
 		//If required get the document and load the js for table sorting
 		$doc = JFactory::getDocument();
@@ -114,47 +119,14 @@ class EasyTableProViewRecords extends JView
 			$doc->addScript(JURI::base().'media/com_easytablepro/js/webtoolkit.sortabletable.js');
 		}
 
-		$easytables_table_meta = $item->table_meta;
+		$easytables_table_meta = $easytable->table_meta;
 		$etmCount = count($easytables_table_meta); //Make sure at least 1 field is set to display
 		// If any of the fields are designated as eMail load the JS file to allow cloaking.
 		if(ET_VHelper::hasEmailType($easytables_table_meta))
 			$doc->addScript(JURI::base().'media/com_easytablepro/js/easytableprotable_fe.js');
 
-		// Make sure at least 1 field is set to display - how were users managing to save without a field set ?
-		if($etmCount)
-		{
-			// Get paginated table data
-			if($show_pagination)
-			{
-				$paginatedRecords = $this->get('data');
-				$paginatedRecordsFNILV = $this->get('dataFieldsNotInListView');
-			}
-			else
-			{
-				$paginatedRecords = $this->get('alldata');
-				$paginatedRecordsFNILV = $this->get('alldataFieldsNotInListView');
-			}
-
-			// Get pagination object
-			$pagination = $this->get('pagination');
-
-		}
-		else
-		{
-			$show_pagination_footer = FALSE;
-			$show_pagination_header = FALSE;
-			$show_search = FALSE;
-			$pagination = FALSE;
-			$easytables_table_meta = array(array("Warning EasyTable List View Empty","","","","",""));
-			$errObj = new stdClass;
-			$errObj->id = 0;
-			$errObj->Message = "No fields selceted to display in list view for this table";
-			$paginatedRecords = array('Error'=>$errObj);
-		}
-		// Search
-		$search = $db->getEscaped($this->get('search'));
 		//Get form link
-		$paginationLink = JRoute::_('index.php?option=com_easytablepro&amp;view=easytable&amp;id='.$id.':'.$item->easytablealias);
+		$formAction = JURI::current();
 
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);
@@ -177,13 +149,19 @@ class EasyTableProViewRecords extends JView
 		$this->assign('imageDir', $imageDir);
 		$this->assignRef('easytable', $easytable);
 		$this->assignRef('easytables_table_meta', $easytables_table_meta);
-		$this->assignRef('pagination', $pagination);
-		$this->assign('paginationLink', $paginationLink);
-		$this->assignRef('paginatedRecords', $paginatedRecords);
-		$this->assignRef('paginatedRecordsFNILV', $paginatedRecordsFNILV);
-		$this->assign('search',$search);
+		$this->formAction = $formAction;
 		$this->assign('etmCount', $etmCount);
+		$this->title_leaf = $title_leaf;
 		parent::display($tpl);
+	}
+
+	private function getLeafField($title_leaf_id, $table_meta)
+	{
+		foreach ($table_meta as $fieldMeta) {
+			if($title_leaf_id == (int)$fieldMeta['id'])
+				return $fieldMeta['fieldalias'];
+		}
+		return 'id';
 	}
 }
 ?>

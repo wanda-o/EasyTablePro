@@ -14,11 +14,10 @@ class ET_VHelper
 		$type = user defined type
 		$params = field options 
 	*/
-	public static function getFWO ($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
+	public static function getFWO ($f='', $type=0, $params=null, $OrigRow, $currentImageDir)
 	{
-		/* The next two lines are a work around for a nested foreach bug in early versions of PHP 5.2.x */
+		/* The next line is a work around for a nested foreach bug in early versions of PHP 5.2.x */
 		is_object( $OrigRow ) ? $row = clone $OrigRow : $row = $OrigRow;
-		is_object( $OrigRowFNILV ) ? $rowFNILV = clone $OrigRowFNILV :  $rowFNILV = $OrigRowFNILV;
 		/* End of work around */
 
 		if($f == '') return '';
@@ -35,12 +34,10 @@ class ET_VHelper
 		}
 		// Create token array 
 		$tokenArray = array ();
-		foreach ( $row as $theFieldName => $theFieldValue ) // process the fields that appear in the list view first
+		// @todo don't bother creating the token array if there are no fieldoptions
+		if($fieldOptions != '')
 		{
-			 $tokenArray['#'.$theFieldName.'#'] = $theFieldValue;
-		}
-		if( $rowFNILV ){
-			foreach ( $rowFNILV as $theFieldName => $theFieldValue ) // then the rest of the fields
+			foreach ( $row as $theFieldName => $theFieldValue ) // process the fields that appear in the list view first
 			{
 				 $tokenArray['#'.$theFieldName.'#'] = $theFieldValue;
 			}
@@ -54,7 +51,7 @@ class ET_VHelper
 				// Nothing needs to be done for a TEXT field type
 				break;
 			case 1: // image
-				$fieldWithOptions = ET_VHelper::getImageWithOptions($f,$fieldOptions,$row);
+				$fieldWithOptions = ET_VHelper::getImageWithOptions($f,$fieldOptions,$row,$currentImageDir);
 				break;
 			case 2: // url
 				$fieldWithOptions = ET_VHelper::getURLWithOptions($f,$fieldOptions,$row);
@@ -98,11 +95,11 @@ class ET_VHelper
 		}
 	}
 
-	public static function getImageWithOptions($f, $fieldOptions, $row)
+	public static function getImageWithOptions($f, $fieldOptions, $row, $currentImageDir)
 	{
 		if($f)
 		{
-			$pathToImage = JURI::root().$this->currentImageDir.'/'.$f;  // we concatenate the image URL with the tables default image path
+			$pathToImage = JURI::root().$currentImageDir.'/'.$f;  // we concatenate the image URL with the tables default image path
 			if($fieldOptions == '')
 			{
 				$fieldWithOptions = '<img src="'.trim($pathToImage).'" alt="'.$f.'" />';
@@ -210,11 +207,46 @@ class ET_VHelper
 		return $fieldWithOptions;
 	}
 
+	public static function getFieldNames( $fields, $nameColumn='fieldalias' )
+	{
+		$fieldNames = array();
+		foreach ($fields as $fieldDetails) {
+			$fieldNames[] = $fieldDetails[$nameColumn];
+		}
+		return $fieldNames;
+	}
+
+	public static function getFieldsInListView( $fieldMeta )
+	{
+		return ET_VHelper::getFieldsInView( $fieldMeta, 'list', true);
+	}
+	public static function getFieldsNotInListView( $fieldMeta )
+	{
+		return ET_VHelper::getFieldsInView( $fieldMeta, 'list', false);
+	}
+	public static function getFieldsInDetailView( $fieldMeta )
+	{
+		return ET_VHelper::getFieldsInView( $fieldMeta, 'detail', true);
+	}
+	public static function getFieldsNotInDetailView( $fieldMeta )
+	{
+		return ET_VHelper::getFieldsInView( $fieldMeta, 'detail', false);
+	}
+	public static function getFieldsInView( $fieldMeta, $view='list', $inOrOut=true)
+	{
+		$matchedFields = array();
+		foreach ($fieldMeta as $theField) {
+			if($theField[$view.'_view'] == $inOrOut)
+				$matchedFields[] = $theField;
+		}
+		return $matchedFields;
+	}
+
 	public static function hasEmailType ($metaArray)
 	{
 		foreach ( $metaArray as $metaRecordArray )
 		{
-		    if($metaRecordArray[2] == 3)
+		    if($metaRecordArray['type'] == 3)
 				return true;
 		}
 		return false;

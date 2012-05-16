@@ -7,6 +7,7 @@
  */
 
 	defined('_JEXEC') or die ('Restricted Access');
+	$leaf = $this->title_leaf;
 
 	echo '<div class="contentpaneopen'.$this->pageclass_sfx.'" id="et_table_page">';
 
@@ -26,51 +27,40 @@
 	echo ($this->show_description ? '<div class="et_description">'.$this->easytable->description.'</div>' : '') ?>
 <br />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
-	<form class="search_result" name="adminForm" method="post" action="<?php echo $this->paginationLink ?>" onreset="javascript:document.adminForm.etsearch.value = '';document.adminForm.submit();">
+	<form class="search_result" name="adminForm" method="post" action="<?php echo $this->formAction ?>" onreset="javascript:document.adminForm.etsearch.value = '';document.adminForm.submit();">
 		<div class="et_search_result">
 <?php
 			if( $this->show_search && $this->etmCount) // If search is enabled for this table, show the search box.
-			{
-				echo JText::_( 'COM_EASYTABLEPRO_SITE_SEARCH_LABEL' ).': <input type="text" name="etsearch" value="'.$this->search.'" id="etsearch" /> <button type="submit">'.JText::_( 'COM_EASYTABLEPRO_SITE_SEARCH_BTN' ).'</button>';
-				echo '<input type="reset" value="'.JText::_( 'COM_EASYTABLEPRO_SITE_SEARCH_RESET_BTN' ).'" />';
-			}
-		?>
-			<input type="hidden" value="0" name="limitstart" />
+			{ ?>
+				<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="text_area" onchange="document.adminForm.submit();" />
+				<button onclick="this.form.submit();"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_GO' ); ?></button>
+				<button onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_RESET' ); ?></button>
+		<?php } ?>
 		</div>
 <?php
 		if($this->show_pagination_header)
 		{
-			if( $this->show_pagination && $this->etmCount) // If pagination is enabled show the controls
-			{
-				echo '<div class="pagination">';
-				echo $this->pagination->getPagesLinks();
-				echo '</div>';
-			}
-
 			if( $this->show_pagination && $this->etmCount) 						// Only if pagination is enabled
 			{
-				$pofp = $this->pagination->getPagesCounter( );
-				if(isset( $pofp )) {
-					$pofp = '( '.$pofp.' )';
-				}
-				$pcntr = $this->pagination->limit;
-				if( isset( $pcntr )) {																	 // AND if there's more than one page then show the page display.
-					echo '<div class="display">';
-					echo JText::_('COM_EASYTABLEPRO_SITE_DISPLAY_LABEL').': '.$this->pagination->getLimitBox().$pofp;
-					echo '</div>';
-				}
+				echo '<div class="pagination">';
+				echo $this->pagination->getListFooter();;
+				echo '</div>';
+				
 			}
 		}
 ?>
 	<table id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars(strip_tags($this->easytable->description)); ?>" width="100%">
 		<thead>
 			<tr>
-				<?php foreach ($this->easytables_table_meta as $heading )
-						{
-							$titleString = '';
-							if(strlen($heading[4])){ $titleString = 'class="hasTip" title="'.htmlspecialchars($heading[4]).'" ';}
-							echo '<td class="sectiontableheader '.$heading[1].'" ><span '.$titleString.' >'.$heading[0].'</span></td>';
-						}
+				<?php
+				foreach ($this->easytables_table_meta as $heading )
+				{
+					if(!$heading['list_view']) continue;
+					$titleString = '';
+					if(strlen($heading['description'])){ $titleString = 'class="hasTip" title="'.htmlspecialchars($heading['description']).'" ';}
+					$headingClass = 'sectiontableheader '.$heading['fieldalias'];
+					echo '<td class="' . $headingClass . '" ><span '.$titleString.' >'.$heading['label'].'</span></td>';
+				}
 				?>
 			</tr>
 		</thead>
@@ -78,11 +68,10 @@
 			<?php
 				$this->assign('currentImageDir',$this->imageDir);
 				$alt_rv = 0; $rowNumber = 0;
-				foreach ($this->paginatedRecords as $prow )  // looping through the rows of paginated data
+				foreach ($this->items as $rowIndex => $prow )  // looping through the rows of paginated data
 				{
 					if(is_object ( $prow ))
 					{
-						$prowFNILV = $this->paginatedRecordsFNILV[$rowNumber++];
 						if($this->pagination && ($this->pagination->total == $prow->id))
 						{
 							echo "<tr class='row$alt_rv et_last_row' id='row-$prow->id'>";  // Open the row
@@ -91,21 +80,32 @@
 						{
 							echo '<tr class=\'row'.$alt_rv.'\' id=\'row-'.$prow->id.'\'>';  // Open the row
 						}
-						$labelNumber = 0;
+						$columnNumber = 0;
+						$numberOfListFields = count($this->easytable->filv);
 						foreach($prow as $k => $f)  // looping through the fields of the row
 						{
+							// we skip the row id which is in position 0
 							if(!($k == 'id'))
-							{	// we skip the row id which is in position 0
-								$cellData = '';				// make sure cellData is empty before we start this cell.
-								$cellClass    = $this->easytables_table_meta[$labelNumber][1];
-								$cellType     = (int)$this->easytables_table_meta[$labelNumber][2];
-								$cellDetailLink = (int)$this->easytables_table_meta[$labelNumber][3];
-								$cellOptions = $this->easytables_table_meta[$labelNumber++][5];  // we increment labelnumber for next pass.
-								$cellData = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $prowFNILV); //getFWO($field,$type,$params,$row,$rowFNILV)
+							{
+								if($columnNumber >= $numberOfListFields) continue;
+								if(isset($this->easytable->table_meta[$k])){
+									$labels         = $this->easytable->table_meta[$k];
+								} 
+								// is this field shown in the list view?
+								if(!$labels['list_view']) continue;
+								// make sure cellData is empty before we start this cell.
+								$cellData       = '';
+								$cellClass      = $labels['fieldalias'];
+								$cellType       = (int)$labels['type'];
+								$cellDetailLink = (int)$labels['detail_link'];
+								$cellOptions    = $labels['params'];
+								// we increment labelnumber for next pass.
+								$columnNumber++;
+								$cellData       = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $this->currentImageDir); //getFWO($field,$type,$params,$row)
 
 								if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
 								{
-									$linkToDetail = JRoute::_('index.php?option=com_easytablepro&view=easytablerecord&id='.$this->tableId.':'.$this->easytable->easytablealias.'&rid='.$rowId.'&rllabel='.JFilterOutput::stringURLSafe(substr($f, 0,100)));
+									$linkToDetail = JRoute::_('index.php?option=com_easytablepro&view=record&id='.$this->easytable->easytablealias.'&rid='.$rowId.'&rllabel='.JFilterOutput::stringURLSafe(substr($prow->$leaf, 0,100)));
 									$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
 									$cellDetailLink ='';
 								}														// End of detail link If
@@ -124,7 +124,6 @@
 						$k = '';
 						$rowId = '';   // Clear the rowId to prevent any issues.
 						unset($prow);
-						unset($prowFNILV);
 					}
 				}	// End of foreach for rows
 			?>
@@ -138,11 +137,12 @@
 <?php
 			if( $this->show_pagination && $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
 			{
-				echo '<div class="pagination_footer">';
+				echo '<div class="pagination">';
 				echo $this->pagination->getListFooter();
 				echo '</div>';
 			}
 ?>
+<input name="cid" type="hidden" value="<?php echo $this->easytable->id; ?>">
 </form>
 
 </div>
