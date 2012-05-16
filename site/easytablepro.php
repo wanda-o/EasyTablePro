@@ -18,5 +18,5 @@ jimport('joomla.application.component.controller');
 $jInput = JFactory::getApplication()->input;
 
 $controller = JController::getInstance('EasyTablePro');
-$controller->execute( $jInput->get('task' ));
+$controller->execute( $jInput->get('task'));
 $controller->redirect();

@@ -41,4 +41,14 @@ class EasyTableProController extends JController
 
 		return $this;
 	}
+
+	public function getModel($name = 'Records', $prefix = 'EasyTableProModel', $config = array()) {
+		$theModel = parent::getModel($name, $prefix, $config);
+		return $theModel;
+	}
+
+	public function __construct($config = array()) {
+		parent::__construct($config);
+	}
+	
 }

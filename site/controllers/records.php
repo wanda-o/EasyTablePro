@@ -9,7 +9,7 @@
 //--No direct access
 defined('_JEXEC') or die ('Restricted Access');
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controlleradmin');
 
 /**
  * EasyTables Controller
@@ -18,16 +18,21 @@ jimport('joomla.application.component.controller');
  * @subpackage Controllers
  */
 jimport('joomla.application.component.controller');
-class EasyTableProControllerTable extends JController
+class EasyTableProControllerRecords extends JControllerAdmin
 {
 	
-	function display()
+	public function display($cachable = false, $urlparams = false)
 	{
 		$jInput = JFactory::getApplication()->input;
-		$view =  $jInput->get('view', 'Table');
+		$view =  $jInput->get('view', 'Records');
 		$jInput->set('view', $view);
 
-		parent::display();
+		parent::display($cachable, $urlparams);
+	}
+	
+	public function getModel($name='Records', $prefix = 'EasyTableProModel', $config = array('ignore_request' => true))
+	{
+		return parent::getModel($name, $prefix, $config);
 	}
 }
 
