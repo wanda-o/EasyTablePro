@@ -57,5 +57,5 @@ class EasyTableProController extends JController
     	parent::display($cachable);
 
 		return $this;
-    }
+	}
 }

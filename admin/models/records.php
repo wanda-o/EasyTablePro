@@ -98,7 +98,6 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$jInput = JFactory::getApplication()->input;
 		$trid = ET_Helper::getTableRecordID();
 		$pk = $trid[0];
 		// Create a new query object.		
@@ -145,24 +144,9 @@ class EasyTableProModelRecords extends JModelList
 
 		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
-		
+
 		// List state information.
 		parent::populateState();
-	}
-
-	/**
-	 * getPagination()
-	 * Returns the JPagination object of tables
-	 */
-	function getPagination()
-	{
-		// Load the content if it doesn't already exist
-		if (empty($this->_pagination))
-		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
-		}
-		return $this->_pagination;
 	}
 
 	/**
@@ -175,7 +159,7 @@ class EasyTableProModelRecords extends JModelList
 		$db = JFactory::getDBO();
 
 		foreach ($fieldMeta as $row) {
-			$fieldSearch[] = ( 't.' . $db->nameQuote( $row['fieldalias']) ) . " LIKE " . $search;
+			$fieldSearch[] = ( 't.' . $db->quoteName( $row['fieldalias']) ) . " LIKE " . $search;
 		}
 		return $fieldSearch;
 	}

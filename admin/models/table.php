@@ -110,10 +110,9 @@ class EasyTableProModelTable extends JModelAdmin
 			}
 			
 			// Get the meta data for this table
-			$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$item->id.$default_order_sql;
+			$query = "SELECT * FROM ".$db->quoteName('#__easytables_table_meta')." WHERE easytable_id =".$item->id.$default_order_sql;
 			$db->setQuery($query);
 			
-			// $easytables_table_meta = $db->loadRowList();
 			$easytables_table_meta = $db->loadAssocList();
 
 				
