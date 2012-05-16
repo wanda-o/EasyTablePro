@@ -51,39 +51,23 @@ class ET_Helper
 	public static function getEasytableMetaItem ($pk = '')
 
 	{
-
 		// Make sure we have a pk to work with
-
 		if(empty($pk))
-
 		{
-
 			if(!($trid = ET_Helper::getTableRecordID()))
-
 			{
-
 				return false;
-
 			} else {
-
 				$pk = $trid[0];
-
 			}
-
 		}
 
-	
-
 		// Load the table model and get the item
-
+		JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models/');
 		$model = JModel::getInstance('table','EasyTableProModel');
-
 		$item = $model->getItem($pk);
-
 	
-
 		return $item;
-
 	}
 
 	public static function removeEmptyLines($string)
