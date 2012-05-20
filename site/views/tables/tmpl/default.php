@@ -11,15 +11,17 @@ defined('_JEXEC') or die('Restricted Access');
 // Get our user for locking access to/hiding tables from view
 $user = JFactory::getUser();
 $groups = $user->getAuthorisedViewLevels();
+?>
+	<form class="search_result" name="adminForm" method="post" action="<?php echo JURI::current(); ?>" >
+<?php
+	// Basic start of list...
+	echo '<div class="contentpaneopen'.$this->pageclass_sfx.'" id="et_list_page">';
+	
+	if($this->show_page_title) {
+	    echo '<div class="componentheading"><h2>'.$this->page_title.'</h2></div>';
+	    }
 
-
-
-// Basic start of list...
-echo '<div class="contentpaneopen'.$this->pageclass_sfx.'" id="et_list_page">';
-
-if($this->show_page_title) {
-    echo '<div class="componentheading">'.$this->page_title.'</div>';
-    }
+	$skippedTables = 0;
 ?>
 <ul class="et_tables_list">
 <?php
@@ -29,8 +31,11 @@ if($this->show_page_title) {
 		// 1 - All tables visible if logged in - only public if not logged in, otherwise public and all tables
 		// 2 - Only tables visible to users group
 		if(($this->tables_appear_in_listview == 1) || ($this->tables_appear_in_listview == 2)) {
-			if($user->guest && !in_array($row->access, $groups)) continue;
-			if(($this->tables_appear_in_listview == 2) && !in_array($row->access, $groups)) continue;
+			if(($user->guest && !in_array($row->access, $groups))  || (($this->tables_appear_in_listview == 2) && !in_array($row->access, $groups)))
+			{
+				$skippedTables++;
+				continue;
+			}
 		}
 
 		/* Check the user against table access */
@@ -50,7 +55,22 @@ if($this->show_page_title) {
 			echo '<br /><div class="et_description '.$row->easytablealias.'">'.$row->description.'</div>';
 		}
 		echo '</li>';
+
+	} 
+
+	if($skippedTables && $this->showSkippedCount ) {
+		echo '<li class="et_skipppedTablesMsg">' . JText::sprintf('<em>N.B. %s tables where not available for display.</em>',$skippedTables) . '</li>';
+	}?>
+</ul>
+<?php
+	 // If pagination is enabled show the controls
+	if($this->show_pagination)
+	{
+		echo '<div class="pagination">';
+		echo $this->pagination->getListFooter();
+		echo '</div>';
 	}
 ?>
-</ul>
+
+</form>
 </div>

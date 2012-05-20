@@ -21,82 +21,101 @@ class EasyTableProModelTables extends JModelList
 {
 	var $_data = null;
 	
+	protected $_context = 'com_easytablepro.tables';
+
+	public function __construct()
+	{
+		parent::__construct();
+	
+		$jAp = JFactory::getApplication();
+		$params = $jAp->getParams('com_easytablepro');
+		$sortOrder = (int) $params->get('table_list_sort_order',0);
+		
+		// Table List order
+		$this->setState('tables.sort_order', $sortOrder);
+
+		// Get pagination request variables
+		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
+		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		
+		// In case limit has been changed, adjust it
+		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		
+		$this->setState('limit', $limit);
+		$this->setState('list.start', $limitstart);
+	}
+
+	public function populateState($ordering = null, $direction = null)
+	{
+		parent::populateState($ordering, $direction);
+		$jAp = JFactory::getApplication();
+		$params = $jAp->getParams('com_easytablepro');
+		$show_pagination = $params->get('show_paginatoin',1);
+
+		if(!$show_pagination)
+		{
+			$this->setState('list.start', 0);
+			$this->setState('limit', 1000);
+		}
+	}
+
 	/**
 	 * Converts the sort parameter to correct SQL
 	 *
 	 */
 	 function sortSQL($sortValue = 0)
 	 {
-		$theSortSQL = '';
+		$theSortSQL = array();
 		switch ( $sortValue )
 		{
 			case 1:
-				$theSortSQL = 'easytablename DESC';
+				$theSortSQL['columnname'] = 'easytablename';
+				$theSortSQL['direction']  = 'DESC';
 				break;
 			case 2:
-				$theSortSQL = 'created_ ASC';
+				$theSortSQL['columnname'] = 'created_';
+				$theSortSQL['direction']  = 'ASC';
 				break;
 			case 3:
-				$theSortSQL = 'created_ DESC';
+				$theSortSQL['columnname'] = 'created_';
+				$theSortSQL['direction']  = 'DESC';
 				break;
 			case 4:
-				$theSortSQL = 'modified_ ASC';
+				$theSortSQL['columnname'] = 'modified_';
+				$theSortSQL['direction']  = 'ASC';
 				break;
 			case 5:
-				$theSortSQL = 'modified_ DESC';
+				$theSortSQL['columnname'] = 'modified_';
+				$theSortSQL['direction']  = 'DESC';
 				break;
 			case 0:
 			default:
-				$theSortSQL = 'easytablename ASC';
+				$theSortSQL['columnname'] = 'easytablename';
+				$theSortSQL['direction']  = 'ASC';
 				break;
 		}
 		
 		return $theSortSQL;
 	 }
-	
-	/**
-	 * Gets the tables sorted by sort value.
-	 * @return data
-	 */
-	function &getDataSort0()
-	{
-		return $this->getData(0);
-	}// function
-	function &getDataSort1()
-	{
-		return $this->getData(1);
-	}// function
-	function &getDataSort2()
-	{
-		return $this->getData(2);
-	}// function
-	function &getDataSort3()
-	{
-		return $this->getData(3);
-	}// function
-	function &getDataSort4()
-	{
-		return $this->getData(4);
-	}// function
-	function &getDataSort5()
-	{
-		return $this->getData(5);
-	}// function
 
 	/**
-	 * Gets the tables
-	 * @return data
+	 * Gets the query to return the list of Easytables
+	 * @return JDatabaseQuery
 	 */
-	function &getData($sortValue = 0)
+	public function getListQuery()
 	{
-		$theSortSQL = $this->sortSQL($sortValue);
-		
-		if(empty($this->_data))
-			{
-				$query = "SELECT * FROM #__easytables WHERE `published` = '1' ORDER BY $theSortSQL";
-				
-				$this->_data = $this->_getList($query);
-			}
-		return $this->_data;
+		$db = JFactory::getDbo();
+
+		$query = parent::getListQuery();
+
+		$sortOrder = $this->getState('tables.sort_order', '');
+		$theSortSQL = $this->sortSQL($sortOrder);
+
+		$query->select('*');
+		$query->from('#__easytables');
+		$query->where($db->quoteName('published') . ' = ' . $db->quote('1'));
+		$query->order($db->quoteName($theSortSQL['columnname']) . ' ' . $theSortSQL['direction']);
+
+		return $query;
 	}// function
 }// class

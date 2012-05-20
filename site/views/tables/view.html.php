@@ -28,22 +28,19 @@ class EasyTableProViewTables extends JView
 	{
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
-		$show_description = $params->get('show_description',0);
-		$page_title = $params->get('page_title','Easy Tables');
-		$show_page_title = $params->get('show_page_title',1);
-		$pageclass_sfx = $params->get('pageclass_sfx','');
-		$sortOrder = (int) $params->get('table_list_sort_order',0);
-		$tables_appear_in_listview = (int) $params->get('tables_appear_in_listview',0);
+		$this->show_description = $params->get('show_description',0);
+		$this->page_title = $params->get('page_title','Easy Tables');
+		$this->show_page_title = $params->get('show_page_title',1);
+		$this->pageclass_sfx = $params->get('pageclass_sfx','');
+		$this->showSkippedCount = $params->get('showSkippedCount',1);
+		$this->tables_appear_in_listview = (int) $params->get('tables_appear_in_listview',0);
+		$this->show_pagination = $params->get('show_pagination',1);
 
 		// Get our list of tables
-		$rows = $this->get('dataSort'.$sortOrder);
-
-		$this->rows = $rows;
-		$this->show_description = $show_description;
-		$this->page_title = $page_title;
-		$this->show_page_title = $show_page_title;
-		$this->pageclass_sfx = $pageclass_sfx;
-		$this->tables_appear_in_listview = $tables_appear_in_listview;
+		$this->rows       = $this->get('Items');
+		if($this->show_pagination) {
+			$this->pagination = $this->get('Pagination');
+		}
 
 		parent::display($tpl);
 	}

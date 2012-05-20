@@ -16,6 +16,10 @@ defined('_JEXEC') or die('Restricted Access');
 jimport('joomla.application.component.controller');
 
 $jInput = JFactory::getApplication()->input;
+$vName = $jInput->get('view', 'tables');
+if($vName === 'tables') { 
+	$jInput->set('task', $vName . '.' . 'display');
+}
 
 $controller = JController::getInstance('EasyTablePro');
 $controller->execute( $jInput->get('task'));

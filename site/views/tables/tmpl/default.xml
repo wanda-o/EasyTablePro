@@ -31,6 +31,20 @@
 				<option value="1">C0M_EASYTABLEPRO_MENU_TABLES_ALL_APPEAR_TO_LOGGED_IN</option>
 				<option value="2">C0M_EASYTABLEPRO_MENU_TABLES_APPEAR_ONLY_TO_ALLOWED_GROUPS</option>
 			</field>
+			<field  name="showSkippedCount"
+					label="COM_EASYTABLEPRO_MENU_TABLES_SHOW_SKIPPED_COUNT"
+					type="list"
+					description="COM_EASYTABLEPRO_MENU_TABLES_SHOW_SKIPPED_COUNT_DESC">
+					<option selected="selected" value="1">JYES</option>
+					<option value="0">JNO</option>
+			</field>
+			<field  name="show_pagination"
+					label="COM_EASYTABLEPRO_MENU_TABLES_SHOW_PAGINATION_LABEL"
+					type="list"
+					description="COM_EASYTABLEPRO_MENU_TABLES_SHOW_PAGINATION_DESC">
+					<option selected="selected" value="1">JYES</option>
+					<option value="0">JNO</option>
+			</field>
 		</fieldset>
 	</fields>
 </metadata>

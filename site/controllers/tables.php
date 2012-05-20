@@ -20,15 +20,36 @@ jimport('joomla.application.component.controller');
 jimport('joomla.application.component.controller');
 class EasyTableProControllerTables extends JController
 {
-	
-	function display()
-	{
-		$view =  JRequest::getVar('view');
+	protected $_context = 'com_easytablepro.tables';
 
-		if (!$view) {
-			JRequest::setVar('view', 'EasyTables');
-		}
-		parent::display();
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @since	1.6
+	 */
+	public function __construct($config)
+	{
+		parent::__construct($config);
+	}
+
+	public function getModel($name = 'Tables', $prefix = 'EasyTableProModel', $config = array('ignore_request' => true))
+	{
+		return parent::getModel($name, $prefix, $config);
+	}
+
+	public function display($cachable = false, $urlparams = false)
+	{
+		$jInput = JFactory::getApplication()->input;
+
+		// Set the default view name and format from the Request.
+		$vName		= $jInput->get('view', 'Tables');
+		$jInput->set('view', $vName);
+
+		parent::display($cachable, $urlparams);
+
+		return $this;
 	}
 }
 
