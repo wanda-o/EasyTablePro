@@ -20,8 +20,7 @@ jimport('joomla.application.component.controllerform');
  */
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
 jimport('joomla.application.component.controller');
-$pmf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
-require_once $pmf;
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
 
 class EasyTableProControllerUpload extends JControllerForm
 {
@@ -38,7 +37,11 @@ class EasyTableProControllerUpload extends JControllerForm
 		parent::__construct($config);
 	}
 
-	function add()
+	/* Method to create a new EasyTable from a CSV/TAB file.
+	 * 
+	 * Used with the upload_new tmpl.
+	 */
+	public function add()
 	{
 		// Setup the basics
 		$Ap= JFactory::getApplication();
@@ -89,7 +92,12 @@ class EasyTableProControllerUpload extends JControllerForm
 		return false;
 	}
 
-	function uploadData()
+	/**
+	 * Method to upload a CSV/TAB file to an existing EasyTable.
+	 * 
+	 * ( The table may have been created in a prior call to add()... )
+	 */
+	public function uploadData()
 	{
 		$Ap= JFactory::getApplication();
 

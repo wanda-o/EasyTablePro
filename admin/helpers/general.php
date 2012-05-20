@@ -49,6 +49,11 @@ class ET_Helper
 		return $trid;
 	}
 
+	/**
+	 * Enter description here ...
+	 * @param int $pk - key for the EasyTable
+	 * @return boolean|EasyTable Obj - returns false if no table id could be retreived.
+	 */
 	public static function getEasytableMetaItem ($pk = '')
 
 	{
