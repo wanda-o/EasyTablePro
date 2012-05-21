@@ -26,22 +26,28 @@ class EasyTableProModelTables extends JModelList
 	public function __construct()
 	{
 		parent::__construct();
-	
+		// Get the basics
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
 		$sortOrder = (int) $params->get('table_list_sort_order',0);
+		$show_pagination = $params->get('show_pagination',1);
 		
 		// Table List order
 		$this->setState('tables.sort_order', $sortOrder);
 
 		// Get pagination request variables
-		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		
+		if($show_pagination) {
+			$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
+			$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		} else {
+			$limit = 1000000;
+			$limitstart = 0;
+		}
+
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		
-		$this->setState('limit', $limit);
+		$this->setState('list.limit', $limit);
 		$this->setState('list.start', $limitstart);
 	}
 
@@ -50,12 +56,12 @@ class EasyTableProModelTables extends JModelList
 		parent::populateState($ordering, $direction);
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
-		$show_pagination = $params->get('show_paginatoin',1);
+		$show_pagination = $params->get('show_pagination',1);
 
 		if(!$show_pagination)
 		{
 			$this->setState('list.start', 0);
-			$this->setState('limit', 1000);
+			$this->setState('list.limit', 1000000);
 		}
 	}
 
