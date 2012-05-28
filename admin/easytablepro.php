@@ -10,12 +10,9 @@
 defined('_JEXEC') or die('Restricted Access');
 
 // Access check.
-if (!JFactory::getUser()->authorise('core.manage', 'com_easystaging')) {
+if (!JFactory::getUser()->authorise('core.manage', 'com_easytablepro')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
-
-
-
 
 // Include dependencies
 jimport('joomla.application.component.controller');
