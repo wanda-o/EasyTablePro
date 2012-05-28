@@ -45,12 +45,15 @@ jimport('joomla.application.categories');
 
 			if($view == 'records') {
 				if (isset($query['id'])) {
-					// OK we may need to convert a numeric id to an alias id
 					$id = $query['id'];
+					if($menuItem->query['view'] == 'records' && $id == $menuItem->query['id']) {
+						unset($query['id']);
+						return $segments;
+						
+					} 
+					// OK we may need to convert a numeric id to an alias id
 					if(is_numeric($id))
 					{
-						// Get db
-						$db = JFactory::getDbo();
 						$SQLquery = $db->getQuery(true);
 						// Search for the alias of the table of this id
 						$SQLquery->select($db->quoteName('easytablealias'));
@@ -59,11 +62,12 @@ jimport('joomla.application.categories');
 						$db->setQuery($SQLquery);
 						$idAlias = $db->loadResult();
 						// set the next segment to the alias
-						$segments[] = $idAlias; 
 					} else {
-						$segments[] = $id;
+						$idAlias = $id;
 					}
 					unset($query['id']);
+					$segments[] = $idAlias;
+					
 					return $segments;
 				}
 			}
@@ -71,8 +75,41 @@ jimport('joomla.application.categories');
 			if($view == 'record') {
 				if(isset($query['id']))
 				{
-					if(! $menuItem->query['view'] == 'records') {
-						$segments[] = $query['id'];
+					$id = $query['id'];
+					// We have a menu item is it pointing ?to a record/records view
+					if($menuItemGiven && isset($menuItem->query['view']))
+					{
+						if( ($menuItem->query['view'] == 'tables')  )
+						{
+							// OK we may need to convert a numeric id to an alias id
+							if(is_numeric($id))
+							{
+								$SQLquery = $db->getQuery(true);
+								// Search for the alias of the table of this id
+								$SQLquery->select($db->quoteName('easytablealias'));
+								$SQLquery->from($db->quoteName('#__easytables'));
+								$SQLquery->where($db->quoteName('id') . ' = ' . $id);
+								$db->setQuery($SQLquery);
+								$idAlias = $db->loadResult();
+								// set the next segment to the alias
+							} else {
+								$idAlias = $id;
+							}
+
+							$segments[] = $idAlias;
+						}
+						elseif ($menuItem->query['view'] == 'records')
+						{
+							// do nothing as we're already on a table?
+						}
+						elseif ($menuItem->query['view'] == 'record')
+						{
+							$segments[] = $id;
+						}
+					}
+					else
+					{
+						$segments[] = $id;
 					}
 					unset($query['id']);
 				} else {
@@ -107,170 +144,86 @@ jimport('joomla.application.categories');
  */
 	function EasyTableProParseRoute ($segments)
 	{
-		if(isset($segments[0])) $segments[0]=preg_replace('/:/','-',$segments[0],1);
 		$vars = array();
-		//Get the active menu item.
-		$app	= JFactory::getApplication();
-		$menu	= $app->getMenu();
-		$item	= $menu->getActive();
-		$params = JComponentHelper::getParams('com_easytablepro');
-		$db = JFactory::getDBO();
 	
 		// Count route segments
 		$count = count($segments);
 		
-		if($count == 0) $vars['view'] = 'tables';
+		// Time to bail
+		if($count == 0) {
+			$vars['view'] = 'tables';
+			return $vars;
+		}
+		
+		//OK, we have work to do, lets get the active menu item.
+		$app	= JFactory::getApplication();
+		$menu	= $app->getMenu();
+		$item	= $menu->getActive();
+		// And we'll need the menu params
+		$params = JComponentHelper::getParams('com_easytablepro');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 		
 		if($count == 1) {
+			$segments[0]=preg_replace('/:/','-',$segments[0],1);
 			$vars['view'] = 'records';
 			// Convert the easy table alias to its actual id
 			$alias = $segments[0];
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
 			$query->select($db->quoteName('id'));
 			$query->from($db->quoteName('#__easytables'));
 			$query->where($db->quoteName('easytablealias') . '=' . $db->quote($alias));
 			$db->setQuery($query);
 			$id = $db->loadResult();
 			$vars['id'] = $id;
+			return $vars;
 		}
 		
+		$vars['view'] = 'record';
 		if($count == 2) {
-			$vars['view'] = 'record';
 			// Convert the easy table alias to it actual id
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName('id'));
-			$query->from($db->quoteName('#__easytables'));
-			$db->setQuery($query);
-			$id = $db->loadResult();
-			$vars['id'] = $id;
-		}
-
-		return $vars;
-
-	
-		// Standard routing for articles.  If we don't pick up an Itemid then we get the view from the segments
-		// the first segment is the view and the last segment is the id of the article or category.
-		if (!isset($item)) {
-			$vars['view']	= $segments[0];
-			$vars['id']		= $segments[$count - 1];
-	
-			return $vars;
-		}
-	
-		// if there is only one segment, then it points to either an article or a category
-		// we test it first to see if it is a category.  If the id and alias match a category
-		// then we assume it is a category.  If they don't we assume it is an article
-		if ($count == 1) {
-			// we check to see if an alias is given.  If not, we assume it is an article
-			if (strpos($segments[0], ':') === false) {
-				$vars['view'] = 'article';
-				$vars['id'] = (int)$segments[0];
-				return $vars;
-			}
-	
-			list($id, $alias) = explode(':', $segments[0], 2);
-	
-			// first we check if it is a category
-			$category = JCategories::getInstance('Content')->get($id);
-	
-			if ($category && $category->alias == $alias) {
-				$vars['view'] = 'category';
+			if(isset($item->query['id'])) {
+				$id = $item->query['id'];
 				$vars['id'] = $id;
-	
-				return $vars;
 			} else {
-				$query = 'SELECT alias, catid FROM #__content WHERE id = '.(int)$id;
+				$vars['id'] = 0;
+				$app->enqueueMessage('EasyTable Pro <em>ParseRoute()</em> couldn\'t find a table ID.','Warning');
+			}
+			// Remove the stupid colon that J! core inserts...
+			$segments[1]=preg_replace('/:/','-',$segments[1],1);
+			$rid = $segments[0];
+			$leaf = $segments[1];
+
+			$vars['rid']  = $rid;
+			$vars['leaf'] = $leaf;
+		}
+		
+		if($count == 3) {
+			$segments[0]=preg_replace('/:/','-',$segments[0],1);
+
+			// Convert the easy table alias to it actual id
+			if(isset($item->query['id'])) {
+				$id = $item->query['id'];
+				$vars['id'] = $id;
+			} elseif (!empty($segments[0])) {
+				$alias = $segments[0];
+				$query->select($db->quoteName('id'));
+				$query->from($db->quoteName('#__easytables'));
+				$query->where($db->quoteName('easytablealias') . '=' . $db->quote($alias));
 				$db->setQuery($query);
-				$article = $db->loadObject();
-	
-				if ($article) {
-					if ($article->alias == $alias) {
-						$vars['view'] = 'article';
-						$vars['catid'] = (int)$article->catid;
-						$vars['id'] = (int)$id;
-	
-						return $vars;
-					}
-				}
-			}
-		}
-	
-		// if there was more than one segment, then we can determine where the URL points to
-		// because the first segment will have the target category id prepended to it.  If the
-		// last segment has a number prepended, it is an article, otherwise, it is a category.
-		if (!$advanced) {
-			$cat_id = (int)$segments[0];
-	
-			$article_id = (int)$segments[$count - 1];
-	
-			if ($article_id > 0) {
-				$vars['view'] = 'article';
-				$vars['catid'] = $cat_id;
-				$vars['id'] = $article_id;
+				$id = $db->loadResult();
+				$vars['id'] = $id;
 			} else {
-				$vars['view'] = 'category';
-				$vars['id'] = $cat_id;
+				$vars['id'] = 0;
+				$app->enqueueMessage('EasyTable Pro <em>ParseRoute()</em> couldn\'t find a table ID.','Warning');
 			}
-	
-			return $vars;
+			// Remove the stupid colon that J! core inserts...
+			$segments[2]=preg_replace('/:/','-',$segments[2],1);
+			$rid = $segments[1];
+			$leaf = $segments[2];
+
+			$vars['rid']  = $rid;
+			$vars['leaf'] = $leaf;
 		}
-	
-		// we get the category id from the menu item and search from there
-		$id = $item->query['id'];
-		$category = JCategories::getInstance('Content')->get($id);
-	
-		if (!$category) {
-			JError::raiseError(404, JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'));
-			return $vars;
-		}
-	
-		$categories = $category->getChildren();
-		$vars['catid'] = $id;
-		$vars['id'] = $id;
-		$found = 0;
-	
-		foreach($segments as $segment)
-		{
-			$segment = str_replace(':', '-', $segment);
-	
-			foreach($categories as $category)
-			{
-				if ($category->alias == $segment) {
-					$vars['id'] = $category->id;
-					$vars['catid'] = $category->id;
-					$vars['view'] = 'category';
-					$categories = $category->getChildren();
-					$found = 1;
-					break;
-				}
-			}
-	
-			if ($found == 0) {
-				if ($advanced) {
-					$db = JFactory::getDBO();
-					$query = 'SELECT id FROM #__content WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);
-					$db->setQuery($query);
-					$cid = $db->loadResult();
-				} else {
-					$cid = $segment;
-				}
-	
-				$vars['id'] = $cid;
-	
-				if ($item->query['view'] == 'archive' && $count != 1){
-					$vars['year']	= $count >= 2 ? $segments[$count-2] : null;
-					$vars['month'] = $segments[$count-1];
-					$vars['view']	= 'archive';
-				}
-				else {
-					$vars['view'] = 'article';
-				}
-			}
-	
-			$found = 0;
-		}
-	
+		
 		return $vars;
 	}
