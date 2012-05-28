@@ -34,7 +34,7 @@ class EasyTableProViewTables extends JView
 		$this->pageclass_sfx = $params->get('pageclass_sfx','');
 		$this->showSkippedCount = $params->get('showSkippedCount',1);
 		$this->tables_appear_in_listview = (int) $params->get('tables_appear_in_listview',0);
-		$this->show_pagination = $params->get('show_pagination',1);
+		$this->show_pagination = $params->get('table_list_show_pagination',1);
 
 		// Get our list of tables
 		$this->rows       = $this->get('Items');

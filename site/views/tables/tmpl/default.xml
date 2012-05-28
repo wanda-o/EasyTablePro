@@ -38,7 +38,7 @@
 					<option selected="selected" value="1">JYES</option>
 					<option value="0">JNO</option>
 			</field>
-			<field  name="show_pagination"
+			<field  name="table_list_show_pagination"
 					label="COM_EASYTABLEPRO_MENU_TABLES_SHOW_PAGINATION_LABEL"
 					type="list"
 					description="COM_EASYTABLEPRO_MENU_TABLES_SHOW_PAGINATION_DESC">

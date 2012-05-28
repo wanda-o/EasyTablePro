@@ -30,7 +30,7 @@ class EasyTableProModelTables extends JModelList
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
 		$sortOrder = (int) $params->get('table_list_sort_order',0);
-		$show_pagination = $params->get('show_pagination',1);
+		$show_pagination = $params->get('table_list_show_pagination',1);
 		
 		// Table List order
 		$this->setState('tables.sort_order', $sortOrder);
@@ -56,7 +56,7 @@ class EasyTableProModelTables extends JModelList
 		parent::populateState($ordering, $direction);
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
-		$show_pagination = $params->get('show_pagination',1);
+		$show_pagination = $params->get('table_list_show_pagination',1);
 
 		if(!$show_pagination)
 		{
