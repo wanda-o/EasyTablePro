@@ -69,7 +69,7 @@ class ET_Helper
 		}
 
 		// Load the table model and get the item
-		JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models/');
+		JModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models/');
 		$model = JModel::getInstance('table','EasyTableProModel');
 		$item = $model->getItem($pk);
 	
