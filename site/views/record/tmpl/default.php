@@ -8,44 +8,45 @@
 	defined('_JEXEC') or die ('Restricted Access');
 ?>
 <div class="contentpaneopen<?php echo $this->pageclass_sfx ?>" id="etrecord">
-	<h2 class="contentheading<?php echo $this->pageclass_sfx ?>"><?php echo $this->pt ?></h2><?php echo $this->et_desc; ?>
-	<div id="easytable-record" class="<?php echo htmlspecialchars($this->easytable_parent->easytablealias); ?>">
-		<table  id="<?php echo htmlspecialchars($this->easytable_parent->easytablealias); ?>" summary="<?php echo htmlspecialchars(strip_tags($this->easytable_parent->description)); ?>">
+	<h2 class="contentheading<?php echo $this->pageclass_sfx ?>"><?php echo $this->pt ?></h2><?php echo $this->easytable->description; ?>
+	<div id="easytable-record" class="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
+		<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars(strip_tags($this->easytable->description)); ?>">
 			<tbody>
 				<?php
 					$this->assign('currentImageDir',$this->imageDir);
 
 					$fieldNumber = 1; // so that we skip the record id from the table record
-					$prow = $this->easytables_table_record;
-					$row_assoc = $this->et_tr_assoc;
-					$row_FNILV = $this->easytables_table_record_FNILV;
-					echo '<tr><td class="etr_prevrecord">';
-					if($this->prevrecord)
-						{ echo '<a href="'.$this->prevrecord.'">'.JText::_('COM_EASYTABLEPRO_SITE_PREV_RECORD_LINK').'</a>'; }
-					echo '</td>';
-					echo '<td class="etr_nextrecord">';
-					if($this->nextrecord)
-						{ echo '<a href="'.$this->nextrecord.'">'.JText::_('COM_EASYTABLEPRO_SITE_NEXT_RECORD_LINK').'</a>'; }
-					echo '</td></tr>';
+					$prow = $this->item->record;
 
-					foreach ($this->easytables_table_meta as $field_Meta )
-						{// label, fieldalias, type, detail_link, description, id, detail_view, list_view, params
-							list($f_label, $f_alias, $f_type, $f_detail_link, $f_description, $f_id, $f_detail_view, $f_list_view, $f_params) = $field_Meta;
+					if($this->show_next_prev_record_links) {
+						echo '<tr><td class="etr_prevrecord">';
+						if($this->prevrecord) {
+							echo '<a href="'.$this->prevrecord.'">'.JText::_('COM_EASYTABLEPRO_SITE_PREV_RECORD_LINK').'</a>';
+						}
+						echo '</td>';
+						echo '<td class="etr_nextrecord">';
+						if($this->nextrecord)
+							{ echo '<a href="'.$this->nextrecord.'">'.JText::_('COM_EASYTABLEPRO_SITE_NEXT_RECORD_LINK').'</a>'; }
+						echo '</td></tr>';
+					}
 
-							if($f_detail_view) // ie. Detail_view = 1
+					foreach ($this->easytable->table_meta as $field_Meta )
+						{
+							if($field_Meta['detail_view']) // ie. Detail_view = 1
 							{
-								$f = $prow[$fieldNumber++];
+								$fieldalias = $field_Meta['fieldalias'];
+								$f = $prow->$fieldalias;
 
-								$cellType     = (int)$f_type;
+								$cellType     = (int)$field_Meta['type'];
 
-								$cellData = ET_VHelper::getFWO($f, $cellType, $f_params, $row_assoc, $row_FNILV); //getFWO($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
+								$cellData = ET_VHelper::getFWO($f, $cellType, $field_Meta['params'], $prow, $this->imageDir); //getFWO($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
 
 								echo '<tr>';  // Open the row
 								$titleString = ''; // Setup the titleString if required
-								if(strlen($f_description)){ $titleString = 'title="'.htmlspecialchars($f_description).'" ';}
+								if(strlen($field_Meta['description'])){ $titleString = 'title="'.htmlspecialchars($field_Meta['description']).'" ';}
 	
-								echo '<td class="sectiontableheader '.$f_alias.'" '.$titleString.'>'.$f_label.'</td>'; // Field Heading
-								echo '<td class="sectiontablerow '.$f_alias.'">'.$cellData.'</td>'; // Field Data
+								echo '<td class="sectiontableheader '.$field_Meta['fieldalias'].'" '.$titleString.'>'.$field_Meta['label'].'</td>'; // Field Heading
+								echo '<td class="sectiontablerow '.$field_Meta['fieldalias'].'">'.$cellData.'</td>'; // Field Data
 								echo '</tr>';  // Close the Row
 							}
 						}
