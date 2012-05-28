@@ -48,7 +48,7 @@ $groups = $user->getAuthorisedViewLevels();
 		{
 			$lockImage ='';
 		}
-		$link = JRoute::_('index.php?option=com_easytablepro&amp;view=records&amp;id='.$row->easytablealias);
+		$link = JRoute::_('index.php?option=com_easytablepro&amp;view=records&amp;id='.$row->id);
 		echo '<li class="et_list_table_'.$row->easytablealias.'"><a href="'.$link.'">'.$row->easytablename.$lockImage.'</a>';
 		if($this->show_description)
 		{
