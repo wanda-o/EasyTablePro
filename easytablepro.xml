@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" method="upgrade" version="1.6.0">
+<extension type="component" method="upgrade" version="1.6.0">
 	<name>EasyTablePro</name>
-	<creationDate>20-Feb-2012</creationDate>
+	<creationDate>28-May-2012</creationDate>
 	<author>Craig Phillips</author>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<copyright>© 2012 Craig Phillips Pty Ltd</copyright>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<version>1.1a1 (1a19f39)</version>
+	<version>1.1.0a9 (286ed90)</version>
 	<description>COM_EASYTABLEPRO_XML_DESCRIPTION</description>
-	<install> <!-- Runs on install -->
+	<install folder="admin"> <!-- Runs on install -->
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
 		</sql>
 	</install>
 	<media destination="com_easytablepro" folder="media">
+		<file>index.html</file>
 		<folder>css</folder>
 		<folder>images</folder>
 		<folder>js</folder>
-		<file>index.html</file>
 	</media>
 	<administration>
 		<menu img="/media/com_easytablepro/images/easytablepro_logo.ico" link="option=com_easytablepro">COM_EASYTABLEPRO_XML_MENU_NAME</menu>
@@ -29,7 +29,6 @@
 			<filename>easytablepro.php</filename>
 			<filename>index.html</filename>
 			<folder>controllers</folder>
-			<folder>elements</folder>
 			<folder>helpers</folder>
 			<folder>language</folder>
 			<folder>models</folder>
@@ -40,12 +39,14 @@
 		</files>
 	</administration>
 	<files folder="site">
-		<filename>index.html</filename>
+		<filename>controller.php</filename>
 		<filename>easytablepro.php</filename>
+		<filename>index.html</filename>
 		<filename>router.php</filename>
 		<folder>controllers</folder>
+		<folder>helpers</folder>
 		<folder>language</folder>
 		<folder>models</folder>
 		<folder>views</folder>
 	</files>
-</install>
+</extension>
