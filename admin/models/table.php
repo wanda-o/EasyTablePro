@@ -113,7 +113,7 @@ class EasyTableProModelTable extends JModelAdmin
 			$query = "SELECT * FROM ".$db->quoteName('#__easytables_table_meta')." WHERE easytable_id =".$item->id.$default_order_sql;
 			$db->setQuery($query);
 			
-			$easytables_table_meta = $db->loadAssocList();
+			$easytables_table_meta = $db->loadAssocList('id');
 
 				
 			// OK now if there are meta records we add them to the item before returning it
