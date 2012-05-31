@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" method="upgrade" version="1.6.0">
 	<name>EasyTablePro</name>
-	<creationDate>28-May-2012</creationDate>
+	<creationDate>01-Jun-2012</creationDate>
 	<author>Craig Phillips</author>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<copyright>© 2012 Craig Phillips Pty Ltd</copyright>
 	<authorUrl>http://www.seepeoplesoftware.com</authorUrl>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<version>1.1.0a9 (286ed90)</version>
+	<version>1.1.0a19 (e4bd8b1)</version>
 	<description>COM_EASYTABLEPRO_XML_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
 	<install folder="admin"> <!-- Runs on install -->
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
