@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS `#__easytables` (
   `hits` int(11) unsigned NOT NULL default '0',
   `datatablename` varchar(255) NOT NULL,
   `params` text NOT NULL,
-  `access` int(10) unsigned DEFAULT '0',
-  `asset_id` int(10) unsigned DEFAULT '0',
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
+  `asset_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY  (`id`)
 ) COMMENT='1.1';
 
