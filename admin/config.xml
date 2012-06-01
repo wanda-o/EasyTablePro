@@ -161,6 +161,15 @@
 			rows="8"
 			cols="64"
 		/>
+		<field
+			name="uninstall_type"
+			type="radio" default="1"
+			label="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE"
+			description="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE_DESC"
+		>
+			<option value="1">COM_EASYTABLEPRO_PREF_UNINSTALL_COMPLETE</option>
+			<option value="0">COM_EASYTABLEPRO_PREF_UNINSTALL_PARTIAL</option>
+		</field>
 	</fieldset>
 
 	<fieldset name="permissions"
