@@ -15,8 +15,8 @@ class com_easyTableProInstallerScript
 	function install($parent) 
 	{
 		// $parent is the class calling this method
-		echo '<p>' . JText::_('COM_EASYTABLEPRO_INSTALLER_INSTALL_TEXT') . '</p>';
-		$parent->getParent()->setRedirectURL('index.php?option=com_easytablepro');
+		echo  JText::_('COM_EASYTABLEPRO_INSTALLER_INSTALL_TEXT');
+		
 		return true;
 	}
  
@@ -29,6 +29,150 @@ class com_easyTableProInstallerScript
 	{
 		// $parent is the class calling this method
 		echo '<p>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_TEXT') . '</p>';
+		//-- starting values
+		$no_errors = TRUE;
+		//-- standard text, values & images
+		$complete_uninstall = 1;
+		$partial__uninstall = 0;
+		$img_OK = '<img src="/media/system/images/notice-info.png" />';
+		$img_ERROR = '<img src="/media/system/images/notice-alert.png" />';
+		$BR = '<br />';
+	
+		//-- common text
+		$msg = '<h1>'.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_PROCESS' ).'…</h1>'.$BR;
+	
+		//-- OK, to make the installer aware of our translations we need to explicitly load
+		//   the components language file - this should work as the should already be copied in.
+		$language = JFactory::getLanguage();
+		$language->load('com_easytablepro');  // Can't use defined values in installer obj
+	
+		//-- first step is this a complete or partial uninstall
+		// $params = & JComponentHelper::getParams('com_easytable'); this won't work because the component entry has already been removed
+		// Get a database object
+		$db = JFactory::getDBO();
+		$jAp= JFactory::getApplication();
+	
+		// Check for a DB connection
+		if(!$db){
+			$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_UNABLE_TO_CONNECT_TO_DATABASE').$BR;
+			$msg .= $db->getErrorMsg().$BR;
+			$no_errors = FALSE;
+		}
+		else
+		{
+			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_CONNECTED_TO_THE_DATABASE').$BR;
+		}
+		// Get the settings meta data for the component
+		$query = "SELECT `params` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE `easytable_id` = '0'";
+		$db->setQuery($query);
+	
+		$rawSettings = $db->loadResult();
+		if(!empty( $rawSettings ))
+		{
+			$easytables_table_settings = new JParameter( $rawSettings );
+			$uninstall_type = $easytables_table_settings->get('uninstall_type');
+		}
+		else
+		{	// Default to a partial uninstall
+			$uninstall_type = 0;
+		}
+	
+		if($uninstall_type == $partial__uninstall)
+		{
+			echo $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_TYPE_PARTIAL' ).$BR;
+			return TRUE;
+		}
+		else
+		{
+			$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_TYPE_COMPLETE' ).$BR;
+		}
+	
+		// OK DROP the data tables first
+		// Select the table id's 
+		$et_query = "SELECT `id`, `easytablename` FROM `#__easytables`;";
+		$db->setQuery($et_query);
+		$data_Table_IDs = $db->loadAssocList();
+	
+		$db->query();								// -- adding this to force getNumRows to work
+		$num_of_data_tables = $db->getNumRows();	// -- getNumRows() appears to be broken in 1.5 for all other calls
+	
+		if($num_of_data_tables)
+		{
+	
+			if(!($no_errors = $data_Table_IDs))
+			{
+				$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_FAILED_GETTING_TABLE_LIST' ).$BR;
+			}
+			else
+			{
+				foreach ( $data_Table_IDs as $item )
+				{
+					//print_r($item);
+					$et_query = 'DROP TABLE `#__easytables_table_data_'.$item['id'].'`;';
+					$db->setQuery($et_query);
+					$et_drop_result = $db->query();
+					// make sure it dropped.
+					if(!$et_drop_result)
+					{
+						$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_UNABLE_TO_DROP_DATA_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_SQL_ERROR_SEGMENT' ).' '.$et_query.' ]'.$BR;
+						$no_errors = FALSE;
+					}
+					else
+					{
+						$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROPPED_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].').'.$BR;
+					}
+				}    
+			}
+		}
+		else
+		{
+			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_NO_DATA_TABLES_TO_DROP').$BR;
+		}
+	
+		// Now DROP the meta data
+		$et_query = 'DROP TABLE `#__easytables_table_meta`;';
+		$db->setQuery($et_query);
+		$et_drop_result = $db->query();
+		// make sure it dropped.
+		if(!$et_drop_result)
+		{
+			$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROP_META_ERROR' ).$BR;
+			$no_errors = FALSE;
+		}
+		else
+		{
+			$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_UNINSTALL_DROP_META_SUCCESS' ).$BR;
+		}
+		
+		
+		// Now DROP the core Tables Database
+		$et_query = 'DROP TABLE `#__easytables`;';
+		$db->setQuery($et_query);
+		$et_drop_result = $db->query();
+		// make sure it dropped.
+		if(!$et_drop_result)
+		{
+			$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROP_CORE_ERROR' ).$BR;
+			$no_errors = FALSE;
+		}
+		else
+		{
+			$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROP_CORE_SUCCESS' ).$BR;
+		}
+	
+	
+		if($no_errors)
+		{
+			$msg .= '<h3>'.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_COMPLETE' ).'</h3>'.$BR;
+			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_REMOVED_SUCCESS_MSG').$BR;
+		}
+		else
+		{
+			$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_FAILED_MSG').$BR;
+		}
+		
+		echo $msg;
+		return $no_errors;
 	}
  
 	/**
@@ -55,7 +199,6 @@ class com_easyTableProInstallerScript
 		// Check for a DB connection
 		if(!$db){
 			$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_UNABLE_TO_CONNECT_TO_DATABASE').$BR;
-			$msg .= $db->getErrorMsg().$BR;
 			$no_errors = FALSE;
 		}
 		else
@@ -77,7 +220,6 @@ class com_easyTableProInstallerScript
 		if(!in_array($db->getPrefix().'easytables', $et_table_list))
 		{
 			$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_CORE_EASYTABLE_TABLE_NOT_FOUND').$BR;
-			$msg .= $db->getErrorMsg().$BR;
 			$no_errors = FALSE;
 		} else {
 				$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_EASYTABLE_CORE_TABLE_SETUP_SUCCESSFUL').$BR;
@@ -87,7 +229,6 @@ class com_easyTableProInstallerScript
 		if(!in_array($db->getPrefix().'easytables_table_meta',$et_table_list))
 		{
 			$msg .=  $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_UNABLE_TO_FIND_META_TABLE').$BR;
-			$msg .=  $db->getErrorMsg().$BR;
 			$no_errors = FALSE;
 		} else {
 			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_META_TABLE_SETUP_SUCCESSFUL_').$BR;
@@ -96,7 +237,7 @@ class com_easyTableProInstallerScript
 		// Check perform any table upgrades in this last section.
 		// 1. Remove the column for the 'showsearch' parameter
 		//-- See if the column exists --//
-		$tableFieldsResult = $db->getTableFields('#__easytables');
+		$tableFieldsResult = $db->getTableColumns('#__easytables');
 		$columnNames = $tableFieldsResult['#__easytables'];
 
 		if(array_key_exists('showsearch', $columnNames))
@@ -196,7 +337,7 @@ class com_easyTableProInstallerScript
 
 		// 4. Add the params field to the meta table for Pro features.
 		//-- See if the column exists --//
-		$tableFieldsResult = $db->getTableFields('#__easytables_table_meta');
+		$tableFieldsResult = $db->getTableColumns('#__easytables_table_meta');
 		$columnNames = $tableFieldsResult['#__easytables_table_meta'];
 		if(array_key_exists('params', $columnNames))
 		{
