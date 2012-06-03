@@ -163,7 +163,7 @@
 		/>
 		<field
 			name="uninstall_type"
-			type="radio" default="1"
+			type="radio" default="0"
 			label="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE"
 			description="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE_DESC"
 		>
