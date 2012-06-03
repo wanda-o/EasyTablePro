@@ -81,9 +81,20 @@ class com_easyTableProInstallerScript
 		{
 			$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_TYPE_COMPLETE' ).$BR;
 		}
-	
+
+		// Get the list of tables in $db
+		$et_table_list =  $db->getTableList();
+		if(!$et_table_list)
+		{
+			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_COULDNT_GET_LIST_OF_TABLES_IN_DATABASE_FOR_INSTALL') . '</li>';
+			$no_errors = FALSE;
+		} else {
+				$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_SUCCESSFULLY_RETREIVED_LIST_OF_TABLES_IN_DATABASE') . '</li>';
+		}
+
+
 		// OK DROP the data tables first
-		// Select the table id's 
+		// Select the table id's
 		$et_query = "SELECT `id`, `easytablename` FROM `#__easytables`;";
 		$db->setQuery($et_query);
 		$data_Table_IDs = $db->loadAssocList();
@@ -102,19 +113,23 @@ class com_easyTableProInstallerScript
 			{
 				foreach ( $data_Table_IDs as $item )
 				{
+					$theCurrentTable = '#__easytables_table_data_'.$item['id'];
 					//print_r($item);
-					$et_query = 'DROP TABLE `#__easytables_table_data_'.$item['id'].'`;';
-					$db->setQuery($et_query);
-					$et_drop_result = $db->query();
-					// make sure it dropped.
-					if(!$et_drop_result)
+					if(in_array($theCurrentTable, $et_table_list))
 					{
-						$msg .= $img_ERROR.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_UNABLE_TO_DROP_DATA_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_SQL_ERROR_SEGMENT' ).' '.$et_query.' ]'.$BR;
-						$no_errors = FALSE;
-					}
-					else
-					{
-						$msg .= $img_OK.JText::_( 'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROPPED_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].').'.$BR;
+						$et_query = 'DROP TABLE '. $db->nameQuote($theCurrentTable) .';';
+						$db->setQuery($et_query);
+						$et_drop_result = $db->query();
+						// make sure it dropped.
+						if(!$et_drop_result)
+						{
+							$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_UNABLE_TO_DROP_DATA_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_SQL_ERROR_SEGMENT' ).' '.$et_query.' ]'.'</li>';
+							$no_errors = FALSE;
+						}
+						else
+						{
+							$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROPPED_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].').'.'</li>';
+						}
 					}
 				}    
 			}
