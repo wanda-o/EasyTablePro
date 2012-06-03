@@ -68,19 +68,9 @@ class com_easyTableProInstallerScript
 			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_CONNECTED_TO_THE_DATABASE').$BR;
 		}
 		// Get the settings meta data for the component
-		$query = "SELECT `params` FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE `easytable_id` = '0'";
-		$db->setQuery($query);
-	
-		$rawSettings = $db->loadResult();
-		if(!empty( $rawSettings ))
-		{
-			$easytables_table_settings = new JParameter( $rawSettings );
-			$uninstall_type = $easytables_table_settings->get('uninstall_type');
-		}
-		else
-		{	// Default to a partial uninstall
-			$uninstall_type = 0;
-		}
+		 $et_params =  JComponentHelper::getParams('com_easytablepro');
+		 // It's possible they don't exist yet (i.e. user has never changed the options).
+		 $uninstall_type = $et_params ? $et_params->get('uninstall_type',0) : 0;
 	
 		if($uninstall_type == $partial__uninstall)
 		{
