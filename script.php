@@ -16,8 +16,13 @@ class com_easyTableProInstallerScript
 	{
 		// $parent is the class calling this method
 		echo  JText::_('COM_EASYTABLEPRO_INSTALLER_INSTALL_TEXT');
-		
-		return true;
+		// Check for previously existing installation...
+		$db = JFactory::getDbo();		
+		$table_list = $db->getTableList();
+		if(in_array($db->getPrefix() . 'easytables', $table_list))
+			return $this->update($parent);
+		else
+			return true;
 	}
  
 	/**
