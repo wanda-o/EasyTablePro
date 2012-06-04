@@ -93,7 +93,7 @@ class EasyTableProModelRecord extends JModelItem
 					$ordDir = 'ASC';
 				}
 				$title_field = $et->params->get('title_field');
-				$title_field = $et->table_meta[$title_field]['fieldalias'];
+				$title_field = $title_field ? $et->table_meta[$title_field]['fieldalias'] : '';
 				$record = $db->loadObject();
 				// @todo add title_field id to prev/next request to retreive leaf 
 				$prevId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_field);
@@ -216,14 +216,14 @@ class EasyTableProModelRecord extends JModelItem
 
 		$query->from($db->quoteName( $tableName ));
 		$query->select($db->quoteName('id'));
-		$query->select($db->quoteName($leafField));
+		if($leafField) $query->select($db->quoteName($leafField));
 		$query->where($db->quoteName($orderField) . ' ' . $eqSym . ' ' . $currentOrderFieldValue);
 		$query->order($db->quoteName($orderField) . ' ' . $sortOrder);
 		$db->setQuery($query, 0, 1);
 
 		$adjacentRow = $db->loadRow();
 		// Convert leaf to URL safe
-		$adjacentRow[1] = JFilterOutput::stringURLSafe(substr($adjacentRow[1], 0,100));
+		$adjacentRow[1] = $leafField ? JFilterOutput::stringURLSafe(substr($adjacentRow[1], 0,100)) : '';
 		return $adjacentRow;
 	}
 }
