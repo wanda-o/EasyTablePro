@@ -80,7 +80,7 @@ class EasyTableProViewRecord extends JView
 		
 		$id = $easytable->id;
 		if($id == 0) {
-			JError::raiseNotice( 100, JText::_( 'COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR' ).$id );
+			JError::raiseNotice( 100, JText::sprintf( 'COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR', $id) );
 		}
 
 		// Get the default image directory from the table.

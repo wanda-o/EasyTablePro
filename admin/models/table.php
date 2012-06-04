@@ -97,7 +97,7 @@ class EasyTableProModelTable extends JModelAdmin
 			// Get a database object
 			$db = JFactory::getDBO();
 			if(!$db){
-				JError::raiseError(500,JText::_("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR").' '.$pk);
+				JError::raiseError(500,JText::sprintf("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR", $pk));
 			}
 			
 			// As a nicety if the easytable has just been created we sort the meta records (ie. the fields meta) in the original creation order (ie. the order found in the original import file)
