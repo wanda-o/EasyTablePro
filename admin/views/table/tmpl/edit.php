@@ -50,7 +50,7 @@ defined('_JEXEC') or die('Restricted Access');
 		</ul>
 
 		<div class="clr"></div>
-		<div class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_DESCRIPTION_TT' ); ?>" ><?php echo $this->form->getLabel('description'); ?>
+		<div class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_DESCRIPTION' ) . '::' . JText::_( 'COM_EASYTABLEPRO_MGR_DESCRIPTION_DESC' ); ?>" ><?php echo $this->form->getLabel('description'); ?>
 			<div class="clr"></div>
 			<?php echo $this->form->getInput('description'); ?>
 		</div>
