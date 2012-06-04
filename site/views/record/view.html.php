@@ -49,7 +49,11 @@ class EasyTableProViewRecord extends JView
 		}
 		
 		// Generate Page title
-		$page_title = JText::sprintf('COM_EASYTABLEPRO_SITE_RECORD_PAGE_TITLE', $easytable->easytablename, $titleSuffix);
+		if($titleSuffix) {
+			$page_title = JText::sprintf('COM_EASYTABLEPRO_SITE_RECORD_PAGE_TITLE', $easytable->easytablename, $titleSuffix);
+		} else {
+			$page_title = JText::sprintf('COM_EASYTABLEPRO_SITE_RECORD_PAGE_TITLE_NO_LEAF', $easytable->easytablename);
+		}
 		if( $easytable->params->get('title_links_to_table')) {
 			// Create a backlink
 			$backlink = 'index.php?option=com_easytablepro&amp;view=records&amp;id='.$easytable->id;
