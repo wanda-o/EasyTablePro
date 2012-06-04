@@ -77,6 +77,8 @@ defined('_JEXEC') or die('Restricted Access');
 		<?php if($this->item->etet) echo '<li><span style="font-style:italic;color:red;">'.JText::_( 'COM_EASYTABLEPRO_TABLE_LINKED_TO_EXISTING' ).' <strong>'.$this->item->ettd_tname.'!</strong></span></li>';?>
 		<li><strong><?php echo $this->form->getLabel('created_'); ?></strong>
 			<?php echo $this->form->getInput('created_');?></li>
+		<li><strong><?php echo $this->form->getLabel('created_by'); ?></strong>
+			<?php echo $this->form->getInput('created_by');?></li>
 		<li><strong><?php echo $this->form->getLabel('modified_'); ?></strong>
 			<?php echo $this->form->getInput('modified_');?></li>
 	</ul>

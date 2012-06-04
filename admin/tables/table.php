@@ -45,6 +45,9 @@ class EasyTableProTableTable extends JTable
 			$array['created_'] = date( 'Y-m-d H:i:s' );
 			$array['created_by'] = JUser::getInstance()->get('id',0);
 		}
+		// Check for missing creator
+		if($array['created_by'] == 0) $array['created_by'] = JUser::getInstance()->get('id',0);
+
 		$array['modified_'] = date( 'Y-m-d H:i:s' );
 		$array['modifiedby_'] = JUser::getInstance()->get('id',0);
 
