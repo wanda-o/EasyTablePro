@@ -20,6 +20,7 @@ class com_easyTableProInstallerScript
 		$db = JFactory::getDbo();		
 		$table_list = $db->getTableList();
 		if(in_array($db->getPrefix() . 'easytables', $table_list))
+			echo  JText::_('COM_EASYTABLEPRO_INSTALLER_PREV_INSTALLATION_FOUND');
 			return $this->update($parent);
 		else
 			return true;
