@@ -68,7 +68,7 @@ class EasyTableProViewUpload extends JView
 			default:
 				$this->closeURL = 'window.parent.SqueezeBox.close();';
 				$this->stepLabel = JText::_( 'Upload Data' );
-				$this->stepLegend = JText::_('Upload Records to %s', $this->item->easytablename);
+				$this->stepLegend = JText::sprintf('Upload Records to %s', $this->item->easytablename);
 				break;
 		}
 
