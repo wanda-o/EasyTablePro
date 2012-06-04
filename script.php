@@ -346,9 +346,31 @@ class com_easyTableProInstallerScript
 			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_ASSET_ID_COLUMN_FOUND') . '</li>';
 		}
 
+		// 4. Check that #__easytables has 'created_by' for J25's `edit.own`
+		if(!array_key_exists('created_by', $columnNames))
+		{
+			$msg .= $img_ERROR.JText::_("COM_EASYTABLEPRO_INSTALLER_CREATED_BY_COLUMN_NOT_FOUND").'</li>';
+			$et_updateQry = "ALTER TABLE `#__easytables` ADD `created_by` INT(11) NOT NULL AFTER `created_`";
+			$db->setQuery($et_updateQry);
+			$et_updateResult = $db->query();
+			if(!$et_updateResult)
+			{
+				$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_CREATED_BY_COLUMN_COULDNT_BE_ADDED') . '</li>';
+				$no_errors = FALSE;
+			}
+			else
+			{
+				$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_CREATED_BY_COLUMN_SUCCESSFULLY_ADDED') . '</li>';
+			}
+		}
+		else
+		{
+			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_CREATED_BY_COLUMN_FOUND') . '</li>';
+		}
+
 		if($no_errors) $msg .=  $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_EASYTABLE_TABLE_STRUCTURES_ARE_UPTODATE') . '</li>';
 
-		// 4. Add the params field to the meta table for Pro features.
+		// 5. Add the params field to the meta table for Pro features.
 		//-- See if the column exists --//
 		$columnNames = $db->getTableColumns('#__easytables_table_meta');
 		if(array_key_exists('params', $columnNames))
