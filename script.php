@@ -19,11 +19,12 @@ class com_easyTableProInstallerScript
 		// Check for previously existing installation...
 		$db = JFactory::getDbo();		
 		$table_list = $db->getTableList();
-		if(in_array($db->getPrefix() . 'easytables', $table_list))
+		if(in_array($db->getPrefix() . 'easytables', $table_list)) {
 			echo  JText::_('COM_EASYTABLEPRO_INSTALLER_PREV_INSTALLATION_FOUND');
 			return $this->update($parent);
-		else
+		} else {
 			return true;
+		}
 	}
  
 	/**
