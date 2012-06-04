@@ -37,11 +37,11 @@ class EasyTableProViewUpload extends JView
 
 		$form = $this->get('Form');
 		$item = $this->get('Item');
-		
+
 		// Store it for later
 		$this->form = $form;
 		$this->item = $item;
-		
+
 		// Set up our layout details
 		$jInput = JFactory::getApplication()->input;
 		$this->step = $jInput->get('step','');
@@ -51,19 +51,22 @@ class EasyTableProViewUpload extends JView
 		$this->uploadedRecords = $jInput->get('uploadedRecords', 0);
 		$this->status = ($jInput->get('uploadedRecords',0) > 0) ? 'SUCCESS' : 'FAIL';
 		$this->setLayout('upload');
-		
+
 		switch ($this->step) {
 			case 'new':
+				$this->closeURL = 'window.parent.SqueezeBox.close();';
 				$this->stepLabel = JText::_( 'Create a new Table' );
 				$this->stepLegend = JText::_('Table Creation Wizard');
 				break;
 					
 			case 'uploadCompleted':
+				$this->closeURL = "window.parent.location.reload();window.parent.SqueezeBox.close";
 				$this->stepLabel = JText::_( 'Data Upload Completed' );
 				$this->stepLegend = JText::sprintf('Uploaded %s Records to %s', $this->uploadedRecords, $this->item->easytablename);
 				break;
 					
 			default:
+				$this->closeURL = 'window.parent.SqueezeBox.close();';
 				$this->stepLabel = JText::_( 'Upload Data' );
 				$this->stepLegend = JText::_('Upload Records to %s', $this->item->easytablename);
 				break;

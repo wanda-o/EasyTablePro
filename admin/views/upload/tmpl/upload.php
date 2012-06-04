@@ -16,7 +16,7 @@
 			<td>
 			<fieldset>
 				<div style="float: right">
-					<button type="button" onclick="window.parent.location='/administrator/index.php?option=com_easytablepro';window.parent.SqueezeBox.close();"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_CLOSE' ); ?></button>
+					<button type="button" onclick="<?php echo $this->closeURL; ?>"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_CLOSE' ); ?></button>
 				</div>
 				<div class="configuration"><?php echo JText::_( 'COM_EASYTABLEPRO' );?> - <?php echo $this->stepLabel; ?></div>
 			</fieldset>
