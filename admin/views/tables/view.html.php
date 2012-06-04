@@ -86,7 +86,7 @@ class EasyTableProViewTables extends JView
 		if($extTable)
 		{
 			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_UPLOAD' , $tableName);
-			$theImageURL = '/media/com_easytablepro/images/disabled_upload.png';
+			$theImageURL = '/media/com_easytablepro/images/disabled_upload_16x16.png';
 		}
 		else
 		{
