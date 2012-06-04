@@ -26,9 +26,9 @@
 				required="true"
 				size="32"
 				onchange="com_EasyTablePro.Table.validateTableNameAlias()"
-				maxlength="250" />				
+				maxlength="250" />
 			<field name="published"
-				type="radio"
+				type="list"
 				label="JSTATUS"
 				description="JFIELD_PUBLISHED_DESC"
 				class="inputbox"
