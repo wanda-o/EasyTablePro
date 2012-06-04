@@ -307,7 +307,7 @@ class com_easyTableProInstallerScript
 		if(!array_key_exists('access', $columnNames))
 		{
 			$msg .= $img_ERROR.JText::_("COM_EASYTABLEPRO_INSTALLER_ACCESS_COLUMN_NOT_FOUND").'</li>';
-			$et_updateQry = "ALTER TABLE `#__easytables` ADD `access` INT(10) NOT NULL";
+			$et_updateQry = "ALTER TABLE `#__easytables` ADD `access` INT(10) NOT NULL AFTER `params`";
 			$db->setQuery($et_updateQry);
 			$et_updateResult = $db->query();
 			if(!$et_updateResult)
@@ -328,7 +328,7 @@ class com_easyTableProInstallerScript
 		if(!array_key_exists('asset_id', $columnNames))
 		{
 			$msg .= $img_ERROR.JText::_("COM_EASYTABLEPRO_INSTALLER_ASSET_ID_COLUMN_NOT_FOUND").'</li>';
-			$et_updateQry = "ALTER TABLE `#__easytables` ADD `asset_id` INT(10) NOT NULL";
+			$et_updateQry = "ALTER TABLE `#__easytables` ADD `asset_id` INT(10) NOT NULL AFTER `access`";
 			$db->setQuery($et_updateQry);
 			$et_updateResult = $db->query();
 			if(!$et_updateResult)
