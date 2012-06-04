@@ -5,7 +5,7 @@
 			key = "COM_EASYTABLEPRO_HELP_MENU_RECORDVIEW"
 		/>
         <message>
-        <![CDATA[COM_EASYTABLEPRO_MENU_SHOWS_A_SPECIFIC_RECORD_IN_A_TABLE_]]>
+        <![CDATA[COM_EASYTABLEPRO_MENU_RECORD_LAYOUT_DESC]]>
         </message>
     </layout>
 	<fields name="request">
