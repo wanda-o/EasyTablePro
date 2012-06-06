@@ -46,10 +46,9 @@ jimport('joomla.application.categories');
 			if($view == 'records') {
 				if (isset($query['id'])) {
 					$id = $query['id'];
-					if($menuItem->query['view'] == 'records' && $id == $menuItem->query['id']) {
+					if($menuItemGiven && $menuItem->query['view'] == 'records' && $id == $menuItem->query['id']) {
 						unset($query['id']);
 						return $segments;
-						
 					} 
 					// OK we may need to convert a numeric id to an alias id
 					if(is_numeric($id))
