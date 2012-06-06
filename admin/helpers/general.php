@@ -27,10 +27,10 @@ class ET_Helper
 		if(empty($trid))
 		{
 			$trid = $jInput->get('id');
-			$trid = (strpos($trid, ":") >= 0) ? (int)$trid : $trid;
+			$trid = (strpos($trid, ":") == false) ? $trid : (int)$trid;
 			if(empty($trid)) return FALSE;
 		} else {
-			$trid = (int) $trid[0];
+			$trid = $trid[0];
 		}
 		
 		if(strpos($trid,'.'))
