@@ -34,7 +34,7 @@ class EasyTableProViewRecords extends JView
 		$this->items	= $items;
 		$this->state	= $this->get('State');
 		$this->pagination = $this->get('Pagination');
-		
+
 		$this->user		= $user;
 
 		// Check for errors.

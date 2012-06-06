@@ -57,7 +57,7 @@ class EasyTableProModelRecords extends JModelList
 		// Set state from the request.
 		$pk = JRequest::getInt('id');
 		// Create a context per table id -> so searches and pagination starts are per table
-		$this->context = $this->_context . $pk;
+		$this->context = $this->_context . '.' . $pk;
 		
 		parent::__construct();
 		$this->setState('records.id', $pk);
@@ -92,7 +92,9 @@ class EasyTableProModelRecords extends JModelList
 		// Search state
 		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
-
+		$srid = $this->getUserStateFromRequest($this->context.'.search.rids','srid');
+		$this->setState('search.rids', $srid);
+		
 		// Load the parameters.
 		$params = $jAp->getParams();
 		$this->setState('params', $params);
@@ -122,12 +124,17 @@ class EasyTableProModelRecords extends JModelList
 	public function getListQuery() {
 		$query = parent::getListQuery();
 
-		// $trid = ET_Helper::getTableRecordID(); // @todo replace this with getState('records.id')
-		// $pk = $trid[0];
 		$pk = $this->getState('records.id',0);
 
-		// Get the table name.
+		// Get the table.
 		$theTable = $this->getEasyTable($pk);
+		$tableParams = new JRegistry();
+		$tableParams->loadString($theTable->params);
+		// Get the basics
+		$jAp = JFactory::getApplication();
+		$params = $jAp->getParams('com_easytablepro');
+		$params->merge($tableParams);
+		
 		// Convert all fields to the SQL select
 		$db = JFactory::getDbo();
 		$tprefix = $db->quoteName('t');
@@ -140,19 +147,39 @@ class EasyTableProModelRecords extends JModelList
 		// From the EasyTables table
 		$query->from($theTable->ettd_tname . ' AS t');
 
-
-		// Filter by search in table name, alias, author or id.
-		$search = $this->state->get('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
-				$query->where('t.id = '.(int) substr($search, 3));
+		// Check for rids from a search result
+		$srids = $this->state->get('search.rids','');
+		if(empty($srids) || !is_array($srids)) {
+			// Filter by search in table fields or id.
+			$search = $this->state->get('filter.search');
+			if (!empty($search)) {
+				if (stripos($search, 'id:') === 0) {
+					$query->where('t.id = '.(int) substr($search, 3));
+				} elseif (stripos($search, 'field:') === 0) {
+					$kvp = explode($search, ':');
+					
+					
+				} else {
+					$search = $db->Quote('%'.$db->escape($search, true).'%');
+					$searchArray = $this->getSearch($theTable, $search);
+					$query->where($searchArray, 'OR');
+				}
 			}
-			else {
-				$search = $db->Quote('%'.$db->escape($search, true).'%');
-				$searchArray = $this->getSearch($theTable, $search);
-				$query->where($searchArray, 'OR');
+		} else {
+			$idstr = $db->quoteName('id').' = \'';
+			$idSql = array();
+			foreach ($srids as $rid) {
+				$idSql[] = $idstr.$rid.'\'';
 			}
+			$query->where($idSql, 'OR');
+			// Clear out srid's so the table behaves normally not like a filtered table
+			$jAp->setUserState($this->context.'.search.rids', '');
 		}
+		
+		// Add menu filter settings
+		
+		// Add user id filter
+		
 		return $query;
 	}
 
