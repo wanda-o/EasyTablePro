@@ -124,7 +124,7 @@ class EasyTableProViewRecord extends JView
 			JToolBarHelper::title($isNew ? JText::_('COM_EASYTABLEPRO_RECORD_CREATING_NEW_RECORD') : JText::sprintf('COM_EASYTABLEPRO_RECORD_VIEW_TITLE_EDITING_RECORD',$this->recordId), 'easytablepro-editrecord');
 			JToolBarHelper::apply('record.apply');
 			JToolBarHelper::save('record.save');
-			JToolBarHelper::save2new('record.save2new');
+			// @todo Fix JToolBarHelper::save2new('record.save2new');
 			JToolBarHelper::save2copy('record.save2copy');
 		}
 		JToolBarHelper::divider();
