@@ -48,7 +48,7 @@ class EasyTableProViewRecords extends JView
 		if($etmCount == 0)
 		{
 			// In here we need to divert back to Mgr view and set an appropriate user error message.
-			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_RECORD_NO_DATA_SEGMENT').' '.$easytable->easytablename,'error');
+			$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_RECORD_NO_DATA_SEGMENT').' '.$easytable->easytablename,'error');
 			return;
 		}
 
@@ -61,7 +61,7 @@ class EasyTableProViewRecords extends JView
 		$this->imageDir = $imageDir;
 		$this->easytable = $easytable;
 
-		$this->assign('status', $easytable->published ? JText::_( 'JPUBLISHED' ): JText::_( 'COM_EASYTABLEPRO_UNPUBLISHED' ));
+		$this->assign('status', $easytable->published ? JText::_('JPUBLISHED'): JText::_('COM_EASYTABLEPRO_UNPUBLISHED'));
 
 		$this->search = $state->get('filter.search');
 		$this->assignRef('et_list_meta',$easytables_table_meta_for_List_view);
@@ -104,11 +104,11 @@ class EasyTableProViewRecords extends JView
 		
 		if($canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_LINK', 'records.delete',JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_BTN') );
+			JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_LINK', 'records.delete',JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_BTN'));
 		}
 		JToolBarHelper::divider();
 		
-		JToolBarHelper::cancel('records.cancel', JText::_( 'COM_EASYTABLEPRO_LABEL_CLOSE' ));
+		JToolBarHelper::cancel('records.cancel', JText::_('COM_EASYTABLEPRO_LABEL_CLOSE'));
 		
 		JToolBarHelper::divider();
 
@@ -146,7 +146,7 @@ class EasyTableProViewRecords extends JView
 
 	function getDeleteRecordLink ($cid, $rowId, $tableName)
 	{
-		$link_text = JText::_( 'COM_EASYTABLEPRO_RECORDS_DELETE_LINK' ).' '.$rowId.' of table \''.$tableName.'\' ';
+		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_LINK').' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'records.delete\');" title="'.
 		$link_text.'" ><img src="/media/com_easytablepro/images/publish_x.png" alt="'.$link_text.'"/></a></span>';
@@ -156,7 +156,7 @@ class EasyTableProViewRecords extends JView
 
 	function getEditRecordLink ($cid, $rowId, $tableName)
 	{
-		$link_text = JText::_( 'COM_EASYTABLEPRO_RECORDS_EDIT_LINK' ).' '.$rowId.' of table \''.$tableName.'\' ';
+		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_EDIT_LINK').' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:3px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'record.edit\');" title="'.
 		$link_text.'" ><img src="/media/com_easytablepro/images/edit.png" alt="'.$link_text.'" /></a></span>';

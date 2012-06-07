@@ -11,7 +11,7 @@ class ET_DVHelper
 {
 	function getEditRecordLink ($locked, $rowId, $tableName)
 	{
-		$link_text = JText::_( 'COM_EASYTABLEPRO_MGR_EDIT_PROPERTIES_AND_STRUCTURE_OF' ).' \''.$tableName.'\' '.($locked ? JText::_( 'COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED' ) : '');
+		$link_text = JText::_('COM_EASYTABLEPRO_MGR_EDIT_PROPERTIES_AND_STRUCTURE_OF').' \''.$tableName.'\' '.($locked ? JText::_('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED') : '');
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" />'.$tableName.'</span>';
 
 		if( !$locked )

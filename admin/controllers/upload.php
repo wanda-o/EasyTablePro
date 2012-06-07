@@ -156,18 +156,18 @@ class EasyTableProControllerUpload extends JControllerForm
 		}
 
 		// Check for an update action
-		$Ap->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_DATA_FILE_ATTACHED' ));
+		$Ap->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_IMPORT_DATA_FILE_ATTACHED'));
 		if($updateType == 'replace')
 		{
 			// Clear out previous records before uploading new records.
 			if($this->emptyETTD($id))
 			{
-				$Ap->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_EMPTIED_EXISTI_ROWS' ));
-				$Ap->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_OLD_RECORDS_CLEARED', $id));
+				$Ap->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_IMPORT_EMPTIED_EXISTI_ROWS'));
+				$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_IMPORT_OLD_RECORDS_CLEARED', $id));
 			}
 			else
 			{
-				$Ap->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_COULD_NOT_DELETE_RECORDS',$id));
+				$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_IMPORT_COULD_NOT_DELETE_RECORDS',$id));
 				return;
 			}
 		}
@@ -175,11 +175,11 @@ class EasyTableProControllerUpload extends JControllerForm
 		// All Seems good now we can update the data table with the contents of the file.
 		if(!($csvRowCount = $this->updateETTDTableFrom($id, $CSVFileArray)))
 		{
-			$Ap->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_UPLOAD_ERROR_COLUMN_MISMATCH', $id ), 'Error');
+			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_UPLOAD_ERROR_COLUMN_MISMATCH', $id), 'Error');
 			return false;
 		}
 		else
-			$Ap->enqueueMessage(JText::sprintf( 'COM_EASYTABLEPRO_TABLE_IMPORT_IMPORTED_DESC' , $csvRowCount ));
+			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_IMPORT_IMPORTED_DESC' , $csvRowCount));
 
 		return $csvRowCount;
 	}
@@ -391,7 +391,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		if( count($ettdColumnAliass) != count($CSVFileArray[0]))
 		{
 			// Our existing column count doesn't match those found in the first line of the CSV
-			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_THE_EXISTING_COLUMN_COUNT_X_DOESNT_MATCH_THE_FILE', count($ettdColumnAliass), count($CSVFileArray[0])), 'Warning' );
+			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_THE_EXISTING_COLUMN_COUNT_X_DOESNT_MATCH_THE_FILE', count($ettdColumnAliass), count($CSVFileArray[0])), 'Warning');
 			return FALSE;
 		}
 		

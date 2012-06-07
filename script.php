@@ -45,7 +45,7 @@ class com_easyTableProInstallerScript
 		$img_ERROR = '<img src="/media/system/images/notice-alert.png" />';
 
 		//-- common text
-		$msg = JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_PROCESS' ) . '<ol>';
+		$msg = JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_PROCESS') . '<ol>';
 	
 		//-- OK, to make the installer aware of our translations we need to explicitly load
 		//   the components language file - this should work as the should already be copied in.
@@ -77,7 +77,7 @@ class com_easyTableProInstallerScript
 			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_TYPE_PARTIAL') . '</li>';
 			if($no_errors)
 			{
-				$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_COMPLETE' ) . '</li></ol>';
+				$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_COMPLETE') . '</li></ol>';
 				$msg .= JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_REMOVED_SUCCESS_MSG');
 			}
 			else
@@ -134,12 +134,12 @@ class com_easyTableProInstallerScript
 						if(!$et_drop_result)
 						{
 						// @todo fix these messages to be a single sprintf per line
-							$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_UNABLE_TO_DROP_DATA_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_SQL_ERROR_SEGMENT' ).' '.$et_query.' ]'.'</li>';
+							$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_UNABLE_TO_DROP_DATA_TABLE').' '.$item['easytablename'].' (ID = '.$item['id'].JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_SQL_ERROR_SEGMENT').' '.$et_query.' ]'.'</li>';
 							$no_errors = FALSE;
 						}
 						else
 						{
-							$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROPPED_TABLE' ).' '.$item['easytablename'].' (ID = '.$item['id'].').'.'</li>';
+							$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROPPED_TABLE').' '.$item['easytablename'].' (ID = '.$item['id'].').'.'</li>';
 						}
 					}
 				}    
@@ -184,7 +184,7 @@ class com_easyTableProInstallerScript
 	
 		if($no_errors)
 		{
-			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_COMPLETE' ) . '</li></ol>';
+			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_COMPLETE') . '</li></ol>';
 			$msg .= JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_REMOVED_SUCCESS_MSG');
 		}
 		else
@@ -301,7 +301,7 @@ class com_easyTableProInstallerScript
 		}
 		else
 		{
-			$msg .= $img_ERROR.JText::sprintf( 'COM_EASYTABLEPRO_INSTALLER_DESC_COLUMN_TEXT_UPDATE',$db->getPrefix().'easytables.') . '</li>';
+			$msg .= $img_ERROR.JText::sprintf('COM_EASYTABLEPRO_INSTALLER_DESC_COLUMN_TEXT_UPDATE',$db->getPrefix().'easytables.') . '</li>';
 			$no_errors = FALSE;
 		}
 

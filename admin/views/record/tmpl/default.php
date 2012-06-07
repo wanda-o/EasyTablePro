@@ -16,13 +16,13 @@ defined('_JEXEC') or die('Restricted Access');
 			<tr>
 				<td>
 					<fieldset class="adminform " >
-						<legend><?php echo JText::sprintf( 'COM_EASYTABLEPRO_RECORDS_DATA_RECORD', $et_tableName, $this->recordId ); ?></legend>
+						<legend><?php echo JText::sprintf('COM_EASYTABLEPRO_RECORDS_DATA_RECORD', $et_tableName, $this->recordId); ?></legend>
 						<table class="adminlist" id="et_fieldList">
 						<thead>
 							<tr valign="top">
-								<th width= "100px"><?php echo (JText::_( 'COM_EASYTABLEPRO_RECORD_LABEL_LABEL' )); ?></th>
-								<th ><?php echo (JText::_( 'COM_EASYTABLEPRO_RECORD_LABEL_VALUE' )); ?></th>
-								<th ><?php echo (JText::_( 'COM_EASYTABLEPRO_LABEL_PREVIEW' )); ?></th>
+								<th width= "100px"><?php echo (JText::_('COM_EASYTABLEPRO_RECORD_LABEL_LABEL')); ?></th>
+								<th ><?php echo (JText::_('COM_EASYTABLEPRO_RECORD_LABEL_VALUE')); ?></th>
+								<th ><?php echo (JText::_('COM_EASYTABLEPRO_LABEL_PREVIEW')); ?></th>
 							</tr>
 						</thead>
 						<tbody id='et_data_table_rows'>
@@ -40,7 +40,7 @@ defined('_JEXEC') or die('Restricted Access');
 		echo '<tr valign="top" class="row'.$alt_rv.'" >'."\r";
 		echo '<td>'.$label.'</td>';
 		echo('<td>'.$this->getFieldInputType($fld_alias, $type, $value).'<input name="et_fld_orig['.$fld_alias.']" type="hidden" value="'.$value.'" /></td>');
-		echo('<td>'.($value == '' ? '<em>'.JText::_( 'COM_EASYTABLEPRO_RECORDS_CLICK_APPLY_TO_PREVIEW' ).'</em>' : ($type == '1' ? $this->getImageTag($value,'',$fld_alias):ET_VHelper::getFWO(html_entity_decode( $value ), $type, $f_params, $this->et_record, $this->et_record))).'</td>');
+		echo('<td>'.($value == '' ? '<em>'.JText::_('COM_EASYTABLEPRO_RECORDS_CLICK_APPLY_TO_PREVIEW').'</em>' : ($type == '1' ? $this->getImageTag($value,'',$fld_alias):ET_VHelper::getFWO(html_entity_decode( $value), $type, $f_params, $this->et_record, $this->et_record))).'</td>');
 		echo "</tr>\r";
 		$alt_rv = (int)!$alt_rv;
 	}

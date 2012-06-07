@@ -210,7 +210,7 @@ class EasyTableProModelRecord extends JModelItem
 		$db = JFactory::getDBO();
 		if(!$db){
 		// @todo Change to use sprintf
-			JError::raiseError(500,JText::_('COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_CREATING_NEXTPREV_RECORD_LINK').$mId );
+			JError::raiseError(500,JText::_('COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_CREATING_NEXTPREV_RECORD_LINK').$mId);
 		}
 		// New query
 		$query = $db->getQuery(true);

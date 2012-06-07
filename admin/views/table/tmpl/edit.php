@@ -12,12 +12,12 @@ defined('_JEXEC') or die('Restricted Access');
 <form action="<?php echo JRoute::_('index.php?option=com_easytablepro&layout=edit'); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div class="width-70 fltlft">
 	<fieldset class="adminform">
-	<legend><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_DETAILS' ); ?></legend>
+	<legend><?php echo JText::_('COM_EASYTABLEPRO_LABEL_DETAILS'); ?></legend>
 		<ul class="adminformlist">
-			<li class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_TABLENAME_TT' ); ?>"><?php echo $this->form->getLabel('easytablename'); ?>
+			<li class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_TABLE_TABLENAME_TT'); ?>"><?php echo $this->form->getLabel('easytablename'); ?>
 			<?php echo $this->form->getInput('easytablename'); ?></li>
 
-			<li class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_ALIAS_TT' ); ?>" ><?php echo $this->form->getLabel('easytablealias');
+			<li class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_TABLE_ALIAS_TT'); ?>" ><?php echo $this->form->getLabel('easytablealias');
 			if($this->item->etet)
 			{
 				$this->form->setFieldAttribute('easytablealias','class','readonly');
@@ -45,12 +45,12 @@ defined('_JEXEC') or die('Restricted Access');
 			<?php echo $this->form->getInput('id'); ?></li>
 			<li ><?php echo $this->form->getLabel('defaultimagedir') . $this->form->getInput('defaultimagedir'); ?>
 				<?php if(! $this->item->defaultimagedir ) { ?>
-						<span class="et_nodirectory"><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_NO_IMAGE_DIR_SET' ); ?></span>
+						<span class="et_nodirectory"><?php echo JText::_('COM_EASYTABLEPRO_TABLE_NO_IMAGE_DIR_SET'); ?></span>
 				<?php } ?></li>
 		</ul>
 
 		<div class="clr"></div>
-		<div class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_MGR_DESCRIPTION' ) . '::' . JText::_( 'COM_EASYTABLEPRO_MGR_DESCRIPTION_DESC' ); ?>" ><?php echo $this->form->getLabel('description'); ?>
+		<div class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_MGR_DESCRIPTION') . '::' . JText::_('COM_EASYTABLEPRO_MGR_DESCRIPTION_DESC'); ?>" ><?php echo $this->form->getLabel('description'); ?>
 			<div class="clr"></div>
 			<?php echo $this->form->getInput('description'); ?>
 		</div>
@@ -63,18 +63,18 @@ defined('_JEXEC') or die('Restricted Access');
 	<ul id="et_tableStatus" class="adminformlist">
 		<li><strong><?php echo $this->form->getLabel('id'); ?></strong>
 			<?php echo $this->form->getInput('id');?></li>
-		<li><label><strong><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_PUBLISH_STATE' ); ?>:</strong></label><input type="text" value="<?php echo $this->item->pub_state; ?>" class="readonly" readonly="readonly"></li>
-		<li class="hasTip" title="<?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_PRIM_KEY_MSG_TT' ); ?>"><label><strong><?php echo JText::_( 'COM_EASYTABLEPRO_TABLE_INFO_STRUCTURE' ); ?>:</strong></label><input type="text" value="<?php echo JText::sprintf('COM_EASYTABLEPRO_LABEL_FIELDS', $this->item->ettm_field_count); ?>" class="readonly" readonly="readonly">
+		<li><label><strong><?php echo JText::_('COM_EASYTABLEPRO_TABLE_PUBLISH_STATE'); ?>:</strong></label><input type="text" value="<?php echo $this->item->pub_state; ?>" class="readonly" readonly="readonly"></li>
+		<li class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_TABLE_PRIM_KEY_MSG_TT'); ?>"><label><strong><?php echo JText::_('COM_EASYTABLEPRO_TABLE_INFO_STRUCTURE'); ?>:</strong></label><input type="text" value="<?php echo JText::sprintf('COM_EASYTABLEPRO_LABEL_FIELDS', $this->item->ettm_field_count); ?>" class="readonly" readonly="readonly">
 		<li><label><strong><?php echo JText::_('COM_EASYTABLEPRO_LABEL_TABLE'); ?>:</strong></label>
 		<?php if($this->item->ettd) {
 					echo '<span class="readonly">' .
 					JText::sprintf('COM_EASYTABLEPRO_TABLE_INFO_NAME_COUNT', $this->item->ettd_tname, $this->item->ettd_record_count) .
 					'</span>';
 				} else {
-					echo '<span style="font-style:italic;color:red;"><input type="text" value="' . JText::sprintf( 'COM_EASYTABLEPRO_TABLE_WARNING_NO_RECORDS' , $this->item->ettd_tname ) . '" class="readonly" readonly="readonly"></span>';
+					echo '<span style="font-style:italic;color:red;"><input type="text" value="' . JText::sprintf('COM_EASYTABLEPRO_TABLE_WARNING_NO_RECORDS' , $this->item->ettd_tname) . '" class="readonly" readonly="readonly"></span>';
 				} ?>
 		</li>
-		<?php if($this->item->etet) echo '<li><span style="font-style:italic;color:red;">'.JText::_( 'COM_EASYTABLEPRO_TABLE_LINKED_TO_EXISTING' ).' <strong>'.$this->item->ettd_tname.'!</strong></span></li>';?>
+		<?php if($this->item->etet) echo '<li><span style="font-style:italic;color:red;">'.JText::_('COM_EASYTABLEPRO_TABLE_LINKED_TO_EXISTING').' <strong>'.$this->item->ettd_tname.'!</strong></span></li>';?>
 		<li><strong><?php echo $this->form->getLabel('created_'); ?></strong>
 			<?php echo $this->form->getInput('created_');?></li>
 		<li><strong><?php echo $this->form->getLabel('created_by'); ?></strong>

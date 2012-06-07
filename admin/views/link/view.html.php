@@ -108,14 +108,14 @@ class EasyTableProViewLink extends JView
 		{
 			// prefix with a 'None Selected' option
 			$noneSelected = array();
-			$noneSelected[] = array('value' => 0,'text' => '-- '.JText::_( 'COM_EASYTABLEPRO_LABEL_NONE_SELECTED' ).' --');
+			$noneSelected[] = array('value' => 0,'text' => '-- '.JText::_('COM_EASYTABLEPRO_LABEL_NONE_SELECTED').' --');
 			array_splice($allTables,0,0,$noneSelected);
 			$tablesAvailableForSelection = TRUE;
 		}
 		else
 		{	// dang an empty list of tables.
 			$noneAvailable = array();
-			$noneAvailable[] = array('value' => 0,'text' => '-- '.JText::_( 'COM_EASYTABLEPRO_LABEL_NONE_AVAILABLE' ).' --');
+			$noneAvailable[] = array('value' => 0,'text' => '-- '.JText::_('COM_EASYTABLEPRO_LABEL_NONE_AVAILABLE').' --');
 			array_splice($allTables,0,0,$noneAvailable);
 			$tablesAvailableForSelection = FALSE;
 		}

@@ -16,9 +16,9 @@
 			<td>
 			<fieldset>
 				<div style="float: right">
-					<button type="button" onclick="<?php echo $this->closeURL; ?>"><?php echo JText::_( 'COM_EASYTABLEPRO_LABEL_CLOSE' ); ?></button>
+					<button type="button" onclick="<?php echo $this->closeURL; ?>"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_CLOSE'); ?></button>
 				</div>
-				<div class="configuration"><?php echo JText::_( 'COM_EASYTABLEPRO' );?> - <?php echo $this->stepLabel; ?></div>
+				<div class="configuration"><?php echo JText::_('COM_EASYTABLEPRO');?> - <?php echo $this->stepLabel; ?></div>
 			</fieldset>
 			<fieldset class="adminform">
 			<legend><?php echo $this->stepLegend; ?></legend>

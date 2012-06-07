@@ -23,7 +23,7 @@ class EasyTableProViewRecord extends JView
 		$id = $easytable->id;
 		// Check we have a real table
 		if($id == 0) {
-			JError::raiseNotice( 100, JText::sprintf( 'COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR' , $id) );
+			JError::raiseNotice( 100, JText::sprintf('COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR' , $id));
 		}
 		// get the state info
 		$state = $this->get('State');

@@ -47,7 +47,7 @@ class EasyTableProControllerTable extends JControllerForm
 			$this->setRedirect(JRoute::_('index.php?option=com_easytablepro&view=tables'));
 			return false;
 		} else {
-			$jAp->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_SAVED_TABLE' ));
+			$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_SAVED_TABLE'));
 			// OK table record saved time to do the same for meta
 			// If it's not a linked table then...
 			if( $datatablename == '' ){
@@ -112,7 +112,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$ettm_field_count = count($easytables_table_meta);
 		$mRIdsCount = count($mRIds);
 		if($ettm_field_count != $mRIdsCount) {
-			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_META_MISMATCH_BETWEEN_FORM_RESPONSE_AND_DATA_STORE_VS', $ettm_field_count, $mRIdsCount,$etMetaRIdAsSQL ));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_META_MISMATCH_BETWEEN_FORM_RESPONSE_AND_DATA_STORE_VS', $ettm_field_count, $mRIdsCount,$etMetaRIdAsSQL));
 			return false;
 		}
 
@@ -185,7 +185,7 @@ class EasyTableProControllerTable extends JControllerForm
 		* @todo Should be moved to the model
 		*/
 		$jAp = JFactory::getApplication();
-		$jAp->enqueueMessage( JText::_( 'COM_EASYTABLEPRO_TABLE_STARTING_FIELD_ADDITIONS' ) );
+		$jAp->enqueueMessage( JText::_('COM_EASYTABLEPRO_TABLE_STARTING_FIELD_ADDITIONS'));
 		$jInput = JFactory::getApplication()->input;
 
 		$tableName = '#__easytables_table_data_'.$id;
@@ -218,7 +218,7 @@ class EasyTableProControllerTable extends JControllerForm
 		    // Create the insert values part of the SQL statement
 		    $insertValues = '( \''.$id.'\', '.'\''.$new_et_pos.'\', '.'\''.$new_et_label.'\', '.'\''.$new_et_desc.'\', '.'\''.$new_et_type.'\', '.'\''.$new_et_lv.'\', '.'\''.$new_et_dl.'\', '.'\''.$new_et_dv.'\', '.'\''.$new_et_fldAlias.'\', '.'\''.$new_et_params.'\' )'. ($newFldId == $lastNewFld ? ';' : ', ');
 		    $insertSQL .= $insertValues;
-		    $jAp->enqueueMessage( JText::sprintf( '• Adding meta data for field "%s"', $new_et_label ));
+		    $jAp->enqueueMessage( JText::sprintf('COM_EASYTABLEPRO_TABLE_ADDING_META_DATA_FOR_FIELD', $new_et_label));
 
 			// Store the new field data for the ALTER statement of the original
 			$newFldsAlterArray[] = '`'.$new_et_fldAlias.'` '.$this->getFieldTypeAsSQL($new_et_type);
@@ -227,7 +227,7 @@ class EasyTableProControllerTable extends JControllerForm
 		// Get a database object
 		$db = JFactory::getDBO();
 		if(!$db){
-			$jAp->enqueueMessage( JText::sprintf( 'Couldn\'t get the database object while setting up for META update: ', $id ) );
+			$jAp->enqueueMessage( JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_OBJECT_WHILE_SETTING_UP_FOR_META_UPDATE_X', $id));
 			return false;
 		}
 		// 2. Set the insertSQL as the query and execute it.
@@ -236,7 +236,7 @@ class EasyTableProControllerTable extends JControllerForm
 		
 		if(!$db_result)
 		{
-			$jAp->enqueueMessage( JText::sprintf( 'Meta data update failed during new field insert: %s<br /> SQL => %s', $db->explain(), $insertSQL));
+			$jAp->enqueueMessage( JText::sprintf('COM_EASYTABLEPRO_TABLE_META_DATA_UPDATE_FAILED_DURING_NEW_FIELD_INSERT_X_SQL_Y', $db->explain(), $insertSQL));
 			return false;
 		}
 		
@@ -251,7 +251,7 @@ class EasyTableProControllerTable extends JControllerForm
 
 		if(!$db_result)
 		{
-			$jAp->enqueueMessage( JText::sprintf( 'Table update failed during addition of new columns: %s<br /> SQL => %s', $db->explain(), $addSQL ) );
+			$jAp->enqueueMessage( JText::sprintf('COM_EASYTABLEPRO_TABLE_TABLE_UPDATE_FAILED_DURING_ADDITION_OF_NEW_COLUMNS_X_SQL_Y', $db->explain(), $addSQL));
 			return false;
 		}
 		return true;
@@ -264,7 +264,7 @@ class EasyTableProControllerTable extends JControllerForm
 		*/
 		if(empty($deletedFldIds)) return false;
 		$jAp = JFactory::getApplication();
-		$jAp->enqueueMessage( JText::_( 'COM_EASYTABLEPRO_TABLE_STARTING_FIELD_REMOVAL' ));
+		$jAp->enqueueMessage( JText::_('COM_EASYTABLEPRO_TABLE_STARTING_FIELD_REMOVAL'));
 		$id = $tableID;
 		$selDelFlds = '`id` = '. implode(explode(', ', $deletedFldIds), ' or `id` =');
 		$fromWhereSQL = ' from `#__easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
@@ -287,7 +287,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$dropSQL .=  '`';
 		$db->setQuery($dropSQL);
 		$drop_Result = $db->query();
-		if($drop_Result) $jAp->enqueueMessage( JText::sprintf( '• Columns dropped from %s.', $tableName ) );
+		if($drop_Result) $jAp->enqueueMessage( JText::sprintf('COM_EASYTABLEPRO_TABLE_COLUMNS_DROPPED_FROM_X', $tableName));
 
 		// Delete the reference to the fields in the meta table.
 		$db->setQuery('delete ' . $fromWhereSQL);

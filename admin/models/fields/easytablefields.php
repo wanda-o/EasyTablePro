@@ -59,12 +59,12 @@ class JFormFieldEasyTableFields extends JFormFieldList
 			$options = $db->loadObjectList();
 			$noneSelected = new stdClass();
 			$noneSelected->value = 0;
-			$noneSelected->text = '-- '.JText::_( 'COM_EASYTABLEPRO_LABEL_NONE_SELECTED' ).' --';
+			$noneSelected->text = '-- '.JText::_('COM_EASYTABLEPRO_LABEL_NONE_SELECTED').' --';
 			array_splice($options,0,0,array($noneSelected));
 		}
 		else
 		{
-			$options = array(JText::_("Select A Table first..."));
+			$options = array(JText::_('COM_EASYTABLEPRO_MODEL_FIELDS_SELECT_A_TABLE_FIRST'));
 		}
 		return $options;
 	}

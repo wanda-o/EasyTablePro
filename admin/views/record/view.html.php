@@ -48,12 +48,12 @@ class EasyTableProViewRecord extends JView
 			{
 				$fieldWithOptions = '<img src="'.trim($pathToImage).'" '.$fieldOptions.' id="' . $fld_alias . '_img" style="width:200px" alt="image" />';
 			}
-			$imgTag = '<span class="hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_RECORD_IMAGE_PREVIEW_TT' ).'"><a href="javascript:void(0);" '.$onclick.'target="_blank" >'.$fieldWithOptions.'<br />'.JText::_( 'COM_EASYTABLEPRO_RECORD_LABEL_PREVIEW_OF_IMG' ).'<br /><em>('.JText::_( 'COM_EASYTABLEPRO_RECORDS_CLICK_TO_SEE_FULL_SIZE_IMG' ).')</em></a></span>';
+			$imgTag = '<span class="hasTip" title="'.JText::_('COM_EASYTABLEPRO_RECORD_IMAGE_PREVIEW_TT').'"><a href="javascript:void(0);" '.$onclick.'target="_blank" >'.$fieldWithOptions.'<br />'.JText::_('COM_EASYTABLEPRO_RECORD_LABEL_PREVIEW_OF_IMG').'<br /><em>('.JText::_('COM_EASYTABLEPRO_RECORDS_CLICK_TO_SEE_FULL_SIZE_IMG').')</em></a></span>';
 		}
 		else
 		{
 			$onclick = '';
-			$imgTag = '<span class="hasTip" title="'.JText::_( 'COM_EASYTABLEPRO_RECORD_IMAGE_PREVIEW_TT' ).'"><em>('.JText::_( 'COM_EASYTABLEPRO_RECORD_NO_IMAGE_NAME' ).')</em></a></span>';
+			$imgTag = '<span class="hasTip" title="'.JText::_('COM_EASYTABLEPRO_RECORD_IMAGE_PREVIEW_TT').'"><em>('.JText::_('COM_EASYTABLEPRO_RECORD_NO_IMAGE_NAME').')</em></a></span>';
 		}
 		return $imgTag;
 	}
@@ -80,7 +80,7 @@ class EasyTableProViewRecord extends JView
 		
 		$id = $easytable->id;
 		if($id == 0) {
-			JError::raiseNotice( 100, JText::sprintf( 'COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR', $id) );
+			JError::raiseNotice( 100, JText::sprintf('COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR', $id));
 		}
 
 		// Get the default image directory from the table.

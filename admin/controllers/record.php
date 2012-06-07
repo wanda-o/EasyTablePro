@@ -88,7 +88,7 @@ class EasyTableProControllerRecord extends JController
 		{
 			$trid[1] = $model->getState($this->context . '.id');
 			$tridstr = implode('.', $trid);
-			$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_RECORD_SAVED_TO_TABLE', $trid[1], $easyTable->easytablename ));
+			$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_RECORD_SAVED_TO_TABLE', $trid[1], $easyTable->easytablename));
 		} else {
 			$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_RECORD_UNABLE_TO_SAVE_CHANGES_TO_RECORD', implode('.', $trid), implode('</br>\n',  $model->errors())));
 		}
