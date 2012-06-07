@@ -71,7 +71,7 @@ class EasyTableProControllerUpload extends JControllerForm
 					$ettdColumnAliass = $this->createMetaFrom($firstLineOfFile, $id, $data['CSVFileHasHeaders']);
 					if($numOfCols = count($ettdColumnAliass))
 					{
-						$Ap->enqueueMessage(JText::sprintf('Extracted <strong>%s</strong> columns and created data table for <em>%s</em>', $numOfCols, $item->easytablename));
+						$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_EXTRACTED_X_COLUMNS_AND_CREATED_DATA_TABLE_FOR_Y', $numOfCols, $item->easytablename));
 						// Setup some variables expected by uploadData()
 						$this->set('newTable', true);
 						$jInput->set('id', $id);
@@ -81,11 +81,11 @@ class EasyTableProControllerUpload extends JControllerForm
 						$this->uploadData();
 						return true;
 					} else {
-						$Ap->enqueueMessage(JText::sprintf('Failed to extract any columns from the file supplied or created the data table for %s',$item->easytablename), 'WARNING');
+						$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_FAILED_TO_EXTRACT_ANY_COLUMNS_FROM_THE_FILE_SUPPLIED_OR_CREATE_THE_DATA_TABLE_FOR_X',$item->easytablename), 'WARNING');
 					}
 				}
 			} else {
-				$Ap->enqueueMessage(JText::_('No Data file found, a CSV or TAB file is required to create a new table.'), 'WARNING');
+				$Ap->enqueueMessage(JText::_('COM_EASYTABLEPRO_IMPORT_NO_DATA_FILE_FOUND_A_CSV_OR_TAB_FILE_IS_REQUIRED_TO_CREATE_A_NEW_TABLE'), 'WARNING');
 
 			}
 		}
@@ -107,9 +107,9 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if($this->newTable) 
 		{
-			$updateType = JText::_('COM_EASYTABLEPRO_LABEL_IMPORT');
+			$updateType = 'import';
 		} else {
-			$updateType = $jInput->get('uploadType', 1, 'INT') ? JText::_('COM_EASYTABLEPRO_LABEL_REPLACE') : JText::_('COM_EASYTABLEPRO_LABEL_APPEND') ;
+			$updateType = $jInput->get('uploadType', 1, 'INT') ? 'replace' : 'append' ;
 		}
 
 		$pk = $jInput->get('id');
@@ -142,14 +142,18 @@ class EasyTableProControllerUpload extends JControllerForm
 		if($file = $this->getFile()){
 			$CSVFileArray = $this->parseCSVFile($file);
 			if(!$CSVFileArray) {
-				$Ap->enqueueMessage(JText::sprintf('Unable to open data file:<br />%s', $file));
+				$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_UNABLE_TO_OPEN_DATA_FILE_X', $file));
 				return false;
 			}
 		} else {
 			return false;
 		}
 
-		$Ap->enqueueMessage(JText::sprintf('About to %s records in table id: %s', $updateType, $id));
+		if($updateType == 'replace') {
+			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_ABOUT_TO_REPLACE_RECORDS_IN_TABLE_ID_X', $id));
+		} else {
+			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_ABOUT_TO_ADD_RECORDS_TO_TABLE_ID_X', $id));
+		}
 
 		// Check for an update action
 		$Ap->enqueueMessage(JText::_( 'COM_EASYTABLEPRO_TABLE_IMPORT_DATA_FILE_ATTACHED' ));
@@ -189,25 +193,25 @@ class EasyTableProControllerUpload extends JControllerForm
 	
 			// Make sure that file uploads are enabled in php
 			if (!(bool) ini_get('file_uploads')) {
-				JError::raiseWarning('', JText::_('PHP does not have `file_uploads` enabled.'));
+				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_PHP_DOES_NOT_HAVE_FILE_UPLOADS_ENABLED'));
 				return false;
 			}
 			
 			// Make sure that zlib is loaded so that the package can be unpacked
 			if (!extension_loaded('zlib')) {
-				JError::raiseWarning('', JText::_('PHP does not have the `zlib` extensions enabled.'));
+				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_PHP_DOES_NOT_HAVE_THE_ZLIB_EXTENSIONS_ENABLED'));
 				return false;
 			}
 			
 			// If there is no uploaded file, we have a problem...
 			if (!is_array($theFile)) {
-				JError::raiseWarning('', JText::_('No file was selected.'));
+				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_NO_FILE_WAS_SELECTED'));
 				return false;
 			}
 			
 			// Check if there was a problem uploading the file.
 			if ($theFile['error']['tablefile'] || $theFile['size']['tablefile'] < 1) {
-				JError::raiseWarning('', JText::_('An error was encountered, possibly the file is larger than the PHP `upload_max_filesize` limit.'));
+				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_IS_FILE_LARGER_THAN_THE_PHP_UPLOAD_MAX_FILESIZE_LIMIT'));
 				return false;
 			}
 			
@@ -387,7 +391,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		if( count($ettdColumnAliass) != count($CSVFileArray[0]))
 		{
 			// Our existing column count doesn't match those found in the first line of the CSV
-			$Ap->enqueueMessage(JText::sprintf('The existing column count (%s) doesn\'t match those found in the first line of the CSV (%s).', count($ettdColumnAliass), count($CSVFileArray[0])), 'Warning' );
+			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_THE_EXISTING_COLUMN_COUNT_X_DOESNT_MATCH_THE_FILE', count($ettdColumnAliass), count($CSVFileArray[0])), 'Warning' );
 			return FALSE;
 		}
 		

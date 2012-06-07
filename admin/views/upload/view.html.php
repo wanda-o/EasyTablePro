@@ -55,20 +55,20 @@ class EasyTableProViewUpload extends JView
 		switch ($this->step) {
 			case 'new':
 				$this->closeURL = 'window.parent.SqueezeBox.close();';
-				$this->stepLabel = JText::_( 'Create a new Table' );
-				$this->stepLegend = JText::_('Table Creation Wizard');
+				$this->stepLabel = JText::_( 'COM_EASYTABLEPRO_UPLOAD_CREATE_A_NEW_TABLE' );
+				$this->stepLegend = JText::_( 'COM_EASYTABLEPRO_UPLOAD_TABLE_CREATION_WIZARD' );
 				break;
 					
 			case 'uploadCompleted':
 				$this->closeURL = "window.parent.location.reload();window.parent.SqueezeBox.close";
-				$this->stepLabel = JText::_( 'Data Upload Completed' );
-				$this->stepLegend = JText::sprintf('Uploaded %s Records to %s', $this->uploadedRecords, $this->item->easytablename);
+				$this->stepLabel = JText::_( 'COM_EASYTABLEPRO_UPLOAD_DATA_UPLOAD_COMPLETED' );
+				$this->stepLegend = JText::sprintf( 'COM_EASYTABLEPRO_UPLOAD_UPLOADED_X_RECORDS_TO_Y', $this->uploadedRecords, $this->item->easytablename );
 				break;
 					
 			default:
 				$this->closeURL = 'window.parent.SqueezeBox.close();';
-				$this->stepLabel = JText::_( 'Upload Data' );
-				$this->stepLegend = JText::sprintf('Upload Records to %s', $this->item->easytablename);
+				$this->stepLabel = JText::_( 'COM_EASYTABLEPRO_UPLOAD_DATA' );
+				$this->stepLegend = JText::sprintf( 'COM_EASYTABLEPRO_UPLOAD_UPLOAD_RECORDS_TO_X', $this->item->easytablename );
 				break;
 		}
 

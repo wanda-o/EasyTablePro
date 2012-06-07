@@ -41,7 +41,7 @@ $groups = $user->getAuthorisedViewLevels();
 		/* Check the user against table access */
 		if (!in_array($row->access, $groups))
 		{
-			$altText = $user->guest ? JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') : JText::_('You do not have viewing access for this table.');
+			$altText = $user->guest ? JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') : JText::_('COM_EASYTABLEPRO_SITE_TABLES_YOU_DO_NOT_HAVE_VIEWING_ACCESS_FOR_THIS_TABLE');
 			$lockImage = ' <img class="etTableListLockElement" src="/media/com_easytablepro/images/locked.gif" title="'. $altText .'" alt="'.JText::_('COM_EASYTABLEPRO_SITE_CLICK_TO_LOGIN').'" />';
 		}
 		else
@@ -59,7 +59,7 @@ $groups = $user->getAuthorisedViewLevels();
 	} 
 
 	if($skippedTables && $this->showSkippedCount ) {
-		echo '<li class="et_skipppedTablesMsg">' . JText::sprintf('<em>N.B. %s tables where not available for display.</em>',$skippedTables) . '</li>';
+		echo '<li class="et_skipppedTablesMsg">' . JText::sprintf('COM_EASYTABLEPRO_SITE_TABLES_X_TABLES_WERE_NOT_AVAILABLE_FOR_DISPLAY',$skippedTables) . '</li>';
 	}?>
 </ul>
 <?php

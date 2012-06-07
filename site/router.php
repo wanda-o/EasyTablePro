@@ -185,7 +185,7 @@ jimport('joomla.application.categories');
 				$vars['id'] = $id;
 			} else {
 				$vars['id'] = 0;
-				$app->enqueueMessage('EasyTable Pro <em>ParseRoute()</em> couldn\'t find a table ID.','Warning');
+				$app->enqueueMessage(JText::_('COM_EASYTABLEPRO_SITE_ROUTER_PARSEROUTE_COULDNT_FIND_TABLE_ID'),'Warning');
 			}
 			// Remove the stupid colon that J! core inserts...
 			$segments[1]=preg_replace('/:/','-',$segments[1],1);
@@ -213,7 +213,7 @@ jimport('joomla.application.categories');
 				$vars['id'] = $id;
 			} else {
 				$vars['id'] = 0;
-				$app->enqueueMessage('EasyTable Pro <em>ParseRoute()</em> couldn\'t find a table ID.','Warning');
+				$app->enqueueMessage(JText::_('COM_EASYTABLEPRO_SITE_ROUTER_PARSEROUTE_COULDNT_FIND_TABLE_ID'),'Warning');
 			}
 			// Remove the stupid colon that J! core inserts...
 			$segments[2]=preg_replace('/:/','-',$segments[2],1);

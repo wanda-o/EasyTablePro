@@ -271,9 +271,9 @@ class EasyTableProModelTable extends JModelAdmin
 
 				if($db->query())
 				{
-					$app->enqueueMessage(JText::sprintf('All meta data for table ID: %s was deleted.', $pk));
+					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_ALL_META_DATA_FOR_TABLE_ID_X_WAS_DELETED', $pk));
 				} else {
-					$app->enqueueMessage(JText::sprintf('Not all meta data for table ID: %s could be deleted.', $pk));
+					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_NOT_ALL_META_DATA_FOR_TABLE_ID_X_COULD_BE_DELETED', $pk));
 				}
 				// and the data table.
 
@@ -285,9 +285,9 @@ class EasyTableProModelTable extends JModelAdmin
 				$db->setQuery($query);
 				if($db->query())
 				{
-					$app->enqueueMessage(JText::sprintf('Successfully dropped data for table %s', $pk));
+					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_SUCCESSFULLY_DROPPED_DATA_FOR_TABLE_X', $pk));
 				} else {
-					$app->enqueueMessage(JText::sprintf('Failed to drop data for table %s', $pk));
+					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_FAILED_TO_DROP_DATA_FOR_TABLE_X', $pk));
 				}
 
 			}

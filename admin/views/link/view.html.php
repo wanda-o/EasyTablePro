@@ -17,7 +17,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage Views
  */
 
-class EasyTableVieweasytablelink extends JView
+class EasyTableProViewLink extends JView
 {
 	/**
 	 * View display method
@@ -40,7 +40,7 @@ class EasyTableVieweasytablelink extends JView
 		//get the list of tables
 		$db = JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,JText::_("COM_EASYTABLEPRO_LINK_NO_TABLE_LIST"));
+			JError::raiseError(500,JText::_('COM_EASYTABLEPRO_LINK_NO_TABLE_LIST'));
 		}
 		$query = "SELECT `datatablename` FROM `#__easytables` WHERE `datatablename` > ''";
 		$db->setQuery($query);

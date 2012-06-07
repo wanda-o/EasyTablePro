@@ -188,15 +188,15 @@ class EasyTableProViewTable extends JView
 		$btn_title = '';
 		if(substr($rowElement,0,4)=='list')
 		{
-			$btn_title = JText::_( "COM_EASYTABLEPRO_TABLE_TOGGLE_APPEARS_IN_LIST_TT" );
+			$btn_title = JText::_( 'COM_EASYTABLEPRO_TABLE_TOGGLE_APPEARS_IN_LIST_TT' );
 		}
 		elseif(substr($rowElement,7,4) == 'link')
 		{
-			$btn_title = JText::_( "COM_EASYTABLEPRO_TABLE_TURN_ON_DETAIL_LINK_TT" );
+			$btn_title = JText::_( 'COM_EASYTABLEPRO_TABLE_TURN_ON_DETAIL_LINK_TT' );
 		}
 		elseif(substr($rowElement,0,6)=='detail')
 		{
-			$btn_title = JText::_( "COM_EASYTABLEPRO_TABLE_TURN_ON_IN_DETAIL_VIEW_TT" );
+			$btn_title = JText::_( 'COM_EASYTABLEPRO_TABLE_TURN_ON_IN_DETAIL_VIEW_TT' );
 		}
 		elseif(substr($rowElement,0,6)=='search')
 		{

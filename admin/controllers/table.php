@@ -43,7 +43,7 @@ class EasyTableProControllerTable extends JControllerForm
 
 		// Call to our parent save() to save the base JTable ie. our EasyTableProTable
 		if(!parent::save('id')){
-			$jAp->enqueueMessage(JText::sprintf('WOW! Completely bombed on saving the EasyTable Record for %s ( %s ).', $this->tablename, $this->id));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_WOW_COMPLETELY_BOMBED_SAVING_TABLE', $this->tablename, $this->id));
 			$this->setRedirect(JRoute::_('index.php?option=com_easytablepro&view=tables'));
 			return false;
 		} else {
@@ -54,18 +54,18 @@ class EasyTableProControllerTable extends JControllerForm
 				// 1. Any fields to delete?
 				if(!empty($deletedFlds)) {
 					if( $this->deleteFieldsFromEasyTable($id, $deletedFlds) ){
-						$jAp->enqueueMessage(JText::_('• Successfully deleted the fields.'));
+						$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_SUCCESSFULLY_DELETED_FIELDS'));
 					} else {
-						$jAp->enqueueMessage(JText::_('• There were problems deleting the fields.'), 'Notice');
+						$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_THERE_WERE_PROBLEMS_DELETING_FIELD'), 'Notice');
 					}
 				}
 				
 				// 2. Any fields to add?
 				if(!empty($newFlds)) {
 					if( $this->addFieldsToEasyTable($id, $newFlds) ){
-						$jAp->enqueueMessage(JText::_('• Successfully added the new fields.'));
+						$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_SUCCESSFULLY_ADDED_NEW_FIELDS'));
 					} else {
-						$jAp->enqueueMessage(JText::_('• There were problems deleting the fields.'), 'Notice');
+						$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_THERE_WERE_PROBLEMS_ADDING_NEW_FIELDS'), 'Notice');
 					}
 				}
 			}
@@ -94,7 +94,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$db = JFactory::getDBO();
 		if(!$db){
 			// Oh shit - PANIC!
-			JError::raiseError(500,JText::sprintf("Couldn't get the database object while setting up for META update: %s",$id));
+			JError::raiseError(500,JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_OBJECT_WHILE_SETTING_UP_FOR_META_UPDATES',$id));
 		}
 
 		// 2. Get the list of mRIds into an array we can use
@@ -112,7 +112,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$ettm_field_count = count($easytables_table_meta);
 		$mRIdsCount = count($mRIds);
 		if($ettm_field_count != $mRIdsCount) {
-			$jAp->enqueueMessage(JText::sprintf('• META mismatch between form response and data store: %s vs %s <br /><pre>%s</pre>', $ettm_field_count, $mRIdsCount,$etMetaRIdAsSQL ));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_META_MISMATCH_BETWEEN_FORM_RESPONSE_AND_DATA_STORE_VS', $ettm_field_count, $mRIdsCount,$etMetaRIdAsSQL ));
 			return false;
 		}
 
@@ -137,7 +137,7 @@ class EasyTableProControllerTable extends JControllerForm
 			{
 				if( !$this->alterEasyTableColumn($origFldAlias, $reqFldAlias, $fieldType) )
 				{
-					$jAp->enqueueMessage(JText::sprintf('• FAILED to alter table field (COLUMN) from <strong>%s</strong> to <strong>%s</strong> as type <strong>%s (%s)</strong>', $origFldAlias, $reqFldAlias, $this->getFieldTypeAsSQL($fieldType), $fieldType));
+					$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_FAILED_TO_ALTER_TABLE_FIELD__COLUMN__FROM_A_TO_B_AS_TYPE_C', $origFldAlias, $reqFldAlias, $this->getFieldTypeAsSQL($fieldType), $fieldType));
 					return false;
 				}
 			}
@@ -169,11 +169,11 @@ class EasyTableProControllerTable extends JControllerForm
 			
 			if(!$db_result)
 			{
-				$jAp->enqueueMessage(JText::sprintf('Meta data update failed at row id ( %s ): %s<br /> <pre>SQL => %s</pre>', $rowValue, $db->explain(), $etMetaUpdateSQL));
+				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_META_DATA_UPDATE_FAILED_AT_ROW_ID_X_SQL_Y', $rowValue, $db->explain(), $etMetaUpdateSQL));
 				return false;
 			}
 		}
-		$jAp->enqueueMessage(JText::_('• Field settings updated successfully.'));
+		$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_FIELD_SETTINGS_UPDATED_SUCCESSFULLY'));
 		return true;
 	}
 
@@ -185,7 +185,7 @@ class EasyTableProControllerTable extends JControllerForm
 		* @todo Should be moved to the model
 		*/
 		$jAp = JFactory::getApplication();
-		$jAp->enqueueMessage( JText::_( 'Starting field additions.' ) );
+		$jAp->enqueueMessage( JText::_( 'COM_EASYTABLEPRO_TABLE_STARTING_FIELD_ADDITIONS' ) );
 		$jInput = JFactory::getApplication()->input;
 
 		$tableName = '#__easytables_table_data_'.$id;
@@ -264,7 +264,7 @@ class EasyTableProControllerTable extends JControllerForm
 		*/
 		if(empty($deletedFldIds)) return false;
 		$jAp = JFactory::getApplication();
-		$jAp->enqueueMessage( JText::_( 'Starting field removal.' ));
+		$jAp->enqueueMessage( JText::_( 'COM_EASYTABLEPRO_TABLE_STARTING_FIELD_REMOVAL' ));
 		$id = $tableID;
 		$selDelFlds = '`id` = '. implode(explode(', ', $deletedFldIds), ' or `id` =');
 		$fromWhereSQL = ' from `#__easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
@@ -273,7 +273,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$db = JFactory::getDBO();
 		if(!$db){
 			// Oh shit! - PANIC
-			JError::raiseError(500,JText::sprintf('Couldn\'t get the database object while trying to ALTER data table: %s', $id));
+			JError::raiseError(500,JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_OBJECT_WHILE_TRYING_TO_ALTER_DATA_TABLE', $id));
 		}
 		
 		// Set and execute the SQL select query

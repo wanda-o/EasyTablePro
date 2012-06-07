@@ -82,7 +82,7 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 					<?php echo JHTML::_( 'jgrid.checkedout', $i, $row->editor, $row->checked_out_time, 'tables.', $canCheckin ); ?>
 				<?php endif; ?>
 				<?php echo $this->getEditorLink($locked,$i,$row->easytablename,$canEdit, $lockedByName); ?><div class="clr"></div>
-				<span class="ept_tablelist_table_details"><?php echo $row->easytablealias . JText::_(' by ') . $row->author_name;?></span><div class="clr"></div>
+				<span class="ept_tablelist_table_details"><?php echo JText::sprintf('COM_EASYTABLEPRO_TABLESX_BY_Y', $row->easytablealias, $row->author_name);?></span><div class="clr"></div>
 				<span class="ept_tablelist_table_details"><?php echo JText::sprintf('COM_EASYTABLEPRO_TABLES_VIEWABLE_BY',ET_Helper::accessLabel($row->access)); ?></span>
 			</td>
 			<td>

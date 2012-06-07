@@ -214,7 +214,8 @@ class EasyTableControllerTables extends JController
 		// Get a database object
 		$db = JFactory::getDBO();
 		if(!$db){
-			JError::raiseError(500,"Couldn't get the database object checking the existence of data table: $id");
+			// @TODO remove this and replace with a less drastic result --- warning and cleanup after our failure?
+			JError::raiseError(500,JText::sprintf("COM_EASYTABLEPRO_LINK_COULDNT_GET_DB_OBJ_TRYING_TO_CREATE_META_FOR_LINKED_TABLE", $tableName, $id));
 		}
 
 		$tablesArray = $db->getTableFields($tableName);
@@ -244,8 +245,11 @@ class EasyTableControllerTables extends JController
 
 		if(!$insert_Meta_result)
 		{
-			JError::raiseError(500,'Meta insert failed for linked table: '.$id.'<br />'.$db->explain());
+			// @TODO remove this and replace with a less drastic result --- warning and cleanup after our failure?
+			JError::raiseError(500,JText::sprintf('COM_EASYTABLEPRO_LINK_META_INSERT_FAILED_FOR_LINKED_TABLE', $id, $db->explain()));
+			return false;
 		}
+		return true;
 	}
 
 	function convertType($ftype)
