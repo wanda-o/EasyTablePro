@@ -38,7 +38,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 			$menus = $Ap->getMenu('site');
 			$menuItem = $menus->getItem($id);
 			if($menuItem) {
-				$id = $menuItem->params->get('id',0);
+				$id = $menuItem->query['id'];
 			}
 			else
 			{
@@ -49,7 +49,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 		if($id)
 		{
 			$query = $db->getQuery(true);
-			$query->select('id as value');
+			$query->select('fieldalias as value');
 			$query->select('label as text');
 			$query->from('#__easytables_table_meta');
 			$query->where($db->quoteName('easytable_id') . ' = ' . $id);
@@ -58,7 +58,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 			$db->setQuery($query);
 			$options = $db->loadObjectList();
 			$noneSelected = new stdClass();
-			$noneSelected->value = 0;
+			$noneSelected->value = '';
 			$noneSelected->text = '-- '.JText::_('COM_EASYTABLEPRO_LABEL_NONE_SELECTED').' --';
 			array_splice($options,0,0,array($noneSelected));
 		}
