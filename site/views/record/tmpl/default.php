@@ -13,9 +13,8 @@
 		<table  id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars(strip_tags($this->easytable->description)); ?>">
 			<tbody>
 				<?php
-					$this->assign('currentImageDir',$this->imageDir);
+					$currentImageDir = $this->imageDir;
 
-					$fieldNumber = 1; // so that we skip the record id from the table record
 					$prow = $this->item->record;
 
 					if($this->show_next_prev_record_links) {
@@ -32,31 +31,37 @@
 
 					foreach ($this->easytable->table_meta as $field_Meta )
 						{
-							if($field_Meta['detail_view']) // ie. Detail_view = 1
+							 // ie. Detail_view = 1
+							if($field_Meta['detail_view'])
 							{
 								$fieldalias = $field_Meta['fieldalias'];
 								$f = $prow->$fieldalias;
 
 								$cellType     = (int)$field_Meta['type'];
 
-								$cellData = ET_VHelper::getFWO($f, $cellType, $field_Meta['params'], $prow, $this->imageDir); //getFWO($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
+								$cellData = ET_VHelper::getFWO($f, $cellType, $field_Meta['params'], $prow, $currentImageDir);
 
-								echo '<tr>';  // Open the row
-								$titleString = ''; // Setup the titleString if required
+								// Open the row
+								echo '<tr>';
+								// Setup the titleString if required
+								$titleString = '';
 								if(strlen($field_Meta['description'])){ $titleString = 'title="'.htmlspecialchars($field_Meta['description']).'" ';}
 	
-								echo '<td class="sectiontableheader '.$field_Meta['fieldalias'].'" '.$titleString.'>'.$field_Meta['label'].'</td>'; // Field Heading
-								echo '<td class="sectiontablerow '.$field_Meta['fieldalias'].'">'.$cellData.'</td>'; // Field Data
-								echo '</tr>';  // Close the Row
+								// Field Heading
+								echo '<th class="sectiontableheader '.$field_Meta['fieldalias'].'" '.$titleString.'>'.$field_Meta['label'].'</th>';
+								// Field Data
+								echo '<td class="sectiontablerow '.$field_Meta['fieldalias'].'">'.$cellData.'</td>';
+								// Close the Row
+								echo '</tr>';
 							}
 						}
 				?>
 			</tbody>
 		</table>
 	<?php
-		if( $this->linked_table && $this->tableHasRecords && $this->show_linked_table)
+		if( $this->show_linked_table )
 		{
-			echo('<div id="easytable-linkedtable" class="'.htmlspecialchars($this->linked_easytable_alias).'">');
+			echo('<div id="easytable-linkedtable" class="'.htmlspecialchars($this->linked_table->easytablealias).'">');
 			echo( $this->loadTemplate('linkedtable') );
 			echo('</div>');
 		}

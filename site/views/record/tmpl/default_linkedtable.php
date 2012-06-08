@@ -8,56 +8,65 @@
 	defined('_JEXEC') or die ('Restricted Access');
 ?>
 <div class="contentpaneopen<?php echo $this->pageclass_sfx ?>" >
-	<table	id="<?php echo htmlspecialchars($this->linked_easytable_alias); ?>" summary="<?php echo htmlspecialchars(strip_tags($this->linked_easytable->description)); ?>" width="100%">
+	<table	id="<?php echo htmlspecialchars($this->linked_table->easytablealias); ?>" summary="<?php echo htmlspecialchars(strip_tags($this->linked_table->description)); ?>" width="100%">
 		<thead>
 			<tr>
 				<?php
-					$n = 0;
-					foreach ($this->linked_field_labels as $heading )
+					foreach ($this->linked_table->table_meta as $metaRec )
+					{
+						if($metaRec['list_view'])
 						{
-							if($n)
-							{
-								echo '<td class="sectiontableheader '.$this->linked_fields_alias[$n].'">'.$heading.'</td>';
-							}
-							$n++;
+							echo '<th class="sectiontableheader ' . $metaRec['fieldalias'] . '">' . $metaRec['label'] .'</th>';
 						}
+					}
 				?>
 			</tr>
 		</thead>
 		<tbody>
 			<?php
-				$this->assign('currentImageDir',$this->linked_table_imageDir);
+				$currentImageDir = $this->linked_table->defaultimagedir;
 				$rowNum = 0;
-				foreach ($this->linked_records as $prow )  // looping through the rows of data
+				// looping through the rows of data
+				foreach ($this->linked_records as $prow )
 				{
-					$rowId = $prow["id"];
-					echo '<tr>';  // Open the row
-					$fieldNumber = 1; //skip the id of the records
-					foreach($prow as $k => $f)	// looping through the fields of the row
+					// Open the row
+					echo '<tr class="row' . $rowNum . '" >';
+					// looping through each field of the row
+					foreach($prow as $fieldalias => $fieldValue)
 					{
-						if(!($k == 'id')){				// we skip the row id which is in position 0
-							$cellData = '';				// make sure cellData is empty before we start this cell.
-							$cellAlias	    = $this->linked_fields_alias[$fieldNumber];
-							$cellType	    = (int)$this->linked_field_types[$fieldNumber];
-							$cellOptions    = $this->linked_field_options[$fieldNumber];
-							$cellDetailLink = (int)$this->linked_field_links_to_detail[$fieldNumber++];
-							$cellData       = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $this->linked_records_FNILV[$rowNum]); //getFWO($f='', $type=0, $params=null, $OrigRow, $OrigRowFNILV)
-
-							if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
+						reset($this->linked_table->table_meta);
+						foreach ($this->linked_table->table_meta as $metaRec )
+						{
+							if($metaRec['list_view'] && $metaRec['fieldalias'] != 'id' && $metaRec['fieldalias'] == $fieldalias)
 							{
-								$linkToDetail = JRoute::_('index.php?option=com_easytablepro&amp;view=easytablerecord&amp;id='.$this->linked_table.':'.$this->linked_easytable_alias.'&amp;rid='.$rowId);
-								$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
-								$cellDetailLink ='';
+								$cellAlias      = $metaRec['fieldalias'];
+								$cellType       = (int)$metaRec['type'];
+								$cellOptions    = $metaRec['params'];
+								$cellDetailLink = (int)$metaRec['detail_link'];
+								$cellData       = ET_VHelper::getFWO($fieldValue, $cellType, $cellOptions, $prow, $currentImageDir);
+								
+								// As a precaution we make sure the detail link cell is not a URL field
+								if($cellDetailLink && ($cellType != 2))
+								{
+									$linkToDetail = JRoute::_('index.php?option=com_easytablepro&amp;view=easytablerecord&amp;id='.$this->linked_table->id.':'.$this->linked_table->easytablealias.'&amp;rid='.$prow['id']);
+									$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
+									$cellDetailLink ='';
+								}
+
+								// Finally we can echo the cell string.
+								echo "<td class='colfld ".$cellAlias."'>".trim($cellData).'</td>';
+								break;
 							}
-							// Finally we can echo the cell string.
-							echo "<td class='colfld ".$cellAlias."'>".trim($cellData).'</td>';
+							
 						}
 						// End of row stuff should follow after this.
 					}
-					echo '</tr>';  // Close the Row
+
+					// Close the Row
+					echo '</tr>';
 					$k = '';
-					$rowId = '';   // Clear the rowId to prevent any issues.
-					$rowNum++;
+					// Clear the rowId to prevent any issues.
+					$rowNum = (int)!$rowNum;
 				}
 			?>
 		</tbody>
