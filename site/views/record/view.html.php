@@ -83,6 +83,7 @@ class EasyTableProViewRecord extends JView
 		$this->et_meta = $easytable->table_meta;
 		$this->et_record = JArrayHelper::fromObject($item->record);
 		$this->show_linked_table = $easytable->params->get('show_linked_table','');
+		$this->pageclass_sfx = $easytable->params->get('pageclass_sfx','');
 		$this->linked_table = $item->linked_table;
 		$this->linked_records = $item->linked_records;
 		$this->pt = $pt;
