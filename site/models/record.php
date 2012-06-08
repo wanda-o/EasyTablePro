@@ -119,7 +119,7 @@ class EasyTableProModelRecord extends JModelItem
 						$linked_key_field_meta = $let->table_meta[$linked_key_field];
 						$linked_key_field = $linked_key_field_meta['fieldalias'];
 						$linked_data = $this->getLinked($let,$key_field_value,$linked_key_field);
-						if(count($linked_data)) {
+						if(!count($linked_data)) {
 							$et->params->set('show_linked_table', false);
 							$linked_table = $linked_data = $let = null;
 						}
