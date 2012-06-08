@@ -64,7 +64,7 @@ class EasyTableProViewRecords extends JView
 
 				$url  = 'index.php?option=com_users&amp;view=login&amp;return='.urlencode(base64_encode($return));
 
-				$jAp->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE'));				
+				$jAp->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE'));
 			} else {
 				JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 				return;
