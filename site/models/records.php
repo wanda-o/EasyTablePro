@@ -95,9 +95,23 @@ class EasyTableProModelRecords extends JModelList
 		$srid = $this->getUserStateFromRequest($this->context.'.search.rids','srid');
 		$this->setState('search.rids', $srid);
 		
-		// Load the parameters.
+		// Load the components Global default parameters.
 		$params = $jAp->getParams();
 		$this->setState('params', $params);
+
+		$show_pagination = $params->get('show_pagination_header',1);
+		$show_search = $params->get('show_search',1);
+
+		if(!$show_pagination)
+		{
+			$this->setState('list.start', 0);
+			$this->setState('list.limit', 1000000);
+		}
+		if(!$show_search)
+		{
+			$this->setState('filter.search', '');
+		}
+		
 	}
 
 	/**
@@ -126,19 +140,34 @@ class EasyTableProModelRecords extends JModelList
 
 		$pk = $this->getState('records.id',0);
 
-		// Get the table.
+		// Get the table & it's params.
 		$theTable = $this->getEasyTable($pk);
 		$tableParams = new JRegistry();
 		$tableParams->loadString($theTable->params);
-		// Get the basics
+		// Get the components global params
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
 		$params->merge($tableParams);
-		
+
+		// Now that we have our merged params
+		$show_pagination = $params->get('show_pagination_header',1);
+		$show_search = $params->get('show_search',1);
+
+		// Set up some state based on preferences
+		if(!$show_pagination)
+		{
+			$this->setState('list.start', 0);
+			$this->setState('list.limit', 1000000);
+		}
+		if(!$show_search)
+		{
+			$this->setState('filter.search', '');
+		}
 		// Convert all fields to the SQL select
 		$db = JFactory::getDbo();
 		$tprefix = $db->quoteName('t');
 		$tprefix .= '.';
+		// Why don't we just select *
 		$query->select($tprefix.$db->quoteName('id'));
 		foreach ($theTable->all_fields as $aField) {
 			$query->select($tprefix.$db->quoteName($aField));
@@ -154,11 +183,10 @@ class EasyTableProModelRecords extends JModelList
 			$search = $this->state->get('filter.search');
 			if (!empty($search)) {
 				if (stripos($search, 'id:') === 0) {
-					$query->where('t.id = '.(int) substr($search, 3));
-				} elseif (stripos($search, 'field:') === 0) {
-					$kvp = explode($search, ':');
-					
-					
+					$query->where($tprefix . $db->quoteName('id') . ' = ' . (int) substr($search, 3));
+				} elseif (stripos($search, '::') === 0) {
+					$kvp = explode($search, '::');
+					$query->where($tprefix . '.' . $db->quoteName($kvp[0]) . ' = ' . $kvp[1]);
 				} else {
 					$search = $db->Quote('%'.$db->escape($search, true).'%');
 					$searchArray = $this->getSearch($theTable, $search);
@@ -177,9 +205,39 @@ class EasyTableProModelRecords extends JModelList
 		}
 		
 		// Add menu filter settings
-		
+		// Is the table filtered?
+		$ff = $params->get('filter_field','');
+		$ft = $params->get('filter_type','');
+		$fv = $params->get('filter_value','');
+		if($ff && $ft && $fv)
+		{
+			$ff = $db->quoteName($ff);
+			$whereCond = $ft == 'LIKE' ? $ff .' LIKE '. $db->quote('%'.$fv.'%') : $ff .' LIKE ' . $db->quote($fv);
+			$query->where($whereCond);
+		}
+
 		// Add user id filter
+		$uf  = $params->get('enable_user_filter',0);
+		$ufb = $params->get('filter_records_by','');
+		$uff = $params->get('user_filter_field','');
+		if($uf && $ufb && $uff)
+		{
+			$uff = $db->quoteName($uff);
+			$user = JFactory::getUser();
+			$userValue = $ufb == 'id' ? $user->id : $user->username;
+			$whereCond = $uff .' = '. $db->quote($userValue);
+			$query->where($whereCond);
+		}
 		
+		// Is there a default sort order?
+		$sf = $params->get('sort_field','');
+		$so = $params->get('sort_order','');
+		if($sf && $so)
+		{
+			$sf = $db->quoteName($sf);
+			$query->order($sf . ' ' . $so);
+		}
+
 		return $query;
 	}
 

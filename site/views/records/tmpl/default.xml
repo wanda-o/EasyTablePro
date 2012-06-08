@@ -11,7 +11,7 @@
 		<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
 		<fieldset name="request"
-			addfieldpath="/administrator/components/com_easytablepro/models/fields">
+			addfieldpath="/administrator/components/com_easytablepro/models/fields" >
 
 			<field name="id"
 				type="easytable"
@@ -24,13 +24,13 @@
 	</fields>
 	<fields name="params">
 		<fieldset name="basic"
-				label="COM_EASYTABLEPRO_MENU_SELECT_TABLE" >
+				label="COM_EASYTABLEPRO_MENU_TABLE_OPTIONS"
+				addfieldpath="/administrator/components/com_easytablepro/models/fields" >
 			<field name="sort_field"
 				type="easytablefields"
 				default=""
 				label="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_PROMPT"
-				description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_DESC"
-				addfieldpath="/administrator/components/com_easytablepro/models/fields" />
+				description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_DESC" />
 			<field name="sort_order"
 					type="list"
 					default=""

@@ -25,12 +25,12 @@
 	}
 	echo ($this->show_modified_date ? '<p class="modifydate">'.$mod_dl.'</p>' : '');
 	echo ($this->show_description ? '<div class="et_description">'.$this->easytable->description.'</div>' : '') ?>
-<br />
 <div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
 	<form class="search_result" name="adminForm" method="post" action="<?php echo $this->formAction ?>" onreset="javascript:document.adminForm.etsearch.value = '';document.adminForm.submit();">
 		<div class="et_search_result">
 <?php
-			if( $this->show_search && $this->etmCount) // If search is enabled for this table, show the search box.
+			// If search is enabled for this table, show the search box.
+			if( $this->show_search && $this->etmCount)
 			{ ?>
 				<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="text_area" onchange="document.adminForm.submit();" />
 				<button onclick="this.form.submit();"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_GO'); ?></button>
@@ -38,9 +38,10 @@
 		<?php } ?>
 		</div>
 <?php
-		if($this->show_pagination_header)
+		if($this->show_pagination_header && !$this->show_pagination_footer)
 		{
-			if( $this->show_pagination && $this->etmCount) 						// Only if pagination is enabled
+			// Only if pagination is enabled
+			if( $this->show_pagination && $this->etmCount) 
 			{
 				echo '<div class="pagination">';
 				echo $this->pagination->getListFooter();;
@@ -59,7 +60,7 @@
 					$titleString = '';
 					if(strlen($heading['description'])){ $titleString = 'class="hasTip" title="'.htmlspecialchars($heading['description']).'" ';}
 					$headingClass = 'sectiontableheader '.$heading['fieldalias'];
-					echo '<td class="' . $headingClass . '" ><span '.$titleString.' >'.$heading['label'].'</span></td>';
+					echo '<th class="' . $headingClass . '" ><span '.$titleString.' >'.$heading['label'].'</span></th>';
 				}
 				?>
 			</tr>
@@ -68,21 +69,24 @@
 			<?php
 				$this->assign('currentImageDir',$this->imageDir);
 				$alt_rv = 0; $rowNumber = 0;
-				foreach ($this->items as $rowIndex => $prow )  // looping through the rows of paginated data
+				// looping through the rows of paginated data
+				foreach ($this->items as $rowIndex => $prow )
 				{
 					if(is_object ( $prow ))
 					{
+						// Open the row
 						if($this->pagination && ($this->pagination->total == $prow->id))
 						{
-							echo "<tr class='row$alt_rv et_last_row' id='row-$prow->id'>";  // Open the row
+							echo "<tr class='row$alt_rv et_last_row' id='row-$prow->id'>";
 						}
 						else
 						{
-							echo '<tr class=\'row'.$alt_rv.'\' id=\'row-'.$prow->id.'\'>';  // Open the row
+							echo '<tr class=\'row'.$alt_rv.'\' id=\'row-'.$prow->id.'\'>';
 						}
 						$columnNumber = 0;
 						$numberOfListFields = count($this->easytable->filv);
-						foreach($prow as $k => $f)  // looping through the fields of the row
+						// looping through the fields of the row
+						foreach($prow as $k => $f)
 						{
 							// we skip the row id which is in position 0
 							if(!($k == 'id'))
@@ -101,28 +105,31 @@
 								$cellOptions    = $labels['params'];
 								// we increment labelnumber for next pass.
 								$columnNumber++;
-								$cellData       = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $this->currentImageDir); //getFWO($field,$type,$params,$row)
+								$cellData       = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $this->currentImageDir);
 
-								if($cellDetailLink && ($cellType != 2)) // As a precaution we make sure the detail link cell is not a URL field
+								// As a precaution we make sure the detail link cell is not a URL field
+								if($cellDetailLink && ($cellType != 2))
 								{
 									$linkToDetail = JRoute::_('index.php?option=com_easytablepro&view=record&id='.$this->easytable->id.'&rid='.$rowId.'&rllabel='.JFilterOutput::stringURLSafe(substr($prow->$leaf, 0,100)));
 									$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
 									$cellDetailLink ='';
-								}														// End of detail link If
+								}
 								// Finally we can echo the cell string.
 								echo "<td class='colfld ".$cellClass."'>".trim($cellData).'</td>';
 							}
 							else // we store the rowID for possible use in a detaillink
 							{
 								$rowId = (int)$f;
-							}														// End of field check for 'id' If 
+							} 
 							// End of row stuff should follow after this.
 							unset($f);
-						}	// End of foreach for field in row
-						echo '</tr>';  // Close the Row
+						}
+						// Close the Row
+						echo '</tr>';
 						$alt_rv = (int)!$alt_rv;
 						$k = '';
-						$rowId = '';   // Clear the rowId to prevent any issues.
+						// Clear the rowId to prevent any issues.
+						$rowId = '';
 						unset($prow);
 					}
 				}	// End of foreach for rows
@@ -145,6 +152,5 @@
 <input name="cid" type="hidden" value="<?php echo $this->easytable->id; ?>">
 </form>
 
-</div>
 </div>
 <!-- contentpaneclosed -->
