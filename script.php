@@ -7,6 +7,8 @@ defined('_JEXEC') or die('Restricted access');
  */
 class com_easyTableProInstallerScript
 {
+	public $et_this_version = '1.1.0b1 (ef266d2)';
+
 	/**
 	 * method to install the component
 	 *
@@ -17,13 +19,18 @@ class com_easyTableProInstallerScript
 		// $parent is the class calling this method
 		echo  JText::_('COM_EASYTABLEPRO_INSTALLER_INSTALL_TEXT');
 		// Check for previously existing installation...
-		$db = JFactory::getDbo();		
+		$db = JFactory::getDbo();
 		$table_list = $db->getTableList();
-		if(in_array($db->getPrefix() . 'easytables', $table_list)) {
-			echo  JText::_('COM_EASYTABLEPRO_INSTALLER_PREV_INSTALLATION_FOUND');
-			return $this->update($parent);
-		} else {
-			return true;
+		$tblname = $db->getPrefix() . 'easytables';
+		if(in_array($tblname, $table_list)) {
+			// Table exists lets check the table comment for a match with our current version
+			$db->setQuery('SHOW CREATE TABLE '.$tblname);
+			$tblcreatestatement = $db->loadRow();
+			$tblcreatestatement = $tblcreatestatement[1];
+			if(!strpos($tblcreatestatement, $this->et_this_version)) {
+				echo  JText::_('COM_EASYTABLEPRO_INSTALLER_PREV_INSTALLATION_FOUND');
+				$this->update($parent);
+			}
 		}
 	}
  
@@ -400,14 +407,9 @@ class com_easyTableProInstallerScript
 		// If all is good so far we can get the current version.
 		if($no_errors)
 		{
-			// Must break out version function in view to a utility class - ** must setup a utility class ** doh!
-			// No doubt this will end in grief then we'll fix it but for now version is in 2 places.... time, time, oh for more time....
-			// See - the lack of time did bite you - now you're undoing the work from the last version... make more time!
-			$et_this_version = '1.1.0a42 (6fb05f3)';
-			//
 
 			// Update the version entry in the Table comment to the current version.
-			$et_updateQry = "ALTER TABLE #__easytables COMMENT='".$et_this_version."'";
+			$et_updateQry = "ALTER TABLE #__easytables COMMENT='".$this->et_this_version."'";
 			$db->setQuery($et_updateQry);
 			$et_updateResult = $db->query();
 			if(!$et_updateResult)
