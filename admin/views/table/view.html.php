@@ -138,7 +138,7 @@ class EasyTableProViewTable extends JView
 		$doc = JFactory::getDocument();
 
 		// First add CSS to the document
-		$doc->addStyleSheet('/media/com_easytablepro/css/easytable.css');
+		$doc->addStyleSheet('../media/com_easytablepro/css/easytable.css');
 
 		// Get the document object
 		$document =JFactory::getDocument();
@@ -151,13 +151,12 @@ class EasyTableProViewTable extends JView
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		// Tools first
 		$jsFile = ('/media/com_easytablepro/js/atools.js');
-		$document->addScript($jsFile);
 		ET_Helper::loadJSLanguageKeys($jsFile);
+		$document->addScript('..'.$jsFile);
 		// Component view specific next...
 		$jsFile = ('/media/com_easytablepro/js/easytabletable.js');
-		$document->addScript($jsFile);
 		ET_Helper::loadJSLanguageKeys($jsFile);
-		
+		$document->addScript('..'.$jsFile);		
 	}
 
 	function getTableIDForName ($tableName)
@@ -212,7 +211,7 @@ class EasyTableProViewTable extends JView
 			$theImageString = 'publish_x.png';
 		}
 
-		$theListViewImage = '<img src="/media/com_easytablepro/images/'.$theImageString.'" name="'.$rowElement.'_img" border="0" title="'.$btn_title.'" alt="'.$btn_title.'" class="hasTip"/>';
+		$theListViewImage = '<img src="../media/com_easytablepro/images/'.$theImageString.'" name="'.$rowElement.'_img" border="0" title="'.$btn_title.'" alt="'.$btn_title.'" class="hasTip"/>';
 
 		return($theListViewImage);
 	}
@@ -224,7 +223,7 @@ class EasyTableProViewTable extends JView
 		$alt	= $row->published ? JText::_('JPUBLISHED') : JText::_('COM_EASYTABLEPRO_UNPUBLISHED');
 		$action = $row->published ? JText::_('COM_EASYTABLEPRO_TABLE_TURN_OFF_SETTING') : JText::_('COM_EASYTABLEPRO_TABLE_TURN_ON_SETTING');
 		$href	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i
-		.'\',\''. $prefix.$task .'\')" title="'. $action .'"><img src="/media/com_easytablepro/images/'
+		.'\',\''. $prefix.$task .'\')" title="'. $action .'"><img src="../media/com_easytablepro/images/'
 		. $img .'" border="0" alt="'. $alt .'" /></a>';
 		return $href;
 	}

@@ -67,19 +67,19 @@ class EasyTableProControllerRecords extends JControllerAdmin
 		}
 
 		// So that we go back to the correct location
-		$this->setRedirect("/administrator/index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
+		$this->setRedirect("index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
 	}
 
 	function listAll()
 	{
 		$trid = ET_Helper::getTableRecordID();
-		$this->setRedirect("/administrator/index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
+		$this->setRedirect("index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
 	}
 	
 	function cancel()
 	{
 		// So that we go back to the correct location
-		$this->setRedirect("/administrator/index.php?option=com_easytablepro&task=tables");
+		$this->setRedirect("index.php?option=com_easytablepro&task=tables");
 	}
 }
 

@@ -88,8 +88,8 @@ class EasyTableProViewLink extends JView
 		//get the document and load the js support file
 		$doc = JFactory::getDocument();
 		$u = JURI::getInstance();
-		$doc->addStyleSheet('/templates/system/css/system.css');
-		$doc->addScript(JURI::base().'media/com_easytablepro/js/easytablelink.js');
+		$doc->addStyleSheet('../templates/system/css/system.css');
+		$doc->addScript('../media/com_easytablepro/js/easytablelink.js');
 
 
 		//get the list of tables

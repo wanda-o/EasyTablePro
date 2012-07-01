@@ -16,7 +16,7 @@ function check_versions()
 window.addEvent('domready', function(){
 $('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_easytablepro_build +")";
 	if(!check_versions()){
-		$('currentVersionSpan').innerHTML = $('currentVersionSpan').innerHTML + "<img src=\"/media/com_easytablepro/images/attention.gif\">";
+		$('currentVersionSpan').innerHTML = $('currentVersionSpan').innerHTML + "<img src=\"../media/com_easytablepro/images/attention.gif\">";
 	};
 });
 

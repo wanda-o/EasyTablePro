@@ -42,7 +42,7 @@ $groups = $user->getAuthorisedViewLevels();
 		if (!in_array($row->access, $groups))
 		{
 			$altText = $user->guest ? JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') : JText::_('COM_EASYTABLEPRO_SITE_TABLES_YOU_DO_NOT_HAVE_VIEWING_ACCESS_FOR_THIS_TABLE');
-			$lockImage = ' <img class="etTableListLockElement" src="/media/com_easytablepro/images/locked.gif" title="'. $altText .'" alt="'.JText::_('COM_EASYTABLEPRO_SITE_CLICK_TO_LOGIN').'" />';
+			$lockImage = ' <img class="etTableListLockElement" src="../media/com_easytablepro/images/locked.gif" title="'. $altText .'" alt="'.JText::_('COM_EASYTABLEPRO_SITE_CLICK_TO_LOGIN').'" />';
 		}
 		else
 		{

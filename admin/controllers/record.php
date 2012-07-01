@@ -51,7 +51,7 @@ class EasyTableProControllerRecord extends JController
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$trid = ET_Helper::getTableRecordID();
 		// So that we go back to the correct location
-		$this->setRedirect("/administrator/index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
+		$this->setRedirect("index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
 	}
 
 	public function save($key = null, $urlVar = null)
@@ -97,10 +97,10 @@ class EasyTableProControllerRecord extends JController
 		switch ($task) {
 		case 'apply':
 		case 'save2new':
-			$this->setRedirect("/administrator/index.php?option=com_easytablepro&task=record.edit&view=record&id=$tridstr");
+			$this->setRedirect("index.php?option=com_easytablepro&task=record.edit&view=record&id=$tridstr");
 			break;
 		default:
-			$this->setRedirect("/administrator/index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
+			$this->setRedirect("index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
 			break;
 		}
 	}

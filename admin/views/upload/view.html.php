@@ -33,7 +33,7 @@ class EasyTableProViewUpload extends JView
 		$u = JURI::getInstance();
 		JHTML::_('behavior.tooltip');
 
-		$doc->addStyleSheet('templates/system/css/system.css');
+		$doc->addStyleSheet('../templates/system/css/system.css');
 
 		$form = $this->get('Form');
 		$item = $this->get('Item');

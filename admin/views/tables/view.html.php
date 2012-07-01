@@ -45,7 +45,7 @@ class EasyTableProViewTables extends JView
 	{
 		$lockText = ($hasPermission ? ($locked ? JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM'));
 		$btn_text = JText::_(( $row->published ? 'COM_EASYTABLEPRO_MGR_PUBLISHED_BTN':'COM_EASYTABLEPRO_MGR_UNPUBLISHED_BTN')).' \''.$row->easytablename.'\' '.$lockText;
-		$theImageURL = '/media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).($row->published?'publish_g.png':'publish_x.png');
+		$theImageURL = '../media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).($row->published?'publish_g.png':'publish_x.png');
 		$theBtn = '<span  class="hasTip" title="'.$btn_text.'" style="margin-left:15px;" ><img src="'.$theImageURL.'" border="0" alt="'.$btn_text.'"></span>';
 
 		if( !$locked && $hasPermission )
@@ -62,13 +62,13 @@ class EasyTableProViewTables extends JView
 		if($extTable)
 		{
 			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_DATA_EDITING' , $tableName);
-			$theImageURL = '/media/com_easytablepro/images/disabled_edit.png';
+			$theImageURL = '../media/com_easytablepro/images/disabled_edit.png';
 		}
 		else
 		{
 			$lockText = ($hasPermission ? ($locked ? JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_DATA_EDIT_PERM'));
 			$btn_text = JText::_('COM_EASYTABLEPRO_MGR_EDIT_DATA_DESC_SEGMENT').' \''.$tableName.'\' '.$lockText;
-			$theImageURL = '/media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'edit.png';
+			$theImageURL = '../media/com_easytablepro//images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'edit.png';
 		}
 
 		$theEditBtn = '<span class="hasTip" title="'.JText::_('COM_EASYTABLEPRO_MGR_EDIT_RECORDS_BTN_TT').'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
@@ -86,13 +86,13 @@ class EasyTableProViewTables extends JView
 		if($extTable)
 		{
 			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_UPLOAD' , $tableName);
-			$theImageURL = '/media/com_easytablepro/images/disabled_upload_16x16.png';
+			$theImageURL = '../media/com_easytablepro/images/disabled_upload_16x16.png';
 		}
 		else
 		{
 			$lockText = ($hasPermission ? ($locked ? JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_UPLOAD_PERM'));
 			$btn_text = JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_NEW_DESC').' \''.$tableName.'\' '.$lockText;
-			$theImageURL = '/media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'upload_16x16.png';
+			$theImageURL = '../media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'upload_16x16.png';
 		}
 
 		$theBtn = '<span class="hasTip" title="'.JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA').'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
@@ -100,9 +100,9 @@ class EasyTableProViewTables extends JView
 		if( !$locked && !$extTable && $hasPermission)
 		{
 			if(JDEBUG){
-				$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
+				$theBtn = '<a href="index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
 			} else {
-				$theBtn = '<a href="/administrator/index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 425}}">'.$theBtn.'</a>';
+				$theBtn = '<a href="index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 425}}">'.$theBtn.'</a>';
 			}
 		}
 
@@ -196,7 +196,7 @@ class EasyTableProViewTables extends JView
 		$document = JFactory::getDocument();
 
 		// First add CSS to the document
-		$document->addStyleSheet('/media/com_easytablepro/css/easytable.css');
+		$document->addStyleSheet('../media/com_easytablepro/css/easytable.css');
 
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		JHTML::_('behavior.modal');
@@ -204,16 +204,16 @@ class EasyTableProViewTables extends JView
 
 		$jsFile = ('/media/com_easytablepro/js/atools.js');
 
-		$document->addScript($jsFile);
-
 		ET_Helper::loadJSLanguageKeys($jsFile);
+		
+		$document->addScript('..'.$jsFile);
 
 
 		// Get the remote version data
 		$document->addScript('http://www.seepeoplesoftware.com/cpplversions/cppl_et_versions.js');
 		// Load this views js
 		$jsFile = '/media/com_easytablepro/js/easytabletables.js';
-		$document->addScript($jsFile);
 		ET_Helper::loadJSLanguageKeys($jsFile);
+		$document->addScript('..'.$jsFile);
 	}
 }

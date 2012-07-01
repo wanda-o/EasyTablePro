@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class com_easyTableProInstallerScript
 {
-	public $et_this_version = '1.1.0b1 (ef266d2)';
+	public $et_this_version = '1.1.0b2a8 (d11a98f)';
 
 	/**
 	 * method to install the component
@@ -48,8 +48,8 @@ class com_easyTableProInstallerScript
 		//-- standard text, values & images
 		$complete_uninstall = 1;
 		$partial__uninstall = 0;
-		$img_OK = '<img src="/media/system/images/notice-info.png" />';
-		$img_ERROR = '<img src="/media/system/images/notice-alert.png" />';
+		$img_OK = '<img src="../media/system/images/notice-info.png" />';
+		$img_ERROR = '<img src="../media/system/images/notice-alert.png" />';
 
 		//-- common text
 		$msg = JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_PROCESS') . '<ol>';
@@ -214,8 +214,8 @@ class com_easyTableProInstallerScript
 		$no_errors = TRUE;
 
 		//-- common images
-		$img_OK = '<li><img src="/media/com_easytablepro/images/publish_g.png" />';
-		$img_ERROR = '<li><img src="/media/com_easytablepro/images/publish_r.png" />';
+		$img_OK = '<li><img src="../media/com_easytablepro/images/publish_g.png" />';
+		$img_ERROR = '<li><img src="../media/com_easytablepro/images/publish_r.png" />';
 		//-- common text
 		$msg = '';
 

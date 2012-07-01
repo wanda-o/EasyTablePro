@@ -6,31 +6,31 @@
 */
 
 .icon-48-easytablepro {
-    background: url(/media/com_easytablepro/images/EasyTableProIcon.png) no-repeat left;
+    background: url(../images/EasyTableProIcon.png) no-repeat left;
 }
 
 .icon-48-easytablepro-editrecords, .icon-48-easytablepro-editrecord {
-    background: url(/media/com_easytablepro/images/Edit-Icon48.png) no-repeat left;
+    background: url(../images/Edit-Icon48.png) no-repeat left;
 }
 
 .icon-32-easytablpro-modifyTable {
-    background: url(/media/com_easytablepro/images/Table-Modification32.png) no-repeat left;
+    background: url(../images/Table-Modification32.png) no-repeat left;
 }
 
 .icon-32-easytablpro-linkTable {
-	background: url(/media/com_easytablepro/images/Link-Button_32x64.png) no-repeat left;
+	background: url(../images/Link-Button_32x64.png) no-repeat left;
 	background-position-y: 0px;
 	height: 32px;
 }
 
 .icon-32-easytablpro-uploadTable {
-	background: url(/media/com_easytablepro/images/Upload-Button_32x64.png) no-repeat left;
+	background: url(../images/Upload-Button_32x64.png) no-repeat left;
 	background-position-y: 0px;
 	height: 32px;
 }
 
 .icon-32-easytablpro-uploadTable-off {
-	background: url(/media/com_easytablepro/images/Upload-Button_32x64.png) no-repeat left;
+	background: url(../images/Upload-Button_32x64.png) no-repeat left;
 	background-position-y: -32px;
 	height: 32px;
 }

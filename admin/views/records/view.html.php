@@ -122,19 +122,19 @@ class EasyTableProViewRecords extends JView
 		$document = JFactory::getDocument();
 
 		// First add CSS to the document
-		$document->addStyleSheet('/media/com_easytablepro/css/easytable.css');
+		$document->addStyleSheet('../media/com_easytablepro/css/easytable.css');
 
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		JHTML::_('behavior.modal');
 		// Tools first
 		$jsFile = ('/media/com_easytablepro/js/atools.js');
-		$document->addScript($jsFile);
 		ET_Helper::loadJSLanguageKeys($jsFile);
+		$document->addScript('..'.$jsFile);
 
 		// Load this views js
-		$jsFile = '/media/com_easytablepro/js/easytabledata.js';
-		$document->addScript($jsFile);
+		$jsFile = '/media/com_easytablepro//js/easytabledata.js';
 		ET_Helper::loadJSLanguageKeys($jsFile);
+		$document->addScript('..'.$jsFile);
 	}
 
 	function getRecordCheckBox ($cid, $rowId)
@@ -149,7 +149,7 @@ class EasyTableProViewRecords extends JView
 		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_LINK').' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'records.delete\');" title="'.
-		$link_text.'" ><img src="/media/com_easytablepro/images/publish_x.png" alt="'.$link_text.'"/></a></span>';
+		$link_text.'" ><img src="../media/com_easytablepro/images/publish_x.png" alt="'.$link_text.'"/></a></span>';
 
 		return($theEditLink);
 	}
@@ -159,7 +159,7 @@ class EasyTableProViewRecords extends JView
 		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_EDIT_LINK').' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:3px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'record.edit\');" title="'.
-		$link_text.'" ><img src="/media/com_easytablepro/images/edit.png" alt="'.$link_text.'" /></a></span>';
+		$link_text.'" ><img src="../media/com_easytablepro/images/edit.png" alt="'.$link_text.'" /></a></span>';
 
 		return($theEditLink);
 	}

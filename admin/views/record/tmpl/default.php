@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted Access');
 	$et_tableName = $this->easytable->easytablename;
 ?>
 
-<form action="/administrator/index.php?option=com_easytablepro&id=<?php echo $this->trid; ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+<form action="index.php?option=com_easytablepro&id=<?php echo $this->trid; ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div class="col100">
 		<table width="100%">
 			<tr>
