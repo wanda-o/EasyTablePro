@@ -98,8 +98,17 @@ class EasyTableProModelRecords extends JModelList
 		// Load the components Global default parameters.
 		$params = $jAp->getParams();
 		$this->setState('params', $params);
+		// Load the EasyTable's params
+		$pk = $this->getUserStateFromRequest($this->context.'records.id', 'id');
+		
+		// Get the table & it's params.
+		$theTable = $this->getEasyTable($pk);
+		$tableParams = new JRegistry();
+		$tableParams->loadString($theTable->params);
+		// Get the components global params
+		$params->merge($tableParams);
 
-		$show_pagination = $params->get('show_pagination_header',1);
+		$show_pagination = $params->get('show_pagination',1);
 		$show_search = $params->get('show_search',1);
 
 		if(!$show_pagination)
