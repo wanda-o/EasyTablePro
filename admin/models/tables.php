@@ -130,6 +130,8 @@ class EasyTableProModelTables extends JModelList
 				$query->where('(t.easytablename LIKE '.$search.' OR t.easytablealias LIKE '.$search.')');
 			}
 		}
+		// Sort by table name for now @todo add column ordering... name/id asc/desc
+		$query->order('easytablename');
 		return $query;
 	}
 
