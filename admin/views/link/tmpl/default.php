@@ -7,9 +7,7 @@
 
 //--No direct access
 	defined('_JEXEC') or die('Restricted Access');
-	JHTML::_('behavior.tooltip');
 ?>
-
 <form action="index.php" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div class="col100">
 	<table width="100%">
@@ -17,7 +15,7 @@
 			<td>
 			<fieldset>
 				<div style="float: right">
-					<button type="button" onclick="window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_CANCEL'); ?></button>
+					<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_CANCEL'); ?></button>
 				</div>
 				<div class="configuration"><?php echo JText::_('COM_EASYTABLEPRO');?> - <?php echo JText::_('COM_EASYTABLEPRO_LINK_EXISTING_TABLE');?></div>
 			</fieldset>
@@ -30,7 +28,7 @@
 					</td>
 					<td>
 						<?php echo $this->tableList; ?>
-						<button type="button" onclick="selectTable();" <?php echo ($this->tablesAvailableForSelection ? '' : 'disabled="disabled"') ?> ><?php echo JText::_('COM_EASYTABLEPRO_LINK_USE_TABLE'); ?></button>
+						<button type="button" onclick="com_EasyTablePro.Link.selectTable();" <?php echo ($this->tablesAvailableForSelection ? '' : 'disabled="disabled"') ?> ><?php echo JText::_('COM_EASYTABLEPRO_LINK_USE_TABLE'); ?></button>
 					</td>
 				</tr>
 				<tr class="row1">
@@ -48,7 +46,6 @@
 <div class="clr"></div>
 
 <input type="hidden" name="option" value="<?php echo JRequest::getCmd('option'); ?>" />
-<input type="hidden" name="task" value="linkTable" />
+<input type="hidden" name="task" value="link.linkTable" />
 <?php echo JHTML::_('form.token'); ?>
-<!-- <input type="hidden" name="controller" value="easytable" /> -->
 </form>

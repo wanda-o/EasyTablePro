@@ -12,6 +12,7 @@ if (typeof(com_EasyTablePro) === 'undefined') {
 	com_EasyTablePro.Table        = {};
 	com_EasyTablePro.Record       = {};
 	com_EasyTablePro.Upload       = {};
+	com_EasyTablePro.Link         = {};
 	com_EasyTablePro.requestData  = {};
 	com_EasyTablePro.Tools        = {};
 }

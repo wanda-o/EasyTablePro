@@ -162,7 +162,7 @@ class EasyTableProViewTables extends JView
 		{
 			$linkURL = 'index.php?option=com_easytablepro&amp;view=link&amp;task=link&amp;tmpl=component';
 			$toolbar = JToolBar::getInstance( 'toolbar' );
-			$toolbar->appendButton( 'Popup', 'easytablpro-linkTable', 'COM_EASYTABLEPRO_LABEL_LINK_TABLE', $linkURL, 500, 280 );
+			$toolbar->appendButton( 'Popup', 'easytablpro-linkTable', 'COM_EASYTABLEPRO_LABEL_LINK_TABLE', $linkURL, 500, 330 );
 		}
 		if($canDo->get('core.edit'))
 		{
