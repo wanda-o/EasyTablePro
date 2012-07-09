@@ -248,56 +248,58 @@ class EasyTableProModelTable extends JModelAdmin
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 		$app	= JFactory::getApplication();
 
-		// Call the parent
-		if(parent::delete($pks))
+		// @todo move the parent::delete($pks) after the foreach
+		// @todo load each table first so we can check if it's a linked table
+		// Initialise Variables
+		$pks = (array) $pks;
+		$db = $this->getDbo();
+
+		// If the master table record was deleted successfully
+		// we can proceed to delete the related meta-records
+		foreach ($pks as $i => $pk)
 		{
-			// Initialise Variables
-			$pks = (array) $pks;
-			$db = $this->getDbo();
+			// Set the query
+			$query = $db->getQuery(true);
+			$query->delete($db->quoteName('#__easytables_table_meta'));
+			// Set the 'where' to the table id
+			$query->where($db->quoteName('easytable_id').' = '.$db->quote($pk));
+			$db->setQuery($query);
 
-			// If the master table record was deleted successfully
-			// we can proceed to delete the related meta-records
-			foreach ($pks as $i => $pk)
-
+			if($db->query())
 			{
-				// Set the query
-				$query = $db->getQuery(true);
-				$query->delete('#__easytables_table_meta');
-				// Set the 'where' to the table id
-				$query->where('easytable_id = \''.$pk.'\'');
-				$db->setQuery($query);
-
-				
-
-				if($db->query())
-				{
-					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_ALL_META_DATA_FOR_TABLE_ID_X_WAS_DELETED', $pk));
-				} else {
-					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_NOT_ALL_META_DATA_FOR_TABLE_ID_X_COULD_BE_DELETED', $pk));
-				}
-				// and the data table.
-
+				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_ALL_META_DATA_FOR_TABLE_ID_X_WAS_DELETED', $pk));
+			} else {
+				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_NOT_ALL_META_DATA_FOR_TABLE_ID_X_COULD_BE_DELETED', $pk));
+			}
+			// and the data table.
+			// @todo Only try to drop the table if it's not a linked table.
+			$table = $this->getTable();
+			$table->load($pk);
+			if($table->datatablename == '') {
 				// Build the DROP SQL
-
 				$ettd_table_name = $db->quoteName('#__easytables_table_data_'.$pk);
-
 				$query = 'DROP TABLE '.$ettd_table_name.';';
 				$db->setQuery($query);
 				if($db->query())
 				{
-					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_SUCCESSFULLY_DROPPED_DATA_FOR_TABLE_X', $pk));
+					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_SUCCESSFULLY_DROPPED_DATA_FOR_TABLE_X', $table->easytablename));
 				} else {
-					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_FAILED_TO_DROP_DATA_FOR_TABLE_X', $pk));
+					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_FAILED_TO_DROP_DATA_FOR_TABLE_X', $table->easytablename));
 				}
-
+			} else {
+				$app->enqueueMessage(JText::sprintf('<strong>%s</strong> is a linked external table, data left in place.', $table->easytablename));
 			}
 		}
+		// Call the parent
+		if(!parent::delete($pks))
+		{
+			$app->enqueueMessage(JText::sprintf('EasyTable Pro! encountered a problem, trying to delete the EasyTables record.', $pk));
+		}
+		return true;
 	}
 
 	public function createETTD ($id, $ettdColumnAliass)
-
 	{
-
 		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 		$app	= JFactory::getApplication();
