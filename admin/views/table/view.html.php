@@ -106,7 +106,7 @@ class EasyTableProViewTable extends JView
 			JToolBarHelper::apply('table.apply');
 			JToolBarHelper::save('table.save');
 		} 
-		if (!$checkedOut && ($canDo->get('core.create'))) {
+		if (!$this->item->etet && !$checkedOut && ($canDo->get('core.create'))) {
 			JToolBarHelper::save2new('table.save2new');
 		}
 		if((!$this->item->etet) && $canDo->get('easytablepro.import')){
@@ -122,8 +122,10 @@ class EasyTableProViewTable extends JView
 
 		}
 		JToolBarHelper::divider();
-		if($canDo->get('easytablepro.structure')) JToolBarHelper::custom( 'modifyTable', 'easytablpro-modifyTable', 'easytablpro-modifyTable', 'COM_EASYTABLEPRO_LABEL_MODIFY_STRUCTURE', false, false );
-		JToolBarHelper::divider();
+		if($canDo->get('easytablepro.structure') && !$this->item->etet){
+			JToolBarHelper::custom( 'modifyTable', 'easytablpro-modifyTable', 'easytablpro-modifyTable', 'COM_EASYTABLEPRO_LABEL_MODIFY_STRUCTURE', false, false );
+			JToolBarHelper::divider();
+		}
 
 		JToolBarHelper::cancel('table.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 		JToolBarHelper::divider();
