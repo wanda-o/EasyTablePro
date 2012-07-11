@@ -9,7 +9,7 @@
 	defined('_JEXEC') or die ('Restricted Access');
 	$leaf = $this->title_leaf;
 ?>
-<div class="contentpaneopen<?php echo $this->pageclass_sfx; ?>" id="et_table_page">';
+<div class="contentpaneopen<?php echo $this->pageclass_sfx; ?>" id="et_table_page">
 <?php
     if($this->show_page_title) {
         echo '<h2 class="contentheading">'.htmlspecialchars($this->page_title).'</h2>';
