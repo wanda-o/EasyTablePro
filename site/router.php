@@ -194,7 +194,7 @@ jimport('joomla.application.categories');
 					$vars['id'] = $id;
 
 					$rid = $segments[1];
-			} elseif ($item->query['view']=='records') {
+				} elseif ($item->query['view']=='records') {
 					// Convert the easy table alias to it actual id
 					if(isset($item->query['id'])) {
 						$id = $item->query['id'];
@@ -204,6 +204,10 @@ jimport('joomla.application.categories');
 						$app->enqueueMessage(JText::_('COM_EASYTABLEPRO_SITE_ROUTER_PARSEROUTE_COULDNT_FIND_TABLE_ID'),'Warning');
 					}
 					$rid = $segments[0];
+				} elseif ($item->query['view']=='record') {
+					$id = $segments[0];
+					$vars['id'] = $id;
+					$rid = $segments[1];
 				}
 			}
 			$vars['rid']  = $rid;
