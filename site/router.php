@@ -163,7 +163,7 @@ jimport('joomla.application.categories');
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		
-		if($count == 1) {
+		if($count == 1 && ($item->query['view'] != 'records') ) {
 			$segments[0]=preg_replace('/:/','-',$segments[0],1);
 			$vars['view'] = 'records';
 			// Convert the easy table alias to its actual id
@@ -175,6 +175,8 @@ jimport('joomla.application.categories');
 			$id = $db->loadResult();
 			$vars['id'] = $id;
 			return $vars;
+		} elseif($count == 1 && ($item->query['view'] == 'records') ) {
+			$count = 2;
 		}
 		
 		$vars['view'] = 'record';
@@ -187,13 +189,15 @@ jimport('joomla.application.categories');
 				$vars['id'] = 0;
 				$app->enqueueMessage(JText::_('COM_EASYTABLEPRO_SITE_ROUTER_PARSEROUTE_COULDNT_FIND_TABLE_ID'),'Warning');
 			}
-			// Remove the stupid colon that J! core inserts...
-			$segments[1]=preg_replace('/:/','-',$segments[1],1);
-			$rid = $segments[0];
-			$leaf = $segments[1];
 
+			$rid = $segments[0];
 			$vars['rid']  = $rid;
-			$vars['leaf'] = $leaf;
+			// Remove the stupid colon that J! core inserts...
+			if(isset($segments[1])) {
+				$segments[1]=preg_replace('/:/','-',$segments[1],1);
+				$leaf = $segments[1];
+				$vars['leaf'] = $leaf;
+			}
 		}
 		
 		if($count == 3) {
