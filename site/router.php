@@ -181,16 +181,31 @@ jimport('joomla.application.categories');
 		
 		$vars['view'] = 'record';
 		if($count == 2) {
-			// Convert the easy table alias to it actual id
-			if(isset($item->query['id'])) {
-				$id = $item->query['id'];
-				$vars['id'] = $id;
-			} else {
-				$vars['id'] = 0;
-				$app->enqueueMessage(JText::_('COM_EASYTABLEPRO_SITE_ROUTER_PARSEROUTE_COULDNT_FIND_TABLE_ID'),'Warning');
-			}
+			if(isset($item->query['view'])){
+				if( $item->query['view']=='tables'){
+					// Remove the stupid colon
+					$segments[0]=preg_replace('/:/','-',$segments[0],1);
+					$alias = $segments[0];
+					$query->select($db->quoteName('id'));
+					$query->from($db->quoteName('#__easytables'));
+					$query->where($db->quoteName('easytablealias') . '=' . $db->quote($alias));
+					$db->setQuery($query);
+					$id = $db->loadResult();
+					$vars['id'] = $id;
 
-			$rid = $segments[0];
+					$rid = $segments[1];
+			} elseif ($item->query['view']=='records') {
+					// Convert the easy table alias to it actual id
+					if(isset($item->query['id'])) {
+						$id = $item->query['id'];
+						$vars['id'] = $id;
+					} else {
+						$vars['id'] = 0;
+						$app->enqueueMessage(JText::_('COM_EASYTABLEPRO_SITE_ROUTER_PARSEROUTE_COULDNT_FIND_TABLE_ID'),'Warning');
+					}
+					$rid = $segments[0];
+				}
+			}
 			$vars['rid']  = $rid;
 			// Remove the stupid colon that J! core inserts...
 			if(isset($segments[1])) {
