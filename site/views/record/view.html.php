@@ -67,8 +67,22 @@ class EasyTableProViewRecord extends JView
 		// Generate Prev and Next Records
 		$this->show_next_prev_record_links = $easytable->params->get('show_next_prev_record_links');
 		if($this->show_next_prev_record_links) {
-			$this->prevrecord = JRoute::_('index.php?option=com_easytablepro&amp;view=record&amp;id='.$easytable->id.'&amp;rid='.$item->prevRecordId[0].'&amp;rllabel='.$item->prevRecordId[1]);
-			$this->nextrecord = JRoute::_('index.php?option=com_easytablepro&amp;view=record&amp;id='.$easytable->id.'&amp;rid='.$item->nextRecordId[0].'&amp;rllabel='.$item->nextRecordId[1]);
+			$this->prevrecord = '';
+			if(isset($item->prevRecordId) && isset($item->prevRecordId[0])){
+				$recURL = 'index.php?option=com_easytablepro&view=record&id='.$easytable->id.'&rid='.$item->prevRecordId[0];
+				if(isset($item->prevRecordId[1]) && ($item->prevRecordId[1] != '')) {
+					$recURL .= '&rllabel='.$item->prevRecordId[1];
+				}
+				$this->prevrecord = JRoute::_($recURL);
+			}
+			$this->nextrecord = '';
+			if(isset($item->nextRecordId) && isset($item->nextRecordId[0])){
+				$recURL = 'index.php?option=com_easytablepro&view=record&id='.$easytable->id.'&rid='.$item->nextRecordId[0];
+				if(isset($item->nextRecordId[1]) && ($item->nextRecordId[1] != '')) {
+					$recURL .= '&rllabel='.$item->nextRecordId[1];
+				}
+				$this->nextrecord = JRoute::_($recURL);
+			}
 		} else {
 			$this->prevrecord = '';
 			$this->nextrecord = '';
