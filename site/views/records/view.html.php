@@ -34,8 +34,10 @@ class EasyTableProViewRecords extends JView
 		$this->items	= $items;
 		$this->state	= $this->get('State');
 		$this->pagination = $this->get('Pagination');
-
+		// Get the user
 		$this->user		= $user;
+		// Get the active menu
+		$active	= $jAp->getMenu()->getActive();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -68,6 +70,15 @@ class EasyTableProViewRecords extends JView
 			} else {
 				JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 				return;
+			}
+		}
+		// Load the right layout...
+		// Load layout from active query (in case it is an alternative menu item)
+		if ($layout = $active->params->get('records_layout')) {
+			$this->setLayout($layout);
+		} else {
+			if ($layout = $params->get('records_layout')) {
+				$this->setLayout($layout);
 			}
 		}
 

@@ -91,6 +91,7 @@
 				readonly="true"
 				filter="unset"
 			 />
+
 			<field name="checked_out" type="hidden" filter="unset" />
 			<field name="checked_out_time" type="hidden" filter="unset" />
 		</fieldset>
@@ -194,7 +195,7 @@
 				<option value="0">No</option>
 			</field>
 			<field
-				name="@spacer"
+				name="spacer"
 				type="spacer"
 				default=""
 				label=""
@@ -208,6 +209,18 @@
 				<option value="1">Yes</option>
 				<option value="0">No</option>
 			</field>
+
+			<field
+				name="spacer2"
+				type="spacer"
+				hr="true"
+			/>
+
+			<field name="records_layout" type="componentlayout"
+				label="JFIELD_ALT_LAYOUT_LABEL"
+				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+				useglobal="true"
+				extension="com_easytablepro" view="records" />
 		</fieldset>
 		<fieldset name="RECORD_VIEW" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_RECORD_VIEW_SETTINGS">
 			<field name="title_links_to_table"
