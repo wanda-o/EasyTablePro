@@ -198,8 +198,8 @@ class EasyTableProModelRecords extends JModelList
 					$query->where($tprefix . '.' . $db->quoteName($kvp[0]) . ' = ' . $kvp[1]);
 				} else {
 					$search = $db->Quote('%'.$db->escape($search, true).'%');
-					$searchArray = $this->getSearch($theTable, $search);
-					$query->where($searchArray, 'OR');
+					$searchSQL = $this->getSearch($theTable, $search);
+					$query->where($searchSQL, 'AND');
 				}
 			}
 		} else {
@@ -321,17 +321,22 @@ class EasyTableProModelRecords extends JModelList
 
 	/**
 	 * 
-	 * Returns the search term equated to each field alias in array
+	 * Returns the search term equated to each field alias in a precalcualte sql string
+	 * We do this because JDatabaseQuery doesn't allow for grouping of WHERE joiners or changing them after the initial call
 	 */
 	function getSearch($theTable, $search)
 	{
 		$fieldMeta = $theTable->table_meta;
 		$db = JFactory::getDBO();
+		$fieldSearch = '( ';
+		$colCount = count($fieldMeta);
+		$i = 1;
 
 		foreach ($fieldMeta as $row) {
-			$fieldSearch[] = ( 't.' . $db->nameQuote( $row['fieldalias']) ) . " LIKE " . $search;
+			$fieldSearch .= ( $db->quoteName( 't' ) . '.' . $db->quoteName( $row['fieldalias']) ) . " LIKE " . $search;
+			$fieldSearch .= $i++ < $colCount ? ' OR ' : '';
 		}
-		return $fieldSearch;
+		return $fieldSearch . ' )';
 	}
 
 }// class
