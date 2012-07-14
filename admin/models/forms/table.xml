@@ -215,7 +215,25 @@
 				type="spacer"
 				hr="true"
 			/>
+			<field name="sort_field"
+				type="easytablefields"
+				default=""
+				label="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_PROMPT"
+				description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_DESC" />
+			<field name="sort_order"
+					type="list"
+					default=""
+					label="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_ORDER_PROMPT"
+					description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_ORDER_DESC">
+						<option value="ASC">COM_EASYTABLEPRO_LABEL_ASCENDING</option>
+						<option value="DESC">COM_EASYTABLEPRO_LABEL_DESCENDING</option>
+			</field>
 
+			<field
+				name="spacer3"
+				type="spacer"
+				hr="true"
+			/>
 			<field name="records_layout" type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"

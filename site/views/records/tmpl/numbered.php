@@ -53,7 +53,7 @@
 		<table id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars(strip_tags($this->easytable->description)); ?>" width="100%">
 			<thead>
 				<tr>
-					<th class="sectiontableheader cRowNum">#</th>
+					<th class="sectiontableheader cRowNum"><?php echo JText::_('COM_EASYTABLE_PRO_RECORDS_RANK_LABEL'); ?></th>
 					<?php
 					foreach ($this->easytables_table_meta as $heading )
 					{
@@ -70,9 +70,6 @@
 				<?php
 					$this->assign('currentImageDir',$this->imageDir);
 					$alt_rv = 0; $rowNumber = 0;
-					// Custom Record number
-					$posOffset = (($this->pagination->get('pages.current') - 1) * $this->pagination->limit);
-					//
 					// looping through the rows of paginated data
 					foreach ($this->items as $rowIndex => $prow )
 					{
@@ -89,15 +86,20 @@
 							}
 							$columnNumber = 0;
 							$numberOfListFields = count($this->easytable->filv);
-							// Custom Record number
-							echo '<td>'.(++$rowNumber + $posOffset).'</td>';
+							// RANKING
+							$rankLabel = 'et-rank'; 
+							if(isset($prow->$rankLabel)) {
+								echo '<td>'. $prow->$rankLabel .'</td>';
+							} else {
+								echo '<td>&nbsp;</td>';
+							}
 							//
 
 							// looping through the fields of the row
 							foreach($prow as $k => $f)
 							{
 								// we skip the row id which is in position 0
-								if(!($k == 'id'))
+								if(!($k == 'id') && !($k == 'et-rank'))
 								{
 									if($columnNumber >= $numberOfListFields) continue;
 									if(isset($this->easytable->table_meta[$k])){

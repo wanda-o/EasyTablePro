@@ -183,7 +183,8 @@ class EasyTableProModelRecords extends JModelList
 		}
 
 		// From the EasyTables table
-		$query->from($theTable->ettd_tname . ' AS t');
+		$tname = $db->quoteName($theTable->ettd_tname, 't');
+		$query->from($tname);
 
 		// Check for rids from a search result
 		$srids = $this->state->get('search.rids','');
@@ -237,7 +238,7 @@ class EasyTableProModelRecords extends JModelList
 			$whereCond = $uff .' = '. $db->quote($userValue);
 			$query->where($whereCond);
 		}
-		
+
 		// Is there a default sort order?
 		$sf = $params->get('sort_field','');
 		$so = $params->get('sort_order','');
@@ -245,6 +246,10 @@ class EasyTableProModelRecords extends JModelList
 		{
 			$sf = $db->quoteName($sf);
 			$query->order($sf . ' ' . $so);
+			// Here we add ranking column, note the workaround for Joomla!
+			$sos = $so == 'ASC' ? '<=' : '>=';
+			$t2name = $db->quoteName($theTable->ettd_tname, 't2');
+			$query->select("( SELECT COUNT(*) FROM $t2name WHERE t2.$sf $sos t.$sf ) AS " . $db->quoteName('et-rank'));
 		}
 
 		return $query;
