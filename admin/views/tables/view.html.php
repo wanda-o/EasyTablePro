@@ -123,9 +123,10 @@ class EasyTableProViewTables extends JView
 		$this->addCSSEtc();
 
 		// Get data from the model
-		$rows = $this->get('Items');
-		$state = $this->get('State');
-		$pagination = $this->get('Pagination');
+		$rows          = $this->get('Items');
+		$state         = $this->get('State');
+		$pagination    = $this->get('Pagination');
+		$this->authors = $this->get('Authors');
 
 		
 		// A little pagination for our users with *lots* of tables.

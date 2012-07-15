@@ -50,7 +50,7 @@ class EasyTableProModelTables extends JModelList
 	 * 
 	 * Sets up the JPagination variables
 	 */
-	function __construct()
+	public function __construct($config = array())
 	{
 		parent::__construct();
 
@@ -68,24 +68,15 @@ class EasyTableProModelTables extends JModelList
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-	}
 
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param	string		$id	A prefix for the store id.
-	 *
-	 * @return	string		A store id.
-	 */
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		return parent::getStoreId($id);
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'easytablename', 't.easytablename',
+				'published', 't.published',
+				'access', 't.access', 'access_level',
+				'created_by', 't.created_by'
+			);
+		}
 	}
 
 	/**
@@ -130,6 +121,37 @@ class EasyTableProModelTables extends JModelList
 				$query->where('(t.easytablename LIKE '.$search.' OR t.easytablealias LIKE '.$search.')');
 			}
 		}
+
+
+		// Filter by access level.
+		if ($access = $this->getState('filter.access')) {
+			$query->where('t.access = ' . (int) $access);
+		}
+
+		// Implement View Level Access
+		$user = JFactory::getUser();
+		if (!$user->authorise('core.admin'))
+		{
+		    $groups	= implode(',', $user->getAuthorisedViewLevels());
+			$query->where('t.access IN ('.$groups.')');
+		}
+
+		// Filter by published state
+		$published = $this->getState('filter.published');
+		if (is_numeric($published)) {
+			$query->where('t.published = ' . (int) $published);
+		}
+		elseif ($published === '') {
+			$query->where('(t.published = 0 OR t.published = 1)');
+		}
+
+		// Filter by author
+		$authorId = $this->getState('filter.author_id');
+		if (is_numeric($authorId)) {
+			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
+			$query->where('t.created_by '.$type.(int) $authorId);
+		}
+
 		// Sort by table name for now @todo add column ordering... name/id asc/desc
 		$query->order('easytablename');
 		return $query;
@@ -152,8 +174,39 @@ class EasyTableProModelTables extends JModelList
 		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 		
+		$access = $this->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', 0, 'int');
+		$this->setState('filter.access', $access);
+
+		$authorId = $app->getUserStateFromRequest($this->context.'.filter.author_id', 'filter_author_id');
+		$this->setState('filter.author_id', $authorId);
+
+		$published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
 		// List state information.
 		parent::populateState('t.easytablename', 'asc');
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string		$id	A prefix for the store id.
+	 *
+	 * @return	string		A store id.
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':'.$this->getState('filter.access');
+		$id	.= ':'.$this->getState('filter.published');
+		$id	.= ':'.$this->getState('filter.author_id');
+
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -189,6 +242,31 @@ class EasyTableProModelTables extends JModelList
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
 		return $this->_data;
+	}
+
+	/**
+	 * Build a list of authors
+	 *
+	 * @return	JDatabaseQuery
+	 * @since	1.6
+	 */
+	public function getAuthors() {
+		// Create a new query object.
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		// Construct the query
+		$query->select('u.id AS value, u.name AS text');
+		$query->from('#__users AS u');
+		$query->join('INNER', '#__easytables AS et ON et.created_by = u.id');
+		$query->group('u.id, u.name');
+		$query->order('u.name');
+
+		// Setup the query
+		$db->setQuery($query->__toString());
+
+		// Return the result
+		return $db->loadObjectList();
 	}
 
 }

@@ -13,19 +13,37 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 ?>
 <form action="index.php" method="post" name="adminForm">
 <div id="editcell">
-	<table>
-		<tr>
-			<td width="40%"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_FILTER'); ?>:
-				<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_GO'); ?></button>
-				<button onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_RESET'); ?></button>
-			</td>
-			<td class="nowrap et_version_info"><?php echo JText::_('COM_EASYTABLEPRO_MGR_INSTALLED_VERSION'); ?>: <span id="installedVersionSpan"><?php echo ( $this->et_current_version ); ?></span> |
-				<span id="et-subverinfo">
-				<?php echo JText::_('COM_EASYTABLEPRO_MGR_CURRENT_SUBSCRIBERS_RELEASE_IS').'&nbsp;'; ?>: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro" target="_blank" title="<?php echo JText::_('COM_EASYTABLEPRO_MGR_OPEN_RELEASE_DESC'); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a></span>
-			</td>			
-		</tr>
-	</table>
+	<fieldset id="filter-bar">
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_EASYTABLE_FILTER_SEARCH_DESC'); ?>" />
+
+			<button type="submit" class="btn"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_GO'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_RESET'); ?></button>
+		</div>
+		<div class="filter-select fltrt">
+			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
+			</select>
+
+			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+			</select>
+
+			<select name="filter_author_id" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_AUTHOR');?></option>
+				<?php echo JHtml::_('select.options', $this->authors, 'value', 'text', $this->state->get('filter.author_id'));?>
+			</select>
+		</div>
+	<div class="et_version_info">
+		<?php echo JText::_('COM_EASYTABLEPRO_MGR_INSTALLED_VERSION'); ?>: <span id="installedVersionSpan"><?php echo ( $this->et_current_version ); ?></span> |
+		<span id="et-subverinfo">
+		<?php echo JText::_('COM_EASYTABLEPRO_MGR_CURRENT_SUBSCRIBERS_RELEASE_IS').'&nbsp;'; ?>: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro" target="_blank" title="<?php echo JText::_('COM_EASYTABLEPRO_MGR_OPEN_RELEASE_DESC'); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a></span>
+	</div>
+	</fieldset>
+	<div class="clr"> </div>
 	<table class="adminlist">
 	<thead>
 		<tr>
