@@ -10,6 +10,10 @@ defined('_JEXEC') or die('Restricted Access');
 require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 
 	JHTML::_('behavior.tooltip');
+	$listOrder	= $this->escape($this->state->get('list.ordering'));
+	$listDirn	= $this->escape($this->state->get('list.direction'));
+	$user		= JFactory::getUser();
+	$userId		= $user->get('id');
 ?>
 <form action="index.php" method="post" name="adminForm">
 <div id="editcell">
@@ -48,10 +52,10 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 	<thead>
 		<tr>
 			<th width="1%"><input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" /></th>
-			<th width="25%"><?php echo JText::_('COM_EASYTABLEPRO_MGR_TABLE'); ?></th>
+			<th width="25%"><?php echo JHtml::_('grid.sort', 'COM_EASYTABLEPRO_MGR_TABLE', 't.easytablename', $listDirn, $listOrder); ?></th>
 			<th width="5%"><?php echo JText::_('COM_EASYTABLEPRO_MGR_EDIT_DATA'); ?></th>
 			<th width="5%"><?php echo JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA'); ?></th>
-			<th width="5%"><?php echo JText::_('JPUBLISHED'); ?></th>
+			<th width="5%"><?php echo JHtml::_('grid.sort', 'JPUBLISHED', 't.published', $listDirn, $listOrder); ?></th>
 			<th><?php echo JText::_('COM_EASYTABLEPRO_MGR_DESCRIPTION'); ?></th>
 			<th width="1%"><?php echo JText::_('COM_EASYTABLEPRO_MGR_ID'); ?></th>			
 		</tr>
@@ -64,9 +68,6 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 	<tbody>
 	<?php
 	$k = 0;
-	$user		= JFactory::getUser();
-	$userId		= $user->get('id');
-	
 
 	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
 	{
@@ -129,5 +130,7 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 <input type="hidden" name="option" value="<?php echo JRequest::getCmd('option') ?>" />
 <input type="hidden" name="view" value="tables" />
 <input type="hidden" name="task" value="" />
+<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 <input type="hidden" name="boxchecked" value="0" />
 </form>

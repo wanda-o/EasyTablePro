@@ -52,7 +52,16 @@ class EasyTableProModelTables extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		parent::__construct();
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'easytablename', 't.easytablename',
+				'published', 't.published',
+				'access', 't.access', 'access_level',
+				'created_by', 't.created_by'
+			);
+		}
+
+		parent::__construct($config);
 
 		$jAp = JFactory::getApplication();
 
@@ -62,21 +71,12 @@ class EasyTableProModelTables extends JModelList
 		// Get pagination request variables
 		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
-		if (empty($config['filter_fields'])) {
-			$config['filter_fields'] = array(
-				'easytablename', 't.easytablename',
-				'published', 't.published',
-				'access', 't.access', 'access_level',
-				'created_by', 't.created_by'
-			);
-		}
 	}
 
 	/**
@@ -152,8 +152,12 @@ class EasyTableProModelTables extends JModelList
 			$query->where('t.created_by '.$type.(int) $authorId);
 		}
 
-		// Sort by table name for now @todo add column ordering... name/id asc/desc
-		$query->order('easytablename');
+		// Add the list ordering clause.
+		$orderCol	= $this->state->get('list.ordering', 't.easytablename');
+		$orderDirn	= $this->state->get('list.direction', 'asc');
+
+		$query->order($db->escape($orderCol.' '.$orderDirn));
+
 		return $query;
 	}
 
