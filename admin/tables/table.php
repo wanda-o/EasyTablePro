@@ -39,17 +39,19 @@ class EasyTableProTableTable extends JTable
 	 */
 	function bind($array, $ignore = '')
 	{
+		$user = JFactory::getUser();
+		$uid = $user->get('id',0);
 		// Update record modified and if necessary created datetime stamps
 		if(key_exists( 'id', $array ) && !$array['id'])
 		{
 			$array['created_'] = date( 'Y-m-d H:i:s' );
-			$array['created_by'] = JUser::getInstance()->get('id',0);
+			$array['created_by'] = $uid;
 		}
 		// Check for missing creator
-		if($array['created_by'] == 0) $array['created_by'] = JUser::getInstance()->get('id',0);
+		if($array['created_by'] == 0) $array['created_by'] = $uid;
 
 		$array['modified_'] = date( 'Y-m-d H:i:s' );
-		$array['modifiedby_'] = JUser::getInstance()->get('id',0);
+		$array['modifiedby_'] = $uid;
 
 		// Change the params back to a string for storage
 		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
