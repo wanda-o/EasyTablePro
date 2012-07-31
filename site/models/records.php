@@ -247,7 +247,8 @@ class EasyTableProModelRecords extends JModelList
 			$sf = $db->quoteName($sf);
 			$query->order($sf . ' ' . $so);
 			// Here we add ranking column, note the workaround for Joomla!
-			$sos = $so == 'ASC' ? '<=' : '>=';
+			// $sos = $so == 'ASC' ? '>=' : '<=';
+			$sos = ">=";
 			$t2name = $db->quoteName($theTable->ettd_tname, 't2');
 			$query->select("( SELECT COUNT(*) FROM $t2name WHERE t2.$sf $sos t.$sf ) AS " . $db->quoteName('et-rank'));
 		}
