@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_EASYTABLEPRO_MENU_TABLE_NUMBERED_LAYOUT_TITLE"  option="COM_EASYTABLEPRO_RECORDS_VIEW_NUMBERED_OPTION">
+	<layout title="COM_EASYTABLEPRO_MENU_TABLE_RANKED_LAYOUT_TITLE"  option="COM_EASYTABLEPRO_RECORDS_VIEW_RANKED_OPTION">
 		<help
 			key = "COM_EASYTABLEPRO_HELP_MENU_TABLEVIEW"
 		/>
 		<message>
-		<![CDATA[COM_EASYTABLEPRO_MENU_SHOWS_A_SPECIFIC_TABLE_NUMBERED]]>
+		<![CDATA[COM_EASYTABLEPRO_MENU_SHOWS_A_SPECIFIC_TABLE_RANKED]]>
 		</message>
 	</layout>
 		<!-- Add fields to the request variables for the layout. -->
