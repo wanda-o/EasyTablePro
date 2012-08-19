@@ -42,9 +42,9 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 			</select>
 		</div>
 	<div class="et_version_info">
-		<?php echo JText::_('COM_EASYTABLEPRO_MGR_INSTALLED_VERSION'); ?>: <span id="installedVersionSpan"><?php echo ( $this->et_current_version ); ?></span> |
+		<?php echo JText::_('COM_EASYTABLEPRO_MGR_INSTALLED_VERSION').'&nbsp;'; ?>:: <span id="installedVersionSpan"><?php echo ( $this->et_current_version ); ?></span><br />
 		<span id="et-subverinfo">
-		<?php echo JText::_('COM_EASYTABLEPRO_MGR_CURRENT_SUBSCRIBERS_RELEASE_IS').'&nbsp;'; ?>: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro" target="_blank" title="<?php echo JText::_('COM_EASYTABLEPRO_MGR_OPEN_RELEASE_DESC'); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a></span>
+		<?php echo JText::_('COM_EASYTABLEPRO_MGR_CURRENT_SUBSCRIBERS_RELEASE_IS').'&nbsp;'; ?>:: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro" target="_blank" title="<?php echo JText::_('COM_EASYTABLEPRO_MGR_OPEN_RELEASE_DESC'); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a></span>
 	</div>
 	</fieldset>
 	<div class="clr"> </div>
@@ -57,7 +57,7 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 			<th width="5%"><?php echo JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA'); ?></th>
 			<th width="5%"><?php echo JHtml::_('grid.sort', 'JPUBLISHED', 't.published', $listDirn, $listOrder); ?></th>
 			<th><?php echo JText::_('COM_EASYTABLEPRO_MGR_DESCRIPTION'); ?></th>
-			<th width="1%"><?php echo JText::_('COM_EASYTABLEPRO_MGR_ID'); ?></th>			
+			<th width="1%"><?php echo JText::_('COM_EASYTABLEPRO_MGR_ID'); ?></th>
 		</tr>
 	</thead>
 	<tfoot>
