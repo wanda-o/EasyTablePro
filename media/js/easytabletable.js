@@ -28,7 +28,8 @@ com_EasyTablePro.Table.atLeast1ListField = function(){
 		}
 	}
 
-	$et_check_msg = Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_AT_LEAST_ONE');
+	et_name  = $('jform_easytablename').value;
+	$et_check_msg = com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_AT_LEAST_ONE'),et_name);
 	return false; // If we got here none are checked,
 }
 
