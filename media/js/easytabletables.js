@@ -7,17 +7,8 @@
 
 et_check_msg = '';
 
-function check_versions()
-{
-	versionsMatch = ($('installedVersionSpan').innerHTML == $('currentVersionSpan').innerHTML);
-	return versionsMatch;
-}
-
 window.addEvent('domready', function(){
-$('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_easytablepro_build +")";
-	if(!check_versions()){
-		$('currentVersionSpan').innerHTML = $('currentVersionSpan').innerHTML + "<img src=\"../media/com_easytablepro/images/attention.gif\">";
-	};
+	$('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_easytablepro_build +")";
 });
 
 Joomla.submitbutton = function(pressbutton)
