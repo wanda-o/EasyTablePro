@@ -33,7 +33,7 @@ class EasyTableProModelRecords extends JModelList
  	var $_pagination = null;
 
  	/**
- 	 * 
+ 	 *
  	 * Search text
  	 * @var string
  	 */
@@ -326,7 +326,7 @@ class EasyTableProModelRecords extends JModelList
 	}
 
 	/**
-	 * 
+	 *
 	 * Returns the search term equated to each field alias in a precalcualte sql string
 	 * We do this because JDatabaseQuery doesn't allow for grouping of WHERE joiners or changing them after the initial call
 	 */

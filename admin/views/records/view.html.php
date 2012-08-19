@@ -64,11 +64,11 @@ class EasyTableProViewRecords extends JView
 		$this->assign('status', $easytable->published ? JText::_('JPUBLISHED'): JText::_('COM_EASYTABLEPRO_UNPUBLISHED'));
 
 		$this->search = $state->get('filter.search');
-		$this->assignRef('et_list_meta',$easytables_table_meta_for_List_view);
-		$this->assign('ettm_field_count', count($easytables_table_meta_for_Detail_view));
-		$this->assign('ettd_record_count', $ettd_record_count);
-		$this->assignRef('et_table_data',$easytables_table_data);
-		$this->assignRef('pageNav', $pageNav);
+		$this->et_list_meta = $easytables_table_meta_for_List_view;
+		$this->ettm_field_count = count($easytables_table_meta_for_Detail_view);
+		$this->ettd_record_count = $ettd_record_count;
+		$this->et_table_data = $easytables_table_data;
+		$this->etmCount = $etmCount;
 
 		// Lets lock out the main menu
 
@@ -78,36 +78,36 @@ class EasyTableProViewRecords extends JView
 
 		// Setup layout, toolbar, js, css
 
-		$this->addToolbar($canDo);
+		$this->addToolbar($canDo, $etmCount);
 
 		$this->addCSSEtc();
-
 
 		parent::display($tpl);
 	}
 
-	private function addToolbar($canDo)
+	private function addToolbar($canDo,$etmCount)
 	{
 		/*
 			Setup the Toolbar
 		*/
 		JToolBarHelper::title(JText::sprintf('COM_EASYTABLEPRO_RECORDS_VIEW_TITLE', $this->easytable->easytablename), 'easytablepro-editrecords');
-		if($canDo->get('core.create'))
-		{
-			JToolBarHelper::addNew('record.add', JText::_('COM_EASYTABLEPRO_RECORDS_NEW_RECORD_BTN'));
+		if($etmCount) {
+			if($canDo->get('core.create'))
+			{
+				JToolBarHelper::addNew('record.add', JText::_('COM_EASYTABLEPRO_RECORDS_NEW_RECORD_BTN'));
+			}
+			if($canDo->get('core.edit'))
+			{
+				JToolBarHelper::editList('record.edit');
+			}
+			JToolBarHelper::divider();
+			
+			if($canDo->get('core.delete'))
+			{
+				JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_LINK', 'records.delete',JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_BTN'));
+			}
+			JToolBarHelper::divider();
 		}
-		if($canDo->get('core.edit'))
-		{
-			JToolBarHelper::editList('record.edit');
-		}
-		JToolBarHelper::divider();
-		
-		if($canDo->get('core.delete'))
-		{
-			JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_LINK', 'records.delete',JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_BTN'));
-		}
-		JToolBarHelper::divider();
-		
 		JToolBarHelper::cancel('records.cancel', JText::_('COM_EASYTABLEPRO_LABEL_CLOSE'));
 		
 		JToolBarHelper::divider();
