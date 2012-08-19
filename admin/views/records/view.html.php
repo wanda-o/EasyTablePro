@@ -22,6 +22,8 @@ class EasyTableProViewRecords extends JView
 
 	function display ($tpl = null)
 	{
+		// Grab Joomla! we're bound to need it
+		$jAp = JFactory::getApplication();
 		// Get the settings meta record
 		$canDo = ET_Helper::getActions();
 
@@ -43,13 +45,11 @@ class EasyTableProViewRecords extends JView
 		$easytables_table_meta_for_Detail_view = ET_VHelper::et_Detail_View_Fields($easytables_table_meta);
 		$etmCount = count($easytables_table_meta_for_List_view);
 		$ettd_record_count = $easytable->ettd_record_count;
-		
 		//Make sure at least 1 field is set to display
 		if($etmCount == 0)
 		{
-			// In here we need to divert back to Mgr view and set an appropriate user error message.
-			$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_RECORD_NO_DATA_SEGMENT').' '.$easytable->easytablename,'error');
-			return;
+			// In here we need to set an appropriate user error message, if they manage to get this far.
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_JS_WARNING_AT_LEAST_ONE',$easytable->easytablename),'error');
 		}
 
 		// Assing these items for use in the tmpl
