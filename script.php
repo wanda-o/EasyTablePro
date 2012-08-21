@@ -7,14 +7,14 @@ defined('_JEXEC') or die('Restricted access');
  */
 class com_easyTableProInstallerScript
 {
-	public $et_this_version = '1.1.0 (66773c5)';
+	public $et_this_version = '1.1.0 (1724925)';
 
 	/**
 	 * method to install the component
 	 *
 	 * @return void
 	 */
-	function install($parent) 
+	function install($parent)
 	{
 		// $parent is the class calling this method
 		echo  JText::_('COM_EASYTABLEPRO_INSTALLER_INSTALL_TEXT');
@@ -39,7 +39,7 @@ class com_easyTableProInstallerScript
 	 *
 	 * @return void
 	 */
-	function uninstall($parent) 
+	function uninstall($parent)
 	{
 		// $parent is the class calling this method
 		echo JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_TEXT');
@@ -149,7 +149,7 @@ class com_easyTableProInstallerScript
 							$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROPPED_TABLE').' '.$item['easytablename'].' (ID = '.$item['id'].').'.'</li>';
 						}
 					}
-				}    
+				}
 			}
 		}
 		else
@@ -207,7 +207,7 @@ class com_easyTableProInstallerScript
 	 *
 	 * @return void
 	 */
-	function update($parent) 
+	function update($parent)
 	{
 		// $parent is the class calling this method
 		echo JText::_('COM_EASYTABLEPRO_INSTALLER_UPDATE_TEXT') . '<ol>';
@@ -423,6 +423,31 @@ class com_easyTableProInstallerScript
 			}
 		}
 
+		// Check for files that are no longer required... remember full path
+		$filesToRemove = array(
+								'/components/com_easytablepro/views/records/tmpl/numbered.php',
+								'/components/com_easytablepro/views/records/tmpl/numbered.xml'
+		);
+		$filesCleanedUp = false;
+		foreach ($filesToRemove as $oldFile) {
+			$targetFile = JPATH_SITE . $oldFile;
+			if(file_exists($targetFile)){
+				$filesCleanedUp = true;
+				if(unlink($targetFile)) {
+					$msg .= $img_OK.JText::sprintf('Successfully Removed old file: <em>%s</em>',$oldFile) . '</li>';
+				} else {
+					$msg .= $img_ERROR.JText::sprintf('Failed to Remove <em>%s</em>',$oldFile) . '</li>';
+				}
+			} else {
+				$msg .= $img_ERROR.JText::sprintf('Couldn\'t find file at "%s"',$targetFile);
+			}
+		}
+		if($filesCleanedUp) {
+			$msg .= $img_OK.JText::_('File clean up process completed.') . '</li>';
+		} else {
+			$msg .= $img_OK.JText::_('No legacy files found in file clean up.') . '</li>';
+		}
+
 		// Ok, lets append the wrap message and get the heck outta here.
 		if($no_errors)
 		{
@@ -442,7 +467,7 @@ class com_easyTableProInstallerScript
 	 *
 	 * @return void
 	 */
-	function preflight($type, $parent) 
+	function preflight($type, $parent)
 	{
 		// $parent is the class calling this method
 		// $type is the type of change (install, update or discover_install)
@@ -454,7 +479,7 @@ class com_easyTableProInstallerScript
 	 *
 	 * @return void
 	 */
-	function postflight($type, $parent) 
+	function postflight($type, $parent)
 	{
 		// $parent is the class calling this method
 		// $type is the type of change (install, update or discover_install)
