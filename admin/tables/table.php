@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted Access');
 /**
  * EasyTable Table class
  *
- * 
+ *
  */
 class EasyTableProTableTable extends JTable
 {
@@ -39,20 +39,6 @@ class EasyTableProTableTable extends JTable
 	 */
 	function bind($array, $ignore = '')
 	{
-		$user = JFactory::getUser();
-		$uid = $user->get('id',0);
-		// Update record modified and if necessary created datetime stamps
-		if(key_exists( 'id', $array ) && !$array['id'])
-		{
-			$array['created_'] = date( 'Y-m-d H:i:s' );
-			$array['created_by'] = $uid;
-		}
-		// Check for missing creator
-		if($array['created_by'] == 0) $array['created_by'] = $uid;
-
-		$array['modified_'] = date( 'Y-m-d H:i:s' );
-		$array['modifiedby_'] = $uid;
-
 		// Change the params back to a string for storage
 		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
         {
@@ -67,6 +53,44 @@ class EasyTableProTableTable extends JTable
 			$this->setRules($rules);
 		}
 		return parent::bind($array, $ignore);
+	}
+
+	/**
+	 * Overrides JTable::store to set modified data and user id.
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 */
+	public function store($updateNulls = false)
+	{
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
+
+		if ($this->id)
+		{
+			// Existing item
+			$this->modified_ = $date->toSql();
+			$this->modifiedby_ = $user->get('id');
+		}
+		else
+		{
+			// New table. A table created and created_by field can be set by the user,
+			// so we don't touch either of these if they are set.
+			if (!intval($this->created_))
+			{
+				$this->created_ = $date->toSql();
+			}
+
+			if (empty($this->created_by))
+			{
+				$this->created_by = $user->get('id');
+			}
+		}
+
+		return parent::store($updateNulls);
 	}
 
 	/**
