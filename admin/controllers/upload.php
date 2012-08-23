@@ -38,7 +38,7 @@ class EasyTableProControllerUpload extends JControllerForm
 	}
 
 	/* Method to create a new EasyTable from a CSV/TAB file.
-	 * 
+	 *
 	 * Used with the upload_new tmpl.
 	 */
 	public function add()
@@ -94,7 +94,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 	/**
 	 * Method to upload a CSV/TAB file to an existing EasyTable.
-	 * 
+	 *
 	 * ( The table may have been created in a prior call to add()... )
 	 */
 	public function uploadData()
@@ -105,7 +105,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		// Prepare for failure
 		$jInput->set('uploadedRecords', 0);
 
-		if($this->newTable) 
+		if($this->newTable)
 		{
 			$updateType = 'import';
 		} else {
@@ -181,9 +181,9 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_UPLOAD_ERROR_COLUMN_MISMATCH', $id), 'Error');
 			return false;
-		}
-		else
+		} else {
 			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_IMPORT_IMPORTED_DESC' , $csvRowCount));
+		}
 
 		return $csvRowCount;
 	}
@@ -306,7 +306,7 @@ class EasyTableProControllerUpload extends JControllerForm
 			ini_set('auto_detect_line_endings', $original_ADLE);
 	
 			$this->_uploadData = $CSVTableArray;
-		} 
+		}
 
 		return $this->_uploadData;
 	}
@@ -329,7 +329,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			JError::raiseWarning(500, "Failed to TRUNCATE table data in $ettd_table_name");
 		}
-		return($theResult);		
+		return($theResult);
 	}
 
 	private function getFieldAliasForTable($id)
@@ -376,7 +376,7 @@ class EasyTableProControllerUpload extends JControllerForm
 	/**
 	 * @param int $id - EasyTable table id.
 	 * @param array $ettdColumnAliass - array of column alias used to build the insert sql
-	 * @param array $CSVFileArray of 
+	 * @param array $CSVFileArray of
 	 * @return boolean|number false on failure, record count on success
 	 */
 	private function updateETTDTableFrom ($id, $CSVFileArray)
@@ -616,7 +616,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		$columnAlias .= count($ettdColumnAliass);
 		if(in_array($columnAlias, $ettdColumnAliass))
 		{
-			if(strlen($columnAlias) < $maxLen) 
+			if(strlen($columnAlias) < $maxLen)
 			{
 				return $this->uniqueInArray($ettdColumnAliass, $columnAlias);
 			}

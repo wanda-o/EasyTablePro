@@ -29,7 +29,7 @@ class EasyTableProModelTable extends JModelAdmin
 	 * @return	JTable	A database object
 	 * @since	1.6
 	 */
-	public function getTable($type = 'Table', $prefix = 'EasyTableProTable', $config = array()) 
+	public function getTable($type = 'Table', $prefix = 'EasyTableProTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -145,7 +145,7 @@ class EasyTableProModelTable extends JModelAdmin
 			$item->set('ettd_tname', $ettd_tname);
 
 			// By default we assume unpublished but we check...
-			$state = 'Unpublished';		
+			$state = 'Unpublished';
 
 			if( $ettd )
 			{
@@ -338,6 +338,5 @@ class EasyTableProModelTable extends JModelAdmin
 		}
 		return $this->ettdExists($id);
 	}
-
 
 }// class

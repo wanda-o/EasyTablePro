@@ -29,7 +29,7 @@ class EasyTableProModelUpload extends JModelAdmin
 	 * @return	JTable	A database object
 	 * @since	1.6
 	 */
-	public function getTable($type = 'Table', $prefix = 'EasyTableProTable', $config = array()) 
+	public function getTable($type = 'Table', $prefix = 'EasyTableProTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -105,9 +105,9 @@ class EasyTableProModelUpload extends JModelAdmin
 
 		$item->previousTask = $jInput->get('task');
 		return $item;
-	}
+	}//function
 
-	protected function populateState() 
+	protected function populateState()
 	{
 		// Get the table id
 		$id = JRequest::getInt('id');
