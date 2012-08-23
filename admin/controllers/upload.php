@@ -118,6 +118,10 @@ class EasyTableProControllerUpload extends JControllerForm
 		$this->model = $model;
 		$this->item = $item;
 		$importWorked = $this->processNewDataFile($updateType, $pk);
+		if($importWorked) {
+			// should update the modified date
+			$model->save((array)$item);
+		}
 
 		$jInput->set('prevAction', $updateType);
 		$jInput->set('tmpl', 'component');
