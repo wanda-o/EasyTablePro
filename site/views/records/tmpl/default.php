@@ -19,7 +19,7 @@
 
 	if($this->modification_date_label === '')
 	{
-		$mod_dl =  JText::sprintf('LAST_UPDATED2', JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'))) ;
+		$mod_dl =  JText::sprintf('COM_EASYTABLEPRO_SITE_LAST_UPDATED', JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'))) ;
 	} else {
 		$mod_dl = $this->modification_date_label.' '.JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'));
 	}
