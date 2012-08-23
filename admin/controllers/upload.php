@@ -223,8 +223,8 @@ class EasyTableProControllerUpload extends JControllerForm
 	
 			// Check our file suffix before moving on...
 			$fileSuffix = strtolower ( substr ( $theFileName, strlen ( $theFileName )-3,  3 ));
-			if(($fileSuffix != 'csv') && ($fileSuffix != 'tab')) {
-				JError::raiseWarning('', 'Data files must be \'tab\' or \'csv\' and end with the correct suuffix.');
+			if(($fileSuffix != 'csv') && ($fileSuffix != 'tsv')) {
+				JError::raiseWarning('', 'Data files must be \'tsv\' or \'csv\' and end with the correct suuffix.');
 				return false;
 			}
 	

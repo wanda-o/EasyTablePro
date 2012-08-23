@@ -495,7 +495,7 @@ com_EasyTablePro.Table.upload = function()
 	var tFileExt = tFileName.substr(dot,tFileName.length);
 	tFileExt = tFileExt.toLowerCase();
 
-	if((tFileExt != ".csv") && (tFileExt != ".tab"))
+	if((tFileExt != ".csv") && (tFileExt != ".tsv"))
 	{
 		alert (com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_TAB_CSV') ,tFileExt));
 		return 0;

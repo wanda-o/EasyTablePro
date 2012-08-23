@@ -26,7 +26,7 @@ function Joomla.submitbutton(pressbutton)
 		var tFileExt = tFileName.substr(dot,tFileName.length);
 		tFileExt = tFileExt.toLowerCase();
 
-		if((tFileExt != ".csv") && (tFileExt != ".tab"))
+		if((tFileExt != ".csv") && (tFileExt != ".tsv"))
 		{
 			alert (com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_UPLOAD_JS_ONLY_FILES_WITH_AN_EXTENSION_OF_CSV_OR_TAB_ARE_SUPPORTED_FOUND_X'), tFileExt));
 			return 0;
