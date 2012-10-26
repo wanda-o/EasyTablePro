@@ -149,16 +149,16 @@ class EasyTableProViewTable extends JView
 		JHtml::_('behavior.framework', true);
 		JHtml::_('behavior.tooltip');
 		JHtml::_('behavior.multiselect');
-		
+
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		// Tools first
-		$jsFile = ('/media/com_easytablepro/js/atools.js');
-		ET_Helper::loadJSLanguageKeys($jsFile);
-		$document->addScript('..'.$jsFile);
+		$jsFile = ('media/com_easytablepro/js/atools.js');
+		ET_Helper::loadJSLanguageKeys('/'.$jsFile);
+		$document->addScript(JURI::root().$jsFile);
 		// Component view specific next...
-		$jsFile = ('/media/com_easytablepro/js/easytabletable.js');
-		ET_Helper::loadJSLanguageKeys($jsFile);
-		$document->addScript('..'.$jsFile);		
+		$jsFile = ('media/com_easytablepro/js/easytabletable.js');
+		ET_Helper::loadJSLanguageKeys('/'.$jsFile);
+		$document->addScript(JURI::root().$jsFile);
 	}
 
 	function getTableIDForName ($tableName)

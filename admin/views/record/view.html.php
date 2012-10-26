@@ -139,26 +139,26 @@ class EasyTableProViewRecord extends JView
 	{
 		//get the document
 		$doc = JFactory::getDocument();
-	
+
 		// First add CSS to the document
-		$doc->addStyleSheet('../media/com_easytablepro/css/easytable.css');
-	
+		$doc->addStyleSheet(JURI::root().'media/com_easytablepro/css/easytable.css');
+
 		// Get the document object
 		$document =JFactory::getDocument();
-	
+
 		// Load the defaults first so that our script loads after them
 		JHtml::_('behavior.framework', true);
 		JHtml::_('behavior.tooltip');
 		JHtml::_('behavior.multiselect');
-	
+
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		// Tools first
-		$jsFile = ('/media/com_easytablepro/js/atools.js');
-		$document->addScript('..'.$jsFile);
-		ET_Helper::loadJSLanguageKeys($jsFile);
+		$jsFile = ('media/com_easytablepro/js/atools.js');
+		$document->addScript(JURI::root().$jsFile);
+		ET_Helper::loadJSLanguageKeys('/'.$jsFile);
 		// Component view specific next...
-		$jsFile = ('/media/com_easytablepro/js/easytabledata.js');
-		$document->addScript('..'.$jsFile);
-		ET_Helper::loadJSLanguageKeys($jsFile);
+		$jsFile = ('media/com_easytablepro/js/easytabledata.js');
+		$document->addScript(JURI::root().$jsFile);
+		ET_Helper::loadJSLanguageKeys('/'.$jsFile);
 	}
 }

@@ -23,7 +23,7 @@ class EasyTableProViewUpload extends JView
 {
 	/**
 	 * View display method
-	 * 
+	 *
 	 * @return void
 	 **/
 	function display($tpl = null)
@@ -33,7 +33,7 @@ class EasyTableProViewUpload extends JView
 		$u = JURI::getInstance();
 		JHTML::_('behavior.tooltip');
 
-		$doc->addStyleSheet('../templates/system/css/system.css');
+		$doc->addStyleSheet(JURI::root().'templates/system/css/system.css');
 
 		$form = $this->get('Form');
 		$item = $this->get('Item');
@@ -58,13 +58,13 @@ class EasyTableProViewUpload extends JView
 				$this->stepLabel = JText::_('COM_EASYTABLEPRO_UPLOAD_CREATE_A_NEW_TABLE');
 				$this->stepLegend = JText::_('COM_EASYTABLEPRO_UPLOAD_TABLE_CREATION_WIZARD');
 				break;
-					
+
 			case 'uploadCompleted':
 				$this->closeURL = "window.parent.location.reload();window.parent.SqueezeBox.close";
 				$this->stepLabel = JText::_('COM_EASYTABLEPRO_UPLOAD_DATA_UPLOAD_COMPLETED');
 				$this->stepLegend = JText::sprintf('COM_EASYTABLEPRO_UPLOAD_UPLOADED_X_RECORDS_TO_Y', $this->uploadedRecords, $this->item->easytablename);
 				break;
-					
+
 			default:
 				$this->closeURL = 'window.parent.SqueezeBox.close();';
 				$this->stepLabel = JText::_('COM_EASYTABLEPRO_UPLOAD_DATA');

@@ -122,19 +122,19 @@ class EasyTableProViewRecords extends JView
 		$document = JFactory::getDocument();
 
 		// First add CSS to the document
-		$document->addStyleSheet('../media/com_easytablepro/css/easytable.css');
+		$document->addStyleSheet(JURI::root().'media/com_easytablepro/css/easytable.css');
 
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		JHTML::_('behavior.modal');
 		// Tools first
-		$jsFile = ('/media/com_easytablepro/js/atools.js');
-		ET_Helper::loadJSLanguageKeys($jsFile);
-		$document->addScript('..'.$jsFile);
+		$jsFile = ('media/com_easytablepro/js/atools.js');
+		ET_Helper::loadJSLanguageKeys('/'.$jsFile);
+		$document->addScript(JURI::root().$jsFile);
 
 		// Load this views js
-		$jsFile = '/media/com_easytablepro//js/easytabledata.js';
-		ET_Helper::loadJSLanguageKeys($jsFile);
-		$document->addScript('..'.$jsFile);
+		$jsFile = 'media/com_easytablepro//js/easytabledata.js';
+		ET_Helper::loadJSLanguageKeys('/'.$jsFile);
+		$document->addScript(JURI::root().$jsFile);
 	}
 
 	function getRecordCheckBox ($cid, $rowId)
