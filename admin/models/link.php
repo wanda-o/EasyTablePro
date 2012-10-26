@@ -110,7 +110,14 @@ class EasyTableProModelLink extends JModelList
 		// Load the components Global default parameters.
 		$params = JComponentHelper::getParams('com_easytablepro');
 		$restrictedTables = $params->get('restrictedTables','');
-		$restrictedTables = explode("\r\n",$restrictedTables);
+		if($restrictedTables != '')
+		{
+			$restrictedTables = explode("\r\n",$restrictedTables);
+		}
+		else
+		{
+			$restrictedTables = array();
+		}
 		return $restrictedTables;
 	}
 
