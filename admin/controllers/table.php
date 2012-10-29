@@ -42,29 +42,41 @@ class EasyTableProControllerTable extends JControllerForm
 		$deletedFlds = $jInput->get('deletedFlds','','string');
 
 		// Call to our parent save() to save the base JTable ie. our EasyTableProTable
-		if(!parent::save('id')){
+		if (!parent::save('id'))
+		{
 			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_WOW_COMPLETELY_BOMBED_SAVING_TABLE', $this->tablename, $this->id));
 			$this->setRedirect(JRoute::_('index.php?option=com_easytablepro&view=tables'));
 			return false;
-		} else {
+		}
+		else
+		{
 			$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_SAVED_TABLE'));
 			// OK table record saved time to do the same for meta
 			// If it's not a linked table then...
-			if( $datatablename == '' ){
+			if ($datatablename == '')
+			{
 				// 1. Any fields to delete?
-				if(!empty($deletedFlds)) {
-					if( $this->deleteFieldsFromEasyTable($id, $deletedFlds) ){
+				if (!empty($deletedFlds))
+				{
+					if ($this->deleteFieldsFromEasyTable($id, $deletedFlds))
+					{
 						$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_SUCCESSFULLY_DELETED_FIELDS'));
-					} else {
+					}
+					else
+					{
 						$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_THERE_WERE_PROBLEMS_DELETING_FIELD'), 'Notice');
 					}
 				}
 				
 				// 2. Any fields to add?
-				if(!empty($newFlds)) {
-					if( $this->addFieldsToEasyTable($id, $newFlds) ){
+				if (!empty($newFlds))
+				{
+					if ($this->addFieldsToEasyTable($id, $newFlds))
+					{
 						$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_SUCCESSFULLY_ADDED_NEW_FIELDS'));
-					} else {
+					}
+					else
+					{
 						$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_THERE_WERE_PROBLEMS_ADDING_NEW_FIELDS'), 'Notice');
 					}
 				}
@@ -92,7 +104,8 @@ class EasyTableProControllerTable extends JControllerForm
 		$jAp = JFactory::getApplication();
 		// Get a database object
 		$db = JFactory::getDBO();
-		if(!$db){
+		if (!$db)
+		{
 			// Oh shit - PANIC!
 			JError::raiseError(500,JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_OBJECT_WHILE_SETTING_UP_FOR_META_UPDATES',$id));
 		}
@@ -111,7 +124,8 @@ class EasyTableProControllerTable extends JControllerForm
 		$easytables_table_meta = $db->loadRowList();
 		$ettm_field_count = count($easytables_table_meta);
 		$mRIdsCount = count($mRIds);
-		if($ettm_field_count != $mRIdsCount) {
+		if ($ettm_field_count != $mRIdsCount)
+		{
 			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_META_MISMATCH_BETWEEN_FORM_RESPONSE_AND_DATA_STORE_VS', $ettm_field_count, $mRIdsCount,$etMetaRIdAsSQL));
 			return false;
 		}
@@ -133,9 +147,9 @@ class EasyTableProControllerTable extends JControllerForm
 			$reqFldAlias = $this->conformFieldAlias($reqFldAlias);
 
 			// If the field(column) type or name has changed
-			if(($fieldType != $origFldType) || ($origFldAlias != $reqFldAlias))
+			if (($fieldType != $origFldType) || ($origFldAlias != $reqFldAlias))
 			{
-				if( !$this->alterEasyTableColumn($origFldAlias, $reqFldAlias, $fieldType) )
+				if (!$this->alterEasyTableColumn($origFldAlias, $reqFldAlias, $fieldType))
 				{
 					$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_FAILED_TO_ALTER_TABLE_FIELD__COLUMN__FROM_A_TO_B_AS_TYPE_C', $origFldAlias, $reqFldAlias, $this->getFieldTypeAsSQL($fieldType), $fieldType));
 					return false;
@@ -167,7 +181,7 @@ class EasyTableProControllerTable extends JControllerForm
 			$db->setQuery($etMetaUpdateSQL);
 			$db_result = $db->query();
 			
-			if(!$db_result)
+			if (!$db_result)
 			{
 				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_META_DATA_UPDATE_FAILED_AT_ROW_ID_X_SQL_Y', $rowValue, $db->explain(), $etMetaUpdateSQL));
 				return false;
@@ -226,7 +240,8 @@ class EasyTableProControllerTable extends JControllerForm
 		// 2.0 Perfrom the actual Meta insert.
 		// Get a database object
 		$db = JFactory::getDBO();
-		if(!$db){
+		if (!$db)
+		{
 			$jAp->enqueueMessage( JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_OBJECT_WHILE_SETTING_UP_FOR_META_UPDATE_X', $id));
 			return false;
 		}
@@ -234,7 +249,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$db->setQuery($insertSQL);
 		$db_result = $db->query();
 		
-		if(!$db_result)
+		if (!$db_result)
 		{
 			$jAp->enqueueMessage( JText::sprintf('COM_EASYTABLEPRO_TABLE_META_DATA_UPDATE_FAILED_DURING_NEW_FIELD_INSERT_X_SQL_Y', $db->explain(), $insertSQL));
 			return false;
@@ -249,7 +264,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$db->setQuery($addSQL);
 		$db_result = $db->query();
 
-		if(!$db_result)
+		if (!$db_result)
 		{
 			$jAp->enqueueMessage( JText::sprintf('COM_EASYTABLEPRO_TABLE_TABLE_UPDATE_FAILED_DURING_ADDITION_OF_NEW_COLUMNS_X_SQL_Y', $db->explain(), $addSQL));
 			return false;
@@ -262,7 +277,7 @@ class EasyTableProControllerTable extends JControllerForm
 		/*
 		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST, updated but old.
 		*/
-		if(empty($deletedFldIds)) return false;
+		if (empty($deletedFldIds)) return false;
 		$jAp = JFactory::getApplication();
 		$jAp->enqueueMessage( JText::_('COM_EASYTABLEPRO_TABLE_STARTING_FIELD_REMOVAL'));
 		$id = $tableID;
@@ -271,7 +286,8 @@ class EasyTableProControllerTable extends JControllerForm
 
 		// Get a database object
 		$db = JFactory::getDBO();
-		if(!$db){
+		if (!$db)
+		{
 			// Oh shit! - PANIC
 			JError::raiseError(500,JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_OBJECT_WHILE_TRYING_TO_ALTER_DATA_TABLE', $id));
 		}
@@ -287,7 +303,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$dropSQL .=  '`';
 		$db->setQuery($dropSQL);
 		$drop_Result = $db->query();
-		if($drop_Result) $jAp->enqueueMessage( JText::sprintf('COM_EASYTABLEPRO_TABLE_COLUMNS_DROPPED_FROM_X', $tableName));
+		if ($drop_Result) $jAp->enqueueMessage( JText::sprintf('COM_EASYTABLEPRO_TABLE_COLUMNS_DROPPED_FROM_X', $tableName));
 
 		// Delete the reference to the fields in the meta table.
 		$db->setQuery('delete ' . $fromWhereSQL);
@@ -301,10 +317,11 @@ class EasyTableProControllerTable extends JControllerForm
 		/*
 		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
 		*/
-		if(JRequest::getVar('et_linked_et')) // External tables we don't mess with — bad things will happen to your data if you take this out. You have been warned.
+		if (JRequest::getVar('et_linked_et')) // External tables we don't mess with — bad things will happen to your data if you take this out. You have been warned.
 			return true;
 
-		if( ($origFldAlias == '') || ($newFldAlias == '') || ($fieldType == '') || ($origFldAlias == null) || ($newFldAlias == null) || ($fieldType == null) || ($newFldAlias == 'id') )
+		if (($origFldAlias == '') || ($newFldAlias == '') || ($fieldType == '') ||
+			($origFldAlias == null) || ($newFldAlias == null) || ($fieldType == null) || ($newFldAlias == 'id'))
 		{
 			return false;
 		}
@@ -318,14 +335,15 @@ class EasyTableProControllerTable extends JControllerForm
 
 		// Get a database object
 		$db = JFactory::getDBO();
-		if(!$db){
+		if (!$db)
+		{
 			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
 		}
 		
 		// Set and execute the SQL query
 		$db->setQuery($alterSQL);
 		$alter_result = $db->query();
-		if(!$alter_result)
+		if (!$alter_result)
 		{
 			JError::raiseError(500, "Failure to ALTER data table column, using:<br /> Orig Alias {$origFldAlias};<br />New Alias {$newFldAlias}<br />Field Type {$fieldType}<br />actually DB explanation: ".$db->explain());
 		}
@@ -373,16 +391,16 @@ class EasyTableProControllerTable extends JControllerForm
 		// @todo Use a different mechanism for detecting a linked table...
 		// We should check before here and therefore never get to this place... but...
 		// It's a linked table lets not change anything...
-		if(JRequest::getVar('et_linked_et')) return $rawAlias;
+		if (JRequest::getVar('et_linked_et')) return $rawAlias;
 
 		// Make the raw alias url safe & limit to 64 chars for mysql column names
 		$columnAlias = substr( JFilterOutput::stringURLSafe(trim( addslashes ( $rawAlias ))), 0, 64);
-		if($columnAlias == 'id') $columnAlias = 'tmp-id';
+		if ($columnAlias == 'id') $columnAlias = 'tmp-id';
 
 		// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)
 		$firstCharOfAlias = substr($columnAlias,0,1);
 
-		if(preg_match('/[^A-Za-z\s ]/', '', $firstCharOfAlias))
+		if (preg_match('/[^A-Za-z\s ]/', '', $firstCharOfAlias))
 		{
 			$columnAlias = 'a'.$columnAlias;
 		}

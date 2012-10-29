@@ -20,22 +20,23 @@ class ET_VHelper
 		is_object( $OrigRow ) ? $row = clone $OrigRow : $row = $OrigRow;
 		/* End of work around */
 
-		if($f == '') return '';
+		if ($f == '') return '';
 
 		$fieldOptions = '';
-		if ( isset ($params) )
+		if (isset ($params))
 		{
 			$paramsObj = new JRegistry();
 			$paramsObj->loadString($params);
 			$rawFieldOptions = $paramsObj->get('fieldoptions','');
-			if(strlen ( $rawFieldOptions ) > 1){
+			if (strlen($rawFieldOptions) > 1)
+			{
 				$fieldOptions = pack("H*", substr ( $rawFieldOptions, 1 ));
 			}
 		}
-		// Create token array 
+		// Create token array
 		$tokenArray = array ();
 		// @todo don't bother creating the token array if there are no fieldoptions
-		if($fieldOptions != '')
+		if ($fieldOptions != '')
 		{
 			foreach ( $row as $theFieldName => $theFieldValue ) // process the fields that appear in the list view first
 			{
@@ -73,7 +74,7 @@ class ET_VHelper
 
 	public static function addOptions ($fieldOptions, $tokenArray)
 	{
-		if(empty($fieldOptions))
+		if (empty($fieldOptions))
 		{
 			return "";
 		}
@@ -85,7 +86,7 @@ class ET_VHelper
 
 	public static function applyOptions ($f, $fieldOptions, $tokenArray)
 	{
-		if(empty($fieldOptions))
+		if (empty($fieldOptions))
 		{
 			return trim($f);
 		}
@@ -97,10 +98,10 @@ class ET_VHelper
 
 	public static function getImageWithOptions($f, $fieldOptions, $row, $currentImageDir)
 	{
-		if($f)
+		if ($f)
 		{
 			$pathToImage = JURI::root().$currentImageDir.'/'.$f;  // we concatenate the image URL with the tables default image path
-			if($fieldOptions == '')
+			if ($fieldOptions == '')
 			{
 				$fieldWithOptions = '<img src="'.trim($pathToImage).'" alt="'.$f.'" />';
 			}
@@ -119,17 +120,20 @@ class ET_VHelper
 	public static function getURLWithOptions($f, $fieldOptions, $row)
 	{
 		//For fully qualified URL's starting with HTTP we open in a new window, for everything else its the same window.
-		$URLTarget = 'target="_blank"'; 
-		if(substr($f,0,7)!='http://') {$URLTarget = '';}
+		$URLTarget = 'target="_blank"';
+		if (substr($f,0,7)!='http://')
+		{
+			$URLTarget = '';
+		}
 
 		$fieldWithOptions = '';
-		if(substr($f,0,8)=='<a href=') // Fully formed URL provided by CSV - owners responsibility
+		if (substr($f,0,8)=='<a href=') // Fully formed URL provided by CSV - owners responsibility
 		{
 			$fieldWithOptions = $f;
 		}
 		else
 		{
-			if(empty($fieldOptions))
+			if (empty($fieldOptions))
 			{
 				$fieldWithOptions = '<a href="'.trim($f).'" '.$URLTarget.'>'.$f.'</a>';
 			}
@@ -145,7 +149,7 @@ class ET_VHelper
 	public static function getMailWithOptions($f, $fieldOptions, $row)
 	{
 		$fieldWithOptions = '';
-		if(empty($fieldOptions))
+		if (empty($fieldOptions))
 		{
 			$fieldWithOptions = JHTML::_('Email.cloak',trim($f));
 		}
@@ -165,13 +169,13 @@ class ET_VHelper
 	public static function getNumberWithOptions($f, $fieldOptions, $row)
 	{
 		$fieldWithOptions = '';
-		if(empty ( $fieldOptions ))
+		if (empty ($fieldOptions))
 		{
-			$fieldWithOptions = number_format( $f ); // default 
+			$fieldWithOptions = number_format( $f ); // default
 		}
 		else
 		{
-			if(!empty ( $f ))
+			if (!empty ($f))
 			{
 				$numOptions = explode ( '/', $fieldOptions );
 				$number_of_decimals = isset ($numOptions[0]) ? $numOptions[0] : '';
@@ -190,12 +194,13 @@ class ET_VHelper
 	{
 		$fieldWithOptions = '';
 		
-		if (($timestamp = strtotime($f)) === false) {
+		if (($timestamp = strtotime($f)) === false)
+		{
 			$fieldWithOptions = trim($f).'<!-- Not a valid date/time string for `strtotime()` -->';
 		}
 		else
 		{
-			if(empty ( $fieldOptions ))
+			if (empty ($fieldOptions))
 			{
 				$fieldWithOptions = date("F j, Y", $timestamp); // default date return
 			}
@@ -236,7 +241,7 @@ class ET_VHelper
 	{
 		$matchedFields = array();
 		foreach ($fieldMeta as $theField) {
-			if($theField[$view.'_view'] == $inOrOut)
+			if ($theField[$view.'_view'] == $inOrOut)
 				$matchedFields[] = $theField;
 		}
 		return $matchedFields;
@@ -246,7 +251,7 @@ class ET_VHelper
 	{
 		foreach ( $metaArray as $metaRecordArray )
 		{
-		    if($metaRecordArray['type'] == 3)
+		    if ($metaRecordArray['type'] == 3)
 				return true;
 		}
 		return false;

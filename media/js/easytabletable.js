@@ -17,11 +17,11 @@ com_EasyTablePro.Table.atLeast1ListField = function(){
 	for(i=0; i<cppl_numAFElements; i++)
 	{
 		cppl_elementName = cppl_adminForm.elements[i].name;						// Get the element name, then
-		if(cppl_elementName) {													// If the element has a name
+		if (cppl_elementName) {													// If the element has a name
 			cppl_list_view_pos = String(cppl_elementName).indexOf("list_view");	// find out if 'list_view' is part of the name
-			if( cppl_list_view_pos >= 0) {										// For each field we check
+			if (cppl_list_view_pos >= 0) {										// For each field we check
 				cppl_elementValue = !!(+cppl_adminForm.elements[i].value);		// Convert value to a number first then a boolean.œ
-				if( cppl_elementValue ) {	// for one that appears in the list view
+				if (cppl_elementValue) {	// for one that appears in the list view
 					return true;
 				}
 			}
@@ -35,9 +35,9 @@ com_EasyTablePro.Table.atLeast1ListField = function(){
 
 com_EasyTablePro.Table.AliassAreUnique = function(){
 	// If it's a linked table we bail as users can't modify alias (ie. they are column names).
-	if(document.adminForm.elements['et_linked_et'].value) return true;
+	if (document.adminForm.elements['et_linked_et'].value) return true;
 	the_MRIds_obj = $('mRIds');
-	if($defined(the_MRIds_obj))
+	if ($defined(the_MRIds_obj))
 	{
 		the_MRIds = $('mRIds').value;
 		the_MRIds == '' ? the_MRIds = '' : the_MRIds = 'fieldalias' + the_MRIds;
@@ -45,13 +45,13 @@ com_EasyTablePro.Table.AliassAreUnique = function(){
 
 		the_NewIds_obj = $('newFlds');
 		the_NewIds = '';
-		if($defined(the_NewIds_obj))
+		if ($defined(the_NewIds_obj))
 		{
 			the_NewIds = the_NewIds_obj.value;
 			the_NewIds == '' ? the_NewIds = '' : the_NewIds = 'fieldalias_nf_' + the_NewIds;
 			the_NewIds = the_NewIds.split(', ').join(', fieldalias_nf_').split(', ');
 		}
-		if(the_NewIds != "")
+		if (the_NewIds != "")
 		{
 			the_RIds = the_MRIds.concat(the_NewIds);
 		}
@@ -67,7 +67,7 @@ com_EasyTablePro.Table.AliassAreUnique = function(){
 			fldAliasName = the_RIds[i];
 			theValue = document.adminForm.elements[fldAliasName].value;
 			document.adminForm.elements[fldAliasName].focus();
-			if(theValue == '')
+			if (theValue == '')
 			{
 				// Must have a valid alias
 				fldId = fldAliasName.substring(10);
@@ -100,7 +100,7 @@ com_EasyTablePro.Table.AliassAreUnique = function(){
 
 com_EasyTablePro.Table.changeTypeWarning = function()
 {
-	if($et_give_data_type_change_warning)
+	if ($et_give_data_type_change_warning)
 	{
 		$et_give_data_type_change_warning = false;
 		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_CHANGING_FIELD_TYPE') );
@@ -117,7 +117,7 @@ com_EasyTablePro.Table.unlock  = function( rowElement, rowId ) {
 	thisFieldAlias = (document.getElementsByName(thisFieldAliasStr))[0];
 
 	// Check the state of the lock out - implistic but will work.
-	if(thisFieldAlias.disabled)
+	if (thisFieldAlias.disabled)
 	{
 	// It's locked so all we need to do is unlock it and change the lock icon to a tick.
 		rowElement.src = saveIcon;
@@ -137,7 +137,7 @@ com_EasyTablePro.Table.unlock  = function( rowElement, rowId ) {
 }
 
 com_EasyTablePro.Table.toggleTick  = function(tFieldName, tRow, tImgSuffix) {
-	if(arguments[2] == null) {
+	if (arguments[2] == null) {
 		tImgSuffix = '_img';
 	}
 	
@@ -147,7 +147,7 @@ com_EasyTablePro.Table.toggleTick  = function(tFieldName, tRow, tImgSuffix) {
 	var tFieldElementId = eval('document.adminForm.'+tFieldNameRow);
 	var tFieldImageElementId = eval('document.'+tImageName);
 	
-	if(tFieldElementId.value == 1)
+	if (tFieldElementId.value == 1)
 	{
 		
 		tFieldImageElementId.src="../media/com_easytablepro/images/publish_x.png";
@@ -166,8 +166,8 @@ com_EasyTablePro.Table.firstAvailableNumber = function(numberList, firstAvailabl
 	nlArray = numberList.split(', ');
 	nlArray.sort(function(a,b){return a - b});
 	for(var i=0;i<nlArray.length;i++) {
-		if(firstAvailable == nlArray[i]) firstAvailable++;
-		if(firstAvailable < nlArray[i]) break;
+		if (firstAvailable == nlArray[i]) firstAvailable++;
+		if (firstAvailable < nlArray[i]) break;
 	}
 
 	return firstAvailable;
@@ -175,18 +175,18 @@ com_EasyTablePro.Table.firstAvailableNumber = function(numberList, firstAvailabl
 
 com_EasyTablePro.Table.aliasOK = function(str)
 {
-	if(str == '')
+	if (str == '')
 	{
 		alert( Joomla.JText._('The table alias can not be empty (nor should it contain spaces or other characters not suitable for use in URLs.') );
 		return false
 	}
-	if(str != com_EasyTablePro.Tools.makeURLSafe(str))
+	if (str != com_EasyTablePro.Tools.makeURLSafe(str))
 	{
 		alert( Joomla.JText._('The table alias can not contain spaces or other characters not suitable for use in URLs.') );
 		return false
 	}
 	
-	if(str.toLowerCase() == 'id') 
+	if (str.toLowerCase() == 'id') 
 	{
 		alert( Joomla.JText._('The table alias can not be ID (or id).') );
 		return false
@@ -200,8 +200,8 @@ com_EasyTablePro.Table.updateAlias = function(fieldObj)
 	labelName = fieldObj.name;
 	aliasID = 'fieldalias'+labelName.substring(5);
 	fldAlias = $(aliasID);
-	if(fldAlias.value == '') fldAlias.value = com_EasyTablePro.Tools.makeURLSafe(fieldObj.value);
-	if(fldAlias.value.toLowerCase() == 'id')
+	if (fldAlias.value == '') fldAlias.value = com_EasyTablePro.Tools.makeURLSafe(fieldObj.value);
+	if (fldAlias.value.toLowerCase() == 'id')
 	{
 		fldAlias.value = 'tmpFldID';
 		alert( Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_ID') );
@@ -212,7 +212,7 @@ com_EasyTablePro.Table.createTableNameAlias = function()
 {
 	et_alias = $('jform_easytablealias');
 	et_name  = $('jform_easytablename');
-	if(et_alias.value == '')
+	if (et_alias.value == '')
 	{
 		et_alias.value = com_EasyTablePro.Tools.makeURLSafe(et_name.value);
 	}
@@ -224,12 +224,12 @@ com_EasyTablePro.Table.validateTableNameAlias = function()
 	et_alias = $('jform_easytablealias');
 	et_name  = $('jform_easytablename');
 	// Check for empty alias
-	if(et_alias.value == '' && et_name.value != '')
+	if (et_alias.value == '' && et_name.value != '')
 	{
 		et_alias.value = com_EasyTablePro.Tools.makeURLSafe(et_name.value);
 	}
 	
-	if(! this.aliasOK(et_alias.value))
+	if (! this.aliasOK(et_alias.value))
 	{
 		et_alias.value = com_EasyTablePro.Tools.makeURLSafe(et_alias.value);
 		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_TABLE_ALIAS_CHARACTERS') );
@@ -242,7 +242,7 @@ com_EasyTablePro.Table.validateAlias = function(aliasElement)
 {
 	proposedAliasValue = aliasElement.value;
 	// Check for empty alias
-	if(proposedAliasValue == '')
+	if (proposedAliasValue == '')
 	{
 		labelId = 'label' + aliasElement.name.substring(10);
 		labelInput = $(labelId);
@@ -250,11 +250,11 @@ com_EasyTablePro.Table.validateAlias = function(aliasElement)
 		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_EMPTY') );
 	}
 
-	if(proposedAliasValue.toLowerCase() == 'id') // Can't have an ID for an alias - we already use it.
+	if (proposedAliasValue.toLowerCase() == 'id') // Can't have an ID for an alias - we already use it.
 	{
 		labelId = 'label' + aliasElement.name.substring(10);
 		labelInput = $(labelId);
-		if(labelInput.value != 'id')
+		if (labelInput.value != 'id')
 		{
 			aliasElement.value = com_EasyTablePro.Tools.makeURLSafe(labelInput.value);
 		}
@@ -265,7 +265,7 @@ com_EasyTablePro.Table.validateAlias = function(aliasElement)
 		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_AN_ALIAS_CAN_NOT_BE_ID') );
 	}
 
-	if(! this.aliasOK(aliasElement.value))
+	if (! this.aliasOK(aliasElement.value))
 	{
 		aliasElement.value = com_EasyTablePro.Tools.makeURLSafe(aliasElement.value);
 		alert(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_FIELD_ALIAS_CHARACTERS') );
@@ -295,7 +295,7 @@ com_EasyTablePro.Table.addField = function()
 	searchableCellHTML='<input type=\"hidden\" name=\"search_field#id#\" value=\"0\"><a href=\"javascript:void(0);\" onclick=\"com_EasyTablePro.Table.toggleTick(\'search_field\', \'#id#\');\"><img src=\"../media/com_easytablepro/images/publish_x.png\" name=\"search_field#id#_img\" border=\"0\" title=\"'+ Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_CLICK_TO_MAKE_SEARCHABLE_TT') +'\"></a>';
 
 	// Store the id of our new field meta record
-	if(nfField.value == '')
+	if (nfField.value == '')
 	{
 		new_id = '_nf_1';
 		nfField.value = '1';
@@ -366,14 +366,14 @@ com_EasyTablePro.Table.addField = function()
 com_EasyTablePro.Table.deleteField = function(fName,rowId)
 {
 	deletedRowId = rowId.substring(6);
-	if((deletedRowId.length > 4) && (deletedRowId.substring(0,4)=="_nf_")) {
+	if ((deletedRowId.length > 4) && (deletedRowId.substring(0,4)=="_nf_")) {
 		itsNotANewField = false;
 	} else itsNotANewField = true;
 
-	if(itsNotANewField)
+	if (itsNotANewField)
 	{
 		et_deleteThisField = confirm(com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_DELETING_FIELD') , fName, fName));
-		if(et_deleteThisField) {
+		if (et_deleteThisField) {
 			// Get the field
 			dfField = $('deletedFlds');
 			masterRecordIds = $('mRIds');
@@ -384,7 +384,7 @@ com_EasyTablePro.Table.deleteField = function(fName,rowId)
 	
 			itsNotANewField = true;
 	
-			if(dfField.value != '') {
+			if (dfField.value != '') {
 				dfField.value =com_EasyTablePro.Tools.addToList(dfField.value, deletedRowId);
 			} else {
 				dfField.value = deletedRowId;
@@ -396,7 +396,7 @@ com_EasyTablePro.Table.deleteField = function(fName,rowId)
 		// 1. remove the id from new fields
 		idToRemove = deletedRowId.substring(4);
 		listOfNewFlds = $('newFlds');
-		if(listOfNewFlds.value == idToRemove) {
+		if (listOfNewFlds.value == idToRemove) {
 			listOfNewFlds.value = "";
 		} else {
 			listOfNewFlds.value = com_EasyTablePro.Tools.deleteFromList(listOfNewFlds.value, idToRemove);
@@ -442,7 +442,7 @@ com_EasyTablePro.Table.etSubmitForm  = function(pressbutton)
 	for(i=0; i<cppl_numAFElements; i++)
 	{
 		cppl_element = cppl_adminForm.elements[i];						// Get the element, then
-		if(cppl_element.disabled) {										// If the element is disabled
+		if (cppl_element.disabled) {										// If the element is disabled
 			cppl_element.disabled = false;								// then enable it for submission.
 		}
 	}
@@ -453,7 +453,7 @@ com_EasyTablePro.Table.etSubmitForm  = function(pressbutton)
 com_EasyTablePro.Table.save = function(pressbutton)
 {
 	// First check that an initial data file has been uploaded.
-	if(document.adminForm.id.value == 0)
+	if (document.adminForm.id.value == 0)
 	{
 		alert (Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_THIS_TABLE_REQUIRES_DATA') );
 		return 0;
@@ -461,19 +461,19 @@ com_EasyTablePro.Table.save = function(pressbutton)
 	
 	// Then we can check user changes are valid.
 	// At list one field must be visible in the table list view
-	if ( !com_EasyTablePro.Table.atLeast1ListField() ){
+	if (!com_EasyTablePro.Table.atLeast1ListField()){
 		alert( $et_check_msg );
 		return 0;
 	}
 
 	// Check table has a valid alias
-	if(!this.validateTableNameAlias())
+	if (!this.validateTableNameAlias())
 	{
 		return 0;
 	}
 	
 	// Check all Alias' for columns are unique
-	 if ( !com_EasyTablePro.Table.AliassAreUnique() )
+	 if (!com_EasyTablePro.Table.AliassAreUnique())
 	{
 		alert( $et_check_msg );
 		return 0;
@@ -486,7 +486,7 @@ com_EasyTablePro.Table.upload = function()
 {
 	var tFileName = document.adminForm.tablefile.value;
 	var dot = tFileName.lastIndexOf(".");
-	if(dot == -1)
+	if (dot == -1)
 	{
 		alert (Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_CSV_OR_TAB_FILES'));
 		return 0;
@@ -495,7 +495,7 @@ com_EasyTablePro.Table.upload = function()
 	var tFileExt = tFileName.substr(dot,tFileName.length);
 	tFileExt = tFileExt.toLowerCase();
 
-	if((tFileExt != ".csv") && (tFileExt != ".tsv"))
+	if ((tFileExt != ".csv") && (tFileExt != ".tsv"))
 	{
 		alert (com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_ONLY_TAB_CSV') ,tFileExt));
 		return 0;
@@ -504,7 +504,7 @@ com_EasyTablePro.Table.upload = function()
 
 com_EasyTablePro.Table.toggleModifyControls = function()
 {
-	if($('et_controlRow').hasClass('et_controlRow-nodisplay'))
+	if ($('et_controlRow').hasClass('et_controlRow-nodisplay'))
 	{
 		$('et_controlRow').addClass('et_controlRow')
 		$('et_controlRow').removeClass('et_controlRow-nodisplay')
@@ -523,7 +523,7 @@ com_EasyTablePro.Table.toggleModifyControls = function()
 }
 
 com_EasyTablePro.Table.flipAll = function (inView) {
-	if(inView == null) {
+	if (inView == null) {
 		inView = 'list';
 	}
 	
@@ -545,17 +545,17 @@ com_EasyTablePro.Table.flipAll = function (inView) {
 }
 
 com_EasyTablePro.Table.turnAll = function (OnOrOff, inView) {
-	if(OnOrOff == null) {
+	if (OnOrOff == null) {
 		OnOrOff = 'on';
 	}
 
-	if(OnOrOff == 'on') {
+	if (OnOrOff == 'on') {
 		tFNNShouldBe = 1;
 	} else {
 		tFNNShouldBe = 0;
 	}
 	
-	if(inView == null) {
+	if (inView == null) {
 		inView = 'list';
 	}
 
@@ -575,7 +575,7 @@ com_EasyTablePro.Table.turnAll = function (OnOrOff, inView) {
 	for(i = 0; i < allFieldsLn; i++) {
 		tRow = allFields[i];
 		tFNN = parseInt(eval('document.adminForm.'+tFieldName+tRow+'.value'));
-		if(tFNN != tFNNShouldBe) {this.toggleTick(tFieldName,tRow);}
+		if (tFNN != tFNNShouldBe) {this.toggleTick(tFieldName,tRow);}
 	}
 }
 

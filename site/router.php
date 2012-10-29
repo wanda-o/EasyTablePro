@@ -20,7 +20,8 @@ jimport('joomla.application.categories');
 	{
 		$segments = array();
 		// 
-		if(isset($query['view'])){
+		if (isset($query['view']))
+		{
 			// get a menu item based on Itemid or currently active
 			$app		= JFactory::getApplication();
 			$db         = JFactory::getDbo();
@@ -28,10 +29,13 @@ jimport('joomla.application.categories');
 			$params		= JComponentHelper::getParams('com_easytablepro');
 			
 			// we need a menu item.  Either the one specified in the query, or the current active one if none specified
-			if (empty($query['Itemid'])) {
+			if (empty($query['Itemid']))
+			{
 				$menuItem = $menu->getActive();
 				$menuItemGiven = false;
-			} else {
+			}
+			else
+			{
 				$menuItem = $menu->getItem($query['Itemid']);
 				$menuItemGiven = true;
 			}
@@ -39,19 +43,23 @@ jimport('joomla.application.categories');
 			$view = $query['view'];
 			unset($query['view']);
 
-			if($view == 'tables') {
+			if ($view == 'tables')
+			{
 				return $segments;
 			}
 
-			if($view == 'records') {
-				if (isset($query['id'])) {
+			if ($view == 'records')
+			{
+				if (isset($query['id']))
+				{
 					$id = $query['id'];
-					if($menuItemGiven && $menuItem->query['view'] == 'records' && $id == $menuItem->query['id']) {
+					if ($menuItemGiven && $menuItem->query['view'] == 'records' && $id == $menuItem->query['id'])
+					{
 						unset($query['id']);
 						return $segments;
 					} 
 					// OK we may need to convert a numeric id to an alias id
-					if(is_numeric($id))
+					if (is_numeric($id))
 					{
 						$SQLquery = $db->getQuery(true);
 						// Search for the alias of the table of this id
@@ -61,7 +69,9 @@ jimport('joomla.application.categories');
 						$db->setQuery($SQLquery);
 						$idAlias = $db->loadResult();
 						// set the next segment to the alias
-					} else {
+					}
+					else
+					{
 						$idAlias = $id;
 					}
 					unset($query['id']);
@@ -71,17 +81,18 @@ jimport('joomla.application.categories');
 				}
 			}
 
-			if($view == 'record') {
-				if(isset($query['id']))
+			if ($view == 'record')
+			{
+				if (isset($query['id']))
 				{
 					$id = $query['id'];
 					// We have a menu item is it pointing ?to a record/records view
-					if($menuItemGiven && isset($menuItem->query['view']))
+					if ($menuItemGiven && isset($menuItem->query['view']))
 					{
-						if( ($menuItem->query['view'] == 'tables')  )
+						if (($menuItem->query['view'] == 'tables'))
 						{
 							// OK we may need to convert a numeric id to an alias id
-							if(is_numeric($id))
+							if (is_numeric($id))
 							{
 								$SQLquery = $db->getQuery(true);
 								// Search for the alias of the table of this id
@@ -91,7 +102,9 @@ jimport('joomla.application.categories');
 								$db->setQuery($SQLquery);
 								$idAlias = $db->loadResult();
 								// set the next segment to the alias
-							} else {
+							}
+							else
+							{
 								$idAlias = $id;
 							}
 
@@ -111,17 +124,21 @@ jimport('joomla.application.categories');
 						$segments[] = $id;
 					}
 					unset($query['id']);
-				} else {
+				}
+				else
+				{
 					return array();
 				}
-				if(isset($query['rid']))
+				if (isset($query['rid']))
 				{
 					$segments[] = $query['rid'];
 					unset($query['rid']);
-				} else {
+				}
+				else
+				{
 					return array();
 				}
-				if(isset($query['rllabel']))
+				if (isset($query['rllabel']))
 				{
 					$segments[] = $query['rllabel'];
 					unset($query['rllabel']);
@@ -149,7 +166,8 @@ jimport('joomla.application.categories');
 		$count = count($segments);
 		
 		// Time to bail
-		if($count == 0) {
+		if ($count == 0)
+		{
 			$vars['view'] = 'tables';
 			return $vars;
 		}
@@ -163,7 +181,8 @@ jimport('joomla.application.categories');
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		
-		if($count == 1 && ($item->query['view'] != 'records') ) {
+		if ($count == 1 && ($item->query['view'] != 'records') )
+		{
 			$segments[0]=preg_replace('/:/','-',$segments[0],1);
 			$vars['view'] = 'records';
 			// Convert the easy table alias to its actual id
@@ -175,14 +194,19 @@ jimport('joomla.application.categories');
 			$id = $db->loadResult();
 			$vars['id'] = $id;
 			return $vars;
-		} elseif($count == 1 && ($item->query['view'] == 'records') ) {
+		}
+		elseif ($count == 1 && ($item->query['view'] == 'records') )
+		{
 			$count = 2;
 		}
 		
 		$vars['view'] = 'record';
-		if($count == 2) {
-			if(isset($item->query['view'])){
-				if( $item->query['view']=='tables'){
+		if ($count == 2)
+		{
+			if (isset($item->query['view']))
+			{
+				if ($item->query['view']=='tables')
+				{
 					// Remove the stupid colon
 					$segments[0]=preg_replace('/:/','-',$segments[0],1);
 					$alias = $segments[0];
@@ -194,17 +218,24 @@ jimport('joomla.application.categories');
 					$vars['id'] = $id;
 
 					$rid = $segments[1];
-				} elseif ($item->query['view']=='records') {
+				}
+				elseif ($item->query['view']=='records')
+				{
 					// Convert the easy table alias to it actual id
-					if(isset($item->query['id'])) {
+					if (isset($item->query['id']))
+					{
 						$id = $item->query['id'];
 						$vars['id'] = $id;
-					} else {
+					}
+					else
+					{
 						$vars['id'] = 0;
 						$app->enqueueMessage(JText::_('COM_EASYTABLEPRO_SITE_ROUTER_PARSEROUTE_COULDNT_FIND_TABLE_ID'),'Warning');
 					}
 					$rid = $segments[0];
-				} elseif ($item->query['view']=='record') {
+				}
+				elseif ($item->query['view']=='record')
+				{
 					$id = $segments[0];
 					$vars['id'] = $id;
 					$rid = $segments[1];
@@ -212,21 +243,26 @@ jimport('joomla.application.categories');
 			}
 			$vars['rid']  = $rid;
 			// Remove the stupid colon that J! core inserts...
-			if(isset($segments[1])) {
+			if (isset($segments[1]))
+			{
 				$segments[1]=preg_replace('/:/','-',$segments[1],1);
 				$leaf = $segments[1];
 				$vars['leaf'] = $leaf;
 			}
 		}
 		
-		if($count == 3) {
+		if ($count == 3)
+		{
 			$segments[0]=preg_replace('/:/','-',$segments[0],1);
 
 			// Convert the easy table alias to it actual id
-			if(isset($item->query['id'])) {
+			if (isset($item->query['id']))
+			{
 				$id = $item->query['id'];
 				$vars['id'] = $id;
-			} elseif (!empty($segments[0])) {
+			}
+			elseif (!empty($segments[0]))
+			{
 				$alias = $segments[0];
 				$query->select($db->quoteName('id'));
 				$query->from($db->quoteName('#__easytables'));
@@ -234,7 +270,9 @@ jimport('joomla.application.categories');
 				$db->setQuery($query);
 				$id = $db->loadResult();
 				$vars['id'] = $id;
-			} else {
+			}
+			else
+			{
 				$vars['id'] = 0;
 				$app->enqueueMessage(JText::_('COM_EASYTABLEPRO_SITE_ROUTER_PARSEROUTE_COULDNT_FIND_TABLE_ID'),'Warning');
 			}

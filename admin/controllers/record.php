@@ -84,13 +84,19 @@ class EasyTableProControllerRecord extends JController
 		}
 
 		// Tell the virtual model to Save the record
-		if($model->save($data))
+		if ($model->save($data))
 		{
 			$trid[1] = $model->getState($this->context . '.id');
 			$tridstr = implode('.', $trid);
 			$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_RECORD_SAVED_TO_TABLE', $trid[1], $easyTable->easytablename));
-		} else {
-			$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_RECORD_UNABLE_TO_SAVE_CHANGES_TO_RECORD', implode('.', $trid), implode('</br>\n',  $model->errors())));
+		}
+		else
+		{
+			$app->enqueueMessage(
+							JText::sprintf('COM_EASYTABLEPRO_RECORD_UNABLE_TO_SAVE_CHANGES_TO_RECORD',
+							implode('.', $trid),
+							implode('</br>\n',  $model->errors())
+								));
 		}
 
 		// So that we go back to the correct location
@@ -107,7 +113,6 @@ class EasyTableProControllerRecord extends JController
 
 
 	public function getModel($name = 'Record', $prefix = 'EasyTableProModel', $config = array('ignore_request' => true))
-
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		$params = JComponentHelper::getParams('com_easytablepro');

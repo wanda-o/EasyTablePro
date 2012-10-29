@@ -115,11 +115,14 @@ class EasyTableProModelRecords extends JModelList
 
 		// Filter by search in table name, alias, author or id.
 		$search = $this->state->get('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('t.id = '.(int) substr($search, 3));
 			}
-			else {
+			else
+			{
 				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$searchArray = $this->getSearch($theTable, $search);
 				$query->where($searchArray, 'OR');

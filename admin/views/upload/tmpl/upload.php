@@ -47,7 +47,7 @@
 <input type="hidden" name="jform[id]" value="<?php echo $this->form->getValue('id'); ?>" />
 <?php echo JHTML::_('form.token'); ?>
 </form>
-<?php if(($this->step == 'uploadCompleted') && ($this->prevStep == 'new')) {?>
+<?php if (($this->step == 'uploadCompleted') && ($this->prevStep == 'new')) {?>
 <script type="text/javascript">
 <!--
 sbx = parent.document.getElementById('sbox-content');

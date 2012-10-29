@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @package		EasyTable Pro
+ * @Copyright	Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license		GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @author		Craig Phillips {@link http://www.seepeoplesoftware.com}
  */
 
 //--No direct access
@@ -24,7 +24,8 @@ class EasyTableProTableTable extends JTable
 	{
 		/* Make sure we have an alias for the table - nicer for linking, css etc */
 	    jimport( 'joomla.filter.output' );
-	    if(empty($this->easytablealias)) {
+	    if (empty($this->easytablealias))
+	    {
 	            $this->easytablealias = $this->easytablename;
 	    }
 	    $this->easytablealias = JFilterOutput::stringURLSafe($this->easytablealias);
@@ -40,15 +41,16 @@ class EasyTableProTableTable extends JTable
 	function bind($array, $ignore = '')
 	{
 		// Change the params back to a string for storage
-		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
-        {
+		if (key_exists('params', $array) && is_array($array['params']))
+		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
 		// Bind the rules.
-		if (isset($array['rules']) && is_array($array['rules'])) {
+		if (isset($array['rules']) && is_array($array['rules']))
+		{
 			$rules = new JRules($array['rules']);
 			$this->setRules($rules);
 		}

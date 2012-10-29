@@ -52,7 +52,8 @@ class EasyTableProModelTables extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'easytablename', 't.easytablename',
 				'published', 't.published',
@@ -108,11 +109,14 @@ class EasyTableProModelTables extends JModelList
 
 		// Filter by search in table name, alias, author or id.
 		$search = $this->state->get('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('t.id = '.(int) substr($search, 3));
 			}
-			elseif (stripos($search, 'author:') === 0) {
+			elseif (stripos($search, 'author:') === 0)
+			{
 				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
@@ -124,7 +128,8 @@ class EasyTableProModelTables extends JModelList
 
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('t.access = ' . (int) $access);
 		}
 
@@ -138,16 +143,19 @@ class EasyTableProModelTables extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('t.published = ' . (int) $published);
 		}
-		elseif ($published === '') {
+		elseif ($published === '')
+		{
 			$query->where('(t.published = 0 OR t.published = 1)');
 		}
 
 		// Filter by author
 		$authorId = $this->getState('filter.author_id');
-		if (is_numeric($authorId)) {
+		if (is_numeric($authorId))
+		{
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
 			$query->where('t.created_by '.$type.(int) $authorId);
 		}
@@ -219,12 +227,12 @@ class EasyTableProModelTables extends JModelList
 	 */
 	function getSearch()
 	{
-		if(!$this->_search)
+		if (!$this->_search)
 		{
 			$jAp = JFactory::getApplication();
 			$option = JRequest::getCmd('option');
 			$search = $jAp->getUserStateFromRequest("$option.easytablemgr.search", 'search','');
-			if($search == '')
+			if ($search == '')
 			{
 				$search = JRequest::getVar('search','');
 			}
@@ -240,7 +248,7 @@ class EasyTableProModelTables extends JModelList
 	function getData()
 	{
 		// Lets load the data if it doesn't already exist
-		if (empty( $this->_data ))
+		if (empty( $this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));

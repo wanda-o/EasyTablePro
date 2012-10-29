@@ -24,20 +24,24 @@ class ET_Helper
 	{
 		$jInput = JFactory::getApplication()->input;
 		$trid = $jInput->get('cid', '', 'array');
-		if(empty($trid))
+		if (empty($trid))
 		{
 			$trid = $jInput->get('id');
 			$trid = (strpos($trid, ":") == false) ? $trid : (int)$trid;
-			if(empty($trid)) return FALSE;
-		} else {
+			if (empty($trid)) return FALSE;
+		}
+		else
+		{
 			$trid = $trid[0];
 		}
 		
-		if(strpos($trid,'.'))
+		if (strpos($trid,'.'))
 		{
 			// Dot notation...
 			$trid = explode('.', $trid);
-		} else {
+		}
+		else
+		{
 			// Not dot notation
 			$trid = array(0 => $trid);
 			// So we fall back to looking for the old 'rid' input.
@@ -58,12 +62,14 @@ class ET_Helper
 
 	{
 		// Make sure we have a pk to work with
-		if(empty($pk))
+		if (empty($pk))
 		{
-			if(!($trid = ET_Helper::getTableRecordID()))
+			if (!($trid = ET_Helper::getTableRecordID()))
 			{
 				return false;
-			} else {
+			}
+			else
+			{
 				$pk = $trid[0];
 			}
 		}
@@ -114,17 +120,20 @@ class ET_Helper
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 	
-		if (empty($id)) {
+		if (empty($id))
+		{
 			$assetName = self::$extension;
 		}
-		else {
+		else
+		{
 			$assetName = self::$extension . '.' . self::$base_assett . '.' . (int) $id;
 		}
 	
 		$actions = array_merge( array( 'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete' ),
 								self::$ext_actions );
 	
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action,	$user->authorise($action, $assetName));
 		}
 	
@@ -132,14 +141,16 @@ class ET_Helper
 	}
 
 	public  static function loadJSLanguageKeys($jsFile) {
-		if(isset($jsFile))
+		if (isset($jsFile))
 		{
 			$jsFile = JPATH_SITE . $jsFile;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	
-		if($jsContents = file_get_contents($jsFile))
+		if ($jsContents = file_get_contents($jsFile))
 		{
 			$languageKeys = array();
 			preg_match_all('/Joomla\.JText\._\(\'(.*?)\'\)\)?/', $jsContents, $languageKeys);
@@ -166,7 +177,8 @@ class ET_Helper
 		// Get the access level record.
 		$db->setQuery($query);
 		$al = $db->loadObject();
-		if($al) {
+		if ($al)
+		{
 			return $al->title;
 		}
 

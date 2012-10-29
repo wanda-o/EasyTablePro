@@ -87,20 +87,20 @@ class EasyTableProModelUpload extends JModelAdmin
 	function getItem($pk = null) {
 		$jInput = JFactory::getApplication()->input;
 
-		if(empty($pk))
+		if (empty($pk))
 		{
 			// If we're being called from the `tables` list.
 			$jInput = JFactory::getApplication()->input;
 			$pk = $jInput->get('cid');
 			// If that didn't work it might be from the `table` view.
-			if(empty($pk)) $pk = $jInput->get('id');
+			if (empty($pk)) $pk = $jInput->get('id');
 			// of course it could all be in error...
-			if(empty($pk)) return false;
+			if (empty($pk)) return false;
 		}
 		$item = parent::getItem($pk);
 		// @todo replace with JInput when it (JInput) get's it shit together...
 		$ourJform = JRequest::getVar('jform', array(), 'deault', 'array');
-		if(array_key_exists('CSVFileHasHeaders', $ourJform))
+		if (array_key_exists('CSVFileHasHeaders', $ourJform))
 			$item->CSVFileHasHeaders = $ourJform['CSVFileHasHeaders'];
 
 		$item->previousTask = $jInput->get('task');
@@ -123,13 +123,15 @@ class EasyTableProModelUpload extends JModelAdmin
 	function &getData()
 	{
 		// Load the data
-		if (empty( $this->_data )) {
+		if (empty( $this->_data))
+		{
 			$query = ' SELECT * FROM #__easytable '.
 					'  WHERE id = '.$this->_id;
 			$this->_db->setQuery( $query );
 			$this->_data = $this->_db->loadObject();
 		}
-		if (!$this->_data) {
+		if (!$this->_data)
+		{
 			$this->_data = new stdClass();
 			$this->_data->id = 0;
 		}

@@ -45,7 +45,8 @@ class EasyTableProController extends JController
 		$id			= $jInput->get('id');
 
 		// Check for edit form.
-		if ($view == 'table' && $layout == 'edit' && !$this->checkEditId('com_easytablepro.edit.table', $id)) {
+		if ($view == 'table' && $layout == 'edit' && !$this->checkEditId('com_easytablepro.edit.table', $id))
+		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');

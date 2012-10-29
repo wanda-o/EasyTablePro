@@ -33,10 +33,11 @@ class EasyTableProViewLink extends JView
 		$u = JURI::getInstance();
 
 		$tmpl = $jInput->get('layout','default');
-		if($tmpl == 'default') {
+		if ($tmpl == 'default')
+		{
 			//get the list of tables
 			$allTables = $this->get('Items');
-			if(count($allTables))
+			if (count($allTables))
 			{
 				// prefix with a 'None Selected' option
 				$noneSelected = array();
@@ -57,13 +58,18 @@ class EasyTableProViewLink extends JView
 			// Parameters for this table instance
 			$this->assignRef('tableList',$tableList);
 			$this->assign('tablesAvailableForSelection',$tablesAvailableForSelection);
-		} elseif($tmpl == 'result') {
+		}
+		elseif ($tmpl == 'result')
+		{
 			$id = $jInput->get('id',0);
 			$let = $jInput->get('let','');
-			if($id) {
+			if ($id)
+			{
 				$note = JText::sprintf('COM_EASYTABLEPRO_EDIT_LINKED_TABLE_OK_DESC',$let);
 				$legend = JText::sprintf('COM_EASYTABLEPRO_TABLE_LINKED_STATUS',$let);
-			} else {
+			}
+			else
+			{
 				$note = JText::sprintf('COM_EASYTABLEPRO_EDIT_LINKED_TABLE_FAILED_DESC',$let);
 				$legend = JText::sprintf('COM_EASYTABLEPRO_TABLE_LINKED_STATUS_FAILED',$let);
 			}

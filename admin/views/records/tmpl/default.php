@@ -57,7 +57,7 @@ defined('_JEXEC') or die('Restricted Access');
 					</td>
 					<td>
 						<?php echo $this->easytable->defaultimagedir;?>
-						<?php if(! $this->easytable->defaultimagedir ) { ?>
+						<?php if (! $this->easytable->defaultimagedir) { ?>
 						<span class="et_nodirectory" style="font-style:italic;color:red;"><?php echo JText::_('COM_EASYTABLEPRO_TABLE_NO_IMAGE_DIR_SET'); ?></span>
 						<?php } ?>
 					</td>
@@ -89,7 +89,7 @@ defined('_JEXEC') or die('Restricted Access');
 							<td>
 								<?php
 									echo JText::sprintf('COM_EASYTABLEPRO_LABEL_FIELDS', $this->ettm_field_count).'<br />';
-									if($et_tableName)
+									if ($et_tableName)
 									{
 										echo JText::sprintf('COM_EASYTABLEPRO_TABLE_INFO_NAME_COUNT', $et_tableName, $this->ettd_record_count);
 									}
@@ -118,7 +118,8 @@ defined('_JEXEC') or die('Restricted Access');
 		</tr>
 	</table>
 <?php
-	if($this->etmCount){
+	if ($this->etmCount)
+	{
 		echo $this->loadTemplate('records');
 	}
 ?>

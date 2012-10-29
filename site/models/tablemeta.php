@@ -27,7 +27,7 @@ class EasyTableModelEasyTableMeta extends JModel
 	 */
 	function &getData($id)
 	{
-		if(empty($this->_data))
+		if (empty($this->_data))
 			{
 			// @todo change to using new query format for better db support
 				$query = "SELECT * FROM #__easytables_table_meta WHERE id = '$id' ORDER BY easytablename ASC";

@@ -36,11 +36,11 @@ class EasyTableProViewRecord extends JView
 
 	function getImageTag ($f, $fieldOptions='', $fld_alias)
 	{
-		if($f)
+		if ($f)
 		{
 			$pathToImage =  JURI::root().$this->currentImageDir.'/'.$f;  // we concatenate the image URL with the tables default image path
-			$onclick = 'onclick=\'com_EasyTablePro.pop_Image("' . trim($pathToImage) . '", "' . $fld_alias . '_img")\''; 
-			if($fieldOptions = '')
+			$onclick = 'onclick=\'com_EasyTablePro.pop_Image("' . trim($pathToImage) . '", "' . $fld_alias . '_img")\'';
+			if ($fieldOptions = '')
 			{
 				$fieldWithOptions = '<img src="'.trim($pathToImage).'" id="' . $fld_alias . '_img" style="width:200px" alt="image" />';
 			}
@@ -63,7 +63,7 @@ class EasyTableProViewRecord extends JView
 		// get the Data
 		$item = $this->get('Item');
 		$state = $this->get('State');
-	
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -74,12 +74,13 @@ class EasyTableProViewRecord extends JView
 		$this->item  = $item;
 		$this->state = $state;
 		$easytable = $item['easytable'];
-	
+
 		// Should we be here?
 		$this->canDo = ET_Helper::getActions($easytable->id);
-		
+
 		$id = $easytable->id;
-		if($id == 0) {
+		if ($id == 0)
+		{
 			JError::raiseNotice( 100, JText::sprintf('COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR', $id));
 		}
 
@@ -104,14 +105,14 @@ class EasyTableProViewRecord extends JView
 		// Load the doc bits
 		$this->addToolbar();
 		$this->addCSSEtc();
-	
+
 		parent::display($tpl);
 	}
 
 	private function addToolbar()
 	{
 		JHTML::_('behavior.tooltip');
-	
+
 		$jinput = JFactory::getApplication()->input;
 		$jinput->set('hidemainmenu', true);
 		$canDo	    = $this->canDo;
@@ -119,8 +120,9 @@ class EasyTableProViewRecord extends JView
 
 		$easytable = $this->item['easytable'];
 		$isNew		= ($easytable->id == 0);
-	
-		if($canDo->get('easytablepro.editrecords')) {
+
+		if ($canDo->get('easytablepro.editrecords'))
+		{
 			JToolBarHelper::title($isNew ? JText::_('COM_EASYTABLEPRO_RECORD_CREATING_NEW_RECORD') : JText::sprintf('COM_EASYTABLEPRO_RECORD_VIEW_TITLE_EDITING_RECORD',$this->recordId), 'easytablepro-editrecord');
 			JToolBarHelper::apply('record.apply');
 			JToolBarHelper::save('record.save');
@@ -128,13 +130,13 @@ class EasyTableProViewRecord extends JView
 			JToolBarHelper::save2copy('record.save2copy');
 		}
 		JToolBarHelper::divider();
-	
+
 		JToolBarHelper::cancel('record.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 		JToolBarHelper::divider();
-	
+
 		JToolBarHelper::help('COM_EASYTABLEPRO_MANAGER_HELP',false,'http://seepeoplesoftware.com/products/easytablepro/1.1/help/record.html');
 	}
-	
+
 	private function addCSSEtc()
 	{
 		//get the document

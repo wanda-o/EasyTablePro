@@ -46,7 +46,7 @@ com_EasyTablePro.Tools.getToken = function ()
 
 com_EasyTablePro.Tools.getID  = function ()
 {
-	if($('id')) {
+	if ($('id')) {
 		return $('id').value;
 	} else {
 		return null;
@@ -60,7 +60,7 @@ com_EasyTablePro.Tools.disableToolbarBtn = function (toolBarBtn, newToolTipText)
 	var ourBtnLink = ourBtn.childNodes[1]
 	var ourBtnSpan = ourBtnLink.childNodes[1];
 	// Check to see if button class is already set to -off
-	if(ourBtnSpan.get('class').indexOf('-off') > 0)
+	if (ourBtnSpan.get('class').indexOf('-off') > 0)
 	{
 		return;
 	}
@@ -101,7 +101,7 @@ com_EasyTablePro.Tools.deleteFromList = function(theList, itemToRemove)
 	newList = new Array();
 	// Remove the matching element from the array
 	for(var i=0; i<originalList.length; i++) {
-		if(originalList[i] != itemToRemove) newList.push(originalList[i]);
+		if (originalList[i] != itemToRemove) newList.push(originalList[i]);
 	}
 	return newList.join(', ');
 }
@@ -109,7 +109,7 @@ com_EasyTablePro.Tools.deleteFromList = function(theList, itemToRemove)
 com_EasyTablePro.Tools.makeURLSafe = function(str)
 {
 	urlSafeStr = str.replace(/\s+/g,"-").replace(/[^A-Za-z0-9\-\%]/g,'').toLowerCase();
-	if(urlSafeStr == '')
+	if (urlSafeStr == '')
 	{
 		theAlias = encodeURIComponent(str).toLowerCase();
 	} else {

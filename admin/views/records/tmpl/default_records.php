@@ -38,11 +38,14 @@ defined('_JEXEC') or die('Restricted Access');
 	<tbody id='et_data_table_rows'>
 	<?php
 		$alt_rv = 0;$cid=0;
-		if(empty($this->items)) {
+		if (empty($this->items))
+		{
 			echo '<tr valign="top" class="row'.$alt_rv.'" id="et_record'.$cid.'">'."\r";
 			echo '<td colspan="'.$et_total_col_count.'">'.JText::_('COM_EASYTABLEPRO_RECORDS_NO_MATCHING_IMG')."</td>\r";
 			echo "</tr>\r";
-		} else {
+		}
+		else
+		{
 			foreach ( $this->items as $et_table_row )
 			{
 				$rowId = $et_table_row->id;

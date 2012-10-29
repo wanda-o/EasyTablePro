@@ -31,7 +31,7 @@ class ET_VHelper
 	// Return the rows params
 	public static function et_row_params ($the_row)
 	{
-		if ( isset ($the_row) )
+		if (isset ($the_row))
 		{
 			$paramsObj = new JParameter ($the_row->params);
 		}
@@ -56,7 +56,7 @@ class ET_VHelper
 		$returnArray = Array();
 		foreach ( $allFieldsMeta as $metaRecord )
 		{
-		    if($metaRecord[$view.'_view'] == 1) $returnArray[] = $metaRecord;
+		    if ($metaRecord[$view.'_view'] == 1) $returnArray[] = $metaRecord;
 		}
 		return $returnArray;
 	}

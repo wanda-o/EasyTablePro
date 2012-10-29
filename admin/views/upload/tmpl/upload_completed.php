@@ -17,7 +17,8 @@
 		<td><?php
 			echo '<p>' . html_entity_decode(JText::sprintf(('COM_EASYTABLEPRO_UPLOAD_NOTES_' . $this->status), $this->dataFile, $this->form->getValue('easytablename')) . ' ') . '</p>';
 			echo '<p>' . JText::sprintf('COM_EASYTABLEPRO_UPLOAD_NOTES_RECORD_COUNT', $this->prevAction, $this->form->getValue('easytablename'), $this->uploadedRecords) . '</p>';
-			if($this->status == 'SUCCESS') {
+			if ($this->status == 'SUCCESS')
+			{
 				$theNewTableEditURL = 'index.php?option=com_easytablepro&view=table&task=table.edit&id=' . $this->item->id;
 				$btnLabel =  JText::sprintf('COM_EASYTABLEPRO_UPLOAD_OPEN_X_TABLE', $this->form->getValue('easytablename')); ?>
 				<input type="button" value="<?php echo $btnLabel; ?>" onclick="top.location='<?php echo $theNewTableEditURL; ?>'">

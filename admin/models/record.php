@@ -59,7 +59,8 @@ class EasyTableProModelRecord extends JModelAdmin
 	public function save($data)
 	{
 		// Alter the title for save as copy
-		if (JRequest::getVar('task') == 'save2copy') {
+		if (JRequest::getVar('task') == 'save2copy')
+		{
 			list($title, $alias) = $this->generateNewTitle('', $data['alias'], $data['title']);
 			$data['title']	= $title;
 			$data['alias']	= $alias;
@@ -90,7 +91,7 @@ class EasyTableProModelRecord extends JModelAdmin
 
 		foreach ($pks as $pk)
 		{
-			if(strpos($pk, '.'))
+			if (strpos($pk, '.'))
 			{
 				$pkarray = explode('.', $pk);
 				$standardPks[] = $pkarray[1];

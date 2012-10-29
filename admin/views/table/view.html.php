@@ -22,7 +22,7 @@ class EasyTableProViewTable extends JView
 {
 	/**
 	 * EasyTable view display method
-	 * 
+	 *
 	 * @return void
 	 **/
 	function display($tpl = null)
@@ -33,7 +33,7 @@ class EasyTableProViewTable extends JView
 		$state = $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) 
+		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
@@ -53,7 +53,7 @@ class EasyTableProViewTable extends JView
 		//get the current task
 		$et_task = JRequest::getVar('task');
 
-		if(!isset($this->item->ettd) or !$this->item->ettd)	// Do not allow it to be published until a table is created.
+		if (!isset($this->item->ettd) or !$this->item->ettd)	// Do not allow it to be published until a table is created.
 		{
 			$this->published = JHTML::_('select.booleanlist', 'published', 'class="inputbox" disabled="disabled"', $this->item->published );
 			$this->item->ettd ='';
@@ -63,9 +63,12 @@ class EasyTableProViewTable extends JView
 			$this->published = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $this->item->published );
 		}
 		// Parameters for this table instance
-		if(isset($item->params)) {
+		if (isset($item->params))
+		{
 			$params = $item->params;
-		} else {
+		}
+		else
+		{
 			$params = '';
 		}
 
@@ -81,7 +84,7 @@ class EasyTableProViewTable extends JView
 		$this->assign('maxFileSize', $maxFileSize);
 
 
-		if(isset($this->item->ettd))
+		if (isset($this->item->ettd))
 		{
 			$this->assignRef('ettd_record_count',$ettd_record_count);
 		}
@@ -101,28 +104,36 @@ class EasyTableProViewTable extends JView
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
-		if($canDo->get('core.edit') || $canDo->get('core.create')) {
-			JToolBarHelper::title($isNew ? JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW') : JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE'), 'easytablepro-editrecords');
+		if ($canDo->get('core.edit') || $canDo->get('core.create'))
+		{
+			$tbarTitle = $isNew ? JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW') : JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE');
+			JToolBarHelper::title($tbarTitle, 'easytablepro-editrecords');
 			JToolBarHelper::apply('table.apply');
 			JToolBarHelper::save('table.save');
-		} 
-		if (!$this->item->etet && !$checkedOut && ($canDo->get('core.create'))) {
+		}
+		if (!$this->item->etet && !$checkedOut && ($canDo->get('core.create')))
+		{
 			JToolBarHelper::save2new('table.save2new');
 		}
-		if((!$this->item->etet) && $canDo->get('easytablepro.import')){
+		if ((!$this->item->etet) && $canDo->get('easytablepro.import'))
+		{
 			JToolBarHelper::divider();
 			$importURL = 'index.php?option=com_easytablepro&amp;view=upload&amp;task=upload&amp;id=' . $this->item->id . '&amp;tmpl=component';
 
 			$toolbar = JToolBar::getInstance( 'toolbar' );
-			if(JDEBUG) {
+			if (JDEBUG)
+			{
 				$toolbar->appendButton( 'Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, 700, 495 );
-			} else {
+			}
+			else
+			{
 				$toolbar->appendButton( 'Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, 700, 425 );
 			}
 
 		}
 		JToolBarHelper::divider();
-		if($canDo->get('easytablepro.structure') && !$this->item->etet){
+		if ($canDo->get('easytablepro.structure') && !$this->item->etet)
+		{
 			JToolBarHelper::custom( 'modifyTable', 'easytablpro-modifyTable', 'easytablpro-modifyTable', 'COM_EASYTABLEPRO_LABEL_MODIFY_STRUCTURE', false, false );
 			JToolBarHelper::divider();
 		}
@@ -144,7 +155,7 @@ class EasyTableProViewTable extends JView
 
 		// Get the document object
 		$document =JFactory::getDocument();
-		
+
 		// Load the defaults first so that our script loads after them
 		JHtml::_('behavior.framework', true);
 		JHtml::_('behavior.tooltip');
@@ -165,7 +176,8 @@ class EasyTableProViewTable extends JView
 	{
 		// Get a database object
 		$db = JFactory::getDBO();
-		if(!$db){
+		if (!$db)
+		{
 			JError::raiseError(500,JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_WHILE_TRYING_TO_GET_A_TABLE_ID_FOR_TABLE_X', $tableName));
 		}
 		// Get the id for this table
@@ -173,9 +185,12 @@ class EasyTableProViewTable extends JView
 		$db->setQuery($query);
 
 		$id = $db->loadResult();
-		if($id) {
+		if ($id)
+		{
 			return $id;
-		} else {
+		}
+		else
+		{
 			return 0;
 		}
 	}
@@ -187,24 +202,24 @@ class EasyTableProViewTable extends JView
 	function getListViewImage ($rowElement, $flag=0)
 	{
 		$btn_title = '';
-		if(substr($rowElement,0,4)=='list')
+		if (substr($rowElement,0,4)=='list')
 		{
 			$btn_title = JText::_('COM_EASYTABLEPRO_TABLE_TOGGLE_APPEARS_IN_LIST_TT');
 		}
-		elseif(substr($rowElement,7,4) == 'link')
+		elseif (substr($rowElement,7,4) == 'link')
 		{
 			$btn_title = JText::_('COM_EASYTABLEPRO_TABLE_TURN_ON_DETAIL_LINK_TT');
 		}
-		elseif(substr($rowElement,0,6)=='detail')
+		elseif (substr($rowElement,0,6)=='detail')
 		{
 			$btn_title = JText::_('COM_EASYTABLEPRO_TABLE_TURN_ON_IN_DETAIL_VIEW_TT');
 		}
-		elseif(substr($rowElement,0,6)=='search')
+		elseif (substr($rowElement,0,6)=='search')
 		{
 			$btn_title = JText::_('COM_EASYTABLEPRO_TABLE_TOGGLE_FIELD_SEARCH_VISIBILITY_TT');
 		}
 
-		if($flag)
+		if ($flag)
 		{
 			$theImageString = 'tick.png';
 		}
@@ -213,7 +228,8 @@ class EasyTableProViewTable extends JView
 			$theImageString = 'publish_x.png';
 		}
 
-		$theListViewImage = '<img src="../media/com_easytablepro/images/'.$theImageString.'" name="'.$rowElement.'_img" border="0" title="'.$btn_title.'" alt="'.$btn_title.'" class="hasTip"/>';
+		$theListViewImage = '<img src="../media/com_easytablepro/images/'.$theImageString.'" name="'.$rowElement.
+			'_img" border="0" title="'.$btn_title.'" alt="'.$btn_title.'" class="hasTip"/>';
 
 		return($theListViewImage);
 	}
@@ -224,39 +240,51 @@ class EasyTableProViewTable extends JView
 		$task	= $row->published ? 'unpublish' : 'publish';
 		$alt	= $row->published ? JText::_('JPUBLISHED') : JText::_('COM_EASYTABLEPRO_UNPUBLISHED');
 		$action = $row->published ? JText::_('COM_EASYTABLEPRO_TABLE_TURN_OFF_SETTING') : JText::_('COM_EASYTABLEPRO_TABLE_TURN_ON_SETTING');
-		$href	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i
-		.'\',\''. $prefix.$task .'\')" title="'. $action .'"><img src="../media/com_easytablepro/images/'
-		. $img .'" border="0" alt="'. $alt .'" /></a>';
+		$href	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.
+					$prefix.$task.'\')" title="'.$action.'"><img src="'.JURI::root().
+					'media/com_easytablepro/images/'.$img.'" border="0" alt="'.$alt.'" /></a>';
 		return $href;
 	}
 
+	/* @todo convert this to use JHTML::_('select.option') */
 	function getTypeList ($id, $selectedType=0)
 	{
-		$selectOptionText =	 '<select name="type'.$id.'" onchange="com_EasyTablePro.Table.changeTypeWarning()" class="hasTip" title="'.JText::_('COM_EASYTABLEPRO_TABLE_FIELD_TYPE_DESC').'">';// start our html select structure
-		$selectOptionText .= '<option value="0" '.($selectedType ? '':'selected="selected"').'>'.JText::_('COM_EASYTABLEPRO_TABLE_LABEL_TEXT').'</option>';				// Type 0 = Text
-		$selectOptionText .= '<option value="1" '.($selectedType==1 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_TABLE_LABEL_IMAGE').'</option>';			// Type 1 = Image URL
-		$selectOptionText .= '<option value="2" '.($selectedType==2 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_TABLE_LABEL_LINK_URL').'</option>';	// Type 2 = Fully qualified URL
-		$selectOptionText .= '<option value="3" '.($selectedType==3 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_TABLE_LABEL_EMAIL').'</option>';			// Type 3 = Email address
-		$selectOptionText .= '<option value="4" '.($selectedType==4 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_TABLE_LABEL_NUMBER').'</option>';		// Type 4 = Numbers
-		$selectOptionText .= '<option value="5" '.($selectedType==5 ? 'selected="selected"':'').'>'.JText::_('COM_EASYTABLEPRO_LABEL_DATE').'</option>';			// Type 5 = Dates
-		$selectOptionText .= '</select>';																						// close our html select structure
+		$selectOptionTxt =	'<select name="type'.$id.'" onchange="com_EasyTablePro.Table.changeTypeWarning()" class="hasTip" title="'.
+							JText::_('COM_EASYTABLEPRO_TABLE_FIELD_TYPE_DESC').'">';				// start html select structure
+		$selectOptionTxt .= '<option value="0" '.($selectedType ? '':'selected="selected"').'>'.
+							JText::_('COM_EASYTABLEPRO_TABLE_LABEL_TEXT').'</option>';				// Type 0 = Text
+		$selectOptionTxt .= '<option value="1" '.($selectedType==1 ? 'selected="selected"':'').'>'.
+							JText::_('COM_EASYTABLEPRO_TABLE_LABEL_IMAGE').'</option>';				// Type 1 = Image URL
+		$selectOptionTxt .= '<option value="2" '.($selectedType==2 ? 'selected="selected"':'').'>'.
+							JText::_('COM_EASYTABLEPRO_TABLE_LABEL_LINK_URL').'</option>';			// Type 2 = Fully qualified URL
+		$selectOptionTxt .= '<option value="3" '.($selectedType==3 ? 'selected="selected"':'').'>'.
+							JText::_('COM_EASYTABLEPRO_TABLE_LABEL_EMAIL').'</option>';				// Type 3 = Email address
+		$selectOptionTxt .= '<option value="4" '.($selectedType==4 ? 'selected="selected"':'').'>'.
+							JText::_('COM_EASYTABLEPRO_TABLE_LABEL_NUMBER').'</option>';			// Type 4 = Numbers
+		$selectOptionTxt .= '<option value="5" '.($selectedType==5 ? 'selected="selected"':'').'>'.
+							JText::_('COM_EASYTABLEPRO_LABEL_DATE').'</option>';					// Type 5 = Dates
+		$selectOptionTxt .= '</select>';															// close html select structure
 
-		return($selectOptionText);
+		return($selectOptionTxt);
 	}
 
 	function getFieldOptions ($params=null)
 	{
 		$fieldOptions = '';
-		if ( isset ($params) )
+		if (isset ($params))
 		{
 			$paramsObj = new JRegistry;
 			$paramsObj->loadString($params);
 			$rawFieldOptions = $paramsObj->get('fieldoptions','');
-			if(strlen ( $rawFieldOptions )) {
-				if(substr($rawFieldOptions,0,1) == 'x') {
+			if (strlen ( $rawFieldOptions ))
+			{
+				if (substr($rawFieldOptions,0,1) == 'x')
+				{
 					$unpackedFieldOptions = htmlentities ( pack("H*", substr($rawFieldOptions,1) ));
 					$fieldOptions = $unpackedFieldOptions;
-				} else {
+				}
+				else
+				{
 					$fieldOptions = $rawFieldOptions;
 				}
 			}

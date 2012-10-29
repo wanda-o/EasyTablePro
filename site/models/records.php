@@ -38,7 +38,7 @@ class EasyTableProModelRecords extends JModelList
  	 * @var string
  	 */
  	var $_search = null;
- 
+
   	/**
 	 * EasyTables data array
 	 *
@@ -58,23 +58,23 @@ class EasyTableProModelRecords extends JModelList
 		$pk = JRequest::getInt('id');
 		// Create a context per table id -> so searches and pagination starts are per table
 		$this->context = $this->_context . '.' . $pk;
-		
+
 		parent::__construct();
 		$this->setState('records.id', $pk);
-	
+
 		$jAp = JFactory::getApplication();
 
 		// Get pagination request variables
 		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		
+
 		$this->setState('limit', $limit);
 		$this->setState('list.start', $limitstart);
 	}
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -94,13 +94,13 @@ class EasyTableProModelRecords extends JModelList
 		$this->setState('filter.search', $search);
 		$srid = $this->getUserStateFromRequest($this->context.'.search.rids','srid');
 		$this->setState('search.rids', $srid);
-		
+
 		// Load the components Global default parameters.
 		$params = $jAp->getParams();
 		$this->setState('params', $params);
 		// Load the EasyTable's params
 		$pk = $this->getUserStateFromRequest($this->context.'records.id', 'id');
-		
+
 		// Get the table & it's params.
 		$theTable = $this->getEasyTable($pk);
 		$tableParams = new JRegistry();
@@ -111,16 +111,16 @@ class EasyTableProModelRecords extends JModelList
 		$show_pagination = $params->get('show_pagination',1);
 		$show_search = $params->get('show_search',1);
 
-		if(!$show_pagination)
+		if (!$show_pagination)
 		{
 			$this->setState('list.start', 0);
 			$this->setState('list.limit', 1000000);
 		}
-		if(!$show_search)
+		if (!$show_search)
 		{
 			$this->setState('filter.search', '');
 		}
-		
+
 	}
 
 	/**
@@ -134,10 +134,11 @@ class EasyTableProModelRecords extends JModelList
 	{
 		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('records.id');
-		
+
 		$this->cache = parent::getItems($pk);
 
-		if ($this->cache === null) {
+		if ($this->cache === null)
+		{
 			$this->cache = array();
 		}
 
@@ -163,12 +164,12 @@ class EasyTableProModelRecords extends JModelList
 		$show_search = $params->get('show_search',1);
 
 		// Set up some state based on preferences
-		if(!$show_pagination)
+		if (!$show_pagination)
 		{
 			$this->setState('list.start', 0);
 			$this->setState('list.limit', 1000000);
 		}
-		if(!$show_search)
+		if (!$show_search)
 		{
 			$this->setState('filter.search', '');
 		}
@@ -188,22 +189,31 @@ class EasyTableProModelRecords extends JModelList
 
 		// Check for rids from a search result
 		$srids = $this->state->get('search.rids','');
-		if(empty($srids) || !is_array($srids)) {
+		if (empty($srids) || !is_array($srids))
+		{
 			// Filter by search in table fields or id.
 			$search = $this->state->get('filter.search');
-			if (!empty($search)) {
-				if (stripos($search, 'id:') === 0) {
+			if (!empty($search))
+			{
+				if (stripos($search, 'id:') === 0)
+				{
 					$query->where($tprefix . $db->quoteName('id') . ' = ' . (int) substr($search, 3));
-				} elseif (stripos($search, '::') === 0) {
+				}
+				elseif (stripos($search, '::') === 0)
+				{
 					$kvp = explode($search, '::');
 					$query->where($tprefix . '.' . $db->quoteName($kvp[0]) . ' = ' . $kvp[1]);
-				} else {
+				}
+				else
+				{
 					$search = $db->Quote('%'.$db->escape($search, true).'%');
 					$searchSQL = $this->getSearch($theTable, $search);
 					$query->where($searchSQL, 'AND');
 				}
 			}
-		} else {
+		}
+		else
+		{
 			$idstr = $db->quoteName('id').' = \'';
 			$idSql = array();
 			foreach ($srids as $rid) {
@@ -213,13 +223,13 @@ class EasyTableProModelRecords extends JModelList
 			// Clear out srid's so the table behaves normally not like a filtered table
 			$jAp->setUserState($this->context.'.search.rids', '');
 		}
-		
+
 		// Add menu filter settings
 		// Is the table filtered?
 		$ff = $params->get('filter_field','');
 		$ft = $params->get('filter_type','');
 		$fv = $params->get('filter_value','');
-		if($ff && $ft && $fv)
+		if ($ff && $ft && $fv)
 		{
 			$ff = $db->quoteName($ff);
 			$whereCond = $ft == 'LIKE' ? $ff .' LIKE '. $db->quote('%'.$fv.'%') : $ff .' LIKE ' . $db->quote($fv);
@@ -230,7 +240,7 @@ class EasyTableProModelRecords extends JModelList
 		$uf  = $params->get('enable_user_filter',0);
 		$ufb = $params->get('filter_records_by','');
 		$uff = $params->get('user_filter_field','');
-		if($uf && $ufb && $uff)
+		if ($uf && $ufb && $uff)
 		{
 			$uff = $db->quoteName($uff);
 			$user = JFactory::getUser();
@@ -242,7 +252,7 @@ class EasyTableProModelRecords extends JModelList
 		// Is there a default sort order?
 		$sf = $params->get('sort_field','');
 		$so = $params->get('sort_order','');
-		if($sf && $so)
+		if ($sf && $so)
 		{
 			$sf = $db->quoteName($sf);
 			$query->order($sf . ' ' . $so);
@@ -261,11 +271,13 @@ class EasyTableProModelRecords extends JModelList
 		// Prepare for failure...
 		$theEasyTable = false;
 
-		if(!$pk) {
+		if (!$pk)
+		{
 			$pk = (int)$jInput->get('id',0);
 		}
-		
-		if($pk) {
+
+		if ($pk)
+		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select('*');
@@ -274,9 +286,12 @@ class EasyTableProModelRecords extends JModelList
 			$db->setQuery($query);
 			$theEasyTable = $db->loadObject();
 			// Set up a convenience tablename for the view
-			if($theEasyTable && $theEasyTable->datatablename =='') {
+			if ($theEasyTable && $theEasyTable->datatablename =='')
+			{
 				$theEasyTable->ettd_tname = '#__easytables_table_data_' . $pk;
-			} else if($theEasyTable) {
+			}
+			elseif ($theEasyTable)
+			{
 				 $theEasyTable->ettd_tname = $theEasyTable->datatablename;
 			}
 			// Process the access info...
@@ -288,7 +303,8 @@ class EasyTableProModelRecords extends JModelList
 			$easytables_table_meta = $this->getEasyTableMeta($pk);
 
 			// OK now if there are meta records we add them to the item before returning it
-			if(count($easytables_table_meta)) {
+			if (count($easytables_table_meta))
+			{
 				$theEasyTable->table_meta = $easytables_table_meta;
 				$theEasyTable->ettm_field_count = count($easytables_table_meta);
 				$filv = ET_VHelper::getFieldsInListView($easytables_table_meta);
@@ -299,7 +315,9 @@ class EasyTableProModelRecords extends JModelList
 				$theEasyTable->list_fields = ET_VHelper::getFieldNames($theEasyTable->filv);
 				$theEasyTable->fidv = ET_VHelper::getFieldsInDetailView($easytables_table_meta);
 				$theEasyTable->fnidv = ET_VHelper::getFieldsNotInDetailView($easytables_table_meta);
-			} else {
+			}
+			else
+			{
 				$theEasyTable->table_meta = null;
 				$theEasyTable->ettm_field_count = 0;
 			}

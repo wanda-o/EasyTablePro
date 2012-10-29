@@ -4,7 +4,7 @@
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
  */
- 
+
 
 //--No direct access
 defined('_JEXEC') or die ('Restricted Access');
@@ -53,12 +53,13 @@ class EasyTableProModelRecord extends JModelItem
 		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('record.id');
 
-		if ($this->_item === null) {
+		if ($this->_item === null)
+		{
 			$this->_item = array();
 		}
 
-		if (!isset($this->_item[$etID.'.'.$pk])) {
-
+		if (!isset($this->_item[$etID.'.'.$pk]))
+		{
 			try {
 				// Get our DB connection
 				$db = $this->getDbo();
@@ -66,7 +67,8 @@ class EasyTableProModelRecord extends JModelItem
 				$query = $db->getQuery(true);
 				// Get our table meta data
 				$et = ET_Helper::getEasytableMetaItem($etID);
-				if(!$et) {
+				if (!$et)
+				{
 					return JError::raiseError(404, JText::_('COM_EASYTABLEPRO_RECORD_ERROR_TABLE_NOT_FOUND'));
 				}
 				// @todo move to general helper functions
@@ -85,10 +87,13 @@ class EasyTableProModelRecord extends JModelItem
 				// Get our elements for next & prev records
 				$menuParams = $this->getState('params', null);
 				$orderFieldId = $menuParams->get('sort_field', 0);
-				if($orderFieldId != 0) {
+				if ($orderFieldId != 0)
+				{
 					$orderField = $et->table_meta[$orderFieldId]['fieldalias'];
 					$ordDir = $menuParams->get('sort_order', 'ASC');
-				} else {
+				}
+				else
+				{
 					$orderField = 'id';
 					$ordDir = 'ASC';
 				}
@@ -119,20 +124,25 @@ class EasyTableProModelRecord extends JModelItem
 						$linked_key_field_meta = $let->table_meta[$linked_key_field];
 						$linked_key_field = $linked_key_field_meta['fieldalias'];
 						$linked_data = $this->getLinked($let,$key_field_value,$linked_key_field);
-						if(!count($linked_data)) {
+						if (!count($linked_data))
+						{
 							$et->params->set('show_linked_table', false);
 							$linked_table = $linked_data = $let = null;
 						}
-					} else {
+					}
+					else
+					{
 						$et->params->set('show_linked_table', false);
 					}
 				}
 
-				if ($error = $db->getErrorMsg()) {
+				if ($error = $db->getErrorMsg())
+				{
 					throw new Exception($error);
 				}
 
-				if (empty($record)) {
+				if (empty($record))
+				{
 					return JError::raiseError(404, JText::_('COM_EASYTABLEPRO_RECORD_ERROR_RECORD_NOT_FOUND'));
 				}
 
@@ -140,7 +150,8 @@ class EasyTableProModelRecord extends JModelItem
 				$user	= JFactory::getUser();
 
 				// Compute view access permissions.
-				if ($access = $this->getState('filter.access')) {
+				if ($access = $this->getState('filter.access'))
+				{
 					// If the access filter has been set, we already know this user can view.
 					$et->params->set('access-view', true);
 				}
@@ -157,7 +168,8 @@ class EasyTableProModelRecord extends JModelItem
 			}
 			catch (JException $e)
 			{
-				if ($e->getCode() == 404) {
+				if ($e->getCode() == 404)
+				{
 					// Need to go thru the error handler to allow Redirect to work.
 					JError::raiseError(404, $e->getMessage());
 				}
@@ -173,10 +185,12 @@ class EasyTableProModelRecord extends JModelItem
 
 	protected function getLinked ($linked_table = null, $key_field_value = '', $linked_key_field = '')
 	{
-		if(($linked_table == null) || ($key_field_value == '') || ($linked_key_field == ''))
+		if (($linked_table == null) || ($key_field_value == '') || ($linked_key_field == ''))
 		{
 			return false;
-		} else {
+		}
+		else
+		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			// Get all fields of our matching records
@@ -193,9 +207,9 @@ class EasyTableProModelRecord extends JModelItem
 	protected function getAdjacentId ($tableName='', $orderField, $ordDir, $currentOrderFieldValue, $leafField, $next=FALSE)
 	{
 		// Do we need to flip for reverse sort order
-		if($ordDir == 'DESC') $next = !$next;
+		if ($ordDir == 'DESC') $next = !$next;
 		// Next record?
-		if($next)
+		if ($next)
 		{
 			$eqSym = '>';
 			$sortOrder =  'ASC';
@@ -208,7 +222,8 @@ class EasyTableProModelRecord extends JModelItem
 
 		// Get the current database object
 		$db = JFactory::getDBO();
-		if(!$db){
+		if (!$db)
+		{
 		// @todo Change to use sprintf
 			JError::raiseError(500,JText::_('COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_CREATING_NEXTPREV_RECORD_LINK').$mId);
 		}
@@ -217,7 +232,7 @@ class EasyTableProModelRecord extends JModelItem
 
 		$query->from($db->quoteName( $tableName ));
 		$query->select($db->quoteName('id'));
-		if($leafField) $query->select($db->quoteName($leafField));
+		if ($leafField) $query->select($db->quoteName($leafField));
 		$query->where($db->quoteName($orderField) . ' ' . $eqSym . ' ' . $currentOrderFieldValue);
 		$query->order($db->quoteName($orderField) . ' ' . $sortOrder);
 		$db->setQuery($query, 0, 1);

@@ -27,7 +27,7 @@ this.HasClassName = function (objElement, strClass)
    {
 
    // if there is a class
-   if ( objElement.className )
+   if (objElement.className)
 	  {
 
 	  // the classes are just a space separated list, so first get the list
@@ -41,7 +41,7 @@ this.HasClassName = function (objElement, strClass)
 		 {
 
 		 // if class found
-		 if ( arrList[i].toUpperCase() == strClassUpper )
+		 if (arrList[i].toUpperCase() == strClassUpper)
 			{
 
 			// we found it
@@ -76,14 +76,14 @@ this.AddClassName = function (objElement, strClass, blnMayAlreadyExist)
    {
 
    // if there is a class
-   if ( objElement.className )
+   if (objElement.className)
 	  {
 
 	  // the classes are just a space separated list, so first get the list
 	  var arrList = objElement.className.split(' ');
 
 	  // if the new class name may already exist in list
-	  if ( blnMayAlreadyExist )
+	  if (blnMayAlreadyExist)
 		 {
 
 		 // get uppercase class for comparison purposes
@@ -94,7 +94,7 @@ this.AddClassName = function (objElement, strClass, blnMayAlreadyExist)
 			{
 
 			// if class found
-			if ( arrList[i].toUpperCase() == strClassUpper )
+			if (arrList[i].toUpperCase() == strClassUpper)
 			   {
 
 			   // remove array item
@@ -148,7 +148,7 @@ this.RemoveClassName = function (objElement, strClass)
    {
 
    // if there is a class
-   if ( objElement.className )
+   if (objElement.className)
 	  {
 
 	  // the classes are just a space separated list, so first get the list
@@ -162,7 +162,7 @@ this.RemoveClassName = function (objElement, strClass)
 		 {
 
 		 // if class found
-		 if ( arrList[i].toUpperCase() == strClassUpper )
+		 if (arrList[i].toUpperCase() == strClassUpper)
 			{
 
 			// remove array item
@@ -219,12 +219,12 @@ this.RemoveClassName = function (objElement, strClass)
 		
 		for (var i=0; i<sortRow.cells.length; i++) {
 			var jpr_cell = sortRow.cells[i]
-			if ( etAscending != null ) {
+			if (etAscending != null) {
 				if (this.HasClassName(jpr_cell, etAscending)) {
 					this.RemoveClassName(jpr_cell, etAscending);
 				}
 			}
-			if ( etDescending != null ) {
+			if (etDescending != null) {
 				if (this.HasClassName(jpr_cell, etDescending)) {
 					this.RemoveClassName(jpr_cell, etDescending);
 				}
@@ -234,22 +234,22 @@ this.RemoveClassName = function (objElement, strClass)
 		if (cell.getAttribute("sortdir") == 'down') {
 			newRows.reverse();
 			cell.setAttribute('sortdir','up');
-			if ( etAscending != null ) {
+			if (etAscending != null) {
 				if (this.HasClassName(cell, etAscending)) {
 					this.RemoveClassName(cell, etAscending);
 				}
 			}
-			if ( etDescending != null ) {
+			if (etDescending != null) {
 				this.AddClassName(cell, etDescending, true);
 			}
 		} else {
 			cell.setAttribute('sortdir','down');
-			if ( etDescending != null ) {
+			if (etDescending != null) {
 				if (this.HasClassName(cell, etDescending)) {
 					this.RemoveClassName(cell, etDescending);
 				}
 			}
-			if ( etAscending != null ) {
+			if (etAscending != null) {
 				this.AddClassName(cell, etAscending, true);
 			}
 		}

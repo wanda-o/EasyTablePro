@@ -38,7 +38,8 @@ class EasyTableProViewTables extends JView
 
 		// Get our list of tables
 		$this->rows       = $this->get('Items');
-		if($this->show_pagination) {
+		if ($this->show_pagination)
+		{
 			$this->pagination = $this->get('Pagination');
 		}
 

@@ -17,11 +17,11 @@ function submitbutton(pressbutton)
 
 Joomla.submitbutton= function (pressbutton)
 {
-	if(pressbutton == 'records.delete') {
-		if(et_give_delete_warning) {
+	if (pressbutton == 'records.delete') {
+		if (et_give_delete_warning) {
 			et_give_delete_warning = false;
 			et_deleteThisRecord = confirm(Joomla.JText._('COM_EASYTABLEPRO_DATA_JS_THIS_ACTION_WILL_DELETE_RECORD'));
-			if(et_deleteThisRecord) {
+			if (et_deleteThisRecord) {
 				submitform(pressbutton);
 			}
 			else
@@ -38,7 +38,7 @@ com_EasyTablePro.pop_Image = function (theURL, theImageElement)
 {
 	theImage = document.getElementById(theImageElement);
 	theHeight = theImage.naturalHeight;
-	if(theHeight != 'undefined')
+	if (theHeight != 'undefined')
 	{
 		theWidth = theImage.naturalWidth;
 	} else {

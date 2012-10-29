@@ -22,12 +22,13 @@ class EasyTableProViewRecord extends JView
 		$easytable = $item->easytable;
 		$id = $easytable->id;
 		// Check we have a real table
-		if($id == 0) {
+		if ($id == 0)
+		{
 			JError::raiseNotice( 100, JText::sprintf('COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR' , $id));
 		}
 		// get the state info
 		$state = $this->get('State');
-	
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -42,48 +43,65 @@ class EasyTableProViewRecord extends JView
 		// Is there a title suffix from the record
 		$title_field_id = $easytable->params->get('title_field',0);
 		if(!empty($title_field_id) && ($title_field_id != 0)) {
+		if (!empty($title_field_id) && ($title_field_id != 0))
+		{
 			$titlefield = $easytable->table_meta[$title_field_id]['fieldalias'];
-			$titleSuffix = $item->record->$titlefield;  
-		} else {
+			$titleSuffix = $item->record->$titlefield;
+		}
+		else
+		{
 			$titleSuffix = '';
 		}
-		
+
 		// Generate Page title
-		if($titleSuffix) {
+		if ($titleSuffix)
+		{
 			$page_title = JText::sprintf('COM_EASYTABLEPRO_SITE_RECORD_PAGE_TITLE', $easytable->easytablename, $titleSuffix);
-		} else {
+		}
+		else
+		{
 			$page_title = JText::sprintf('COM_EASYTABLEPRO_SITE_RECORD_PAGE_TITLE_NO_LEAF', $easytable->easytablename);
 		}
-		if( $easytable->params->get('title_links_to_table')) {
+		if ( $easytable->params->get('title_links_to_table'))
+		{
 			// Create a backlink
 			$backlink = 'index.php?option=com_easytablepro&amp;view=records&amp;id='.$easytable->id;
 			$backlink = JRoute::_($backlink);
 
 			$pt = '<a href="'.$backlink.'">'.htmlspecialchars($page_title).'</a>';
-		} else {
+		}
+		else
+		{
 			$pt = htmlspecialchars($page_title);
 		}
 
 		// Generate Prev and Next Records
 		$this->show_next_prev_record_links = $easytable->params->get('show_next_prev_record_links');
-		if($this->show_next_prev_record_links) {
+		if ($this->show_next_prev_record_links)
+		{
 			$this->prevrecord = '';
-			if(isset($item->prevRecordId) && isset($item->prevRecordId[0])){
+			if (isset($item->prevRecordId) && isset($item->prevRecordId[0]))
+			{
 				$recURL = 'index.php?option=com_easytablepro&view=record&id='.$easytable->id.'&rid='.$item->prevRecordId[0];
-				if(isset($item->prevRecordId[1]) && ($item->prevRecordId[1] != '')) {
+				if (isset($item->prevRecordId[1]) && ($item->prevRecordId[1] != ''))
+				{
 					$recURL .= '&rllabel='.$item->prevRecordId[1];
 				}
 				$this->prevrecord = JRoute::_($recURL);
 			}
 			$this->nextrecord = '';
-			if(isset($item->nextRecordId) && isset($item->nextRecordId[0])){
+			if (isset($item->nextRecordId) && isset($item->nextRecordId[0]))
+			{
 				$recURL = 'index.php?option=com_easytablepro&view=record&id='.$easytable->id.'&rid='.$item->nextRecordId[0];
-				if(isset($item->nextRecordId[1]) && ($item->nextRecordId[1] != '')) {
+				if (isset($item->nextRecordId[1]) && ($item->nextRecordId[1] != ''))
+				{
 					$recURL .= '&rllabel='.$item->nextRecordId[1];
 				}
 				$this->nextrecord = JRoute::_($recURL);
 			}
-		} else {
+		}
+		else
+		{
 			$this->prevrecord = '';
 			$this->nextrecord = '';
 		}
@@ -104,7 +122,7 @@ class EasyTableProViewRecord extends JView
 
 		// Load the doc bits
 		$this->addCSSEtc();
-	
+
 		parent::display($tpl);
 	}
 
@@ -112,18 +130,18 @@ class EasyTableProViewRecord extends JView
 	{
 		//get the document
 		$doc = JFactory::getDocument();
-	
+
 		// First add CSS to the document
 		// $doc->addStyleSheet('../media/com_easytablepro/css/easytable.css');
-	
+
 		// Get the document object
 		$document =JFactory::getDocument();
-	
+
 		// Load the defaults first so that our script loads after them
 		JHtml::_('behavior.framework', true);
 		JHtml::_('behavior.tooltip');
 		JHtml::_('behavior.multiselect');
-	
+
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		// Tools first
 		$jsFile = ('/media/com_easytablepro/js/atools.js');

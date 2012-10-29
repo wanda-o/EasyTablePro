@@ -14,7 +14,7 @@
 				<?php
 					foreach ($this->linked_table->table_meta as $metaRec )
 					{
-						if($metaRec['list_view'])
+						if ($metaRec['list_view'])
 						{
 							echo '<th class="sectiontableheader ' . $metaRec['fieldalias'] . '">' . $metaRec['label'] .'</th>';
 						}
@@ -37,7 +37,7 @@
 						reset($this->linked_table->table_meta);
 						foreach ($this->linked_table->table_meta as $metaRec )
 						{
-							if($metaRec['list_view'] && $metaRec['fieldalias'] != 'id' && $metaRec['fieldalias'] == $fieldalias)
+							if ($metaRec['list_view'] && $metaRec['fieldalias'] != 'id' && $metaRec['fieldalias'] == $fieldalias)
 							{
 								$cellAlias      = $metaRec['fieldalias'];
 								$cellType       = (int)$metaRec['type'];
@@ -46,7 +46,7 @@
 								$cellData       = ET_VHelper::getFWO($fieldValue, $cellType, $cellOptions, $prow, $currentImageDir);
 								
 								// As a precaution we make sure the detail link cell is not a URL field
-								if($cellDetailLink && ($cellType != 2))
+								if ($cellDetailLink && ($cellType != 2))
 								{
 									$linkToDetail = JRoute::_('index.php?option=com_easytablepro&amp;view=easytablerecord&amp;id='.$this->linked_table->id.':'.$this->linked_table->easytablealias.'&amp;rid='.$prow['id']);
 									$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';

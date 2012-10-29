@@ -17,9 +17,10 @@ $groups = $user->getAuthorisedViewLevels();
 	// Basic start of list...
 	echo '<div class="contentpaneopen'.$this->pageclass_sfx.'" id="et_list_page">';
 	
-	if($this->show_page_title) {
-	    echo '<div class="componentheading"><h2>'.$this->page_title.'</h2></div>';
-	    }
+	if ($this->show_page_title)
+	{
+		echo '<div class="componentheading"><h2>'.$this->page_title.'</h2></div>';
+	}
 
 	$skippedTables = 0;
 ?>
@@ -30,8 +31,9 @@ $groups = $user->getAuthorisedViewLevels();
 		// 0 - All table visible to all users - so all public and all others with a lock on them
 		// 1 - All tables visible if logged in - only public if not logged in, otherwise public and all tables
 		// 2 - Only tables visible to users group
-		if(($this->tables_appear_in_listview == 1) || ($this->tables_appear_in_listview == 2)) {
-			if(($user->guest && !in_array($row->access, $groups))  || (($this->tables_appear_in_listview == 2) && !in_array($row->access, $groups)))
+		if (($this->tables_appear_in_listview == 1) || ($this->tables_appear_in_listview == 2))
+		{
+			if (($user->guest && !in_array($row->access, $groups))  || (($this->tables_appear_in_listview == 2) && !in_array($row->access, $groups)))
 			{
 				$skippedTables++;
 				continue;
@@ -50,7 +52,7 @@ $groups = $user->getAuthorisedViewLevels();
 		}
 		$link = JRoute::_('index.php?option=com_easytablepro&amp;view=records&amp;id='.$row->id);
 		echo '<li class="et_list_table_'.$row->easytablealias.'"><a href="'.$link.'">'.$row->easytablename.$lockImage.'</a>';
-		if($this->show_description)
+		if ($this->show_description)
 		{
 			echo '<br /><div class="et_description '.$row->easytablealias.'">'.$row->description.'</div>';
 		}
@@ -58,13 +60,14 @@ $groups = $user->getAuthorisedViewLevels();
 
 	} 
 
-	if($skippedTables && $this->showSkippedCount ) {
+	if ($skippedTables && $this->showSkippedCount)
+	{
 		echo '<li class="et_skipppedTablesMsg">' . JText::sprintf('COM_EASYTABLEPRO_SITE_TABLES_X_TABLES_WERE_NOT_AVAILABLE_FOR_DISPLAY',$skippedTables) . '</li>';
 	}?>
 </ul>
 <?php
 	 // If pagination is enabled show the controls
-	if($this->show_pagination)
+	if ($this->show_pagination)
 	{
 		echo '<div class="pagination">';
 		echo $this->pagination->getListFooter();

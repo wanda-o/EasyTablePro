@@ -17,14 +17,16 @@
 
 					$prow = $this->item->record;
 
-					if($this->show_next_prev_record_links) {
+					if ($this->show_next_prev_record_links) 
+					{
 						echo '<tr><td class="etr_prevrecord">';
-						if($this->prevrecord) {
+						if ($this->prevrecord)
+						{
 							echo '<a href="'.$this->prevrecord.'">'.JText::_('COM_EASYTABLEPRO_SITE_PREV_RECORD_LINK').'</a>';
 						}
 						echo '</td>';
 						echo '<td class="etr_nextrecord">';
-						if($this->nextrecord)
+						if ($this->nextrecord)
 							{ echo '<a href="'.$this->nextrecord.'">'.JText::_('COM_EASYTABLEPRO_SITE_NEXT_RECORD_LINK').'</a>'; }
 						echo '</td></tr>';
 					}
@@ -32,7 +34,7 @@
 					foreach ($this->easytable->table_meta as $field_Meta )
 						{
 							 // ie. Detail_view = 1
-							if($field_Meta['detail_view'])
+							if ($field_Meta['detail_view'])
 							{
 								$fieldalias = $field_Meta['fieldalias'];
 								$f = $prow->$fieldalias;
@@ -45,7 +47,10 @@
 								echo '<tr>';
 								// Setup the titleString if required
 								$titleString = '';
-								if(strlen($field_Meta['description'])){ $titleString = 'title="'.htmlspecialchars($field_Meta['description']).'" ';}
+								if (strlen($field_Meta['description']))
+								{
+									$titleString = 'title="'.htmlspecialchars($field_Meta['description']).'" ';
+								}
 	
 								// Field Heading
 								echo '<th class="sectiontableheader '.$field_Meta['fieldalias'].'" '.$titleString.'>'.$field_Meta['label'].'</th>';
@@ -59,7 +64,7 @@
 			</tbody>
 		</table>
 	<?php
-		if( $this->show_linked_table )
+		if ($this->show_linked_table)
 		{
 			echo('<div id="easytable-linkedtable" class="'.htmlspecialchars($this->linked_table->easytablealias).'">');
 			echo( $this->loadTemplate('linkedtable') );

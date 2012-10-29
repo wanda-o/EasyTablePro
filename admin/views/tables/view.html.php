@@ -33,7 +33,7 @@ class EasyTableProViewTables extends JView
 		$link_text = JText::_('COM_EASYTABLEPRO_MGR_EDIT_PROPERTIES_AND_STRUCTURE_OF').' \''.$tableName.'\' '.$lockText ;
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.$tableName.'</span>';
 
-		if( !$locked && $hasPermission)
+		if (!$locked && $hasPermission)
 		{
 			$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'table.edit\');" title="'.$link_text.'" >'.$tableName.'</a></span>';
 		}
@@ -48,7 +48,7 @@ class EasyTableProViewTables extends JView
 		$theImageURL = '../media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).($row->published?'publish_g.png':'publish_x.png');
 		$theBtn = '<span  class="hasTip" title="'.$btn_text.'" style="margin-left:15px;" ><img src="'.$theImageURL.'" border="0" alt="'.$btn_text.'"></span>';
 
-		if( !$locked && $hasPermission )
+		if (!$locked && $hasPermission)
 		{
 			$theBtn = "<span class=\"hasTip\" title=\"$btn_text\" style=\"margin-left:15px;\" >".JHTML::_( 'grid.published',  $row->published, $i, 'tick.png', 'publish_x.png', 'tables.').'</span>';
 		}
@@ -59,7 +59,7 @@ class EasyTableProViewTables extends JView
 
 	function getDataEditorIcon ($locked, $i, $rowId, $tableName, $extTable, $hasPermission,$userName='')
 	{
-		if($extTable)
+		if ($extTable)
 		{
 			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_DATA_EDITING' , $tableName);
 			$theImageURL = '../media/com_easytablepro/images/disabled_edit.png';
@@ -73,7 +73,7 @@ class EasyTableProViewTables extends JView
 
 		$theEditBtn = '<span class="hasTip" title="'.JText::_('COM_EASYTABLEPRO_MGR_EDIT_RECORDS_BTN_TT').'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
 
-		if( !$locked && !$extTable && $hasPermission)
+		if (!$locked && !$extTable && $hasPermission)
 		{
 			$theEditBtn = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\'records.listAll\');" title="'.$btn_text.'" >'.$theEditBtn.'</a>';
 		}
@@ -83,7 +83,7 @@ class EasyTableProViewTables extends JView
 
 	function getDataUploadIcon ($locked, $i, $rowId, $tableName, $extTable, $hasPermission,$userName='')
 	{
-		if($extTable)
+		if ($extTable)
 		{
 			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_UPLOAD' , $tableName);
 			$theImageURL = '../media/com_easytablepro/images/disabled_upload_16x16.png';
@@ -97,11 +97,14 @@ class EasyTableProViewTables extends JView
 
 		$theBtn = '<span class="hasTip" title="'.JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA').'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
 
-		if( !$locked && !$extTable && $hasPermission)
+		if (!$locked && !$extTable && $hasPermission)
 		{
-			if(JDEBUG){
+			if (JDEBUG)
+			{
 				$theBtn = '<a href="index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'.$theBtn.'</a>';
-			} else {
+			}
+			else
+			{
 				$theBtn = '<a href="index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='.$rowId.'&amp;tmpl=component" class="modal" title="'.$btn_text.'" rel="{handler: \'iframe\', size: {x: 700, y: 425}}">'.$theBtn.'</a>';
 			}
 		}
@@ -128,7 +131,7 @@ class EasyTableProViewTables extends JView
 		$pagination    = $this->get('Pagination');
 		$this->authors = $this->get('Authors');
 
-		
+
 		// A little pagination for our users with *lots* of tables.
 		$pagination = $this->get('Pagination');
 
@@ -148,30 +151,33 @@ class EasyTableProViewTables extends JView
 		JToolBarHelper::title(JText::_('COM_EASYTABLEPRO'), 'easytablepro');
 
 		// Add New Table
-		if($canDo->get('core.create'))
+		if ($canDo->get('core.create'))
 		{
 			$addTableURL = 'index.php?option=com_easytablepro&amp;view=upload&amp;step=new&amp;task=upload.new&amp;tmpl=component';
 			$toolbar = JToolBar::getInstance( 'toolbar' );
-			if(JDEBUG) {
+			if (JDEBUG)
+			{
 				$toolbar->appendButton( 'Popup', 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 495 );
-			} else {
+			}
+			else
+			{
 				$toolbar->appendButton( 'Popup', 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 425 );
 			}
 		}
 
-		if($canDo->get('easytablepro.link'))
+		if ($canDo->get('easytablepro.link'))
 		{
 			$linkURL = 'index.php?option=com_easytablepro&amp;view=link&amp;task=link&amp;tmpl=component';
 			$toolbar = JToolBar::getInstance( 'toolbar' );
 			$toolbar->appendButton( 'Popup', 'easytablpro-linkTable', 'COM_EASYTABLEPRO_LABEL_LINK_TABLE', $linkURL, 500, 330 );
 		}
-		if($canDo->get('core.edit'))
+		if ($canDo->get('core.edit'))
 		{
 			JToolBarHelper::editList('table.edit');
 		}
 		JToolBarHelper::divider();
-		
-		if($canDo->get('core.edit.state'))
+
+		if ($canDo->get('core.edit.state'))
 		{
 			JToolBarHelper::publishList('tables.publish');
 			JToolBarHelper::unpublishList('tables.unpublish');
@@ -179,7 +185,7 @@ class EasyTableProViewTables extends JView
 		JToolBarHelper::divider();
 
 
-		if($canDo->get('core.delete'))
+		if ($canDo->get('core.delete'))
 		{
 			JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_MGR_DELETE_TABLE_BTN', 'tables.delete' );
 		}

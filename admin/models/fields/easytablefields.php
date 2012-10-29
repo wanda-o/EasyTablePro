@@ -33,11 +33,12 @@ class JFormFieldEasyTableFields extends JFormFieldList
 		$id = $jinput->get('id', null);
 		$theOpt = $jinput->get('option','No Table Option');
 
-		if($theOpt == 'com_menus')
+		if ($theOpt == 'com_menus')
 		{
 			$menus = $Ap->getMenu('site');
 			$menuItem = $menus->getItem($id);
-			if($menuItem) {
+			if ($menuItem)
+			{
 				$id = $menuItem->query['id'];
 			}
 			else
@@ -46,7 +47,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 			}
 		}
 
-		if($id)
+		if ($id)
 		{
 			$query = $db->getQuery(true);
 			$query->select('fieldalias as value');

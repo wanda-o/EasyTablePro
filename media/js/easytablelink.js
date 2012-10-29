@@ -8,7 +8,7 @@
 com_EasyTablePro.Link.selectTable = function ()
 {
 	var et_table_select_form = document.adminForm;
-	if(et_selectedTableName = this.checkTableSelection())
+	if (et_selectedTableName = this.checkTableSelection())
 	{
 		et_table_select_form.submit();
 		return 1;
@@ -18,7 +18,7 @@ com_EasyTablePro.Link.selectTable = function ()
 com_EasyTablePro.Link.checkTableSelection = function ()
 {
 	var et_aTableIsSelected = $('tablesForLinking').value;
-	if(et_aTableIsSelected != 0)
+	if (et_aTableIsSelected != 0)
 	{
 		return et_aTableIsSelected;
 	}

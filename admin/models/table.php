@@ -91,12 +91,13 @@ class EasyTableProModelTable extends JModelAdmin
 		$kUnpubState = 'Unpublished';
 		
 		// If we have an actual record (and not a new item) then we need to load the meta records
-		if($item->id > 0)
+		if ($item->id > 0)
 		{
 			// Now that we have the base easytable record we have to retrieve the associated field records (ie. the meta about each field in the table)
 			// Get a database object
 			$db = JFactory::getDBO();
-			if(!$db){
+			if (!$db)
+			{
 				JError::raiseError(500,JText::sprintf("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR", $pk));
 			}
 			
@@ -105,7 +106,8 @@ class EasyTableProModelTable extends JModelAdmin
 			$from = $jinput->get( 'from', '' );
 			$default_order_sql = " ORDER BY position;";
 			
-			if($from == 'create') {
+			if ($from == 'create')
+			{
 				$default_order_sql = " ORDER BY id;";
 			}
 			
@@ -117,7 +119,8 @@ class EasyTableProModelTable extends JModelAdmin
 
 				
 			// OK now if there are meta records we add them to the item before returning it
-			if(count($easytables_table_meta)) {
+			if (count($easytables_table_meta))
+			{
 				$item->set('table_meta', $easytables_table_meta);
 				$item->set('ettm_field_count', count($easytables_table_meta));
 			}
@@ -130,12 +133,14 @@ class EasyTableProModelTable extends JModelAdmin
 			
 			// Of course it might be a linked table
 			$ettd_datatablename = $item->datatablename;
-			if($ettd_datatablename != '')
+			if ($ettd_datatablename != '')
 			{
 				$ettd = TRUE;
 				$etet = TRUE;
 				$ettd_tname = $ettd_datatablename;
-			} else {
+			}
+			else
+			{
 				$etet = FALSE;
 			}
 
@@ -147,7 +152,7 @@ class EasyTableProModelTable extends JModelAdmin
 			// By default we assume unpublished but we check...
 			$state = 'Unpublished';
 
-			if( $ettd )
+			if ($ettd)
 			{
 				// Get the record count for this table
 				$query = "SELECT COUNT(*) FROM ".$db->nameQuote($ettd_tname);
@@ -156,7 +161,7 @@ class EasyTableProModelTable extends JModelAdmin
 				$item->set('ettd_record_count', $ettd_record_count);
 
 				// Only if we have a data table and the owner has published it we set the state
-				if($item->published)
+				if ($item->published)
 				{
 					$state = $kPubState;
 				}
@@ -172,7 +177,9 @@ class EasyTableProModelTable extends JModelAdmin
 			}
 
 			$item->set('pub_state', $state);
-		} else {
+		}
+		else
+		{
 			// We have a new Table record being created...
 			$item->set('table_meta', array());
 			$item->set('ettm_field_count', 0);
@@ -195,13 +202,15 @@ class EasyTableProModelTable extends JModelAdmin
 	function &getData()
 	{
 		// Load the data
-		if (empty( $this->_data )) {
+		if (empty( $this->_data))
+		{
 			$query = ' SELECT * FROM #__easytable '.
 					'  WHERE id = '.$this->_id;
 			$this->_db->setQuery( $query );
 			$this->_data = $this->_db->loadObject();
 		}
-		if (!$this->_data) {
+		if (!$this->_data)
+		{
 			$this->_data = new stdClass();
 			$this->_data->id = 0;
 		}
@@ -221,19 +230,22 @@ class EasyTableProModelTable extends JModelAdmin
 		$data = JRequest::get( 'post' );
 
 		// Bind the form fields to the table
-		if (!$row->bind($data)) {
+		if (!$row->bind($data))
+		{
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
 		// Make sure the record is valid
-		if (!$row->check()) {
+		if (!$row->check())
+		{
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
 		// Store the table to the database
-		if (!$row->store()) {
+		if (!$row->store())
+		{
 			$this->setError( $row->getErrorMsg() );
 			return false;
 		}
@@ -265,33 +277,40 @@ class EasyTableProModelTable extends JModelAdmin
 			$query->where($db->quoteName('easytable_id').' = '.$db->quote($pk));
 			$db->setQuery($query);
 
-			if($db->query())
+			if ($db->query())
 			{
 				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_ALL_META_DATA_FOR_TABLE_ID_X_WAS_DELETED', $pk));
-			} else {
+			}
+			else
+			{
 				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_NOT_ALL_META_DATA_FOR_TABLE_ID_X_COULD_BE_DELETED', $pk));
 			}
 			// and the data table.
 			// @todo Only try to drop the table if it's not a linked table.
 			$table = $this->getTable();
 			$table->load($pk);
-			if($table->datatablename == '') {
+			if ($table->datatablename == '')
+			{
 				// Build the DROP SQL
 				$ettd_table_name = $db->quoteName('#__easytables_table_data_'.$pk);
 				$query = 'DROP TABLE '.$ettd_table_name.';';
 				$db->setQuery($query);
-				if($db->query())
+				if ($db->query())
 				{
 					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_SUCCESSFULLY_DROPPED_DATA_FOR_TABLE_X', $table->easytablename));
-				} else {
+				}
+				else
+				{
 					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_FAILED_TO_DROP_DATA_FOR_TABLE_X', $table->easytablename));
 				}
-			} else {
+			}
+			else
+			{
 				$app->enqueueMessage(JText::sprintf('<strong>%s</strong> is a linked external table, data left in place.', $table->easytablename));
 			}
 		}
 		// Call the parent
-		if(!parent::delete($pks))
+		if (!parent::delete($pks))
 		{
 			$app->enqueueMessage(JText::sprintf('EasyTable Pro! encountered a problem, trying to delete the EasyTables record.', $pk));
 		}
@@ -324,7 +343,8 @@ class EasyTableProModelTable extends JModelAdmin
 		
 		// Get a database object
 		$db = JFactory::getDBO();
-		if(!$db){
+		if (!$db)
+		{
 			JError::raiseError(500,"Couldn't get the database object while trying to create table: $id");
 		}
 		
@@ -332,7 +352,7 @@ class EasyTableProModelTable extends JModelAdmin
 		$db->setQuery($create_ETTD_SQL);
 		$ettd_creation_result = $db->query();
 
-		if(!$ettd_creation_result)
+		if (!$ettd_creation_result)
 		{
 			JError::raiseError(500, "Failure in data table creation, likely cause is invalid column headings; actually DB explanation: ".$db->explain());
 		}

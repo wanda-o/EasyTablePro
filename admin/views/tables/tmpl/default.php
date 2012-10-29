@@ -87,7 +87,14 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 
 		$row->params = $rowParamsObj->toArray();
 		$locked = ($row->checked_out && ($row->checked_out != $user->id));
-		if($locked) { $lockedBy = JFactory::getUser($row->checked_out); $lockedByName = $lockedBy->name; } else $lockedByName = '';
+		if ($locked)
+		{
+			$lockedBy = JFactory::getUser($row->checked_out); $lockedByName = $lockedBy->name;
+		}
+		else
+		{
+			$lockedByName = '';
+		}
 		$published = $this->publishedIcon($locked, $row, $i, $canCheckin, $lockedByName);
 		$etet = $row->datatablename?true:false;
 

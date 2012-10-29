@@ -35,7 +35,7 @@ class EasyTableProModelLink extends JModelList
 	protected $extension;
 	protected $context;
 	/**
-	 * 
+	 *
 	 * Sets up the basics
 	 */
 	function __construct()
@@ -110,7 +110,7 @@ class EasyTableProModelLink extends JModelList
 		// Load the components Global default parameters.
 		$params = JComponentHelper::getParams('com_easytablepro');
 		$restrictedTables = $params->get('restrictedTables','');
-		if($restrictedTables != '')
+		if ($restrictedTables != '')
 		{
 			$restrictedTables = explode("\r\n",$restrictedTables);
 		}
@@ -125,7 +125,8 @@ class EasyTableProModelLink extends JModelList
 	{
 		//get the list of tables
 		$db = JFactory::getDBO();
-		if(!$db){
+		if (!$db)
+		{
 			JError::raiseError(500,JText::_('COM_EASYTABLEPRO_LINK_NO_TABLE_LIST'));
 		}
 		$query = $db->getQuery(true);
@@ -136,6 +137,6 @@ class EasyTableProModelLink extends JModelList
 		$alreadyLinkedTables = $db->loadColumn();
 		return $alreadyLinkedTables;
 	}
-	
+
 }
 

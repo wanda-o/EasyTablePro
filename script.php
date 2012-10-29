@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class com_easyTableProInstallerScript
 {
-	public $et_this_version = '1.1.0 (a53a1ea)';
+	public $et_this_version = '1.1.0 (a3e3279)';
 
 	/**
 	 * method to install the component
@@ -22,12 +22,14 @@ class com_easyTableProInstallerScript
 		$db = JFactory::getDbo();
 		$table_list = $db->getTableList();
 		$tblname = $db->getPrefix() . 'easytables';
-		if(in_array($tblname, $table_list)) {
+		if (in_array($tblname, $table_list))
+		{
 			// Table exists lets check the table comment for a match with our current version
 			$db->setQuery('SHOW CREATE TABLE '.$tblname);
 			$tblcreatestatement = $db->loadRow();
 			$tblcreatestatement = $tblcreatestatement[1];
-			if(!strpos($tblcreatestatement, $this->et_this_version)) {
+			if (!strpos($tblcreatestatement, $this->et_this_version))
+			{
 				echo  JText::_('COM_EASYTABLEPRO_INSTALLER_PREV_INSTALLATION_FOUND');
 				$this->update($parent);
 			}
@@ -66,7 +68,8 @@ class com_easyTableProInstallerScript
 		$jAp= JFactory::getApplication();
 	
 		// Check for a DB connection
-		if(!$db){
+		if (!$db)
+		{
 			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNABLE_TO_CONNECT_TO_DATABASE') . '</li>';
 			$no_errors = FALSE;
 		}
@@ -79,10 +82,10 @@ class com_easyTableProInstallerScript
 		 // It's possible they don't exist yet (i.e. user has never changed the options).
 		 $uninstall_type = $et_params ? $et_params->get('uninstall_type',0) : 0;
 	
-		if($uninstall_type == $partial__uninstall)
+		if ($uninstall_type == $partial__uninstall)
 		{
 			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_TYPE_PARTIAL') . '</li>';
-			if($no_errors)
+			if ($no_errors)
 			{
 				$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_COMPLETE') . '</li></ol>';
 				$msg .= JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_REMOVED_SUCCESS_MSG');
@@ -101,11 +104,13 @@ class com_easyTableProInstallerScript
 
 		// Get the list of tables in $db
 		$et_table_list =  $db->getTableList();
-		if(!$et_table_list)
+		if (!$et_table_list)
 		{
 			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_COULDNT_GET_LIST_OF_TABLES_IN_DATABASE_FOR_INSTALL') . '</li>';
 			$no_errors = FALSE;
-		} else {
+		}
+		else
+		{
 				$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_SUCCESSFULLY_RETREIVED_LIST_OF_TABLES_IN_DATABASE') . '</li>';
 		}
 
@@ -119,10 +124,10 @@ class com_easyTableProInstallerScript
 		$db->query();								// -- adding this to force getNumRows to work
 		$num_of_data_tables = $db->getNumRows();	// -- getNumRows() appears to be broken in 1.5 for all other calls
 	
-		if($num_of_data_tables)
+		if ($num_of_data_tables)
 		{
 	
-			if(!($no_errors = $data_Table_IDs))
+			if (!($no_errors = $data_Table_IDs))
 			{
 				$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_FAILED_GETTING_TABLE_LIST') . '</li>';
 			}
@@ -132,13 +137,13 @@ class com_easyTableProInstallerScript
 				{
 					$theCurrentTable = '#__easytables_table_data_'.$item['id'];
 					//print_r($item);
-					if(in_array($theCurrentTable, $et_table_list))
+					if (in_array($theCurrentTable, $et_table_list))
 					{
 						$et_query = 'DROP TABLE '. $db->nameQuote($theCurrentTable) .';';
 						$db->setQuery($et_query);
 						$et_drop_result = $db->query();
 						// make sure it dropped.
-						if(!$et_drop_result)
+						if (!$et_drop_result)
 						{
 						// @todo fix these messages to be a single sprintf per line
 							$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_UNABLE_TO_DROP_DATA_TABLE').' '.$item['easytablename'].' (ID = '.$item['id'].JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_SQL_ERROR_SEGMENT').' '.$et_query.' ]'.'</li>';
@@ -162,7 +167,7 @@ class com_easyTableProInstallerScript
 		$db->setQuery($et_query);
 		$et_drop_result = $db->query();
 		// make sure it dropped.
-		if(!$et_drop_result)
+		if (!$et_drop_result)
 		{
 			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROP_META_ERROR') . '</li>';
 			$no_errors = FALSE;
@@ -178,7 +183,7 @@ class com_easyTableProInstallerScript
 		$db->setQuery($et_query);
 		$et_drop_result = $db->query();
 		// make sure it dropped.
-		if(!$et_drop_result)
+		if (!$et_drop_result)
 		{
 			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROP_CORE_ERROR') . '</li>';
 			$no_errors = FALSE;
@@ -189,7 +194,7 @@ class com_easyTableProInstallerScript
 		}
 	
 	
-		if($no_errors)
+		if ($no_errors)
 		{
 			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_COMPLETE') . '</li></ol>';
 			$msg .= JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_REMOVED_SUCCESS_MSG');
@@ -223,7 +228,8 @@ class com_easyTableProInstallerScript
 		$db = JFactory::getDBO();
 
 		// Check for a DB connection
-		if(!$db){
+		if (!$db)
+		{
 			$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_UNABLE_TO_CONNECT_TO_DATABASE') . '</li>';
 			$no_errors = FALSE;
 		}
@@ -234,29 +240,35 @@ class com_easyTableProInstallerScript
 
 		// Get the list of tables in $db
 		$et_table_list =  $db->getTableList();
-		if(!$et_table_list)
+		if (!$et_table_list)
 		{
 			$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_COULDNT_GET_LIST_OF_TABLES_IN_DATABASE_FOR_INSTALL') . '</li>';
 			$no_errors = FALSE;
-		} else {
+		}
+		else
+		{
 				$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_SUCCESSFULLY_RETREIVED_LIST_OF_TABLES_IN_DATABASE') . '</li>';
 		}
 
 		// Check for the core table
-		if(!in_array($db->getPrefix().'easytables', $et_table_list))
+		if (!in_array($db->getPrefix().'easytables', $et_table_list))
 		{
 			$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_CORE_EASYTABLE_TABLE_NOT_FOUND') . '</li>';
 			$no_errors = FALSE;
-		} else {
+		}
+		else
+		{
 				$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_EASYTABLE_CORE_TABLE_SETUP_SUCCESSFUL') . '</li>';
 		}
 
 		// Check for the metadata table
-		if(!in_array($db->getPrefix().'easytables_table_meta',$et_table_list))
+		if (!in_array($db->getPrefix().'easytables_table_meta',$et_table_list))
 		{
 			$msg .=  $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_UNABLE_TO_FIND_META_TABLE') . '</li>';
 			$no_errors = FALSE;
-		} else {
+		}
+		else
+		{
 			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_META_TABLE_SETUP_SUCCESSFUL_') . '</li>';
 		}
 
@@ -265,13 +277,13 @@ class com_easyTableProInstallerScript
 		//-- See if the column exists --//
 		$columnNames = $db->getTableColumns('#__easytables');
 
-		if(array_key_exists('showsearch', $columnNames))
+		if (array_key_exists('showsearch', $columnNames))
 		{
 			$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_EASYTABLES_HAS_COLUMN_SHOWSEARCH') . '</li>';
 			$et_updateQry = "ALTER TABLE #__easytables DROP COLUMN `showsearch`;";
 			$db->setQuery($et_updateQry);
 			$et_updateResult = $db->query();
-			if(!$et_updateResult)
+			if (!$et_updateResult)
 			{
 				$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_ALTER_TABLE_FAILED_FOR_COLUMN_SHOWSEARCH') . '</li>';
 				$no_errors = FALSE;
@@ -283,15 +295,15 @@ class com_easyTableProInstallerScript
 		}
 
 		// 2. Check that #__easytables has the new larger 'text' description
-		if(array_key_exists('description', $columnNames))
+		if (array_key_exists('description', $columnNames))
 		{
-			if($columnNames['description'] != 'text')
+			if ($columnNames['description'] != 'text')
 			{
 				$msg .= $img_ERROR.JText::_("COM_EASYTABLEPRO_INSTALLER_DESC_COLUMN_OLD_STYLE_FOUND") . '</li>';
 				$et_updateQry = "ALTER TABLE `#__easytables` CHANGE `description` `description` TEXT";
 				$db->setQuery($et_updateQry);
 				$et_updateResult = $db->query();
-				if(!$et_updateResult)
+				if (!$et_updateResult)
 				{
 					$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_DESC_COLUMN_FAILED_TO_ALTER') . '</li>';
 					$no_errors = FALSE;
@@ -314,13 +326,13 @@ class com_easyTableProInstallerScript
 
 		// 3. Check that #__easytables has ACL columns (`access` & `asset_id`) for J25
 		// `access` int(10) unsigned DEFAULT '0',
-		if(!array_key_exists('access', $columnNames))
+		if (!array_key_exists('access', $columnNames))
 		{
 			$msg .= $img_ERROR.JText::_("COM_EASYTABLEPRO_INSTALLER_ACCESS_COLUMN_NOT_FOUND").'</li>';
 			$et_updateQry = "ALTER TABLE `#__easytables` ADD `access` INT(10) NOT NULL AFTER `params`";
 			$db->setQuery($et_updateQry);
 			$et_updateResult = $db->query();
-			if(!$et_updateResult)
+			if (!$et_updateResult)
 			{
 				$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_ACCESS_COLUMN_COULDNT_BE_ADDED') . '</li>';
 				$no_errors = FALSE;
@@ -335,13 +347,13 @@ class com_easyTableProInstallerScript
 			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_ACCESS_COLUMN_FOUND') . '</li>';
 		}
 		// `asset_id` int(10) unsigned DEFAULT '0',
-		if(!array_key_exists('asset_id', $columnNames))
+		if (!array_key_exists('asset_id', $columnNames))
 		{
 			$msg .= $img_ERROR.JText::_("COM_EASYTABLEPRO_INSTALLER_ASSET_ID_COLUMN_NOT_FOUND").'</li>';
 			$et_updateQry = "ALTER TABLE `#__easytables` ADD `asset_id` INT(10) NOT NULL AFTER `access`";
 			$db->setQuery($et_updateQry);
 			$et_updateResult = $db->query();
-			if(!$et_updateResult)
+			if (!$et_updateResult)
 			{
 				$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_ASSET_ID_COLUMN_COULDNT_BE_ADDED') . '</li>';
 				$no_errors = FALSE;
@@ -357,13 +369,13 @@ class com_easyTableProInstallerScript
 		}
 
 		// 4. Check that #__easytables has 'created_by' for J25's `edit.own`
-		if(!array_key_exists('created_by', $columnNames))
+		if (!array_key_exists('created_by', $columnNames))
 		{
 			$msg .= $img_ERROR.JText::_("COM_EASYTABLEPRO_INSTALLER_CREATED_BY_COLUMN_NOT_FOUND").'</li>';
 			$et_updateQry = "ALTER TABLE `#__easytables` ADD `created_by` INT(11) NOT NULL AFTER `created_`";
 			$db->setQuery($et_updateQry);
 			$et_updateResult = $db->query();
-			if(!$et_updateResult)
+			if (!$et_updateResult)
 			{
 				$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_CREATED_BY_COLUMN_COULDNT_BE_ADDED') . '</li>';
 				$no_errors = FALSE;
@@ -378,12 +390,12 @@ class com_easyTableProInstallerScript
 			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_CREATED_BY_COLUMN_FOUND') . '</li>';
 		}
 
-		if($no_errors) $msg .=  $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_EASYTABLE_TABLE_STRUCTURES_ARE_UPTODATE') . '</li>';
+		if ($no_errors) $msg .=  $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_EASYTABLE_TABLE_STRUCTURES_ARE_UPTODATE') . '</li>';
 
 		// 5. Add the params field to the meta table for Pro features.
 		//-- See if the column exists --//
 		$columnNames = $db->getTableColumns('#__easytables_table_meta');
-		if(array_key_exists('params', $columnNames))
+		if (array_key_exists('params', $columnNames))
 		{
 			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_EASYTABLE_META_TABLE_STRUCTURES_ARE_UPTODATE') . '</li>';
 		}
@@ -393,7 +405,7 @@ class com_easyTableProInstallerScript
 			$et_updateQry = "ALTER TABLE #__easytables_table_meta ADD COLUMN `params` TEXT;";
 			$db->setQuery($et_updateQry);
 			$et_updateResult = $db->query();
-			if(!$et_updateResult)
+			if (!$et_updateResult)
 			{
 				$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_ALTER_TABLE_FAILED_FOR_COLUMN_PARAMS') . '</li>';
 				$no_errors = FALSE;
@@ -405,14 +417,14 @@ class com_easyTableProInstallerScript
 		}
 
 		// If all is good so far we can get the current version.
-		if($no_errors)
+		if ($no_errors)
 		{
 
 			// Update the version entry in the Table comment to the current version.
 			$et_updateQry = "ALTER TABLE #__easytables COMMENT='".$this->et_this_version."'";
 			$db->setQuery($et_updateQry);
 			$et_updateResult = $db->query();
-			if(!$et_updateResult)
+			if (!$et_updateResult)
 			{
 				$msg .= $img_ERROR.JText::_('COM_EASYTABLEPRO_INSTALLER_COULDNT_UPDATE_VERSION_IN_TABLE_COMMENT') . '</li>';
 				$no_errors = FALSE;
@@ -431,25 +443,34 @@ class com_easyTableProInstallerScript
 		$filesCleanedUp = false;
 		foreach ($filesToRemove as $oldFile) {
 			$targetFile = JPATH_SITE . $oldFile;
-			if(file_exists($targetFile)){
+			if (file_exists($targetFile))
+			{
 				$filesCleanedUp = true;
-				if(unlink($targetFile)) {
+				if (unlink($targetFile))
+				{
 					$msg .= $img_OK.JText::sprintf('Successfully Removed old file: <em>%s</em>',$oldFile) . '</li>';
-				} else {
+				}
+				else
+				{
 					$msg .= $img_ERROR.JText::sprintf('Failed to Remove <em>%s</em>',$oldFile) . '</li>';
 				}
-			} else {
+			}
+			else
+			{
 				$msg .= $img_ERROR.JText::sprintf('Couldn\'t find file at "%s"',$targetFile);
 			}
 		}
-		if($filesCleanedUp) {
+		if ($filesCleanedUp)
+		{
 			$msg .= $img_OK.JText::_('File clean up process completed.') . '</li>';
-		} else {
+		}
+		else
+		{
 			$msg .= $img_OK.JText::_('No legacy files found in file clean up.') . '</li>';
 		}
 
 		// Ok, lets append the wrap message and get the heck outta here.
-		if($no_errors)
+		if ($no_errors)
 		{
 			$msg .= $img_OK.JText::_('COM_EASYTABLEPRO_INSTALLER_INSTALLATION_SUCCESSFUL') . '</li>';
 		}

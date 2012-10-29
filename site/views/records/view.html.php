@@ -40,9 +40,9 @@ class EasyTableProViewRecords extends JView
 		$active	= $jAp->getMenu()->getActive();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseWarning(500, implode("\n", $errors));
-
 			return false;
 		}
 
@@ -58,8 +58,10 @@ class EasyTableProViewRecords extends JView
 		$params->merge( $tableParams );
 
 		// Check the view access to the article (the model has already computed the values).
-		if ($easytable->access_view != true) {
-			if($user->guest) {
+		if ($easytable->access_view != true)
+		{
+			if ($user->guest)
+			{
 				// Redirect to login
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
@@ -67,17 +69,23 @@ class EasyTableProViewRecords extends JView
 				$url  = 'index.php?option=com_users&amp;view=login&amp;return='.urlencode(base64_encode($return));
 
 				$jAp->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE'));
-			} else {
+			}
+			else
+			{
 				JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 				return;
 			}
 		}
 		// Load the right layout...
 		// Load layout from active query (in case it is an alternative menu item)
-		if ($layout = $active->params->get('records_layout')) {
+		if ($layout = $active->params->get('records_layout'))
+		{
 			$this->setLayout($layout);
-		} else {
-			if ($layout = $params->get('records_layout')) {
+		}
+		else
+		{
+			if ($layout = $params->get('records_layout'))
+			{
 				$this->setLayout($layout);
 			}
 		}
@@ -109,13 +117,17 @@ class EasyTableProViewRecords extends JView
 		$menus = $jAp->getMenu();
 		$menu  = $menus->getActive();
 
-		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'table' && isset($menu->query['id']) && $menu->query['id'] == $id) {
+		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'table' && isset($menu->query['id']) && $menu->query['id'] == $id)
+		{
 			$menu_params = new JRegistry();
 			$menu_params->loadString( $menu->params );
-			if (!$menu_params->get( 'page_title')) {
+			if (!$menu_params->get( 'page_title'))
+			{
 				$params->set('page_title',$full_page_title);
 			}
-		} else {
+		}
+		else
+		{
 			$params->set('page_title',$full_page_title);
 		}
 		$page_title = $params->get( 'page_title' );
@@ -126,14 +138,15 @@ class EasyTableProViewRecords extends JView
 		//If required get the document and load the js for table sorting
 		$doc = JFactory::getDocument();
 		$SortableTable = $params->get ( 'make_tables_sortable' );
-		if( $SortableTable ) {
+		if ( $SortableTable )
+		{
 			$doc->addScript(JURI::base().'media/com_easytablepro/js/webtoolkit.sortabletable.js');
 		}
 
 		$easytables_table_meta = $easytable->table_meta;
 		$etmCount = count($easytables_table_meta); //Make sure at least 1 field is set to display
 		// If any of the fields are designated as eMail load the JS file to allow cloaking.
-		if(ET_VHelper::hasEmailType($easytables_table_meta))
+		if (ET_VHelper::hasEmailType($easytables_table_meta))
 			$doc->addScript(JURI::base().'media/com_easytablepro/js/easytableprotable_fe.js');
 
 		//Get form link
@@ -153,7 +166,7 @@ class EasyTableProViewRecords extends JView
 		$this->assign('show_page_title', $show_page_title);
 		$this->assign('page_title', $page_title);
 		$this->assign('pageclass_sfx',$pageclass_sfx);
-		
+
 		$this->assign('SortableTable', $SortableTable);
 
 		$this->assign('tableId', $id);
@@ -169,7 +182,7 @@ class EasyTableProViewRecords extends JView
 	private function getLeafField($title_leaf_id, $table_meta)
 	{
 		foreach ($table_meta as $fieldMeta) {
-			if($title_leaf_id == (int)$fieldMeta['id'])
+			if ($title_leaf_id == (int)$fieldMeta['id'])
 				return $fieldMeta['fieldalias'];
 		}
 		return 'id';

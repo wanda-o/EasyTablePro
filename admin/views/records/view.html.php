@@ -46,7 +46,7 @@ class EasyTableProViewRecords extends JView
 		$etmCount = count($easytables_table_meta_for_List_view);
 		$ettd_record_count = $easytable->ettd_record_count;
 		//Make sure at least 1 field is set to display
-		if($etmCount == 0)
+		if ($etmCount == 0)
 		{
 			// In here we need to set an appropriate user error message, if they manage to get this far.
 			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_JS_WARNING_AT_LEAST_ONE',$easytable->easytablename),'error');
@@ -55,7 +55,7 @@ class EasyTableProViewRecords extends JView
 		// Assing these items for use in the tmpl
 		$this->state = $state;
 		$this->pagination = $pagination;
-		
+
 		$this->canDo = $canDo;
 		$this->tableId = $easytable->id;
 		$this->imageDir = $imageDir;
@@ -91,25 +91,26 @@ class EasyTableProViewRecords extends JView
 			Setup the Toolbar
 		*/
 		JToolBarHelper::title(JText::sprintf('COM_EASYTABLEPRO_RECORDS_VIEW_TITLE', $this->easytable->easytablename), 'easytablepro-editrecords');
-		if($etmCount) {
-			if($canDo->get('core.create'))
+		if ($etmCount)
+		{
+			if ($canDo->get('core.create'))
 			{
 				JToolBarHelper::addNew('record.add', JText::_('COM_EASYTABLEPRO_RECORDS_NEW_RECORD_BTN'));
 			}
-			if($canDo->get('core.edit'))
+			if ($canDo->get('core.edit'))
 			{
 				JToolBarHelper::editList('record.edit');
 			}
 			JToolBarHelper::divider();
-			
-			if($canDo->get('core.delete'))
+
+			if ($canDo->get('core.delete'))
 			{
 				JToolBarHelper::deleteList( 'COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_LINK', 'records.delete',JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_RECORDS_BTN'));
 			}
 			JToolBarHelper::divider();
 		}
 		JToolBarHelper::cancel('records.cancel', JText::_('COM_EASYTABLEPRO_LABEL_CLOSE'));
-		
+
 		JToolBarHelper::divider();
 
 		$vn = $this->name;

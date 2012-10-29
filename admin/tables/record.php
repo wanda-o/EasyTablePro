@@ -25,7 +25,7 @@ class EasyTableProTableRecord extends JTable
 	 * @param object Database connector object
 	 */
 	function __construct(& $db) {
-		if($trid = ET_Helper::getTableRecordID())
+		if ($trid = ET_Helper::getTableRecordID())
 		{
 			parent::__construct('#__easytables_table_data_'.$trid[0], 'id', $db);
 		} else

@@ -17,7 +17,8 @@ jimport('joomla.application.component.controller');
 
 $jInput = JFactory::getApplication()->input;
 $vName = $jInput->get('view', 'tables');
-if($vName === 'tables') { 
+if ($vName === 'tables')
+{ 
 	$jInput->set('task', $vName . '.' . 'display');
 }
 

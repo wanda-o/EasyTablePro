@@ -9,9 +9,9 @@ et_check_msg = '';
 
 function check_version()
 {
-	if($('phpUMFS_setting').value)
+	if ($('phpUMFS_setting').value)
 	{
-		if($('phpUMFS_setting').value < $('maxFileSize').value)
+		if ($('phpUMFS_setting').value < $('maxFileSize').value)
 		{
 			alert(Joomla.JText._('COM_EASYTABLEPRO_DATA_JS_WARNING_MAX_FILE_TOO_LARGE'));
 		}

@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @package		EasyTable Pro
+ * @Copyright	Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license		GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @author		Craig Phillips {@link http://www.seepeoplesoftware.com}
  */
 
 	defined('_JEXEC') or die ('Restricted Access');
@@ -11,16 +11,19 @@
 ?>
 <div class="contentpaneopen<?php echo $this->pageclass_sfx; ?>" id="et_table_page">
 <?php
-    if($this->show_page_title) {
-        echo '<h2 class="contentheading">'.htmlspecialchars($this->page_title).'</h2>';
-    }
+	if ($this->show_page_title)
+	{
+		echo '<h2 class="contentheading">'.htmlspecialchars($this->page_title).'</h2>';
+	}
 
-    echo ($this->show_created_date ? '<p class="createdate">'.JHTML::_('date', $this->easytable->created_, JText::_('DATE_FORMAT_LC2')).'</p>' : '');
+	echo ($this->show_created_date ? '<p class="createdate">'.JHTML::_('date', $this->easytable->created_, JText::_('DATE_FORMAT_LC2')).'</p>' : '');
 
-	if($this->modification_date_label === '')
+	if ($this->modification_date_label === '')
 	{
 		$mod_dl =  JText::sprintf('COM_EASYTABLEPRO_SITE_LAST_UPDATED', JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'))) ;
-	} else {
+	}
+	else
+	{
 		$mod_dl = $this->modification_date_label.' '.JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'));
 	}
 	echo ($this->show_modified_date ? '<p class="modifydate">'.$mod_dl.'</p>' : '');
@@ -30,7 +33,7 @@
 			<div class="et_search_result">
 	<?php
 				// If search is enabled for this table, show the search box.
-				if( $this->show_search && $this->etmCount)
+				if ($this->show_search && $this->etmCount)
 				{ ?>
 					<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="text_area" onchange="document.adminForm.submit();" />
 					<button onclick="this.form.submit();"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_GO'); ?></button>
@@ -38,15 +41,14 @@
 			<?php } ?>
 			</div>
 	<?php
-			if($this->show_pagination_header && !$this->show_pagination_footer)
+			if ($this->show_pagination_header && !$this->show_pagination_footer)
 			{
 				// Only if pagination is enabled
-				if( $this->show_pagination && $this->etmCount) 
+				if ($this->show_pagination && $this->etmCount)
 				{
 					echo '<div class="pagination">';
 					echo $this->pagination->getListFooter();;
 					echo '</div>';
-					
 				}
 			}
 	?>
@@ -56,9 +58,12 @@
 					<?php
 					foreach ($this->easytables_table_meta as $heading )
 					{
-						if(!$heading['list_view']) continue;
+						if (!$heading['list_view']) continue;
 						$titleString = '';
-						if(strlen($heading['description'])){ $titleString = 'class="hasTip" title="'.htmlspecialchars($heading['description']).'" ';}
+						if (strlen($heading['description']))
+						{
+							$titleString = 'class="hasTip" title="'.htmlspecialchars($heading['description']).'" ';
+						}
 						$headingClass = 'sectiontableheader '.$heading['fieldalias'];
 						echo '<th class="' . $headingClass . '" ><span '.$titleString.' >'.$heading['label'].'</span></th>';
 					}
@@ -72,10 +77,10 @@
 					// looping through the rows of paginated data
 					foreach ($this->items as $rowIndex => $prow )
 					{
-						if(is_object ( $prow ))
+						if (is_object ($prow))
 						{
 							// Open the row
-							if($this->pagination && ($this->pagination->total == $prow->id))
+							if ($this->pagination && ($this->pagination->total == $prow->id))
 							{
 								echo "<tr class='row$alt_rv et_last_row' id='row-$prow->id'>";
 							}
@@ -89,26 +94,27 @@
 							foreach($prow as $k => $f)
 							{
 								// we skip the row id which is in position 0
-								if(!($k == 'id'))
+								if (!($k == 'id'))
 								{
-									if($columnNumber >= $numberOfListFields) continue;
-									if(isset($this->easytable->table_meta[$k])){
-										$labels         = $this->easytable->table_meta[$k];
-									} 
+									if ($columnNumber >= $numberOfListFields) continue;
+									if (isset($this->easytable->table_meta[$k]))
+									{
+										$labels			= $this->easytable->table_meta[$k];
+									}
 									// is this field shown in the list view?
-									if(!$labels['list_view']) continue;
+									if (!$labels['list_view']) continue;
 									// make sure cellData is empty before we start this cell.
-									$cellData       = '';
-									$cellClass      = $labels['fieldalias'];
-									$cellType       = (int)$labels['type'];
+									$cellData		= '';
+									$cellClass		= $labels['fieldalias'];
+									$cellType		= (int)$labels['type'];
 									$cellDetailLink = (int)$labels['detail_link'];
-									$cellOptions    = $labels['params'];
+									$cellOptions	= $labels['params'];
 									// we increment labelnumber for next pass.
 									$columnNumber++;
-									$cellData       = ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $this->currentImageDir);
-	
+									$cellData		= ET_VHelper::getFWO($f, $cellType, $cellOptions, $prow, $this->currentImageDir);
+
 									// As a precaution we make sure the detail link cell is not a URL field
-									if($cellDetailLink && ($cellType != 2))
+									if ($cellDetailLink && ($cellType != 2))
 									{
 										$linkToDetail = JRoute::_('index.php?option=com_easytablepro&view=record&id='.$this->easytable->id.'&rid='.$rowId.'&rllabel='.JFilterOutput::stringURLSafe(substr($prow->$leaf, 0,100)));
 										$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
@@ -120,7 +126,7 @@
 								else // we store the rowID for possible use in a detaillink
 								{
 									$rowId = (int)$f;
-								} 
+								}
 								// End of row stuff should follow after this.
 								unset($f);
 							}
@@ -136,13 +142,13 @@
 				?>
 			</tbody>
 		</table>
-		<?php if( $this->SortableTable ) { ?>
+		<?php if ($this->SortableTable) { ?>
 		<script type="text/javascript">
 			var t = new SortableTable(document.getElementById('<?php echo htmlspecialchars($this->easytable->easytablealias); ?>'), 'etAscending', 'etDescending');
-		</script> 
+		</script>
 	<?php } ?>
 	<?php
-				if( $this->show_pagination && $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
+				if ($this->show_pagination && $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
 				{
 					echo '<div class="pagination">';
 					echo $this->pagination->getListFooter();

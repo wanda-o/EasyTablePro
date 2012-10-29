@@ -36,10 +36,13 @@ class EasyTableProModelTables extends JModelList
 		$this->setState('tables.sort_order', $sortOrder);
 
 		// Get pagination request variables
-		if($show_pagination) {
+		if ($show_pagination)
+		{
 			$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
 			$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		} else {
+		}
+		else
+		{
 			$limit = 1000000;
 			$limitstart = 0;
 		}
@@ -58,7 +61,7 @@ class EasyTableProModelTables extends JModelList
 		$params = $jAp->getParams('com_easytablepro');
 		$show_pagination = $params->get('table_list_show_pagination',1);
 
-		if(!$show_pagination)
+		if (!$show_pagination)
 		{
 			$this->setState('list.start', 0);
 			$this->setState('list.limit', 1000000);
