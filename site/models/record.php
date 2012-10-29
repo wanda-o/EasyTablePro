@@ -97,23 +97,29 @@ class EasyTableProModelRecord extends JModelItem
 					$orderField = 'id';
 					$ordDir = 'ASC';
 				}
-				$title_field = $et->params->get('title_field');
-				$title_field = $title_field ? $et->table_meta[$title_field]['fieldalias'] : '';
+				$title_leaf = $et->params->get('title_field');
+				if ($i = strpos($title_leaf, ':'))
+				{
+					$title_leaf = substr($title_leaf, $i+1);
+				}
+				//				$title_field = $title_field ? $et->table_meta[$title_field]['fieldalias'] : '';
 				$record = $db->loadObject();
-				// @todo add title_field id to prev/next request to retreive leaf 
-				$prevId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_field);
-				$nextId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_field, true);
-				
+				// @todo add title_field id to prev/next request to retreive leaf
+				$prevId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_leaf);
+				$nextId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_leaf, true);
+
 				// Do we need linked records?
 				$show_linked_table = $et->params->get('show_linked_table',0);
 				$linked_table = $linked_data = $let = null;
 
-				if($show_linked_table) {
+				if ($show_linked_table)
+				{
 					$linked_table   = $et->params->get('id', 0);
-					$key_field   = $et->params->get('key_field', 0);
+					$key_field   = (int)$et->params->get('key_field', 0);
 					$linked_key_field = $et->params->get('linked_key_field', 0);
 					// We need all 3 id's to proceed
-					if($linked_table && $key_field && $linked_key_field) {
+					if ($linked_table && $key_field && $linked_key_field)
+					{
 						// Retreive the linked table
 						$let = ET_Helper::getEasytableMetaItem($linked_table);
 						$letP = new JRegistry();
@@ -145,9 +151,6 @@ class EasyTableProModelRecord extends JModelItem
 				{
 					return JError::raiseError(404, JText::_('COM_EASYTABLEPRO_RECORD_ERROR_RECORD_NOT_FOUND'));
 				}
-
-				// Compute selected asset permissions.
-				$user	= JFactory::getUser();
 
 				// Compute view access permissions.
 				if ($access = $this->getState('filter.access'))

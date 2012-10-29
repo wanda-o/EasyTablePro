@@ -267,6 +267,8 @@ class EasyTableProModelRecords extends JModelList
 
  	public function &getEasyTable($pk = 0)
  	{
+ 		// Make sure $pk is an int
+ 		$pk = (int)$pk;
 		$jInput = JFactory::getApplication()->input;
 		// Prepare for failure...
 		$theEasyTable = false;

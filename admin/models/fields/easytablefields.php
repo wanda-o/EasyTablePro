@@ -50,7 +50,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 		if ($id)
 		{
 			$query = $db->getQuery(true);
-			$query->select('fieldalias as value');
+			$query->select('CONCAT(' . $db->quoteName('id') .',' . '\':\'' .',' . $db->quoteName('fieldalias'). ') as value');
 			$query->select('label as text');
 			$query->from('#__easytables_table_meta');
 			$query->where($db->quoteName('easytable_id') . ' = ' . $id);

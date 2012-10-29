@@ -41,8 +41,7 @@ class EasyTableProViewRecord extends JView
 		$this->state = $state;
 
 		// Is there a title suffix from the record
-		$title_field_id = $easytable->params->get('title_field',0);
-		if(!empty($title_field_id) && ($title_field_id != 0)) {
+		$title_field_id = (int) $easytable->params->get('title_field',0);
 		if (!empty($title_field_id) && ($title_field_id != 0))
 		{
 			$titlefield = $easytable->table_meta[$title_field_id]['fieldalias'];

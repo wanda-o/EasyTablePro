@@ -116,7 +116,10 @@
 									// As a precaution we make sure the detail link cell is not a URL field
 									if ($cellDetailLink && ($cellType != 2))
 									{
-										$linkToDetail = JRoute::_('index.php?option=com_easytablepro&view=record&id='.$this->easytable->id.'&rid='.$rowId.'&rllabel='.JFilterOutput::stringURLSafe(substr($prow->$leaf, 0,100)));
+										$linkToDetail = 'index.php?option=com_easytablepro&view=record&id='.$this->easytable->id.'&rid='.$rowId;
+										// There is a define label field a the URL leaf.
+										$linkToDetail .= $leaf ? '&rllabel='.JFilterOutput::stringURLSafe(substr($prow->$leaf, 0,100)) : '';
+										$linkToDetail = JRoute::_($linkToDetail);
 										$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
 										$cellDetailLink ='';
 									}

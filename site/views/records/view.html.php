@@ -104,8 +104,11 @@ class EasyTableProViewRecords extends JView
 		$show_page_title = $params->get('show_page_title',1);
 		$pageclass_sfx = $params->get('pageclass_sfx','');
 		$etet = $easytable->datatablename?TRUE:FALSE;
-		$title_leaf_id = $params->get('title_field',0);
-		$title_leaf = $title_leaf_id ? $this->getLeafField($title_leaf_id, $easytable->table_meta) : 'id';
+		$title_leaf = $params->get('title_field','');
+		if ($i = strpos($title_leaf, ':'))
+		{
+			$title_leaf = substr($title_leaf, $i+1);
+		}
 		$full_page_title = $easytable->easytablename;
 
 		// Better breadcrumbs
