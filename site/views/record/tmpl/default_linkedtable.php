@@ -25,6 +25,12 @@
 		<tbody>
 			<?php
 				$currentImageDir = $this->linked_table->defaultimagedir;
+				$leaf = $this->linked_table->params->get('title_field');
+				if ($i = strpos($leaf, ':'))
+				{
+					$leaf = substr($leaf, $i+1);
+				}
+
 				$rowNum = 0;
 				// looping through the rows of data
 				foreach ($this->linked_records as $prow )
@@ -44,11 +50,14 @@
 								$cellOptions    = $metaRec['params'];
 								$cellDetailLink = (int)$metaRec['detail_link'];
 								$cellData       = ET_VHelper::getFWO($fieldValue, $cellType, $cellOptions, $prow, $currentImageDir);
-								
+
 								// As a precaution we make sure the detail link cell is not a URL field
 								if ($cellDetailLink && ($cellType != 2))
 								{
-									$linkToDetail = JRoute::_('index.php?option=com_easytablepro&amp;view=easytablerecord&amp;id='.$this->linked_table->id.':'.$this->linked_table->easytablealias.'&amp;rid='.$prow['id']);
+									$linkToDetail = 'index.php?option=com_easytablepro&view=record&id='.$this->linked_table->id.':'.$this->linked_table->easytablealias.'&rid='.$prow['id'];
+									// If there is a define label field a the URL leaf.
+									$linkToDetail .= $leaf ? '&rllabel='.JFilterOutput::stringURLSafe(substr($prow[$leaf], 0,100)) : '';
+									$linkToDetail = JRoute::_($linkToDetail);
 									$cellData = '<a href="'.$linkToDetail.'">'.$cellData.'</a>';
 									$cellDetailLink ='';
 								}
@@ -57,7 +66,7 @@
 								echo "<td class='colfld ".$cellAlias."'>".trim($cellData).'</td>';
 								break;
 							}
-							
+
 						}
 						// End of row stuff should follow after this.
 					}
