@@ -228,7 +228,7 @@ class EasyTableProViewTable extends JView
 			$theImageString = 'publish_x.png';
 		}
 
-		$theListViewImage = '<img src="../media/com_easytablepro/images/'.$theImageString.'" name="'.$rowElement.
+		$theListViewImage = '<img src="'.JURI::root().'media/com_easytablepro/images/'.$theImageString.'" name="'.$rowElement.
 			'_img" border="0" title="'.$btn_title.'" alt="'.$btn_title.'" class="hasTip"/>';
 
 		return($theListViewImage);

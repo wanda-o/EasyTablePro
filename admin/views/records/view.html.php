@@ -150,7 +150,7 @@ class EasyTableProViewRecords extends JView
 		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_LINK').' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'records.delete\');" title="'.
-		$link_text.'" ><img src="../media/com_easytablepro/images/publish_x.png" alt="'.$link_text.'"/></a></span>';
+		$link_text.'" ><img src="'.JURI::root().'media/com_easytablepro/images/publish_x.png" alt="'.$link_text.'"/></a></span>';
 
 		return($theEditLink);
 	}
@@ -160,7 +160,7 @@ class EasyTableProViewRecords extends JView
 		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_EDIT_LINK').' '.$rowId.' of table \''.$tableName.'\' ';
 		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:3px;" >'.
 		'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$cid.'\',\'record.edit\');" title="'.
-		$link_text.'" ><img src="../media/com_easytablepro/images/edit.png" alt="'.$link_text.'" /></a></span>';
+		$link_text.'" ><img src="'.JURI::root().'media/com_easytablepro/images/edit.png" alt="'.$link_text.'" /></a></span>';
 
 		return($theEditLink);
 	}

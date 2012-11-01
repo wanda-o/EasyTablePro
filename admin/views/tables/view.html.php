@@ -45,7 +45,7 @@ class EasyTableProViewTables extends JView
 	{
 		$lockText = ($hasPermission ? ($locked ? JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM'));
 		$btn_text = JText::_(( $row->published ? 'COM_EASYTABLEPRO_MGR_PUBLISHED_BTN':'COM_EASYTABLEPRO_MGR_UNPUBLISHED_BTN')).' \''.$row->easytablename.'\' '.$lockText;
-		$theImageURL = '../media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).($row->published?'publish_g.png':'publish_x.png');
+		$theImageURL = JURI::root().'media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).($row->published?'publish_g.png':'publish_x.png');
 		$theBtn = '<span  class="hasTip" title="'.$btn_text.'" style="margin-left:15px;" ><img src="'.$theImageURL.'" border="0" alt="'.$btn_text.'"></span>';
 
 		if (!$locked && $hasPermission)
@@ -62,13 +62,13 @@ class EasyTableProViewTables extends JView
 		if ($extTable)
 		{
 			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_DATA_EDITING' , $tableName);
-			$theImageURL = '../media/com_easytablepro/images/disabled_edit.png';
+			$theImageURL = JURI::root().'media/com_easytablepro/images/disabled_edit.png';
 		}
 		else
 		{
 			$lockText = ($hasPermission ? ($locked ? JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_DATA_EDIT_PERM'));
 			$btn_text = JText::_('COM_EASYTABLEPRO_MGR_EDIT_DATA_DESC_SEGMENT').' \''.$tableName.'\' '.$lockText;
-			$theImageURL = '../media/com_easytablepro//images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'edit.png';
+			$theImageURL = JURI::root().'media/com_easytablepro//images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'edit.png';
 		}
 
 		$theEditBtn = '<span class="hasTip" title="'.JText::_('COM_EASYTABLEPRO_MGR_EDIT_RECORDS_BTN_TT').'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
@@ -86,13 +86,13 @@ class EasyTableProViewTables extends JView
 		if ($extTable)
 		{
 			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_UPLOAD' , $tableName);
-			$theImageURL = '../media/com_easytablepro/images/disabled_upload_16x16.png';
+			$theImageURL = JURI::root().'media/com_easytablepro/images/disabled_upload_16x16.png';
 		}
 		else
 		{
 			$lockText = ($hasPermission ? ($locked ? JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_UPLOAD_PERM'));
 			$btn_text = JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_NEW_DESC').' \''.$tableName.'\' '.$lockText;
-			$theImageURL = '../media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'upload_16x16.png';
+			$theImageURL = JURI::root().'media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'upload_16x16.png';
 		}
 
 		$theBtn = '<span class="hasTip" title="'.JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA').'::'.$btn_text.'" style="margin-left:10px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
