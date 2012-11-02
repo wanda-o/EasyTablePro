@@ -88,7 +88,7 @@ class EasyTableProModelRecord extends JModelItem
 				$orderFieldId = $menuParams->get('sort_field', 0);
 				if ($orderFieldId != 0)
 				{
-					$orderField = $et->table_meta[$orderFieldId]['fieldalias'];
+					$orderField = $et->table_meta[(int)$orderFieldId]['fieldalias'];
 					$ordDir = $menuParams->get('sort_order', 'ASC');
 				}
 				else
