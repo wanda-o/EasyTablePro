@@ -540,7 +540,11 @@ class EasyTableProControllerUpload extends JControllerForm
 					$label=JText::_('COM_EASYTABLEPRO_TABLE_IMPORT_NO_COLUMN_HEADING');
 				}
 				$columnAlias = substr( JFilterOutput::stringURLSafe(trim(addslashes ( $label ))), 0, 64);
-				if ($columnAlias == 'id') $columnAlias = 'tmp-id';
+				// Check that we don't have a number, prefix it if necessary
+				if(is_numeric($columnAlias))
+				{
+					$columnAlias = 'a'.$columnAlias;
+				}
 				// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)
 				$firstCharOfAlias = substr($columnAlias,0,1);
 				if (preg_match('/[^A-Za-z\s ]/', '', $firstCharOfAlias))

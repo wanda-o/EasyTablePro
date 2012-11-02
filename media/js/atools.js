@@ -108,6 +108,11 @@ com_EasyTablePro.Tools.deleteFromList = function(theList, itemToRemove)
 
 com_EasyTablePro.Tools.makeURLSafe = function(str)
 {
+	// Modify it if it's just a number
+	if(this.isNumber(str))
+	{
+		str = 'a' + str;
+	}
 	urlSafeStr = str.replace(/\s+/g,"-").replace(/[^A-Za-z0-9\-\%]/g,'').toLowerCase();
 	if (urlSafeStr == '')
 	{
@@ -116,6 +121,10 @@ com_EasyTablePro.Tools.makeURLSafe = function(str)
 		theAlias = urlSafeStr;
 	}
 	return theAlias; 
+}
+
+com_EasyTablePro.Tools.isNumber = function (n) {
+	return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 /**

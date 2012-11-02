@@ -177,19 +177,25 @@ com_EasyTablePro.Table.aliasOK = function(str)
 {
 	if (str == '')
 	{
-		alert( Joomla.JText._('The table alias can not be empty (nor should it contain spaces or other characters not suitable for use in URLs.') );
-		return false
+		alert( Joomla.JText._('The alias can not be empty (nor should it contain spaces or other characters not suitable for use in URLs.') );
+		return false;
 	}
 	if (str != com_EasyTablePro.Tools.makeURLSafe(str))
 	{
-		alert( Joomla.JText._('The table alias can not contain spaces or other characters not suitable for use in URLs.') );
-		return false
+		alert( Joomla.JText._('The alias can not contain spaces or other characters not suitable for use in URLs.') );
+		return false;
 	}
 	
 	if (str.toLowerCase() == 'id') 
 	{
-		alert( Joomla.JText._('The table alias can not be ID (or id).') );
-		return false
+		alert( Joomla.JText._('The alias can not be ID (or id).') );
+		return false;
+	}
+	
+	if(com_EasyTablePro.Tools.isNumber(str) || com_EasyTablePro.Tools.isNumber(str.charAt(0)))
+	{
+		alert ( Joomla.JText._('An alias can not be a number or start with a number.') );
+		return false;
 	}
 
 	return true;
