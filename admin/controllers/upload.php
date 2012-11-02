@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted Access');
 
 // import Joomla controllerform library
 jimport('joomla.application.component.controllerform');
- 
+
 /**
  * EasyTables Controller
  *
@@ -51,7 +51,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		$data = $jInput->get('jform',array(),'array');
 		$jInput->set('step', 'new');
 
-		
+
 		if (parent::add())
 		{
 			// First up get the data file...
@@ -60,7 +60,7 @@ class EasyTableProControllerUpload extends JControllerForm
 				// As we have the file we'll try to create an EasyTable Entry to link the datatable and it's meta records to.
 				$model = $this->getModel('Table','EasyTableProModel');
 
-				
+
 				if ($model->save($data))
 				{
 					$id = $model->getState('table.id');
@@ -212,41 +212,41 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			$jFileInput = new JInput($_FILES);
 			$theFile = $jFileInput->get('jform',array(),'array');
-	
+
 			// Make sure that file uploads are enabled in php
 			if (!(bool) ini_get('file_uploads'))
 			{
 				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_PHP_DOES_NOT_HAVE_FILE_UPLOADS_ENABLED'));
 				return false;
 			}
-			
+
 			// Make sure that zlib is loaded so that the package can be unpacked
 			if (!extension_loaded('zlib'))
 			{
 				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_PHP_DOES_NOT_HAVE_THE_ZLIB_EXTENSIONS_ENABLED'));
 				return false;
 			}
-			
+
 			// If there is no uploaded file, we have a problem...
 			if (!is_array($theFile))
 			{
 				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_NO_FILE_WAS_SELECTED'));
 				return false;
 			}
-			
+
 			// Check if there was a problem uploading the file.
 			if ($theFile['error']['tablefile'] || $theFile['size']['tablefile'] < 1)
 			{
 				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_IS_FILE_LARGER_THAN_THE_PHP_UPLOAD_MAX_FILESIZE_LIMIT'));
 				return false;
 			}
-			
+
 			// Build the paths for our file to move to the components 'upload' directory
 			$theFileName = $theFile['name']['tablefile'];
 			$tmp_src	= $theFile['tmp_name']['tablefile'];
 			$tmp_dest	= JPATH_COMPONENT_ADMINISTRATOR . '/uploads/' . $theFileName;
 			$this->dataFile = $theFileName;
-	
+
 			// Check our file suffix before moving on...
 			$fileSuffix = strtolower ( substr ( $theFileName, strlen ( $theFileName )-3,  3 ));
 			if (($fileSuffix != 'csv') && ($fileSuffix != 'tsv'))
@@ -254,7 +254,7 @@ class EasyTableProControllerUpload extends JControllerForm
 				JError::raiseWarning('', 'Data files must be \'tsv\' or \'csv\' and end with the correct suuffix.');
 				return false;
 			}
-	
+
 			// Move uploaded file
 			jimport('joomla.filesystem.file');
 			$uploaded = JFile::upload($tmp_src, $tmp_dest);
@@ -280,25 +280,25 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			// Setup
 			$CSVTableArray = FALSE;
-	
+
 			//Process the file
 			//Get the ADLE setting and set it to TRUE while we process our CSV file
 			$original_ADLE = ini_get('auto_detect_line_endings');
 			ini_set('auto_detect_line_endings', true);
-	
+
 			// Create a new empy array to hold the files rows
 			$CSVTableArray = array();
-	
+
 			$fileSuffix = strtolower ( substr ( $filename, strlen ( $filename )-3,  3 ));
 			$fileDelimiter = ( $fileSuffix == 'csv' ) ? "," : "\t";
 			$fileLength = 0;
-			
+
 			$handle = fopen($filename, "r");
 			if (!$handle)
 			{
 				return false;
 			}
-	
+
 			if ($fileDelimiter == ",")
 			{
 				while (($data = fgetcsv($handle)) !== FALSE)
@@ -327,12 +327,12 @@ class EasyTableProControllerUpload extends JControllerForm
 					}
 				}
 			}
-	
+
 			fclose($handle);
-			
+
 			// Make sure we return the ADLE ini to it's original value - who know's what'll happen if we don't.
 			ini_set('auto_detect_line_endings', $original_ADLE);
-	
+
 			$this->_uploadData = $CSVTableArray;
 		}
 
@@ -428,11 +428,11 @@ class EasyTableProControllerUpload extends JControllerForm
 			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_THE_EXISTING_COLUMN_COUNT_X_DOESNT_MATCH_THE_FILE', count($ettdColumnAliass), count($CSVFileArray[0])), 'Warning');
 			return FALSE;
 		}
-		
+
 		// Break the array up into manageable chunks for processing
 		$CSVFileChunks = array_chunk($CSVFileArray, $chunkSize);
 		$numChunks = count( $CSVFileChunks );
-		
+
 		// Loop through chunks and send them off for processing
 		for($thisChunkNum = 0; $thisChunkNum < $numChunks; $thisChunkNum++)
 		{
@@ -441,7 +441,7 @@ class EasyTableProControllerUpload extends JControllerForm
 			{
 				$headerRow = array_shift($CSVFileChunk); // shifts the first element off
 			}
-			
+
 			$updateChunkResult = $this->updateETTDWithChunk($CSVFileChunk, $id, $ettdColumnAliass); // We get back number of rows processed or 0 if it fails
 			if ($updateChunkResult)
 			{
@@ -460,14 +460,14 @@ class EasyTableProControllerUpload extends JControllerForm
 	{
 		// Setup basic variables
 		$msg = '';
-		
+
 		// Get a database object
 		$db = JFactory::getDBO();
 		if (!$db)
 		{
 			JError::raiseError(500,"Couldn't get the database object while doing SAVE() for table: $id");
 		}
-		
+
 		// Setup start of SQL
 		$insert_ettd_data_SQL_start  = 'INSERT INTO `#__easytables_table_data_';
 		$insert_ettd_data_SQL_start .= $id.'` ( `id`, `';
@@ -493,7 +493,7 @@ class EasyTableProControllerUpload extends JControllerForm
 				{
 					$insert_ettd_data_values .= ', ';
 				}
-			
+
 				$tempString = implode("\t",$tempRowArray);
 				$tempString = addslashes($tempString);
 				$tempRowArray = explode("\t",$tempString);
@@ -505,7 +505,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		}
 
 		$insert_ettd_data_SQL_end = ';';
-		
+
 		$insert_ettd_data_SQL = $insert_ettd_data_SQL_start.$insert_ettd_data_values.$insert_ettd_data_SQL_end;
 
 		// Run the SQL to load the data into the ettd
@@ -517,17 +517,17 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			JError::raiseError(500,'Data insert failed for table: '.$id.' in updateETTDWithChunk() <br />Possibly your CSV file is malformed<br />'.$db->explain().'<br />'.'<br />'.$insert_ettd_data_SQL);
 		}
-		
+
 		return $csvRowCount;
 	}
 
 	private function createMetaFrom ($firstLineOfFile, $id, $hasHeaders)
 	{
-	 
+
 		$csvColumnLabels = $firstLineOfFile;
 
 		$csvColumnCount = count($csvColumnLabels);
-		
+
 		$ettdColumnAliass = array();
 
 		if ($hasHeaders)
@@ -551,7 +551,9 @@ class EasyTableProControllerUpload extends JControllerForm
 				{
 					$columnAlias = 'a'.$columnAlias;
 				}
-				
+				// Make sure we haven't ended up with 'id'
+				if ($columnAlias == 'id') $columnAlias = 'tmp-id';
+
 				// Check another field with this alias isn't already in the array
 				if (in_array($columnAlias, $ettdColumnAliass))
 				{
@@ -575,7 +577,7 @@ class EasyTableProControllerUpload extends JControllerForm
 			}
 		}
 		reset($ettdColumnAliass);
-		
+
 		if ($this->createETTD($id, $ettdColumnAliass)) // safe to populate the meta table as we've successfully created the ETTD
 		{
 			// Construct the SQL
@@ -589,13 +591,13 @@ class EasyTableProControllerUpload extends JControllerForm
 					$insert_Meta_SQL_row .= ', ';
 				}
 				$insert_Meta_SQL_row .= "( NULL , '$id', '".addslashes($csvColumnLabels[$colnum])."', '$ettdColumnAliass[$colnum]')";
-				
+
 			}
 			// better terminate the statement
 			$insert_Meta_SQL_end = ';';
 			// pull it altogether
 			$insert_Meta_SQL = $insert_Meta_SQL_start.$insert_Meta_SQL_row.$insert_Meta_SQL_end;
-			
+
 	 		// Get a database object
 			$db = JFactory::getDBO();
 			if (!$db)
@@ -623,24 +625,24 @@ class EasyTableProControllerUpload extends JControllerForm
 	{
 		// we turn the arrays of column names into the middle section of the SQL create statement
 		$ettdColumnSQL = implode('` TEXT NOT NULL , `', $ettdColumnAliass);
-	
+
 		// Build the SQL create the ettd
 		$create_ETTD_SQL = 'CREATE TABLE `#__easytables_table_data_'.$id.'` (`id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT , `';
 		// Insert exlpoded
 		$create_ETTD_SQL .= $ettdColumnSQL;
 		// close the sql with the primary key
 		$create_ETTD_SQL .= '` TEXT NOT NULL ,  PRIMARY KEY ( `id` ) )';
-	
+
 		// Uncomment the next line if trying to debug a CSV file error
 		// JError::raiseError(500,'$id = '.$id.'<br />$ettdColumnAliass = '.$ettdColumnAliass.'<br />$ettdColumnSQL = '.$ettdColumnSQL.'<br />createETTD SQL = '.$create_ETTD_SQL );
-	
+
 		// Get a database object
 		$db = JFactory::getDBO();
 		if (!$db)
 		{
 			JError::raiseError(500,"Couldn't get the database object while trying to create table: $id");
 		}
-	
+
 		// Set and execute the SQL query
 		$db->setQuery($create_ETTD_SQL);
 		$ettd_creation_result = $db->query();

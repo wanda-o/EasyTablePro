@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `#__easytables` (
   `access` int(10) unsigned NOT NULL DEFAULT '0',
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY  (`id`)
-) COMMENT='1.1.1 (ba97f65)';
+) COMMENT='1.1.1 (bc1a509)';
 
 CREATE TABLE IF NOT EXISTS `#__easytables_table_meta` (
   `id` int(11) NOT NULL auto_increment,
@@ -41,4 +41,4 @@ CREATE TABLE IF NOT EXISTS `#__easytables_table_meta` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `easytable_id` (`easytable_id`,`position`,`label`)
-) COMMENT='1.1.1 (ba97f65)';
+) COMMENT='1.1.1 (bc1a509)';
