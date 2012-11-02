@@ -227,6 +227,7 @@ class EasyTableProModelRecords extends JModelList
 		// Add menu filter settings
 		// Is the table filtered?
 		$ff = $params->get('filter_field','');
+		$ff = substr($ff, strpos($ff, ':')+1);
 		$ft = $params->get('filter_type','');
 		$fv = $params->get('filter_value','');
 		if ($ff && $ft && $fv)
@@ -251,6 +252,7 @@ class EasyTableProModelRecords extends JModelList
 
 		// Is there a default sort order?
 		$sf = $params->get('sort_field','');
+		$sf = substr($sf, strpos($sf, ':')+1);
 		$so = $params->get('sort_order','');
 		if ($sf && $so)
 		{
