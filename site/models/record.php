@@ -44,6 +44,20 @@ class EasyTableProModelRecord extends JModelItem
 		// Load the parameters.
 		$params = $app->getParams();
 		$this->setState('params', $params);
+
+		// Get the current menu item's table id if it exists
+		$menuItem = $app->input->get('Itemid');
+		$menu = $app->getMenu();
+		$currentMenuItem = $menu->getItem($menuItem);
+		if($currentMenuItem->query['option'] == 'com_easytablepro' )
+		{
+			$etIdFromMenu = $currentMenuItem->query['id'];
+		}
+		else
+		{
+			$etIdFromMenu = '';
+		}
+		$this->setState('etIdFromMenu', $etIdFromMenu);
 	}
 
 	public function &getItem($pk = null)
@@ -82,14 +96,24 @@ class EasyTableProModelRecord extends JModelItem
 				$query->from($db->quoteName($et->ettd_tname));
 				$query->where($db->quoteName('id') . ' = ' . $db->quote($pk));
 				$db->setQuery($query);
+				$record = $db->loadObject();
 
-				// Get our elements for next & prev records
-				$menuParams = $this->getState('params', null);
-				$orderFieldId = $menuParams->get('sort_field', 0);
+				// Get our elements for next & prev records, making sure we use the
+				// params relevant to the current table.
+				if($et->id == $this->getState('etIdFromMenu'))
+				{
+					$paramsToUse = $this->getState('params', null);
+				}
+				else
+				{
+					$paramsToUse = $et->params;
+				}
+
+				$orderFieldId = $paramsToUse->get('sort_field', 0);
 				if ($orderFieldId != 0)
 				{
-					$orderField = $et->table_meta[(int)$orderFieldId]['fieldalias'];
-					$ordDir = $menuParams->get('sort_order', 'ASC');
+					$orderField = substr($orderFieldId, strpos($orderFieldId, ':')+1);
+					$ordDir = $paramsToUse->get('sort_order', 'ASC');
 				}
 				else
 				{
@@ -101,8 +125,7 @@ class EasyTableProModelRecord extends JModelItem
 				{
 					$title_leaf = substr($title_leaf, $i+1);
 				}
-				//				$title_field = $title_field ? $et->table_meta[$title_field]['fieldalias'] : '';
-				$record = $db->loadObject();
+
 				// @todo add title_field id to prev/next request to retreive leaf
 				$prevId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_leaf);
 				$nextId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_leaf, true);
@@ -223,26 +246,32 @@ class EasyTableProModelRecord extends JModelItem
 			$sortOrder =  'DESC';
 		}
 
-		// Get the current database object
-		$db = JFactory::getDBO();
-		if (!$db)
+		// Make sure we have a field value to check against...
+		$adjacentRow = array();
+		if($currentOrderFieldValue)
 		{
-		// @todo Change to use sprintf
-			JError::raiseError(500,JText::_('COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_CREATING_NEXTPREV_RECORD_LINK').$mId);
+			// Get the current database object
+			$db = JFactory::getDBO();
+			if (!$db)
+			{
+				// @todo Change to use sprintf
+				JError::raiseError(500,JText::_('COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_CREATING_NEXTPREV_RECORD_LINK').$mId);
+			}
+			// New query
+			$query = $db->getQuery(true);
+
+			$query->from($db->quoteName( $tableName ));
+			$query->select($db->quoteName('id'));
+			if ($leafField) $query->select($db->quoteName($leafField));
+			$query->where($db->quoteName($orderField) . ' ' . $eqSym . ' ' . $currentOrderFieldValue);
+			$query->order($db->quoteName($orderField) . ' ' . $sortOrder);
+			$db->setQuery($query, 0, 1);
+
+			$adjacentRow = $db->loadRow();
+			// Convert leaf to URL safe
+			$adjacentRow[1] = $leafField ? JFilterOutput::stringURLSafe(substr($adjacentRow[1], 0,100)) : '';
 		}
-		// New query
-		$query = $db->getQuery(true);
 
-		$query->from($db->quoteName( $tableName ));
-		$query->select($db->quoteName('id'));
-		if ($leafField) $query->select($db->quoteName($leafField));
-		$query->where($db->quoteName($orderField) . ' ' . $eqSym . ' ' . $currentOrderFieldValue);
-		$query->order($db->quoteName($orderField) . ' ' . $sortOrder);
-		$db->setQuery($query, 0, 1);
-
-		$adjacentRow = $db->loadRow();
-		// Convert leaf to URL safe
-		$adjacentRow[1] = $leafField ? JFilterOutput::stringURLSafe(substr($adjacentRow[1], 0,100)) : '';
 		return $adjacentRow;
 	}
 }

@@ -19,15 +19,23 @@ jimport('joomla.application.categories');
 	function EasyTableProBuildRoute(&$query)
 	{
 		$segments = array();
-		// 
 		if (isset($query['view']))
 		{
-			// get a menu item based on Itemid or currently active
+			// store the view for later
+			$targetView = $query['view'];
+
+			// If the target view is the tables list then we can just return the current segments
+			if ($targetView == 'tables')
+			{
+				return $segments;
+			}
+
+			// Otherwise, we need a few things, so, get a menu item based on Itemid or currently active
 			$app		= JFactory::getApplication();
 			$db         = JFactory::getDbo();
 			$menu		= $app->getMenu();
 			$params		= JComponentHelper::getParams('com_easytablepro');
-			
+
 			// we need a menu item.  Either the one specified in the query, or the current active one if none specified
 			if (empty($query['Itemid']))
 			{
@@ -39,57 +47,48 @@ jimport('joomla.application.categories');
 				$menuItem = $menu->getItem($query['Itemid']);
 				$menuItemGiven = true;
 			}
-			// store the view for later
-			$view = $query['view'];
+			// Get the current menuItem's settings
+			if(isset($menuItem->query['view']))
+			{
+				$currentView = $menuItem->query['view'];
+			}
+			else
+			{
+				$currentView = '';
+			}
+			// Get the current component
+			if(isset($menuItem->query['option']))
+			{
+				$currentOption = $menuItem->query['option'];
+			}
+			else
+			{
+				$currentOption = '';
+			}
+			// If we have an option it's likely we have a data ID
+			if($currentOption && isset($menuItem->query['id']))
+			{
+				$currentID = $menuItem->query['id'];
+			}
+			else
+			{
+				$currentID = 0;
+			}
+
 			unset($query['view']);
 
-			if ($view == 'tables')
-			{
-				return $segments;
-			}
-
-			if ($view == 'records')
-			{
-				if (isset($query['id']))
-				{
-					$id = $query['id'];
-					if ($menuItemGiven && $menuItem->query['view'] == 'records' && $id == $menuItem->query['id'])
+			switch ($targetView) {
+				case 'records':
+					// We need the id of the target table, otherwise it's all moot.
+					if (isset($query['id']))
 					{
-						unset($query['id']);
-						return $segments;
-					} 
-					// OK we may need to convert a numeric id to an alias id
-					if (is_numeric($id))
-					{
-						$SQLquery = $db->getQuery(true);
-						// Search for the alias of the table of this id
-						$SQLquery->select($db->quoteName('easytablealias'));
-						$SQLquery->from($db->quoteName('#__easytables'));
-						$SQLquery->where($db->quoteName('id') . ' = ' . $id);
-						$db->setQuery($SQLquery);
-						$idAlias = $db->loadResult();
-						// set the next segment to the alias
-					}
-					else
-					{
-						$idAlias = $id;
-					}
-					unset($query['id']);
-					$segments[] = $idAlias;
-					
-					return $segments;
-				}
-			}
-
-			if ($view == 'record')
-			{
-				if (isset($query['id']))
-				{
-					$id = $query['id'];
-					// We have a menu item is it pointing ?to a record/records view
-					if ($menuItemGiven && isset($menuItem->query['view']))
-					{
-						if (($menuItem->query['view'] == 'tables'))
+						$id = $query['id'];
+						// If we're in a `records` view is the target within the same table?
+						if ($currentView == 'records' && $id == $currentID)
+						{
+							unset($query['id']);
+						}
+						else
 						{
 							// OK we may need to convert a numeric id to an alias id
 							if (is_numeric($id))
@@ -107,44 +106,101 @@ jimport('joomla.application.categories');
 							{
 								$idAlias = $id;
 							}
+							// Make sure we have a result.
+							if($idAlias != '')
+							{
+								unset($query['id']);
+								$segments[] = $idAlias;
+							}
+						}
+					}
+				break;
 
-							$segments[] = $idAlias;
-						}
-						elseif ($menuItem->query['view'] == 'records')
+				// Link to Record Detail view requested
+				case 'record':
+					if (isset($query['id']))
+					{
+						$id = $query['id'];
+						// We have a menu item, what is it pointing to?
+						if ($currentView)
 						{
-							// do nothing as we're already on a table?
+							// So the link to a record is from a view (`records` or `record`) under a 'tables' list menu item.
+							if ($menuItem->query['view'] == 'tables')
+							{
+								;
+							}
+							// The link is from a 'records' list view of a particular table.
+							// So, most likely a detail link or a menu/article linking to a specific record.
+							elseif ($currentView == 'records')
+							{
+								// So, is our current view already showing the table of the target URL?
+								if((int)$id == $currentID)
+								{
+									// Hey we're already pointing to the right table... :D
+								}
+								else
+								{
+									// We'll need to add an alias to point to the right table...
+									$SQLquery = $db->getQuery(true);
+									// Search for the alias of the table of this id
+									$SQLquery->select($db->quoteName('easytablealias'));
+									$SQLquery->from($db->quoteName('#__easytables'));
+									$SQLquery->where($db->quoteName('id') . ' = ' . (int)$id);
+									$db->setQuery($SQLquery);
+									$idAlias = $db->loadResult();
+									// set the next segment to the alias
+									$segments[] = $idAlias;
+								}
+								// If yes, we can proceed with building a route
+								// If no, what do we do? Search for a menu that links to the table in question? If we find one, what about filters and access levels?
+								// If we don't find one look for a menu that links to a tables list. If we find one what about filters and access levels?
+							}
+							elseif ($menuItem->query['view'] == 'record')
+							{
+								$segments[] = $id;
+								// Check if our target is a record in a different table?
+								if($id != $menuItem->query['id'])
+								{
+									// We are pointing to another table, so adjustments are required
+
+								}
+								else
+								{
+
+								}
+							}
 						}
-						elseif ($menuItem->query['view'] == 'record')
+						else
 						{
 							$segments[] = $id;
 						}
+						unset($query['id']);
 					}
 					else
 					{
-						$segments[] = $id;
+						return array();
 					}
-					unset($query['id']);
-				}
-				else
-				{
-					return array();
-				}
-				if (isset($query['rid']))
-				{
-					$segments[] = $query['rid'];
-					unset($query['rid']);
-				}
-				else
-				{
-					return array();
-				}
-				if (isset($query['rllabel']))
-				{
-					$segments[] = $query['rllabel'];
-					unset($query['rllabel']);
-				}
+					if (isset($query['rid']))
+					{
+						$segments[] = $query['rid'];
+						unset($query['rid']);
+					}
+					else
+					{
+						return array();
+					}
+					if (isset($query['rllabel']))
+					{
+						$segments[] = $query['rllabel'];
+						unset($query['rllabel']);
+					}
+				break;
+				default:
+					;
+				break;
 			}
 		}
+		// Return segments here, of course it could be empty if no view etc... provided.
 		return $segments;
 	}
 
@@ -161,26 +217,26 @@ jimport('joomla.application.categories');
 	function EasyTableProParseRoute ($segments)
 	{
 		$vars = array();
-	
+
 		// Count route segments
 		$count = count($segments);
-		
+
 		// Time to bail
 		if ($count == 0)
 		{
 			$vars['view'] = 'tables';
 			return $vars;
 		}
-		
+
 		//OK, we have work to do, lets get the active menu item.
 		$app	= JFactory::getApplication();
 		$menu	= $app->getMenu();
 		$item	= $menu->getActive();
-		// And we'll need the menu params
+		// And we'll need the component params
 		$params = JComponentHelper::getParams('com_easytablepro');
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		
+
 		if ($count == 1 && ($item->query['view'] != 'records') )
 		{
 			$segments[0]=preg_replace('/:/','-',$segments[0],1);
@@ -199,7 +255,7 @@ jimport('joomla.application.categories');
 		{
 			$count = 2;
 		}
-		
+
 		$vars['view'] = 'record';
 		if ($count == 2)
 		{
@@ -242,26 +298,23 @@ jimport('joomla.application.categories');
 				}
 			}
 			$vars['rid']  = $rid;
-			// Remove the stupid colon that J! core inserts...
-			if (isset($segments[1]))
-			{
-				$segments[1]=preg_replace('/:/','-',$segments[1],1);
-				$leaf = $segments[1];
-				$vars['leaf'] = $leaf;
-			}
 		}
-		
+
+		// Three => id, rid, leaf
 		if ($count == 3)
 		{
-			$segments[0]=preg_replace('/:/','-',$segments[0],1);
+			list($seg_id, $seg_alias) = explode(':', $segments[0],2);
+			if(is_numeric($seg_id))
+			{
+				$segments[0] = $seg_alias;
+			}
+			else
+			{
+				$segments[0]=preg_replace('/:/','-',$segments[0],1);
+			}
 
 			// Convert the easy table alias to it actual id
-			if (isset($item->query['id']))
-			{
-				$id = $item->query['id'];
-				$vars['id'] = $id;
-			}
-			elseif (!empty($segments[0]))
+			if (!empty($segments[0]))
 			{
 				$alias = $segments[0];
 				$query->select($db->quoteName('id'));
@@ -284,6 +337,6 @@ jimport('joomla.application.categories');
 			$vars['rid']  = $rid;
 			$vars['leaf'] = $leaf;
 		}
-		
+
 		return $vars;
 	}
