@@ -110,6 +110,7 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 				<?php echo $this->getEditorLink($locked,$i,$row->easytablename,$canEdit, $lockedByName); ?><div class="clr"></div>
 				<span class="ept_tablelist_table_details"><?php echo JText::sprintf('COM_EASYTABLEPRO_TABLESX_BY_Y', $row->easytablealias, $row->author_name);?></span><div class="clr"></div>
 				<span class="ept_tablelist_table_details"><?php echo JText::sprintf('COM_EASYTABLEPRO_TABLES_VIEWABLE_BY',ET_Helper::accessLabel($row->access)); ?></span>
+				<span class="et_mgr_hits_counter"><?php echo JText::sprintf('COM_EASYTABLEPRO_MGR_HITS_COUNT', $row->hits); ?></span>
 			</td>
 			<td>
 				<?php echo $this->getDataEditorIcon($locked,$i,$row->id,$row->easytablename,$etet,$canEditRecords, $lockedByName); ?>
@@ -121,7 +122,7 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 				<?php echo $published; ?>
 			</td>
 			<td>
-				<?php echo $row->description; ?>
+				<span class="et_mgr_desc"><?php echo $row->description; ?></span>
 			</td>
 			<td>
 				<?php echo $row->id; ?>

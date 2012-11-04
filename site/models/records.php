@@ -308,6 +308,8 @@ class EasyTableProModelRecords extends JModelList
 
 				if($theEasyTable)
 				{
+					// Ok we must have a table so lets increment it's hit.
+					$this->hit($pk);
 
 					// Process the access info...
 					$user = JFactory::getUser();
@@ -381,4 +383,36 @@ class EasyTableProModelRecords extends JModelList
 		return $fieldSearch . ' )';
 	}
 
+	/**
+	 * Increment the hit counter for the table.
+	 *
+	 * @param	int		Optional primary key of the table to increment.
+	 *
+	 * @return	boolean	True if successful; false otherwise and internal error set.
+	 */
+	public function hit($pk = 0)
+	{
+		$app = JFactory::getApplication();
+		$hitcount = $app->input->get('hitcount', 1);
+
+		if ($hitcount)
+		{
+			// Initialise variables.
+			$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
+			$db = $this->getDbo();
+
+			$db->setQuery(
+					'UPDATE #__easytables' .
+					' SET hits = hits + 1' .
+					' WHERE id = '.(int) $pk
+			);
+
+			if (!$db->query()) {
+				$this->setError($db->getErrorMsg());
+				return false;
+			}
+		}
+
+		return true;
+	}
 }// class

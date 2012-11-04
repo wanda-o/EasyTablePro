@@ -83,7 +83,9 @@ defined('_JEXEC') or die('Restricted Access');
 			<?php echo $this->form->getInput('created_by');?></li>
 		<li><strong><?php echo $this->form->getLabel('modified_'); ?></strong>
 			<?php echo $this->form->getInput('modified_');?></li>
-	</ul>
+		<li><strong><?php echo $this->form->getLabel('hits'); ?></strong>
+			<?php echo $this->form->getInput('hits');?></li>
+			</ul>
 	</fieldset>
 	<?php echo JHtml::_('sliders.start','easytable-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
@@ -109,7 +111,7 @@ defined('_JEXEC') or die('Restricted Access');
 <div class="clr"></div>
 <!-- Field Metadata UI -->
 <?php if ($this->item->ettd) {
-	echo $this->loadTemplate('metatable');		
+	echo $this->loadTemplate('metatable');
 }
 ?>
 <!-- Permissions UI -->

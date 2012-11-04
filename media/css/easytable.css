@@ -35,7 +35,10 @@
 	height: 32px;
 }
 
-.ept_tablelist_table_details {
+.et_mgr_desc {
+	float:left;
+}
+.ept_tablelist_table_details, .et_mgr_hits_counter {
 	color:grey;
 	font-style:italic;
 	font-size:90%;
@@ -105,5 +108,9 @@
 .et_nodirectory {
 	font-style:italic;
 	color:red;
+	float:right;
+}
+
+.et_mgr_hits_counter {
 	float:right;
 }
