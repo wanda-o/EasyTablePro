@@ -158,6 +158,10 @@ class EasyTableProModelRecords extends JModelList
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
 		$params->merge($tableParams);
+		// Get the menu params
+		$menuItem = $jAp->getMenu()->getActive();
+		$menuParams = $menuItem->params;
+		$params->merge($menuParams);
 
 		// Now that we have our merged params
 		$show_pagination = $params->get('show_pagination_header',1);
