@@ -49,11 +49,12 @@ class EasyTableProViewTable extends JView
 		// Setup the toolbar etc
 		$this->addToolBar();
 		$this->addCSSEtc();
-////
+
 		//get the current task
 		$et_task = JRequest::getVar('task');
 
-		if (!isset($this->item->ettd) or !$this->item->ettd)	// Do not allow it to be published until a table is created.
+		// Do not allow it to be published until a table is created.
+		if (!isset($this->item->ettd) or !$this->item->ettd)
 		{
 			$this->published = JHTML::_('select.booleanlist', 'published', 'class="inputbox" disabled="disabled"', $this->item->published );
 			$this->item->ettd ='';
