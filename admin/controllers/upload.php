@@ -107,7 +107,10 @@ class EasyTableProControllerUpload extends JControllerForm
 	{
 		$Ap= JFactory::getApplication();
 
+		// Get our upload form
 		$jInput = $Ap->input;
+		$this->formData = $jInput->get('jform',array(),'array');
+
 		// Prepare for failure
 		$jInput->set('uploadedRecords', 0);
 
@@ -117,7 +120,8 @@ class EasyTableProControllerUpload extends JControllerForm
 		}
 		else
 		{
-			$updateType = $jInput->get('uploadType', 1, 'INT') ? 'replace' : 'append' ;
+			$uploadType = $this->formData['uploadType'];
+			$updateType = $uploadType ? 'append' : 'replace' ;
 		}
 
 		$pk = $jInput->get('id');
