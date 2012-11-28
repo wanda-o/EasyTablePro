@@ -37,7 +37,24 @@ class EasyTableProViewRecords extends JView
 		// Get the user
 		$this->user		= $user;
 		// Get the active menu
-		$active	= $jAp->getMenu()->getActive();
+		$theMenus = $jAp->getMenu();
+		$active	= $theMenus->getActive();
+		// Is there an active menu item (there may not be if coming from search...
+		// and the user hasn't created a link to the menu item)
+		if(!$active)
+		{
+			$menuItemId = $jInput->get('Itemid',0);
+			// It's also possible to not have a menu item id passed in because people hand craft url's
+			if($menuItemId)
+			{
+				$active = $theMenus->getItem($menuItemId);
+			}
+			// If we still don't have an active menu then just get the default menu
+			if(!$active)
+			{
+				$active = $theMenus->getDefault();
+			}
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

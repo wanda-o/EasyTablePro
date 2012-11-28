@@ -146,7 +146,10 @@ class EasyTableProModelRecords extends JModelList
 	}
 
 	public function getListQuery() {
+		// setup the basics
 		$query = parent::getListQuery();
+		$jAp = JFactory::getApplication();
+		$jInput = $jAp->input;
 
 		$pk = $this->getState('records.id',0);
 
@@ -155,11 +158,26 @@ class EasyTableProModelRecords extends JModelList
 		$tableParams = new JRegistry();
 		$tableParams->loadString($theTable->params);
 		// Get the components global params
-		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
 		$params->merge($tableParams);
 		// Get the menu params
-		$menuItem = $jAp->getMenu()->getActive();
+		$theMenus = $jAp->getMenu();
+		$menuItem = $theMenus->getActive();
+		// There may not be an active menu e.g. search result
+		if(!$menuItem)
+		{
+			$menuItemId = $jInput->get('Itemid',0);
+			// It's also possible to not have a menu item id passed in because people hand craft url's
+			if($menuItemId)
+			{
+				$menuItem = $theMenus->getItem($menuItemId);
+			}
+			// If we still don't have an active menu then just get the default menu
+			if(!$menuItem)
+			{
+				$menuItem = $theMenus->getDefault();
+			}
+		}
 		$menuParams = $menuItem->params;
 		$params->merge($menuParams);
 

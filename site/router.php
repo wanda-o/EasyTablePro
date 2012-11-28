@@ -231,13 +231,18 @@ jimport('joomla.application.categories');
 		//OK, we have work to do, lets get the active menu item.
 		$app	= JFactory::getApplication();
 		$menu	= $app->getMenu();
-		$item	= $menu->getActive();
+		$menuItem	= $menu->getActive();
+		// It's possible there's no active menu item... e.g. a search result link
+		if(!$menuItem)
+		{
+			$menuItem = $menu->getDefault();
+		}
 		// And we'll need the component params
 		$params = JComponentHelper::getParams('com_easytablepro');
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		if ($count == 1 && ($item->query['view'] != 'records') )
+		if ($count == 1 && ($menuItem->query['view'] != 'records') )
 		{
 			$segments[0]=preg_replace('/:/','-',$segments[0],1);
 			$vars['view'] = 'records';
@@ -251,7 +256,7 @@ jimport('joomla.application.categories');
 			$vars['id'] = $id;
 			return $vars;
 		}
-		elseif ($count == 1 && ($item->query['view'] == 'records') )
+		elseif ($count == 1 && ($menuItem->query['view'] == 'records') )
 		{
 			$count = 2;
 		}
@@ -259,9 +264,9 @@ jimport('joomla.application.categories');
 		$vars['view'] = 'record';
 		if ($count == 2)
 		{
-			if (isset($item->query['view']))
+			if (isset($menuItem->query['view']))
 			{
-				if ($item->query['view']=='tables')
+				if ($menuItem->query['view']=='tables')
 				{
 					// Remove the stupid colon
 					$segments[0]=preg_replace('/:/','-',$segments[0],1);
@@ -275,12 +280,12 @@ jimport('joomla.application.categories');
 
 					$rid = $segments[1];
 				}
-				elseif ($item->query['view']=='records')
+				elseif ($menuItem->query['view']=='records')
 				{
 					// Convert the easy table alias to it actual id
-					if (isset($item->query['id']))
+					if (isset($menuItem->query['id']))
 					{
-						$id = $item->query['id'];
+						$id = $menuItem->query['id'];
 						$vars['id'] = $id;
 					}
 					else
@@ -290,7 +295,7 @@ jimport('joomla.application.categories');
 					}
 					$rid = $segments[0];
 				}
-				elseif ($item->query['view']=='record')
+				elseif ($menuItem->query['view']=='record')
 				{
 					$id = $segments[0];
 					$vars['id'] = $id;
