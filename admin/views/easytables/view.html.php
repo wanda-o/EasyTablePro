@@ -126,7 +126,7 @@ class EasyTableViewEasyTables extends JView
 
 		$theSearchableButton = (!$locked && $hasPermission) ? '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'toggleSearch\');" title="'.$btn_text.'" >'.$theSearchableImage.'</a>' : $theSearchableImage ;
 		$theSearchableButton = '<span class="hasTip" title="'.$btn_text.'" style="margin-left:20px;" >'.$theSearchableButton.'</span>';
-		
+
 		return($theSearchableButton);
 	}
 
@@ -184,7 +184,8 @@ class EasyTableViewEasyTables extends JView
 		}
 
 		// Search
-		$search = mysql_real_escape_string($this->get('search'));
+		$db =& JFactory::getDBO();
+		$search = $db->getEscaped($this->get('search'));
 
 		// Get data from the model
 		$rows =& $this->get('data');
