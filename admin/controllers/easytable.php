@@ -42,11 +42,11 @@ class EasyTableController extends JController
 		JRequest::setVar('view', 'EasyTable');
 		$this->display();
 	}
-	
+
 	function edit()
 	{
 		$this->checkOutEasyTable();
-		
+
 		JRequest::setVar('view', 'EasyTable');
 		$this->display();
 	}
@@ -146,7 +146,7 @@ class EasyTableController extends JController
 			if($paramsObj->get('restrictedTables') != $newRestrictedTables) {
 				$paramsObj->set('restrictedTables',$newRestrictedTables);
 			}
-			
+
 			//Raw Data Entry
 			if(isset ( $allThePostData['allowRawDataEntry'] ))
 			{
@@ -186,15 +186,31 @@ class EasyTableController extends JController
 	{
 		$linkTable = JRequest::getVar('tablesForLinking');
 		// Create a linked table entry
+		if(JDEBUG) JError::raiseWarning(43, 'About to create a linked table entry... '.$linkTable);
 		$id = $this->createLinkedTableEntry($linkTable);
-		// Create Meta records
-		$this->createMetaForLinkedTable($linkTable, $id);
+		if(!$id && JDEBUG)
+		{
+			JError::raiseWarning(43, '** Linked table ID appears to be invalid... ('.$id.')');
+		}
+		elseif($id)
+		{
+			// Create Meta records
+			if(JDEBUG) JError::raiseWarning(43, 'About to create Meta for linked table...');
+			$this->createMetaForLinkedTable($linkTable, $id);
+		}
 
 		// and then parse them into our meta records.
-		JRequest::setVar('cid',array($id));
-		JRequest::setVar('task','edit');
-		JRequest::setVar('view', 'EasyTable');
-		$this->display();
+		if($id)
+		{
+			JRequest::setVar('cid',array($id));
+			JRequest::setVar('task','edit');
+			JRequest::setVar('view', 'EasyTable');
+			$this->display();
+		}
+		else
+		{
+			$this->setRedirect('index.php?option='.$option, $this->msg );
+		}
 	}
 
 	function createLinkedTableEntry ($tableName)
@@ -204,6 +220,7 @@ class EasyTableController extends JController
 		JRequest::setVar('defaultimagedir','/images/stories/');
 		JRequest::setVar('description', JText::sprintf ( 'LINKED_TO_DESC',$tableName));
 		JRequest::setVar('datatablename',$tableName);
+		if(JDEBUG) JError::raiseWarning(43, 'About to save/apply metat for a linked table entry... '.$tableName);
 		$id = $this->saveApplyETdata();
 
 		return $id;
@@ -302,7 +319,7 @@ class EasyTableController extends JController
 	function editData()
 	{
 		 $this->checkOutEasyTable();
-		 
+
 		 JRequest::setVar('view', 'EasyTableRecords');
 		 $this->display();
 	}
@@ -463,7 +480,7 @@ class EasyTableController extends JController
 		}
 		$this->display();
 	}
-	
+
 
 	function cancel()
 	{
@@ -471,7 +488,7 @@ class EasyTableController extends JController
 		$this->checkInEasyTable();
 		$this->setRedirect('index.php?option='.$option);
 	}
-	
+
 	/*
 	 *
 	 * Basic Functionality.
@@ -516,7 +533,7 @@ class EasyTableController extends JController
 			$msg .= '<br />(3) ET Table record removed. id= '.$id;
 		}
 		$s = '';
-		
+
 		$this->setRedirect('index.php?option='.$option, 'Success!'.$msg);
 	}
 
@@ -541,7 +558,7 @@ class EasyTableController extends JController
 		{
 			$publish = 1;
 		}
-		
+
 
 		if($publish)
 		{
@@ -559,14 +576,14 @@ class EasyTableController extends JController
 			// Check for tables we can successfully publish & generate part of the user msg.
 			$s = count($s_array);
 			if($s)
-			{ 
+			{
 				if($s > 1) {$s = '\'s';} else {$s = '';}
 				$msg_successes = 'Table ID'.$s.' '.implode(', ',$s_array).' published.';
 			}
 			// Check for tables we can't publish & generate part of the user msg.
 			$f = count($f_array);
 			if($f)
-			{ 
+			{
 				if($f > 1) {$f = '\'s';} else {$f = '';}
 				$msg_failures = 'Table id'.$f.' '.implode(', ',$f_array).' can\'t be published (no data table). ';
 			}
@@ -584,7 +601,7 @@ class EasyTableController extends JController
 			if(!$row->publish($s_array, $publish))
 			{
 				JError::raiseError(500, $row->getError() );
-				
+
 			}
 		}
 
@@ -633,7 +650,7 @@ function toggleSearch()
 	 *    1.1 Save/Apply steps are done for all tasks
 	 *    1.2 createETDTable
 	 *    1.3 updateETDTable
-	 * 
+	 *
 	*/
 	function save()
 	{
@@ -642,7 +659,7 @@ function toggleSearch()
 		$userFeedback = '';
 
 		$currentTask = $this->getTask();
-		
+
 		// 1.1 Save/Apply tasks
 		$option = JRequest::getCmd('option');
 
@@ -811,7 +828,7 @@ function toggleSearch()
 		{
 			JError::raiseError(500, 'Error in saveApplyETdata() -> '.$row->getError());
 		}
-		
+
 		// 3.0 Check for structural changes ie. did the user add or remove any fields.
 		// 3.1 Check for deleted fields.
 		$deletedFlds = JRequest::getVar( 'deletedFlds' );
@@ -901,14 +918,14 @@ function toggleSearch()
 		{
 			//Import filesystem libraries. Perhaps not necessary, but does not hurt
 			jimport('joomla.filesystem.file');
-			 
+
 			//Clean up filename to get rid of strange characters like spaces etc
 			$origFilename = JFile::makeSafe($file['name']);
-			 
+
 			//Set up the source and destination of the file
 			$src = $file['tmp_name'];
 			$dest = JPATH_COMPONENT_ADMINISTRATOR.'/uploads/'.$origFilename;
-	
+
 			if ( JFile::upload($src, $dest) ) {
 				//Process the file
 				//Get the ADLE setting and set it to TRUE while we process our CSV file
@@ -917,7 +934,7 @@ function toggleSearch()
 
 				// Create a new empy array and get our temp file's full/path/to/name
 				$CSVTableArray = array();
-	
+
 				$filename = $dest;
 				if($filename == '')
 				{
@@ -926,7 +943,7 @@ function toggleSearch()
 				$fileSuffix = strtolower ( substr ( $filename, strlen ( $filename )-3,  3 ));
 				$fileDelimiter = ( $fileSuffix == 'csv' ) ? "," : "\t";
 				$fileLength = 0;
-				
+
 				$handle = fopen($filename, "r");
 				if($fileDelimiter == ",")
 				{
@@ -956,12 +973,12 @@ function toggleSearch()
 						}
 					}
 				}
-		
+
 				fclose($handle);
-				
+
 				// Make sure we return the ADLE ini to it's original value - who know's what'll happen if we don't.
 				ini_set('auto_detect_line_endings', $original_ADLE);
-				
+
 			}
 			else
 			{
@@ -977,7 +994,7 @@ function toggleSearch()
 
 	function ettdExists($id)
 	{
-				 
+
 		// Check for the existence of a matching data table
 		// Get a database object
 		$db =& JFactory::getDBO();
@@ -988,10 +1005,10 @@ function toggleSearch()
 		// Check for ETTD
 		return(in_array($db->getPrefix().'easytables_table_data_'.$id, $db->getTableList()));
 	}
-	
+
 	function etetExists($id)
 	{
-				 
+
 		// Check for the existence of a LINKED data table
 		$row =& JTable::getInstance('EasyTable', 'Table');
 
@@ -1012,7 +1029,7 @@ function toggleSearch()
 		$columnAlias .= count($ettdColumnAliass);
 		if(in_array($columnAlias, $ettdColumnAliass))
 		{
-			if(strlen($columnAlias) < $maxLen) 
+			if(strlen($columnAlias) < $maxLen)
 			{
 				return $this->uniqueInArray($ettdColumnAliass, $columnAlias);
 			}
@@ -1052,7 +1069,7 @@ function toggleSearch()
 		$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE id =".$etMetaRIdsAsSQL." ORDER BY id;";
 
 		$db->setQuery($query);
-		
+
 		$easytables_table_meta = $db->loadRowList();
 		$ettm_field_count = count($easytables_table_meta);
 		$mRIdsCount = count($mRIds);
@@ -1104,14 +1121,14 @@ function toggleSearch()
 
 			// Build the SQL that selects the record for the right ID
 			$etMetaUpdateSQLEnd     = ' WHERE ID =\''.$rowValue.'\'';
-			
+
 			// Concatenate all the SQL together
 			$etMetaUpdateSQL        = $etMetaUpdateSQLStart.$etMetaUpdateValuesSQL.$etMetaUpdateSQLEnd;
 
 			// Set and run the query
 			$db->setQuery($etMetaUpdateSQL);
 			$db_result = $db->query();
-			
+
 			if(!$db_result)
 			{
 				$statusArray = array( 'status' => 0, 'msg' => "Meta data update failed at row id ( $rowValue ):".$db->explain().'<br /> SQL => '.$etMetaUpdateSQL);
@@ -1131,7 +1148,7 @@ function toggleSearch()
 		$newFldsAlterArray = array();
 		// Process new fields
 		$lastNewFld = $newFldsArray[count($newFldsArray)-1];
-		
+
 		// 1.0 Process new fields array
 	    // Create 'insert' SQL for new meta record(s) from post data
 	    $insertSQL = '	INSERT INTO `#__easytables_table_meta` (`easytable_id`, `position`, `label`, `description`, `type`, `list_view`, `detail_link`, `detail_view`, `fieldalias`, `params`) VALUES ';
@@ -1170,13 +1187,13 @@ function toggleSearch()
 		// 2. Set the insertSQL as the query and execute it.
 		$db->setQuery($insertSQL);
 		$db_result = $db->query();
-		
+
 		if(!$db_result)
 		{
 			$msg = "Meta data update failed during new field insert: ".$db->explain().'<br /> SQL => '.$insertSQL;
 			return $msg;
 		}
-		
+
 		// 3.0 Now to actually alter the data table to match the stored meta data
 		// Build SQL to 'ADD' columns to the data table $tableName
 		$addSQL = 'ALTER TABLE '.$tableName.' ADD ( ';
@@ -1191,24 +1208,24 @@ function toggleSearch()
 			$msg = "Table update failed during addition of new columns: ".$db->explain().'<br /> SQL => '.$addSQL;
 			return $msg;
 		}
-		
+
 
 		return $msg;
 	}
-	
+
 	function deleteFieldsFromEasyTable ( $deletedFldIds )
 	{
 		$msg = 'Starting field removal.<br />';
 		$id = JRequest::getInt('id',0);
 		$selDelFlds = '`id` = '. implode(explode(', ', $deletedFldIds), ' or `id` =');
-		$deleteSelectSQL = ' from `#__easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';		
+		$deleteSelectSQL = ' from `#__easytables_table_meta` where `easytable_id` = '.$id.' and ('.$selDelFlds.')';
 
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
 		}
-		
+
 		// Set and execute the SQL select query
 		$db->setQuery('select `fieldalias` '.$deleteSelectSQL);
 		$select_Result = $db->loadResultArray();
@@ -1229,7 +1246,7 @@ function toggleSearch()
 
 		return $msg;
 	}
-	
+
 	function checkOutEasyTable()
 	{
 		// Get User ID
@@ -1251,7 +1268,7 @@ function toggleSearch()
 		$row->checkout($user->id,$id);
 		return $id;
 	}
-	
+
 	function checkInEasyTable()
 	{
 		// Check back in
@@ -1260,7 +1277,7 @@ function toggleSearch()
 
 		$row->checkin($id);
 	}
-	
+
 	function alterEasyTableColumn ( $origFldAlias, $newFldAlias, $fieldType )
 	{
 		if(JRequest::getVar('et_linked_et')) // External tables we don't mess with — bad things will happen to your data if you take this out. You have been warned.
@@ -1270,10 +1287,10 @@ function toggleSearch()
 		{
 			return false;
 		}
-		
+
 		// Convert the field type to SQL equivalent
 		$fieldType = $this->getFieldTypeAsSQL($fieldType);
-		
+
 		$id = JRequest::getInt('id',0);
 		// Build SQL to alter the table
 		$alterSQL = 'ALTER TABLE #__easytables_table_data_'.$id.'  CHANGE `'.$origFldAlias.'` `'.$newFldAlias.'` '.$fieldType.';';
@@ -1283,7 +1300,7 @@ function toggleSearch()
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to ALTER data table: $id");
 		}
-		
+
 		// Set and execute the SQL query
 		$db->setQuery($alterSQL);
 		$alter_result = $db->query();
@@ -1293,7 +1310,7 @@ function toggleSearch()
 		}
 		return true;
 	}
-	
+
 	function getFieldTypeAsSQL ($fieldType)
 	{
 		switch ( $fieldType )
@@ -1317,7 +1334,7 @@ function toggleSearch()
 		}
 		return $sqlFieldType;
 	}
-	
+
 	function getFieldFromPostMeta ()
 	{
 		// Now we have to retreive the fieldalias from the post data
@@ -1334,12 +1351,12 @@ function toggleSearch()
 
 		// 3. Get fieldalias values and stick them in an array
 		$fieldaliass = array();
-		
+
 		foreach($mRIds as $rId)
 		{
 			$fieldaliass[] = JRequest::getVar('fieldalias'.$rId);
 		}
-		
+
 		if(count($fieldaliass))
 		{
 			return $fieldaliass;
@@ -1374,12 +1391,12 @@ function toggleSearch()
 
 	function createMetaFrom ($CSVFileArray, $id)
 	{
-	// We Parse the csv file into an array of URL safe Column names 
+	// We Parse the csv file into an array of URL safe Column names
 		$csvColumnLabels = $CSVFileArray[0];
 
 		$csvColumnCount = count($csvColumnLabels);
-		
-		
+
+
 		$hasHeaders = JRequest::getVar('CSVFileHasHeaders');
 		$ettdColumnAliass = array();
 
@@ -1396,7 +1413,7 @@ function toggleSearch()
 				{
 					$columnAlias = 'a'.$columnAlias;
 				}
-				
+
 				// Check another field with this alias isn't already in the array
 				if(in_array($columnAlias, $ettdColumnAliass))
 				{
@@ -1419,7 +1436,7 @@ function toggleSearch()
 			}
 		}
 		reset($ettdColumnAliass);
-		
+
 		if($this->createETTD($id, $ettdColumnAliass)) // safe to populate the meta table as we've successfully created the ETTD
 		{
 			// Construct the SQL
@@ -1432,13 +1449,13 @@ function toggleSearch()
 					$insert_Meta_SQL_row .= ', ';
 				}
 				$insert_Meta_SQL_row .= "( NULL , '$id', '".addslashes($csvColumnLabels[$colnum])."', '$ettdColumnAliass[$colnum]')";
-				
+
 			}
 			// better terminate the statement
 			$insert_Meta_SQL_end = ';';
 			// pull it altogether
 			$insert_Meta_SQL = $insert_Meta_SQL_start.$insert_Meta_SQL_row.$insert_Meta_SQL_end;
-			
+
 	 		// Get a database object
 			$db =& JFactory::getDBO();
 			if(!$db){
@@ -1460,7 +1477,7 @@ function toggleSearch()
 
 		return($ettdColumnAliass);
 	}
-	
+
 	function removeMeta ($id)
 	{
 		// Get a database object
@@ -1473,10 +1490,10 @@ function toggleSearch()
 		$query = 'DELETE FROM '.$db->nameQuote('#__easytables_table_meta').' WHERE easytable_id ='.$id.';';
 
 		$db->setQuery($query);
-		
+
 		return($theResult=$db->query());
 	}
-	
+
 	function conformFieldAlias ($rawAlias)
 	{
 		// It's a linked table lets not change anything…
@@ -1496,11 +1513,11 @@ function toggleSearch()
 
 		return $columnAlias;
 	}
-	
+
 	function createETTD ($id, $ettdColumnAliass)
 	{
-		
-	// we turn the arrays of column names into the middle section of the SQL create statement 
+
+	// we turn the arrays of column names into the middle section of the SQL create statement
 		$ettdColumnSQL = implode('` TEXT NOT NULL , `', $ettdColumnAliass);
 
 	// Build the SQL create the ettd
@@ -1509,16 +1526,16 @@ function toggleSearch()
 		$create_ETTD_SQL .= $ettdColumnSQL;
 		// close the sql with the primary key
 		$create_ETTD_SQL .= '` TEXT NOT NULL ,  PRIMARY KEY ( `id` ) )';
-		
+
 		// Uncomment the next line if trying to debug a CSV file error
 		// JError::raiseError(500,'$id = '.$id.'<br />$ettdColumnAliass = '.$ettdColumnAliass.'<br />$ettdColumnSQL = '.$ettdColumnSQL.'<br />createETTD SQL = '.$create_ETTD_SQL );
-		
+
 	// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while trying to create table: $id");
 		}
-		
+
 	// Set and execute the SQL query
 		$db->setQuery($create_ETTD_SQL);
 		$ettd_creation_result = $db->query();
@@ -1541,7 +1558,7 @@ function toggleSearch()
 		$query = 'DROP TABLE '.$ettd_table_name.';';
 
 		$db->setQuery($query);
-		return($theResult=$db->query());		
+		return($theResult=$db->query());
 	}
 
 	function emptyETTD ($id)
@@ -1561,9 +1578,9 @@ function toggleSearch()
 		{
 			JError::raiseWarning(500, "Failed to TRUNCATE table data in $ettd_table_name");
 		}
-		return($theResult);		
+		return($theResult);
 	}
-	
+
 	function updateETTDTableFrom ($id, $ettdColumnAliass, $CSVFileArray)
 	{
 		// Setup basic variables
@@ -1579,11 +1596,11 @@ function toggleSearch()
 		// Check our CSV column count matches our ETTD
 		if( count($ettdColumnAliass) != count($CSVFileArray[0]))
 		{ return FALSE; } // Our existing column count doesn't match those found in the first line of the CSV
-		
+
 		// Break the array up into manageable chunks for processing
 		$CSVFileChunks = array_chunk($CSVFileArray, $chunkSize);
 		$numChunks = count( $CSVFileChunks );
-		
+
 		// Loop through chunks and send them off for processing
 		for($thisChunkNum = 0; $thisChunkNum < $numChunks; $thisChunkNum++)
 		{
@@ -1592,7 +1609,7 @@ function toggleSearch()
 			{
 				$headerRow = array_shift($CSVFileChunk); // shifts the first element off
 			}
-			
+
 			$updateChunkResult = $this->updateETTDWithChunk($CSVFileChunk, $id, $ettdColumnAliass); // We get back number of rows processed or 0 if it fails
 			if($updateChunkResult)
 			{
@@ -1611,13 +1628,13 @@ function toggleSearch()
 	{
 		// Setup basic variables
 		$msg = '';
-		
+
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
 			JError::raiseError(500,"Couldn't get the database object while doing SAVE() for table: $id");
 		}
-		
+
 		// Setup start of SQL
 		$insert_ettd_data_SQL_start  = 'INSERT INTO `#__easytables_table_data_';
 		$insert_ettd_data_SQL_start .= $id.'` ( `id`, `';
@@ -1643,7 +1660,7 @@ function toggleSearch()
 				{
 					$insert_ettd_data_values .= ', ';
 				}
-			
+
 				$tempString = implode("\t",$tempRowArray);
 				$tempString = addslashes($tempString);
 				$tempRowArray = explode("\t",$tempString);
@@ -1655,7 +1672,7 @@ function toggleSearch()
 		}
 
 		$insert_ettd_data_SQL_end = ';';
-		
+
 		$insert_ettd_data_SQL = $insert_ettd_data_SQL_start.$insert_ettd_data_values.$insert_ettd_data_SQL_end;
 
 		// Run the SQL to load the data into the ettd
@@ -1667,7 +1684,7 @@ function toggleSearch()
 		{
 			JError::raiseError(500,'Data insert failed for table: '.$id.' in updateETTDWithChunk() <br />Possibly your CSV file is malformed<br />'.$db->explain().'<br />'.'<br />'.$insert_ettd_data_SQL);
 		}
-		
+
 		return $csvRowCount;
 	}
 

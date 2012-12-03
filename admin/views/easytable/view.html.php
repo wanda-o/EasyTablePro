@@ -31,7 +31,7 @@ class EasyTableViewEasyTable extends JView
 		// Get the id for this table
 		$query = "SELECT id FROM ".$db->nameQuote('#__easytables')." WHERE `datatablename` ='".$tableName."'";
 		$db->setQuery($query);
-		
+
 		$id = $db->loadResult();
 		if($id) {
 			return $id;
@@ -74,7 +74,7 @@ class EasyTableViewEasyTable extends JView
 		}
 
 		$theListViewImage = '<img src="images/'.$theImageString.'" name="'.$rowElement.'_img" border="0" title="'.$btn_title.'" alt="'.$btn_title.'" class="hasTip"/>';
-		
+
 		return($theListViewImage);
 	}
 
@@ -100,7 +100,7 @@ class EasyTableViewEasyTable extends JView
 		$selectOptionText .= '<option value="4" '.($selectedType==4 ? 'selected="selected"':'').'>'.JText::_('NUMBER').'</option>';		// Type 4 = Numbers
 		$selectOptionText .= '<option value="5" '.($selectedType==5 ? 'selected="selected"':'').'>'.JText::_('DATE').'</option>';			// Type 5 = Dates
 		$selectOptionText .= '</select>';																						// close our html select structure
-		
+
 		return($selectOptionText);
 	}
 
@@ -125,7 +125,7 @@ class EasyTableViewEasyTable extends JView
 
 	/**
 	 * EasyTable view display method
-	 * 
+	 *
 	 * @return void
 	 **/
 	function display($tpl = null)
@@ -158,10 +158,12 @@ class EasyTableViewEasyTable extends JView
 			$datatablename = JRequest::getVar('datatablename','');
 			if($datatablename == "")
 			{
-				JError::raiseError( 500, JText::_( "HEY__WHA_DESC" ) );
+				JError::raiseWarning( 1, JText::_( "HEY__WHA_DESC" ) );
+				$this->setRedirect('index.php?option=com_easytablepro');
+				return;
 			}
 			$id = $this->getTableIDForName($datatablename);
-			if($id == 0) JError::raiseError( 500, JText::_( "SORRY__THA_DESC" ).$datatablename );
+			if($id == 0) JError::raiseWarning( 1, JText::_( "SORRY__THA_DESC" ).$datatablename );
 		}
 
 		$row->load($id);
@@ -173,7 +175,7 @@ class EasyTableViewEasyTable extends JView
 			$default_order_sql = " ORDER BY id;";
 		}
 
-		
+
 		// Get a database object
 		$db =& JFactory::getDBO();
 		if(!$db){
@@ -182,7 +184,7 @@ class EasyTableViewEasyTable extends JView
 		// Get the meta data for this table
 		$query = "SELECT * FROM ".$db->nameQuote('#__easytables_table_meta')." WHERE easytable_id =".$id.$default_order_sql;
 		$db->setQuery($query);
-		
+
 		$easytables_table_meta = $db->loadRowList();
 		$ettm_field_count = count($easytables_table_meta);
 
@@ -195,7 +197,7 @@ class EasyTableViewEasyTable extends JView
 		$ettd = in_array($ettd_tname, $allTables);
 
 		$state = 'Unpublished';
-		
+
 		$ettd_datatablename = $row->datatablename;
 		if($ettd_datatablename != '')
 		{
@@ -222,12 +224,12 @@ class EasyTableViewEasyTable extends JView
 		{
 			$easytables_table_data ='';
 			$ettd_record_count = 0;
-			
+
 			// Make sure that a table with no associated data table is never published
 			$row->published = FALSE;
 			$state = 'Unpublished';
 		}
-		
+
 
 		// keep the data for the tmpl
 		$this->assignRef('row', $row);
@@ -239,7 +241,7 @@ class EasyTableViewEasyTable extends JView
 		{
 			$this->assignRef('published', JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $row->published ));
 		}
-		
+
 		// Parameters for this table instance
 		$paramsdata = $row->params;
 		$paramsdefs = JPATH_COMPONENT_ADMINISTRATOR.'/models/easytable.xml';
@@ -253,7 +255,7 @@ class EasyTableViewEasyTable extends JView
 		$this->assignRef('params', $params);
 		$this->assign('maxFileSize', $maxFileSize);
 
-		$this->assign('id',$id);		
+		$this->assign('id',$id);
 		$this->assignRef('state',$state);
 		$this->assignRef('createddate', JHTML::date($row->created_));
 		$this->assignRef('modifieddate', JHTML::date($row->modified_));
