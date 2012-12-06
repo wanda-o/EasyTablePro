@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 // import Joomla modelform library
 jimport('joomla.application.component.modeladmin');
- 
+
 /**
  * EasyTablePro Table Model
  *
@@ -51,7 +51,7 @@ class EasyTableProModelTable extends JModelAdmin
 		}
 		return $form;
 	}
-	
+
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
@@ -68,8 +68,8 @@ class EasyTableProModelTable extends JModelAdmin
 		}
 		return $data;
 	}
-	
-	
+
+
 	/**
 	 * Method to set the EasyTable identifier
 	 *
@@ -100,37 +100,37 @@ class EasyTableProModelTable extends JModelAdmin
 			{
 				JError::raiseError(500,JText::sprintf("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR", $pk));
 			}
-			
+
 			// As a nicety if the easytable has just been created we sort the meta records (ie. the fields meta) in the original creation order (ie. the order found in the original import file)
 			$jinput = JFactory::getApplication()->input;
 			$from = $jinput->get( 'from', '' );
 			$default_order_sql = " ORDER BY position;";
-			
+
 			if ($from == 'create')
 			{
 				$default_order_sql = " ORDER BY id;";
 			}
-			
+
 			// Get the meta data for this table
 			$query = "SELECT * FROM ".$db->quoteName('#__easytables_table_meta')." WHERE easytable_id =".$item->id.$default_order_sql;
 			$db->setQuery($query);
-			
+
 			$easytables_table_meta = $db->loadAssocList('id');
 
-				
+
 			// OK now if there are meta records we add them to the item before returning it
 			if (count($easytables_table_meta))
 			{
 				$item->set('table_meta', $easytables_table_meta);
 				$item->set('ettm_field_count', count($easytables_table_meta));
 			}
-			
+
 			// Next we check for a data table
 			$ettd_tname = $db->getPrefix().'easytables_table_data_' . $item->id;
 			$allTables = $db->getTableList();
-			
+
 			$ettd = in_array($ettd_tname, $allTables);
-			
+
 			// Of course it might be a linked table
 			$ettd_datatablename = $item->datatablename;
 			if ($ettd_datatablename != '')
@@ -170,7 +170,7 @@ class EasyTableProModelTable extends JModelAdmin
 			{
 				$easytables_table_data ='';
 				$ettd_record_count = 0;
-				
+
 				// Make sure that a table with no associated data table is never published
 				$item->published = FALSE;
 				$state = $kUnpubState;
@@ -328,26 +328,26 @@ class EasyTableProModelTable extends JModelAdmin
 		 */
 		// we turn the arrays of column names into the middle section of the SQL create statement
 		$ettdColumnSQL = implode('` TEXT NOT NULL , `', $ettdColumnAliass);
-		
+
 		// Build the SQL create the ettd
 		$create_ETTD_SQL = 'CREATE TABLE `#__easytables_table_data_'.$id.'` (`id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT , `';
-		
+
 		// Insert exlpoded
 		$create_ETTD_SQL .= $ettdColumnSQL;
-		
+
 		// close the sql with the primary key
 		$create_ETTD_SQL .= '` TEXT NOT NULL ,  PRIMARY KEY ( `id` ) )';
-		
+
 		// Uncomment the next line if trying to debug a CSV file error
 		// JError::raiseError(500,'$id = '.$id.'<br />$ettdColumnAliass = '.$ettdColumnAliass.'<br />$ettdColumnSQL = '.$ettdColumnSQL.'<br />createETTD SQL = '.$create_ETTD_SQL );
-		
+
 		// Get a database object
 		$db = JFactory::getDBO();
 		if (!$db)
 		{
 			JError::raiseError(500,"Couldn't get the database object while trying to create table: $id");
 		}
-		
+
 		// Set and execute the SQL query
 		$db->setQuery($create_ETTD_SQL);
 		$ettd_creation_result = $db->query();

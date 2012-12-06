@@ -12,7 +12,7 @@ class ET_VHelper
 	/*
 		$f = field value
 		$type = user defined type
-		$params = field options 
+		$params = field options
 	*/
 	public static function getFWO ($f='', $type=0, $params=null, $OrigRow, $currentImageDir)
 	{

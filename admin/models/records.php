@@ -34,12 +34,12 @@ class EasyTableProModelRecords extends JModelList
  	var $_pagination = null;
 
  	/**
- 	 * 
+ 	 *
  	 * Search text
  	 * @var string
  	 */
  	var $_search = null;
- 
+
   	/**
 	 * EasyTables data array
 	 *
@@ -50,7 +50,7 @@ class EasyTableProModelRecords extends JModelList
 	protected $option;
 	protected $context;
 	/**
-	 * 
+	 *
 	 * Sets up the JPagination variables
 	 */
 	function __construct()
@@ -65,7 +65,7 @@ class EasyTableProModelRecords extends JModelList
 		// Get pagination request variables
 		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
@@ -100,7 +100,7 @@ class EasyTableProModelRecords extends JModelList
 	{
 		$trid = ET_Helper::getTableRecordID();
 		$pk = $trid[0];
-		// Create a new query object.		
+		// Create a new query object.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		// Select some fields
@@ -137,7 +137,7 @@ class EasyTableProModelRecords extends JModelList
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @return	void
-	 * 
+	 *
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -153,7 +153,7 @@ class EasyTableProModelRecords extends JModelList
 	}
 
 	/**
-	 * 
+	 *
 	 * Returns the search term equated to each field alias in array
 	 */
 	function getSearch($theTable, $search)
