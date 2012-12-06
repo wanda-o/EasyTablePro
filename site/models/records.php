@@ -219,12 +219,13 @@ class EasyTableProModelRecords extends JModelList
 			{
 				if (stripos($search, 'id:') === 0)
 				{
-					$query->where($tprefix . $db->quoteName('id') . ' = ' . (int) substr($search, 3));
+					$searchValue = (int) substr($search, 3);
+					$query->where($tprefix . $db->quoteName('id') . ' = ' .$db->quote($searchValue));
 				}
-				elseif (stripos($search, '::') === 0)
+				elseif (stripos($search, '::') != 0)
 				{
-					$kvp = explode($search, '::');
-					$query->where($tprefix . '.' . $db->quoteName($kvp[0]) . ' = ' . $kvp[1]);
+					$kvp = explode('::', $search);
+					$query->where($tprefix . $db->quoteName($kvp[0]) . ' LIKE ' . $db->quote('%'.$db->escape($kvp[1], true).'%'));
 				}
 				else
 				{
