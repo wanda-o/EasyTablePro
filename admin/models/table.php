@@ -93,15 +93,52 @@ class EasyTableProModelTable extends JModelAdmin
 		// If we have an actual record (and not a new item) then we need to load the meta records
 		if ($item->id > 0)
 		{
-			// Now that we have the base easytable record we have to retrieve the associated field records (ie. the meta about each field in the table)
 			// Get a database object
 			$db = JFactory::getDBO();
-
 			if (!$db)
 			{
 				JError::raiseError(500,JText::sprintf("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR", $pk));
 			}
 
+			// Get a list of accessible tables
+			$allTables = $db->getTableList();
+
+			// Lets see if there's a defined name...
+			$ettd_datatablename = $item->datatablename;
+			// Lets validate that external table
+			if ($ettd_datatablename != '')
+			{
+				$et_ext_table = TRUE;
+				$ettd_tname = $ettd_datatablename;
+			}
+			else
+			{
+				$et_ext_table = FALSE;
+				$ettd_tname = $db->getPrefix().'easytables_table_data_' . $item->id;
+			}
+			// Next we check for an actual data table
+			$et_datatable_found = in_array($ettd_tname, $allTables);
+			// If we have an actual data table we need to grab the primary key
+			if($et_datatable_found)
+			{
+				$query = 'SHOW KEYS FROM '.$db->quoteName($ettd_tname).
+				' WHERE '.$db->quoteName('Key_name').' = '.$db->quote('Primary');
+				$db->setQuery($query);
+				$pkObject = $db->loadObject();
+				$et_Keyname = $pkObject->Column_name;
+			}
+			else
+			{
+				$et_Keyname = '';
+			}
+
+			// Ok store these bits
+			$item->set('ettd', $et_datatable_found);
+			$item->set('etet', $et_ext_table);
+			$item->set('ettd_tname', $ettd_tname);
+			$item->et_Keyname = $et_Keyname;
+
+			// Now that we have the base easytable record we have to retrieve the associated field records (ie. the meta about each field in the table)
 			// As a nicety if the easytable has just been created we sort the meta records (ie. the fields meta) in the original creation order (ie. the order found in the original import file)
 			$jinput = JFactory::getApplication()->input;
 			$from = $jinput->get( 'from', '' );
@@ -134,34 +171,10 @@ class EasyTableProModelTable extends JModelAdmin
 				$item->set('ettm_field_count', count($easytables_table_meta));
 			}
 
-			// Next we check for a data table
-			$ettd_tname = $db->getPrefix().'easytables_table_data_' . $item->id;
-			$allTables = $db->getTableList();
-
-			$ettd = in_array($ettd_tname, $allTables);
-
-			// Of course it might be a linked table
-			$ettd_datatablename = $item->datatablename;
-			if ($ettd_datatablename != '')
-			{
-				$ettd = TRUE;
-				$etet = TRUE;
-				$ettd_tname = $ettd_datatablename;
-			}
-			else
-			{
-				$etet = FALSE;
-			}
-
-			// Ok store these bits
-			$item->set('ettd', $ettd);
-			$item->set('etet', $etet);
-			$item->set('ettd_tname', $ettd_tname);
-
 			// By default we assume unpublished but we check...
 			$state = 'Unpublished';
 
-			if ($ettd)
+			if ($et_datatable_found)
 			{
 				// Get the record count for this table
 				$query = "SELECT COUNT(*) FROM ".$db->nameQuote($ettd_tname);
