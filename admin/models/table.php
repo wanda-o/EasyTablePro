@@ -89,13 +89,14 @@ class EasyTableProModelTable extends JModelAdmin
 		$item = parent::getItem($pk);
 		$kPubState = 'Published';
 		$kUnpubState = 'Unpublished';
-		
+
 		// If we have an actual record (and not a new item) then we need to load the meta records
 		if ($item->id > 0)
 		{
 			// Now that we have the base easytable record we have to retrieve the associated field records (ie. the meta about each field in the table)
 			// Get a database object
 			$db = JFactory::getDBO();
+
 			if (!$db)
 			{
 				JError::raiseError(500,JText::sprintf("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR", $pk));
@@ -104,15 +105,23 @@ class EasyTableProModelTable extends JModelAdmin
 			// As a nicety if the easytable has just been created we sort the meta records (ie. the fields meta) in the original creation order (ie. the order found in the original import file)
 			$jinput = JFactory::getApplication()->input;
 			$from = $jinput->get( 'from', '' );
-			$default_order_sql = " ORDER BY position;";
 
 			if ($from == 'create')
 			{
-				$default_order_sql = " ORDER BY id;";
+				$default_order_sql = $db->quoteName('id');
+			}
+			else
+			{
+				$default_order_sql = $db->quoteName('position');
 			}
 
 			// Get the meta data for this table
-			$query = "SELECT * FROM ".$db->quoteName('#__easytables_table_meta')." WHERE easytable_id =".$item->id.$default_order_sql;
+			$query = $db->getQuery(true);
+			$query->select('*');
+			$query->from($db->quoteName('#__easytables_table_meta'));
+			$where = $db->quoteName('easytable_id').' = '.$db->quote($item->id);
+			$query->where($where);
+			$query->order($default_order_sql);
 			$db->setQuery($query);
 
 			$easytables_table_meta = $db->loadAssocList('id');
