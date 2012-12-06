@@ -126,9 +126,9 @@ class EasyTableProModelRecords extends JModelList
 	/**
 	 * Method to get table data.
 	 *
-	 * @param	integer	The id of the article.
+	 * @param	integer	The id of the table.
 	 *
-	 * @return	mixed	Menu item data object on success, false on failure.
+	 * @return	array	Array or records (or empty array)
 	 */
 	public function &getItems($pk = null)
 	{
