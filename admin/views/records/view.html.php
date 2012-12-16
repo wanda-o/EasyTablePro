@@ -113,8 +113,8 @@ class EasyTableProViewRecords extends JView
 
 		JToolBarHelper::divider();
 
-		$vn = $this->name;
-		JToolBarHelper::help('COM_EASYTABLEPRO_HELP_TABLES_VIEW',false,'http://seepeoplesoftware.com/products/easytablepro/1.1/help/' . $vn . '.html');
+		$vn = $this->_name;
+		JToolBarHelper::help('COM_EASYTABLEPRO_HELP_TABLES_VIEW',false,'http://seepeoplesoftware.com/products/easytablepro/1.1/help/administrator/' . $vn . '.html');
 	}
 
 	private function addCSSEtc ()
