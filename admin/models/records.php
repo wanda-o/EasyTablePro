@@ -119,7 +119,7 @@ class EasyTableProModelRecords extends JModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('t.id = '.(int) substr($search, 3));
+				$query->where('t.id = '.$db->quote((int) substr($search, 3)));
 			}
 			else
 			{
