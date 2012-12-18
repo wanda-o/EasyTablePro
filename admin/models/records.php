@@ -1,59 +1,39 @@
 <?php
 /**
- * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
-//--No direct access
+// No direct access
 defined('_JEXEC') or die('Restricted Access');
 
-jimport( 'joomla.application.component.modellist' );
-require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/recordsviewfunctions.php';
+jimport('joomla.application.component.modellist');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/recordsviewfunctions.php';
 
 /**
  * EasyTables Virtual Model for User Tables
  *
- * @package    EasyTables
- * @subpackage Models
+ * @package     EasyTables
+ * @subpackage  Models
+ *
+ * @since       1.0
  */
 class EasyTableProModelRecords extends JModelList
 {
 
-	/**
-	 * Items total
-	 * @var integer
-	 */
-	var $_total = null;
-
- 	/**
- 	 * Pagination object
-	 * @var object
-	 */
- 	var $_pagination = null;
-
- 	/**
- 	 *
- 	 * Search text
- 	 * @var string
- 	 */
- 	var $_search = null;
-
-  	/**
-	 * EasyTables data array
-	 *
-	 * @var array
-	 */
-	var $_data;
-
 	protected $option;
+
 	protected $context;
+
 	/**
+	 * __contstruct()
 	 *
 	 * Sets up the JPagination variables
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -62,6 +42,7 @@ class EasyTableProModelRecords extends JModelList
 		// Set our 'option' & 'context'
 		$this->option = 'com_easytablepro';
 		$this->context = 'records';
+
 		// Get pagination request variables
 		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
@@ -80,14 +61,15 @@ class EasyTableProModelRecords extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
-	 * @return	string		A store id.
+	 * @return  string		A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':' . $this->getState('filter.search');
+
 		return md5($this->context . ':' . $id);
 	}
 
@@ -100,9 +82,11 @@ class EasyTableProModelRecords extends JModelList
 	{
 		$trid = ET_Helper::getTableRecordID();
 		$pk = $trid[0];
+
 		// Create a new query object.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
+
 		// Select some fields
 		$query->select('t.*');
 
@@ -115,15 +99,16 @@ class EasyTableProModelRecords extends JModelList
 
 		// Filter by search in table name, alias, author or id.
 		$search = $this->state->get('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('t.id = '.$db->quote((int) substr($search, 3)));
+				$query->where('t.id = ' . $db->quote((int) substr($search, 3)));
 			}
 			else
 			{
-				$search = $db->Quote('%'.$db->escape($search, true).'%');
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
 				$searchArray = $this->getSearch($theTable, $search);
 				$query->where($searchArray, 'OR');
 			}
@@ -136,8 +121,12 @@ class EasyTableProModelRecords extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
+	 * @return  void
+	 *
+	 * @since   1.1
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -145,7 +134,7 @@ class EasyTableProModelRecords extends JModelList
 		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
 
-		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		// List state information.
@@ -153,16 +142,22 @@ class EasyTableProModelRecords extends JModelList
 	}
 
 	/**
-	 *
 	 * Returns the search term equated to each field alias in array
+	 *
+	 * @param   object  $theTable  EasyTableObject
+	 *
+	 * @param   string  $search    The search string
+	 *
+	 * @return  array   Of search elements
 	 */
-	function getSearch($theTable, $search)
+	protected function getSearch($theTable, $search)
 	{
 		$fieldMeta = $theTable->table_meta;
 		$db = JFactory::getDBO();
 
-		foreach ($fieldMeta as $row) {
-			$fieldSearch[] = ( 't.' . $db->quoteName( $row['fieldalias']) ) . " LIKE " . $search;
+		foreach ($fieldMeta as $row)
+		{
+			$fieldSearch[] = ('t.' . $db->quoteName($row['fieldalias'])) . " LIKE " . $search;
 		}
 		return $fieldSearch;
 	}

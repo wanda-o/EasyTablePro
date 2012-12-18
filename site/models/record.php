@@ -1,23 +1,23 @@
 <?php /**
- * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @package     EasyTable_Pro
+ * @subpackage  Models
+ * @author      Craig Phillips <craig@craigphillips.biz>
+ * @copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @link        http://www.seepeoplesoftware.com
  */
 
 
 //--No direct access
 defined('_JEXEC') or die ('Restricted Access');
 
-jimport( 'joomla.application.component.modelitem' );
+jimport('joomla.application.component.modelitem');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
 /**
  * EasyTableProRecord Model
  *
- * @package	   EasyTablePro
- * @subpackage Models
  */
 class EasyTableProModelRecord extends JModelItem
 {
@@ -27,6 +27,8 @@ class EasyTableProModelRecord extends JModelItem
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
 	 *
 	 * @since	1.6
 	 */
@@ -49,7 +51,8 @@ class EasyTableProModelRecord extends JModelItem
 		$menuItem = $app->input->get('Itemid');
 		$menu = $app->getMenu();
 		$currentMenuItem = $menu->getItem($menuItem);
-		if($currentMenuItem->query['option'] == 'com_easytablepro' )
+
+		if ($currentMenuItem->query['option'] == 'com_easytablepro')
 		{
 			$etIdFromMenu = $currentMenuItem->query['id'];
 		}
@@ -60,6 +63,15 @@ class EasyTableProModelRecord extends JModelItem
 		$this->setState('etIdFromMenu', $etIdFromMenu);
 	}
 
+	/**
+	 * Method to get a single row from the table
+	 *
+	 * @param   null $pk
+	 *
+	 * @return object
+	 *
+	 * @throws Exception
+	 */
 	public function &getItem($pk = null)
 	{
 		// Initialise variables.
@@ -71,15 +83,19 @@ class EasyTableProModelRecord extends JModelItem
 			$this->_item = array();
 		}
 
-		if (!isset($this->_item[$etID.'.'.$pk]))
+		if (!isset($this->_item[$etID . '.' . $pk]))
 		{
-			try {
+			try
+			{
 				// Get our DB connection
 				$db = $this->getDbo();
+
 				// Setup a new query
 				$query = $db->getQuery(true);
+
 				// Get our table meta data
 				$et = ET_Helper::getEasytableMetaItem($etID);
+
 				if (!$et)
 				{
 					return JError::raiseError(404, JText::_('COM_EASYTABLEPRO_RECORD_ERROR_TABLE_NOT_FOUND'));
@@ -87,7 +103,7 @@ class EasyTableProModelRecord extends JModelItem
 				// @todo move to general helper functions
 				// First up lets convert these params to a JRegister
 				$rawParams = $et->params;
-				$paramsObj = new JRegistry();
+				$paramsObj = new JRegistry;
 				$paramsObj->loadArray($rawParams);
 				$et->params = $paramsObj;
 
@@ -100,7 +116,7 @@ class EasyTableProModelRecord extends JModelItem
 
 				// Get our elements for next & prev records, making sure we use the
 				// params relevant to the current table.
-				if($et->id == $this->getState('etIdFromMenu'))
+				if ($et->id == $this->getState('etIdFromMenu'))
 				{
 					$paramsToUse = $this->getState('params', null);
 				}
@@ -110,9 +126,10 @@ class EasyTableProModelRecord extends JModelItem
 				}
 
 				$orderFieldId = $paramsToUse->get('sort_field', 0);
+
 				if ($orderFieldId != 0)
 				{
-					$orderField = substr($orderFieldId, strpos($orderFieldId, ':')+1);
+					$orderField = substr($orderFieldId, strpos($orderFieldId, ':') + 1);
 					$ordDir = $paramsToUse->get('sort_order', 'ASC');
 				}
 				else
@@ -121,17 +138,18 @@ class EasyTableProModelRecord extends JModelItem
 					$ordDir = 'ASC';
 				}
 				$title_leaf = $et->params->get('title_field');
+
 				if ($i = strpos($title_leaf, ':'))
 				{
-					$title_leaf = substr($title_leaf, $i+1);
+					$title_leaf = substr($title_leaf, $i + 1);
 				}
 
-				// @todo add title_field id to prev/next request to retreive leaf
+				// @todo add title_field id to prev/next request to retrieve leaf
 				$prevId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_leaf);
 				$nextId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_leaf, true);
 
 				// Do we need linked records?
-				$show_linked_table = $et->params->get('show_linked_table',0);
+				$show_linked_table = $et->params->get('show_linked_table', 0);
 				$linked_table = $linked_data = $let = null;
 
 				if ($show_linked_table)
@@ -139,19 +157,21 @@ class EasyTableProModelRecord extends JModelItem
 					$linked_table   = $et->params->get('id', 0);
 					$key_field   = (int)$et->params->get('key_field', 0);
 					$linked_key_field = $et->params->get('linked_key_field', 0);
+
 					// We need all 3 id's to proceed
 					if ($linked_table && $key_field && $linked_key_field)
 					{
 						// Retreive the linked table
 						$let = ET_Helper::getEasytableMetaItem($linked_table);
-						$letP = new JRegistry();
+						$letP = new JRegistry;
 						$letP->loadArray($let->params);
 						$let->params = $letP;
 						$key_field = $et->table_meta[$key_field]['fieldalias'];
 						$key_field_value = $record->$key_field;
 						$linked_key_field_meta = $let->table_meta[$linked_key_field];
 						$linked_key_field = $linked_key_field_meta['fieldalias'];
-						$linked_data = $this->getLinked($let,$key_field_value,$linked_key_field);
+						$linked_data = $this->getLinked($let, $key_field_value, $linked_key_field);
+
 						// If no matching records are found we act as if not linked (makes everything cleaner).
 						if (!count($linked_data))
 						{
@@ -181,14 +201,20 @@ class EasyTableProModelRecord extends JModelItem
 					// If the access filter has been set, we already know this user can view.
 					$et->params->set('access-view', true);
 				}
-				else {
+				else
+				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
 					$user = JFactory::getUser();
 					$groups = $user->getAuthorisedViewLevels();
 
 					$et->params->set('access-view', in_array($et->access, $groups));
 				}
-				$item = (object) array('easytable' => $et, 'record' => $record, 'prevRecordId' => $prevId, 'nextRecordId' => $nextId, 'linked_table' => $let, 'linked_records' => $linked_data);
+				$item = (object) array( 'easytable'    => $et,
+										'record'       => $record,
+										'prevRecordId' => $prevId,
+										'nextRecordId' => $nextId,
+										'linked_table' => $let,
+										'linked_records' => $linked_data);
 
 				$this->_item[$etID . '.' . $pk] = $item;
 			}
@@ -199,7 +225,8 @@ class EasyTableProModelRecord extends JModelItem
 					// Need to go thru the error handler to allow Redirect to work.
 					JError::raiseError(404, $e->getMessage());
 				}
-				else {
+				else
+				{
 					$this->setError($e);
 					$this->_item[$etID . '.' . $pk] = false;
 				}
@@ -219,13 +246,16 @@ class EasyTableProModelRecord extends JModelItem
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
+
 			// Get all fields of our matching records
 			$query->select('*');
 			$query->from($db->quoteName($linked_table->ettd_tname));
 			$query->where($db->quoteName($linked_key_field) . ' = ' . $db->quote($key_field_value));
+
 			// Set our query and retreive our records
 			$db->setQuery($query);
 			$linked_data = $db->loadAssocList();
+
 			return $linked_data;
 		}
 	}
@@ -233,17 +263,19 @@ class EasyTableProModelRecord extends JModelItem
 	protected function getAdjacentId ($tableName='', $orderField, $ordDir, $currentOrderFieldValue, $leafField, $next=FALSE)
 	{
 		// Do we need to flip for reverse sort order
-		if ($ordDir == 'DESC') $next = !$next;
+		if ($ordDir == 'DESC')
+			$next = !$next;
+
 		// Next record?
 		if ($next)
 		{
 			$eqSym = '>';
-			$sortOrder =  'ASC';
+			$sortOrder = 'ASC';
 		}
 		else
 		{ // So prev. record.
 			$eqSym = '<';
-			$sortOrder =  'DESC';
+			$sortOrder = 'DESC';
 		}
 
 		// Make sure we have a field value to check against...

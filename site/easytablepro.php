@@ -10,18 +10,20 @@
  * Frontend Component
  */
 
-//--No direct access
+// No direct access
 defined('_JEXEC') or die('Restricted Access');
-// Include dependancies
+
+// Include dependencies
 jimport('joomla.application.component.controller');
 
 $jInput = JFactory::getApplication()->input;
 $vName = $jInput->get('view', 'tables');
+
 if ($vName === 'tables')
-{ 
+{
 	$jInput->set('task', $vName . '.' . 'display');
 }
 
 $controller = JController::getInstance('EasyTablePro');
-$controller->execute( $jInput->get('task'));
+$controller->execute($jInput->get('task'));
 $controller->redirect();

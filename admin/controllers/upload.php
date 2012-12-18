@@ -327,7 +327,8 @@ class EasyTableProControllerUpload extends JControllerForm
 					}
 					else
 					{
-						$CSVTableArray[] = $data;	// We store the row array
+						// We store the row array
+						$CSVTableArray[] = $data;
 					}
 				}
 			}

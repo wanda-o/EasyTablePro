@@ -86,6 +86,7 @@ class EasyTableProModelTable extends JModelAdmin
 
 
 	function getItem($pk = null) {
+		// @TODO Cache this item!
 		$item = parent::getItem($pk);
 		$kPubState = 'Published';
 		$kUnpubState = 'Unpublished';
