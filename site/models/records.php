@@ -59,19 +59,21 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	public function __construct()
 	{
+		$jAp = JFactory::getApplication();
+		$jInput = $jAp->input;
+
 		// Set state from the request.
-		$pk = JRequest::getInt('id');
+		$pk = $jInput->getInt('id', 0);
+
 		// Create a context per table id -> so searches and pagination starts are per table
 		$this->context = $this->_context . '.' . $pk;
 
 		parent::__construct();
 		$this->setState('records.id', $pk);
 
-		$jAp = JFactory::getApplication();
-
 		// Get pagination request variables
 		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart = $jInput->getInt('limitstart', 0);
 
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
