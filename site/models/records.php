@@ -228,9 +228,10 @@ class EasyTableProModelRecords extends JModelList
 		$db = JFactory::getDbo();
 		$tprefix = $db->quoteName('t');
 		$tprefix .= '.';
-		$query->select($tprefix.$db->quoteName('id'));
 
 		// Why don't we just select * ?
+		// @todo Ok, this next line is a problem, why don't we just select all?
+		$query->select($tprefix . $db->quoteName($theTable->key_name) . ' AS ' . $db->quoteName('id'));
 
 		foreach ($theTable->all_fields as $aField)
 		{
@@ -254,7 +255,7 @@ class EasyTableProModelRecords extends JModelList
 				if (stripos($search, 'id:') === 0)
 				{
 					$searchValue = (int) substr($search, 3);
-					$query->where($tprefix . $db->quoteName('id') . ' = ' .$db->quote($searchValue));
+					$query->where($tprefix . $db->quoteName($theTable->key_name) . ' = ' . $db->quote($searchValue));
 				}
 				elseif (stripos($search, '::') != 0)
 				{
@@ -271,7 +272,7 @@ class EasyTableProModelRecords extends JModelList
 		}
 		else
 		{
-			$idstr = $db->quoteName('id').' = \'';
+			$idstr = $db->quoteName($theTable->key_name) . ' = \'';
 			$idSql = array();
 
 			foreach ($srids as $rid)
@@ -405,6 +406,13 @@ class EasyTableProModelRecords extends JModelList
 						$theEasyTable->list_fields = ET_VHelper::getFieldNames($theEasyTable->filv);
 						$theEasyTable->fidv = ET_VHelper::getFieldsInDetailView($easytables_table_meta);
 						$theEasyTable->fnidv = ET_VHelper::getFieldsNotInDetailView($easytables_table_meta);
+
+						// Now we need the primary key label
+						$query = 'SHOW KEYS FROM ' . $db->quoteName($theEasyTable->ettd_tname) . ' WHERE ' . $db->quoteName('Key_name') . ' = ' . $db->quote('Primary');
+						$db->setQuery($query);
+						$pkObject = $db->loadObject();
+						$et_Key_name = $pkObject->Column_name;
+						$theEasyTable->key_name = $et_Key_name;
 					}
 					else
 					{
