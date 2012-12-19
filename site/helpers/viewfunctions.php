@@ -211,7 +211,9 @@ class ET_VHelper
 	{
 		// For fully qualified URL's starting with HTTP(S) we open in a new window, for everything else its the same window.
 		$URLTarget = 'target="_blank"';
-		if (substr($f,0,7)!='http://')
+
+		// Check for a protocol
+		if ((substr($f, 0, 7) != 'http://') || (substr($f, 0, 8) != 'https://'))
 		{
 			$URLTarget = '';
 		}
