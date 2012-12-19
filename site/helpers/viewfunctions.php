@@ -180,7 +180,13 @@ class ET_VHelper
 	{
 		if ($f)
 		{
-			$pathToImage = JURI::root().$currentImageDir.'/'.$f;  // we concatenate the image URL with the tables default image path
+			// We concatenate the image URL with the tables default image path
+			if (!empty($currentImageDir))
+			{
+				$currentImageDir = $currentImageDir . '/';
+			}
+			$pathToImage = JURI::root() . $currentImageDir . $f;
+
 			if ($fieldOptions == '')
 			{
 				$fieldWithOptions = '<img src="' . trim($pathToImage) . '" alt="' . $f . '" />';
