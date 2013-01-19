@@ -1,45 +1,44 @@
 <?php
 /**
- * @package		EasyTablePro
- * @link		http://seepeoplesoftware.com
- * @license		GNU/GPL
- * @copyright	Craig Phillips Pty Ltd
-*/
- 
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
+ */
+
 // No direct access
- 
-defined( '_JEXEC' ) or die( 'Restricted access' );
- 
+
+defined('_JEXEC') or die('Restricted access');
+
 jimport('joomla.application.component.controller');
  
 /**
  * EasyTablePro Component Controller
+ *
+ * @package  EasyTable_Pro
+ *
+ * @since    1.0
  */
 class EasyTableProController extends JController
 {
 	/**
-
 	 * @var		string	The default view.
-
 	 *
-
 	 */
-
 	protected $default_view = 'tables';
-
 
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return	JController		$this object to support chaining.
-	 *
 	 */
 	public function display($cachable = false, $urlparams = false)
-    {
-    	$jInput = JFactory::getApplication()->input;
+	{
+		$jInput = JFactory::getApplication()->input;
 		$view		= $jInput->get('view', 'tables');
 		$layout 	= $jInput->get('layout', 'tables');
 		$id			= $jInput->get('id');
@@ -54,8 +53,8 @@ class EasyTableProController extends JController
 
 			return false;
 		}
-		
-    	parent::display($cachable);
+
+		parent::display($cachable);
 
 		return $this;
 	}

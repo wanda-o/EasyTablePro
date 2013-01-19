@@ -1,17 +1,26 @@
 <?php
 /**
- * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
-	defined('_JEXEC') or die ('Restricted Access');
-
+defined('_JEXEC') or die('Restricted Access');
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 jimport('joomla.form.helper');
 
+/**
+ * JFormFieldEasyTable provides the options for the Table selection menu.
+ *
+ * @package     EasyTables
+ *
+ * @subpackage  Model/Fields
+ *
+ * @since       1.1
+ */
 class JFormFieldEasyTableFields extends JFormFieldList
 {
 	/**
@@ -20,23 +29,31 @@ class JFormFieldEasyTableFields extends JFormFieldList
 	 * @access	protected
 	 * @var		string
 	 */
-	public $type = 'EasyTableFields';
+	protected $type = 'EasyTableFields';
 
+	/**
+	 * getOptions() provides the options for each field in a table.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.1
+	 */
 	protected function getOptions()
 	{
 		$db = JFactory::getDBO();
-		$result ='';
+		$result = '';
 
 		// Get our menu item ID
 		$Ap = JFactory::getApplication();
 		$jinput = $Ap->input;
 		$id = $jinput->get('id', null);
-		$theOpt = $jinput->get('option','No Table Option');
+		$theOpt = $jinput->get('option', 'No Table Option');
 
 		if ($theOpt == 'com_menus')
 		{
 			$menus = $Ap->getMenu('site');
 			$menuItem = $menus->getItem($id);
+
 			if ($menuItem)
 			{
 				$id = $menuItem->query['id'];
@@ -50,7 +67,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 		if ($id)
 		{
 			$query = $db->getQuery(true);
-			$query->select('CONCAT(' . $db->quoteName('id') .',' . '\':\'' .',' . $db->quoteName('fieldalias'). ') as value');
+			$query->select('CONCAT(' . $db->quoteName('id') . ',' . '\':\'' . ',' . $db->quoteName('fieldalias') . ') as value');
 			$query->select('label as text');
 			$query->from('#__easytables_table_meta');
 			$query->where($db->quoteName('easytable_id') . ' = ' . $id);
@@ -58,10 +75,10 @@ class JFormFieldEasyTableFields extends JFormFieldList
 
 			$db->setQuery($query);
 			$options = $db->loadObjectList();
-			$noneSelected = new stdClass();
+			$noneSelected = new stdClass;
 			$noneSelected->value = '';
-			$noneSelected->text = '-- '.JText::_('COM_EASYTABLEPRO_LABEL_NONE_SELECTED').' --';
-			array_splice($options,0,0,array($noneSelected));
+			$noneSelected->text = '-- ' . JText::_('COM_EASYTABLEPRO_LABEL_NONE_SELECTED') . ' --';
+			array_splice($options, 0, 0, array($noneSelected));
 		}
 		else
 		{

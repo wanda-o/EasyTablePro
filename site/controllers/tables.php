@@ -1,12 +1,13 @@
 <?php
 /**
- * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
-//--No direct access
+// No direct access
 defined('_JEXEC') or die ('Restricted Access');
 
 jimport('joomla.application.component.controller');
@@ -14,18 +15,24 @@ jimport('joomla.application.component.controller');
 /**
  * EasyTables Controller
  *
- * @package    EasyTables
- * @subpackage Controllers
+ * @package     EasyTables
+ * @subpackage  Controllers
+ *
+ * @since       1.0
  */
-jimport('joomla.application.component.controller');
 class EasyTableProControllerTables extends JController
 {
+	/**
+	 * @var string
+	 */
 	protected $_context = 'com_easytablepro.tables';
 
 	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   array  $config  Configuration parameters.
 	 *
 	 * @since	1.6
 	 */
@@ -34,11 +41,35 @@ class EasyTableProControllerTables extends JController
 		parent::__construct($config);
 	}
 
+	/**
+	 * getModel()
+	 *
+	 * @param   string  $name    Model name.
+	 *
+	 * @param   string  $prefix  Component class name.
+	 *
+	 * @param   array   $config  Optional configuration parameters.
+	 *
+	 * @return EasyTableProModelTables
+	 *
+	 * @since  1.0
+	 */
 	public function getModel($name = 'Tables', $prefix = 'EasyTableProModel', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
 
+	/**
+	 * display()
+	 *
+	 * @param   bool  $cachable   Optional
+	 *
+	 * @param   bool  $urlparams  Optional
+	 *
+	 * @return  EasyTableProControllerTables
+	 *
+	 * @since   1.0
+	 */
 	public function display($cachable = false, $urlparams = false)
 	{
 		$jInput = JFactory::getApplication()->input;
@@ -52,5 +83,3 @@ class EasyTableProControllerTables extends JController
 		return $this;
 	}
 }
-
-// class

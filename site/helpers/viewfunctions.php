@@ -1,9 +1,10 @@
 <?php
 /**
  * @package    EasyTable_Pro
- *
+ * @author     Craig Phillips <craig@craigphillips.biz>
  * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
  * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
 defined('_JEXEC') or die;
@@ -360,7 +361,7 @@ class ET_VHelper
 	 *
 	 * @return  array
 	 */
-	public static function getFieldNames( $fields, $nameColumn='fieldalias' )
+	public static function getFieldNames($fields, $nameColumn='fieldalias')
 	{
 		$fieldNames = array();
 
@@ -378,9 +379,9 @@ class ET_VHelper
 	 *
 	 * @return  array
 	 */
-	public static function getFieldsInListView( $fieldMeta )
+	public static function getFieldsInListView($fieldMeta)
 	{
-		return self::getFieldsInView( $fieldMeta, 'list', true);
+		return self::getFieldsInView($fieldMeta, 'list', true);
 	}
 
 	/**
@@ -390,9 +391,9 @@ class ET_VHelper
 	 *
 	 * @return  array
 	 */
-	public static function getFieldsNotInListView( $fieldMeta )
+	public static function getFieldsNotInListView($fieldMeta)
 	{
-		return self::getFieldsInView( $fieldMeta, 'list', false);
+		return self::getFieldsInView($fieldMeta, 'list', false);
 	}
 
 	/**
@@ -402,9 +403,9 @@ class ET_VHelper
 	 *
 	 * @return  array
 	 */
-	public static function getFieldsInDetailView( $fieldMeta )
+	public static function getFieldsInDetailView($fieldMeta)
 	{
-		return self::getFieldsInView( $fieldMeta, 'detail', true);
+		return self::getFieldsInView($fieldMeta, 'detail', true);
 	}
 
 	/**
@@ -414,9 +415,9 @@ class ET_VHelper
 	 *
 	 * @return  array
 	 */
-	public static function getFieldsNotInDetailView( $fieldMeta )
+	public static function getFieldsNotInDetailView($fieldMeta)
 	{
-		return self::getFieldsInView( $fieldMeta, 'detail', false);
+		return self::getFieldsInView($fieldMeta, 'detail', false);
 	}
 
 	/**
@@ -430,7 +431,7 @@ class ET_VHelper
 	 *
 	 * @return  array
 	 */
-	public static function getFieldsInView( $fieldMeta, $view='list', $inOrOut=true)
+	public static function getFieldsInView($fieldMeta, $view='list', $inOrOut=true)
 	{
 		$matchedFields = array();
 

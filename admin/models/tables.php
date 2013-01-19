@@ -24,27 +24,27 @@ class EasyTableProModelTables extends JModelList
 	 * Items total
 	 * @var integer
 	 */
-	var $_total = null;
+	private $_total = null;
 
  	/**
  	 * Pagination object
 	 * @var object
 	 */
- 	var $_pagination = null;
+ 	private $_pagination = null;
 
  	/**
  	 * 
  	 * Search text
  	 * @var string
  	 */
- 	var $_search = null;
+ 	private $_search = null;
  
   	/**
 	 * EasyTables data array
 	 *
 	 * @var array
 	 */
-	var $_data;
+	private $_data;
 
 	/**
 	 * 

@@ -1,44 +1,59 @@
 <?php
 /**
- * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
-
-//--No direct access
+// No Direct Access
 defined('_JEXEC') or die('Restricted Access');
 
-jimport( 'joomla.application.component.modellist' );
+jimport('joomla.application.component.modellist');
 
 /**
- * EasyTables Virtual Model for User Tables
+ * JFormFieldEasyTable provides the options for the Table selection menu.
  *
- * @package    EasyTables
- * @subpackage Models
+ * @package     EasyTablePro
+ *
+ * @subpackage  Models
+ *
+ * @since       1.1
  */
 class EasyTableProModelLink extends JModelList
 {
 
 	/**
 	 * Items total
+	 *
 	 * @var integer
 	 */
-	var $_total = null;
+	private  $_total = null;
 
- 	/**
- 	 * Pagination object
-	 * @var object
-	 */
- 	var $_pagination = null;
-
-	protected $extension;
-	protected $context;
 	/**
 	 *
-	 * Sets up the basics
+	 * Pagination object
+	 *
+	 * @var object
 	 */
-	function __construct()
+	private $_pagination = null;
+
+	/**
+	 * @var string
+	 */
+	protected $extension;
+
+	/**
+	 * @var string
+	 */
+	protected $context;
+
+	/**
+	 * Sets up the basics
+	 *
+	 * @since  1.1
+	 */
+	public function __construct()
 	{
 		// Set our 'option' & 'context'
 		$this->extension = 'com_easytablepro';
@@ -47,31 +62,49 @@ class EasyTableProModelLink extends JModelList
 		parent::__construct();
 	}
 
-	protected function populateState($ordering = null, $direction = null) {
+	/**
+	 * Setup user state values.
+	 *
+	 * @param   null  $ordering   Order by value
+	 *
+	 * @param   null  $direction  Asc or Desc?
+	 *
+	 * @return  void
+	 *
+	 * @since   1.1
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
 		parent::populateState($ordering, $direction);
-		$this->setState('list.limit',10000);
+		$this->setState('list.limit', 10000);
 	}
+
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return	string	An SQL query
+	 *
+	 * @since   1.1
 	 */
 	protected function getListQuery()
 	{
 		$query = parent::getListQuery();
 		$db = JFactory::getDbo();
+
 		// Get Tables list where not like %restricted% tables or $userRestrictedTables
 		$jAp       = JFactory::getApplication();
-		$cfgDBName = $jAp->getCfg('db','');
+		$cfgDBName = $jAp->getCfg('db', '');
 
 		// Retreive tables to be excluded from selection
 		$stdRestrictedTables = array ('_easytables','_session');
 		$restrictedTables = $this->getRestrictedTables();
 		$allReadyLinked   = $this->getAlreadyLinkedTables();
+
 		// Construct our query
 		$query->select($db->quoteName('TABLE_NAME'));
-		$query->from($db->quoteName('INFORMATION_SCHEMA').'.'.$db->quoteName('TABLES'));
-		$query->where($db->quoteName('TABLE_SCHEMA').' LIKE '.$db->quote($cfgDBName));
+		$query->from($db->quoteName('INFORMATION_SCHEMA') . '.' . $db->quoteName('TABLES'));
+		$query->where($db->quoteName('TABLE_SCHEMA') . ' LIKE ' . $db->quote($cfgDBName));
+
 		// Add the table to be excluded to the query
 		$this->addNotLikeSQL($query, $stdRestrictedTables);
 		$this->addNotLikeSQL($query, $restrictedTables);
@@ -80,23 +113,56 @@ class EasyTableProModelLink extends JModelList
 		return $query;
 	}
 
-	function getItems(){
+	/**
+	 * Gets the list of available tables.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.1
+	 */
+	public function getItems()
+	{
 		$items = parent::getItems();
 		$items = $this->convertValueArrToKVObjArr($items);
+
 		return $items;
 	}
+
+	/**
+	 * Builds the not like section of the SQL for the exclued tables.
+	 *
+	 * @param   JDatabaseQuery  &$query    The query to add to.
+	 *
+	 * @param   array           $excluded  The array of tables to exclude.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.1
+	 */
 	protected function addNotLikeSQL(&$query,$excluded)
 	{
 		$db = JFactory::getDbo();
-		foreach ($excluded as $tableString) {
-			$query->where($db->quoteName('TABLE_NAME') .' NOT LIKE '.$db->quote('%'. $tableString .'%'));
+
+		foreach ($excluded as $tableString)
+		{
+			$query->where($db->quoteName('TABLE_NAME') . ' NOT LIKE ' . $db->quote('%' . $tableString . '%'));
 		}
 	}
 
-	function convertValueArrToKVObjArr ($arr)
+	/**
+	 * convertValueArrToKVobjArr
+	 *
+	 * @param   array  $arr  Array of table nams
+	 *
+	 * @return  array
+	 *
+	 * @since   1.1
+	 */
+	protected function convertValueArrToKVObjArr ($arr)
 	{
 		$retArr = array ();
-		foreach ( $arr as $item )
+
+		foreach ($arr as $item)
 		{
 			$retArr[] = array('value' => $item->TABLE_NAME, 'text' => $item->TABLE_NAME);
 		}
@@ -104,39 +170,56 @@ class EasyTableProModelLink extends JModelList
 		return $retArr;
 	}
 
+	/**
+	 * Returns an array of the restricted table name to avoid linking against.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.1
+	 */
 	protected function getRestrictedTables()
 	{
-		$jAp= JFactory::getApplication();
+		$jAp = JFactory::getApplication();
+
 		// Load the components Global default parameters.
 		$params = JComponentHelper::getParams('com_easytablepro');
-		$restrictedTables = $params->get('restrictedTables','');
+		$restrictedTables = $params->get('restrictedTables', '');
+
 		if ($restrictedTables != '')
 		{
-			$restrictedTables = explode("\r\n",$restrictedTables);
+			$restrictedTables = explode("\r\n", $restrictedTables);
 		}
 		else
 		{
 			$restrictedTables = array();
 		}
+
 		return $restrictedTables;
 	}
 
+	/**
+	 * Returns the array of already linked tables.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.1
+	 */
 	protected function getAlreadyLinkedTables()
 	{
-		//get the list of tables
+		// Get the list of tables
 		$db = JFactory::getDBO();
+
 		if (!$db)
 		{
-			JError::raiseError(500,JText::_('COM_EASYTABLEPRO_LINK_NO_TABLE_LIST'));
+			JError::raiseError(500, JText::_('COM_EASYTABLEPRO_LINK_NO_TABLE_LIST'));
 		}
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('datatablename'));
 		$query->from($db->quoteName('#__easytables'));
-		$query->where($db->quoteName('datatablename')." > ''");
+		$query->where($db->quoteName('datatablename') . " > ''");
 		$db->setQuery($query);
 		$alreadyLinkedTables = $db->loadColumn();
+
 		return $alreadyLinkedTables;
 	}
-
 }
-

@@ -6,8 +6,7 @@
  * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @url        http://www.seepeoplesoftware.com
  */
-
-// No direct access
+// No Direct Access
 defined('_JEXEC') or die('Restricted Access');
 
 jimport('joomla.application.component.modellist');
@@ -32,6 +31,8 @@ class EasyTableProModelRecords extends JModelList
 	 * __contstruct()
 	 *
 	 * Sets up the JPagination variables
+	 *
+	 * @since  1.0
 	 */
 	public function __construct()
 	{
@@ -96,7 +97,6 @@ class EasyTableProModelRecords extends JModelList
 		// From the EasyTables table
 		$query->from($theTable->ettd_tname . ' AS t');
 
-
 		// Filter by search in table name, alias, author or id.
 		$search = $this->state->get('filter.search');
 
@@ -122,6 +122,7 @@ class EasyTableProModelRecords extends JModelList
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @param   string  $ordering   An optional ordering field.
+	 *
 	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void

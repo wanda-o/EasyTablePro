@@ -18,6 +18,8 @@ require_once JPATH_COMPONENT_SITE . '/helpers/viewfunctions.php';
  *
  * @package     EasyTables
  * @subpackage  Models
+ *
+ * @since       1.1
  */
 class EasyTableProModelRecords extends JModelList
 {
@@ -427,6 +429,15 @@ class EasyTableProModelRecords extends JModelList
 		return $this->_et[$pk];
 	}
 
+	/**
+	 * &getEasyTableMeta() returns the meta records for the EasyTable ID
+	 *
+	 * @param   int     $id       pk value for the easytable.
+	 *
+	 * @param   string  $orderby  The field meta records are ordered by (defaults to position but could be by id).
+	 *
+	 * @return  array
+	 */
 	private function &getEasyTableMeta($id, $orderby = 'position')
 	{
 		// Setup basic variables
@@ -437,7 +448,7 @@ class EasyTableProModelRecords extends JModelList
 		$query->select('*');
 		$query->from('#__easytables_table_meta');
 		$query->where($db->quoteName('easytable_id') . '=' . $db->quote($id));
-		$query->order($db->quoteName('position'));
+		$query->order($db->quoteName($orderby));
 
 		$db->setQuery($query);
 		$easytables_table_meta = $db->loadAssocList('fieldalias');
@@ -499,6 +510,7 @@ class EasyTableProModelRecords extends JModelList
 			if (!$db->query())
 			{
 				$this->setError($db->getErrorMsg());
+
 				return false;
 			}
 		}

@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
 // No direct access
@@ -12,21 +13,21 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 
 /**
- * Contact Component Controller
+ * EasyTable Pro Controller
  *
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since 1.5
+ * @package  Easytable_Pro
+ * @since    1.0
  */
 class EasyTableProController extends JController
 {
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return	JController		This object to support chaining.
+	 *
 	 * @since	1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -42,13 +43,32 @@ class EasyTableProController extends JController
 		return $this;
 	}
 
-	public function getModel($name = 'Tables', $prefix = 'EasyTableProModel', $config = array()) {
+	/**
+	 * getModel sets up our
+	 *
+	 * @param   string  $name    Model name.
+	 *
+	 * @param   string  $prefix  Component class prefix.
+	 *
+	 * @param   array   $config  Optional configuration parameters.
+	 *
+	 * @return  EasyTableProModel
+	 */
+	public function getModel($name = 'Tables', $prefix = 'EasyTableProModel', $config = array())
+	{
 		$theModel = parent::getModel($name, $prefix, $config);
+
 		return $theModel;
 	}
 
-	public function __construct($config = array()) {
+	/**
+	 * __construct
+	 *
+	 * @param   array  $config  Optional configuration parameters
+	 */
+	public function __construct($config = array())
+	{
 		parent::__construct($config);
 	}
-	
+
 }

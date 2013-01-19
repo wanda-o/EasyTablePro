@@ -1,44 +1,57 @@
 <?php
 /**
- * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
-
-//--No direct access
+// No Direct Access
 defined('_JEXEC') or die('Restricted Access');
 
-// import Joomla modelform library
+// Import Joomla modelform library
 jimport('joomla.application.component.modeladmin');
- 
+
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 /**
  * EasyTablePro Table Model
  *
- * @package    EasyTablePro
- * @subpackage Models
+ * @package     EasyTablePro
+ *
+ * @subpackage  Models
+ *
+ * @since       1.0
  */
-require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
-
-
 class EasyTableProModelRecord extends JModelAdmin
 {
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
-	 * @since	1.6
+	 * @param   string  $type    The table type to instantiate
+	 *
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 *
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  JTable	A database object
+	 *
+	 * @since   1.1
 	 */
-	public function getTable($type = 'Record', $prefix = 'EasyTableProTable', $config = array()) 
+	public function getTable($type = 'Record', $prefix = 'EasyTableProTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
 
-	/* Method definition required to avoid strict warning about partially declared class.
+	/**
+	 * Method definition required to avoid strict warning about partially declared class.
+	 *
+	 * @param   JObject  $data      Form data.
+	 *
+	 * @param   bool     $loadData  Force data to be loaded for form?
+	 *
 	 * @see JModelForm::getForm()
+	 *
+	 * @return  bool     Always false for us.
 	 */
 	public function getForm($data = '', $loadData = true)
 	{
@@ -46,16 +59,33 @@ class EasyTableProModelRecord extends JModelAdmin
 		return false;
 	}
 
+	/**
+	 * Retrieve selected record from current table.
+	 *
+	 * @param   int  $pk  Ignored by us as we need two parts.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.1
+	 */
 	public function getItem($pk = null)
 	{
 		$trid = ET_Helper::getTableRecordID();
-		
+
 		$record = parent::getItem($trid[1]);
 		$easytable = ET_Helper::getEasytableMetaItem($trid[0]);
 		$item = array('trid' => $trid, 'record' => $record, 'easytable' => $easytable);
+
 		return $item;
 	}
 
+	/**
+	 * We override so that we can add our title and alias.
+	 *
+	 * @param   array  $data  Our data.
+	 *
+	 * @return  array
+	 */
 	public function save($data)
 	{
 		// Alter the title for save as copy
@@ -67,14 +97,27 @@ class EasyTableProModelRecord extends JModelAdmin
 		}
 		return parent::save($data);
 	}
-	
-	/* We override this method as an EasyTable doesn't currently have a category...
+
+	/**
+	 * We override this method as an EasyTable doesn't currently have a category...
+	 *
+	 * @param   int     $cat_id  Joomla Category Id.
+	 *
+	 * @param   string  $alias   Alias of category.
+	 *
+	 * @param   string  $title   Category label.
+	 *
+	 * @return  array
+	 *
 	 * @see JModelAdmin::generateNewTitle()
+	 *
+	 * @since   1.1
 	 */
 	protected function generateNewTitle($cat_id, $alias, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias)))
 		{
 			$title = JString::increment($title);
@@ -83,10 +126,19 @@ class EasyTableProModelRecord extends JModelAdmin
 		return array($title, $alias);
 	}
 
+	/**
+	 * Deletes record from specified EasyTable data table.
+	 *
+	 * @param   string|array  &$pks  Our dot notation table.record value
+	 *
+	 * @return  bool
+	 *
+	 * @since   1.1
+	 */
 	public function delete(&$pks)
 	{
 		// Check for dot.notation cid's
-		$pks = (array)$pks;
+		$pks = (array) $pks;
 		$standardPks = array();
 
 		foreach ($pks as $pk)
@@ -95,25 +147,30 @@ class EasyTableProModelRecord extends JModelAdmin
 			{
 				$pkarray = explode('.', $pk);
 				$standardPks[] = $pkarray[1];
-			} else
+			}
+			else
+			{
 				$standardPks = $pk;
+			}
 		}
 
 		return parent::delete($standardPks);
 	}
 
+	/**
+	 * Populate initial state.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.1
+	 */
 	public function populateState()
 	{
 		// Initialise variables.
-
 		$table = $this->getTable();
-
 		$key = $table->getKeyName();
 
-		
-
 		// Get the pk of the record from the request.
-
 		$trid = ET_Helper::getTableRecordID();
 		$tid = $trid[0];
 		$this->setState('table' . '.id', $tid);
@@ -121,27 +178,24 @@ class EasyTableProModelRecord extends JModelAdmin
 
 		$this->setState($this->getName() . '.id', $pk);
 
-		
-
 		// Load the parameters.
-
 		$value = JComponentHelper::getParams($this->option);
-
 		$this->setState('params', $value);
-
 	}
 
 	/**
 	 * Method to set the EasyTable identifier
 	 *
-	 * @access	public
-	 * @param	int EasyTable identifier
+	 * @param   int  $id  EasyTable identifier
+	 *
 	 * @return	void
+	 *
+	 * @since   1.1
 	 */
-	function setId($id)
+	public function setId($id)
 	{
 		// Set id and wipe data
 		$this->_id		= $id;
 		$this->_data	= null;
-	}//function
-}// class
+	}
+}

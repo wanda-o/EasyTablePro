@@ -21,6 +21,9 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
  */
 class EasyTableProModelRecord extends JModelItem
 {
+	/**
+	 * @var string
+	 */
 	protected $_context = 'com_easytablepro.record';
 
 	/**
@@ -66,7 +69,7 @@ class EasyTableProModelRecord extends JModelItem
 	/**
 	 * Method to get a single row from the table
 	 *
-	 * @param   null $pk
+	 * @param   null  $pk  Optional id of EasyTable
 	 *
 	 * @return object
 	 *
@@ -154,8 +157,8 @@ class EasyTableProModelRecord extends JModelItem
 
 				if ($show_linked_table)
 				{
-					$linked_table   = $et->params->get('id', 0);
-					$key_field   = (int)$et->params->get('key_field', 0);
+					$linked_table = $et->params->get('id', 0);
+					$key_field = (int) $et->params->get('key_field', 0);
 					$linked_key_field = $et->params->get('linked_key_field', 0);
 
 					// We need all 3 id's to proceed
@@ -236,6 +239,19 @@ class EasyTableProModelRecord extends JModelItem
 		return $this->_item[$etID . '.' . $pk];
 	}
 
+	/**
+	 * getLinked()
+	 *
+	 * @param   EasyTableModel  $linked_table      The current EasyTable object.
+	 *
+	 * @param   string          $key_field_value   The current EasyTable object.
+	 *
+	 * @param   string          $linked_key_field  The current EasyTable object.
+	 *
+	 * @return  array           $linked_data
+	 *
+	 * @since   1.1
+	 */
 	protected function getLinked ($linked_table = null, $key_field_value = '', $linked_key_field = '')
 	{
 		if (($linked_table == null) || ($key_field_value == '') || ($linked_key_field == ''))
@@ -260,11 +276,32 @@ class EasyTableProModelRecord extends JModelItem
 		}
 	}
 
-	protected function getAdjacentId ($tableName='', $orderField, $ordDir, $currentOrderFieldValue, $leafField, $next=FALSE)
+	/**
+	 * getAdjacentId()
+	 *
+	 * @param   string  $tableName   Name of the table.
+	 *
+	 * @param   string  $orderField  Name of the table.
+	 *
+	 * @param   string  $ordDir      ASC|DESC.
+	 *
+	 * @param   string  $curOrdFldV  Current order field value.
+	 *
+	 * @param   string  $leafField   Name of the table.
+	 *
+	 * @param   bool    $next        Name of the table.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.1
+	 */
+	protected function getAdjacentId ($tableName, $orderField, $ordDir, $curOrdFldV, $leafField, $next=false)
 	{
 		// Do we need to flip for reverse sort order
 		if ($ordDir == 'DESC')
+		{
 			$next = !$next;
+		}
 
 		// Next record?
 		if ($next)
@@ -280,28 +317,35 @@ class EasyTableProModelRecord extends JModelItem
 
 		// Make sure we have a field value to check against...
 		$adjacentRow = array();
-		if($currentOrderFieldValue)
+
+		if ($curOrdFldV)
 		{
 			// Get the current database object
 			$db = JFactory::getDBO();
+
 			if (!$db)
 			{
 				// @todo Change to use sprintf
-				JError::raiseError(500,JText::_('COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_CREATING_NEXTPREV_RECORD_LINK').$mId);
+				JError::raiseError(500, JText::_('COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_CREATING_NEXTPREV_RECORD_LINK') . $mId);
 			}
 			// New query
 			$query = $db->getQuery(true);
 
-			$query->from($db->quoteName( $tableName ));
+			$query->from($db->quoteName($tableName));
 			$query->select($db->quoteName('id'));
-			if ($leafField) $query->select($db->quoteName($leafField));
-			$query->where($db->quoteName($orderField) . ' ' . $eqSym . ' ' . $currentOrderFieldValue);
+
+			if ($leafField)
+			{
+				$query->select($db->quoteName($leafField));
+			}
+			$query->where($db->quoteName($orderField) . ' ' . $eqSym . ' ' . $curOrdFldV);
 			$query->order($db->quoteName($orderField) . ' ' . $sortOrder);
 			$db->setQuery($query, 0, 1);
 
 			$adjacentRow = $db->loadRow();
+
 			// Convert leaf to URL safe
-			$adjacentRow[1] = $leafField ? JFilterOutput::stringURLSafe(substr($adjacentRow[1], 0,100)) : '';
+			$adjacentRow[1] = $leafField ? JFilterOutput::stringURLSafe(substr($adjacentRow[1], 0, 100)) : '';
 		}
 
 		return $adjacentRow;

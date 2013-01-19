@@ -1,34 +1,53 @@
 <?php
 /**
- * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
-//--No direct access
+// No direct access
 defined('_JEXEC') or die ('Restricted Access');
 
 jimport('joomla.application.component.controller');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+
 /**
  * EasyTables Controller
  *
- * @package    EasyTables
- * @subpackage Controllers
+ * @package     EasyTables
+ * @subpackage  Controllers
+ *
+ * @since       1.0
  */
-require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
-
 class EasyTableProControllerRecord extends JController
 {
+	/**
+	 * @var string
+	 */
 	protected $default_view = 'record';
+
+	/**
+	 * @var string
+	 */
 	protected $option;
+
+	/**
+	 * @var string
+	 */
 	protected $context;
 
-
+	/**
+	 * __construct()
+	 *
+	 * @param   array  $config  Optional configuration parameters.
+	 *
+	 * @since   1.1
+	 */
 	public function __construct($config = array())
-
 	{
 		parent::__construct($config);
 
@@ -45,19 +64,36 @@ class EasyTableProControllerRecord extends JController
 		$this->registerTask('save2copy', 'save');
 	}
 
+	/**
+	 * cancel()
+	 *
+	 * @return   void
+	 *
+	 * @since    1.1
+	 */
 	public function cancel()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		$trid = ET_Helper::getTableRecordID();
+
 		// So that we go back to the correct location
 		$this->setRedirect("index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
 	}
 
+	/**
+	 * save()
+	 *
+	 * @param   null  $key     Not used.
+	 *
+	 * @param   null  $urlVar  Not used.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
 	public function save($key = null, $urlVar = null)
-
 	{
-
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
@@ -74,7 +110,7 @@ class EasyTableProControllerRecord extends JController
 		$context = "$this->option.edit.$this->context.$rid";
 		$task = $this->getTask();
 		$easyTable = ET_Helper::getEasytableMetaItem($trid[0]);
-		
+
 		// Handle save2copy differently
 		if ($task == 'save2copy')
 		{
@@ -94,32 +130,45 @@ class EasyTableProControllerRecord extends JController
 		{
 			$app->enqueueMessage(
 							JText::sprintf('COM_EASYTABLEPRO_RECORD_UNABLE_TO_SAVE_CHANGES_TO_RECORD',
-							implode('.', $trid),
-							implode('</br>\n',  $model->errors())
-								));
+								implode('.', $trid),
+								implode('</br>\n',  $model->errors())
+							)
+			);
 		}
 
 		// So that we go back to the correct location
-		switch ($task) {
-		case 'apply':
-		case 'save2new':
-			$this->setRedirect("index.php?option=com_easytablepro&task=record.edit&view=record&id=$tridstr");
-			break;
-		default:
-			$this->setRedirect("index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
-			break;
+		switch ($task)
+		{
+			case 'apply':
+			case 'save2new':
+				$this->setRedirect("index.php?option=com_easytablepro&task=record.edit&view=record&id=$tridstr");
+				break;
+			default:
+				$this->setRedirect("index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
+				break;
 		}
 	}
 
-
+	/**
+	 * getModel()
+	 *
+	 * @param   string  $name    Model name.
+	 *
+	 * @param   string  $prefix  Component model class.
+	 *
+	 * @param   array   $config  Optional configuration paramters.
+	 *
+	 * @return  JModel
+	 *
+	 * @since   1.0
+	 */
 	public function getModel($name = 'Record', $prefix = 'EasyTableProModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		$params = JComponentHelper::getParams('com_easytablepro');
-		$model->setState('params',$params);
+		$model->setState('params', $params);
+
 		return $model;
 	}
 
 }
-
-// class

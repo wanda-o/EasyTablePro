@@ -7,32 +7,46 @@
  * @link       http://www.seepeoplesoftware.com
  */
 
-//--No direct access
+// No direct access
 defined('_JEXEC') or die ('Restricted Access');
 
-jimport( 'joomla.application.component.modellist' );
+jimport('joomla.application.component.modellist');
 
 /**
  * EasyTableProTables Model
  *
- * @package	   EasyTablePro
- * @subpackage Models
+ * @package     EasyTable_Pro
+ * @subpackage  Models
+ *
+ * @since       1.1
  */
 class EasyTableProModelTables extends JModelList
 {
-	var $_data = null;
-	
+	/**
+	 * @var null|array   $_data     Used to cache list results
+	 */
+	public $_data = null;
+
+	/**
+	 * @var string       $_context  Used by Joomla! CMS state cache
+	 */
 	protected $_context = 'com_easytablepro.tables';
 
+	/**
+	 * __contstruct()
+	 *
+	 * @since   1.1
+	 */
 	public function __construct()
 	{
 		parent::__construct();
+
 		// Get the basics
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
-		$sortOrder = (int) $params->get('table_list_sort_order',0);
-		$show_pagination = $params->get('table_list_show_pagination',1);
-		
+		$sortOrder = (int) $params->get('table_list_sort_order', 0);
+		$show_pagination = $params->get('table_list_show_pagination', 1);
+
 		// Table List order
 		$this->setState('tables.sort_order', $sortOrder);
 
@@ -50,7 +64,7 @@ class EasyTableProModelTables extends JModelList
 
 		// In case limit has been changed, adjust it
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-		
+
 		$this->setState('list.limit', $limit);
 		$this->setState('list.start', $limitstart);
 	}
@@ -60,7 +74,7 @@ class EasyTableProModelTables extends JModelList
 		parent::populateState($ordering, $direction);
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
-		$show_pagination = $params->get('table_list_show_pagination',1);
+		$show_pagination = $params->get('table_list_show_pagination', 1);
 
 		if (!$show_pagination)
 		{
@@ -72,11 +86,17 @@ class EasyTableProModelTables extends JModelList
 	/**
 	 * Converts the sort parameter to correct SQL
 	 *
+	 * @param   int  $sortValue  A 0-5 value
+	 *
+	 * @return  string
+	 *
+	 * @since  1.1
 	 */
-	 function sortSQL($sortValue = 0)
-	 {
+	private function sortSQL($sortValue = 0)
+	{
 		$theSortSQL = array();
-		switch ( $sortValue )
+
+		switch ($sortValue)
 		{
 			case 1:
 				$theSortSQL['columnname'] = 'easytablename';
@@ -104,12 +124,13 @@ class EasyTableProModelTables extends JModelList
 				$theSortSQL['direction']  = 'ASC';
 				break;
 		}
-		
+
 		return $theSortSQL;
-	 }
+	}
 
 	/**
 	 * Gets the query to return the list of Easytables
+	 *
 	 * @return JDatabaseQuery
 	 */
 	public function getListQuery()
@@ -127,5 +148,5 @@ class EasyTableProModelTables extends JModelList
 		$query->order($db->quoteName($theSortSQL['columnname']) . ' ' . $theSortSQL['direction']);
 
 		return $query;
-	}// function
-}// class
+	}
+}
