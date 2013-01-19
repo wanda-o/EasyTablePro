@@ -485,22 +485,22 @@ class EasyTableProControllerTable extends JControllerForm
 		*/
 		switch ( $fieldType )
 		{
-		    case 0:
-		        $sqlFieldType = "TEXT";
-		        break;
-		    case 1:
-		    case 2:
-		    case 3:
-		        $sqlFieldType = "VARCHAR(255)";
-		        break;
-		    case 4:
-		        $sqlFieldType = "FLOAT";
-		        break;
-		    case 5:
-		        $sqlFieldType = "COM_EASYTABLEPRO_LABEL_DATE";
-		        break;
-		    default:
-		    	$sqlFieldType =  false;
+			case 0:
+				$sqlFieldType = "TEXT";
+				break;
+			case 1:
+			case 2:
+			case 3:
+				$sqlFieldType = "VARCHAR(255)";
+				break;
+			case 4:
+				$sqlFieldType = "FLOAT";
+				break;
+			case 5:
+				$sqlFieldType = "DATE";
+				break;
+			default:
+				$sqlFieldType = false;
 		}
 		return $sqlFieldType;
 	}
