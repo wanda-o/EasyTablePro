@@ -325,7 +325,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 			if (($fileSuffix != 'csv') && ($fileSuffix != 'tsv'))
 			{
-				JError::raiseWarning('', 'Data files must be \'tsv\' or \'csv\' and end with the correct suuffix.');
+				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_UPLOAD_DATA_FILE_SUFFIX'));
 
 				return false;
 			}
