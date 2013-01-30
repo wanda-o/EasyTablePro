@@ -60,7 +60,7 @@ class EasyTableProTableTable extends JTable
 	public function bind($array, $ignore = '')
 	{
 		// Change the params back to a string for storage
-		if (key_exists('params', $array) && is_array($array['params']))
+		if (array_key_exists('params', $array) && is_array($array['params']))
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
@@ -70,7 +70,7 @@ class EasyTableProTableTable extends JTable
 		// Bind the rules.
 		if (isset($array['rules']) && is_array($array['rules']))
 		{
-			$rules = new JRules($array['rules']);
+			$rules = new JAccessRules($array['rules']);
 			$this->setRules($rules);
 		}
 		return parent::bind($array, $ignore);
