@@ -1,35 +1,41 @@
 <?php
 /**
- * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
-
-//--No direct access
+// No Direct Access
 defined('_JEXEC') or die('Restricted Access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
 /**
  * EasyTable Table class
  *
+ * @package  EasyTablePro
  * 
+ * @since    1.1
  */
-require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 
 class EasyTableProTableRecord extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param object Database connector object
+	 * @param   object  &$db  Database connector object
 	 */
-	function __construct(& $db) {
+	public function __construct(&$db)
+	{
 		if ($trid = ET_Helper::getTableRecordID())
 		{
-			parent::__construct('#__easytables_table_data_'.$trid[0], 'id', $db);
-		} else
+			parent::__construct('#__easytables_table_data_' . $trid[0], 'id', $db);
+		}
+		else
+		{
 			return false;
 	}
 }
-?>
+}
+

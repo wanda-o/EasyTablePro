@@ -1,12 +1,15 @@
 <?php
 /**
- * @package    EasyTables
- * @author     Craig Phillips {@link http://www.seepeoplesoftware.com}
- * @author     Created on 13-Jul-2009
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
-//--No direct access
+// No Direct Access
 defined('_JEXEC') or die('Restricted Access');
+
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_easytablepro&layout=edit'); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
@@ -14,24 +17,32 @@ defined('_JEXEC') or die('Restricted Access');
 	<fieldset class="adminform">
 	<legend><?php echo JText::_('COM_EASYTABLEPRO_LABEL_DETAILS'); ?></legend>
 		<ul class="adminformlist">
-			<li class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_TABLE_TABLENAME_TT'); ?>"><?php echo $this->form->getLabel('easytablename'); ?>
-			<?php echo $this->form->getInput('easytablename'); ?></li>
+			<li class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_TABLE_TABLENAME_TT'); ?>"><?php
+				echo $this->form->getLabel('easytablename');
+				echo $this->form->getInput('easytablename');
+			?></li>
 
-			<li class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_TABLE_ALIAS_TT'); ?>" ><?php echo $this->form->getLabel('easytablealias');
+			<li class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_TABLE_ALIAS_TT'); ?>" ><?php
+					echo $this->form->getLabel('easytablealias');
+
 			if ($this->item->etet)
 			{
-				$this->form->setFieldAttribute('easytablealias','class','readonly');
-				$this->form->setFieldAttribute('easytablealias','readonly','true');
+						$this->form->setFieldAttribute('easytablealias', 'class', 'readonly');
+						$this->form->setFieldAttribute('easytablealias', 'readonly', 'true');
 			}
-			echo $this->form->getInput('easytablealias'); ?></li>
+					echo $this->form->getInput('easytablealias');
+				?></li>
 
-			<li><?php echo $this->form->getLabel('published'); ?>
-			<?php echo $this->form->getInput('published'); ?></li>
+			<li><?php
+				echo $this->form->getLabel('published');
+				echo $this->form->getInput('published');
+				?></li>
 
 			<li><?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?></li>
 
-			<?php if ($this->canDo->get('core.admin')): ?>
+			<?php
+			if ($this->canDo->get('core.admin')): ?>
 				<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
 					<div class="button2-left"><div class="blank">
 						<button type="button" onclick="document.location.href='#access-rules';">
@@ -119,8 +130,8 @@ defined('_JEXEC') or die('Restricted Access');
 		<div class="clr"></div>
 	<?php if ($this->canDo->get('core.admin')): ?>
 		<div class="width-100 fltlft">
-			<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
-				<?php echo JHtml::_('sliders.panel',JText::_('COM_EASYTABLEPRO_FIELDSET_RULES'), 'access-rules'); ?>
+			<?php echo JHtml::_('sliders.start', 'permissions-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
+				<?php echo JHtml::_('sliders.panel', JText::_('COM_EASYTABLEPRO_FIELDSET_RULES'), 'access-rules'); ?>
 				<fieldset class="panelform">
 					<?php echo $this->form->getLabel('rules'); ?>
 					<?php echo $this->form->getInput('rules'); ?>

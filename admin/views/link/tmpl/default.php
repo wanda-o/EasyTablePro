@@ -1,11 +1,13 @@
 <?php
 /**
- * @package    EasyTables
- * @author     Craig Phillips {@link http://www.seepeoplesoftware.com}
- * @author     Created on 13-Jul-2009
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
-//--No direct access
+// No Direct Access
 	defined('_JEXEC') or die('Restricted Access');
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">

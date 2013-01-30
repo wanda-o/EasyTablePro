@@ -1,29 +1,37 @@
 <?php
 /**
- * @package		EasyTable Pro
- * @Copyright	Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
  * @license		GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @author		Craig Phillips {@link http://www.seepeoplesoftware.com}
+ * @url        http://www.seepeoplesoftware.com
  */
 
-//--No direct access
+// No Direct Access
 defined('_JEXEC') or die('Restricted Access');
 
+jimport('joomla.filter.output');
 
 /**
  * EasyTable Table class
  *
+ * @package  EasyTablePro
  *
+ * @since    1.1
  */
 class EasyTableProTableTable extends JTable
 {
+	protected  $easytablealias;
 	/**
-		Check function
+	 * Check function
+	 *
+	 * @return  bool
+	 *
+	 * @since   1.1
 	 */
-	 function check()
+	public function check()
 	{
 		/* Make sure we have an alias for the table - nicer for linking, css etc */
-	    jimport( 'joomla.filter.output' );
 	    if (empty($this->easytablealias))
 	    {
 	            $this->easytablealias = $this->easytablename;
@@ -36,14 +44,25 @@ class EasyTableProTableTable extends JTable
 	}
 
 	/**
-		Bind function - to support table specific params
+	 * Bind function - to support table specific params
+	 * Method to bind an associative array or object to the JTable instance.This
+	 * method only binds properties that are publicly accessible and optionally
+	 * takes an array of properties to ignore when binding.
+	 *
+	 * @param   mixed  $array   An associative array or object to bind to the JTable instance.
+	 *
+	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   1.1
 	 */
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		// Change the params back to a string for storage
 		if (key_exists('params', $array) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
@@ -96,33 +115,54 @@ class EasyTableProTableTable extends JTable
 	}
 
 	/**
-	 * Constructor
+	 * Object constructor to set table and key fields.  In most cases this will
+	 * be overridden by child classes to explicitly set the table and key fields
+	 * for a particular database table.
 	 *
-	 * @param object Database connector object
+	 * @param   JDatabase  &$db  JDatabase connector object.
+	 *
+	 * @since  1.1
 	 */
-	function __construct(& $db) {
+	public function __construct(&$db)
+	{
 		parent::__construct('#__easytables', 'id', $db);
 	}
 
 	/**
 	 * Redefined asset name, as we support action control
+	 *
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form table_name.id
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.1
 	 */
-
-	protected function _getAssetName() {
+	protected function _getAssetName()
+	{
 		$k = $this->_tbl_key;
-		return 'com_easytablepro.table.'.(int) $this->$k;
+
+		return 'com_easytablepro.table.' . (int) $this->$k;
 	}
 
 	/**
 	 * We provide our global ACL as parent
-	 * @see JTable::_getAssetParentId()
+	 *
+	 * @param   JTable   $table  A JTable object for the asset parent.
+	 *
+	 * @param   integer  $id     Id to look up
+	 *
+	 * @return  integer
+	 *
+	 * @since   11.1
 	 */
 
 	protected function _getAssetParentId($table = null, $id = null)
 	{
 		$asset = JTable::getInstance('Asset');
 		$asset->loadByName('com_easytablepro');
+
 		return $asset->id;
 	}
 }
-?>

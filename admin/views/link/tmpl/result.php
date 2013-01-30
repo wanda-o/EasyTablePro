@@ -1,11 +1,13 @@
 <?php
 /**
- * @package    EasyTables
- * @author     Craig Phillips {@link http://www.seepeoplesoftware.com}
- * @author     Created on 13-Jul-2009
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
-//--No direct access
+// No Direct Access
 	defined('_JEXEC') or die('Restricted Access');
 	JHTML::_('behavior.tooltip');
 ?>
@@ -22,7 +24,7 @@
 			<table class="adminlist" id="et_linkTable">
 				<tr class="row0">
 					<td>
-						<p style="text-align: center"><button type="button" onclick="com_EasyTablePro.Link.editTable()"><?php echo JText::sprintf('COM_EASYTABLEPRO_EDIT_LINKED_TABLE',$this->let); ?></button></p>
+						<p style="text-align: center"><button type="button" onclick="com_EasyTablePro.Link.editTable()"><?php echo JText::sprintf('COM_EASYTABLEPRO_EDIT_LINKED_TABLE', $this->let); ?></button></p>
 					</td>
 				</tr>
 				<tr class="row1">

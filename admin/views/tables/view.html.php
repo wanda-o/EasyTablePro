@@ -1,41 +1,87 @@
 <?php
 /**
- * @package    EasyTables
- * @author     Craig Phillips {@link http://www.seepeoplesoftware.com}
- * @author     Created on 13-Jul-2009
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
-//--No direct access
+// No Direct Access
 defined('_JEXEC') or die('Restricted Access');
+
 
 jimport( 'joomla.application.component.view');
 
-require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/viewfunctions.php';
-require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
-
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/viewfunctions.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
 /**
  * HTML View class for the EasyTables Component
  *
- * @package    EasyTables
+ * @package     EasyTablePro
+ *
  * @subpackage Views
+ *
+ * @since       1.0
  */
-
 class EasyTableProViewTables extends JView
 {
+	/**
+	 * @var
+	 */
 	protected $state;
+
+	/**
+	 * @var
+	 */
 	protected $items;
+
+	/**
+	 * @var
+	 */
 	protected $pagination;
 
-	function getEditorLink ($locked, $rowId, $tableName, $hasPermission,$userName='')
+	/**
+	 * Generates the Table Editor link based on users permissions and table's locked state.
+	 *
+	 * @param   bool    $locked         Is the table alread locked?
+	 *
+	 * @param   int     $rowId          Table row Id.
+	 *
+	 * @param   string  $tableName      Table name.
+	 *
+	 * @param   bool    $hasPermission  Current user has permission?
+	 *
+	 * @param   string  $userName       Name of user that has table locked.
+	 *
+	 * @return  string
+	 */
+	protected function getEditorLink ($locked, $rowId, $tableName, $hasPermission, $userName='')
 	{
-		$lockText = ($hasPermission ? ($locked ? JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM'));
-		$link_text = JText::_('COM_EASYTABLEPRO_MGR_EDIT_PROPERTIES_AND_STRUCTURE_OF').' \''.$tableName.'\' '.$lockText ;
-		$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.$tableName.'</span>';
+		if ($hasPermission)
+		{
+			if ($locked)
+			{
+				$lockText = JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED', $userName);
+			}
+			else
+			{
+				$lockText = '';
+			}
+		}
+		else
+		{
+			$lockText = JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM');
+		}
+		$link_text = JText::_('COM_EASYTABLEPRO_MGR_EDIT_PROPERTIES_AND_STRUCTURE_OF') . ' \'' . $tableName . '\' ' . $lockText;
+		$theEditLink = '<span class="hasTip" title="' . $link_text . '" style="margin-left:10px;" >' . $tableName . '</span>';
 
 		if (!$locked && $hasPermission)
 		{
-			$theEditLink = '<span class="hasTip" title="'.$link_text.'" style="margin-left:10px;" >'.'<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$rowId.'\',\'table.edit\');" title="'.$link_text.'" >'.$tableName.'</a></span>';
+			$theEditLink = '<span class="hasTip" title="' . $link_text . '" style="margin-left:10px;" >'
+						. '<a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $rowId . '\',\'table.edit\');" title="'
+						. $link_text . '" >' . $tableName . '</a></span>';
 		}
 
 		return($theEditLink);
@@ -113,8 +159,13 @@ class EasyTableProViewTables extends JView
 	}
 
 	/**
-	 * EasyTables view display method
+	 * EasyTable tables view display method.
+	 *
+	 * @param   string  $tpl  Tmpl file name.
+	 *
 	 * @return void
+	 *
+	 * @since   1.0
 	 **/
 	function display($tpl = null)
 	{

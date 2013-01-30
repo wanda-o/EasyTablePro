@@ -1,12 +1,15 @@
 <?php
 /**
- * @package    EasyTables
- * @author     Craig Phillips {@link http://www.seepeoplesoftware.com}
- * @author     Created on 13-Jul-2009
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
-//--No direct access
+// No Direct Access
 defined('_JEXEC') or die('Restricted Access');
+
 	$et_tableName = $this->easytable->easytablename;
 ?>
 
@@ -29,20 +32,38 @@ defined('_JEXEC') or die('Restricted Access');
 <?php
 	$alt_rv = 0;
 	$flds = array();
+
 	foreach ( $this->et_meta as $label_row )
 	{
 		$label = $label_row['label'];
 		$fld_alias = $label_row['fieldalias'];
 		$flds[] = $fld_alias;
 		$f_params = $label_row['params'];
-		$value = ($this->recordId == 0)? '' : htmlentities ( $this->et_record[$fld_alias] );
+		$value = ($this->recordId == 0)? '' : htmlentities($this->et_record[$fld_alias]);
 		$type = $label_row['type'];
-		echo '<tr valign="top" class="row'.$alt_rv.'" >'."\r";
-		echo '<td>'.$label.'</td>';
-		echo('<td>'.$this->getFieldInputType($fld_alias, $type, $value).'<input name="et_fld_orig['.$fld_alias.']" type="hidden" value="'.$value.'" /></td>');
-		echo('<td>'.($value == '' ? '<em>'.JText::_('COM_EASYTABLEPRO_RECORDS_CLICK_APPLY_TO_PREVIEW').'</em>' : ($type == '1' ? $this->getImageTag($value,'',$fld_alias):ET_VHelper::getFWO(html_entity_decode( $value), $type, $f_params, $this->et_record, $this->et_record))).'</td>');
+		echo '<tr valign="top" class="row' . $alt_rv . '" >' . "\r";
+		echo '<td>' . $label . '</td>';
+		echo(
+			'<td>' . $this->getFieldInputType($fld_alias, $type, $value)
+			. '<input name="et_fld_orig[' . $fld_alias . ']" type="hidden" value="' . $value
+			. '" /></td>'
+		);
+		echo(
+			'<td>' . ($value == '' ? '<em>' . JText::_('COM_EASYTABLEPRO_RECORDS_CLICK_APPLY_TO_PREVIEW') . '</em>' :
+				($type == '1' ? $this->getImageTag($value, '', $fld_alias):
+					ET_VHelper::getFWO(
+						html_entity_decode($value),
+						$type,
+						$f_params,
+						$this->et_record,
+						$this->et_record
+					)
+				)
+			)
+			. '</td>'
+		);
 		echo "</tr>\r";
-		$alt_rv = (int)!$alt_rv;
+		$alt_rv = (int) !$alt_rv;
 	}
 ?>
 						</tbody>
