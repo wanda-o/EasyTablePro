@@ -39,7 +39,6 @@ class EasyTableProViewLink extends JView
 		// Get the document and load the js support file
 		$jAp = JFactory::getApplication();
 		$jInput = $jAp->input;
-		$u = JURI::getInstance();
 
 		$tmpl = $jInput->get('layout', 'default');
 
