@@ -80,7 +80,7 @@ class EasyTableProModelRecord extends JModelItem
 	{
 		// Initialise variables.
 		$etID = (!empty($pk)) ? $pk : (int) $this->getState('table.id');
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('record.id');
+		$pk = (!empty($pk)) ? $pk : $this->getState('record.id');
 
 		if ($this->_item === null)
 		{

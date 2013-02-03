@@ -147,7 +147,7 @@
 								}
 								else // We store the rowID for possible use in a detaillink
 								{
-									$rowId = (int) $f;
+									$rowId = $f;
 								}
 								// End of row stuff should follow after this.
 								unset($f);
