@@ -11,7 +11,7 @@
 defined('_JEXEC') or die('Restricted Access');
 
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/viewfunctions.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
  *
  * @package     EasyTablePro
  *
- * @subpackage Views
+ * @subpackage  Views
  *
  * @since       1.0
  */
@@ -87,47 +87,115 @@ class EasyTableProViewTables extends JView
 		return($theEditLink);
 	}
 
-	function publishedIcon ($locked, $row, $i, $hasPermission,$userName='')
+	/**
+	 * Creates Published column items html.
+	 *
+	 * @param   bool    $locked         Boolean indicating table locked status.
+	 *
+	 * @param   object  $row            Object containing the current row
+	 *
+	 * @param   int     $i              Index of row for JHTML::grid
+	 *
+	 * @param   bool    $hasPermission  Boolean indicating if the user has permission to change the published state.
+	 *
+	 * @param   string  $userName       The username of the user the table is currently locked out by.
+	 *
+	 * @return string
+	 */
+	protected function publishedIcon ($locked, $row, $i, $hasPermission,$userName='')
 	{
-		$lockText = ($hasPermission ? ($locked ? JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM'));
-		$btn_text = JText::_(( $row->published ? 'COM_EASYTABLEPRO_MGR_PUBLISHED_BTN':'COM_EASYTABLEPRO_MGR_UNPUBLISHED_BTN')).' \''.$row->easytablename.'\' '.$lockText;
-		$theImageURL = JURI::root().'media/com_easytablepro/images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).($row->published?'publish_g.png':'publish_x.png');
-		$theBtn = '<span  class="hasTip" title="'.$btn_text.'" style="margin-left:15px;" ><img src="'.$theImageURL.'" border="0" alt="'.$btn_text.'"></span>';
+		$lockText = ($hasPermission ? (
+		$locked ? JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED', $userName) : '') : JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_PERM'));
+		$btn_text = JText::_(( $row->published ? 'COM_EASYTABLEPRO_MGR_PUBLISHED_BTN':'COM_EASYTABLEPRO_MGR_UNPUBLISHED_BTN'))
+					. ' \''
+					. $row->easytablename
+					. '\' '
+					. $lockText;
+		$theImageURL = JURI::root() . 'media/com_easytablepro/images/'
+					. (($locked || !$hasPermission) ? 'disabled_' : '' )
+					. ($row->published?'publish_g.png':'publish_x.png');
+		$theBtn = '<span  class="hasTip" title="'
+				. $btn_text . '" style="margin-left:15px;" ><img src="'
+				. $theImageURL . '" border="0" alt="'
+				. $btn_text . '"></span>';
 
 		if (!$locked && $hasPermission)
 		{
-			$theBtn = "<span class=\"hasTip\" title=\"$btn_text\" style=\"margin-left:15px;\" >".JHTML::_( 'grid.published',  $row->published, $i, 'tick.png', 'publish_x.png', 'tables.').'</span>';
+			$theBtn = "<span class=\"hasTip\" title=\"$btn_text\" style=\"margin-left:15px;\" >"
+					. JHTML::_('grid.published',  $row->published, $i, 'tick.png', 'publish_x.png', 'tables.') . '</span>';
 		}
 
 		return $theBtn;
 	}
 
-
-	function getDataEditorIcon ($locked, $i, $rowId, $tableName, $extTable, $hasPermission,$userName='')
+	/**
+	 * Creates the Edit Data column icon.
+	 *
+	 * @param   bool    $locked         Boolean indicating table locked status.
+	 *
+	 * @param   int     $i              Index of row for JHTML::grid
+	 *
+	 * @param   string  $tableName      Table name.
+	 *
+	 * @param   bool    $extTable       Boolean indicating precence of an external table.
+	 *
+	 * @param   bool    $hasPermission  Boolean indicating if the user has permission to change the published state.
+	 *
+	 * @param   string  $userName       The username of the user the table is currently locked out by.
+	 *
+	 * @return string
+	 */
+	protected function getDataEditorIcon ($locked, $i, $tableName, $extTable, $hasPermission,$userName='')
 	{
 		if ($extTable)
 		{
-			$btn_text = JText::sprintf ( 'COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_DATA_EDITING' , $tableName);
-			$theImageURL = JURI::root().'media/com_easytablepro/images/disabled_edit.png';
+			$btn_text = JText::sprintf('COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_DATA_EDITING', $tableName);
+			$theImageURL = JURI::root() . 'media/com_easytablepro/images/disabled_edit.png';
 		}
 		else
 		{
-			$lockText = ($hasPermission ? ($locked ? JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED',$userName) : '') : JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_DATA_EDIT_PERM'));
-			$btn_text = JText::_('COM_EASYTABLEPRO_MGR_EDIT_DATA_DESC_SEGMENT').' \''.$tableName.'\' '.$lockText;
-			$theImageURL = JURI::root().'media/com_easytablepro//images/'.( ($locked || !$hasPermission) ? 'disabled_' : '' ).'edit.png';
+			$lockText = ($hasPermission ? (
+							$locked ?
+								JText::sprintf('COM_EASYTABLEPRO_MGR_DISABLED_TABLE_LOCKED', $userName) : '') :
+							JText::_('COM_EASYTABLEPRO_MGR_DISABLED_NO_DATA_EDIT_PERM'));
+			$btn_text = JText::_('COM_EASYTABLEPRO_MGR_EDIT_DATA_DESC_SEGMENT') . ' \'' . $tableName . '\' ' . $lockText;
+			$theImageURL = JURI::root() . 'media/com_easytablepro/images/' . (($locked || !$hasPermission) ? 'disabled_' : '' ) . 'edit.png';
 		}
 
-		$theEditBtn = '<span class="hasTip" title="'.JText::_('COM_EASYTABLEPRO_MGR_EDIT_RECORDS_BTN_TT').'::'.$btn_text.'" style="margin-left:4px;" ><img src="'.$theImageURL.'" style="text-decoration: none; color: #333;" alt="'.$btn_text.'" /></span>';
+		$theEditBtn = '<span class="hasTip" title="'
+			. JText::_('COM_EASYTABLEPRO_MGR_EDIT_RECORDS_BTN_TT') . '::'
+			. $btn_text . '" style="margin-left:4px;" ><img src="'
+			. $theImageURL . '" style="text-decoration: none; color: #333;" alt="'
+			. $btn_text . '" /></span>';
 
 		if (!$locked && !$extTable && $hasPermission)
 		{
-			$theEditBtn = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\'records.listAll\');" title="'.$btn_text.'" >'.$theEditBtn.'</a>';
+			$theEditBtn = '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'
+				. $i . '\',\'records.listAll\');" title="'
+				. $btn_text . '" >'
+				. $theEditBtn . '</a>';
 		}
 
 		return($theEditBtn);
 	}
 
-	function getDataUploadIcon ($locked, $i, $rowId, $tableName, $extTable, $hasPermission,$userName='')
+
+	/**
+	 * Creates the Uplaod Data column icon.
+	 *
+	 * @param   bool    $locked         Boolean indicating table locked status.
+	 *
+	 * @param   string  $tableName      Table name.
+	 *
+	 * @param   bool    $extTable       Boolean indicating precence of an external table.
+	 *
+	 * @param   bool    $hasPermission  Boolean indicating if the user has permission to change the published state.
+	 *
+	 * @param   string  $userName       The username of the user the table is currently locked out by.
+	 *
+	 * @return string
+	 */
+	protected function getDataUploadIcon ($locked, $rowId, $tableName, $extTable, $hasPermission,$userName='')
 	{
 		if ($extTable)
 		{

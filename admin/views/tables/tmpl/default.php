@@ -1,13 +1,15 @@
 <?php
 /**
- * @package    EasyTables
- * @author     Craig Phillips {@link http://www.seepeoplesoftware.com}
- * @author     Created on 13-Jul-2009
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
-//--No direct access
+// No Direct Access
 defined('_JEXEC') or die('Restricted Access');
-require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
+require_once '' . JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
 	JHTML::_('behavior.tooltip');
 	$listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -28,7 +30,7 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 		<div class="filter-select fltrt">
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions',array('published'=>1, 'unpublished'=>1, 'archived'=>0, 'trash'=>0, 'all'=>1)), 'value', 'text', $this->state->get('filter.published'), true);?>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('published' => 1, 'unpublished' => 1, 'archived' => 0, 'trash' => 0, 'all' => 1)), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 
 			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
@@ -42,9 +44,9 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 			</select>
 		</div>
 	<div class="et_version_info">
-		<?php echo JText::_('COM_EASYTABLEPRO_MGR_INSTALLED_VERSION').'&nbsp;'; ?>:: <span id="installedVersionSpan"><?php echo ( $this->et_current_version ); ?></span><br />
+		<?php echo JText::_('COM_EASYTABLEPRO_MGR_INSTALLED_VERSION') . '&nbsp;'; ?>:: <span id="installedVersionSpan"><?php echo ($this->et_current_version); ?></span><br />
 		<span id="et-subverinfo">
-		<?php echo JText::_('COM_EASYTABLEPRO_MGR_CURRENT_SUBSCRIBERS_RELEASE_IS').'&nbsp;'; ?>:: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro" target="_blank" title="<?php echo JText::_('COM_EASYTABLEPRO_MGR_OPEN_RELEASE_DESC'); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a></span>
+		<?php echo JText::_('COM_EASYTABLEPRO_MGR_CURRENT_SUBSCRIBERS_RELEASE_IS') . '&nbsp;'; ?>:: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro" target="_blank" title="<?php echo JText::_('COM_EASYTABLEPRO_MGR_OPEN_RELEASE_DESC'); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a></span>
 	</div>
 	</fieldset>
 	<div class="clr"> </div>
@@ -69,15 +71,15 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 	<?php
 	$k = 0;
 
-	for ($i=0, $n=count( $this->rows ); $i < $n; $i++)
+	for ($i = 0, $n = count($this->rows); $i < $n; $i++)
 	{
-		$row =$this->rows[$i];
+		$row = $this->rows[$i];
 
 		$canCreate        = $this->canDo->get('core.create',              'com_easytablepro');
-		$canEdit          = $this->canDo->get('core.edit',                'com_easytablepro.table.'.$row->id);
+		$canEdit          = $this->canDo->get('core.edit',                'com_easytablepro.table.' . $row->id);
 		$canCheckin       = $user->authorise('core.manage',               'com_checkin') || $row->checked_out == $userId || $row->checked_out == 0;
-		$canEditOwn       = $this->canDo->get('core.edit.own',            'com_easytablepro.table.'.$row->id) && $row->created_by == $userId;
-		$canChange        = $this->canDo->get('core.edit.state',          'com_easytablepro.table.'.$row->id) && $canCheckin;
+		$canEditOwn       = $this->canDo->get('core.edit.own',            'com_easytablepro.table.' . $row->id) && $row->created_by == $userId;
+		$canChange        = $this->canDo->get('core.edit.state',          'com_easytablepro.table.' . $row->id) && $canCheckin;
 		$canEditRecords   = $this->canDo->get('easytablepro.editrecords', 'com_easytablepro.table.' . $row->id);
 		$canImportRecords = $this->canDo->get('easytablepro.import',      'com_easytablepro.table.' . $row->id);
 
@@ -87,9 +89,11 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 
 		$row->params = $rowParamsObj->toArray();
 		$locked = ($row->checked_out && ($row->checked_out != $user->id));
+
 		if ($locked)
 		{
-			$lockedBy = JFactory::getUser($row->checked_out); $lockedByName = $lockedBy->name;
+			$lockedBy = JFactory::getUser($row->checked_out);
+			$lockedByName = $lockedBy->name;
 		}
 		else
 		{
@@ -103,20 +107,32 @@ require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php';
 			<td>
 				<?php echo JHtml::_('grid.id', $i, $row->id); ?>
 			</td>
-			<td>
-				<?php if ($row->checked_out) : ?>
-					<?php echo JHTML::_( 'jgrid.checkedout', $i, $row->editor, $row->checked_out_time, 'tables.', $canCheckin ); ?>
-				<?php endif; ?>
-				<?php echo $this->getEditorLink($locked,$i,$row->easytablename,$canEdit, $lockedByName); ?><div class="clr"></div>
-				<span class="ept_tablelist_table_details"><?php echo JText::sprintf('COM_EASYTABLEPRO_TABLESX_BY_Y', $row->easytablealias, $row->author_name);?></span><div class="clr"></div>
-				<span class="ept_tablelist_table_details"><?php echo JText::sprintf('COM_EASYTABLEPRO_TABLES_VIEWABLE_BY',ET_Helper::accessLabel($row->access)); ?></span>
-				<span class="et_mgr_hits_counter"><?php echo JText::sprintf('COM_EASYTABLEPRO_MGR_HITS_COUNT', $row->hits); ?></span>
+			<td><?php
+				if ($row->checked_out)
+				{
+					echo JHTML::_('jgrid.checkedout', $i, $row->editor, $row->checked_out_time, 'tables.', $canCheckin);
+				}
+				echo $this->getEditorLink($locked, $i, $row->easytablename, $canEdit, $lockedByName);
+			?><div class="clr"></div>
+				<span class="ept_tablelist_table_details"><?php
+					echo JText::sprintf('COM_EASYTABLEPRO_TABLESX_BY_Y', $row->easytablealias, $row->author_name);
+					?></span><div class="clr"></div>
+				<span class="ept_tablelist_table_details"><?php
+					echo JText::sprintf('COM_EASYTABLEPRO_TABLES_VIEWABLE_BY', ET_Helper::accessLabel($row->access));
+					?></span>
+				<span class="et_mgr_hits_counter"><?php
+					echo JText::sprintf('COM_EASYTABLEPRO_MGR_HITS_COUNT', $row->hits);
+					?></span>
 			</td>
 			<td>
-				<?php echo $this->getDataEditorIcon($locked,$i,$row->id,$row->easytablename,$etet,$canEditRecords, $lockedByName); ?>
+				<?php
+					echo $this->getDataEditorIcon($locked, $i, $row->easytablename, $etet, $canEditRecords, $lockedByName);
+				?>
 			</td>
 			<td>
-				<?php echo $this->getDataUploadIcon($locked,$i,$row->id,$row->easytablename,$etet,$canImportRecords, $lockedByName); ?>
+				<?php
+					echo $this->getDataUploadIcon($locked, $row->id, $row->easytablename, $etet, $canImportRecords, $lockedByName);
+				?>
 			</td>
 			<td>
 				<?php echo $published; ?>
