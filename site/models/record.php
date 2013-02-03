@@ -37,22 +37,23 @@ class EasyTableProModelRecord extends JModelItem
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('site');
+		$jAp = JFactory::getApplication('site');
+
 
 		// Load state from the request.
-		$pk = JRequest::getInt('id');
+		$pk = $jAp->input->get('id');
 		$this->setState('table.id', $pk);
 
-		$pk = JRequest::getInt('rid');
+		$pk = $jAp->input->get('rid');
 		$this->setState('record.id', $pk);
 
 		// Load the parameters.
-		$params = $app->getParams();
+		$params = $jAp->getParams();
 		$this->setState('params', $params);
 
 		// Get the current menu item's table id if it exists
-		$menuItem = $app->input->get('Itemid');
-		$menu = $app->getMenu();
+		$menuItem = $jAp->input->get('Itemid');
+		$menu = $jAp->getMenu();
 		$currentMenuItem = $menu->getItem($menuItem);
 
 		if ($currentMenuItem->query['option'] == 'com_easytablepro')
@@ -107,7 +108,7 @@ class EasyTableProModelRecord extends JModelItem
 				// First up lets convert these params to a JRegister
 				$rawParams = $et->params;
 				$paramsObj = new JRegistry;
-				$paramsObj->loadArray($rawParams);
+				$paramsObj->loadString($rawParams);
 				$et->params = $paramsObj;
 
 				// Get our record from the right table
