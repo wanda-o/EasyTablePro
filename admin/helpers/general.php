@@ -92,9 +92,9 @@ class ET_Helper
 	 *
 	 * @param   int  $pk  Key for the EasyTable
 	 *
-	 * @return boolean|EasyTable Obj - returns false if no table id could be retreived.
+	 * @return  boolean|EasyTable Obj - returns false if no table id could be retreived.
 	 */
-	public static function getEasytableMetaItem ($pk = '')
+	public static function getEasytableMetaItem ($pk = 0)
 	{
 		// Make sure we have a pk to work with
 		if (empty($pk))
