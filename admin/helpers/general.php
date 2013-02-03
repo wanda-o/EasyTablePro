@@ -118,6 +118,210 @@ class ET_Helper
 	}
 
 	/**
+	 * Returns a complete table object with complete meta records.
+	 *
+	 * @param   int  $pk  Table ID
+	 *
+	 * @return mixed
+	 */
+	public static function &getEasyTable($pk = 0)
+	{
+		// Make sure $pk is an int
+		$pk = (int) $pk;
+		$jInput = JFactory::getApplication()->input;
+
+		// Prepare for failure
+		$theEasyTable = false;
+
+		// Do we need to fallback to the query to get the table ID?
+		if (!$pk)
+		{
+			$pk = (int) $jInput->get('id', 0);
+		}
+
+		// Only get the table if we have an id, otherwise we just return the array[0] i.e. ''
+		if ($pk)
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('*');
+			$query->from($db->quoteName('#__easytables'));
+			$query->where($db->quoteName('id') . ' = ' . $pk);
+			$db->setQuery($query);
+			$theEasyTable = $db->loadObject();
+
+			// Set up a convenience tablename for the view
+			if ($theEasyTable && $theEasyTable->datatablename == '')
+			{
+				$theEasyTable->ettd_tname = '#__easytables_table_data_' . $pk;
+			}
+			elseif ($theEasyTable)
+			{
+				$theEasyTable->ettd_tname = $theEasyTable->datatablename;
+			}
+
+			if ($theEasyTable)
+			{
+				// Process the access info...
+				$user = JFactory::getUser();
+				$groups	= $user->getAuthorisedViewLevels();
+				$theEasyTable->access_view = in_array($theEasyTable->access, $groups);
+
+				// Attach the meta...
+				$easytables_table_meta = self::getEasyTableMetaRecords($pk);
+
+				// OK now if there are meta records we add them to the item before returning it
+				if (count($easytables_table_meta))
+				{
+					$theEasyTable->table_meta = $easytables_table_meta;
+					$theEasyTable->ettm_field_count = count($easytables_table_meta);
+					$filv = self::getFieldsInListView($easytables_table_meta);
+					$theEasyTable->filv = $filv;
+					$fnilv = self::getFieldsNotInListView($easytables_table_meta);
+					$theEasyTable->fnilv = $fnilv;
+					$theEasyTable->all_fields = array_merge(self::getFieldNames($filv), self::getFieldNames($fnilv));
+					$theEasyTable->list_fields = self::getFieldNames($theEasyTable->filv);
+					$theEasyTable->fidv = self::getFieldsInDetailView($easytables_table_meta);
+					$theEasyTable->fnidv = self::getFieldsNotInDetailView($easytables_table_meta);
+
+					// Now we need the primary key label
+					$query = 'SHOW KEYS FROM ' . $db->quoteName($theEasyTable->ettd_tname) . ' WHERE ' . $db->quoteName('Key_name') . ' = ' . $db->quote('Primary');
+					$db->setQuery($query);
+					$pkObject = $db->loadObject();
+					$et_Key_name = $pkObject->Column_name;
+					$theEasyTable->key_name = $et_Key_name;
+				}
+				else
+				{
+					$theEasyTable->table_meta = null;
+					$theEasyTable->ettm_field_count = 0;
+				}
+			}
+		}
+		return $theEasyTable;
+	}
+
+	/**
+	 * &getEasyTableMetaRecords() returns the meta records for the EasyTable ID
+	 *
+	 * @param   int     $id       pk value for the easytable.
+	 *
+	 * @param   string  $orderby  The field meta records are ordered by (defaults to position but could be by id).
+	 *
+	 * @return  array
+	 */
+	public static function &getEasyTableMetaRecords($id, $orderby = 'position')
+	{
+		// Setup basic variables
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Get the meta data for this table
+		$query->select('*');
+		$query->from('#__easytables_table_meta');
+		$query->where($db->quoteName('easytable_id') . '=' . $db->quote($id));
+		$query->order($db->quoteName($orderby));
+
+		$db->setQuery($query);
+		$easytables_table_meta = $db->loadAssocList('fieldalias');
+
+		return $easytables_table_meta;
+	}
+
+	/**
+	 * getFieldName is a utility to zip through all the Meta and return their alias'
+	 *
+	 * @param   array   $fields      Field meta array
+	 *
+	 * @param   string  $nameColumn  Meta key to return
+	 *
+	 * @return  array
+	 */
+	public static function getFieldNames($fields, $nameColumn='fieldalias')
+	{
+		$fieldNames = array();
+
+		foreach ($fields as $fieldDetails)
+		{
+			$fieldNames[] = $fieldDetails[$nameColumn];
+		}
+		return $fieldNames;
+	}
+
+	/**
+	 * getFieldsInListView stub method for getFieldsInView
+	 *
+	 * @param   array  $fieldMeta  The field meta array.
+	 *
+	 * @return  array
+	 */
+	public static function getFieldsInListView($fieldMeta)
+	{
+		return self::getFieldsInView($fieldMeta, 'list', true);
+	}
+
+	/**
+	 * getFieldsInListView stub method for getFieldsInView
+	 *
+	 * @param   array  $fieldMeta  The field meta array.
+	 *
+	 * @return  array
+	 */
+	public static function getFieldsNotInListView($fieldMeta)
+	{
+		return self::getFieldsInView($fieldMeta, 'list', false);
+	}
+
+	/**
+	 * getFieldsInDetailView stub method for getFieldsInView
+	 *
+	 * @param   array  $fieldMeta  The field meta array.
+	 *
+	 * @return  array
+	 */
+	public static function getFieldsInDetailView($fieldMeta)
+	{
+		return self::getFieldsInView($fieldMeta, 'detail', true);
+	}
+
+	/**
+	 * getFieldsNotInDetailView stub method for getFieldsInView
+	 *
+	 * @param   array  $fieldMeta  The field meta array.
+	 *
+	 * @return  array
+	 */
+	public static function getFieldsNotInDetailView($fieldMeta)
+	{
+		return self::getFieldsInView($fieldMeta, 'detail', false);
+	}
+
+	/**
+	 * getFieldsInView returns fields of the specified $view that are visible or not.
+	 *
+	 * @param   array   $fieldMeta  The field meta array.
+	 *
+	 * @param   string  $view       The view type 'list' or 'detail'
+	 *
+	 * @param   bool    $inOrOut    The visible in view flag.
+	 *
+	 * @return  array
+	 */
+	public static function getFieldsInView($fieldMeta, $view='list', $inOrOut=true)
+	{
+		$matchedFields = array();
+
+		foreach ($fieldMeta as $theField)
+		{
+			if ($theField[$view . '_view'] == $inOrOut)
+			{
+				$matchedFields[] = $theField;
+			}
+		}
+		return $matchedFields;
+	}
+
+	/**
 	 * removeEmptyLines()
 	 *
 	 * @param   string  $string  The string to be cleared of empty lines.
