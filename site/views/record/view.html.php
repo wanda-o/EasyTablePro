@@ -37,8 +37,6 @@ class EasyTableProViewRecord extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$jAp = JFactory::getApplication();
-
 		// Get the Data
 		$item = $this->get('Item');
 		$easytable = $item->easytable;

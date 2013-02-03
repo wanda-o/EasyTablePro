@@ -55,11 +55,10 @@ class EasyTableProViewRecords extends JView
 	public function display ($tpl = null)
 	{
 		// Initialise variables.
+		/* var $jAp JSite */
 		$jAp		= JFactory::getApplication();
 		$jInput		= $jAp->input;
 		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
-		$dispatcher	= JDispatcher::getInstance();
 
 		$easytable		= $this->get('EasyTable');
 		$items			= $this->get('Items');
@@ -160,7 +159,6 @@ class EasyTableProViewRecords extends JView
 		$modification_date_label = $params->get('modification_date_label', '');
 		$show_page_title = $params->get('show_page_title', 1);
 		$pageclass_sfx = $params->get('pageclass_sfx', '');
-		$etet = $easytable->datatablename?true:false;
 		$title_leaf = $params->get('title_field', '');
 
 		if ($i = strpos($title_leaf, ':'))
