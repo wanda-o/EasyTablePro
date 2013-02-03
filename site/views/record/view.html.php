@@ -41,6 +41,7 @@ class EasyTableProViewRecord extends JView
 		$item = $this->get('Item');
 		$easytable = $item->easytable;
 		$id = $easytable->id;
+		$tableKey = $easytable->key_name;
 
 		// Check we have a real table
 		if ($id == 0)
@@ -66,10 +67,11 @@ class EasyTableProViewRecord extends JView
 		// Is there a title suffix from the record
 		$title_field_raw = $easytable->params->get('title_field', 0);
 
-		if (!empty($title_field_id) && ($title_field_id != 0))
+		if (!empty($title_field_raw))
 		{
-			$titlefield = $easytable->table_meta[$title_field_id]['fieldalias'];
-			$titleSuffix = $item->record->$titlefield;
+			$title_field_data = explode(':', $title_field_raw);
+			$title_field_label = $title_field_data[1];
+			$titleSuffix = $item->record->$title_field_label;
 		}
 		else
 		{
@@ -135,9 +137,9 @@ class EasyTableProViewRecord extends JView
 		}
 
 		// Assigning these items for use in the tmpl
-		$this->tableId = $easytable->id;
-		$this->recordId = $item->record->id;
-		$this->trid = $id . '.' . $item->record->id;
+		$this->tableId = $id;
+		$this->recordId = $item->record->$tableKey;
+		$this->trid = $id . '.' . $item->record->$tableKey;
 		$this->imageDir = $easytable->defaultimagedir;
 		$this->easytable = $easytable;
 		$this->et_meta = $easytable->table_meta;

@@ -56,7 +56,7 @@ class EasyTableProModelRecord extends JModelItem
 		$menu = $jAp->getMenu();
 		$currentMenuItem = $menu->getItem($menuItem);
 
-		if ($currentMenuItem->query['option'] == 'com_easytablepro')
+		if (($currentMenuItem->query['option'] == 'com_easytablepro') && isset($currentMenuItem->query['id']))
 		{
 			$etIdFromMenu = $currentMenuItem->query['id'];
 		}
@@ -98,7 +98,7 @@ class EasyTableProModelRecord extends JModelItem
 				$query = $db->getQuery(true);
 
 				// Get our table meta data
-				$et = ET_Helper::getEasytableMetaItem($etID);
+				$et = ET_Helper::getEasytable($etID);
 
 				if (!$et)
 				{
@@ -114,7 +114,7 @@ class EasyTableProModelRecord extends JModelItem
 				// Get our record from the right table
 				$query->select('*');
 				$query->from($db->quoteName($et->ettd_tname));
-				$query->where($db->quoteName('id') . ' = ' . $db->quote($pk));
+				$query->where($db->quoteName($et->key_name) . ' = ' . $db->quote($pk));
 				$db->setQuery($query);
 				$record = $db->loadObject();
 
@@ -138,7 +138,7 @@ class EasyTableProModelRecord extends JModelItem
 				}
 				else
 				{
-					$orderField = 'id';
+					$orderField = $et->key_name;
 					$ordDir = 'ASC';
 				}
 				$title_leaf = $et->params->get('title_field');
@@ -149,8 +149,8 @@ class EasyTableProModelRecord extends JModelItem
 				}
 
 				// @todo add title_field id to prev/next request to retrieve leaf
-				$prevId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_leaf);
-				$nextId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_leaf, true);
+				$prevId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_leaf, false, $et->key_name);
+				$nextId = $this->getAdjacentId($et->ettd_tname, $orderField, $ordDir, $record->$orderField, $title_leaf, true, $et->key_name);
 
 				// Do we need linked records?
 				$show_linked_table = $et->params->get('show_linked_table', 0);
@@ -159,7 +159,9 @@ class EasyTableProModelRecord extends JModelItem
 				if ($show_linked_table)
 				{
 					$linked_table = $et->params->get('id', 0);
-					$key_field = (int) $et->params->get('key_field', 0);
+					$key_field_raw = $et->params->get('key_field', 0);
+					$key_field_parts = explode(':', $key_field_raw);
+					$key_field = $key_field_parts[1];
 					$linked_key_field = $et->params->get('linked_key_field', 0);
 
 					// We need all 3 id's to proceed
@@ -296,7 +298,7 @@ class EasyTableProModelRecord extends JModelItem
 	 *
 	 * @since   1.1
 	 */
-	protected function getAdjacentId ($tableName, $orderField, $ordDir, $curOrdFldV, $leafField, $next=false)
+	protected function getAdjacentId ($tableName, $orderField, $ordDir, $curOrdFldV, $leafField, $next=false, $pk = 'id')
 	{
 		// Do we need to flip for reverse sort order
 		if ($ordDir == 'DESC')
@@ -333,13 +335,13 @@ class EasyTableProModelRecord extends JModelItem
 			$query = $db->getQuery(true);
 
 			$query->from($db->quoteName($tableName));
-			$query->select($db->quoteName('id'));
+			$query->select($db->quoteName($pk));
 
 			if ($leafField)
 			{
 				$query->select($db->quoteName($leafField));
 			}
-			$query->where($db->quoteName($orderField) . ' ' . $eqSym . ' ' . $curOrdFldV);
+			$query->where($db->quoteName($orderField) . ' ' . $eqSym . ' ' . $db->quote($curOrdFldV));
 			$query->order($db->quoteName($orderField) . ' ' . $sortOrder);
 			$db->setQuery($query, 0, 1);
 
