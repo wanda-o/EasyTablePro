@@ -347,9 +347,7 @@ class EasyTableProModelRecords extends JModelList
 		$pk = (int) $pk;
 		$jInput = JFactory::getApplication()->input;
 
-		// Prepare for failure...
-		$theEasyTable = false;
-
+		// Do we need to fallback to the query to get the table ID?
 		if (!$pk)
 		{
 			$pk = (int) $jInput->get('id', 0);
@@ -360,8 +358,10 @@ class EasyTableProModelRecords extends JModelList
 			$this->_et = array(0 => '');
 		}
 
+		// Have we got it already?
 		if (!isset($this->_et[$pk]))
 		{
+			// Only get the table if we have an id, otherwise we just return the array[0] i.e. ''
 			if ($pk)
 			{
 				$db = JFactory::getDbo();
