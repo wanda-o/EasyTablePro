@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_EASYTABLEPRO_MENU_RECORD_LAYOUT_TITLE">
+    <layout title="COM_EASYTABLEPRO_RECORD_VIEW_DEFAULT_TITLE" option="COM_EASYTABLEPRO_RECORD_VIEW_DEFAULT_OPTION">
 		<help
 			key = "COM_EASYTABLEPRO_HELP_MENU_RECORDVIEW"
 		/>
