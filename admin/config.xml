@@ -131,6 +131,15 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</field>
+        <field
+                name="enable_ajax_tables"
+                type="radio" default="1"
+                label="COM_EASYTABLEPRO_PREF_AJAX"
+                description="COM_EASYTABLEPRO_PREF_AJAX_DESC"
+                >
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </field>
 	</fieldset>
 
 	<fieldset name="processing"
