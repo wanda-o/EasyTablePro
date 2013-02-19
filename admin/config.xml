@@ -2,8 +2,8 @@
 <config>
 	<fieldset
 		name="tables"
-		label="EasyTable Pro Default Settings"
-		description="These settings act as the global defaults for each table.">
+		label="COM_EASYTABLEPRO_PREF__TAB_DEFAULT_SETTINGS"
+		description="COM_EASYTABLEPRO_PREF__TAB_DEFAULT_SETTINGS_DESC">
 
 		<field
 			name="title_links_to_table"
@@ -117,11 +117,12 @@
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</field>
-		<field
-			name="spacer1"
-			type="spacer"
-			hr="true"
-		/>
+    </fieldset>
+
+    <fieldset name="advanced"
+              label="COM_EASYTABLEPRO_PREF__TAB_ADVANCED_SETTINGS"
+              description="COM_EASYTABLEPRO_PREF__TAB_ADVANCED_SETTINGS_DESC"
+            >
 		<field
 			name="searchable_by_joomla"
 			type="radio" default="1"
@@ -132,6 +133,11 @@
 			<option value="0">No</option>
 		</field>
         <field
+                name="spacer2"
+                type="spacer"
+                hr="true"
+                />
+        <field
                 name="enable_ajax_tables"
                 type="radio" default="1"
                 label="COM_EASYTABLEPRO_PREF_AJAX"
@@ -140,11 +146,43 @@
             <option value="1">Yes</option>
             <option value="0">No</option>
         </field>
+        <field
+                name="load_jquery_from_google"
+                type="radio" default="1"
+                label="COM_EASYTABLEPRO_PREF_LOAD_JQUERY"
+                description="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_DESC"
+                >
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </field>
+        <field
+                name="load_jqueryui_from_google"
+                type="radio" default="1"
+                label="COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI"
+                description="COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_DESC"
+                >
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </field>
+        <field
+                name="spacer3"
+                type="spacer"
+                hr="true"
+                />
+        <field
+                name="uninstall_type"
+                type="radio" default="0"
+                label="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE"
+                description="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE_DESC"
+                >
+            <option value="1">COM_EASYTABLEPRO_PREF_UNINSTALL_COMPLETE</option>
+            <option value="0">COM_EASYTABLEPRO_PREF_UNINSTALL_PARTIAL</option>
+        </field>
 	</fieldset>
 
 	<fieldset name="processing"
-		label="COM_EASYTABLEPRO_PREF_PROCESSING"
-		description="COM_EASYTABLEPRO_PREF_PROCESSING_DESC"
+		label="COM_EASYTABLEPRO_PREF__TAB_PROCESSING_SETTINGS"
+		description="COM_EASYTABLEPRO_PREF__TAB_PROCESSING_SETTINGS_DESC"
 	>
 
 		<field
@@ -170,15 +208,6 @@
 			rows="8"
 			cols="64"
 		/>
-		<field
-			name="uninstall_type"
-			type="radio" default="0"
-			label="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE"
-			description="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE_DESC"
-		>
-			<option value="1">COM_EASYTABLEPRO_PREF_UNINSTALL_COMPLETE</option>
-			<option value="0">COM_EASYTABLEPRO_PREF_UNINSTALL_PARTIAL</option>
-		</field>
 	</fieldset>
 
 	<fieldset name="permissions"
