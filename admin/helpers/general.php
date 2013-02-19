@@ -527,4 +527,67 @@ class ET_Helper
 
 		return null;
 	}
+
+	/**
+	 * Mail Administrators
+	 *
+	 * @param   string  $error       The error type.
+	 *
+	 * @param   array   $error_data  Array of error location details
+	 *
+	 * @return  boolean
+	 */
+	public static function notifyAdminsOnError($error, $error_data)
+	{
+		$config = JFactory::getConfig();
+		$db = JFactory::getDbo();
+		$data = array();
+		$data['fromname']	= $config->get('fromname');
+		$data['mailfrom']	= $config->get('mailfrom');
+		$data['sitename']	= $config->get('sitename');
+		$data['siteurl']	= JUri::root();
+		$emailSubject = JText::sprintf('COM_EASYTABLEPRO_ERROR_' . strtoupper($error) . '_SUBJECT', $data['sitename']);
+
+		$emailBodyAdmin = JText::sprintf(
+			'COM_EASYTABLEPRO_ERROR_' . strtoupper($error),
+			$error_data['url'],
+			$error_data['referrer'],
+			$error_data['ipaddress']
+		);
+		unset($error_data['url']);
+		unset($error_data['referrer']);
+		unset($error_data['ipaddress']);
+
+		// Append any other data passed in:
+		foreach ($error_data as $label => $value)
+		{
+			$emailBodyAdmin .= "\n" . ucwords(str_replace('_', ' ', $label)) . ' : ' . $value;
+		}
+		$emailBodyAdmin .= "\n";
+
+		// Get all admin users
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('name'));
+		$query->select($db->quoteName('email'));
+		$query->select($db->quoteName('sendEmail'));
+		$query->from($db->quoteName('#__users'));
+		$query->where($db->quoteName('sendEmail') . '=' . $db->quote(1));
+
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
+
+		// Send mail to all superadministrators id
+		foreach ($rows as $row)
+		{
+			$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+
+			// We make sure we're not just repeating errors
+			if (!$return)
+			{
+				break;
+			}
+		}
+
+		return $return;
+	}
 }
