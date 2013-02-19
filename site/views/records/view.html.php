@@ -150,16 +150,64 @@ class EasyTableProViewRecords extends JView
 		}
 
 		// Load the right layout...
-		// Load layout from active query (in case it is an alternative menu item)
-		if ($layout = $active->params->get('records_layout'))
+		$layout = $jInput->getCmd('layout', 'default');
+
+		// Load layout from active query if required (in case it is an alternative menu item)
+		if (empty($layout))
 		{
-			$this->setLayout($layout);
-		}
-		else
-		{
-			if ($layout = $params->get('records_layout'))
+			if ($layout = $active->params->get('records_layout'))
 			{
 				$this->setLayout($layout);
+			}
+			else
+			{
+				if ($layout = $params->get('records_layout'))
+				{
+					$this->setLayout($layout);
+				}
+			}
+		}
+
+		$ajaxEnabled = $params->get('enable_ajax_tables', 0);
+
+		if (($layout == 'ajax') && !$ajaxEnabled)
+		{
+			$mailSent = ET_Helper::notifyAdminsOnError('ajax',
+				array(
+					'ipaddress' => $jInput->get('REMOTE_ADDR'),
+					'url' => $jInput->get('REQUEST_URI'),
+					'referrer' => $jInput->get('HTTP_REFERER'),
+				)
+			);
+
+			if ($mailSent)
+			{
+				JError::raiseWarning(403, JText::_('COM_EASYTABLEPRO_RECORDS_ERROR_AJAX_NOT_ENABLED'));
+			}
+			else
+			{
+				JError::raiseWarning(403, JText::_('COM_EASYTABLEPRO_RECORDS_ERROR_AJAX_NOT_ENABLED0'));
+			}
+
+			return;
+		}
+		elseif(($layout == 'ajax') && $ajaxEnabled)
+		{
+			$loadJQ = $params->get('load_jquery_from_google', 0);
+			$loadJQUI = $params->get('load_jqueryui_from_google', 0);
+			$doc = JFactory::getDocument();
+			$minOrNot = JDEBUG ? '' : '.min';
+
+			if ($loadJQ)
+			{
+				$versionJQ = $params->get('load_jquery_version', '1.9.1');
+				$doc->addScript('ajax.googleapis.com/ajax/libs/jquery/' . $versionJQ . '/jquery' . $minOrNot . '.js');
+			}
+
+			if ($loadJQUI)
+			{
+				$versionJQUI = $params->get('load_jqueryui_version', '1.9.1');
+				$doc->addScript('ajax.googleapis.com/ajax/libs/jqueryui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
 			}
 		}
 
