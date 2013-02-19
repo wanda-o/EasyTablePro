@@ -59,7 +59,7 @@
 		<table id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars(strip_tags($this->easytable->description)); ?>" width="100%">
 			<thead>
 				<tr>
-					<th class="sectiontableheader cRowNum"><?php echo JText::_('COM_EASYTABLE_PRO_RECORDS_RANK_LABEL'); ?></th>
+					<th class="sectiontableheader cRowNum"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_RECORDS_RANK'); ?></th>
 				<?php
 					foreach ($this->easytables_table_meta as $heading)
 					{
