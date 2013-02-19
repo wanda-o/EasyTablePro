@@ -156,6 +156,16 @@
             <option value="0">No</option>
         </field>
         <field
+                name="load_jquery_version"
+                type="list" default="1.9.1"
+                label="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_VERSION"
+                description="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_VERSION_DESC"
+                >
+            <option value="1.9.1">1.9.1</option>
+            <option value="1.8.3">1.8.3</option>
+            <option value="1.7.2">1.7.2</option>
+        </field>
+        <field
                 name="load_jqueryui_from_google"
                 type="radio" default="1"
                 label="COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI"
@@ -163,6 +173,16 @@
                 >
             <option value="1">Yes</option>
             <option value="0">No</option>
+        </field>
+        <field
+                name="load_jqueryui_version"
+                type="list" default="1.10.1"
+                label="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_VERSION"
+                description="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_VERSION_DESC"
+                >
+            <option value="1.10.1">1.10.1</option>
+            <option value="1.9.2">1.9.2</option>
+            <option value="1.8.24">1.8.24</option>
         </field>
         <field
                 name="spacer3"
