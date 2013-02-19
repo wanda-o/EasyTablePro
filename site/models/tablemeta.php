@@ -25,7 +25,7 @@ class EasyTableModelEasyTableMeta extends JModel
 	/**
 	 * @var null
 	 */
-	private var $_data = null;
+	private $_data = null;
 
 	/**
 	 * Gets the tables
