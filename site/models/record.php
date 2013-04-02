@@ -198,7 +198,7 @@ class EasyTableProModelRecord extends JModelItem
 
 				if (empty($record))
 				{
-					return JError::raiseError(404, JText::_('COM_EASYTABLEPRO_RECORD_ERROR_RECORD_NOT_FOUND'));
+					return JError::raiseError(404, JText::sprintf('COM_EASYTABLEPRO_SITE_RECORD_ERROR_RECORD_NOT_FOUND', $pk));
 				}
 
 				// Compute view access permissions.
