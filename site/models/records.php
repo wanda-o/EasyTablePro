@@ -11,6 +11,7 @@
 defined('_JEXEC') or die ('Restricted Access');
 
 jimport('joomla.application.component.modellist');
+require_once JPATH_ADMINISTRATOR . '/components/com_easytablepro/helpers/general.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/viewfunctions.php';
 
 /**
@@ -339,94 +340,11 @@ class EasyTableProModelRecords extends JModelList
 	 *
 	 * @param   int  $pk  Table ID
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 */
 	public function &getEasyTable($pk = 0)
 	{
-		// Make sure $pk is an int
-		$pk = (int) $pk;
-		$jInput = JFactory::getApplication()->input;
-
-		// Do we need to fallback to the query to get the table ID?
-		if (!$pk)
-		{
-			$pk = (int) $jInput->get('id', 0);
-		}
-
-		if ($this->_et === null)
-		{
-			$this->_et = array(0 => '');
-		}
-
-		// Have we got it already?
-		if (!isset($this->_et[$pk]))
-		{
-			// Only get the table if we have an id, otherwise we just return the array[0] i.e. ''
-			if ($pk)
-			{
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true);
-				$query->select('*');
-				$query->from($db->quoteName('#__easytables'));
-				$query->where($db->quoteName('id') . ' = ' . $pk);
-				$db->setQuery($query);
-				$theEasyTable = $db->loadObject();
-
-				// Set up a convenience tablename for the view
-				if ($theEasyTable && $theEasyTable->datatablename == '')
-				{
-					$theEasyTable->ettd_tname = '#__easytables_table_data_' . $pk;
-				}
-				elseif ($theEasyTable)
-				{
-					$theEasyTable->ettd_tname = $theEasyTable->datatablename;
-				}
-
-				if ($theEasyTable)
-				{
-					// Ok we must have a table so lets increment it's hit.
-					$this->hit($pk);
-
-					// Process the access info...
-					$user = JFactory::getUser();
-					$groups	= $user->getAuthorisedViewLevels();
-					$theEasyTable->access_view = in_array($theEasyTable->access, $groups);
-
-					// Attach the meta...
-					$easytables_table_meta = $this->getEasyTableMeta($pk);
-
-					// OK now if there are meta records we add them to the item before returning it
-					if (count($easytables_table_meta))
-					{
-						$theEasyTable->table_meta = $easytables_table_meta;
-						$theEasyTable->ettm_field_count = count($easytables_table_meta);
-						$filv = ET_VHelper::getFieldsInListView($easytables_table_meta);
-						$theEasyTable->filv = $filv;
-						$fnilv = ET_VHelper::getFieldsNotInListView($easytables_table_meta);
-						$theEasyTable->fnilv = $fnilv;
-						$theEasyTable->all_fields = array_merge(ET_VHelper::getFieldNames($filv), ET_VHelper::getFieldNames($fnilv));
-						$theEasyTable->list_fields = ET_VHelper::getFieldNames($theEasyTable->filv);
-						$theEasyTable->fidv = ET_VHelper::getFieldsInDetailView($easytables_table_meta);
-						$theEasyTable->fnidv = ET_VHelper::getFieldsNotInDetailView($easytables_table_meta);
-
-						// Now we need the primary key label
-						$query = 'SHOW KEYS FROM ' . $db->quoteName($theEasyTable->ettd_tname) . ' WHERE ' . $db->quoteName('Key_name') . ' = ' . $db->quote('Primary');
-						$db->setQuery($query);
-						$pkObject = $db->loadObject();
-						$et_Key_name = $pkObject->Column_name;
-						$theEasyTable->key_name = $et_Key_name;
-					}
-					else
-					{
-						$theEasyTable->table_meta = null;
-						$theEasyTable->ettm_field_count = 0;
-					}
-				}
-				$this->_et[$pk] = $theEasyTable;
-			}
-		}
-
-		return $this->_et[$pk];
+		return ET_Helper::getEasyTable($pk);
 	}
 
 	/**
