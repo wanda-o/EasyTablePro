@@ -56,7 +56,7 @@ class EasyTableProModelRecord extends JModelItem
 		$menu = $jAp->getMenu();
 		$currentMenuItem = $menu->getItem($menuItem);
 
-		if (($currentMenuItem->query['option'] == 'com_easytablepro') && isset($currentMenuItem->query['id']))
+		if (isset($currentMenuItem) && ($currentMenuItem->query['option'] == 'com_easytablepro') && isset($currentMenuItem->query['id']))
 		{
 			$etIdFromMenu = $currentMenuItem->query['id'];
 		}
