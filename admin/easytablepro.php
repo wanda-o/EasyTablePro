@@ -20,6 +20,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_easytablepro'))
 jimport('joomla.application.component.controller');
 
 $controller = JController::getInstance('EasyTablePro');
+
 $jinput = JFactory::getApplication()->input;
 $controller->execute($jinput->get('task'));
 
