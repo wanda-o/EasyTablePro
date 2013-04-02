@@ -61,6 +61,14 @@ class EasyTableProViewRecords extends JView
 		$user		= JFactory::getUser();
 
 		$easytable		= $this->get('EasyTable');
+
+		if (empty($easytable))
+		{
+			$id = $jInput->get('id', 0);
+
+			// Throw 404 if no table
+			return JError::raiseWarning(404, JText::sprintf('COM_EASYTABLEPRO_SITE_TABLE_NOT_AVAILABLE', $id));
+		}
 		$items			= $this->get('Items');
 		$this->items	= $items;
 		$this->state	= $this->get('State');
