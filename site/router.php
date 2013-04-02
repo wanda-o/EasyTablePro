@@ -118,7 +118,7 @@ jimport('joomla.application.categories');
 					if (isset($query['id']))
 					{
 						// So, is our current view already showing the table of the target URL?
-						if (($menusCurrentOption == 'com_easytablepro') && ($targetID != $menusCurrentID))
+						if ((($menusCurrentOption == 'com_easytablepro') && ($targetID != $menusCurrentID)) || $menusCurrentOption == '')
 						{
 							// We'll need to add an alias to point to the right table...
 							$SQLquery = $db->getQuery(true);
