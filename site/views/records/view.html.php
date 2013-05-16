@@ -38,6 +38,16 @@ class EasyTableProViewRecords extends JView
 	/**
 	 * @var
 	 */
+	protected $items;
+
+	/**
+	 * @var
+	 */
+	protected $pagination;
+
+	/**
+	 * @var
+	 */
 	protected $state;
 
 	/**
@@ -224,7 +234,7 @@ class EasyTableProViewRecords extends JView
 		}
 
 		// Get form link
-		$formAction = JURI::current();
+		$formAction = JRoute::_(JURI::getInstance()->toString());
 
 		// Assing these items for use in the tmpl
 		$this->assign('show_description', $show_description);
