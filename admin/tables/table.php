@@ -21,7 +21,6 @@ jimport('joomla.filter.output');
  */
 class EasyTableProTableTable extends JTable
 {
-	protected  $easytablealias;
 	/**
 	 * Check function
 	 *
