@@ -18,99 +18,102 @@
 }
 
 .icon-32-easytablpro-linkTable {
-	background: url(../images/Link-Button_32x64.png) no-repeat left;
-	background-position-y: 0px;
-	height: 32px;
+    background: url(../images/Link-Button_32x64.png) no-repeat left;
+    background-position-y: 0px;
+    height: 32px;
 }
 
 .icon-32-easytablpro-uploadTable {
-	background: url(../images/Upload-Button_32x64.png) no-repeat left;
-	background-position-y: 0px;
-	height: 32px;
+    background: url(../images/Upload-Button_32x64.png) no-repeat left;
+    background-position-y: 0px;
+    height: 32px;
 }
 
 .icon-32-easytablpro-uploadTable-off {
-	background: url(../images/Upload-Button_32x64.png) no-repeat left;
-	background-position-y: -32px;
-	height: 32px;
+    background: url(../images/Upload-Button_32x64.png) no-repeat left;
+    background-position-y: -32px;
+    height: 32px;
 }
 
 .et_mgr_desc {
-	float:left;
+    float: left;
 }
+
 .ept_tablelist_table_details, .et_mgr_hits_counter {
-	color:grey;
-	font-style:italic;
-	font-size:90%;
-	margin-left:10px;
+    color: grey;
+    font-style: italic;
+    font-size: 90%;
+    margin-left: 10px;
 }
 
 .info-tip {
-	width:50px;
-	position:absolute;
-	background-color:#FFFFCC;
-	display:none;
-	padding:5px;
-	text-align:left;
-	border-color:#DDDDCC;
-	border-width:2px;
-	border-right-style:solid;
-	border-bottom-style:solid;
+    width: 50px;
+    position: absolute;
+    background-color: #FFFFCC;
+    display: none;
+    padding: 5px;
+    text-align: left;
+    border-color: #DDDDCC;
+    border-width: 2px;
+    border-right-style: solid;
+    border-bottom-style: solid;
 }
 
 .deleteFieldButton {
-	display:block;
+    display: block;
 }
+
 .deleteFieldButton-nodisplay {
-	display:none;
+    display: none;
 }
 
 .et_controlRow {
-	display:table-row;
+    display: table-row;
 }
+
 .et_controlRow-nodisplay {
-	display:none;
+    display: none;
 }
 
 .et_version_info {
-	color:grey;
-	width:450px;
-	margin-left:auto;
-	margin-right:auto;
+    color: grey;
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #et_meta_table_rows tr.et_new_row, #et_meta_table_rows tr.et_new_row td {
-	background-color:#c3ffc3;
+    background-color: #c3ffc3;
 }
 
 #uploadWhileModifyingNotice {
-	background-color:#FFFFCC;
-	display:none;
-	padding:5px;
-	text-align:left;
-	border-color:#DDDDCC;
-	border-width:2px;
-	border-right-style:solid;
-	border-bottom-style:solid;
-	width: 100%;
+    background-color: #FFFFCC;
+    display: none;
+    padding: 5px;
+    text-align: left;
+    border-color: #DDDDCC;
+    border-width: 2px;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    width: 100%;
 }
 
 #uploadWhileModifyingNotice p {
-	margin:10px;
-	padding:0;
+    margin: 10px;
+    padding: 0;
 }
 
 #etp_stats_panel {
-	margin-left:0px;
-	margin-right:0px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 .et_nodirectory {
-	font-style:italic;
-	color:red;
-	float:right;
+    font-style: italic;
+    color: red;
+    float: right;
 }
 
 .et_mgr_hits_counter {
-	float:right;
+    float: right;
 }
