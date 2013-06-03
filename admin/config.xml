@@ -11,8 +11,8 @@
 			label="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE"
 			description="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_description"
@@ -21,8 +21,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_DESCRIPTION"
 			description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_DESCRIPTION_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_search"
@@ -30,8 +30,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_SEARCH"
 			description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_SEARCH_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_pagination"
@@ -39,8 +39,8 @@
 			label="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION"
 			description="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_pagination_header"
@@ -48,8 +48,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_PAGES_DESC"
 			description="COM_EASYTABLEPRO_PREF_PAGINATION_CONTROLS_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_pagination_footer"
@@ -57,8 +57,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_PAGINATION_FOOTER"
 			description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_PAGINATION_FOOTER_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_next_prev_record_links"
@@ -66,8 +66,8 @@
 			label="COM_EASYTABLEPRO_PREF_NEXT_PREV_LINKS_LABEL"
 			description="COM_EASYTABLEPRO_PREF_SHOW_NEXT_PREV_LINKS"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_created_date"
@@ -75,8 +75,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_CREATION_DATE"
 			description="COM_EASYTABLEPRO_PREF_SHOW_CREATION_DATE_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_modified_date"
@@ -84,8 +84,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_MODIFIED_DATE"
 			description="COM_EASYTABLEPRO_PREF_SHOW_MODIFIED_DATE_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="modification_date_label"
@@ -100,8 +100,8 @@
 			label="COM_EASYTABLEPRO_PREF_MAKE_TABLES_SORTABLE"
 			description="COM_EASYTABLEPRO_PREF_MAKE_TABLE_SORTABLE_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="spacer1"
@@ -114,8 +114,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE"
 			description="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
     </fieldset>
 
@@ -129,8 +129,8 @@
 			label="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA"
 			description="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
         <field
                 name="spacer2"
@@ -143,8 +143,8 @@
                 label="COM_EASYTABLEPRO_PREF_AJAX"
                 description="COM_EASYTABLEPRO_PREF_AJAX_DESC"
                 >
-            <option value="1">Yes</option>
-            <option value="0">No</option>
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
         </field>
         <field
                 name="load_jquery_from_google"
@@ -152,8 +152,8 @@
                 label="COM_EASYTABLEPRO_PREF_LOAD_JQUERY"
                 description="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_DESC"
                 >
-            <option value="1">Yes</option>
-            <option value="0">No</option>
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
         </field>
         <field
                 name="load_jquery_version"
@@ -171,8 +171,8 @@
                 label="COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI"
                 description="COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_DESC"
                 >
-            <option value="1">Yes</option>
-            <option value="0">No</option>
+            <option value="0">JNO</option>
+            <option value="0">JNO</option>
         </field>
         <field
                 name="load_jqueryui_version"
@@ -183,6 +183,15 @@
             <option value="1.10.1">1.10.1</option>
             <option value="1.9.2">1.9.2</option>
             <option value="1.8.24">1.8.24</option>
+        </field>
+        <field
+                name="load_jquery_datatables_version"
+                type="list" default="1.10.1"
+                label="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_DATATABLES_VERSION"
+                description="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_DATATABLES_VERSION_DESC"
+                >
+            <option value="1.9.4">1.9.4</option>
+            <option value="1.8.2">1.8.2</option>
         </field>
         <field
                 name="spacer3"
