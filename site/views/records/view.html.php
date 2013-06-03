@@ -349,6 +349,7 @@ class EasyTableProViewRecords extends JView
 				return $fieldMeta['fieldalias'];
 			}
 		}
+
 		return 'id';
 	}
 

@@ -188,6 +188,7 @@ class ET_VHelper
 			{
 				$currentImageDir = $currentImageDir . '/';
 			}
+
 			$pathToImage = JURI::root() . $currentImageDir . $f;
 
 			if ($fieldOptions == '')
@@ -203,6 +204,7 @@ class ET_VHelper
 		{
 			$fieldWithOptions = '<!-- ' . JText::_('COM_EASYTABLEPRO_SITE_NO_IMAGE_NAME') . ' -->';
 		}
+
 		return $fieldWithOptions;
 	}
 
@@ -375,6 +377,7 @@ class ET_VHelper
 				$fieldWithOptions = date($fieldOptions, $timestamp);
 			}
 		}
+
 		return $fieldWithOptions;
 	}
 
@@ -395,6 +398,7 @@ class ET_VHelper
 		{
 			$fieldNames[] = $fieldDetails[$nameColumn];
 		}
+
 		return $fieldNames;
 	}
 
@@ -468,6 +472,7 @@ class ET_VHelper
 				$matchedFields[] = $theField;
 			}
 		}
+
 		return $matchedFields;
 	}
 
@@ -487,6 +492,7 @@ class ET_VHelper
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

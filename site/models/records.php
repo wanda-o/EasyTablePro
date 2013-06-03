@@ -28,20 +28,20 @@ class EasyTableProModelRecords extends JModelList
 	 * Items total
 	 * @var integer
 	 */
-	private $_total = null;
+	private $total = null;
 
 	/**
  	 * Pagination object
 	 * @var object
 	 */
-	private $_pagination = null;
+	private $pagination = null;
 
 	/**
  	 *
  	 * Search text
  	 * @var string
  	 */
-	private $_search = null;
+	private $search = null;
 
 	/**
 	 * EasyTables object
