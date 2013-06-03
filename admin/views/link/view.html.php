@@ -57,13 +57,14 @@ class EasyTableProViewLink extends JView
 				$tablesAvailableForSelection = true;
 			}
 			else
-			{	// Dang an empty list of tables.
+			{
+			// Dang an empty list of tables.
 				$noneAvailable = array();
 				$noneAvailable[] = array('value' => 0, 'text' => '-- ' . JText::_('COM_EASYTABLEPRO_LABEL_NONE_AVAILABLE') . ' --');
 				array_splice($allTables, 0, 0, $noneAvailable);
 				$tablesAvailableForSelection = false;
 			}
-	
+
 			// Covert to a HTML select option
 			$tableList = JHTML::_('select.genericlist',  $allTables, 'tablesForLinking');
 
@@ -86,12 +87,13 @@ class EasyTableProViewLink extends JView
 				$note = JText::sprintf('COM_EASYTABLEPRO_EDIT_LINKED_TABLE_FAILED_DESC', $let);
 				$legend = JText::sprintf('COM_EASYTABLEPRO_TABLE_LINKED_STATUS_FAILED', $let);
 			}
+
 			$this->id = $id;
 			$this->let = $let;
 			$this->note = $note;
 			$this->legend = $legend;
 		}
-		
+
 		$this->addCSSEtc();
 		parent::display($tpl);
 	}
@@ -109,7 +111,7 @@ class EasyTableProViewLink extends JView
 		$doc = JFactory::getDocument();
 
 		// Then add CSS to the document
-		$doc->addStyleSheet(JURI::root().'templates/system/css/system.css');
+		$doc->addStyleSheet(JURI::root() . 'templates/system/css/system.css');
 
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		JHTML::_('behavior.modal');

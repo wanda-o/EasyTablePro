@@ -45,9 +45,9 @@ class EasyTableProModelRecord extends JModelAdmin
 	/**
 	 * Method definition required to avoid strict warning about partially declared class.
 	 *
-	 * @param   JObject  $data      Form data.
+	 * @param   mixed  $data      Form data.
 	 *
-	 * @param   bool     $loadData  Force data to be loaded for form?
+	 * @param   bool   $loadData  Force data to be loaded for form?
 	 *
 	 * @see JModelForm::getForm()
 	 *
@@ -95,6 +95,7 @@ class EasyTableProModelRecord extends JModelAdmin
 			$data['title']	= $title;
 			$data['alias']	= $alias;
 		}
+
 		return parent::save($data);
 	}
 
@@ -123,6 +124,7 @@ class EasyTableProModelRecord extends JModelAdmin
 			$title = JString::increment($title);
 			$alias = JString::increment($alias, 'dash');
 		}
+
 		return array($title, $alias);
 	}
 

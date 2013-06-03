@@ -48,6 +48,7 @@ class EasyTableProViewTable extends JView
 
 			return false;
 		}
+
 		// Assign the Data
 		$this->form  = $form;
 		$this->item  = $item;
@@ -55,6 +56,7 @@ class EasyTableProViewTable extends JView
 
 		// Change the model
 		$this->get('Item', '');
+
 		// Should we be here?
 		$this->canDo = ET_Helper::getActions($item->id);
 
@@ -75,6 +77,7 @@ class EasyTableProViewTable extends JView
 		{
 			$this->published = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $this->item->published);
 		}
+
 		// Parameters for this table instance
 		if (isset($item->params))
 		{
@@ -130,10 +133,12 @@ class EasyTableProViewTable extends JView
 			JToolBarHelper::apply('table.apply');
 			JToolBarHelper::save('table.save');
 		}
+
 		if (!$this->item->etet && !$checkedOut && ($canDo->get('core.create')))
 		{
 			JToolBarHelper::save2new('table.save2new');
 		}
+
 		if ((!$this->item->etet) && $canDo->get('easytablepro.import'))
 		{
 			JToolBarHelper::divider();
@@ -149,8 +154,8 @@ class EasyTableProViewTable extends JView
 			{
 				$toolbar->appendButton('Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, 700, 425);
 			}
-
 		}
+
 		JToolBarHelper::divider();
 
 		if ($canDo->get('easytablepro.structure') && !$this->item->etet)
@@ -232,6 +237,7 @@ class EasyTableProViewTable extends JView
 				)
 			);
 		}
+
 		// Get the id for this table
 		$query = "SELECT id FROM " . $db->quoteName('#__easytables') . " WHERE `datatablename` ='" . $tableName . "'";
 		$db->setQuery($query);
@@ -403,6 +409,7 @@ class EasyTableProViewTable extends JView
 				}
 			}
 		}
+
 		return($fieldOptions);
 	}
 }

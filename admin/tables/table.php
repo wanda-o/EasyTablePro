@@ -31,15 +31,15 @@ class EasyTableProTableTable extends JTable
 	public function check()
 	{
 		/* Make sure we have an alias for the table - nicer for linking, css etc */
-	    if (empty($this->easytablealias))
-	    {
-	            $this->easytablealias = $this->easytablename;
-	    }
-	    $this->easytablealias = JFilterOutput::stringURLSafe($this->easytablealias);
-	 
-	    /* Any other checks ?
-           Not yet Bob, but ya never know! */
-	    return true;
+		if (empty($this->easytablealias))
+		{
+			$this->easytablealias = $this->easytablename;
+		}
+
+		$this->easytablealias = JFilterOutput::stringURLSafe($this->easytablealias);
+
+		// Any other checks ? Not yet Bob, but ya never know!
+		return true;
 	}
 
 	/**
@@ -72,6 +72,7 @@ class EasyTableProTableTable extends JTable
 			$rules = new JAccessRules($array['rules']);
 			$this->setRules($rules);
 		}
+
 		return parent::bind($array, $ignore);
 	}
 
@@ -156,7 +157,6 @@ class EasyTableProTableTable extends JTable
 	 *
 	 * @since   11.1
 	 */
-
 	protected function _getAssetParentId($table = null, $id = null)
 	{
 		$asset = JTable::getInstance('Asset');

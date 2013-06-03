@@ -179,8 +179,6 @@ class EasyTableProModelLink extends JModelList
 	 */
 	protected function getRestrictedTables()
 	{
-		$jAp = JFactory::getApplication();
-
 		// Load the components Global default parameters.
 		$params = JComponentHelper::getParams('com_easytablepro');
 		$restrictedTables = $params->get('restrictedTables', '');
@@ -213,6 +211,7 @@ class EasyTableProModelLink extends JModelList
 		{
 			JError::raiseError(500, JText::_('COM_EASYTABLEPRO_LINK_NO_TABLE_LIST'));
 		}
+
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('datatablename'));
 		$query->from($db->quoteName('#__easytables'));

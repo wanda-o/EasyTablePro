@@ -15,16 +15,16 @@
  */
 	class TableEasyTableMeta extends JTable
 	{
-	/**
-	 * Object constructor to set table and key fields.  In most cases this will
-	 * be overridden by child classes to explicitly set the table and key fields
-	 * for a particular database table.
-	 *
-	 * @param   JDatabase  &$db  JDatabase connector object.
-	 *
-	 * @since   11.1
-	 */
-	public function __construct(&$db)
+		/**
+		 * Object constructor to set table and key fields.  In most cases this will
+		 * be overridden by child classes to explicitly set the table and key fields
+		 * for a particular database table.
+		 *
+		 * @param   JDatabase  &$db  JDatabase connector object.
+		 *
+		 * @since   11.1
+		 */
+		public function __construct(&$db)
 		{
 			parent::__construct('#__easytables_table_meta', 'id', $db);
 		}

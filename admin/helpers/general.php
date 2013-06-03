@@ -200,6 +200,7 @@ class ET_Helper
 				}
 			}
 		}
+
 		return $theEasyTable;
 	}
 
@@ -280,6 +281,7 @@ class ET_Helper
 		{
 			$fieldNames[] = $fieldDetails[$nameColumn];
 		}
+
 		return $fieldNames;
 	}
 
@@ -353,6 +355,7 @@ class ET_Helper
 				$matchedFields[] = $theField;
 			}
 		}
+
 		return $matchedFields;
 	}
 
@@ -495,6 +498,7 @@ class ET_Helper
 		{
 			return false;
 		}
+
 		return true;
 	}
 
@@ -563,6 +567,7 @@ class ET_Helper
 		{
 			$emailBodyAdmin .= "\n" . ucwords(str_replace('_', ' ', $label)) . ' : ' . $value;
 		}
+
 		$emailBodyAdmin .= "\n";
 
 		// Get all admin users

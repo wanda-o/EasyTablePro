@@ -64,7 +64,6 @@ class EasyTableProControllerLink extends JControllerForm
 	{
 		// Setup the basic variables
 		$jAp = JFactory::getApplication();
-		$jInput = $jAp->input;
 
 		// Setup defaults for the new table entry...
 		$data = array();
@@ -95,7 +94,6 @@ class EasyTableProControllerLink extends JControllerForm
 			{
 				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_LINK_FAILED_TO_ADD_FIELDS_FOR', $tableName), 'WARNING');
 			}
-
 		}
 		else
 		{
@@ -130,7 +128,6 @@ class EasyTableProControllerLink extends JControllerForm
 		}
 
 		$fieldsArray = $db->getTableColumns($tableName);
-		$theColumnCount = count($fieldsArray);
 
 		// Construct the SQL
 		$insert_Meta_SQL_start = 'INSERT INTO `#__easytables_table_meta` ( `id` , `easytable_id` , `position` , `label` , `fieldalias`, `type` ) VALUES ';
@@ -144,6 +141,7 @@ class EasyTableProControllerLink extends JControllerForm
 			{
 				$insert_Meta_SQL_row .= ', ';
 			}
+
 			$ftypeAsInt = $this->convertType($ftype);
 			$insert_Meta_SQL_row .= "( NULL , '$id', '$pos_in_Array', '$fname', '$fname', '$ftypeAsInt')";
 			$pos_in_Array++;
@@ -166,6 +164,7 @@ class EasyTableProControllerLink extends JControllerForm
 
 			return false;
 		}
+
 		return true;
 	}
 

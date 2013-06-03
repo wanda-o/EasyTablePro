@@ -77,13 +77,13 @@ class EasyTableProControllerUpload extends JControllerForm
 		$data = $jInput->get('jform', array(), 'array');
 		$jInput->set('step', 'new');
 
-
 		if (parent::add())
 		{
 			// First up get the data file...
 			if ($filename = $this->getFile())
 			{
 				// As we have the file we'll try to create an EasyTable Entry to link the datatable and it's meta records to.
+				/** @var $model EasyTableProModelTable */
 				$model = $this->getModel('Table', 'EasyTableProModel');
 
 				if ($model->save($data))
@@ -139,6 +139,7 @@ class EasyTableProControllerUpload extends JControllerForm
 					'WARNING');
 			}
 		}
+
 		return false;
 	}
 
@@ -427,6 +428,7 @@ class EasyTableProControllerUpload extends JControllerForm
 			ini_set('auto_detect_line_endings', $original_ADLE);
 			$this->uploadedData = $CSVTableArray;
 		}
+
 		return $this->uploadedData;
 	}
 
@@ -448,6 +450,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			JError::raiseError(500, "Couldn't get the database object while trying to remove ETTD: $id");
 		}
+
 		// Build the TRUNCATE SQL -- NB. using truncate resets the AUTO_INCREMENT value of ID
 		$ettd_table_name = $db->nameQuote('#__easytables_table_data_' . $id);
 		$query = 'TRUNCATE TABLE ' . $db->nameQuote('#__easytables_table_data_' . $id) . ';';
@@ -459,6 +462,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			JError::raiseWarning('', "Failed to TRUNCATE table data in $ettd_table_name");
 		}
+
 		return($theResult);
 	}
 
@@ -478,6 +482,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			JError::raiseError(500, "Couldn't get the database object while retrieving meta for table: $id");
 		}
+
 		// Run the SQL to insert the Meta records
 		// Get the meta data for this table
 		$q = $db->getQuery(true);
@@ -511,6 +516,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			$s = stripslashes($s);
 		}
+
 		return $s;
 	}
 
@@ -671,7 +677,6 @@ class EasyTableProControllerUpload extends JControllerForm
 				$tempSQLDataString = implode("' , '", $tempRowArray);
 				$insert_ettd_data_values .= "( NULL , '" . $tempSQLDataString . "') ";
 			}
-
 		}
 
 		$insert_ettd_data_SQL_end = ';';
@@ -768,6 +773,8 @@ class EasyTableProControllerUpload extends JControllerForm
 					$ettdColumnAliass = array();
 					break;
 				}
+
+				$ettdColumnAliass[] = $columnAlias;
 			}
 		}
 
@@ -791,6 +798,7 @@ class EasyTableProControllerUpload extends JControllerForm
 				$ettdColumnAliass[] = JFilterOutput::stringURLSafe('column' . $colnum);
 			}
 		}
+
 		reset($ettdColumnAliass);
 
 		// Safe to populate the meta table as we've successfully created the ETTD
@@ -807,8 +815,10 @@ class EasyTableProControllerUpload extends JControllerForm
 				{
 					$insert_Meta_SQL_row .= ', ';
 				}
+
 				$insert_Meta_SQL_row .= "( NULL , '$id', '" . addslashes($csvColumnLabels[$colnum]) . "', '$ettdColumnAliass[$colnum]')";
 			}
+
 			// Better terminate the statement
 			$insert_Meta_SQL_end = ';';
 
@@ -822,6 +832,7 @@ class EasyTableProControllerUpload extends JControllerForm
 			{
 				JError::raiseError(500, "Couldn't get the database object while creating meta for table: $id");
 			}
+
 			// Run the SQL to insert the Meta records
 			$db->setQuery($insert_Meta_SQL);
 			$insert_Meta_result = $db->query();
@@ -883,6 +894,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			JError::raiseError(500, "Failure in data table creation, likely cause is invalid column headings; actually DB explanation: " . $db->explain());
 		}
+
 		return $ettd_creation_result;
 	}
 
@@ -926,9 +938,9 @@ class EasyTableProControllerUpload extends JControllerForm
 	/**
 	 * display()
 	 *
-	 * @param   bool   $cachable   Optional cache flag.
+	 * @param   bool        $cachable   Optional cache flag.
 	 *
-	 * @param   array  $urlparams  Optional params.
+	 * @param   bool|array  $urlparams  Optional params.
 	 *
 	 * @return  void
 	 *
@@ -942,6 +954,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		{
 			JRequest::setVar('view', 'upload');
 		}
+
 		return parent::display($cachable, $urlparams);
 	}
 }
