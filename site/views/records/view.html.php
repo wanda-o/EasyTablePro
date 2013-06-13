@@ -39,6 +39,7 @@ class EasyTableProViewRecords extends JView
 	 * @var
 	 */
 	protected $items;
+	protected $itemCount;
 
 	/**
 	 * @var
@@ -79,9 +80,11 @@ class EasyTableProViewRecords extends JView
 			// Throw 404 if no table
 			return JError::raiseWarning(404, JText::sprintf('COM_EASYTABLEPRO_SITE_TABLE_NOT_AVAILABLE', $id));
 		}
-		$items			= $this->get('Items');
-		$this->items	= $items;
-		$this->state	= $this->get('State');
+
+		$items			  = $this->get('Items');
+		$this->items	  = $items;
+		$this->itemCount  = count($items);
+		$this->state	  = $this->get('State');
 		$this->pagination = $this->get('Pagination');
 
 		// Get the user
@@ -103,6 +106,7 @@ class EasyTableProViewRecords extends JView
 			{
 				$active = $theMenus->getItem($menuItemId);
 			}
+
 			// If we still don't have an active menu then just get the default menu
 			if (!$active)
 			{
@@ -150,6 +154,7 @@ class EasyTableProViewRecords extends JView
 				return;
 			}
 		}
+
 		// Load the right layout...
 		// Load layout from active query (in case it is an alternative menu item)
 		if ($layout = $active->params->get('records_layout'))
@@ -208,7 +213,25 @@ class EasyTableProViewRecords extends JView
 		{
 			$params->set('page_title', $full_page_title);
 		}
+
 		$page_title = $params->get('page_title');
+
+		// Do we need a No Results Message?
+		if ($this->itemCount == 0)
+		{
+			$searchTerm = $this->state->get('filter.search');
+
+			if ($searchTerm == '')
+			{
+				$tableSORMsg = $params->get('sro_msg', '');
+				$this->noResultsMsg = $tableSORMsg ? $tableSORMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_SRO_TERM');
+			}
+			else
+			{
+				$tableNoRMsg = $params->get('no_results_msg', '');
+				$this->noResultsMsg = $tableNoRMsg ? $tableNoRMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_MATCHING');
+			}
+		}
 
 		// Get the default image directory from the table.
 		$imageDir = $easytable->defaultimagedir;

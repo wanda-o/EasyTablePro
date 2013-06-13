@@ -57,6 +57,8 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	protected $_context = 'com_easytablepro.records';
 
+	protected $cache;
+
 	/**
 	 * Use the constructor to setup some basic state values
 	 */
@@ -112,6 +114,8 @@ class EasyTableProModelRecords extends JModelList
 		$srid = $this->getUserStateFromRequest($this->context . '.search.rids', 'srid');
 		$this->setState('search.rids', $srid);
 
+		$this->setState('layout', $jAp->input->get('layout', ''));
+
 		// Load the components Global default parameters.
 		$params = $jAp->getParams();
 		$this->setState('params', $params);
@@ -135,6 +139,7 @@ class EasyTableProModelRecords extends JModelList
 			$this->setState('list.start', 0);
 			$this->setState('list.limit', 1000000);
 		}
+
 		if (!$show_search)
 		{
 			$this->setState('filter.search', '');
@@ -151,14 +156,22 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	public function &getItems($pk = null)
 	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('records.id');
-
-		$this->cache = parent::getItems($pk);
-
-		if ($this->cache === null)
+		// Check for Search Results Only
+		if ($this->getState('layout', null) == 'searchonly' && $this->getState('filter.search') == '')
 		{
 			$this->cache = array();
+		}
+		else
+		{
+			// Initialise variables.
+			$pk = (!empty($pk)) ? $pk : (int) $this->getState('records.id');
+
+			$this->cache = parent::getItems($pk);
+
+			if ($this->cache === null)
+			{
+				$this->cache = array();
+			}
 		}
 
 		return $this->cache;
@@ -171,7 +184,6 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	public function getListQuery()
 	{
-
 		// Setup the basics
 		$query = parent::getListQuery();
 		/** @var $jAp JSite */
@@ -210,6 +222,7 @@ class EasyTableProModelRecords extends JModelList
 				$menuItem = $theMenus->getDefault();
 			}
 		}
+
 		$menuParams = $menuItem->params;
 		$params->merge($menuParams);
 
@@ -223,10 +236,12 @@ class EasyTableProModelRecords extends JModelList
 			$this->setState('list.start', 0);
 			$this->setState('list.limit', 1000000);
 		}
+
 		if (!$show_search)
 		{
 			$this->setState('filter.search', '');
 		}
+
 		// Convert all fields to the SQL select
 		$db = JFactory::getDbo();
 		$tprefix = $db->quoteName('t');
@@ -398,6 +413,7 @@ class EasyTableProModelRecords extends JModelList
 			$fieldSearch .= ($db->quoteName('t') . '.' . $db->quoteName($row['fieldalias'])) . " LIKE " . $search;
 			$fieldSearch .= $i++ < $colCount ? ' OR ' : '';
 		}
+
 		return $fieldSearch . ' )';
 	}
 
