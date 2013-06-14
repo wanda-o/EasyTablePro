@@ -10,7 +10,7 @@
 // No direct access
 defined('_JEXEC') or die ('Restricted Access');
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controllerform');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
@@ -23,7 +23,7 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
  *
  * @since       1.0
  */
-class EasyTableProControllerRecord extends JController
+class EasyTableProControllerRecord extends JControllerForm
 {
 	/**
 	 * @var string
@@ -171,4 +171,38 @@ class EasyTableProControllerRecord extends JController
 		return $model;
 	}
 
+	/**
+	 * Gets the URL arguments to append to an item redirect.
+	 *
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   11.1
+	 */
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
+	{
+		$trid = ET_Helper::getTableRecordID();
+
+		if(is_null($recordId) && $trid[0])
+		{
+			$id = $trid[0];
+		}
+		else
+		{
+			$id = $recordId;
+		}
+
+		$append = parent::getRedirectToItemAppend($id, $urlVar);
+
+		if ($trid[1])
+		{
+			list($tableId, $rid) = $trid;
+		}
+
+		$append .= '&rid=' . $rid;
+
+		return $append;
+	}
 }

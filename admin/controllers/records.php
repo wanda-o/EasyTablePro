@@ -83,6 +83,7 @@ class EasyTableProControllerRecords extends JControllerAdmin
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
+
 			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
 		}
 		else
