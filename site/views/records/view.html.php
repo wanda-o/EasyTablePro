@@ -71,7 +71,11 @@ class EasyTableProViewRecords extends JView
 		$jInput		= $jAp->input;
 		$user		= JFactory::getUser();
 
-		$easytable		= $this->get('EasyTable');
+		$easytable  = $this->get('EasyTable');
+		$this->easytable = $easytable;
+
+		// Component wide & menu based params
+		$params = $this->getParams($jAp);
 
 		if (empty($easytable))
 		{
@@ -123,16 +127,6 @@ class EasyTableProViewRecords extends JView
 		}
 
 		$id = $easytable->id;
-
-		// Component wide & menu based params
-		$GMParams = $jAp->getParams();
-		$params = clone $GMParams;
-
-		$tableParams = new JRegistry;
-		$tableParams->loadString($easytable->params);
-
-		// Merge them with specific table based params
-		$params->merge($tableParams);
 
 		// Check the view access to the article (the model has already computed the values).
 		if ($easytable->access_view != true)
@@ -188,6 +182,7 @@ class EasyTableProViewRecords extends JView
 		{
 			$title_leaf = substr($title_leaf, $i + 1);
 		}
+
 		$full_page_title = $easytable->easytablename;
 
 		// Better breadcrumbs
@@ -279,7 +274,6 @@ class EasyTableProViewRecords extends JView
 
 		$this->assign('tableId', $id);
 		$this->assign('imageDir', $imageDir);
-		$this->assignRef('easytable', $easytable);
 		$this->assignRef('easytables_table_meta', $easytables_table_meta);
 		$this->formAction = $formAction;
 		$this->assign('etmCount', $etmCount);
@@ -308,6 +302,28 @@ class EasyTableProViewRecords extends JView
 			}
 		}
 		return 'id';
+	}
+
+	/**
+	 * Get our merged params
+	 *
+	 * @param   JSite  $jAp  our current app.
+	 *
+	 * @return  JRegistry
+	 */
+	private function getParams($jAp)
+	{
+		// Component wide & menu based params
+		$GMParams = $jAp->getParams();
+		$params = clone $GMParams;
+
+		$tableParams = new JRegistry;
+		$tableParams->loadString($this->easytable->params);
+
+		// Merge them with specific table based params
+		$params->merge($tableParams);
+
+		return $params;
 	}
 }
 ?>

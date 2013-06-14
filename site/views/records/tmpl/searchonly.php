@@ -54,6 +54,7 @@
 		}
 		?>
 			<input name="cid" type="hidden" value="<?php echo $this->easytable->id; ?>">
+			<input name="limitstart" type="hidden" value="0">
 		</form>
 	</div>
 </div>

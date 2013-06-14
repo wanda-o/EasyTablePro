@@ -109,14 +109,6 @@ class EasyTableProModelRecords extends JModelList
 		/** @var $jAp JSite */
 		$jAp = JFactory::getApplication('site');
 
-		// Search state
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-		$srid = $this->getUserStateFromRequest($this->context . '.search.rids', 'srid');
-		$this->setState('search.rids', $srid);
-
-		$this->setState('layout', $jAp->input->get('layout', ''));
-
 		// Load the components Global default parameters.
 		$params = $jAp->getParams();
 		$this->setState('params', $params);
@@ -131,6 +123,21 @@ class EasyTableProModelRecords extends JModelList
 
 		// Get the components global params
 		$params->merge($tableParams);
+
+		// Search state
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+
+		if (is_null($search))
+		{
+			$search = $params->get('predefined_search', null);
+		}
+
+		$this->setState('filter.search', $search);
+		$srid = $this->getUserStateFromRequest($this->context . '.search.rids', 'srid');
+		$this->setState('search.rids', $srid);
+
+		// Layout
+		$this->setState('layout', $jAp->input->get('layout', ''));
 
 		$show_pagination = $params->get('show_pagination', 1);
 		$show_search = $params->get('show_search', 1);
@@ -157,6 +164,9 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	public function &getItems($pk = null)
 	{
+		// Initialise variables.
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('records.id');
+
 		// Check for Search Results Only
 		if ($this->getState('layout', null) == 'searchonly' && $this->getState('filter.search') == '')
 		{
@@ -164,9 +174,6 @@ class EasyTableProModelRecords extends JModelList
 		}
 		else
 		{
-			// Initialise variables.
-			$pk = (!empty($pk)) ? $pk : (int) $this->getState('records.id');
-
 			$this->cache = parent::getItems($pk);
 
 			if ($this->cache === null)
@@ -298,6 +305,7 @@ class EasyTableProModelRecords extends JModelList
 			{
 				$idSql[] = $idstr . $rid . '\'';
 			}
+
 			$query->where($idSql, 'OR');
 
 			// Clear out srid's so the table behaves normally not like a filtered table
@@ -341,7 +349,7 @@ class EasyTableProModelRecords extends JModelList
 		{
 			$sf = $db->quoteName($sf);
 			$query->order($sf . ' ' . $so);
-
+/* @todo Only create et-rank if we're on a ranked layout! */
 			// Here we add ranking column, note the workaround for Joomla!
 			$sos = $so == 'DESC' ? '>' : '<';
 			$t2name = $db->quoteName($theTable->ettd_tname, 't2');
