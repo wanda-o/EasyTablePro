@@ -44,12 +44,10 @@
                    filter="raw"
                    label="COM_EASYTABLEPRO_MENU_TABLE_SRO_MSG_LABEL"
                    description="COM_EASYTABLEPRO_MENU_TABLE_SRO_MSG_DESC" />
-            <field name="no_results_msg"
-                   type="textarea"
-                   default=""
-                   filter="raw"
-                   label="COM_EASYTABLEPRO_MENU_TABLE_NOR_MSG_LABEL"
-                   description="COM_EASYTABLEPRO_MENU_TABLE_NOR_MSG_DESC" />
+            <field name="spacer1"
+                   type="spacer"
+                   hr="true"
+                   />
 			<field name="sort_field"
 				type="easytablefields"
 				default=""
@@ -81,12 +79,20 @@
 				default=""
 				label="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_LABEL"
 				description="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_DESC" />
-
-			<field
-				name="spacer2"
-				type="spacer"
-				hr="true"
-			/>
+            <field name="spacer2"
+                   type="spacer"
+                   hr="true"
+                    />
+            <field name="no_results_msg"
+                   type="textarea"
+                   default=""
+                   filter="raw"
+                   label="COM_EASYTABLEPRO_MENU_TABLE_NOR_MSG_LABEL"
+                   description="COM_EASYTABLEPRO_MENU_TABLE_NOR_MSG_DESC" />
+            <field name="spacer3"
+                   type="spacer"
+                   hr="true"
+                    />
 			<field name="records_layout" type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
