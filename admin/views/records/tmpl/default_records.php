@@ -58,7 +58,7 @@ defined('_JEXEC') or die('Restricted Access');
 				echo '<tr valign="top" class="row' . $alt_rv . '" id="et_record' . $cid . '">' . "\r";
 				echo '<td >' . $rowId . '</td><td >' . $this->getRecordCheckBox($cid, $this->tableId . '.' . $rowId)
 					. '</td><td >' . $this->getDeleteRecordLink($cid, $this->tableId . '.' . $rowId, $et_tableName)
-					. '</td><td >' . $this->getEditRecordLink($this->tableId . '.' . $rowId, $et_tableName) . '</td>';
+					. '</td><td >' . $this->getEditRecordLink($cid, $this->tableId . '.' . $rowId, $et_tableName) . '</td>';
 
 				foreach ($list_columns as $col_alias)
 				{
