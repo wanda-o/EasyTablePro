@@ -66,12 +66,13 @@ class EasyTableProModelRecords extends JModelList
 	{
 		$jAp = JFactory::getApplication();
 		$jInput = $jAp->input;
+		$menuItemId = $jInput->get('Itemid', 0);
 
 		// Set state from the request.
 		$pk = $jInput->getInt('id', 0);
 
 		// Create a context per table id -> so searches and pagination starts are per table
-		$this->context = $this->_context . '.' . $pk;
+		$this->context = $this->_context . '.' . $menuItemId . '.' . $pk;
 
 		parent::__construct();
 		$this->setState('records.id', $pk);
