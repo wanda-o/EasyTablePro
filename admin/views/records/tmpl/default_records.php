@@ -25,7 +25,7 @@ defined('_JEXEC') or die('Restricted Access');
 	<thead>
 		<tr valign="top">
 		<th width="20px">ID</th>
-		<th width="20px"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->et_table_data ); ?>);" /></th>
+		<th width="20px"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->et_table_data); ?>);" /></th>
 		<th width="30px"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_DELETE'); ?></th>
 		<th width="20px"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_EDIT'); ?></th>
 		<?php
@@ -64,8 +64,10 @@ defined('_JEXEC') or die('Restricted Access');
 				{
 					echo('<td>' . $et_table_row->$col_alias . "</td>\r");
 				}
+
 				echo "</tr>\r";
 				$alt_rv = (int) !$alt_rv;
+				$cid++;
 			}
 		}
 	?>
