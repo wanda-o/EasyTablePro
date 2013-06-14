@@ -31,6 +31,14 @@
 		<fieldset name="basic"
 				label="COM_EASYTABLEPRO_MENU_TABLE_OPTIONS"
 				addfieldpath="/administrator/components/com_easytablepro/models/fields" >
+            <field name="sro_showtable"
+                   type="radio"
+                   default="1"
+                   label="COM_EASYTABLEPRO_MENU_RECORDS_SRO_SHOWTABLE_LABEL"
+                   description="COM_EASYTABLEPRO_MENU_RECORDS_SRO_SHOWTABLE_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
             <field name="sro_msg"
                    type="textarea"
                    default=""

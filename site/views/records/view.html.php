@@ -220,6 +220,7 @@ class EasyTableProViewRecords extends JView
 		if ($this->itemCount == 0)
 		{
 			$searchTerm = $this->state->get('filter.search');
+			$this->sro_showTable = $params->get('sro_showtable', 1);
 
 			if ($searchTerm == '')
 			{

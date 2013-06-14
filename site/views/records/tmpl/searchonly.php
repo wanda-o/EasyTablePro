@@ -26,6 +26,7 @@
 	{
 		$mod_dl = $this->modification_date_label . ' ' . JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'));
 	}
+
 	echo ($this->show_modified_date ? '<p class="modifydate">' . $mod_dl . '</p>' : '');
 	echo ($this->show_description ? '<div class="et_description">' . $this->easytable->description . '</div>' : '') ?>
 	<div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
@@ -43,17 +44,16 @@
 				?>
 			</div>
 		<?php
-		if ($this->itemCount)
+		if ($this->itemCount || $this->sro_showTable)
 		{
 			echo $this->loadTemplate('table');
 		}
 		else
 		{
-			echo $this->noResultsMsg;
+			echo "<div id='et_no_records'>$this->noResultsMsg</div>";
 		}
 		?>
 			<input name="cid" type="hidden" value="<?php echo $this->easytable->id; ?>">
 		</form>
 	</div>
 </div>
-<!-- contentpaneclosed -->
