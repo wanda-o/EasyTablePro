@@ -711,7 +711,7 @@ class EasyTableProControllerUpload extends JControllerForm
 	 */
 	private function createMetaFrom ($firstLineOfFile, $id, $hasHeaders)
 	{
-
+		$utf8Headings = '';
 		$csvColumnLabels = $firstLineOfFile;
 
 		$csvColumnCount = count($csvColumnLabels);
@@ -727,47 +727,67 @@ class EasyTableProControllerUpload extends JControllerForm
 				{
 					$label = JText::_('COM_EASYTABLEPRO_TABLE_IMPORT_NO_COLUMN_HEADING');
 				}
-				$columnAlias = substr(JFilterOutput::stringURLSafe(trim(addslashes($label))), 0, 64);
 
-				// Check that we don't have a number, prefix it if necessary
-				if (is_numeric($columnAlias))
+				if ($columnAlias = substr(JFilterOutput::stringURLSafe(trim(addslashes($label))), 0, 64))
 				{
-					$columnAlias = 'a' . $columnAlias;
-				}
-				// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)
-				$firstCharOfAlias = substr($columnAlias, 0, 1);
-
-				if (preg_match('/[^A-Za-z\s ]/', '', $firstCharOfAlias))
-				{
-					$columnAlias = 'a' . $columnAlias;
-				}
-				// Make sure we haven't ended up with 'id'
-				if ($columnAlias == 'id')
-				{
-					$columnAlias = 'tmp-id';
-				}
-
-				// Check another field with this alias isn't already in the array
-				if (in_array($columnAlias, $ettdColumnAliass))
-				{
-					$columnAlias = $this->uniqueInArray($ettdColumnAliass, $columnAlias);
-
-					if (!$columnAlias)
+					// Check that we don't have a number, prefix it if necessary
+					if (is_numeric($columnAlias))
 					{
-						JError::raiseError(500, 'Duplicate column names in CSV file could not be made unique');
+						$columnAlias = 'a' . $columnAlias;
 					}
+					// Check that our alias doesn't start with a number (leading numbers make alias' useless for CSS labels)
+					$firstCharOfAlias = substr($columnAlias, 0, 1);
+
+					if (preg_match('/[^A-Za-z\s ]/', '', $firstCharOfAlias))
+					{
+						$columnAlias = 'a' . $columnAlias;
+					}
+					// Make sure we haven't ended up with 'id'
+					if ($columnAlias == 'id')
+					{
+						$columnAlias = 'tmp-id';
+					}
+
+					// Check another field with this alias isn't already in the array
+					if (in_array($columnAlias, $ettdColumnAliass))
+					{
+						$columnAlias = $this->uniqueInArray($ettdColumnAliass, $columnAlias);
+
+						if (!$columnAlias)
+						{
+							JError::raiseError(500, 'Duplicate column names in CSV file could not be made unique');
+						}
+					}
+					$ettdColumnAliass[] = $columnAlias;
 				}
-				$ettdColumnAliass[] = $columnAlias;
+				else
+				{
+					// We probably have a UTF-8 header think non-latin characters which won't work for MySQL columns nor HTML entities
+					$hasHeaders = false;
+					$utf8Headings = $firstLineOfFile;
+					$ettdColumnAliass = array();
+					break;
+				}
 			}
 		}
-		else
+
+		// We don't use an else as the headers may not be suitable
+		if (!$hasHeaders)
 		{
 			// Make a series of unique names
 			$csvColumnLabels = array();
 
 			for ($colnum = 0; $colnum < $csvColumnCount; $colnum++ )
 			{
-				$csvColumnLabels[] = 'Column #' . $colnum;
+				if ($utf8Headings != '')
+				{
+					$csvColumnLabels[] = $utf8Headings[$colnum];
+				}
+				else
+				{
+					$csvColumnLabels[] = 'Column #' . $colnum;
+				}
+
 				$ettdColumnAliass[] = JFilterOutput::stringURLSafe('column' . $colnum);
 			}
 		}
