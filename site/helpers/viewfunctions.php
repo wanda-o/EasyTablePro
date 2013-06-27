@@ -60,6 +60,7 @@ class ET_VHelper
 				$fieldOptions = pack("H*", substr($rawFieldOptions, 1));
 			}
 		}
+
 		// Create token array
 		$tokenArray = array ();
 
@@ -111,6 +112,7 @@ class ET_VHelper
 			default:
 				$fieldWithOptions = "<!-- Field Type Error: cellData = $f / cellType = $type / row = " . print_r($row, true) . ' -->';
 		}
+
 		return $fieldWithOptions;
 	}
 
@@ -303,7 +305,6 @@ class ET_VHelper
 		}
 		else
 		{
-
 			if (!empty ($f))
 			{
 				// We don't use list($1,$2...)=explode() so that we avoid nasty warning Notices
@@ -313,10 +314,35 @@ class ET_VHelper
 				$thousands_mark     = isset ($numOptions[2]) ? $numOptions[2] : '';
 				$number_prefix      = isset ($numOptions[3]) ? $numOptions[3] : '';
 				$number_suffix      = isset ($numOptions[4]) ? $numOptions[4] : '';
+				$paddingAmt         = isset ($numOptions[5]) ? $numOptions[5] : false;
+				$paddingStr         = isset ($numOptions[6]) ? $numOptions[6] : false;
+				$paddingDir         = isset ($numOptions[6]) ? $numOptions[6] : false;
 
-				$fieldWithOptions = $number_prefix . number_format($f, $number_of_decimals, $decimal_mark, $thousands_mark) . $number_suffix;
+				$numberFormatted = number_format($f, $number_of_decimals, $decimal_mark, $thousands_mark);
+
+				if ($paddingAmt && $paddingDir && $paddingStr)
+				{
+					switch ($paddingDir)
+					{
+						case 'L':
+							$paddingDir = STR_PAD_LEFT;
+							break;
+						case 'B':
+							$paddingDir = STR_PAD_BOTH;
+							break;
+						case 'R':
+						default:
+							$paddingDir = STR_PAD_RIGHT;
+							break;
+					}
+
+					$numberFormatted = str_pad($numberFormatted, $paddingAmt, $paddingStr, $paddingDir);
+				}
+
+				$fieldWithOptions = $number_prefix . $numberFormatted . $number_suffix;
 			}
 		}
+
 		return $fieldWithOptions;
 	}
 
