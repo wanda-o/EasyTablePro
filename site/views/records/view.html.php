@@ -304,28 +304,27 @@ class EasyTableProViewRecords extends JView
 		$formAction = JRoute::_(JURI::getInstance()->toString());
 
 		// Assing these items for use in the tmpl
-		$this->assign('show_description', $show_description);
-		$this->assign('show_search', $show_search);
-		$this->assign('show_pagination', $show_pagination);
-		$this->assign('show_pagination_header', $show_pagination_header);
-		$this->assign('show_pagination_footer', $show_pagination_footer);
+		$this->show_description        = $show_description;
+		$this->show_search             = $show_search;
+		$this->show_pagination         = $show_pagination;
+		$this->show_pagination_header  = $show_pagination_header;
+		$this->show_pagination_footer  = $show_pagination_footer;
 
-		$this->assign('show_created_date', $show_created_date);
-		$this->assign('show_modified_date', $show_modified_date);
-		$this->assign('modification_date_label', $modification_date_label);
+		$this->show_created_date       = $show_created_date;
+		$this->show_modified_date      = $show_modified_date;
+		$this->modification_date_label = $modification_date_label;
 
-		$this->assign('show_page_title', $show_page_title);
-		$this->assign('page_title', $page_title);
-		$this->assign('pageclass_sfx', $pageclass_sfx);
+		$this->show_page_title         = $show_page_title;
+		$this->page_title              = $page_title;
+		$this->pageclass_sfx           = $pageclass_sfx;
 
-		$this->assign('SortableTable', $SortableTable);
-
-		$this->assign('tableId', $id);
-		$this->assign('imageDir', $imageDir);
-		$this->assignRef('easytables_table_meta', $easytables_table_meta);
-		$this->formAction = $formAction;
-		$this->assign('etmCount', $etmCount);
-		$this->title_leaf = $title_leaf;
+		$this->tableId                 = $id;
+		$this->imageDir                = $imageDir;
+		$this->easytable               = $easytable;
+		$this->easytables_table_meta   = $easytables_table_meta;
+		$this->formAction              = $formAction;
+		$this->etmCount                = $etmCount;
+		$this->title_leaf              = $title_leaf;
 		parent::display($tpl);
 	}
 
