@@ -380,6 +380,6 @@ class EasyTableProViewTables extends JView
 		// Load this views js
 		$jsFile = 'media/com_easytablepro/js/easytabletables.js';
 		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
-		$document->addScript(JURI::root() . $jsFile, true);
+		$document->addScript(JURI::root() . $jsFile);
 	}
 }
