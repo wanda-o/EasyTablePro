@@ -193,22 +193,7 @@ class EasyTableProViewRecords extends JView
 		}
 		elseif(($layout == 'ajax') && $ajaxEnabled)
 		{
-			$loadJQ = $params->get('load_jquery_from_google', 0);
-			$loadJQUI = $params->get('load_jqueryui_from_google', 0);
-			$doc = JFactory::getDocument();
-			$minOrNot = JDEBUG ? '' : '.min';
-
-			if ($loadJQ)
-			{
-				$versionJQ = $params->get('load_jquery_version', '1.9.1');
-				$doc->addScript('ajax.googleapis.com/ajax/libs/jquery/' . $versionJQ . '/jquery' . $minOrNot . '.js');
-			}
-
-			if ($loadJQUI)
-			{
-				$versionJQUI = $params->get('load_jqueryui_version', '1.9.1');
-				$doc->addScript('ajax.googleapis.com/ajax/libs/jqueryui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
-			}
+			$this->loadDataTables();
 		}
 
 		// So our column headings pop out :D (Handy for users that want to put a note in about the field or column sorting
@@ -282,14 +267,16 @@ class EasyTableProViewRecords extends JView
 
 		// If required get the document and load the js for table sorting
 		$doc = JFactory::getDocument();
+		$easytables_table_meta = $easytable->table_meta;
+
+		// Sortable?
 		$SortableTable = $params->get('make_tables_sortable');
 
 		if ($SortableTable)
 		{
+			$this->SortableTable = $SortableTable;
 			$doc->addScript(JURI::base() . 'media/com_easytablepro/js/webtoolkit.sortabletable.js');
 		}
-
-		$easytables_table_meta = $easytable->table_meta;
 
 		// Make sure at least 1 field is set to display
 		$etmCount = count($easytables_table_meta);
@@ -350,6 +337,45 @@ class EasyTableProViewRecords extends JView
 		}
 
 		return 'id';
+	}
+	/**
+	 * Load JQuery (if req) and the DataTables plugins.
+	 *
+	 * @return  null
+	 */
+	private function loadDataTables()
+	{
+		$loadJQ = $this->params->get('load_jquery', 0);
+		$loadJQUI = $this->params->get('load_jqueryui_from_google', 0);
+		$doc = JFactory::getDocument();
+		$minOrNot = !JDEBUG ? '' : '.min';
+		$versionJQ = $this->params->get('load_jquery_version', '1.9.1');
+
+		switch ($loadJQ)
+		{
+			case 1: // From Google
+			{
+				$doc->addScript('http://ajax.googleapis.com/ajax/libs/jquery/' . $versionJQ . '/jquery' . $minOrNot . '.js');
+			}
+			case 2: // From local
+			{
+				$doc->addScript('media/com_easytablepro/js/jquery/jquery-' . $versionJQ . $minOrNot . '.js');
+			}
+			default:
+				// We don't load JQ at all.
+		}
+
+		if ($loadJQUI)
+		{
+			/**
+			 * MediaTemple => http://code.jquery.com/ui/1.8.24/jquery-ui.min.js
+			 * MediaTemple => http://code.jquery.com/ui/1.8.24/jquery-ui.js
+			 * MediaTemple => http://code.jquery.com/ui/1.9.2/jquery-ui.min.js
+			 * MediaTemple => http://code.jquery.com/ui/1.9.2/jquery-ui.js
+			 */
+			$versionJQUI = $this->params->get('load_jqueryui_version', '1.10.1');
+			$doc->addScript('http://ajax.googleapis.com/ajax/libs/jqueryui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
+		}
 	}
 
 	/**
