@@ -162,6 +162,8 @@ class ET_Helper
 
 			if ($theEasyTable)
 			{
+				// Increment our hit
+				self::hit($pk);
 				// Process the access info...
 				$user = JFactory::getUser();
 				$groups	= $user->getAuthorisedViewLevels();
@@ -199,6 +201,39 @@ class ET_Helper
 			}
 		}
 		return $theEasyTable;
+	}
+
+	/**
+	 * Increment the hit counter for the table.
+	 *
+	 * @param   int  $pk  Primary key of the table to increment.
+	 *
+	 * @return	boolean	True if successful; false otherwise and internal error set.
+	 */
+	private static function hit($pk)
+	{
+		$app = JFactory::getApplication();
+		$hitcount = $app->input->get('hitcount', 1);
+
+		if ($hitcount)
+		{
+			$db = JFactory::getDbo();
+
+			$db->setQuery(
+				'UPDATE #__easytables' .
+				' SET hits = hits + 1' .
+				' WHERE id = ' . (int) $pk
+			);
+
+			if (!$db->query())
+			{
+				$app->setError($db->getErrorMsg());
+
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
