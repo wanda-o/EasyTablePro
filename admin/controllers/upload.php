@@ -773,8 +773,6 @@ class EasyTableProControllerUpload extends JControllerForm
 					$ettdColumnAliass = array();
 					break;
 				}
-
-				$ettdColumnAliass[] = $columnAlias;
 			}
 		}
 
