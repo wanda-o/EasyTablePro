@@ -192,6 +192,13 @@ class ET_Helper
 					$pkObject = $db->loadObject();
 					$et_Key_name = $pkObject->Column_name;
 					$theEasyTable->key_name = $et_Key_name;
+
+					// Now we need the number of records in the actual data table.
+					$query = 'SELECT COUNT(' . $db->quoteName($et_Key_name) . ') AS ' . $db->quoteName('Record_Count') . ' FROM ' . $db->quoteName($theEasyTable->ettd_tname);
+					$db->setQuery($query);
+					$rcObject = $db->loadObject();
+					$record_count = $rcObject->Record_Count;
+					$theEasyTable->record_count = $record_count;
 				}
 				else
 				{
