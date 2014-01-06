@@ -185,7 +185,7 @@ class EasyTableProViewRecords extends JView
 				JError::raiseWarning(403, JText::_('COM_EASYTABLEPRO_RECORDS_ERROR_AJAX_NOT_ENABLED0'));
 			}
 
-			return;
+			return false;
 		}
 		elseif($wereAjaxing)
 		{
