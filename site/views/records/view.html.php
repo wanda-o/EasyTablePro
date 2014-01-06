@@ -448,7 +448,7 @@ class EasyTableProViewRecords extends JView
 		$dt_init_code  = "window.addEvent('domready', function() { $('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource;
 
 		// @todo Answer this question "Do we give users control over these values?" via Global and Table params?
-		$dt_init_code .= '"aLengthMenu": [[5, 7, 10, 25, 50, 100, -1], [5, 7, 10, 25, 50, 100, "All"]], ';
+		$dt_init_code .= '"aLengthMenu": [[5, 10, 25, 30, 50, 100, -1], [5, 10, 25, 30, 50, 100, "All"]], ';
 		$dt_init_code .= '"sPaginationType": "full_numbers", ';
 		$dt_init_code .= '"aoColumnDefs": [{ "bSearchable": false, "bVisible": false, "aTargets": [ 0 ] }]} );} );';
 
