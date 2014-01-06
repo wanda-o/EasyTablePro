@@ -159,11 +159,11 @@
         </field>
         <field
                 name="load_jquery_version"
-                type="list" default="1.10.1"
+                type="list" default="1.10.2"
                 label="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_VERSION"
                 description="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_VERSION_DESC"
                 >
-            <option value="1.10.1">1.10.0</option>
+            <option value="1.10.2">1.10.2</option>
             <option value="1.9.1">1.9.1</option>
             <option value="1.8.3">1.8.3</option>
             <option value="1.7.2">1.7.2</option>
