@@ -198,7 +198,7 @@ class EasyTableProViewRecords extends JView
 				$this->items = $items;
 			}
 
-			$this->loadDataTables();
+			$this->loadDataTables($jAp);
 		}
 		else
 		{
@@ -355,9 +355,11 @@ class EasyTableProViewRecords extends JView
 	/**
 	 * Load JQuery (if req) and the DataTables plugins.
 	 *
+	 * @param   JApplication  $jAp  The Joomla instance.
+	 *
 	 * @return  null
 	 */
-	private function loadDataTables()
+	private function loadDataTables($jAp)
 	{
 		$loadJQ = $this->params->get('load_jquery', 0);
 		$loadJQUI = $this->params->get('load_jqueryui', 0);
@@ -451,6 +453,24 @@ class EasyTableProViewRecords extends JView
 		$dt_init_code .= '"aoColumnDefs": [{ "bSearchable": false, "bVisible": false, "aTargets": [ 0 ] }]} );} );';
 
 		$doc->addScriptDeclaration($dt_init_code);
+
+		// Finally we can load the default CSS or any override found in the templates CSS folder.
+		$defaultCSSFile = 'jquery.dataTables.css';
+
+		if ($this->params->get('load_datatables_css', 1))
+		{
+			$pathToCSS = '/media/com_easytablepro/css/' . $defaultCSSFile;
+		}
+		else
+		{
+			$pathToTemplate = 'templates/' . $jAp->getTemplate();
+			$pathToCSS = $pathToTemplate . '/css/' . $defaultCSSFile;
+		}
+
+		if (file_exists(JPATH_BASE . '/' . $pathToCSS))
+		{
+			$doc->addStyleSheet(JURI::root() . $pathToCSS);
+		}
 	}
 
 	/**

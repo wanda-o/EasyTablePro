@@ -23,6 +23,17 @@
 		</fieldset>
 	</fields>
 	<fields name="params">
+        <fieldset name="datatables"
+                  label="COM_EASYTABLEPRO_MENU_DATATABLES_OPTIONS" >
+            <field name="load_datatables_css"
+                   type="list"
+                   default="1"
+                   label="COM_EASYTABLEPRO_MENU_LOAD_DATATABLES_CSS"
+                   description="COM_EASYTABLEPRO_MENU_LOAD_DATATABLES_CSS_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+        </fieldset>
 		<fieldset name="basic"
 				label="COM_EASYTABLEPRO_MENU_TABLE_OPTIONS"
 				addfieldpath="/administrator/components/com_easytablepro/models/fields" >
