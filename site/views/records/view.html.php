@@ -85,12 +85,6 @@ class EasyTableProViewRecords extends JView
 			return JError::raiseWarning(404, JText::sprintf('COM_EASYTABLEPRO_SITE_TABLE_NOT_AVAILABLE', $id));
 		}
 
-		$items			  = $this->get('Items');
-		$this->items	  = $items;
-		$this->itemCount  = count($items);
-		$this->state	  = $this->get('State');
-		$this->pagination = $this->get('Pagination');
-
 		// Get the user
 		$this->user		= $user;
 
@@ -128,7 +122,7 @@ class EasyTableProViewRecords extends JView
 
 		$id = $easytable->id;
 
-		// Check the view access to the article (the model has already computed the values).
+		// Check the view access to the table (the model has already computed the values).
 		if ($easytable->access_view != true)
 		{
 			if ($user->guest)
@@ -169,8 +163,9 @@ class EasyTableProViewRecords extends JView
 		}
 
 		$ajaxEnabled = $this->params->get('enable_ajax_tables', 0);
+		$wereAjaxing = ($ajaxEnabled && ($layout == 'ajax'));
 
-		if (($layout == 'ajax') && !$ajaxEnabled)
+		if (($layout == 'ajax') && !$wereAjaxing)
 		{
 			$mailSent = ET_Helper::notifyAdminsOnError('ajax',
 				array(
@@ -191,9 +186,44 @@ class EasyTableProViewRecords extends JView
 
 			return;
 		}
-		elseif(($layout == 'ajax') && $ajaxEnabled)
+		elseif($wereAjaxing)
 		{
+			// @todo Replace this magic number with the global/table param for a small table
+			if($this->easytable->record_count < 5000)
+			{
+				$jAp->input->set('limit', 5000);
+				$jAp->input->set('limitstart', 0);
+				$items = $this->get('Items');
+				$this->items = $items;
+			}
+
 			$this->loadDataTables();
+		}
+		else
+		{
+			$items			  = $this->get('Items');
+			$this->items	  = $items;
+			$this->itemCount  = count($items);
+			$this->state	  = $this->get('State');
+			$this->pagination = $this->get('Pagination');
+
+			// Do we need a No Results Message?
+			if ($this->itemCount == 0)
+			{
+				$searchTerm = $this->state->get('filter.search');
+				$this->sro_showTable = $this->params->get('sro_showtable', 1);
+
+				if ($searchTerm == '')
+				{
+					$tableSORMsg = $this->params->get('sro_msg', '');
+					$this->noResultsMsg = $tableSORMsg ? $tableSORMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_SRO_TERM');
+				}
+				else
+				{
+					$tableNoRMsg = $this->params->get('no_results_msg', '');
+					$this->noResultsMsg = $tableNoRMsg ? $tableNoRMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_MATCHING');
+				}
+			}
 		}
 
 		// So our column headings pop out :D (Handy for users that want to put a note in about the field or column sorting
@@ -242,24 +272,6 @@ class EasyTableProViewRecords extends JView
 			$this->params->set('page_title', $full_page_title);
 		}
 
-
-		// Do we need a No Results Message?
-		if ($this->itemCount == 0)
-		{
-			$searchTerm = $this->state->get('filter.search');
-			$this->sro_showTable = $params->get('sro_showtable', 1);
-
-			if ($searchTerm == '')
-			{
-				$tableSORMsg = $params->get('sro_msg', '');
-				$this->noResultsMsg = $tableSORMsg ? $tableSORMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_SRO_TERM');
-			}
-			else
-			{
-				$tableNoRMsg = $params->get('no_results_msg', '');
-				$this->noResultsMsg = $tableNoRMsg ? $tableNoRMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_MATCHING');
-			}
-		}
 		$page_title = $this->params->get('page_title');
 
 		// Get the default image directory from the table.
@@ -346,36 +358,96 @@ class EasyTableProViewRecords extends JView
 	private function loadDataTables()
 	{
 		$loadJQ = $this->params->get('load_jquery', 0);
-		$loadJQUI = $this->params->get('load_jqueryui_from_google', 0);
+		$loadJQUI = $this->params->get('load_jqueryui', 0);
 		$doc = JFactory::getDocument();
-		$minOrNot = !JDEBUG ? '' : '.min';
+		$minOrNot = JDEBUG ? '.min' : '';
 		$versionJQ = $this->params->get('load_jquery_version', '1.9.1');
+		$versionJQUI = $this->params->get('load_jqueryui_version', '1.10.3');
 
 		switch ($loadJQ)
 		{
-			case 1: // From Google
-			{
-				$doc->addScript('http://ajax.googleapis.com/ajax/libs/jquery/' . $versionJQ . '/jquery' . $minOrNot . '.js');
-			}
-			case 2: // From local
+			case 1: // From local
 			{
 				$doc->addScript('media/com_easytablepro/js/jquery/jquery-' . $versionJQ . $minOrNot . '.js');
+				break;
+			}
+			case 2: // From Google
+			{
+				$doc->addScript('http://ajax.googleapis.com/ajax/libs/jquery/' . $versionJQ . '/jquery' . $minOrNot . '.js');
+				break;
+			}
+			case 3: // From MediaTemple http://code.jquery.com/jquery-1.10.2.js
+			{
+				$doc->addScript('http://code.jquery.com/jquery-' . $versionJQ . $minOrNot . '.js');
+				break;
 			}
 			default:
 				// We don't load JQ at all.
 		}
 
-		if ($loadJQUI)
+		switch ($loadJQUI)
 		{
-			/**
-			 * MediaTemple => http://code.jquery.com/ui/1.8.24/jquery-ui.min.js
-			 * MediaTemple => http://code.jquery.com/ui/1.8.24/jquery-ui.js
-			 * MediaTemple => http://code.jquery.com/ui/1.9.2/jquery-ui.min.js
-			 * MediaTemple => http://code.jquery.com/ui/1.9.2/jquery-ui.js
-			 */
-			$versionJQUI = $this->params->get('load_jqueryui_version', '1.10.1');
-			$doc->addScript('http://ajax.googleapis.com/ajax/libs/jqueryui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
+			case 1: // From local
+			{
+				$doc->addScript('media/com_easytablepro/js/jquery/jquery-ui-' . $versionJQUI . $minOrNot . '.js');
+				break;
+			}
+			case 2: // From Google
+			{
+				$doc->addScript('http://ajax.googleapis.com/ajax/libs/jqueryui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
+				break;
+			}
+			case 3: // From MediaTemple
+			{
+				$doc->addScript('http://code.jquery.com/ui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
+				break;
+			}
+			default:
+				// We don't load JQUI at all.
 		}
+
+		$doc->addScript('media/com_easytablepro/js/jquery/jquery.dataTables-1.9.4' . $minOrNot . '.js');
+
+		$tableID = '#' . htmlspecialchars($this->easytable->easytablealias);
+
+		/**
+		 * We have a few break points that determine the setup of our datatable... this will cause greif amongst users that don't read the docuemtation.
+		 * Client-side processing - DOM sourced data: ~5'000 rows. Speed options: bSortClasses
+		 * Client-side processing - Ajax sourced data: ~50'000 rows. Speed options: bDeferRender
+		 * Server-side processing: millions of rows.
+		 * @todo replace these hard coded numbers for the table size breakpoints with table and global params.
+		 */
+		if($this->easytable->record_count < 5000)
+		{
+			// Small table get all the records and do the processing client side
+			$bProcessing = '';
+			$bServerSide = '';
+			$sAjaxSource = '';
+		}
+		elseif($this->easytable->record_count < 50000)
+		{
+			// Medium sized table mixture of client-side processing but with Ajax sourced data
+			$ajaxPath = '/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id=' . $this->easytable->id . '&' . JSession::getFormToken() .'=1';
+			$bProcessing = '"bProcessing": true, ';
+			$bServerSide = '"bServerSide": false, ';
+			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath;
+		}
+		else
+		{
+			// Big table, all processing server side all data ajax sourced.
+			$ajaxPath = '/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id=' . $this->easytable->id . '&' . JSession::getFormToken() .'=1';
+			$bProcessing = '"bProcessing": true, ';
+			$bServerSide = '"bServerSide": true, ';
+			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath;
+		}
+
+		$dt_init_code  = "window.addEvent('domready', function() { $('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource ;
+		// @todo Answer this question "Do we give users control over these values?" via Global and Table params?
+		$dt_init_code .= '"aLengthMenu": [[5, 7, 10, 25, 50, 100, -1], [5, 7, 10, 25, 50, 100, "All"]], ';
+		$dt_init_code .= '"sPaginationType": "full_numbers", ';
+		$dt_init_code .= '"aoColumnDefs": [{ "bSearchable": false, "bVisible": false, "aTargets": [ 0 ] }]} );} );';
+
+		$doc->addScriptDeclaration($dt_init_code);
 	}
 
 	/**

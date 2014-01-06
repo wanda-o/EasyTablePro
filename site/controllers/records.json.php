@@ -33,11 +33,15 @@ class EasyTableProControllerRecords extends JControllerLegacy
 	public function fetchRecords()
 	{
 		$params = JComponentHelper::getParams('com_easytablepro');
+		$app = JFactory::getApplication();
+		$jInput = $app->input;
+		// Find our sEcho
+		$sEcho = $jInput->getInt('sEcho',0);
 
 		if ($params->get('enable_ajax_tables', 1))
 		{
 			// Get the records model.
-			$recordModel = $this->getModel('Records', 'EasyTableProModel');
+			$recordModel = $this->getModel('DtRecords', 'EasyTableProModel');
 
 			// Get the table
 			/* @var $recordModel EasyTableProModelRecords */
@@ -55,6 +59,7 @@ class EasyTableProControllerRecords extends JControllerLegacy
 
 				// Get the raw records
 				$rawRecords = $recordModel->getItems();
+				$iTotalRecords = count($rawRecords);
 			}
 		}
 
@@ -77,7 +82,7 @@ class EasyTableProControllerRecords extends JControllerLegacy
 			foreach ($rawRecords as $rawRecord)
 			{
 				// Create a new record object for the processed results
-				$processedRecord = new stdClass;
+				$processedRecord = array();
 
 				// Process each field
 				foreach ($rawRecord as $k => $f)
@@ -127,11 +132,11 @@ class EasyTableProControllerRecords extends JControllerLegacy
 					}
 
 					// Ok, the field has been processed so we can store it in it's record array
-					$processedRecord->$k = $cellData;
+					$processedRecord[$k] = $cellData;
 				}
 
 				// Records processed lets add it to our array
-				$processedRecords[] = $processedRecord;
+				$processedRecords[] = array_values($processedRecord);
 			}
 		}
 
@@ -139,8 +144,14 @@ class EasyTableProControllerRecords extends JControllerLegacy
 		header('Content-Type: application/json');
 
 		// Send the response.
-		echo json_encode($recordMeta);
-		echo json_encode($processedRecords);
+		// echo json_encode($recordMeta);
+		$dtjson = array(
+			'sEcho' => $sEcho,
+			'iTotalRecords' => $iTotalRecords,
+			'iTotalDisplayRecords' => $iTotalRecords,
+			'aaData' => $processedRecords
+		);
+		echo json_encode($dtjson);
 		JFactory::getApplication()->close();
 	}
 
@@ -183,7 +194,7 @@ class EasyTableProControllerRecords extends JControllerLegacy
 	 *
 	 * @return JModel
 	 */
-	public function getModel($name='Records', $prefix = 'EasyTableProModel', $config = array('ignore_request' => true))
+	public function getModel($name='DtRecords', $prefix = 'EasyTableProModel', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
