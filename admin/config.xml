@@ -190,15 +190,6 @@
             <option value="1.8.24">1.8.24</option>
         </field>
         <field
-                name="load_jquery_datatables_version"
-                type="list" default="1.9.4"
-                label="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_DATATABLES_VERSION"
-                description="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_DATATABLES_VERSION_DESC"
-                >
-            <option value="1.9.4">1.9.4</option>
-            <option value="1.8.2">1.8.2</option>
-        </field>
-        <field
                 name="spacer3"
                 type="spacer"
                 hr="true"
