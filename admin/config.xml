@@ -153,9 +153,9 @@
                 description="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_DESC"
                 >
             <option value="0">JNO</option>
+            <option value="1">COM_EASYTABLEPRO_PREF_LOAD_JQUERY_FROM_LOCAL</option>
             <option value="2">COM_EASYTABLEPRO_PREF_LOAD_JQUERY_FROM_GOOGLE</option>
             <option value="3">COM_EASYTABLEPRO_PREF_LOAD_JQUERY_FROM_MEDIATEMPLE</option>
-            <option value="1">COM_EASYTABLEPRO_PREF_LOAD_JQUERY_FROM_LOCAL</option>
         </field>
         <field
                 name="load_jquery_version"
@@ -175,9 +175,9 @@
                 description="COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_DESC"
                 >
             <option value="0">JNO</option>
-            <option value="3">COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_FROM_MEDIATEMPLE</option>
-            <option value="2">COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_FROM_GOOGLE</option>
             <option value="1">COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_FROM_LOCAL</option>
+            <option value="2">COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_FROM_GOOGLE</option>
+            <option value="3">COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_FROM_MEDIATEMPLE</option>
         </field>
         <field
                 name="load_jqueryui_version"
