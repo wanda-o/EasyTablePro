@@ -75,7 +75,7 @@ class EasyTableProViewRecords extends JView
 		$this->easytable = $easytable;
 
 		// Component wide & menu based params
-		$params = $this->getParams($jAp);
+		$this->params = $this->getParams($jAp);
 
 		if (empty($easytable))
 		{
@@ -161,14 +161,14 @@ class EasyTableProViewRecords extends JView
 			}
 			else
 			{
-				if ($layout = $params->get('records_layout'))
+				if ($layout = $this->params->get('records_layout'))
 				{
 					$this->setLayout($layout);
 				}
 			}
 		}
 
-		$ajaxEnabled = $params->get('enable_ajax_tables', 0);
+		$ajaxEnabled = $this->params->get('enable_ajax_tables', 0);
 
 		if (($layout == 'ajax') && !$ajaxEnabled)
 		{
@@ -199,17 +199,17 @@ class EasyTableProViewRecords extends JView
 		// So our column headings pop out :D (Handy for users that want to put a note in about the field or column sorting
 		JHTML::_('behavior.tooltip');
 
-		$show_description = $params->get('show_description', 1);
-		$show_search = $params->get('show_search', 1);
-		$show_pagination = $params->get('show_pagination', 1);
-		$show_pagination_header = $params->get('show_pagination_header', 0);
-		$show_pagination_footer = $params->get('show_pagination_footer', 1);
-		$show_created_date = $params->get('show_created_date', 1);
-		$show_modified_date = $params->get('show_modified_date', 0);
-		$modification_date_label = $params->get('modification_date_label', '');
-		$show_page_title = $params->get('show_page_title', 1);
-		$pageclass_sfx = $params->get('pageclass_sfx', '');
-		$title_leaf = $params->get('title_field', '');
+		$show_description = $this->params->get('show_description', 1);
+		$show_search = $this->params->get('show_search', 1);
+		$show_pagination = $this->params->get('show_pagination', 1);
+		$show_pagination_header = $this->params->get('show_pagination_header', 0);
+		$show_pagination_footer = $this->params->get('show_pagination_footer', 1);
+		$show_created_date = $this->params->get('show_created_date', 1);
+		$show_modified_date = $this->params->get('show_modified_date', 0);
+		$modification_date_label = $this->params->get('modification_date_label', '');
+		$show_page_title = $this->params->get('show_page_title', 1);
+		$pageclass_sfx = $this->params->get('pageclass_sfx', '');
+		$title_leaf = $this->params->get('title_field', '');
 
 		if ($i = strpos($title_leaf, ':'))
 		{
@@ -234,15 +234,14 @@ class EasyTableProViewRecords extends JView
 
 			if (!$menu_params->get('page_title'))
 			{
-				$params->set('page_title', $full_page_title);
+				$this->params->set('page_title', $full_page_title);
 			}
 		}
 		else
 		{
-			$params->set('page_title', $full_page_title);
+			$this->params->set('page_title', $full_page_title);
 		}
 
-		$page_title = $params->get('page_title');
 
 		// Do we need a No Results Message?
 		if ($this->itemCount == 0)
@@ -261,6 +260,7 @@ class EasyTableProViewRecords extends JView
 				$this->noResultsMsg = $tableNoRMsg ? $tableNoRMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_MATCHING');
 			}
 		}
+		$page_title = $this->params->get('page_title');
 
 		// Get the default image directory from the table.
 		$imageDir = $easytable->defaultimagedir;
@@ -270,7 +270,7 @@ class EasyTableProViewRecords extends JView
 		$easytables_table_meta = $easytable->table_meta;
 
 		// Sortable?
-		$SortableTable = $params->get('make_tables_sortable');
+		$SortableTable = $this->params->get('make_tables_sortable');
 
 		if ($SortableTable)
 		{
@@ -388,7 +388,7 @@ class EasyTableProViewRecords extends JView
 	private function getParams($jAp)
 	{
 		// Component wide & menu based params
-		$GMParams = $jAp->getParams();
+		$GMParams = $jAp->getParams('com_easytablepro');
 		$params = clone $GMParams;
 
 		$tableParams = new JRegistry;
