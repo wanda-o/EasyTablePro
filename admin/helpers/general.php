@@ -164,6 +164,7 @@ class ET_Helper
 			{
 				// Increment our hit
 				self::hit($pk);
+
 				// Process the access info...
 				$user = JFactory::getUser();
 				$groups	= $user->getAuthorisedViewLevels();

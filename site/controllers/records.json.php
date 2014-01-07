@@ -35,8 +35,9 @@ class EasyTableProControllerRecords extends JControllerLegacy
 		$params = JComponentHelper::getParams('com_easytablepro');
 		$app = JFactory::getApplication();
 		$jInput = $app->input;
+
 		// Find our sEcho
-		$sEcho = $jInput->getInt('sEcho',0);
+		$sEcho = $jInput->getInt('sEcho', 0);
 
 		if ($params->get('enable_ajax_tables', 1))
 		{
@@ -144,7 +145,7 @@ class EasyTableProControllerRecords extends JControllerLegacy
 		header('Content-Type: application/json');
 
 		// Send the response.
-		// echo json_encode($recordMeta);
+		// Debug: echo json_encode($recordMeta);
 		$dtjson = array(
 			'sEcho' => $sEcho,
 			'iTotalRecords' => $iTotalRecords,
