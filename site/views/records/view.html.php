@@ -431,26 +431,26 @@ class EasyTableProViewRecords extends JView
 		elseif ($this->easytable->record_count < 50000)
 		{
 			// Medium sized table mixture of client-side processing but with Ajax sourced data
-			$ajaxPath = '/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id=' . $this->easytable->id . '&' . JSession::getFormToken() . '=1';
-			$bProcessing = '"bProcessing": true, ';
-			$bServerSide = '"bServerSide": false, ';
-			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath;
+			$ajaxPath = '"/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id=' . $this->easytable->id . '&' . JSession::getFormToken() . '=1",';
+			$bProcessing = '"bProcessing": true,' . "\n";
+			$bServerSide = '"bServerSide": false,' . "\n";
+			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath . "\n";
 		}
 		else
 		{
 			// Big table, all processing server side all data ajax sourced.
-			$ajaxPath = '/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id=' . $this->easytable->id . '&' . JSession::getFormToken() . '=1';
-			$bProcessing = '"bProcessing": true, ';
-			$bServerSide = '"bServerSide": true, ';
-			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath;
+			$ajaxPath = '"/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id=' . $this->easytable->id . '&' . JSession::getFormToken() . '=1",';
+			$bProcessing = '"bProcessing": true,' . "\n";
+			$bServerSide = '"bServerSide": true,' . "\n";
+			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath . "\n";
 		}
 
 		$dt_init_code  = "window.addEvent('domready', function() { $('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource;
 
 		// @todo Answer this question "Do we give users control over these values?" via Global and Table params?
-		$dt_init_code .= '"aLengthMenu": [[5, 10, 25, 30, 50, 100, -1], [5, 10, 25, 30, 50, 100, "All"]], ';
-		$dt_init_code .= '"sPaginationType": "full_numbers", ';
-		$dt_init_code .= '"aoColumnDefs": [{ "bSearchable": false, "bVisible": false, "aTargets": [ 0 ] }]} );} );';
+		$dt_init_code .= '"aLengthMenu": [[5, 10, 25, 30, 50, 100, -1], [5, 10, 25, 30, 50, 100, "All"]], ' . "\n";
+		$dt_init_code .= '"sPaginationType": "full_numbers", ' . "\n";
+		$dt_init_code .= '"aoColumnDefs": [{ "bSearchable": false, "bVisible": false, "aTargets": [ 0 ] }]} );} );' . "\n";
 
 		$doc->addScriptDeclaration($dt_init_code);
 
