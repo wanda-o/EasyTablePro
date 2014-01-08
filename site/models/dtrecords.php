@@ -31,16 +31,16 @@ class EasyTableProModelDtRecords extends JModelList
 	private $total = null;
 
 	/**
- 	 * Pagination object
+	 * Pagination object
 	 * @var object
 	 */
 	private $pagination = null;
 
 	/**
- 	 *
- 	 * Search text
- 	 * @var string
- 	 */
+	 *
+	 * Search text
+	 * @var string
+	 */
 	private $search = null;
 
 	/**
@@ -363,7 +363,7 @@ class EasyTableProModelDtRecords extends JModelList
 	 */
 	public function &getEasyTable($pk = 0)
 	{
-		if(!$this->et)
+		if (!$this->et)
 		{
 			$this->et = ET_Helper::getEasyTable($pk);
 		}
@@ -425,5 +425,4 @@ class EasyTableProModelDtRecords extends JModelList
 
 		return $fieldSearch . ' )';
 	}
-
 }
