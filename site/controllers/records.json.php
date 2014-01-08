@@ -60,8 +60,11 @@ class EasyTableProControllerRecords extends JControllerLegacy
 
 				// Get the raw records
 				$rawRecords = $recordModel->getItems();
-				$iTotalRecords = count($rawRecords);
 			}
+		}
+		else
+		{
+			return false;
 		}
 
 		/* $return should now have an array of ojbects, i.e. "rows" of data that will eventually get coverted to JSON
@@ -148,8 +151,8 @@ class EasyTableProControllerRecords extends JControllerLegacy
 		// Debug: echo json_encode($recordMeta);
 		$dtjson = array(
 			'sEcho' => $sEcho,
-			'iTotalRecords' => $iTotalRecords,
-			'iTotalDisplayRecords' => $iTotalRecords,
+			'iTotalDisplayRecords' => $recordModel->getTotal(),
+			'iTotalRecords' => $recordModel->getTotalRecords(),
 			'aaData' => $processedRecords
 		);
 		echo json_encode($dtjson);

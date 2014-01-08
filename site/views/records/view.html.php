@@ -192,7 +192,7 @@ class EasyTableProViewRecords extends JView
 			// @todo Replace this magic number with the global/table param for a small table
 			if ($this->easytable->record_count < 5000)
 			{
-				$jAp->input->set('limit', 5000);
+				$jAp->input->set('limit', $this->easytable->record_count);
 				$jAp->input->set('limitstart', 0);
 				$items = $this->get('Items');
 				$this->items = $items;
@@ -421,17 +421,26 @@ class EasyTableProViewRecords extends JView
 		 * Server-side processing: millions of rows.
 		 * @todo replace these hard coded numbers for the table size breakpoints with table and global params.
 		 */
-		if ($this->easytable->record_count < 5000)
+		// We need to attach our menu item id
+		$item_id = $jAp->input->get('Itemid', 0);
+		$ajaxPath = '"/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id='
+			. $this->easytable->id . '&'
+			. JSession::getFormToken() . '=1&'
+			. 'Itemid=' . $item_id . '",';
+
+		// Turn on state saving so DT handles it for all tables
+		$bStateSave = '"bStateSave": true,' . "\n";
+
+		if ($this->easytable->record_count < 1000)
 		{
 			// Small table get all the records and do the processing client side
 			$bProcessing = '';
 			$bServerSide = '';
 			$sAjaxSource = '';
 		}
-		elseif ($this->easytable->record_count < 50000)
+		elseif ($this->easytable->record_count < 5000)
 		{
 			// Medium sized table mixture of client-side processing but with Ajax sourced data
-			$ajaxPath = '"/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id=' . $this->easytable->id . '&' . JSession::getFormToken() . '=1",';
 			$bProcessing = '"bProcessing": true,' . "\n";
 			$bServerSide = '"bServerSide": false,' . "\n";
 			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath . "\n";
@@ -439,17 +448,27 @@ class EasyTableProViewRecords extends JView
 		else
 		{
 			// Big table, all processing server side all data ajax sourced.
-			$ajaxPath = '"/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id=' . $this->easytable->id . '&' . JSession::getFormToken() . '=1",';
 			$bProcessing = '"bProcessing": true,' . "\n";
 			$bServerSide = '"bServerSide": true,' . "\n";
 			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath . "\n";
 		}
 
-		$dt_init_code  = "window.addEvent('domready', function() { $('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource;
+		$dt_init_code  = "window.addEvent('domready', function() { $('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource . $bStateSave;
+
+		$list_limit = $jAp->getUserState('com_easytablepro.dtrecords.' . $item_id . '.' . $this->easytable->id . '.list.limit', 0);
+
+		if (!$list_limit)
+		{
+			$list_limit = $jAp->getCfg('list_limit');
+		}
+
+		$dt_init_code .= '"iDisplayLength": ' . $list_limit . ',' . "\n";
 
 		// @todo Answer this question "Do we give users control over these values?" via Global and Table params?
-		$dt_init_code .= '"aLengthMenu": [[5, 10, 25, 30, 50, 100, -1], [5, 10, 25, 30, 50, 100, "All"]], ' . "\n";
+		$dt_init_code .= '"aLengthMenu": [[5, 10, 15, 20, 25, 30, 50, 100, -1], [5, 10, 15, 20, 25, 30, 50, 100, "' . JText::_('JALL') . '"]], ' . "\n";
 		$dt_init_code .= '"sPaginationType": "full_numbers", ' . "\n";
+
+		// Hide our ID column
 		$dt_init_code .= '"aoColumnDefs": [{ "bSearchable": false, "bVisible": false, "aTargets": [ 0 ] }]} );} );' . "\n";
 
 		$doc->addScriptDeclaration($dt_init_code);

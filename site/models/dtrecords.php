@@ -55,7 +55,7 @@ class EasyTableProModelDtRecords extends JModelList
 	 *
 	 * @var		string
 	 */
-	protected $_context = 'com_easytablepro.records';
+	protected $_context = 'com_easytablepro.dtrecords';
 
 	protected $cache;
 
@@ -76,16 +76,6 @@ class EasyTableProModelDtRecords extends JModelList
 
 		parent::__construct();
 		$this->setState('records.id', $pk);
-
-		// Get pagination request variables
-		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'iDisplayLength', $jAp->getCfg('list_limit'), 'int');
-		$limitstart = $jInput->getInt('iDisplayStart', 0);
-
-		// In case limit has been changed, adjust it
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-
-		$this->setState('limit', $limit);
-		$this->setState('list.start', $limitstart);
 	}
 
 	/**
@@ -108,6 +98,7 @@ class EasyTableProModelDtRecords extends JModelList
 
 		/** @var $jAp JSite */
 		$jAp = JFactory::getApplication('site');
+		$jInput = $jAp->input;
 
 		// Load the components Global default parameters.
 		$params = $jAp->getParams();
@@ -125,33 +116,25 @@ class EasyTableProModelDtRecords extends JModelList
 		$params->merge($tableParams);
 
 		// Search state
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'sSearch');
 
 		if (is_null($search))
 		{
 			$search = $params->get('predefined_search', null);
 		}
 
+		$limit = $this->getUserStateFromRequest($this->context . '.list.limit', 'iDisplayLength', null, 'int');
+		$limitstart = $jInput->getInt('iDisplayStart', 0);
+
+		// In case limit has been changed, adjust it
+		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+
+		$this->setState('list.limit', $limit);
+		$this->setState('list.start', $limitstart);
+
 		$this->setState('filter.search', $search);
 		$srid = $this->getUserStateFromRequest($this->context . '.search.rids', 'srid');
 		$this->setState('search.rids', $srid);
-
-		// Layout
-		$this->setState('layout', $jAp->input->get('layout', ''));
-
-		$show_pagination = $params->get('show_pagination', 1);
-		$show_search = $params->get('show_search', 1);
-
-		if (!$show_pagination)
-		{
-			$this->setState('list.start', 0);
-			$this->setState('list.limit', 1000000);
-		}
-
-		if (!$show_search)
-		{
-			$this->setState('filter.search', '');
-		}
 
 	}
 
@@ -233,22 +216,6 @@ class EasyTableProModelDtRecords extends JModelList
 
 		$menuParams = $menuItem->params;
 		$params->merge($menuParams);
-
-		// Now that we have our merged params
-		$show_pagination = $params->get('show_pagination_header', 1);
-		$show_search = $params->get('show_search', 1);
-
-		// Set up some state based on preferences
-		if (!$show_pagination)
-		{
-			$this->setState('list.start', 0);
-			$this->setState('list.limit', 1000000);
-		}
-
-		if (!$show_search)
-		{
-			$this->setState('filter.search', '');
-		}
 
 		// Convert all fields to the SQL select
 		$db = JFactory::getDbo();
@@ -340,15 +307,31 @@ class EasyTableProModelDtRecords extends JModelList
 			$query->where($whereCond);
 		}
 
-		// Is there a default sort order?
-		$sf = $params->get('sort_field', '');
-		$sf = substr($sf, strpos($sf, ':') + 1);
-		$so = $params->get('sort_order', '');
+		// Any column sorting required?
+		// Get columns to be sorted and there direction
+		$sortArray = array();
 
-		if ($sf && $so)
+		// Get each sort column's real name
+		// Store it with it's direction
+
+
+		// If there are DT's sorts use them rather than the default sort order
+		if (!empty($sortArray))
 		{
-			$sf = $db->quoteName($sf);
-			$query->order($sf . ' ' . $so);
+			// Add our order elements to $query
+		}
+		else
+		{
+			// Is there a default sort order?
+			$sf = $params->get('sort_field', '');
+			$sf = substr($sf, strpos($sf, ':') + 1);
+			$so = $params->get('sort_order', '');
+
+			if ($sf && $so)
+			{
+				$sf = $db->quoteName($sf);
+				$query->order($sf . ' ' . $so);
+			}
 		}
 
 		return $query;
@@ -372,31 +355,48 @@ class EasyTableProModelDtRecords extends JModelList
 	}
 
 	/**
-	 * &getEasyTableMeta() returns the meta records for the EasyTable ID
+	 * getTotalRecords()
+	 * Derived from the standard getTotal as DT needs the entire table count.
 	 *
-	 * @param   int     $id       pk value for the easytable.
+	 * @return  int  Count of all rows in the table.
 	 *
-	 * @param   string  $orderby  The field meta records are ordered by (defaults to position but could be by id).
-	 *
-	 * @return  array
+	 * @since 1.2
 	 */
-	private function &getEasyTableMeta($id, $orderby = 'position')
+	public function getTotalRecords()
 	{
-		// Setup basic variables
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		// Get a storage key.
+		$store = $this->getStoreId('getTotalRecords');
 
-		// Get the meta data for this table
-		$query->select('*');
-		$query->from('#__easytables_table_meta');
-		$query->where($db->quoteName('easytable_id') . '=' . $db->quote($id));
-		$query->order($db->quoteName($orderby));
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
 
-		$db->setQuery($query);
-		$easytables_table_meta = $db->loadAssocList('fieldalias');
+		// Load the total.
+		$query = $this->_getListQuery();
 
-		return $easytables_table_meta;
+		// Clear the 'where' clauses
+		$query->clear('where');
+
+		$total = (int) $this->_getListCount($query);
+
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum())
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		// Add the total to the internal cache.
+		$this->cache[$store] = $total;
+
+		return $this->cache[$store];
 	}
+
+
 
 	/**
 	 * getSearch()
