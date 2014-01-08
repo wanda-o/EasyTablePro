@@ -31,4 +31,3 @@ if ($this->headingCount)
 
 	echo '</tr></tbody>';
 }
-?>

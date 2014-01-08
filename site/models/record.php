@@ -37,7 +37,8 @@ class EasyTableProModelRecord extends JModelItem
 	 */
 	protected function populateState()
 	{
-		$jAp = JFactory::getApplication('site');
+		/** @var $jAp JSite */
+		$jAp = JFactory::getApplication();
 
 
 		// Load state from the request.
@@ -48,7 +49,7 @@ class EasyTableProModelRecord extends JModelItem
 		$this->setState('record.id', $pk);
 
 		// Load the parameters.
-		$params = $jAp->getParams();
+		$params = $jAp->getParams('com_easytablepro');
 		$this->setState('params', $params);
 
 		// Get the current menu item's table id if it exists
@@ -157,7 +158,7 @@ class EasyTableProModelRecord extends JModelItem
 
 				// Do we need linked records?
 				$show_linked_table = $et->params->get('show_linked_table', 0);
-				$linked_table = $linked_data = $let = null;
+				$linked_data = $let = null;
 
 				if ($show_linked_table)
 				{
@@ -185,7 +186,7 @@ class EasyTableProModelRecord extends JModelItem
 						if (!count($linked_data))
 						{
 							$et->params->set('show_linked_table', false);
-							$linked_table = $linked_data = $let = null;
+							$linked_data = $let = null;
 						}
 					}
 					else
@@ -249,13 +250,13 @@ class EasyTableProModelRecord extends JModelItem
 	/**
 	 * getLinked()
 	 *
-	 * @param   EasyTableModel  $linked_table      The current EasyTable object.
+	 * @param   EasyTableProModelTable  $linked_table      The current EasyTable object.
 	 *
-	 * @param   string          $key_field_value   The current EasyTable object.
+	 * @param   string                  $key_field_value   The current EasyTable object.
 	 *
-	 * @param   string          $linked_key_field  The current EasyTable object.
+	 * @param   string                  $linked_key_field  The current EasyTable object.
 	 *
-	 * @return  array           $linked_data
+	 * @return  array                   $linked_data
 	 *
 	 * @since   1.1
 	 */
@@ -332,12 +333,6 @@ class EasyTableProModelRecord extends JModelItem
 		{
 			// Get the current database object
 			$db = JFactory::getDBO();
-
-			if (!$db)
-			{
-				// @todo Change to use sprintf
-				JError::raiseError(500, JText::_('COM_EASYTABLEPRO_SITE_DB_NOT_AVAILABLE_CREATING_NEXTPREV_RECORD_LINK') . $mId);
-			}
 
 			// New query
 			$query = $db->getQuery(true);

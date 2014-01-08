@@ -80,7 +80,8 @@ class EasyTableProControllerRecords extends JControllerLegacy
 		}
 		else
 		{
-			// Process each record for presentation
+			// Process each record for presentation, init variables.
+			$rowId = '';
 			$processedRecords = array();
 
 			foreach ($rawRecords as $rawRecord)

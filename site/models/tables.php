@@ -86,6 +86,7 @@ class EasyTableProModelTables extends JModelList
 	public function populateState($ordering = null, $direction = null)
 	{
 		parent::populateState($ordering, $direction);
+		/** @var $jAp JSite */
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
 		$show_pagination = $params->get('table_list_show_pagination', 1);

@@ -16,7 +16,7 @@ defined('_JEXEC') or die ('Restricted Access');
  *
  * @package  EasyTables
  */
-class EasyTableProControllerRecords extends JControllerForm
+class EasyTableProControllerRecord extends JControllerForm
 {
 
 	/**
