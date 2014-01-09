@@ -164,7 +164,7 @@ class EasyTableProViewRecords extends JView
 		}
 
 		$ajaxEnabled = $this->params->get('enable_ajax_tables', 0);
-		$wereAjaxing = ($ajaxEnabled && ($layout == 'ajax'));
+		$wereAjaxing = ($ajaxEnabled && ($layout == 'dt'));
 
 		if (($layout == 'ajax') && !$wereAjaxing)
 		{
