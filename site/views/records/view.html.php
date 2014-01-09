@@ -410,8 +410,19 @@ class EasyTableProViewRecords extends JView
 				// We don't load JQUI at all.
 		}
 
+		// Load DataTables
 		$doc->addScript('media/com_easytablepro/js/jquery/jquery.dataTables-1.9.4' . $minOrNot . '.js');
 
+		// Load Plugins @todo Add menu options to control plugin loading?
+		// Numbers in HTML
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.numHtmlSort.js');
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.numHtmlTypeDetect.js');
+
+		// Currency
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.currencySort.js');
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.currencyTypeDetect.js');
+
+		// Create our Table elements ID
 		$tableID = '#' . htmlspecialchars($this->easytable->easytablealias);
 
 		/**
