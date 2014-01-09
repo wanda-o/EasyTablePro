@@ -31,7 +31,7 @@ class EasyTableProViewRecords extends JView
 	protected $easytable;
 
 	/**
-	 * @var
+	 * @var $params JRegistry
 	 */
 	protected $params;
 
@@ -431,14 +431,14 @@ class EasyTableProViewRecords extends JView
 		// Turn on state saving so DT handles it for all tables
 		$bStateSave = '"bStateSave": true,' . "\n";
 
-		if ($this->easytable->record_count < 1000)
+		if ($this->easytable->record_count < $this->params->get('datatable_small_sized', 500, ''))
 		{
 			// Small table get all the records and do the processing client side
 			$bProcessing = '';
 			$bServerSide = '';
 			$sAjaxSource = '';
 		}
-		elseif ($this->easytable->record_count < 5000)
+		elseif ($this->easytable->record_count < $this->params->get('datatable_small_sized', 1500, ''))
 		{
 			// Medium sized table mixture of client-side processing but with Ajax sourced data
 			$bProcessing = '"bProcessing": true,' . "\n";
