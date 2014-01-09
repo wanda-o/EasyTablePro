@@ -205,6 +205,57 @@
         </field>
 	</fieldset>
 
+    <fieldset name="datatables"
+              label="COM_EASYTABLEPRO_PREF_TAB_DATATABLES_SETTINGS"
+              description="COM_EASYTABLEPRO_PREF_TAB_DATATABLES_SETTINGS_DESC"
+            >
+        <field
+                name="load_datatables"
+                type="list" default="1"
+                label="COM_EASYTABLEPRO_PREF_LOAD_DATATABLES"
+                description="COM_EASYTABLEPRO_PREF_LOAD_DATATABLES_DESC"
+                >
+            <option value="0">JNO</option>
+            <option value="1">COM_EASYTABLEPRO_PREF_LOAD_DATATABLES_FROM_LOCAL</option>
+            <option value="2">COM_EASYTABLEPRO_PREF_LOAD_DATATABLES_FROM_MSCDN</option>
+        </field>
+
+        <field
+                name="datatable_small_sized"
+                type="text" default="500"
+                label="COM_EASYTABLEPRO_PREF_SMALL_DT_LABEL"
+                description="COM_EASYTABLEPRO_PREF_SMALL_DT_DESC"
+                filter="integer"
+                />
+
+        <field
+                name="datatable_medium_sized"
+                type="text" default="1500"
+                label="COM_EASYTABLEPRO_PREF_MEDIUM_DT_LABEL"
+                description="COM_EASYTABLEPRO_PREF_MEDIUM_DT_DESC"
+                filter="integer"
+                />
+
+        <field
+                name="datatable_css_override_file"
+                type="text"
+                size="50"
+                label="COM_EASYTABLEPRO_PREF_DATATABLE_CSS_OVERRIDE_FILE"
+                description="COM_EASYTABLEPRO_PREF_DATATABLE_CSS_OVERRIDE_FILE_DESC"
+                />
+
+        <field
+                name="use_datatables_reveal"
+                type="list" default="1"
+                label="COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES"
+                description="COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_DESC"
+                >
+            <option value="0">COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_NO</option>
+            <option value="1">COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_ONLY</option>
+            <option value="2">COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_BOTH</option>
+        </field>
+    </fieldset>
+
 	<fieldset name="processing"
 		label="COM_EASYTABLEPRO_PREF__TAB_PROCESSING_SETTINGS"
 		description="COM_EASYTABLEPRO_PREF__TAB_PROCESSING_SETTINGS_DESC"
