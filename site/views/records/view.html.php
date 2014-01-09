@@ -422,6 +422,10 @@ class EasyTableProViewRecords extends JView
 		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.currencySort.js');
 		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.currencyTypeDetect.js');
 
+		// Formatted Numbers
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.formattedNumSort.js');
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.formattedNumTypeDetect.js');
+
 		// Create our Table elements ID
 		$tableID = '#' . htmlspecialchars($this->easytable->easytablealias);
 
