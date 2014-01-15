@@ -282,13 +282,16 @@ class EasyTableProViewRecords extends JView
 		$doc = JFactory::getDocument();
 		$easytables_table_meta = $easytable->table_meta;
 
-		// Sortable?
-		$SortableTable = $this->params->get('make_tables_sortable');
-
-		if ($SortableTable)
+		if (!$wereAjaxing)
 		{
-			$this->SortableTable = $SortableTable;
-			$doc->addScript(JURI::base() . 'media/com_easytablepro/js/webtoolkit.sortabletable.js');
+			// Sortable?
+			$SortableTable = $this->params->get('make_tables_sortable');
+
+			if ($SortableTable)
+			{
+				$this->SortableTable = $SortableTable;
+				$doc->addScript(JURI::base() . 'media/com_easytablepro/js/webtoolkit.sortabletable.js');
+			}
 		}
 
 		// Make sure at least 1 field is set to display
