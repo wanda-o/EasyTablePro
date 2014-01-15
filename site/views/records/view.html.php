@@ -371,6 +371,7 @@ class EasyTableProViewRecords extends JView
 		$versionJQ = $this->params->get('load_jquery_version', '1.9.1');
 		$versionJQUI = $this->params->get('load_jqueryui_version', '1.10.3');
 
+		// Load JQuery
 		switch ($loadJQ)
 		{
 			case 1: // From local
@@ -392,6 +393,7 @@ class EasyTableProViewRecords extends JView
 				// We don't load JQ at all.
 		}
 
+		// Load JQuery UI plugin
 		switch ($loadJQUI)
 		{
 			case 1: // From local
@@ -414,9 +416,25 @@ class EasyTableProViewRecords extends JView
 		}
 
 		// Load DataTables
-		$doc->addScript('media/com_easytablepro/js/jquery/jquery.dataTables-1.9.4' . $minOrNot . '.js');
+		$loadDT = $this->params->get('load_datatables', 1);
 
-		// Load Plugins @todo Add menu options to control plugin loading?
+		switch ($loadDT)
+		{
+			case 1: // From local
+			{
+				$doc->addScript('media/com_easytablepro/js/jquery/jquery.dataTables-1.9.4' . $minOrNot . '.js');
+				break;
+			}
+			case 2: // From Microsoft
+			{
+				$doc->addScript('http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables' . $minOrNot . '.js');
+				break;
+			}
+			default:
+				// We don't load DT at all.
+		}
+
+		// Load Plugins — they have to be local
 		// Numbers in HTML
 		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.numHtmlSort.js');
 		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.numHtmlTypeDetect.js');
@@ -500,7 +518,19 @@ class EasyTableProViewRecords extends JView
 
 			if ($pathToCSS == '')
 			{
-				$pathToCSS = '/media/com_easytablepro/css/' . $defaultCSSFile;
+				switch ($loadDT)
+				{
+					case 1:
+					{
+						$pathToCSS = '/media/com_easytablepro/css/' . $defaultCSSFile;
+						break;
+					}
+					case 2:
+					{
+						$pathToCSS = 'http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css';
+						break;
+					}
+				}
 			}
 		}
 		else
@@ -509,9 +539,14 @@ class EasyTableProViewRecords extends JView
 			$pathToCSS = $pathToTemplate . '/css/' . $defaultCSSFile;
 		}
 
-		if (file_exists(JPATH_BASE . '/' . $pathToCSS))
+		// Check the local file exists or load the remote
+		if ($loadDT != 3 && file_exists(JPATH_BASE . '/' . $pathToCSS))
 		{
 			$doc->addStyleSheet(JURI::root() . $pathToCSS);
+		}
+		elseif (substr($pathToCSS, 0, 4))
+		{
+			$doc->addStyleSheet($pathToCSS);
 		}
 	}
 
