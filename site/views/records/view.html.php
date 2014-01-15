@@ -190,7 +190,7 @@ class EasyTableProViewRecords extends JView
 		elseif($wereAjaxing)
 		{
 			// @todo Replace this magic number with the global/table param for a small table
-			if ($this->easytable->record_count < 5000)
+			if ($this->easytable->record_count < $this->params->get('datatable_small_sized', 500, ''))
 			{
 				$jAp->input->set('limit', $this->easytable->record_count);
 				$jAp->input->set('limitstart', 0);
