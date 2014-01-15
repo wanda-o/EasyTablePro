@@ -493,7 +493,12 @@ class EasyTableProViewRecords extends JView
 
 		if ($this->params->get('load_datatables_css', 1))
 		{
-			$pathToCSS = '/media/com_easytablepro/css/' . $defaultCSSFile;
+			$pathToCSS = $this->params->get('datatable_css_override_file');
+
+			if ($pathToCSS == '')
+			{
+				$pathToCSS = '/media/com_easytablepro/css/' . $defaultCSSFile;
+			}
 		}
 		else
 		{
