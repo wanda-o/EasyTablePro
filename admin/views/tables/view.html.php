@@ -343,7 +343,7 @@ class EasyTableProViewTables extends JView
 
 		JToolBarHelper::divider();
 
-		JToolBarHelper::preferences('com_easytablepro', 425);
+		JToolBarHelper::preferences('com_easytablepro', 565);
 		JToolBarHelper::divider();
 
 		$helpURL = 'http://seepeoplesoftware.com/products/easytablepro/1.1/help/tables.html';
