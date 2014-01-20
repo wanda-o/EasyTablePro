@@ -316,7 +316,12 @@ class EasyTableProModelRecords extends JModelList
 			$jAp->setUserState($this->context . '.search.rids', '');
 		}
 
-		// Add menu filter settings
+		if ($params->get('filter_is_mandatory', 0))
+		{
+			ET_Helper::addFilter($query, $tableParams, $db);
+		}
+
+		// Add menu level filter settings
 		ET_Helper::addFilter($query, $params, $db);
 
 		// Add user id filter

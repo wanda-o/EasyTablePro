@@ -104,10 +104,23 @@
 			<option value="0">JNO</option>
 		</field>
 		<field
-			name="spacer1"
+			name="spacer"
 			type="spacer"
 			hr="true"
 		/>
+        <field name="filter_is_mandatory"
+               label="COM_EASYTABLEPRO_PREF_TABLE_FITLER_IS_MANDATORY_LABEL"
+               type="radio"
+               default="0"
+               description="COM_EASYTABLEPRO_PREF_TABLE_FITLER_IS_MANDATORY_DESC">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="spacer1"
+                type="spacer"
+                hr="true"
+                />
 		<field
 			name="show_linked_table"
 			type="radio" default="0"

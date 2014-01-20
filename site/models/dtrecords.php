@@ -309,18 +309,9 @@ class EasyTableProModelDtRecords extends JModelList
 			$jAp->setUserState($this->context . '.search.rids', '');
 		}
 
-		// Add menu filter settings
-		// Is the table filtered?
-		$ff = $params->get('filter_field', '');
-		$ff = substr($ff, strpos($ff, ':') + 1);
-		$ft = $params->get('filter_type', '');
-		$fv = $params->get('filter_value', '');
-
-		if ($ff && $ft && $fv)
+		if ($params->get('filter_is_mandatory', 0))
 		{
-			$ff = $db->quoteName($ff);
-			$whereCond = $ft == 'LIKE' ? $ff . ' LIKE ' . $db->quote('%' . $fv . '%') : $ff . ' LIKE ' . $db->quote($fv);
-			$query->where($whereCond);
+			ET_Helper::addFilter($query, $tableParams, $db);
 		}
 
 		// Add menu level filter settings

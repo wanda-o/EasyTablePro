@@ -226,6 +226,15 @@
                    default=""
                    label="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_LABEL"
                    description="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_DESC" />
+            <field name="filter_is_mandatory"
+                   label="COM_EASYTABLEPRO_PREF_TABLE_FITLER_IS_MANDATORY_LABEL"
+                   type="list"
+                   default=""
+                   description="COM_EASYTABLEPRO_PREF_TABLE_FITLER_IS_MANDATORY_DESC">
+                <option selected="selected" value="">JGLOBAL_USE_GLOBAL</option>
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
             <field
                     name="spacer1"
                     type="spacer"
