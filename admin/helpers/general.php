@@ -368,7 +368,8 @@ class ET_Helper
 	}
 
 	/**
-	 * Helper function to add a filter based on supplied params
+	 * Helper function to add a filter based on supplied params.
+	 * The crazy where build is because JDatabase doesn't group/mix AND's and ORs
 	 *
 	 * @param   JDatabaseQuery  $query   The query to add too.
 	 * @param   JRegistry       $params  The params containing the filter values.
@@ -381,13 +382,33 @@ class ET_Helper
 		// Is their a filter?
 		$ff = $params->get('filter_field', '');
 		$ff = substr($ff, strpos($ff, ':') + 1);
+		$ff = $ff ? $ff = $db->quoteName($ff) : '';
 		$ft = $params->get('filter_type', '');
 		$fv = $params->get('filter_value', '');
+		$fv = strpos($fv, '|') ? explode('|', $fv) : $fv;
+		$whereCond = '';
 
-		if ($ff && $ft && $fv)
+		if (!is_array($fv))
 		{
-			$ff = $db->quoteName($ff);
-			$whereCond = $ft == 'LIKE' ? $ff . ' LIKE ' . $db->quote('%' . $fv . '%') : $ff . ' LIKE ' . $db->quote($fv);
+			$fv = (array) $fv;
+		}
+
+		$fvCount = count($fv);
+
+		for ($i = 0; $i < $fvCount; $i++)
+		{
+			$filterValue = $fv[$i];
+
+			if ($ff && $ft && $filterValue)
+			{
+				$whereCond .= $ft == 'LIKE' ? $ff . ' LIKE ' . $db->quote('%' . $filterValue . '%') : $ff . ' LIKE ' . $db->quote($filterValue);
+				$whereCond .= $i < $fvCount - 1 ? ' OR ' : '';
+			}
+		}
+
+		if ($whereCond)
+		{
+			$whereCond = '(' . $whereCond . ')';
 			$query->where($whereCond);
 		}
 	}
