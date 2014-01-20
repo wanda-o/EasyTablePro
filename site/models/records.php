@@ -325,18 +325,7 @@ class EasyTableProModelRecords extends JModelList
 		ET_Helper::addFilter($query, $params, $db);
 
 		// Add user id filter
-		$uf  = $params->get('enable_user_filter', 0);
-		$ufb = $params->get('filter_records_by', '');
-		$uff = $params->get('user_filter_field', '');
-
-		if ($uf && $ufb && $uff)
-		{
-			$uff = $db->quoteName($uff);
-			$user = JFactory::getUser();
-			$userValue = $ufb == 'id' ? $user->id : $user->username;
-			$whereCond = $uff . ' = ' . $db->quote($userValue);
-			$query->where($whereCond);
-		}
+		ET_Helper::addUserFilter($query, $params, $db);
 
 		// Is there a default sort order?
 		$sf = $params->get('sort_field', '');

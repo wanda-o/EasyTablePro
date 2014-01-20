@@ -413,6 +413,32 @@ class ET_Helper
 		}
 	}
 
+	/**
+	 * Helper function to add the User filter if set.
+	 *
+	 * @param   JDatabaseQuery  $query   The query to add too.
+	 * @param   JRegistry       $params  The params containing the filter values.
+	 * @param   JDatabase       $db      The Database object
+	 *
+	 * @return  null
+	 */
+	public static function addUserFilter ($query, $params, $db)
+	{
+		// Is the User filter set?
+		$uf  = $params->get('enable_user_filter', 0);
+		$ufb = $params->get('filter_records_by', '');
+		$uff = $params->get('user_filter_field', '');
+
+		if ($uf && $ufb && $uff)
+		{
+			$uff = $db->quoteName($uff);
+			$user = JFactory::getUser();
+			$userValue = $ufb == 'id' ? $user->id : $user->username;
+			$whereCond = $uff . ' = ' . $db->quote($userValue);
+			$query->where($whereCond);
+		}
+	}
+
 	/** GENERIC HELPER FUNCTIONS **/
 	/**
 	 * removeEmptyLines()

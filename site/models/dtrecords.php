@@ -317,14 +317,8 @@ class EasyTableProModelDtRecords extends JModelList
 		// Add menu level filter settings
 		ET_Helper::addFilter($query, $params, $db);
 
-		if ($uf && $ufb && $uff)
-		{
-			$uff = $db->quoteName($uff);
-			$user = JFactory::getUser();
-			$userValue = $ufb == 'id' ? $user->id : $user->username;
-			$whereCond = $uff . ' = ' . $db->quote($userValue);
-			$query->where($whereCond);
-		}
+		// Add user id filter
+		ET_Helper::addUserFilter($query, $params, $db);
 
 		// Any column sorting required?
 		// Get columns to be sorted and the direction
