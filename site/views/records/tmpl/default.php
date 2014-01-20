@@ -94,7 +94,7 @@
 			?>
 		</table>
 		<?php
-			if ($this->SortableTable)
+			if (isset($this->SortableTable) && $this->SortableTable)
 			{ ?> <script type="text/javascript">
 			var t = new SortableTable(document.getElementById('<?php echo htmlspecialchars($this->easytable->easytablealias); ?>'), 'etAscending', 'etDescending');
 		</script>
