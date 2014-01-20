@@ -313,18 +313,7 @@ class EasyTableProModelRecords extends JModelList
 		}
 
 		// Add menu filter settings
-		// Is the table filtered?
-		$ff = $params->get('filter_field', '');
-		$ff = substr($ff, strpos($ff, ':') + 1);
-		$ft = $params->get('filter_type', '');
-		$fv = $params->get('filter_value', '');
-
-		if ($ff && $ft && $fv)
-		{
-			$ff = $db->quoteName($ff);
-			$whereCond = $ft == 'LIKE' ? $ff . ' LIKE ' . $db->quote('%' . $fv . '%') : $ff . ' LIKE ' . $db->quote($fv);
-			$query->where($whereCond);
-		}
+		ET_Helper::addFilter($query, $params, $db);
 
 		// Add user id filter
 		$uf  = $params->get('enable_user_filter', 0);

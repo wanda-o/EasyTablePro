@@ -368,6 +368,32 @@ class ET_Helper
 	}
 
 	/**
+	 * Helper function to add a filter based on supplied params
+	 *
+	 * @param   JDatabaseQuery  $query   The query to add too.
+	 * @param   JRegistry       $params  The params containing the filter values.
+	 * @param   JDatabase       $db      The Database object
+	 *
+	 * @return  null
+	 */
+	public static function addFilter ($query, $params, $db)
+	{
+		// Is their a filter?
+		$ff = $params->get('filter_field', '');
+		$ff = substr($ff, strpos($ff, ':') + 1);
+		$ft = $params->get('filter_type', '');
+		$fv = $params->get('filter_value', '');
+
+		if ($ff && $ft && $fv)
+		{
+			$ff = $db->quoteName($ff);
+			$whereCond = $ft == 'LIKE' ? $ff . ' LIKE ' . $db->quote('%' . $fv . '%') : $ff . ' LIKE ' . $db->quote($fv);
+			$query->where($whereCond);
+		}
+	}
+
+	/** GENERIC HELPER FUNCTIONS **/
+	/**
 	 * removeEmptyLines()
 	 *
 	 * @param   string  $string  The string to be cleared of empty lines.
