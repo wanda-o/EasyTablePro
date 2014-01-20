@@ -215,8 +215,7 @@ class EasyTableProModelDtRecords extends JModelList
 		$tableParams->loadString($theTable->params);
 
 		// Get the components global params
-		$params = $jAp->getParams('com_easytablepro');
-		$params->merge($tableParams);
+		$compParams = $jAp->getParams('com_easytablepro');
 
 		// Get the menu params
 		$theMenus = $jAp->getMenu();
@@ -241,6 +240,11 @@ class EasyTableProModelDtRecords extends JModelList
 		}
 
 		$menuParams = $menuItem->params;
+
+		// Create our master params
+		$params = new JRegistry;
+		$params->merge($compParams);
+		$params->merge($tableParams);
 		$params->merge($menuParams);
 
 		// Convert all fields to the SQL select
