@@ -319,10 +319,8 @@ class EasyTableProModelDtRecords extends JModelList
 			$query->where($whereCond);
 		}
 
-		// Add user id filter
-		$uf  = $params->get('enable_user_filter', 0);
-		$ufb = $params->get('filter_records_by', '');
-		$uff = $params->get('user_filter_field', '');
+		// Add menu level filter settings
+		ET_Helper::addFilter($query, $params, $db);
 
 		if ($uf && $ufb && $uff)
 		{
