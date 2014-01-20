@@ -75,9 +75,6 @@ class EasyTableProViewRecords extends JView
 		$easytable  = $this->get('EasyTable');
 		$this->easytable = $easytable;
 
-		// Component wide & menu based params
-		$this->params = $this->getParams($jAp);
-
 		if (empty($easytable))
 		{
 			$id = $jInput->get('id', 0);
@@ -85,6 +82,9 @@ class EasyTableProViewRecords extends JView
 			// Throw 404 if no table
 			return JError::raiseWarning(404, JText::sprintf('COM_EASYTABLEPRO_SITE_TABLE_NOT_AVAILABLE', $id));
 		}
+
+		// Component wide & menu based params
+		$this->params = $this->getParams($jAp);
 
 		// Get the user
 		$this->user		= $user;
