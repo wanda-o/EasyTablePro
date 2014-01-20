@@ -331,7 +331,7 @@ class EasyTableProModelRecords extends JModelList
 
 		// Is there a default sort order?
 		$sf = $params->get('sort_field', '');
-		$sf = substr($sf, strpos($sf, ':') + 1);
+		$sf = strpos($sf, ':') ? substr($sf, strpos($sf, ':') + 1) : $sf;
 		$so = $params->get('sort_order', '');
 
 		if ($sf && $so)
