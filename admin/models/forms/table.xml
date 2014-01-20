@@ -129,63 +129,63 @@
 				default=""
 				label="COM_EASYTABLEPRO_PREF_SHOW_DESCRIPTION"
 				description="COM_EASYTABLEPRO_PREF_SHOW_DESCRIPTION_DESC">
-				<option selected="selected" value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option selected="selected" value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="show_search"
 				type="list"
 				default=""
 				label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_SEARCH"
 				description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_SEARCH_DESC">
-				<option selected="selected" value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option selected="selected" value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="show_pagination"
 				type="list"
 				default=""
 				label="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION"
 				description="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION_DESC">
-				<option selected="selected" value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option selected="selected" value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="show_pagination_header"
 				type="list"
 				default=""
 				label="COM_EASYTABLEPRO_PREF_SHOW_PAGES_DESC"
 				description="COM_EASYTABLEPRO_PREF_PAGINATION_CONTROLS_DESC">
-				<option selected="selected" value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option selected="selected" value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="show_pagination_footer"
 				type="list"
 				default=""
 				label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_PAGINATION_FOOTER"
 				description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_PAGINATION_FOOTER_DESC">
-				<option selected="selected" value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option selected="selected" value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="show_created_date"
 				label="COM_EASYTABLEPRO_PREF_SHOW_CREATION_DATE"
 				type="list"
 				default=""
 				description="COM_EASYTABLEPRO_PREF_CREATION_DATE_DISP_DESC">
-				<option selected="selected" value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option selected="selected" value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="show_modified_date"
 				label="COM_EASYTABLEPRO_PREF_SHOW_MODIFIED_DATE"
 				type="list"
 				default=""
 				description="COM_EASYTABLEPRO_PREF_SHOW_MODIFIED_DATE_DESC">
-				<option selected="selected" value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option selected="selected" value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="modification_date_label"
 				label="COM_EASYTABLEPRO_PREF_MODIFICATION_DATE_LABEL"
@@ -198,9 +198,9 @@
 				type="list"
 				default=""
 				description="COM_EASYTABLEPRO_PREF_MAKE_TABLE_SORTABLE_DESC">
-				<option selected="selected" value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option selected="selected" value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field
 				name="spacer"
@@ -213,9 +213,9 @@
 				default=""
 				label="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA"
 				description="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA_DESC">
-				<option value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -254,9 +254,9 @@
 				default=""
 				label="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE"
 				description="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE_DESC" >
-				<option selected="selected" value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option selected="selected" value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="title_field"
 				type="easytablefields"
@@ -268,18 +268,18 @@
 				default=""
 				label="COM_EASYTABLEPRO_PREF_NEXT_PREV_LINKS_LABEL"
 				description="COM_EASYTABLEPRO_PREF_SHOW_NEXT_PREV_LINKS">
-				<option selected="selected" value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option selected="selected" value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="show_linked_table"
 				type="list"
 				default=""
 				label="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE"
 				description="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE_DESC" >
-				<option value="">Use Global</option>
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 		</fieldset>
 		<fieldset name="LINKED_TABLE" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_LINKED_TABLE_SETTINGS">
@@ -305,8 +305,8 @@
 				default=""
 				label="COM_EASYTABLEPRO_PREF_ENABLE_USER_FILTER_LABEL"
 				description="COM_EASYTABLEPRO_PREF_ENABLE_USER_FILTER_DESC">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 			<field name="filter_records_by"
 				type="list"

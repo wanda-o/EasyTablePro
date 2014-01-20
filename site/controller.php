@@ -23,12 +23,11 @@ class EasyTableProController extends JController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   bool        $cachable   If true, the view output will be cached
 	 *
-	 * @return	JController		This object to support chaining.
+	 * @param   array|bool  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @since	1.5
+	 * @return	$this|JController       This object to support chaining.
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -52,7 +51,7 @@ class EasyTableProController extends JController
 	 *
 	 * @param   array   $config  Optional configuration parameters.
 	 *
-	 * @return  EasyTableProModel
+	 * @return  EasyTableProModelTables
 	 */
 	public function getModel($name = 'Tables', $prefix = 'EasyTableProModel', $config = array())
 	{
@@ -70,5 +69,4 @@ class EasyTableProController extends JController
 	{
 		parent::__construct($config);
 	}
-
 }

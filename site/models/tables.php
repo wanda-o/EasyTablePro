@@ -69,9 +69,24 @@ class EasyTableProModelTables extends JModelList
 		$this->setState('list.start', $limitstart);
 	}
 
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 */
 	public function populateState($ordering = null, $direction = null)
 	{
 		parent::populateState($ordering, $direction);
+		/** @var $jAp JSite */
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
 		$show_pagination = $params->get('table_list_show_pagination', 1);

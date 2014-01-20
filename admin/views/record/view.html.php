@@ -58,6 +58,7 @@ class EasyTableProViewRecord extends JView
 				$size = 'size="175" maxlength="255"';
 				$inputFld = '<input name="et_fld[' . $fldAlias . ']" type="' . $type . '" ' . $size . ' value="' . $value . '" />';
 		}
+
 		return $inputFld;
 	}
 
@@ -90,6 +91,7 @@ class EasyTableProViewRecord extends JView
 			{
 				$fieldWithOptions = '<img src="' . trim($pathToImage) . '" ' . $fieldOptions . ' id="' . $fld_alias . '_img" style="width:200px" alt="image" />';
 			}
+
 			$imgTag = '<span class="hasTip" title="' . JText::_('COM_EASYTABLEPRO_RECORD_IMAGE_PREVIEW_TT') . '"><a href="javascript:void(0);" '
 				. $onclick . 'target="_blank" >' . $fieldWithOptions . '<br />' . JText::_('COM_EASYTABLEPRO_RECORD_LABEL_PREVIEW_OF_IMG')
 				. '<br /><em>(' . JText::_('COM_EASYTABLEPRO_RECORDS_CLICK_TO_SEE_FULL_SIZE_IMG') . ')</em></a></span>';
@@ -99,6 +101,7 @@ class EasyTableProViewRecord extends JView
 			$imgTag = '<span class="hasTip" title="' . JText::_('COM_EASYTABLEPRO_RECORD_IMAGE_PREVIEW_TT') . '"><em>('
 				. JText::_('COM_EASYTABLEPRO_RECORD_NO_IMAGE_NAME') . ')</em></a></span>';
 		}
+
 		return $imgTag;
 	}
 
@@ -124,6 +127,7 @@ class EasyTableProViewRecord extends JView
 
 			return false;
 		}
+
 		// Assign the Data
 		$this->item  = $item;
 		$this->state = $state;
@@ -199,6 +203,7 @@ class EasyTableProViewRecord extends JView
 			// @todo Fix JToolBarHelper::save2new('record.save2new');
 			JToolBarHelper::save2copy('record.save2copy');
 		}
+
 		JToolBarHelper::divider();
 
 		JToolBarHelper::cancel('record.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');

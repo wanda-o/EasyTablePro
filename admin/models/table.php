@@ -40,6 +40,7 @@ class EasyTableProModelTable extends JModelAdmin
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
+
 	/**
 	* Method to get the record form.
 	*
@@ -60,6 +61,7 @@ class EasyTableProModelTable extends JModelAdmin
 		{
 			return false;
 		}
+
 		return $form;
 	}
 
@@ -79,6 +81,7 @@ class EasyTableProModelTable extends JModelAdmin
 		{
 			$data = $this->getItem();
 		}
+
 		return $data;
 	}
 
@@ -142,6 +145,7 @@ class EasyTableProModelTable extends JModelAdmin
 				$et_ext_table = false;
 				$ettd_tname = $db->getPrefix() . 'easytables_table_data_' . $item->id;
 			}
+
 			// Next we check for an actual data table
 			$et_datatable_found = in_array($ettd_tname, $allTables);
 
@@ -263,11 +267,13 @@ class EasyTableProModelTable extends JModelAdmin
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 		}
+
 		if (!$this->_data)
 		{
 			$this->_data = new stdClass;
 			$this->_data->id = 0;
 		}
+
 		return $this->_data;
 	}
 
@@ -353,6 +359,7 @@ class EasyTableProModelTable extends JModelAdmin
 			{
 				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_NOT_ALL_META_DATA_FOR_TABLE_ID_X_COULD_BE_DELETED', $pk));
 			}
+
 			/**
 			 * and the data table.
 			 */
@@ -380,11 +387,13 @@ class EasyTableProModelTable extends JModelAdmin
 				$app->enqueueMessage(JText::sprintf('<strong>%s</strong> is a linked external table, data left in place.', $table->easytablename));
 			}
 		}
+
 		// Call the parent
 		if (!parent::delete($pks))
 		{
 			$app->enqueueMessage(JText::sprintf('EasyTable Pro! encountered a problem, trying to delete the EasyTables record.', $pk));
 		}
+
 		return true;
 	}
 
@@ -436,6 +445,7 @@ class EasyTableProModelTable extends JModelAdmin
 		{
 			JError::raiseError(500, "Failure in data table creation, likely cause is invalid column headings; actually DB explanation: " . $db->explain());
 		}
+
 		return $this->ettdExists($id);
 	}
 }

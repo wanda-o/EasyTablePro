@@ -42,6 +42,7 @@ jimport('joomla.application.categories');
 			{
 				$menuItem = $menu->getItem($query['Itemid']);
 			}
+
 			// Get the current menuItem's settings
 			if (isset($menuItem->query['view']))
 			{
@@ -51,6 +52,7 @@ jimport('joomla.application.categories');
 			{
 				$menusCurrentView = '';
 			}
+
 			// Get the menuItem's current component
 			if (isset($menuItem->query['option']))
 			{
@@ -60,6 +62,7 @@ jimport('joomla.application.categories');
 			{
 				$menusCurrentOption = '';
 			}
+
 			// If we have an option it's likely we have a data ID
 			if ($menusCurrentOption && isset($menuItem->query['id']))
 			{
@@ -103,6 +106,7 @@ jimport('joomla.application.categories');
 							{
 								$idAlias = $targetID;
 							}
+
 							// Make sure we have a result.
 							if ($idAlias != '')
 							{
@@ -140,6 +144,7 @@ jimport('joomla.application.categories');
 					{
 						return array();
 					}
+
 					if (isset($query['rid']))
 					{
 						$segments[] = $query['rid'];
@@ -149,6 +154,7 @@ jimport('joomla.application.categories');
 					{
 						return array();
 					}
+
 					if (isset($query['rllabel']))
 					{
 						$segments[] = $query['rllabel'];
@@ -159,6 +165,7 @@ jimport('joomla.application.categories');
 				break;
 			}
 		}
+
 		// Return segments here, of course it could be empty if no view etc... e.g. a core menu.
 		return $segments;
 	}
@@ -258,6 +265,7 @@ jimport('joomla.application.categories');
 						$vars['id'] = 0;
 						$app->enqueueMessage(JText::_('COM_EASYTABLEPRO_SITE_ROUTER_PARSEROUTE_COULDNT_FIND_TABLE_ID'), 'Warning');
 					}
+
 					$rid = $segments[0];
 				}
 				elseif ($menuItem->query['view'] == 'record')
@@ -267,6 +275,7 @@ jimport('joomla.application.categories');
 					$rid = $segments[1];
 				}
 			}
+
 			$vars['rid']  = $rid;
 		}
 
@@ -300,6 +309,7 @@ jimport('joomla.application.categories');
 				$vars['id'] = 0;
 				$app->enqueueMessage(JText::_('COM_EASYTABLEPRO_SITE_ROUTER_PARSEROUTE_COULDNT_FIND_TABLE_ID'), 'Warning');
 			}
+
 			// Remove the stupid colon that J! core inserts...
 			$segments[2] = preg_replace('/:/', '-', $segments[2], 1);
 			$rid = $segments[1];

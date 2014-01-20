@@ -23,6 +23,9 @@ jimport('joomla.application.component.view');
 
 class EasyTableProViewTables extends JView
 {
+	/* @var JPagination $pagination */
+	protected $pagination;
+
 	/**
      * EasyTables view display method
      *

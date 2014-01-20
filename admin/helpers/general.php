@@ -164,6 +164,7 @@ class ET_Helper
 			{
 				// Increment our hit
 				self::hit($pk);
+
 				// Process the access info...
 				$user = JFactory::getUser();
 				$groups	= $user->getAuthorisedViewLevels();
@@ -192,6 +193,13 @@ class ET_Helper
 					$pkObject = $db->loadObject();
 					$et_Key_name = $pkObject->Column_name;
 					$theEasyTable->key_name = $et_Key_name;
+
+					// Now we need the number of records in the actual data table.
+					$query = 'SELECT COUNT(' . $db->quoteName($et_Key_name) . ') AS ' . $db->quoteName('Record_Count') . ' FROM ' . $db->quoteName($theEasyTable->ettd_tname);
+					$db->setQuery($query);
+					$rcObject = $db->loadObject();
+					$record_count = $rcObject->Record_Count;
+					$theEasyTable->record_count = $record_count;
 				}
 				else
 				{
@@ -200,6 +208,7 @@ class ET_Helper
 				}
 			}
 		}
+
 		return $theEasyTable;
 	}
 
@@ -280,6 +289,7 @@ class ET_Helper
 		{
 			$fieldNames[] = $fieldDetails[$nameColumn];
 		}
+
 		return $fieldNames;
 	}
 
@@ -353,6 +363,7 @@ class ET_Helper
 				$matchedFields[] = $theField;
 			}
 		}
+
 		return $matchedFields;
 	}
 
@@ -495,6 +506,7 @@ class ET_Helper
 		{
 			return false;
 		}
+
 		return true;
 	}
 
@@ -526,5 +538,69 @@ class ET_Helper
 		}
 
 		return null;
+	}
+
+	/**
+	 * Mail Administrators
+	 *
+	 * @param   string  $error       The error type.
+	 *
+	 * @param   array   $error_data  Array of error location details
+	 *
+	 * @return  boolean
+	 */
+	public static function notifyAdminsOnError($error, $error_data)
+	{
+		$config = JFactory::getConfig();
+		$db = JFactory::getDbo();
+		$data = array();
+		$data['fromname']	= $config->get('fromname');
+		$data['mailfrom']	= $config->get('mailfrom');
+		$data['sitename']	= $config->get('sitename');
+		$data['siteurl']	= JUri::root();
+		$emailSubject = JText::sprintf('COM_EASYTABLEPRO_ERROR_' . strtoupper($error) . '_SUBJECT', $data['sitename']);
+
+		$emailBodyAdmin = JText::sprintf(
+			'COM_EASYTABLEPRO_ERROR_' . strtoupper($error),
+			$error_data['url'],
+			$error_data['referrer'],
+			$error_data['ipaddress']
+		);
+		unset($error_data['url']);
+		unset($error_data['referrer']);
+		unset($error_data['ipaddress']);
+
+		// Append any other data passed in:
+		foreach ($error_data as $label => $value)
+		{
+			$emailBodyAdmin .= "\n" . ucwords(str_replace('_', ' ', $label)) . ' : ' . $value;
+		}
+
+		$emailBodyAdmin .= "\n";
+
+		// Get all admin users
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('name'));
+		$query->select($db->quoteName('email'));
+		$query->select($db->quoteName('sendEmail'));
+		$query->from($db->quoteName('#__users'));
+		$query->where($db->quoteName('sendEmail') . '=' . $db->quote(1));
+
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
+
+		// Send mail to all superadministrators id
+		foreach ($rows as $row)
+		{
+			$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+
+			// We make sure we're not just repeating errors
+			if (!$return)
+			{
+				break;
+			}
+		}
+
+		return $return;
 	}
 }

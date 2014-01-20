@@ -66,6 +66,7 @@ class ET_VHelper
 		{
 			$paramsObj = new JParameter($the_row->params);
 		}
+
 		return $paramsObj;
 	}
 
@@ -119,6 +120,7 @@ class ET_VHelper
 				$returnArray[] = $metaRecord;
 			}
 		}
+
 		return $returnArray;
 	}
 }

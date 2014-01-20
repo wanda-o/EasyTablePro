@@ -84,6 +84,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 		{
 			$options = array(JText::_('COM_EASYTABLEPRO_MODEL_FIELDS_SELECT_A_TABLE_FIRST'));
 		}
+
 		return $options;
 	}
 }

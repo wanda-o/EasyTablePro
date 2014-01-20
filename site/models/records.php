@@ -28,20 +28,20 @@ class EasyTableProModelRecords extends JModelList
 	 * Items total
 	 * @var integer
 	 */
-	private $_total = null;
+	private $total = null;
 
 	/**
- 	 * Pagination object
+	 * Pagination object
 	 * @var object
 	 */
-	private $_pagination = null;
+	private $pagination = null;
 
 	/**
- 	 *
- 	 * Search text
- 	 * @var string
- 	 */
-	private $_search = null;
+	 *
+	 * Search text
+	 * @var string
+	 */
+	private $search = null;
 
 	/**
 	 * EasyTables object
@@ -368,39 +368,12 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	public function &getEasyTable($pk = 0)
 	{
-		if(!$this->et)
+		if (!$this->et)
 		{
 			$this->et = ET_Helper::getEasyTable($pk);
 		}
 
 		return $this->et;
-	}
-
-	/**
-	 * &getEasyTableMeta() returns the meta records for the EasyTable ID
-	 *
-	 * @param   int     $id       pk value for the easytable.
-	 *
-	 * @param   string  $orderby  The field meta records are ordered by (defaults to position but could be by id).
-	 *
-	 * @return  array
-	 */
-	private function &getEasyTableMeta($id, $orderby = 'position')
-	{
-		// Setup basic variables
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Get the meta data for this table
-		$query->select('*');
-		$query->from('#__easytables_table_meta');
-		$query->where($db->quoteName('easytable_id') . '=' . $db->quote($id));
-		$query->order($db->quoteName($orderby));
-
-		$db->setQuery($query);
-		$easytables_table_meta = $db->loadAssocList('fieldalias');
-
-		return $easytables_table_meta;
 	}
 
 	/**

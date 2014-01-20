@@ -31,7 +31,7 @@ class EasyTableProViewRecords extends JView
 	protected $easytable;
 
 	/**
-	 * @var
+	 * @var $params JRegistry
 	 */
 	protected $params;
 
@@ -39,6 +39,7 @@ class EasyTableProViewRecords extends JView
 	 * @var
 	 */
 	protected $items;
+
 	protected $itemCount;
 
 	/**
@@ -75,7 +76,7 @@ class EasyTableProViewRecords extends JView
 		$this->easytable = $easytable;
 
 		// Component wide & menu based params
-		$params = $this->getParams($jAp);
+		$this->params = $this->getParams($jAp);
 
 		if (empty($easytable))
 		{
@@ -84,12 +85,6 @@ class EasyTableProViewRecords extends JView
 			// Throw 404 if no table
 			return JError::raiseWarning(404, JText::sprintf('COM_EASYTABLEPRO_SITE_TABLE_NOT_AVAILABLE', $id));
 		}
-
-		$items			  = $this->get('Items');
-		$this->items	  = $items;
-		$this->itemCount  = count($items);
-		$this->state	  = $this->get('State');
-		$this->pagination = $this->get('Pagination');
 
 		// Get the user
 		$this->user		= $user;
@@ -128,7 +123,7 @@ class EasyTableProViewRecords extends JView
 
 		$id = $easytable->id;
 
-		// Check the view access to the article (the model has already computed the values).
+		// Check the view access to the table (the model has already computed the values).
 		if ($easytable->access_view != true)
 		{
 			if ($user->guest)
@@ -145,38 +140,107 @@ class EasyTableProViewRecords extends JView
 			{
 				JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 
-				return;
+				return false;
 			}
 		}
 
 		// Load the right layout...
-		// Load layout from active query (in case it is an alternative menu item)
-		if ($layout = $active->params->get('records_layout'))
+		$layout = $jInput->getCmd('layout', 'default');
+
+		// Load layout from active query if required (in case it is an alternative menu item)
+		if (empty($layout))
 		{
-			$this->setLayout($layout);
+			if ($layout = $active->params->get('records_layout'))
+			{
+				$this->setLayout($layout);
+			}
+			else
+			{
+				if ($layout = $this->params->get('records_layout'))
+				{
+					$this->setLayout($layout);
+				}
+			}
+		}
+
+		$ajaxEnabled = $this->params->get('enable_ajax_tables', 0);
+		$wereAjaxing = ($ajaxEnabled && ($layout == 'dt'));
+
+		if (($layout == 'ajax') && !$wereAjaxing)
+		{
+			$mailSent = ET_Helper::notifyAdminsOnError('ajax',
+				array(
+					'ipaddress' => $jInput->get('REMOTE_ADDR'),
+					'url' => $jInput->get('REQUEST_URI'),
+					'referrer' => $jInput->get('HTTP_REFERER'),
+				)
+			);
+
+			if ($mailSent)
+			{
+				JError::raiseWarning(403, JText::_('COM_EASYTABLEPRO_RECORDS_ERROR_AJAX_NOT_ENABLED'));
+			}
+			else
+			{
+				JError::raiseWarning(403, JText::_('COM_EASYTABLEPRO_RECORDS_ERROR_AJAX_NOT_ENABLED0'));
+			}
+
+			return false;
+		}
+		elseif($wereAjaxing)
+		{
+			// @todo Replace this magic number with the global/table param for a small table
+			if ($this->easytable->record_count < $this->params->get('datatable_small_sized', 500, ''))
+			{
+				$jAp->input->set('limit', $this->easytable->record_count);
+				$jAp->input->set('limitstart', 0);
+				$items = $this->get('Items');
+				$this->items = $items;
+			}
+
+			$this->loadDataTables($jAp);
 		}
 		else
 		{
-			if ($layout = $params->get('records_layout'))
+			$items			  = $this->get('Items');
+			$this->items	  = $items;
+			$this->itemCount  = count($items);
+			$this->state	  = $this->get('State');
+			$this->pagination = $this->get('Pagination');
+
+			// Do we need a No Results Message?
+			if ($this->itemCount == 0)
 			{
-				$this->setLayout($layout);
+				$searchTerm = $this->state->get('filter.search');
+				$this->sro_showTable = $this->params->get('sro_showtable', 1);
+
+				if ($searchTerm == '')
+				{
+					$tableSORMsg = $this->params->get('sro_msg', '');
+					$this->noResultsMsg = $tableSORMsg ? $tableSORMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_SRO_TERM');
+				}
+				else
+				{
+					$tableNoRMsg = $this->params->get('no_results_msg', '');
+					$this->noResultsMsg = $tableNoRMsg ? $tableNoRMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_MATCHING');
+				}
 			}
 		}
 
 		// So our column headings pop out :D (Handy for users that want to put a note in about the field or column sorting
 		JHTML::_('behavior.tooltip');
 
-		$show_description = $params->get('show_description', 1);
-		$show_search = $params->get('show_search', 1);
-		$show_pagination = $params->get('show_pagination', 1);
-		$show_pagination_header = $params->get('show_pagination_header', 0);
-		$show_pagination_footer = $params->get('show_pagination_footer', 1);
-		$show_created_date = $params->get('show_created_date', 1);
-		$show_modified_date = $params->get('show_modified_date', 0);
-		$modification_date_label = $params->get('modification_date_label', '');
-		$show_page_title = $params->get('show_page_title', 1);
-		$pageclass_sfx = $params->get('pageclass_sfx', '');
-		$title_leaf = $params->get('title_field', '');
+		$show_description = $this->params->get('show_description', 1);
+		$show_search = $this->params->get('show_search', 1);
+		$show_pagination = $this->params->get('show_pagination', 1);
+		$show_pagination_header = $this->params->get('show_pagination_header', 0);
+		$show_pagination_footer = $this->params->get('show_pagination_footer', 1);
+		$show_created_date = $this->params->get('show_created_date', 1);
+		$show_modified_date = $this->params->get('show_modified_date', 0);
+		$modification_date_label = $this->params->get('modification_date_label', '');
+		$show_page_title = $this->params->get('show_page_title', 1);
+		$pageclass_sfx = $this->params->get('pageclass_sfx', '');
+		$title_leaf = $this->params->get('title_field', '');
 
 		if ($i = strpos($title_leaf, ':'))
 		{
@@ -201,47 +265,34 @@ class EasyTableProViewRecords extends JView
 
 			if (!$menu_params->get('page_title'))
 			{
-				$params->set('page_title', $full_page_title);
+				$this->params->set('page_title', $full_page_title);
 			}
 		}
 		else
 		{
-			$params->set('page_title', $full_page_title);
+			$this->params->set('page_title', $full_page_title);
 		}
 
-		$page_title = $params->get('page_title');
-
-		// Do we need a No Results Message?
-		if ($this->itemCount == 0)
-		{
-			$searchTerm = $this->state->get('filter.search');
-			$this->sro_showTable = $params->get('sro_showtable', 1);
-
-			if ($searchTerm == '')
-			{
-				$tableSORMsg = $params->get('sro_msg', '');
-				$this->noResultsMsg = $tableSORMsg ? $tableSORMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_SRO_TERM');
-			}
-			else
-			{
-				$tableNoRMsg = $params->get('no_results_msg', '');
-				$this->noResultsMsg = $tableNoRMsg ? $tableNoRMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_MATCHING');
-			}
-		}
+		$page_title = $this->params->get('page_title');
 
 		// Get the default image directory from the table.
 		$imageDir = $easytable->defaultimagedir;
 
 		// If required get the document and load the js for table sorting
 		$doc = JFactory::getDocument();
-		$SortableTable = $params->get('make_tables_sortable');
-
-		if ($SortableTable)
-		{
-			$doc->addScript(JURI::base() . 'media/com_easytablepro/js/webtoolkit.sortabletable.js');
-		}
-
 		$easytables_table_meta = $easytable->table_meta;
+
+		if (!$wereAjaxing)
+		{
+			// Sortable?
+			$SortableTable = $this->params->get('make_tables_sortable');
+
+			if ($SortableTable)
+			{
+				$this->SortableTable = $SortableTable;
+				$doc->addScript(JURI::base() . 'media/com_easytablepro/js/webtoolkit.sortabletable.js');
+			}
+		}
 
 		// Make sure at least 1 field is set to display
 		$etmCount = count($easytables_table_meta);
@@ -256,28 +307,27 @@ class EasyTableProViewRecords extends JView
 		$formAction = JRoute::_(JURI::getInstance()->toString());
 
 		// Assing these items for use in the tmpl
-		$this->assign('show_description', $show_description);
-		$this->assign('show_search', $show_search);
-		$this->assign('show_pagination', $show_pagination);
-		$this->assign('show_pagination_header', $show_pagination_header);
-		$this->assign('show_pagination_footer', $show_pagination_footer);
+		$this->show_description        = $show_description;
+		$this->show_search             = $show_search;
+		$this->show_pagination         = $show_pagination;
+		$this->show_pagination_header  = $show_pagination_header;
+		$this->show_pagination_footer  = $show_pagination_footer;
 
-		$this->assign('show_created_date', $show_created_date);
-		$this->assign('show_modified_date', $show_modified_date);
-		$this->assign('modification_date_label', $modification_date_label);
+		$this->show_created_date       = $show_created_date;
+		$this->show_modified_date      = $show_modified_date;
+		$this->modification_date_label = $modification_date_label;
 
-		$this->assign('show_page_title', $show_page_title);
-		$this->assign('page_title', $page_title);
-		$this->assign('pageclass_sfx', $pageclass_sfx);
+		$this->show_page_title         = $show_page_title;
+		$this->page_title              = $page_title;
+		$this->pageclass_sfx           = $pageclass_sfx;
 
-		$this->assign('SortableTable', $SortableTable);
-
-		$this->assign('tableId', $id);
-		$this->assign('imageDir', $imageDir);
-		$this->assignRef('easytables_table_meta', $easytables_table_meta);
-		$this->formAction = $formAction;
-		$this->assign('etmCount', $etmCount);
-		$this->title_leaf = $title_leaf;
+		$this->tableId                 = $id;
+		$this->imageDir                = $imageDir;
+		$this->easytable               = $easytable;
+		$this->easytables_table_meta   = $easytables_table_meta;
+		$this->formAction              = $formAction;
+		$this->etmCount                = $etmCount;
+		$this->title_leaf              = $title_leaf;
 		parent::display($tpl);
 	}
 
@@ -290,7 +340,7 @@ class EasyTableProViewRecords extends JView
 	 *
 	 * @return  string
 	 *
-	 *@todo Is this used anymore? Removal recommended :D
+	 * @todo Is this used anymore? Removal recommended :D
 	 */
 	private function getLeafField($title_leaf_id, $table_meta)
 	{
@@ -301,7 +351,203 @@ class EasyTableProViewRecords extends JView
 				return $fieldMeta['fieldalias'];
 			}
 		}
+
 		return 'id';
+	}
+
+	/**
+	 * Load JQuery (if req) and the DataTables plugins.
+	 *
+	 * @param   JApplication  $jAp  The Joomla instance.
+	 *
+	 * @return  null
+	 */
+	private function loadDataTables($jAp)
+	{
+		$loadJQ = $this->params->get('load_jquery', 0);
+		$loadJQUI = $this->params->get('load_jqueryui', 0);
+		$doc = JFactory::getDocument();
+		$minOrNot = JDEBUG ? '.min' : '';
+		$versionJQ = $this->params->get('load_jquery_version', '1.9.1');
+		$versionJQUI = $this->params->get('load_jqueryui_version', '1.10.3');
+
+		// Load JQuery
+		switch ($loadJQ)
+		{
+			case 1: // From local
+			{
+				$doc->addScript('media/com_easytablepro/js/jquery/jquery-' . $versionJQ . $minOrNot . '.js');
+				break;
+			}
+			case 2: // From Google
+			{
+				$doc->addScript('http://ajax.googleapis.com/ajax/libs/jquery/' . $versionJQ . '/jquery' . $minOrNot . '.js');
+				break;
+			}
+			case 3: // From MediaTemple http://code.jquery.com/jquery-1.10.2.js
+			{
+				$doc->addScript('http://code.jquery.com/jquery-' . $versionJQ . $minOrNot . '.js');
+				break;
+			}
+			default:
+				// We don't load JQ at all.
+		}
+
+		// Load JQuery UI plugin
+		switch ($loadJQUI)
+		{
+			case 1: // From local
+			{
+				$doc->addScript('media/com_easytablepro/js/jquery/jquery-ui-' . $versionJQUI . $minOrNot . '.js');
+				break;
+			}
+			case 2: // From Google
+			{
+				$doc->addScript('http://ajax.googleapis.com/ajax/libs/jqueryui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
+				break;
+			}
+			case 3: // From MediaTemple
+			{
+				$doc->addScript('http://code.jquery.com/ui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
+				break;
+			}
+			default:
+				// We don't load JQUI at all.
+		}
+
+		// Load DataTables
+		$loadDT = $this->params->get('load_datatables', 1);
+
+		switch ($loadDT)
+		{
+			case 1: // From local
+			{
+				$doc->addScript('media/com_easytablepro/js/jquery/jquery.dataTables-1.9.4' . $minOrNot . '.js');
+				break;
+			}
+			case 2: // From Microsoft
+			{
+				$doc->addScript('http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables' . $minOrNot . '.js');
+				break;
+			}
+			default:
+				// We don't load DT at all.
+		}
+
+		// Load Plugins — they have to be local
+		// Numbers in HTML
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.numHtmlSort.js');
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.numHtmlTypeDetect.js');
+
+		// Currency
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.currencySort.js');
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.currencyTypeDetect.js');
+
+		// Formatted Numbers
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.formattedNumSort.js');
+		$doc->addScript('media/com_easytablepro/js/jquery/dataTables.formattedNumTypeDetect.js');
+
+		// Create our Table elements ID
+		$tableID = '#' . htmlspecialchars($this->easytable->easytablealias);
+
+		/**
+		 * We have a few break points that determine the setup of our datatable... this will cause greif amongst users that don't read the docuemtation.
+		 * Client-side processing - DOM sourced data: ~5'000 rows. Speed options: bSortClasses
+		 * Client-side processing - Ajax sourced data: ~50'000 rows. Speed options: bDeferRender
+		 * Server-side processing: millions of rows.
+		 * @todo replace these hard coded numbers for the table size breakpoints with table and global params.
+		 */
+		// We need to attach our menu item id
+		$item_id = $jAp->input->get('Itemid', 0);
+		$ajaxPath = '"/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id='
+			. $this->easytable->id . '&'
+			. JSession::getFormToken() . '=1&'
+			. 'Itemid=' . $item_id . '",';
+
+		// Turn on state saving so DT handles it for all tables
+		$bStateSave = '"bStateSave": true,' . "\n";
+
+		if ($this->easytable->record_count < $this->params->get('datatable_small_sized', 500, ''))
+		{
+			// Small table get all the records and do the processing client side
+			$bProcessing = '';
+			$bServerSide = '';
+			$sAjaxSource = '';
+		}
+		elseif ($this->easytable->record_count < $this->params->get('datatable_small_sized', 1500, ''))
+		{
+			// Medium sized table mixture of client-side processing but with Ajax sourced data
+			$bProcessing = '"bProcessing": true,' . "\n";
+			$bServerSide = '"bServerSide": false,' . "\n";
+			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath . "\n";
+		}
+		else
+		{
+			// Big table, all processing server side all data ajax sourced.
+			$bProcessing = '"bProcessing": true,' . "\n";
+			$bServerSide = '"bServerSide": true,' . "\n";
+			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath . "\n";
+		}
+
+		$dt_init_code  = "window.addEvent('domready', function() { $('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource . $bStateSave;
+
+		$list_limit = $jAp->getUserState('com_easytablepro.dtrecords.' . $item_id . '.' . $this->easytable->id . '.list.limit', 0);
+
+		if (!$list_limit)
+		{
+			$list_limit = $jAp->getCfg('list_limit');
+		}
+
+		$dt_init_code .= '"iDisplayLength": ' . $list_limit . ',' . "\n";
+
+		// @todo Answer this question "Do we give users control over these values?" via Global and Table params?
+		$dt_init_code .= '"aLengthMenu": [[5, 10, 15, 20, 25, 30, 50, 100, -1], [5, 10, 15, 20, 25, 30, 50, 100, "' . JText::_('JALL') . '"]], ' . "\n";
+		$dt_init_code .= '"sPaginationType": "full_numbers", ' . "\n";
+
+		// Hide our ID column
+		$dt_init_code .= '"aoColumnDefs": [{ "bSearchable": false, "bVisible": false, "aTargets": [ 0 ] }]} );} );' . "\n";
+
+		$doc->addScriptDeclaration($dt_init_code);
+
+		// Finally we can load the default CSS or any override found in the templates CSS folder.
+		$defaultCSSFile = 'jquery.dataTables.css';
+
+		if ($this->params->get('load_datatables_css', 1))
+		{
+			$pathToCSS = $this->params->get('datatable_css_override_file');
+
+			if ($pathToCSS == '')
+			{
+				switch ($loadDT)
+				{
+					case 1:
+					{
+						$pathToCSS = '/media/com_easytablepro/css/' . $defaultCSSFile;
+						break;
+					}
+					case 2:
+					{
+						$pathToCSS = 'http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css';
+						break;
+					}
+				}
+			}
+		}
+		else
+		{
+			$pathToTemplate = 'templates/' . $jAp->getTemplate();
+			$pathToCSS = $pathToTemplate . '/css/' . $defaultCSSFile;
+		}
+
+		// Check the local file exists or load the remote
+		if ($loadDT != 3 && file_exists(JPATH_BASE . '/' . $pathToCSS))
+		{
+			$doc->addStyleSheet(JURI::root() . $pathToCSS);
+		}
+		elseif (substr($pathToCSS, 0, 4))
+		{
+			$doc->addStyleSheet($pathToCSS);
+		}
 	}
 
 	/**
@@ -314,7 +560,7 @@ class EasyTableProViewRecords extends JView
 	private function getParams($jAp)
 	{
 		// Component wide & menu based params
-		$GMParams = $jAp->getParams();
+		$GMParams = $jAp->getParams('com_easytablepro');
 		$params = clone $GMParams;
 
 		$tableParams = new JRegistry;

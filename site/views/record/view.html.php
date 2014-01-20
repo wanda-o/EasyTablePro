@@ -24,11 +24,6 @@ require_once JPATH_COMPONENT_SITE . '/helpers/viewfunctions.php';
 class EasyTableProViewRecord extends JView
 {
 	/**
-	 * @var null
-	 */
-	private $_etvetr_currenttable = null;
-
-	/**
 	 * display()
 	 *
 	 * @param   null  $tpl  Our main view controller
@@ -87,6 +82,7 @@ class EasyTableProViewRecord extends JView
 		{
 			$page_title = JText::sprintf('COM_EASYTABLEPRO_SITE_RECORD_PAGE_TITLE_NO_LEAF', $easytable->easytablename);
 		}
+
 		if ( $easytable->params->get('title_links_to_table'))
 		{
 			// Create a backlink
@@ -115,8 +111,10 @@ class EasyTableProViewRecord extends JView
 				{
 					$recURL .= '&rllabel=' . $item->prevRecordId[1];
 				}
+
 				$this->prevrecord = JRoute::_($recURL);
 			}
+
 			$this->nextrecord = '';
 
 			if (isset($item->nextRecordId) && isset($item->nextRecordId[0]))
@@ -127,6 +125,7 @@ class EasyTableProViewRecord extends JView
 				{
 					$recURL .= '&rllabel=' . $item->nextRecordId[1];
 				}
+
 				$this->nextrecord = JRoute::_($recURL);
 			}
 		}

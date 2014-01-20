@@ -44,6 +44,7 @@ class EasyTableModelEasyTableMeta extends JModel
 
 			$this->_data = $this->_getList($query);
 		}
+
 		return $this->_data;
 	}
 }

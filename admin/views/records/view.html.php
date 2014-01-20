@@ -136,10 +136,12 @@ class EasyTableProViewRecords extends JView
 			{
 				JToolBarHelper::addNew('record.add', JText::_('COM_EASYTABLEPRO_RECORDS_NEW_RECORD_BTN'));
 			}
+
 			if ($canDo->get('core.edit'))
 			{
 				JToolBarHelper::editList('record.edit');
 			}
+
 			JToolBarHelper::divider();
 
 			if ($canDo->get('core.delete'))
@@ -151,8 +153,10 @@ class EasyTableProViewRecords extends JView
 					)
 				);
 			}
+
 			JToolBarHelper::divider();
 		}
+
 		JToolBarHelper::cancel('records.cancel', JText::_('COM_EASYTABLEPRO_LABEL_CLOSE'));
 
 		JToolBarHelper::divider();

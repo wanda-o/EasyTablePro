@@ -40,9 +40,9 @@ defined('_JEXEC') or die('Restricted Access');
 		} ?>
 		<div style="clear:both;"></div>
 		<h3><?php echo JText::_('COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_HAS_HEADINGS'); ?></h3>
-		<label for="CSVFileHasHeaders0" id="CSVFileHasHeaders0-lbl" class="radiobtn">No</label>
+		<label for="CSVFileHasHeaders0" id="CSVFileHasHeaders0-lbl" class="radiobtn"><?php echo JText::_('JNO'); ?></label>
 		<input type="radio" name="CSVFileHasHeaders" id="CSVFileHasHeaders0" value="0" checked="checked" class="inputbox">
-		<label for="CSVFileHasHeaders1" id="CSVFileHasHeaders1-lbl" class="radiobtn">Yes</label>
+		<label for="CSVFileHasHeaders1" id="CSVFileHasHeaders1-lbl" class="radiobtn"><?php echo JText::_('JYES'); ?></label>
 		<input type="radio" name="CSVFileHasHeaders" id="CSVFileHasHeaders1" value="1" class="inputbox">
 	<?php if ($this->item->ettd) { // For those users that manage to save a table without importing data... ?>
 		<div  style="clear:both;"> </div>
