@@ -123,6 +123,32 @@ class EasyTableProModelDtRecords extends JModelList
 			$search = $params->get('predefined_search', null);
 		}
 
+		// Sort Order
+		// Define some vars
+		$sortingColumns = array();
+		$sorting = $jInput->getInt('iSortCol_0', null);
+
+		if ($sorting)
+		{
+			$sortedColumnCount = $jInput->getInt('iSortingCols', 0);
+
+			for ($i = 0; $i < $sortedColumnCount; $i++)
+			{
+				// Is this column sortable
+				$columnIndex = $jInput->getInt('iSortCol_' . $i, false);
+				$colSortable = $jInput->get('bSortable_' . $columnIndex);
+				$sortDir = strtoupper($jInput->get('sSortDir_' . $i));
+
+				if ($colSortable == 'true')
+				{
+					$sortingColumns[] = array('columnIndex' => $columnIndex, 'sortDir' => $sortDir);
+				}
+			}
+		}
+
+		$this->setState('sorting.columns', $sortingColumns);
+
+		// Pagination
 		$limit = $this->getUserStateFromRequest($this->context . '.list.limit', 'iDisplayLength', null, 'int');
 		$limitstart = $jInput->getInt('iDisplayStart', 0);
 
@@ -308,8 +334,8 @@ class EasyTableProModelDtRecords extends JModelList
 		}
 
 		// Any column sorting required?
-		// Get columns to be sorted and there direction
-		$sortArray = array();
+		// Get columns to be sorted and the direction
+		$sortArray = $this->getState('sorting.columns');
 
 		// Get each sort column's real name
 		// Store it with it's direction
@@ -318,7 +344,13 @@ class EasyTableProModelDtRecords extends JModelList
 		// If there are DT's sorts use them rather than the default sort order
 		if (!empty($sortArray))
 		{
-			// Add our order elements to $query
+			foreach ($sortArray as $colSortDetails)
+			{
+				// Add our order elements to $query
+				$colName = $theTable->filv[$colSortDetails['columnIndex'] - 1]['fieldalias'];
+				$sortDir = $colSortDetails['sortDir'];
+				$query->order($db->quoteName($colName) . ' ' . $sortDir);
+			}
 		}
 		else
 		{
