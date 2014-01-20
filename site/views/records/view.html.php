@@ -286,10 +286,10 @@ class EasyTableProViewRecords extends JView
 		{
 			// Sortable?
 			$SortableTable = $this->params->get('make_tables_sortable');
+			$this->SortableTable = $SortableTable;
 
 			if ($SortableTable)
 			{
-				$this->SortableTable = $SortableTable;
 				$doc->addScript(JURI::base() . 'media/com_easytablepro/js/webtoolkit.sortabletable.js');
 			}
 		}
