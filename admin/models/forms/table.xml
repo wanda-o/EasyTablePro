@@ -206,8 +206,31 @@
 				name="spacer"
 				type="spacer"
 				default=""
-				label=""
-				description="" />
+				hr="true"
+             />
+            <field name="filter_field"
+                   type="easytablefields"
+                   default=""
+                   label="COM_EASYTABLEPRO_MENU_SELECT_FILTER_FIELD_PROMPT"
+                   description="COM_EASYTABLEPRO_MENU_SELECT_FILTER_FIELD_DESC" />
+            <field name="filter_type"
+                   type="list"
+                   default=""
+                   label="COM_EASYTABLEPRO_MENU_SELECT_FILTER_OPERATOR_PROMPT"
+                   description="COM_EASYTABLEPRO_MENU_SELECT_FILTER_OPERATOR_DESC">
+                <option value="LIKE">COM_EASYTABLEPRO_LABEL_CONTAINS</option>
+                <option value="IS">COM_EASYTABLEPRO_LABEL_IS</option>
+            </field>
+            <field name="filter_value"
+                   type="text"
+                   default=""
+                   label="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_LABEL"
+                   description="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_DESC" />
+            <field
+                    name="spacer1"
+                    type="spacer"
+                    hr="true"
+                    />
 			<field name="searchable_by_joomla"
 				type="list"
 				default=""
