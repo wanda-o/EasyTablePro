@@ -12,6 +12,7 @@ defined('_JEXEC') or die ('Restricted Access');
 
 jimport('joomla.application.component.modellist');
 require_once JPATH_ADMINISTRATOR . '/components/com_easytablepro/helpers/general.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_easytablepro/helpers/recordsviewfunctions.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/viewfunctions.php';
 
 /**
@@ -318,14 +319,14 @@ class EasyTableProModelRecords extends JModelList
 
 		if ($params->get('filter_is_mandatory', 0))
 		{
-			ET_Helper::addFilter($query, $tableParams, $db);
+			ET_RecordsHelper::addFilter($query, $tableParams, $db);
 		}
 
 		// Add menu level filter settings
-		ET_Helper::addFilter($query, $params, $db);
+		ET_RecordsHelper::addFilter($query, $params, $db);
 
 		// Add user id filter
-		ET_Helper::addUserFilter($query, $params, $db);
+		ET_RecordsHelper::addUserFilter($query, $params, $db);
 
 		// Is there a default sort order?
 		$sf = $params->get('sort_field', '');
