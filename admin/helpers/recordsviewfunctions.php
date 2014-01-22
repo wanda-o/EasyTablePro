@@ -17,8 +17,6 @@ defined('_JEXEC') or die('Restricted Access');
  * @since       1.1
  */
 
-require_once ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/general.php'; 
-
 class ET_RecordsHelper
 {
 	/**
