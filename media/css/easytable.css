@@ -18,21 +18,24 @@
 }
 
 .icon-32-easytablpro-linkTable {
+    height: 32px;
+
     background: url(../images/Link-Button_32x64.png) no-repeat left;
     background-position-y: 0px;
-    height: 32px;
 }
 
 .icon-32-easytablpro-uploadTable {
+    height: 32px;
+
     background: url(../images/Upload-Button_32x64.png) no-repeat left;
     background-position-y: 0px;
-    height: 32px;
 }
 
 .icon-32-easytablpro-uploadTable-off {
+    height: 32px;
+
     background: url(../images/Upload-Button_32x64.png) no-repeat left;
     background-position-y: -32px;
-    height: 32px;
 }
 
 .et_mgr_desc {
@@ -40,23 +43,29 @@
 }
 
 .ept_tablelist_table_details, .et_mgr_hits_counter {
-    color: grey;
-    font-style: italic;
-    font-size: 90%;
     margin-left: 10px;
+
+    color: grey;
+
+    font-size: 90%;
+    font-style: italic;
 }
 
 .info-tip {
-    width: 50px;
     position: absolute;
-    background-color: #FFFFCC;
+
     display: none;
+
+    width: 50px;
     padding: 5px;
+
     text-align: left;
-    border-color: #DDDDCC;
+
     border-width: 2px;
+    border-color: #DDDDCC;
     border-right-style: solid;
     border-bottom-style: solid;
+    background-color: #FFFFCC;
 }
 
 .deleteFieldButton {
@@ -76,10 +85,11 @@
 }
 
 .et_version_info {
-    color: grey;
     width: 450px;
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
+
+    color: grey;
 }
 
 #et_meta_table_rows tr.et_new_row, #et_meta_table_rows tr.et_new_row td {
@@ -87,15 +97,18 @@
 }
 
 #uploadWhileModifyingNotice {
-    background-color: #FFFFCC;
     display: none;
+
+    width: 100%;
     padding: 5px;
+
     text-align: left;
-    border-color: #DDDDCC;
+
     border-width: 2px;
+    border-color: #DDDDCC;
     border-right-style: solid;
     border-bottom-style: solid;
-    width: 100%;
+    background-color: #FFFFCC;
 }
 
 #uploadWhileModifyingNotice p {
@@ -104,14 +117,16 @@
 }
 
 #etp_stats_panel {
-    margin-left: 0px;
     margin-right: 0px;
+    margin-left: 0px;
 }
 
 .et_nodirectory {
-    font-style: italic;
-    color: red;
     float: right;
+
+    color: red;
+
+    font-style: italic;
 }
 
 .et_mgr_hits_counter {
