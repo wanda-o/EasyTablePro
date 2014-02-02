@@ -75,9 +75,6 @@ class EasyTableProViewRecords extends JView
 		$easytable  = $this->get('EasyTable');
 		$this->easytable = $easytable;
 
-		// Component wide & menu based params
-		$this->params = $this->getParams($jAp);
-
 		if (empty($easytable))
 		{
 			$id = $jInput->get('id', 0);
@@ -85,6 +82,9 @@ class EasyTableProViewRecords extends JView
 			// Throw 404 if no table
 			return JError::raiseWarning(404, JText::sprintf('COM_EASYTABLEPRO_SITE_TABLE_NOT_AVAILABLE', $id));
 		}
+
+		// Component wide & menu based params
+		$this->params = $this->getParams($jAp);
 
 		// Get the user
 		$this->user		= $user;
@@ -286,10 +286,10 @@ class EasyTableProViewRecords extends JView
 		{
 			// Sortable?
 			$SortableTable = $this->params->get('make_tables_sortable');
+			$this->SortableTable = $SortableTable;
 
 			if ($SortableTable)
 			{
-				$this->SortableTable = $SortableTable;
 				$doc->addScript(JURI::base() . 'media/com_easytablepro/js/webtoolkit.sortabletable.js');
 			}
 		}

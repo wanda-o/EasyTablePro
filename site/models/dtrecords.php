@@ -12,6 +12,7 @@ defined('_JEXEC') or die ('Restricted Access');
 
 jimport('joomla.application.component.modellist');
 require_once JPATH_ADMINISTRATOR . '/components/com_easytablepro/helpers/general.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_easytablepro/helpers/recordsviewfunctions.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/viewfunctions.php';
 
 /**
@@ -215,8 +216,7 @@ class EasyTableProModelDtRecords extends JModelList
 		$tableParams->loadString($theTable->params);
 
 		// Get the components global params
-		$params = $jAp->getParams('com_easytablepro');
-		$params->merge($tableParams);
+		$compParams = $jAp->getParams('com_easytablepro');
 
 		// Get the menu params
 		$theMenus = $jAp->getMenu();
@@ -241,6 +241,11 @@ class EasyTableProModelDtRecords extends JModelList
 		}
 
 		$menuParams = $menuItem->params;
+
+		// Create our master params
+		$params = new JRegistry;
+		$params->merge($compParams);
+		$params->merge($tableParams);
 		$params->merge($menuParams);
 
 		// Convert all fields to the SQL select
@@ -305,33 +310,16 @@ class EasyTableProModelDtRecords extends JModelList
 			$jAp->setUserState($this->context . '.search.rids', '');
 		}
 
-		// Add menu filter settings
-		// Is the table filtered?
-		$ff = $params->get('filter_field', '');
-		$ff = substr($ff, strpos($ff, ':') + 1);
-		$ft = $params->get('filter_type', '');
-		$fv = $params->get('filter_value', '');
-
-		if ($ff && $ft && $fv)
+		if ($params->get('filter_is_mandatory', 0))
 		{
-			$ff = $db->quoteName($ff);
-			$whereCond = $ft == 'LIKE' ? $ff . ' LIKE ' . $db->quote('%' . $fv . '%') : $ff . ' LIKE ' . $db->quote($fv);
-			$query->where($whereCond);
+			ET_RecordsHelper::addFilter($query, $tableParams, $db);
 		}
+
+		// Add menu level filter settings
+		ET_RecordsHelper::addFilter($query, $params, $db);
 
 		// Add user id filter
-		$uf  = $params->get('enable_user_filter', 0);
-		$ufb = $params->get('filter_records_by', '');
-		$uff = $params->get('user_filter_field', '');
-
-		if ($uf && $ufb && $uff)
-		{
-			$uff = $db->quoteName($uff);
-			$user = JFactory::getUser();
-			$userValue = $ufb == 'id' ? $user->id : $user->username;
-			$whereCond = $uff . ' = ' . $db->quote($userValue);
-			$query->where($whereCond);
-		}
+		ET_RecordsHelper::addUserFilter($query, $params, $db);
 
 		// Any column sorting required?
 		// Get columns to be sorted and the direction

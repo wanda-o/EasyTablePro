@@ -367,6 +367,7 @@ class ET_Helper
 		return $matchedFields;
 	}
 
+	/** GENERIC HELPER FUNCTIONS **/
 	/**
 	 * removeEmptyLines()
 	 *
