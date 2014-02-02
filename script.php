@@ -556,6 +556,17 @@ class Com_EasyTableProInstallerScript
 		// $parent is the class calling this method
 		// $type is the type of change (install, update or discover_install)
 		echo  JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_' . strtoupper($type) . '_TEXT');
+
+		// Only allow to install on Joomla! 2.5.6 or later
+		if (version_compare(JVERSION, '2.5.1', 'le') || version_compare(JVERSION, '3.0.0', 'ge'))
+		{
+			$msg = JText::sprintf('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_INVALID_VERSION', JVERSION, $this->et_this_version);
+			JError::raiseWarning(100, $msg);
+
+			return false;
+		}
+
+		return true;
 	}
  
 	/**
