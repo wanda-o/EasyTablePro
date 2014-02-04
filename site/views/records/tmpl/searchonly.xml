@@ -79,9 +79,31 @@
 				default=""
 				label="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_LABEL"
 				description="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_DESC" />
-            <field name="spacer2"
-                   type="spacer"
-                   hr="true"
+            <field
+                    name="spacer2"
+                    type="spacer"
+                    hr="true"
+                    />
+            <field name="advanced_filter"
+                   type="list"
+                   default=""
+                   label="COM_EASYTABLEPRO_MENU_ENABLE_ADVANCED_FILTER_LABEL"
+                   description="COM_EASYTABLEPRO_MENU_ENABLE_ADVANCED_FILTER_DESC">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+            <field name="advanced_filter_value"
+                   type="textarea"
+                   filter="raw"
+                   cols="45"
+                   rows="5"
+                   default=""
+                   label="COM_EASYTABLEPRO_MENU_ADVANCED_FILTER_VALUE_LABEL"
+                   description="COM_EASYTABLEPRO_MENU_ADVANCED_FILTER_VALUE_DESC" />
+            <field
+                    name="spacer3"
+                    type="spacer"
+                    hr="true"
                     />
             <field name="no_results_msg"
                    type="textarea"
@@ -89,7 +111,7 @@
                    filter="raw"
                    label="COM_EASYTABLEPRO_MENU_TABLE_NOR_MSG_LABEL"
                    description="COM_EASYTABLEPRO_MENU_TABLE_NOR_MSG_DESC" />
-            <field name="spacer3"
+            <field name="spacer4"
                    type="spacer"
                    hr="true"
                     />

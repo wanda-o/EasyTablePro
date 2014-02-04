@@ -101,9 +101,18 @@ class EasyTableProModelLink extends JModelList
 		$allReadyLinked   = $this->getAlreadyLinkedTables();
 
 		// Construct our query
-		$query->select($db->quoteName('TABLE_NAME'));
+		$query->select($db->quoteName('TABLES') . '.' . $db->quoteName('TABLE_NAME'));
+		$query->select($db->quoteName('KEY_COLUMN_USAGE') . '.' . $db->quoteName('COLUMN_NAME'));
 		$query->from($db->quoteName('INFORMATION_SCHEMA') . '.' . $db->quoteName('TABLES'));
-		$query->where($db->quoteName('TABLE_SCHEMA') . ' LIKE ' . $db->quote($cfgDBName));
+		$query->leftJoin(
+			$db->quoteName('INFORMATION_SCHEMA') . '.' . $db->quoteName('KEY_COLUMN_USAGE') . ' ON ' .
+			$db->quoteName('INFORMATION_SCHEMA') . '.' . $db->quoteName('TABLES') . '.' . $db->quoteName('TABLE_NAME') . ' = ' .
+			$db->quoteName('INFORMATION_SCHEMA') . '.' . $db->quoteName('KEY_COLUMN_USAGE') . '.' . $db->quoteName('TABLE_NAME')
+		);
+		$query->where(
+			$db->quoteName('INFORMATION_SCHEMA') . '.' . $db->quoteName('TABLES') . '.' . $db->quoteName('TABLE_SCHEMA') .
+			' LIKE ' . $db->quote($cfgDBName)
+		);
 
 		// Add the table to be excluded to the query
 		$this->addNotLikeSQL($query, $stdRestrictedTables);
@@ -145,7 +154,12 @@ class EasyTableProModelLink extends JModelList
 
 		foreach ($excluded as $tableString)
 		{
-			$query->where($db->quoteName('TABLE_NAME') . ' NOT LIKE ' . $db->quote('%' . $tableString . '%'));
+			$query->where(
+				$db->quoteName('INFORMATION_SCHEMA') . '.' .
+				$db->quoteName('TABLES') . '.' .
+				$db->quoteName('TABLE_NAME') . ' NOT LIKE ' .
+				$db->quote('%' . $tableString . '%')
+			);
 		}
 	}
 
@@ -164,7 +178,14 @@ class EasyTableProModelLink extends JModelList
 
 		foreach ($arr as $item)
 		{
-			$retArr[] = array('value' => $item->TABLE_NAME, 'text' => $item->TABLE_NAME);
+			$newElement = array('value' => $item->TABLE_NAME, 'text' => $item->TABLE_NAME);
+
+			if (is_null($item->COLUMN_NAME))
+			{
+				$newElement['disable'] = true;
+			}
+
+			$retArr[] = $newElement;
 		}
 
 		return $retArr;
@@ -179,8 +200,6 @@ class EasyTableProModelLink extends JModelList
 	 */
 	protected function getRestrictedTables()
 	{
-		$jAp = JFactory::getApplication();
-
 		// Load the components Global default parameters.
 		$params = JComponentHelper::getParams('com_easytablepro');
 		$restrictedTables = $params->get('restrictedTables', '');
@@ -213,6 +232,7 @@ class EasyTableProModelLink extends JModelList
 		{
 			JError::raiseError(500, JText::_('COM_EASYTABLEPRO_LINK_NO_TABLE_LIST'));
 		}
+
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('datatablename'));
 		$query->from($db->quoteName('#__easytables'));

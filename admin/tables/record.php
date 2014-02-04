@@ -35,7 +35,7 @@ class EasyTableProTableRecord extends JTable
 		else
 		{
 			return false;
+		}
 	}
-}
 }
 

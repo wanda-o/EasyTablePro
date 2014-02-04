@@ -26,6 +26,7 @@
 	{
 		$mod_dl = $this->modification_date_label . ' ' . JHTML::_('date', $this->easytable->modified_, JText::_('DATE_FORMAT_LC2'));
 	}
+
 	echo ($this->show_modified_date ? '<p class="modifydate">' . $mod_dl . '</p>' : '');
 	echo ($this->show_description ? '<div class="et_description">' . $this->easytable->description . '</div>' : '') ?>
 	<div id="easytable-<?php echo htmlspecialchars($this->easytable->easytablealias); ?>">
@@ -93,13 +94,13 @@
 			?>
 		</table>
 		<?php
-			if ($this->SortableTable)
-			{ ?>
-		<script type="text/javascript">
+			if (isset($this->SortableTable) && $this->SortableTable)
+			{ ?> <script type="text/javascript">
 			var t = new SortableTable(document.getElementById('<?php echo htmlspecialchars($this->easytable->easytablealias); ?>'), 'etAscending', 'etDescending');
 		</script>
 		<?php
 			}
+
 				if ($this->show_pagination && $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
 				{
 					echo '<div class="pagination">';

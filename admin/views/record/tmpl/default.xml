@@ -13,12 +13,12 @@
             <param name="rid" type="text" default="" label="COM_EASYTABLEPRO_MENU_RECORD_DISPLAY_SELECT_RECORD" description="COM_EASYTABLEPRO_MENU_RECORD_DISPLAY_SELECT_RECORD_DESC" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="title_links_to_table" type="radio" default="0" label="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE" description="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE_DESC" >
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</param>
 			<param name="show_linked_table" type="radio" default="0" label="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE" description="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE_DESC" >
-				<option value="1">Yes</option>
-				<option value="0">No</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</param>
         </url>
     </state>

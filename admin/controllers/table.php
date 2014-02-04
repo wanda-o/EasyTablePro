@@ -92,6 +92,7 @@ class EasyTableProControllerTable extends JControllerForm
 					}
 				}
 			}
+
 			// 3. Time to save the meta records
 			$updateMetaResult = $this->updateMeta();
 
@@ -114,6 +115,7 @@ class EasyTableProControllerTable extends JControllerForm
 		{
 			$s = stripslashes($s);
 		}
+
 		return $s;
 	}
 
@@ -243,6 +245,7 @@ class EasyTableProControllerTable extends JControllerForm
 				return false;
 			}
 		}
+
 		$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_FIELD_SETTINGS_UPDATED_SUCCESSFULLY'));
 
 		return true;
@@ -307,6 +310,7 @@ class EasyTableProControllerTable extends JControllerForm
 			// Store the new field data for the ALTER statement of the original
 			$newFldsAlterArray[] = '`' . $new_et_fldAlias . '` ' . $this->getFieldTypeAsSQL($new_et_type);
 		}
+
 		// 2.0 Perfrom the actual Meta insert.
 		// Get a database object
 		$db = JFactory::getDBO();
@@ -317,6 +321,7 @@ class EasyTableProControllerTable extends JControllerForm
 
 			return false;
 		}
+
 		// 2. Set the insertSQL as the query and execute it.
 		$db->setQuery($insertSQL);
 		$db_result = $db->query();
@@ -344,6 +349,7 @@ class EasyTableProControllerTable extends JControllerForm
 
 			return false;
 		}
+
 		return true;
 	}
 
@@ -367,6 +373,7 @@ class EasyTableProControllerTable extends JControllerForm
 		{
 			return false;
 		}
+
 		$jAp = JFactory::getApplication();
 		$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_STARTING_FIELD_REMOVAL'));
 		$id = $tableID;
@@ -468,6 +475,7 @@ class EasyTableProControllerTable extends JControllerForm
 				)
 			);
 		}
+
 		return true;
 	}
 
@@ -502,6 +510,7 @@ class EasyTableProControllerTable extends JControllerForm
 			default:
 				$sqlFieldType = false;
 		}
+
 		return $sqlFieldType;
 	}
 

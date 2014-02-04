@@ -12,6 +12,7 @@ defined('_JEXEC') or die ('Restricted Access');
 
 jimport('joomla.application.component.modellist');
 require_once JPATH_ADMINISTRATOR . '/components/com_easytablepro/helpers/general.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_easytablepro/helpers/recordsviewfunctions.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/viewfunctions.php';
 
 /**
@@ -28,20 +29,20 @@ class EasyTableProModelRecords extends JModelList
 	 * Items total
 	 * @var integer
 	 */
-	private $_total = null;
+	private $total = null;
 
 	/**
- 	 * Pagination object
+	 * Pagination object
 	 * @var object
 	 */
-	private $_pagination = null;
+	private $pagination = null;
 
 	/**
- 	 *
- 	 * Search text
- 	 * @var string
- 	 */
-	private $_search = null;
+	 *
+	 * Search text
+	 * @var string
+	 */
+	private $search = null;
 
 	/**
 	 * EasyTables object
@@ -206,8 +207,7 @@ class EasyTableProModelRecords extends JModelList
 		$tableParams->loadString($theTable->params);
 
 		// Get the components global params
-		$params = $jAp->getParams('com_easytablepro');
-		$params->merge($tableParams);
+		$compParams = $jAp->getParams('com_easytablepro');
 
 		// Get the menu params
 		$theMenus = $jAp->getMenu();
@@ -232,6 +232,11 @@ class EasyTableProModelRecords extends JModelList
 		}
 
 		$menuParams = $menuItem->params;
+
+		// Create our master params
+		$params = new JRegistry;
+		$params->merge($compParams);
+		$params->merge($tableParams);
 		$params->merge($menuParams);
 
 		// Now that we have our merged params
@@ -312,37 +317,31 @@ class EasyTableProModelRecords extends JModelList
 			$jAp->setUserState($this->context . '.search.rids', '');
 		}
 
-		// Add menu filter settings
-		// Is the table filtered?
-		$ff = $params->get('filter_field', '');
-		$ff = substr($ff, strpos($ff, ':') + 1);
-		$ft = $params->get('filter_type', '');
-		$fv = $params->get('filter_value', '');
-
-		if ($ff && $ft && $fv)
+		if ($params->get('filter_is_mandatory', 0))
 		{
-			$ff = $db->quoteName($ff);
-			$whereCond = $ft == 'LIKE' ? $ff . ' LIKE ' . $db->quote('%' . $fv . '%') : $ff . ' LIKE ' . $db->quote($fv);
-			$query->where($whereCond);
+			ET_RecordsHelper::addFilter($query, $tableParams, $db);
+
+			if ($tableParams->get('advanced_filter', 0))
+			{
+				ET_RecordsHelper::addAdvancedFilters($theTable, $query, $tableParams, $db);
+			}
+		}
+
+		// Add menu level filter settings
+		ET_RecordsHelper::addFilter($query, $params, $db);
+
+		// Add Advanced filter
+		if ($params->get('advanced_filter', 0))
+		{
+			ET_RecordsHelper::addAdvancedFilters($theTable, $query, $params, $db);
 		}
 
 		// Add user id filter
-		$uf  = $params->get('enable_user_filter', 0);
-		$ufb = $params->get('filter_records_by', '');
-		$uff = $params->get('user_filter_field', '');
-
-		if ($uf && $ufb && $uff)
-		{
-			$uff = $db->quoteName($uff);
-			$user = JFactory::getUser();
-			$userValue = $ufb == 'id' ? $user->id : $user->username;
-			$whereCond = $uff . ' = ' . $db->quote($userValue);
-			$query->where($whereCond);
-		}
+		ET_RecordsHelper::addUserFilter($query, $params, $db);
 
 		// Is there a default sort order?
 		$sf = $params->get('sort_field', '');
-		$sf = substr($sf, strpos($sf, ':') + 1);
+		$sf = strpos($sf, ':') ? substr($sf, strpos($sf, ':') + 1) : $sf;
 		$so = $params->get('sort_order', '');
 
 		if ($sf && $so)
@@ -368,39 +367,12 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	public function &getEasyTable($pk = 0)
 	{
-		if(!$this->et)
+		if (!$this->et)
 		{
 			$this->et = ET_Helper::getEasyTable($pk);
 		}
 
 		return $this->et;
-	}
-
-	/**
-	 * &getEasyTableMeta() returns the meta records for the EasyTable ID
-	 *
-	 * @param   int     $id       pk value for the easytable.
-	 *
-	 * @param   string  $orderby  The field meta records are ordered by (defaults to position but could be by id).
-	 *
-	 * @return  array
-	 */
-	private function &getEasyTableMeta($id, $orderby = 'position')
-	{
-		// Setup basic variables
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Get the meta data for this table
-		$query->select('*');
-		$query->from('#__easytables_table_meta');
-		$query->where($db->quoteName('easytable_id') . '=' . $db->quote($id));
-		$query->order($db->quoteName($orderby));
-
-		$db->setQuery($query);
-		$easytables_table_meta = $db->loadAssocList('fieldalias');
-
-		return $easytables_table_meta;
 	}
 
 	/**

@@ -2,8 +2,8 @@
 <config>
 	<fieldset
 		name="tables"
-		label="EasyTable Pro Default Settings"
-		description="These settings act as the global defaults for each table.">
+		label="COM_EASYTABLEPRO_PREF__TAB_DEFAULT_SETTINGS"
+		description="COM_EASYTABLEPRO_PREF__TAB_DEFAULT_SETTINGS_DESC">
 
 		<field
 			name="title_links_to_table"
@@ -11,8 +11,8 @@
 			label="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE"
 			description="COM_EASYTABLEPRO_PREF_TITLE_LINKS_TO_TABLE_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_description"
@@ -21,8 +21,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_DESCRIPTION"
 			description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_DESCRIPTION_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_search"
@@ -30,8 +30,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_SEARCH"
 			description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_SEARCH_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_pagination"
@@ -39,8 +39,8 @@
 			label="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION"
 			description="COM_EASYTABLEPRO_PREF_ENABLE_TABLE_PAGINATION_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_pagination_header"
@@ -48,8 +48,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_PAGES_DESC"
 			description="COM_EASYTABLEPRO_PREF_PAGINATION_CONTROLS_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_pagination_footer"
@@ -57,8 +57,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_TABLE_PAGINATION_FOOTER"
 			description="COM_EASYTABLEPRO_PREF_SHOW_TABLE_PAGINATION_FOOTER_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_next_prev_record_links"
@@ -66,8 +66,8 @@
 			label="COM_EASYTABLEPRO_PREF_NEXT_PREV_LINKS_LABEL"
 			description="COM_EASYTABLEPRO_PREF_SHOW_NEXT_PREV_LINKS"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_created_date"
@@ -75,8 +75,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_CREATION_DATE"
 			description="COM_EASYTABLEPRO_PREF_SHOW_CREATION_DATE_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="show_modified_date"
@@ -84,8 +84,8 @@
 			label="COM_EASYTABLEPRO_PREF_SHOW_MODIFIED_DATE"
 			description="COM_EASYTABLEPRO_PREF_SHOW_MODIFIED_DATE_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="modification_date_label"
@@ -100,42 +100,178 @@
 			label="COM_EASYTABLEPRO_PREF_MAKE_TABLES_SORTABLE"
 			description="COM_EASYTABLEPRO_PREF_MAKE_TABLE_SORTABLE_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
-			name="spacer1"
+			name="spacer"
 			type="spacer"
 			hr="true"
 		/>
+        <field name="filter_is_mandatory"
+               label="COM_EASYTABLEPRO_PREF_TABLE_FITLER_IS_MANDATORY_LABEL"
+               type="radio"
+               default="0"
+               description="COM_EASYTABLEPRO_PREF_TABLE_FITLER_IS_MANDATORY_DESC">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="spacer1"
+                type="spacer"
+                hr="true"
+                />
 		<field
 			name="show_linked_table"
 			type="radio" default="0"
 			label="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE"
 			description="COM_EASYTABLEPRO_PREF_SHOW_LINKED_TABLE_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
-		<field
-			name="spacer1"
-			type="spacer"
-			hr="true"
-		/>
+    </fieldset>
+
+    <fieldset name="advanced"
+              label="COM_EASYTABLEPRO_PREF__TAB_ADVANCED_SETTINGS"
+              description="COM_EASYTABLEPRO_PREF__TAB_ADVANCED_SETTINGS_DESC"
+            >
 		<field
 			name="searchable_by_joomla"
 			type="radio" default="1"
 			label="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA"
 			description="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA_DESC"
 		>
-			<option value="1">Yes</option>
-			<option value="0">No</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
+        <field
+                name="spacer2"
+                type="spacer"
+                hr="true"
+                />
+        <field
+                name="enable_ajax_tables"
+                type="radio" default="1"
+                label="COM_EASYTABLEPRO_PREF_AJAX"
+                description="COM_EASYTABLEPRO_PREF_AJAX_DESC"
+                >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+                name="load_jquery"
+                type="list" default="0"
+                label="COM_EASYTABLEPRO_PREF_LOAD_JQUERY"
+                description="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_DESC"
+                >
+            <option value="0">JNO</option>
+            <option value="1">COM_EASYTABLEPRO_PREF_LOAD_JQUERY_FROM_LOCAL</option>
+            <option value="2">COM_EASYTABLEPRO_PREF_LOAD_JQUERY_FROM_GOOGLE</option>
+            <option value="3">COM_EASYTABLEPRO_PREF_LOAD_JQUERY_FROM_MEDIATEMPLE</option>
+        </field>
+        <field
+                name="load_jquery_version"
+                type="list" default="1.10.2"
+                label="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_VERSION"
+                description="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_VERSION_DESC"
+                >
+            <option value="1.10.2">1.10.2</option>
+            <option value="1.9.1">1.9.1</option>
+            <option value="1.8.3">1.8.3</option>
+            <option value="1.7.2">1.7.2</option>
+        </field>
+        <field
+                name="load_jqueryui"
+                type="list" default="1"
+                label="COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI"
+                description="COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_DESC"
+                >
+            <option value="0">JNO</option>
+            <option value="1">COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_FROM_LOCAL</option>
+            <option value="2">COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_FROM_GOOGLE</option>
+            <option value="3">COM_EASYTABLEPRO_PREF_LOAD_JQUERYUI_FROM_MEDIATEMPLE</option>
+        </field>
+        <field
+                name="load_jqueryui_version"
+                type="list" default="1.10.3"
+                label="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_VERSION"
+                description="COM_EASYTABLEPRO_PREF_LOAD_JQUERY_VERSION_DESC"
+                >
+            <option value="1.10.3">1.10.3</option>
+            <option value="1.9.2">1.9.2</option>
+            <option value="1.8.24">1.8.24</option>
+        </field>
+        <field
+                name="spacer3"
+                type="spacer"
+                hr="true"
+                />
+        <field
+                name="uninstall_type"
+                type="radio" default="0"
+                label="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE"
+                description="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE_DESC"
+                >
+            <option value="1">COM_EASYTABLEPRO_PREF_UNINSTALL_COMPLETE</option>
+            <option value="0">COM_EASYTABLEPRO_PREF_UNINSTALL_PARTIAL</option>
+        </field>
 	</fieldset>
 
+    <fieldset name="datatables"
+              label="COM_EASYTABLEPRO_PREF_TAB_DATATABLES_SETTINGS"
+              description="COM_EASYTABLEPRO_PREF_TAB_DATATABLES_SETTINGS_DESC"
+            >
+        <field
+                name="load_datatables"
+                type="list" default="1"
+                label="COM_EASYTABLEPRO_PREF_LOAD_DATATABLES"
+                description="COM_EASYTABLEPRO_PREF_LOAD_DATATABLES_DESC"
+                >
+            <option value="0">JNO</option>
+            <option value="1">COM_EASYTABLEPRO_PREF_LOAD_DATATABLES_FROM_LOCAL</option>
+            <option value="2">COM_EASYTABLEPRO_PREF_LOAD_DATATABLES_FROM_MSCDN</option>
+        </field>
+
+        <field
+                name="datatable_small_sized"
+                type="text" default="500"
+                label="COM_EASYTABLEPRO_PREF_SMALL_DT_LABEL"
+                description="COM_EASYTABLEPRO_PREF_SMALL_DT_DESC"
+                filter="integer"
+                />
+
+        <field
+                name="datatable_medium_sized"
+                type="text" default="1500"
+                label="COM_EASYTABLEPRO_PREF_MEDIUM_DT_LABEL"
+                description="COM_EASYTABLEPRO_PREF_MEDIUM_DT_DESC"
+                filter="integer"
+                />
+
+        <field
+                name="datatable_css_override_file"
+                type="text"
+                size="50"
+                label="COM_EASYTABLEPRO_PREF_DATATABLE_CSS_OVERRIDE_FILE"
+                description="COM_EASYTABLEPRO_PREF_DATATABLE_CSS_OVERRIDE_FILE_DESC"
+                />
+
+        <field
+                name="use_datatables_reveal"
+                type="list" default="1"
+                label="COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES"
+                description="COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_DESC"
+                >
+            <option value="0">COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_NO</option>
+            <option value="1">COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_ONLY</option>
+            <option value="2">COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_BOTH</option>
+        </field>
+    </fieldset>
+
 	<fieldset name="processing"
-		label="COM_EASYTABLEPRO_PREF_PROCESSING"
-		description="COM_EASYTABLEPRO_PREF_PROCESSING_DESC"
+		label="COM_EASYTABLEPRO_PREF__TAB_PROCESSING_SETTINGS"
+		description="COM_EASYTABLEPRO_PREF__TAB_PROCESSING_SETTINGS_DESC"
 	>
 
 		<field
@@ -161,15 +297,6 @@
 			rows="8"
 			cols="64"
 		/>
-		<field
-			name="uninstall_type"
-			type="radio" default="0"
-			label="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE"
-			description="COM_EASYTABLEPRO_PREF_UNINSTALL_TYPE_DESC"
-		>
-			<option value="1">COM_EASYTABLEPRO_PREF_UNINSTALL_COMPLETE</option>
-			<option value="0">COM_EASYTABLEPRO_PREF_UNINSTALL_PARTIAL</option>
-		</field>
 	</fieldset>
 
 	<fieldset name="permissions"

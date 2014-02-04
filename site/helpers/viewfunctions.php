@@ -22,17 +22,17 @@ class ET_VHelper
 	/**
 	 * Get Field With Options
 	 *
-	 * @param   string      $f                field value
+	 * @param   string        $f                field value
 	 *
-	 * @param   int         $type             defined type
+	 * @param   int           $type             defined type
 	 *
-	 * @param   array|null  $params           field options
+	 * @param   array|null    $params           field options
 	 *
-	 * @param   array       $OrigRow          original row from table
+	 * @param   array|object  $OrigRow          original row from table
 	 *
-	 * @param   string      $currentImageDir  path to the currently active image directory for this row
+	 * @param   string        $currentImageDir  path to the currently active image directory for this row
 	 *
-	 * @return string   The orignal value after formatting and substitutions.
+	 * @return  string        The orignal value after formatting and substitutions.
 	 *
 	 * @since  1.0
 	 **/
@@ -188,6 +188,7 @@ class ET_VHelper
 			{
 				$currentImageDir = $currentImageDir . '/';
 			}
+
 			$pathToImage = JURI::root() . $currentImageDir . $f;
 
 			if ($fieldOptions == '')
@@ -203,6 +204,7 @@ class ET_VHelper
 		{
 			$fieldWithOptions = '<!-- ' . JText::_('COM_EASYTABLEPRO_SITE_NO_IMAGE_NAME') . ' -->';
 		}
+
 		return $fieldWithOptions;
 	}
 
@@ -226,8 +228,6 @@ class ET_VHelper
 		{
 			$URLTarget = '';
 		}
-
-		$fieldWithOptions = '';
 
 		// Check for a fully formed HREF tab provided by CSV - owners responsibility
 		if (substr($f, 0, 8) == '<a href=')
@@ -262,8 +262,6 @@ class ET_VHelper
 	 */
 	public static function getMailWithOptions($f, $fieldOptions)
 	{
-		$fieldWithOptions = '';
-
 		if (empty($fieldOptions))
 		{
 			$fieldWithOptions = JHTML::_('Email.cloak', trim($f));
@@ -357,8 +355,6 @@ class ET_VHelper
 	 */
 	public static function getDateWithOptions($f, $fieldOptions)
 	{
-		$fieldWithOptions = '';
-
 		if (($timestamp = strtotime($f)) === false)
 		{
 			$fieldWithOptions = trim($f) . '<!-- Not a valid date/time string for `strtotime()` -->';
@@ -375,6 +371,7 @@ class ET_VHelper
 				$fieldWithOptions = date($fieldOptions, $timestamp);
 			}
 		}
+
 		return $fieldWithOptions;
 	}
 
@@ -395,6 +392,7 @@ class ET_VHelper
 		{
 			$fieldNames[] = $fieldDetails[$nameColumn];
 		}
+
 		return $fieldNames;
 	}
 
@@ -468,6 +466,7 @@ class ET_VHelper
 				$matchedFields[] = $theField;
 			}
 		}
+
 		return $matchedFields;
 	}
 
@@ -487,6 +486,7 @@ class ET_VHelper
 				return true;
 			}
 		}
+
 		return false;
 	}
 }

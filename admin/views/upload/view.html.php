@@ -24,16 +24,17 @@ class EasyTableProViewUpload extends JView
 	/**
 	 * View display method
 	 *
+	 * @param   string  $tpl  Tmpl to use.
+	 *
 	 * @return void
-	 **/
+	 */
 	function display($tpl = null)
 	{
-		//get the document and load the system css file
+		// Get the document and load the system css file
 		$doc = JFactory::getDocument();
-		$u = JURI::getInstance();
 		JHTML::_('behavior.tooltip');
 
-		$doc->addStyleSheet(JURI::root().'templates/system/css/system.css');
+		$doc->addStyleSheet(JURI::root() . 'templates/system/css/system.css');
 
 		$form = $this->get('Form');
 		$item = $this->get('Item');
@@ -44,15 +45,16 @@ class EasyTableProViewUpload extends JView
 
 		// Set up our layout details
 		$jInput = JFactory::getApplication()->input;
-		$this->step = $jInput->get('step','');
-		$this->prevStep = $jInput->get('prevStep','');
-		$this->prevAction = $jInput->get('prevAction','');
+		$this->step = $jInput->get('step', '');
+		$this->prevStep = $jInput->get('prevStep', '');
+		$this->prevAction = $jInput->get('prevAction', '');
 		$this->dataFile = $jInput->get('datafile', JText::_('COM_EASYTABLEPRO_UPLOAD_NOFILENAME'));
 		$this->uploadedRecords = $jInput->get('uploadedRecords', 0);
-		$this->status = ($jInput->get('uploadedRecords',0) > 0) ? 'SUCCESS' : 'FAIL';
+		$this->status = ($jInput->get('uploadedRecords', 0) > 0) ? 'SUCCESS' : 'FAIL';
 		$this->setLayout('upload');
 
-		switch ($this->step) {
+		switch ($this->step)
+		{
 			case 'new':
 				$this->closeURL = 'window.parent.SqueezeBox.close();';
 				$this->stepLabel = JText::_('COM_EASYTABLEPRO_UPLOAD_CREATE_A_NEW_TABLE');
@@ -73,5 +75,5 @@ class EasyTableProViewUpload extends JView
 		}
 
 		parent::display($tpl);
-	}// function
-}// class
+	}
+}

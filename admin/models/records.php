@@ -113,6 +113,7 @@ class EasyTableProModelRecords extends JModelList
 				$query->where($searchArray, 'OR');
 			}
 		}
+
 		return $query;
 	}
 
@@ -160,7 +161,7 @@ class EasyTableProModelRecords extends JModelList
 		{
 			$fieldSearch[] = ('t.' . $db->quoteName($row['fieldalias'])) . " LIKE " . $search;
 		}
+
 		return $fieldSearch;
 	}
-
 }

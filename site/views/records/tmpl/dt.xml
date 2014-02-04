@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_EASYTABLEPRO_RECORDS_VIEW_AJAX_TITLE"  option="COM_EASYTABLEPRO_RECORDS_VIEW_AJAX_OPTION">
+		<help
+			key = "COM_EASYTABLEPRO_HELP_MENU_TABLEVIEW"
+		/>
+		<message>
+		<![CDATA[COM_EASYTABLEPRO_MENU_SHOWS_A_SPECIFIC_TABLE_USING_AJAX]]>
+		</message>
+	</layout>
+		<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request"
+			addfieldpath="/administrator/components/com_easytablepro/models/fields" >
+
+			<field name="id"
+				type="easytable"
+				default=""
+				label="COM_EASYTABLEPRO_LABEL_SELECT_TABLE"
+				description="COM_EASYTABLEPRO_LABEL_SELECT_TABLE_DESC"
+				required="true"
+			/>
+		</fieldset>
+	</fields>
+	<fields name="params">
+        <fieldset name="datatables"
+                  label="COM_EASYTABLEPRO_MENU_DATATABLES_OPTIONS" >
+            <field name="load_datatables_css"
+                   type="list"
+                   default="1"
+                   label="COM_EASYTABLEPRO_MENU_LOAD_DATATABLES_CSS"
+                   description="COM_EASYTABLEPRO_MENU_LOAD_DATATABLES_CSS_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+        </fieldset>
+		<fieldset name="basic"
+				label="COM_EASYTABLEPRO_MENU_TABLE_OPTIONS"
+				addfieldpath="/administrator/components/com_easytablepro/models/fields" >
+			<field name="sort_field"
+				type="easytablefields"
+				default=""
+				label="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_PROMPT"
+				description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_DESC" />
+			<field name="sort_order"
+					type="list"
+					default=""
+					label="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_ORDER_PROMPT"
+					description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_ORDER_DESC">
+						<option value="ASC">COM_EASYTABLEPRO_LABEL_ASCENDING</option>
+						<option value="DESC">COM_EASYTABLEPRO_LABEL_DESCENDING</option>
+			</field>
+			<field name="filter_field"
+				type="easytablefields"
+				default=""
+				label="COM_EASYTABLEPRO_MENU_SELECT_FILTER_FIELD_PROMPT"
+				description="COM_EASYTABLEPRO_MENU_SELECT_FILTER_FIELD_DESC" />
+			<field name="filter_type"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_MENU_SELECT_FILTER_OPERATOR_PROMPT"
+				description="COM_EASYTABLEPRO_MENU_SELECT_FILTER_OPERATOR_DESC">
+					<option value="LIKE">COM_EASYTABLEPRO_LABEL_CONTAINS</option>
+					<option value="IS">COM_EASYTABLEPRO_LABEL_IS</option>
+			</field>
+			<field name="filter_value"
+				type="text"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_LABEL"
+				description="COM_EASYTABLEPRO_PREF_RECORD_FILTER_VALUE_DESC" />
+
+			<field
+				name="spacer2"
+				type="spacer"
+				hr="true"
+			/>
+            <field name="advanced_filter"
+                   type="list"
+                   default=""
+                   label="COM_EASYTABLEPRO_MENU_ENABLE_ADVANCED_FILTER_LABEL"
+                   description="COM_EASYTABLEPRO_MENU_ENABLE_ADVANCED_FILTER_DESC">
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+            <field name="advanced_filter_value"
+                   type="textarea"
+                   filter="raw"
+                   cols="45"
+                   rows="5"
+                   default=""
+                   label="COM_EASYTABLEPRO_MENU_ADVANCED_FILTER_VALUE_LABEL"
+                   description="COM_EASYTABLEPRO_MENU_ADVANCED_FILTER_VALUE_DESC" />
+            <field
+                    name="spacer3"
+                    type="spacer"
+                    hr="true"
+                    />
+			<field name="records_layout" type="componentlayout"
+				label="JFIELD_ALT_LAYOUT_LABEL"
+				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+				useglobal="true"
+				extension="com_easytablepro" view="records" />
+			
+		</fieldset>
+	</fields>
+</metadata>

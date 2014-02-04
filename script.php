@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class Com_EasyTableProInstallerScript
 {
-	public $et_this_version = '1.1.7 (b6fd137)';
+	public $et_this_version = '1.2.0 (cca4693)';
 
 	/**
 	 * method to install the component
@@ -101,6 +101,7 @@ class Com_EasyTableProInstallerScript
 		{
 			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_CONNECTED_TO_THE_DATABASE') . '</li>';
 		}
+
 		// Get the settings meta data for the component
 		$et_params = JComponentHelper::getParams('com_easytablepro');
 
@@ -120,6 +121,7 @@ class Com_EasyTableProInstallerScript
 			{
 				$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_FAILED_MSG') . '</li></ol>';
 			}
+
 			echo $msg;
 
 			return true;
@@ -200,7 +202,7 @@ class Com_EasyTableProInstallerScript
 		$db->setQuery($et_query);
 		$et_drop_result = $db->query();
 
-		// make sure it dropped.
+		// Make sure it dropped.
 		if (!$et_drop_result)
 		{
 			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROP_META_ERROR') . '</li>';
@@ -211,7 +213,6 @@ class Com_EasyTableProInstallerScript
 			$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROP_META_SUCCESS') . '</li>';
 		}
 
-		
 		// Now DROP the core Tables Database
 		$et_query = 'DROP TABLE `#__easytables`;';
 		$db->setQuery($et_query);
@@ -389,6 +390,7 @@ class Com_EasyTableProInstallerScript
 		{
 			$msg .= $img_OK . JText::_('COM_EASYTABLEPRO_INSTALLER_ACCESS_COLUMN_FOUND') . '</li>';
 		}
+
 		// `asset_id` int(10) unsigned DEFAULT '0',
 		if (!array_key_exists('asset_id', $columnNames))
 		{
@@ -469,7 +471,6 @@ class Com_EasyTableProInstallerScript
 		// If all is good so far we can get the current version.
 		if ($no_errors)
 		{
-
 			// Update the version entry in the Table comment to the current version.
 			// @todo Add $db->quote() to this comment text.
 			$et_updateQry = "ALTER TABLE #__easytables COMMENT='" . $this->et_this_version . "'";
@@ -516,6 +517,7 @@ class Com_EasyTableProInstallerScript
 				$msg .= $img_ERROR . JText::sprintf('Couldn\'t find file at "%s"', $targetFile);
 			}
 		}
+
 		if ($filesCleanedUp)
 		{
 			$msg .= $img_OK . JText::_('File clean up process completed.') . '</li>';
@@ -554,6 +556,17 @@ class Com_EasyTableProInstallerScript
 		// $parent is the class calling this method
 		// $type is the type of change (install, update or discover_install)
 		echo  JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_' . strtoupper($type) . '_TEXT');
+
+		// Only allow to install on Joomla! 2.5.6 or later
+		if (version_compare(JVERSION, '2.5.1', 'le') || version_compare(JVERSION, '3.0.0', 'ge'))
+		{
+			$msg = JText::sprintf('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_INVALID_VERSION', JVERSION, $this->et_this_version);
+			JError::raiseWarning(100, $msg);
+
+			return false;
+		}
+
+		return true;
 	}
  
 	/**

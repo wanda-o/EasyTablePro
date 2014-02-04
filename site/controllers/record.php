@@ -16,7 +16,7 @@ defined('_JEXEC') or die ('Restricted Access');
  *
  * @package  EasyTables
  */
-class EasyTableProControllerRecords extends JControllerForm
+class EasyTableProControllerRecord extends JControllerForm
 {
 
 	/**
@@ -52,7 +52,8 @@ class EasyTableProControllerRecords extends JControllerForm
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		$params = JComponentHelper::getParams('com_easytablepro');
-		$model->setState('params',$params);
+		$model->setState('params', $params);
+
 		return $model;
 	}
 }
