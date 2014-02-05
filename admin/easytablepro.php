@@ -19,7 +19,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_easytablepro'))
 // Include dependencies
 jimport('joomla.application.component.controller');
 
-$controller = JController::getInstance('EasyTablePro');
+$controller = JControllerLegacy::getInstance('EasyTablePro');
 
 $jinput = JFactory::getApplication()->input;
 $controller->execute($jinput->get('task'));

@@ -23,7 +23,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/viewfunctions.php';
  *
  * @since       1.0
  */
-class EasyTableProViewRecords extends JView
+class EasyTableProViewRecords extends JViewLegacy
 {
 	/**
 	 * @var

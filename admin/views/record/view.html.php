@@ -26,7 +26,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/dataviewfunctions.php';
  *
  * @since       1.0
  */
-class EasyTableProViewRecord extends JView
+class EasyTableProViewRecord extends JViewLegacy
 {
 	/**
 	 * Converts our field to it HTML equivalent.

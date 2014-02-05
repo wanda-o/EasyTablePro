@@ -25,6 +25,6 @@ if ($vName === 'tables')
 	$jInput->set('task', $vName . '.' . 'display');
 }
 
-$controller = JController::getInstance('EasyTablePro');
+$controller = JControllerLegacy::getInstance('EasyTablePro');
 $controller->execute($jInput->get('task'));
 $controller->redirect();

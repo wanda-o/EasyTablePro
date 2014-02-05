@@ -20,7 +20,7 @@ jimport('joomla.application.component.controller');
  *
  * @since       1.0
  */
-class EasyTableProControllerTables extends JController
+class EasyTableProControllerTables extends JControllerLegacy
 {
 	/**
 	 * @var string

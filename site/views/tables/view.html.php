@@ -21,7 +21,7 @@ jimport('joomla.application.component.view');
  * @since 1.0
  */
 
-class EasyTableProViewTables extends JView
+class EasyTableProViewTables extends JViewLegacy
 {
 	/* @var JPagination $pagination */
 	protected $pagination;

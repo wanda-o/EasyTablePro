@@ -26,7 +26,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/dataviewfunctions.php';
  *
  * @since       1.0
  */
-class EasyTableProViewRecords extends JView
+class EasyTableProViewRecords extends JViewLegacy
 {
 	/**
 	 * @var

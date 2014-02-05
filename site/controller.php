@@ -18,7 +18,7 @@ jimport('joomla.application.component.controller');
  * @package  Easytable_Pro
  * @since    1.0
  */
-class EasyTableProController extends JController
+class EasyTableProController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.

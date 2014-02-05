@@ -23,7 +23,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
  * @since       1.0
  */
 
-class EasyTableProViewLink extends JView
+class EasyTableProViewLink extends JViewLegacy
 {
 	/**
 	 * View display method
