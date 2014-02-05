@@ -52,25 +52,6 @@ class ET_VHelper
 	}
 
 	/**
-	 * Return the rows params
-	 *
-	 * @param   object  $the_row  The current row object
-	 *
-	 * @return JParameter
-	 *
-	 * @since  1.1
-	 */
-	public static function et_row_params ($the_row)
-	{
-		if (isset ($the_row))
-		{
-			$paramsObj = new JParameter($the_row->params);
-		}
-
-		return $paramsObj;
-	}
-
-	/**
 	 * Return Meta for Fields in List View (convienience method)
 	 *
 	 * @param   array  $allFieldsMeta  An array of all the fields with their meta
