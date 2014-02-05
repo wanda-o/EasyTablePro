@@ -166,7 +166,7 @@ class EasyTableProControllerTable extends JControllerForm
 			$jAp->enqueueMessage(
 				JText::sprintf(
 					'COM_EASYTABLEPRO_TABLE_META_MISMATCH_BETWEEN_FORM_RESPONSE_AND_DATA_STORE_VS',
-					$ettm_field_count, $mRIdsCount, $etMetaRIdAsSQL
+					$ettm_field_count, $mRIdsCount, $etMetaRIdsAsSQL
 				)
 			);
 
