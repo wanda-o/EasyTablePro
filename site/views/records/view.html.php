@@ -25,9 +25,6 @@ require_once JPATH_COMPONENT_SITE . '/helpers/viewfunctions.php';
  */
 class EasyTableProViewRecords extends JViewLegacy
 {
-	/**
-	 * @var
-	 */
 	protected $easytable;
 
 	/**
@@ -35,26 +32,14 @@ class EasyTableProViewRecords extends JViewLegacy
 	 */
 	protected $params;
 
-	/**
-	 * @var
-	 */
 	protected $items;
 
 	protected $itemCount;
 
-	/**
-	 * @var
-	 */
 	protected $pagination;
 
-	/**
-	 * @var
-	 */
 	protected $state;
 
-	/**
-	 * @var
-	 */
 	protected $user;
 
 	/**
