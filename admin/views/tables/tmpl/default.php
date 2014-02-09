@@ -99,7 +99,8 @@ require_once '' . JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 		{
 			$lockedByName = '';
 		}
-		$published = $this->publishedIcon($locked, $row, $i, $canCheckin, $lockedByName);
+
+		$published = ET_ManagerHelper::publishedIcon($locked, $row, $i, $canCheckin, $lockedByName);
 		$etet = $row->datatablename?true:false;
 
 		?>
@@ -112,7 +113,7 @@ require_once '' . JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 				{
 					echo JHTML::_('jgrid.checkedout', $i, $row->editor, $row->checked_out_time, 'tables.', $canCheckin);
 				}
-				echo $this->getEditorLink($locked, $i, $row->easytablename, $canEdit, $lockedByName);
+				echo ET_ManagerHelper::getEditorLink($locked, $i, $row->easytablename, $canEdit, $lockedByName);
 			?><div class="clr"></div>
 				<span class="ept_tablelist_table_details"><?php
 					echo JText::sprintf('COM_EASYTABLEPRO_TABLESX_BY_Y', $row->easytablealias, $row->author_name);
@@ -126,12 +127,12 @@ require_once '' . JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 			</td>
 			<td>
 				<?php
-					echo $this->getDataEditorIcon($locked, $i, $row->easytablename, $etet, $canEditRecords, $lockedByName);
+					echo ET_ManagerHelper::getDataEditorIcon($locked, $i, $row->easytablename, $etet, $canEditRecords, $lockedByName);
 				?>
 			</td>
 			<td>
 				<?php
-					echo $this->getDataUploadIcon($locked, $row->id, $row->easytablename, $etet, $canImportRecords, $lockedByName);
+					echo ET_ManagerHelper::getDataUploadIcon($locked, $row->id, $row->easytablename, $etet, $canImportRecords, $lockedByName);
 				?>
 			</td>
 			<td>
