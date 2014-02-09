@@ -74,8 +74,8 @@ class EasyTableProViewRecords extends JViewLegacy
 		$imageDir = $easytable->defaultimagedir;
 
 		$easytables_table_meta = $easytable->table_meta;
-		$easytables_table_meta_for_List_view = ET_VHelper::et_List_View_Fields($easytables_table_meta);
-		$easytables_table_meta_for_Detail_view = ET_VHelper::et_Detail_View_Fields($easytables_table_meta);
+		$easytables_table_meta_for_List_view = ET_ManagerHelper::et_List_View_Fields($easytables_table_meta);
+		$easytables_table_meta_for_Detail_view = ET_ManagerHelper::et_Detail_View_Fields($easytables_table_meta);
 		$etmCount = count($easytables_table_meta_for_List_view);
 		$ettd_record_count = $easytable->ettd_record_count;
 
