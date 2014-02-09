@@ -6,6 +6,7 @@
  * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @url        http://www.seepeoplesoftware.com
  */
+
 defined('_JEXEC') or die('Restricted Access');
 jimport('joomla.application.component.view');
 

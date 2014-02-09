@@ -27,14 +27,14 @@ class EasyTableProViewTables extends JViewLegacy
 	protected $pagination;
 
 	/**
-     * EasyTables view display method
-     *
-     * @param   string  $tpl  tpl file name
-     *
-     * @return void
-     *
-     * @since  1.0
-     **/
+	 * EasyTables view display method
+	 *
+	 * @param   string  $tpl  tpl file name
+	 *
+	 * @return void
+	 *
+	 * @since  1.0
+	 **/
 	public function display($tpl = null)
 	{
 		$jAp = JFactory::getApplication();
