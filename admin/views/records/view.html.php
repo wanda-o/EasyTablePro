@@ -58,7 +58,7 @@ class EasyTableProViewRecords extends JViewLegacy
 		$jAp = JFactory::getApplication();
 
 		// Get the settings meta record
-		$canDo = ET_Helper::getActions();
+		$canDo = ET_General_Helper::getActions();
 
 		// Get data from our virtual model
 		$items = $this->get('Items');
@@ -68,7 +68,7 @@ class EasyTableProViewRecords extends JViewLegacy
 		$pagination = $this->get('Pagination');
 
 		// Get the Easytable that owns these records
-		$easytable = ET_Helper::getEasytableMetaItem();
+		$easytable = ET_General_Helper::getEasytableMetaItem();
 
 		// Get the default image directory from the table.
 		$imageDir = $easytable->defaultimagedir;
@@ -189,12 +189,12 @@ class EasyTableProViewRecords extends JViewLegacy
 
 		// Tools first
 		$jsFile = ('media/com_easytablepro/js/atools.js');
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$document->addScript(JURI::root() . $jsFile);
 
 		// Load this views js
 		$jsFile = 'media/com_easytablepro//js/easytabledata.js';
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$document->addScript(JURI::root() . $jsFile);
 	}
 

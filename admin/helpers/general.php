@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted Access');
  * @since       1.1
  */
 
-class ET_Helper
+class ET_General_Helper
 {
 	/**
 	 * @var string

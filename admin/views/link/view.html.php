@@ -118,7 +118,7 @@ class EasyTableProViewLink extends JViewLegacy
 
 		// Tools first
 		$jsFile = ('media/com_easytablepro/js/atools.js');
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$doc->addScript(JURI::root() . $jsFile);
 
 		// Get the remote version data
@@ -126,7 +126,7 @@ class EasyTableProViewLink extends JViewLegacy
 
 		// Load this views js
 		$jsFile = 'media/com_easytablepro/js/easytablelink.js';
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$doc->addScript(JURI::root() . $jsFile);
 	}
 }

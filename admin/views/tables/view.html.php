@@ -260,7 +260,7 @@ class EasyTableProViewTables extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Get the settings meta record
-		$canDo = ET_Helper::getActions();
+		$canDo = ET_General_Helper::getActions();
 
 		// Setup toolbar, js, css
 		$this->addToolbar($canDo);

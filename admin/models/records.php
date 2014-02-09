@@ -81,7 +81,7 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$trid = ET_Helper::getTableRecordID();
+		$trid = ET_General_Helper::getTableRecordID();
 		$pk = $trid[0];
 
 		// Create a new query object.
@@ -92,7 +92,7 @@ class EasyTableProModelRecords extends JModelList
 		$query->select('t.*');
 
 		// Get the table name.
-		$theTable = ET_Helper::getEasytableMetaItem();
+		$theTable = ET_General_Helper::getEasytableMetaItem();
 
 		// From the EasyTables table
 		$query->from($theTable->ettd_tname . ' AS t');

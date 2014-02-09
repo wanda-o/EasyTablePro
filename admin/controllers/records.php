@@ -76,7 +76,7 @@ class EasyTableProControllerRecords extends JControllerAdmin
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Some precautionary steps
-		$trid = ET_Helper::getTableRecordID();
+		$trid = ET_General_Helper::getTableRecordID();
 
 		// Get items to remove from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -115,7 +115,7 @@ class EasyTableProControllerRecords extends JControllerAdmin
 	 */
 	public function listAll()
 	{
-		$trid = ET_Helper::getTableRecordID();
+		$trid = ET_General_Helper::getTableRecordID();
 		$this->setRedirect("index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
 	}
 

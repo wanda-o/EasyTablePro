@@ -118,7 +118,7 @@ require_once '' . JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 					echo JText::sprintf('COM_EASYTABLEPRO_TABLESX_BY_Y', $row->easytablealias, $row->author_name);
 					?></span><div class="clr"></div>
 				<span class="ept_tablelist_table_details"><?php
-					echo JText::sprintf('COM_EASYTABLEPRO_TABLES_VIEWABLE_BY', ET_Helper::accessLabel($row->access));
+					echo JText::sprintf('COM_EASYTABLEPRO_TABLES_VIEWABLE_BY', ET_General_Helper::accessLabel($row->access));
 					?></span>
 				<span class="et_mgr_hits_counter"><?php
 					echo JText::sprintf('COM_EASYTABLEPRO_MGR_HITS_COUNT', $row->hits);

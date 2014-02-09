@@ -134,7 +134,7 @@ class EasyTableProViewRecord extends JViewLegacy
 		$easytable = $item['easytable'];
 
 		// Should we be here?
-		$this->canDo = ET_Helper::getActions($easytable->id);
+		$this->canDo = ET_General_Helper::getActions($easytable->id);
 
 		$id = $easytable->id;
 
@@ -239,11 +239,11 @@ class EasyTableProViewRecord extends JViewLegacy
 		// Tools first
 		$jsFile = ('media/com_easytablepro/js/atools.js');
 		$document->addScript(JURI::root() . $jsFile);
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 
 		// Component view specific next...
 		$jsFile = ('media/com_easytablepro/js/easytabledata.js');
 		$document->addScript(JURI::root() . $jsFile);
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 	}
 }

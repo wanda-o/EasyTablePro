@@ -168,7 +168,7 @@ class EasyTableProViewRecords extends JViewLegacy
 
 		if (($layout == 'ajax') && !$wereAjaxing)
 		{
-			$mailSent = ET_Helper::notifyAdminsOnError('ajax',
+			$mailSent = ET_General_Helper::notifyAdminsOnError('ajax',
 				array(
 					'ipaddress' => $jInput->get('REMOTE_ADDR'),
 					'url' => $jInput->get('REQUEST_URI'),

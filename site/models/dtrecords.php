@@ -368,7 +368,7 @@ class EasyTableProModelDtRecords extends JModelList
 	{
 		if (!$this->et)
 		{
-			$this->et = ET_Helper::getEasyTable($pk);
+			$this->et = ET_General_Helper::getEasyTable($pk);
 		}
 
 		return $this->et;

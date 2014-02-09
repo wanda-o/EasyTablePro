@@ -70,10 +70,10 @@ class EasyTableProModelRecord extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		$trid = ET_Helper::getTableRecordID();
+		$trid = ET_General_Helper::getTableRecordID();
 
 		$record = parent::getItem($trid[1]);
-		$easytable = ET_Helper::getEasytableMetaItem($trid[0]);
+		$easytable = ET_General_Helper::getEasytableMetaItem($trid[0]);
 		$item = array('trid' => $trid, 'record' => $record, 'easytable' => $easytable);
 
 		return $item;
@@ -173,7 +173,7 @@ class EasyTableProModelRecord extends JModelAdmin
 		$key = $table->getKeyName();
 
 		// Get the pk of the record from the request.
-		$trid = ET_Helper::getTableRecordID();
+		$trid = ET_General_Helper::getTableRecordID();
 		$tid = $trid[0];
 		$this->setState('table' . '.id', $tid);
 		$pk = $trid[1];

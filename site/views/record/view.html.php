@@ -182,11 +182,11 @@ class EasyTableProViewRecord extends JViewLegacy
 		// Tools first
 		$jsFile = ('media/com_easytablepro/js/atools.js');
 		$document->addScript(JURI::root() . $jsFile);
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 
 		// Component view specific next...
 		$jsFile = ('media/com_easytablepro/js/easytableprotable_fe.js');
 		$document->addScript(JURI::root() . $jsFile);
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 	}
 }

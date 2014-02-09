@@ -58,7 +58,7 @@ class EasyTableProViewTable extends JViewLegacy
 		$this->get('Item', '');
 
 		// Should we be here?
-		$this->canDo = ET_Helper::getActions($item->id);
+		$this->canDo = ET_General_Helper::getActions($this->item->id);
 
 		// Setup the toolbar etc
 		$this->addToolBar();
@@ -91,7 +91,7 @@ class EasyTableProViewTable extends JViewLegacy
 		$this->assignRef('params', $params);
 
 		// Max file size for uploading
-		$umfs = ET_Helper::umfs();
+		$umfs = ET_General_Helper::umfs();
 
 		// Get the max file size for uploads from Pref's, default to servers PHP setting if not found or > greater than server allows.
 		$maxFileSize = ($umfs > $state->params->get('maxFileSize')) ? $umfs : $state->params->get('maxFileSize', $umfs);
@@ -204,12 +204,12 @@ class EasyTableProViewTable extends JViewLegacy
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		// Tools first
 		$jsFile = ('media/com_easytablepro/js/atools.js');
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$document->addScript(JURI::root() . $jsFile);
 
 		// Component view specific next...
 		$jsFile = ('media/com_easytablepro/js/easytabletable.js');
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$document->addScript(JURI::root() . $jsFile);
 	}
 

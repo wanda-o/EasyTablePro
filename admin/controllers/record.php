@@ -75,7 +75,7 @@ class EasyTableProControllerRecord extends JControllerForm
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-		$trid = ET_Helper::getTableRecordID();
+		$trid = ET_General_Helper::getTableRecordID();
 
 		// So that we go back to the correct location
 		$this->setRedirect("index.php?option=com_easytablepro&task=records&view=records&id=$trid[0]");
@@ -98,7 +98,7 @@ class EasyTableProControllerRecord extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the Table & Record id
-		$trid = ET_Helper::getTableRecordID();
+		$trid = ET_General_Helper::getTableRecordID();
 		$task = $this->getTask();
 
 		// Initialise variables.
@@ -109,7 +109,7 @@ class EasyTableProControllerRecord extends JControllerForm
 		$rid = $data['id'];
 		$context = "$this->option.edit.$this->context.$rid";
 		$task = $this->getTask();
-		$easyTable = ET_Helper::getEasytableMetaItem($trid[0]);
+		$easyTable = ET_General_Helper::getEasytableMetaItem($trid[0]);
 
 		// Handle save2copy differently
 		if ($task == 'save2copy')
@@ -183,7 +183,7 @@ class EasyTableProControllerRecord extends JControllerForm
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$trid = ET_Helper::getTableRecordID();
+		$trid = ET_General_Helper::getTableRecordID();
 
 		if(is_null($recordId) && $trid[0])
 		{

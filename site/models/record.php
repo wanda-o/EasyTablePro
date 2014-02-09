@@ -100,7 +100,7 @@ class EasyTableProModelRecord extends JModelItem
 				$query = $db->getQuery(true);
 
 				// Get our table meta data
-				$et = ET_Helper::getEasytable($etID);
+				$et = ET_General_Helper::getEasytable($etID);
 
 				if (!$et)
 				{
@@ -172,7 +172,7 @@ class EasyTableProModelRecord extends JModelItem
 					if ($linked_table && $key_field && $linked_key_field)
 					{
 						// Retreive the linked table
-						$let = ET_Helper::getEasytableMetaItem($linked_table);
+						$let = ET_General_Helper::getEasytableMetaItem($linked_table);
 						$letP = new JRegistry;
 						$letP->loadArray($let->params);
 						$let->params = $letP;
