@@ -7,15 +7,7 @@
  * @url        http://www.seepeoplesoftware.com
  */
 
-/*
- * Frontend Component
- */
-
-// No direct access
 defined('_JEXEC') or die('Restricted Access');
-
-// Include dependencies
-jimport('joomla.application.component.controller');
 
 $jInput = JFactory::getApplication()->input;
 $vName = $jInput->get('view', 'tables');

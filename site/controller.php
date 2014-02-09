@@ -7,7 +7,6 @@
  * @url        http://www.seepeoplesoftware.com
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
@@ -40,33 +39,5 @@ class EasyTableProController extends JControllerLegacy
 		parent::display($cachable, $urlparams);
 
 		return $this;
-	}
-
-	/**
-	 * getModel sets up our
-	 *
-	 * @param   string  $name    Model name.
-	 *
-	 * @param   string  $prefix  Component class prefix.
-	 *
-	 * @param   array   $config  Optional configuration parameters.
-	 *
-	 * @return  EasyTableProModelTables
-	 */
-	public function getModel($name = 'Tables', $prefix = 'EasyTableProModel', $config = array())
-	{
-		$theModel = parent::getModel($name, $prefix, $config);
-
-		return $theModel;
-	}
-
-	/**
-	 * __construct
-	 *
-	 * @param   array  $config  Optional configuration parameters
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
 	}
 }
