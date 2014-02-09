@@ -369,7 +369,7 @@ class EasyTableProViewTables extends JViewLegacy
 		// Tools first
 		$jsFile = ('media/com_easytablepro/js/atools.js');
 
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 
 		$document->addScript(JURI::root() . $jsFile, true);
 
@@ -379,7 +379,7 @@ class EasyTableProViewTables extends JViewLegacy
 
 		// Load this views js
 		$jsFile = 'media/com_easytablepro/js/easytabletables.js';
-		ET_Helper::loadJSLanguageKeys('/' . $jsFile);
+		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$document->addScript(JURI::root() . $jsFile);
 	}
 }
