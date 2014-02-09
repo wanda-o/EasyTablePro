@@ -44,13 +44,13 @@ defined('_JEXEC') or die('Restricted Access');
 		echo '<tr valign="top" class="row' . $alt_rv . '" >' . "\r";
 		echo '<td>' . $label . '</td>';
 		echo(
-			'<td>' . $this->getFieldInputType($fld_alias, $type, $value)
+			'<td>' . ET_RecordHelper::getFieldInputType($fld_alias, $type, $value)
 			. '<input name="et_fld_orig[' . $fld_alias . ']" type="hidden" value="' . $value
 			. '" /></td>'
 		);
 		echo(
 			'<td>' . ($value == '' ? '<em>' . JText::_('COM_EASYTABLEPRO_RECORDS_CLICK_APPLY_TO_PREVIEW') . '</em>' :
-				($type == '1' ? $this->getImageTag($value, '', $fld_alias):
+				($type == '1' ? ET_RecordHelper::getImageTag($value, $fld_alias, $this->currentImageDir):
 					ET_VHelper::getFWO(
 						html_entity_decode($value),
 						$type,
