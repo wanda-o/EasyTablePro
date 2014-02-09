@@ -66,14 +66,14 @@ defined('_JEXEC') or die('Restricted Access');
 			. '" >' . $metaRow['description'] . '</textarea></td>';
 
 		// Type / Field Options
-		echo '<td>' . $this->getTypeList($mRId, $metaRow['type']) . '<br />' . '<input type="hidden" name="origfieldtype' . $mRId . '" value="'
-			. $metaRow['type'] . '" />' . '<input type="text" value="' . $this->getFieldOptions($metaRow['params']) . '" name="fieldoptions'
+		echo '<td>' . ET_TableHelper::getTypeList($mRId, $metaRow['type']) . '<br />' . '<input type="hidden" name="origfieldtype' . $mRId . '" value="'
+			. $metaRow['type'] . '" />' . '<input type="text" value="' . ET_TableHelper::getFieldOptions($metaRow['params']) . '" name="fieldoptions'
 			. $mRId . '" class="hasTip" title="' . JText::_('COM_EASYTABLEPRO_TABLE_FIELDSET_COL_OPTIONS_TT') . '" /></td>';
 
 		// List View Flag
 		$tdName          = 'list_view' . $mRId;
 		$tdStart         = '<td align="center"><input type="hidden" name="' . $tdName . '" value="' . $metaRow['list_view'] . '" />';
-		$tdFlagImg       = $this->getListViewImage($tdName, $metaRow['list_view']);
+		$tdFlagImg       = ET_TableHelper::getListViewImage($tdName, $metaRow['list_view']);
 		$tdjs            = 'com_EasyTablePro.Table.toggleTick(\'list_view\', ' . $mRId . ');';
 		$tdFlagImgLink   = '<a href="javascript:void(0);" onclick="' . $tdjs . '">' . $tdFlagImg . '</a>';
 		echo($tdStart . $tdFlagImgLink . $tdEnd);
@@ -81,7 +81,7 @@ defined('_JEXEC') or die('Restricted Access');
 		// Detail Link Flag
 		$tdName          = 'detail_link' . $mRId;
 		$tdStart         = '<td align="center"><input type="hidden" name="' . $tdName . '" value="' . $metaRow['detail_link'] . '" />';
-		$tdFlagImg       = $this->getListViewImage($tdName, $metaRow['detail_link']);
+		$tdFlagImg       = ET_TableHelper::getListViewImage($tdName, $metaRow['detail_link']);
 		$tdjs            = 'com_EasyTablePro.Table.toggleTick(\'detail_link\', ' . $mRId . ');';
 		$tdFlagImgLink   = '<a href="javascript:void(0);" onclick="' . $tdjs . '">' . $tdFlagImg . '</a>';
 		echo($tdStart . $tdFlagImgLink . $tdEnd);
@@ -89,7 +89,7 @@ defined('_JEXEC') or die('Restricted Access');
 		// Detail View Flag
 		$tdName          = 'detail_view' . $mRId;
 		$tdStart         = '<td align="center"><input type="hidden" name="' . $tdName . '" value="' . $metaRow['detail_view'] . '" />';
-		$tdFlagImg       = $this->getListViewImage($tdName, $metaRow['detail_view']);
+		$tdFlagImg       = ET_TableHelper::getListViewImage($tdName, $metaRow['detail_view']);
 		$tdjs            = 'com_EasyTablePro.Table.toggleTick(\'detail_view\', ' . $mRId . ');';
 		$tdFlagImgLink   = '<a href="javascript:void(0);" onclick="' . $tdjs . '">' . $tdFlagImg . '</a>';
 		echo($tdStart . $tdFlagImgLink . $tdEnd);
@@ -100,7 +100,7 @@ defined('_JEXEC') or die('Restricted Access');
 		$tdParamsObj->loadString($metaRow['params']);
 		$tdSearchField   = $tdParamsObj->get('search_field', 1);
 		$tdStart         = '<td align="center"><input type="hidden" name="' . $tdName . '" value="' . $tdSearchField . '" />';
-		$tdFlagImg       = $this->getListViewImage($tdName, $tdSearchField);
+		$tdFlagImg       = ET_TableHelper::getListViewImage($tdName, $tdSearchField);
 		$tdjs            = 'com_EasyTablePro.Table.toggleTick(\'search_field\', ' . $mRId . ');';
 		$tdFlagImgLink   = '<a href="javascript:void(0);" onclick="' . $tdjs . '">' . $tdFlagImg . '</a>';
 		echo($tdStart . $tdFlagImgLink . $tdEnd);
