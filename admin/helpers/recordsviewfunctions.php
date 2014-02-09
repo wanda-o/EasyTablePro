@@ -312,5 +312,69 @@ class ET_RecordsHelper
 			}
 		}
 	}
+
+	/**
+	 * Get's our checkbox
+	 *
+	 * @param   int  $cid    Our cid.
+	 *
+	 * @param   int  $rowId  Our row Id.
+	 *
+	 * @return  mixed
+	 *
+	 * @since   1.1
+	 */
+	public static function getRecordCheckBox ($cid, $rowId)
+	{
+		$cb = JHtml::_('grid.id', $cid, $rowId);
+
+		return($cb);
+	}
+
+	/**
+	 * Create the delete record link.
+	 *
+	 * @param   int     $cid        Our cid.
+	 *
+	 * @param   int     $rowId      Our row id.
+	 *
+	 * @param   string  $tableName  Our table name.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.1
+	 */
+	public static function getDeleteRecordLink ($cid, $rowId, $tableName)
+	{
+		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_LINK') . ' ' . $rowId . ' of table \'' . $tableName . '\' ';
+		$theEditLink = '<span class="hasTip" title="' . $link_text
+			. '" style="margin-left:10px;" ><a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $cid
+			. '\',\'records.delete\');" title="' . $link_text . '" ><img src="' . JURI::root()
+			. 'media/com_easytablepro/images/publish_x.png" alt="' . $link_text . '"/></a></span>';
+
+		return($theEditLink);
+	}
+
+	/**
+	 * Create the edit record link.
+	 *
+	 * @param   int     $cid        Our cid.
+	 * @param   int     $rowId      Our row id.
+	 * @param   string  $tableName  Our table name.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.1
+	 */
+	public static function getEditRecordLink ($cid, $rowId, $tableName)
+	{
+		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_EDIT_LINK') . ' ' . $rowId . ' of table \'' . $tableName . '\' ';
+		$theLink = '<span class="hasTip" title="' . $link_text . '" style="margin-left:3px;" >'
+			. '<a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $cid
+			. '\',\'record.edit\');" title="' . $link_text . '" ><img src="' . JURI::root()
+			. 'media/com_easytablepro/images/edit.png" alt="' . $link_text . '" /></a></span>';
+
+		return($theLink);
+	}
 }
 
