@@ -34,16 +34,6 @@ class EasyTableProControllerRecords extends JControllerAdmin
 	protected $default_view = 'records';
 
 	/**
-	 * __construct()
-	 *
-	 * @param   array  $config  Optional configuration parameters.
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
-
-	/**
 	 * getModel()
 	 *
 	 * @param   string  $name    Name of the model file.
