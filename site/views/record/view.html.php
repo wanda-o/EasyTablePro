@@ -8,9 +8,7 @@
  */
 
 defined('_JEXEC') or die('Restricted Access');
-jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/viewfunctions.php';
 
 /**
@@ -68,8 +66,8 @@ class EasyTableProViewRecord extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Get the Data
-		$item = $this->get('Item');
-		$easytable = $item->easytable;
+		$this->item = $this->get('Item');
+		$easytable = $this->item->easytable;
 		$id = $easytable->id;
 		$tableKey = $easytable->key_name;
 
@@ -80,7 +78,7 @@ class EasyTableProViewRecord extends JViewLegacy
 		}
 
 		// Get the state info
-		$state = $this->get('State');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -90,10 +88,6 @@ class EasyTableProViewRecord extends JViewLegacy
 			return false;
 		}
 
-		// Assign the Data
-		$this->item  = $item;
-		$this->state = $state;
-
 		// Is there a title suffix from the record
 		$title_field_raw = $easytable->params->get('title_field', 0);
 
@@ -101,7 +95,7 @@ class EasyTableProViewRecord extends JViewLegacy
 		{
 			$title_field_data = explode(':', $title_field_raw);
 			$title_field_label = $title_field_data[1];
-			$titleSuffix = $item->record->$title_field_label;
+			$titleSuffix = $this->item->record->$title_field_label;
 		}
 		else
 		{
@@ -118,17 +112,14 @@ class EasyTableProViewRecord extends JViewLegacy
 			$page_title = JText::sprintf('COM_EASYTABLEPRO_SITE_RECORD_PAGE_TITLE_NO_LEAF', $easytable->easytablename);
 		}
 
+		$pt = htmlspecialchars($page_title);
+
 		if ( $easytable->params->get('title_links_to_table'))
 		{
 			// Create a backlink
 			$backlink = 'index.php?option=com_easytablepro&amp;view=records&amp;id=' . $easytable->id;
 			$backlink = JRoute::_($backlink);
-
-			$pt = '<a href="' . $backlink . '">' . htmlspecialchars($page_title) . '</a>';
-		}
-		else
-		{
-			$pt = htmlspecialchars($page_title);
+			$pt = '<a href="' . $backlink . '">' . $pt . '</a>';
 		}
 
 		// Generate Prev and Next Records
@@ -138,13 +129,13 @@ class EasyTableProViewRecord extends JViewLegacy
 		{
 			$this->prevrecord = '';
 
-			if (isset($item->prevRecordId) && isset($item->prevRecordId[0]))
+			if (isset($this->item->prevRecordId) && isset($this->item->prevRecordId[0]))
 			{
-				$recURL = 'index.php?option=com_easytablepro&view=record&id=' . $easytable->id . '&rid=' . $item->prevRecordId[0];
+				$recURL = 'index.php?option=com_easytablepro&view=record&id=' . $easytable->id . '&rid=' . $this->item->prevRecordId[0];
 
-				if (isset($item->prevRecordId[1]) && ($item->prevRecordId[1] != ''))
+				if (isset($this->item->prevRecordId[1]) && ($this->item->prevRecordId[1] != ''))
 				{
-					$recURL .= '&rllabel=' . $item->prevRecordId[1];
+					$recURL .= '&rllabel=' . $this->item->prevRecordId[1];
 				}
 
 				$this->prevrecord = JRoute::_($recURL);
@@ -152,13 +143,13 @@ class EasyTableProViewRecord extends JViewLegacy
 
 			$this->nextrecord = '';
 
-			if (isset($item->nextRecordId) && isset($item->nextRecordId[0]))
+			if (isset($this->item->nextRecordId) && isset($this->item->nextRecordId[0]))
 			{
-				$recURL = 'index.php?option=com_easytablepro&view=record&id=' . $easytable->id . '&rid=' . $item->nextRecordId[0];
+				$recURL = 'index.php?option=com_easytablepro&view=record&id=' . $easytable->id . '&rid=' . $this->item->nextRecordId[0];
 
-				if (isset($item->nextRecordId[1]) && ($item->nextRecordId[1] != ''))
+				if (isset($this->item->nextRecordId[1]) && ($this->item->nextRecordId[1] != ''))
 				{
-					$recURL .= '&rllabel=' . $item->nextRecordId[1];
+					$recURL .= '&rllabel=' . $this->item->nextRecordId[1];
 				}
 
 				$this->nextrecord = JRoute::_($recURL);
@@ -172,16 +163,16 @@ class EasyTableProViewRecord extends JViewLegacy
 
 		// Assigning these items for use in the tmpl
 		$this->tableId = $id;
-		$this->recordId = $item->record->$tableKey;
-		$this->trid = $id . '.' . $item->record->$tableKey;
+		$this->recordId = $this->item->record->$tableKey;
+		$this->trid = $id . '.' . $this->item->record->$tableKey;
 		$this->imageDir = $easytable->defaultimagedir;
 		$this->easytable = $easytable;
 		$this->et_meta = $easytable->table_meta;
-		$this->et_record = JArrayHelper::fromObject($item->record);
+		$this->et_record = JArrayHelper::fromObject($this->item->record);
 		$this->show_linked_table = $easytable->params->get('show_linked_table', '');
 		$this->pageclass_sfx = $easytable->params->get('pageclass_sfx', '');
-		$this->linked_table = $item->linked_table;
-		$this->linked_records = $item->linked_records;
+		$this->linked_table = $this->item->linked_table;
+		$this->linked_records = $this->item->linked_records;
 		$this->pt = $pt;
 
 		// Load the doc bits
