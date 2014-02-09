@@ -37,6 +37,7 @@ defined('_JEXEC') or die('Restricted Access');
 				. $metaRow['label'] . '\', \'' . $rowID . '\');"><img src="' . JURI::root()
 				. 'media/com_easytablepro/images/publish_x.png" alt="Toggle Publish state." /></a>';
 		}
+
 		echo '</td>';
 
 		// Position

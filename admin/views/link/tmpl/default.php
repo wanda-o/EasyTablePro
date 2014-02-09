@@ -7,8 +7,18 @@
  * @url        http://www.seepeoplesoftware.com
  */
 
-// No Direct Access
-	defined('_JEXEC') or die('Restricted Access');
+defined('_JEXEC') or die('Restricted Access');
+
+// Setup our strings
+$cancelBtn = JText::_('COM_EASYTABLEPRO_LABEL_CANCEL');
+$let       = JText::_('COM_EASYTABLEPRO') . ' - ' . JText::_('COM_EASYTABLEPRO_LINK_EXISTING_TABLE');
+$sat       = JText::_('COM_EASYTABLEPRO_LINK_SELECT_A_TABLE');
+$st        = JText::_('COM_EASYTABLEPRO_LABEL_SELECT_TABLE');
+$tafs      = $this->tablesAvailableForSelection ? '' : 'disabled="disabled"';
+$lut       = JText::_('COM_EASYTABLEPRO_LINK_USE_TABLE');
+$notes     = JText::_('COM_EASYTABLEPRO_MGR_NOTES');
+$lutdesc   = JText::_('COM_EASYTABLEPRO_LINK_USE_TABLE_DESC');
+
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div class="col100">
@@ -17,27 +27,27 @@
 			<td>
 			<fieldset>
 				<div style="float: right">
-					<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_CANCEL'); ?></button>
+					<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo $cancelBtn; ?></button>
 				</div>
-				<div class="configuration"><?php echo JText::_('COM_EASYTABLEPRO');?> - <?php echo JText::_('COM_EASYTABLEPRO_LINK_EXISTING_TABLE');?></div>
+				<div class="configuration"><?php echo $let;?></div>
 			</fieldset>
 			<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_EASYTABLEPRO_LINK_SELECT_A_TABLE'); ?></legend>
+			<legend><?php echo $sat; ?></legend>
 			<table class="adminlist" id="et_linkTable">
 				<tr class="row0">
 					<td width="120" align="left" class="key">
-						<h3><span class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_LABEL_SELECT_TABLE');?>"><label for="SELECT_TABLE"><?php echo JText::_('COM_EASYTABLEPRO_LABEL_SELECT_TABLE'); ?>:</label></span></h3>
+						<h3><span class="hasTip" title="<?php echo $st;?>"><label for="SELECT_TABLE"><?php echo $st; ?>:</label></span></h3>
 					</td>
 					<td>
 						<?php echo $this->tableList; ?>
-						<button type="button" onclick="com_EasyTablePro.Link.selectTable();" <?php echo ($this->tablesAvailableForSelection ? '' : 'disabled="disabled"') ?> ><?php echo JText::_('COM_EASYTABLEPRO_LINK_USE_TABLE'); ?></button>
+						<button type="button" onclick="com_EasyTablePro.Link.selectTable();" <?php echo $tafs; ?>><?php echo $lut; ?></button>
 					</td>
 				</tr>
 				<tr class="row1">
 					<td width="120" align="right" valign="top" class="key">
-						<span style="font-size: 1.5em;font-weight: bold;"><label for="easytablename"><?php echo JText::_('COM_EASYTABLEPRO_MGR_NOTES'); ?>:</label></span>
+						<span style="font-size: 1.5em;font-weight: bold;"><label for="easytablename"><?php echo $notes; ?>:</label></span>
 					</td>
-					<td><?php echo JText::_('COM_EASYTABLEPRO_LINK_USE_TABLE_DESC');?></td>
+					<td><?php echo $lutdesc;?></td>
 				</tr>
 			</table>
 			</fieldset>
