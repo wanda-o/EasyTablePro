@@ -12,10 +12,11 @@ defined('_JEXEC') or die('Restricted Access');
 
 jimport('joomla.application.component.view');
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/recordsviewfunctions.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/managerfunctions.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/viewfunctions.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/dataviewfunctions.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/managerfunctions.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/recordsviewfunctions.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/viewfunctions.php';
 
 /**
  * Records View
@@ -42,6 +43,8 @@ class EasyTableProViewRecords extends JViewLegacy
 	 * @var
 	 */
 	protected $pagination;
+
+	protected $easytable;
 
 	/**
 	 * View display method
@@ -105,7 +108,7 @@ class EasyTableProViewRecords extends JViewLegacy
 		$this->etmCount = $etmCount;
 
 		// Lets lock out the main menu
-		JRequest::setVar('hidemainmenu', 1);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		// Setup layout, toolbar, js, css
 		$this->addToolbar($canDo, $etmCount);

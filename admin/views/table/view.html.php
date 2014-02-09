@@ -10,8 +10,8 @@
 // No Direct Access
 defined('_JEXEC') or die('Restricted Access');
 
-jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/tablefunctions.php';
 
 /**
  * HTML View class for the EasyTables Component
@@ -25,6 +25,16 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
 class EasyTableProViewTable extends JViewLegacy
 {
+	protected $state;
+
+	protected $item;
+
+	protected $form;
+
+	protected $canDo;
+
+	protected $published;
+
 	/**
 	 * EasyTable view display method.
 	 *
@@ -37,35 +47,24 @@ class EasyTableProViewTable extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Get the Data
-		$form = $this->get('Form');
-		$item = $this->get('Item');
-		$state = $this->get('State');
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
 
-			return false;
+			return;
 		}
-
-		// Assign the Data
-		$this->form  = $form;
-		$this->item  = $item;
-		$this->state = $state;
-
-		// Change the model
-		$this->get('Item', '');
 
 		// Should we be here?
 		$this->canDo = ET_General_Helper::getActions($this->item->id);
 
 		// Setup the toolbar etc
-		$this->addToolBar();
+		$this->addToolBar($this->item, $this->canDo);
 		$this->addCSSEtc();
-
-		// Get the current task
-		$et_task = JRequest::getVar('task');
 
 		// Do not allow it to be published until a table is created.
 		if (!isset($this->item->ettd) or !$this->item->ettd)
@@ -79,9 +78,9 @@ class EasyTableProViewTable extends JViewLegacy
 		}
 
 		// Parameters for this table instance
-		if (isset($item->params))
+		if (isset($this->item->params))
 		{
-			$params = $item->params;
+			$params = $this->item->params;
 		}
 		else
 		{
@@ -94,7 +93,7 @@ class EasyTableProViewTable extends JViewLegacy
 		$umfs = ET_General_Helper::umfs();
 
 		// Get the max file size for uploads from Pref's, default to servers PHP setting if not found or > greater than server allows.
-		$maxFileSize = ($umfs > $state->params->get('maxFileSize')) ? $umfs : $state->params->get('maxFileSize', $umfs);
+		$maxFileSize = ($umfs > $this->state->params->get('maxFileSize')) ? $umfs : $this->state->params->get('maxFileSize', $umfs);
 
 		$this->assign('maxFileSize', $maxFileSize);
 
@@ -114,17 +113,16 @@ class EasyTableProViewTable extends JViewLegacy
 	 *
 	 * @since   1.1
 	 */
-	private function addToolbar()
+	private function addToolbar($item, $canDo)
 	{
 		JHTML::_('behavior.tooltip');
 
 		$jinput = JFactory::getApplication()->input;
 		$jinput->set('hidemainmenu', true);
-		$canDo	    = $this->canDo;
 		$user		= JFactory::getUser();
 
-		$isNew		= ($this->item->id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+		$isNew		= ($item->id == 0);
+		$checkedOut	= !($item->checked_out == 0 || $item->checked_out == $user->get('id'));
 
 		if ($canDo->get('core.edit') || $canDo->get('core.create'))
 		{
@@ -134,15 +132,15 @@ class EasyTableProViewTable extends JViewLegacy
 			JToolBarHelper::save('table.save');
 		}
 
-		if (!$this->item->etet && !$checkedOut && ($canDo->get('core.create')))
+		if (!$item->etet && !$checkedOut && ($canDo->get('core.create')))
 		{
 			JToolBarHelper::save2new('table.save2new');
 		}
 
-		if ((!$this->item->etet) && $canDo->get('easytablepro.import'))
+		if ((!$item->etet) && $canDo->get('easytablepro.import'))
 		{
 			JToolBarHelper::divider();
-			$importURL = 'index.php?option=com_easytablepro&amp;view=upload&amp;task=upload&amp;id=' . $this->item->id . '&amp;tmpl=component';
+			$importURL = 'index.php?option=com_easytablepro&amp;view=upload&amp;task=upload&amp;id=' . $item->id . '&amp;tmpl=component';
 
 			$toolbar = JToolBar::getInstance('toolbar');
 
@@ -158,7 +156,7 @@ class EasyTableProViewTable extends JViewLegacy
 
 		JToolBarHelper::divider();
 
-		if ($canDo->get('easytablepro.structure') && !$this->item->etet)
+		if ($canDo->get('easytablepro.structure') && !$item->etet)
 		{
 			JToolBarHelper::custom(
 				'modifyTable',

@@ -10,10 +10,6 @@
 // No Direct Access
 defined('_JEXEC') or die('Restricted Access');
 
-jimport('joomla.application.component.view');
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/viewfunctions.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/recordviewfunctions.php';
 
@@ -28,10 +24,25 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/recordviewfunctions.php';
  */
 class EasyTableProViewRecord extends JViewLegacy
 {
+	protected $item;
 
+	protected $state;
 
+	protected $canDo;
 
+	protected $tableId;
 
+	protected $recordId;
+
+	protected $trid;
+
+	protected $currentImageDir;
+
+	protected $easytable;
+
+	protected $et_meta;
+
+	protected $et_record;
 
 	/**
 	 * Execute and display a template script.
@@ -45,8 +56,8 @@ class EasyTableProViewRecord extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Get the Data
-		$item = $this->get('Item');
-		$state = $this->get('State');
+		$this->item = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -57,9 +68,7 @@ class EasyTableProViewRecord extends JViewLegacy
 		}
 
 		// Assign the Data
-		$this->item  = $item;
-		$this->state = $state;
-		$easytable = $item['easytable'];
+		$easytable = $this->item['easytable'];
 
 		// Should we be here?
 		$this->canDo = ET_General_Helper::getActions($easytable->id);
@@ -78,7 +87,7 @@ class EasyTableProViewRecord extends JViewLegacy
 		$easytables_table_meta = $easytable->table_meta;
 
 		// Get the data for this record
-		$easytable_data_record = $item['record'];
+		$easytable_data_record = $this->item['record'];
 
 		// Adding these items for use in the tmpl
 		$this->tableId = $id;
@@ -110,7 +119,6 @@ class EasyTableProViewRecord extends JViewLegacy
 		$jinput = JFactory::getApplication()->input;
 		$jinput->set('hidemainmenu', true);
 		$canDo	    = $this->canDo;
-		$user		= JFactory::getUser();
 
 		$easytable = $this->item['easytable'];
 		$isNew		= ($easytable->id == 0);

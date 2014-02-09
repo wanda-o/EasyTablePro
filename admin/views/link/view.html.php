@@ -7,10 +7,8 @@
  * @url        http://www.seepeoplesoftware.com
  */
 
-// No Direct Access
 defined('_JEXEC') or die('Restricted Access');
 
-jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
 /**
@@ -25,6 +23,14 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
 class EasyTableProViewLink extends JViewLegacy
 {
+	protected $id;
+
+	protected $let;
+
+	protected $note;
+
+	protected $legend;
+
 	/**
 	 * View display method
 	 * 

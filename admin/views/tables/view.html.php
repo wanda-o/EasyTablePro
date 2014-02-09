@@ -27,23 +27,17 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
  */
 class EasyTableProViewTables extends JViewLegacy
 {
-	/**
-	 * @var
-	 */
 	protected $state;
 
-	/**
-	 * @var
-	 */
-	protected $items;
+	protected $rows;
 
-	/**
-	 * @var
-	 */
 	protected $pagination;
 
+	protected $authors;
 
+	protected $canDo;
 
+	protected $et_current_version;
 
 	/**
 	 * EasyTable tables view display method.
@@ -64,20 +58,14 @@ class EasyTableProViewTables extends JViewLegacy
 		$this->addCSSEtc();
 
 		// Get data from the model
-		$rows          = $this->get('Items');
-		$state         = $this->get('State');
-		$pagination    = $this->get('Pagination');
+		$this->state = $this->get('State');
+		$this->rows = $this->get('Items');
 		$this->authors = $this->get('Authors');
+		$this->pagination = $this->get('Pagination');
 
+		$this->canDo = ET_General_Helper::getActions();
+		$this->et_current_version = ET_ManagerHelper::current_version();
 
-		// A little pagination for our users with *lots* of tables.
-		$pagination = $this->get('Pagination');
-
-		$this->state = $state;
-		$this->assignRef('rows', $rows);
-		$this->assignRef('pagination', $pagination);
-		$this->assign('canDo', $canDo);
-		$this->assign('et_current_version', ET_VHelper::current_version());
 		parent::display($tpl);
 	}
 
