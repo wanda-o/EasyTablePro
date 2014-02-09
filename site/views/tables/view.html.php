@@ -23,8 +23,24 @@ jimport('joomla.application.component.view');
 
 class EasyTableProViewTables extends JViewLegacy
 {
+	protected $rows;
+
 	/* @var JPagination $pagination */
 	protected $pagination;
+
+	protected $show_pagination;
+
+	protected $show_description;
+
+	protected $page_title;
+
+	protected $show_page_title;
+
+	protected $pageclass_sfx;
+
+	protected $showSkippedCount;
+
+	protected $tables_appear_in_listview;
 
 	/**
 	 * EasyTables view display method

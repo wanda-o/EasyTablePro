@@ -24,6 +24,40 @@ require_once JPATH_COMPONENT_SITE . '/helpers/viewfunctions.php';
  */
 class EasyTableProViewRecord extends JViewLegacy
 {
+	protected $item;
+
+	protected $state;
+
+	protected $show_next_prev_record_links;
+
+	protected $prevrecord;
+
+	protected $nextrecord;
+
+	protected $tableId;
+
+	protected $recordId;
+
+	protected $trid;
+
+	protected $imageDir;
+
+	protected $easytable;
+
+	protected $et_meta;
+
+	protected $et_record;
+
+	protected $show_linked_table;
+
+	protected $pageclass_sfx;
+
+	protected $linked_table;
+
+	protected $linked_records;
+
+	protected $pt;
+
 	/**
 	 * display()
 	 *
