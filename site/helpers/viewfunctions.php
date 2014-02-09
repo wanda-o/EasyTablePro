@@ -127,7 +127,7 @@ class ET_VHelper
 	 *
 	 * @since   1.0
 	 */
-	public static function addOptions ($fieldOptions, $tokenArray)
+	private static function addOptions ($fieldOptions, $tokenArray)
 	{
 		if (empty($fieldOptions))
 		{
@@ -153,7 +153,7 @@ class ET_VHelper
 	 *
 	 * @since   1.0
 	 */
-	public static function applyOptions ($f, $fieldOptions, $tokenArray)
+	private static function applyOptions ($f, $fieldOptions, $tokenArray)
 	{
 		if (empty($fieldOptions))
 		{
@@ -179,7 +179,7 @@ class ET_VHelper
 	 *
 	 * @since   1.0
 	 */
-	public static function getImageWithOptions($f, $fieldOptions, $currentImageDir)
+	private static function getImageWithOptions($f, $fieldOptions, $currentImageDir)
 	{
 		if ($f)
 		{
@@ -218,7 +218,7 @@ class ET_VHelper
 	 *
 	 * @return string
 	 */
-	public static function getURLWithOptions($f, $fieldOptions)
+	private static function getURLWithOptions($f, $fieldOptions)
 	{
 		// For fully qualified URL's starting with HTTP(S) we open in a new window, for everything else its the same window.
 		$URLTarget = 'target="_blank"';
@@ -260,7 +260,7 @@ class ET_VHelper
 	 *
 	 * @return  string
 	 */
-	public static function getMailWithOptions($f, $fieldOptions)
+	private static function getMailWithOptions($f, $fieldOptions)
 	{
 		if (empty($fieldOptions))
 		{
@@ -293,7 +293,7 @@ class ET_VHelper
 	 *
 	 * @return  string
 	 */
-	public static function getNumberWithOptions($f, $fieldOptions)
+	private static function getNumberWithOptions($f, $fieldOptions)
 	{
 		$fieldWithOptions = '';
 
@@ -353,7 +353,7 @@ class ET_VHelper
 	 *
 	 * @return  string
 	 */
-	public static function getDateWithOptions($f, $fieldOptions)
+	private static function getDateWithOptions($f, $fieldOptions)
 	{
 		if (($timestamp = strtotime($f)) === false)
 		{
@@ -373,101 +373,6 @@ class ET_VHelper
 		}
 
 		return $fieldWithOptions;
-	}
-
-	/**
-	 * getFieldName is a utility to zip through all the Meta and return their alias'
-	 *
-	 * @param   array   $fields      Field meta array
-	 *
-	 * @param   string  $nameColumn  Meta key to return
-	 *
-	 * @return  array
-	 */
-	public static function getFieldNames($fields, $nameColumn='fieldalias')
-	{
-		$fieldNames = array();
-
-		foreach ($fields as $fieldDetails)
-		{
-			$fieldNames[] = $fieldDetails[$nameColumn];
-		}
-
-		return $fieldNames;
-	}
-
-	/**
-	 * getFieldsInListView stub method for getFieldsInView
-	 *
-	 * @param   array  $fieldMeta  The field meta array.
-	 *
-	 * @return  array
-	 */
-	public static function getFieldsInListView($fieldMeta)
-	{
-		return self::getFieldsInView($fieldMeta, 'list', true);
-	}
-
-	/**
-	 * getFieldsInListView stub method for getFieldsInView
-	 *
-	 * @param   array  $fieldMeta  The field meta array.
-	 *
-	 * @return  array
-	 */
-	public static function getFieldsNotInListView($fieldMeta)
-	{
-		return self::getFieldsInView($fieldMeta, 'list', false);
-	}
-
-	/**
-	 * getFieldsInDetailView stub method for getFieldsInView
-	 *
-	 * @param   array  $fieldMeta  The field meta array.
-	 *
-	 * @return  array
-	 */
-	public static function getFieldsInDetailView($fieldMeta)
-	{
-		return self::getFieldsInView($fieldMeta, 'detail', true);
-	}
-
-	/**
-	 * getFieldsNotInDetailView stub method for getFieldsInView
-	 *
-	 * @param   array  $fieldMeta  The field meta array.
-	 *
-	 * @return  array
-	 */
-	public static function getFieldsNotInDetailView($fieldMeta)
-	{
-		return self::getFieldsInView($fieldMeta, 'detail', false);
-	}
-
-	/**
-	 * getFieldsInView returns fields of the specified $view that are visible or not.
-	 *
-	 * @param   array   $fieldMeta  The field meta array.
-	 *
-	 * @param   string  $view       The view type 'list' or 'detail'
-	 *
-	 * @param   bool    $inOrOut    The visible in view flag.
-	 *
-	 * @return  array
-	 */
-	public static function getFieldsInView($fieldMeta, $view='list', $inOrOut=true)
-	{
-		$matchedFields = array();
-
-		foreach ($fieldMeta as $theField)
-		{
-			if ($theField[$view . '_view'] == $inOrOut)
-			{
-				$matchedFields[] = $theField;
-			}
-		}
-
-		return $matchedFields;
 	}
 
 	/**
