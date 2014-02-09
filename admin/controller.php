@@ -7,12 +7,8 @@
  * @url        http://www.seepeoplesoftware.com
  */
 
-// No direct access
-
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.controller');
- 
 /**
  * EasyTablePro Component Controller
  *
@@ -41,7 +37,7 @@ class EasyTableProController extends JControllerLegacy
 		$jInput = JFactory::getApplication()->input;
 		$view		= $jInput->get('view', 'tables');
 		$layout 	= $jInput->get('layout', 'tables');
-		$id			= $jInput->get('id');
+		$id			= $jInput->getInt('id', 0);
 
 		// Check for edit form.
 		if ($view == 'table' && $layout == 'edit' && !$this->checkEditId('com_easytablepro.edit.table', $id))
