@@ -189,7 +189,6 @@ class EasyTableProModelTables extends JModelList
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
-		$session = JFactory::getSession();
 
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -234,7 +233,7 @@ class EasyTableProModelTables extends JModelList
 	 *
 	 * @return  mixed|null|string
 	 */
-	function getSearch()
+	public function getSearch()
 	{
 		if (!$this->_search)
 		{
@@ -258,7 +257,7 @@ class EasyTableProModelTables extends JModelList
 	 *
 	 * @return  array Array of objects containing the data from the database using pagination limits
 	 */
-	function getData()
+	public function getData()
 	{
 		// Lets load the data if it doesn't already exist
 		if (empty( $this->_data))
