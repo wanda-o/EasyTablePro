@@ -7,22 +7,13 @@
  * @url        http://www.seepeoplesoftware.com
  */
  
-// No direct access
 defined('_JEXEC') or die('Restricted Access');
 
-// Access check.
 if (!JFactory::getUser()->authorise('core.manage', 'com_easytablepro'))
 {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-// Include dependencies
-jimport('joomla.application.component.controller');
-
 $controller = JControllerLegacy::getInstance('EasyTablePro');
-
-$jinput = JFactory::getApplication()->input;
-$controller->execute($jinput->get('task'));
-
-// Redirect if set by the controller
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
