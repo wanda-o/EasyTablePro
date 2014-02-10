@@ -25,7 +25,7 @@ class EasyTableProControllerTables extends JControllerLegacy
 	/**
 	 * @var string
 	 */
-	protected $_context = 'com_easytablepro.tables';
+	protected $context = 'com_easytablepro.tables';
 
 	/**
 	 * Method to auto-populate the model state.

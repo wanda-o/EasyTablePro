@@ -24,7 +24,7 @@ class EasyTableProModelRecord extends JModelItem
 	/**
 	 * @var string
 	 */
-	protected $_context = 'com_easytablepro.record';
+	protected $context = 'com_easytablepro.record';
 
 	/**
 	 * Method to auto-populate the model state.

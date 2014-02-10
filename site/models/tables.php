@@ -28,9 +28,9 @@ class EasyTableProModelTables extends JModelList
 	public $_data = null;
 
 	/**
-	 * @var string       $_context  Used by Joomla! CMS state cache
+	 * @var string       $context  Used by Joomla! CMS state cache
 	 */
-	protected $_context = 'com_easytablepro.tables';
+	protected $context = 'com_easytablepro.tables';
 
 	/**
 	 * __contstruct()
@@ -54,7 +54,7 @@ class EasyTableProModelTables extends JModelList
 		if ($show_pagination)
 		{
 			$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
-			$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+			$limitstart = $jAp->input->getInt('limitstart', 0);
 		}
 		else
 		{
