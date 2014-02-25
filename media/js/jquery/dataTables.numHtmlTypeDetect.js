@@ -2,7 +2,7 @@ jQuery.fn.dataTableExt.aTypes.unshift( function ( sData )
 {
     sData = typeof sData.replace == 'function' ?
         sData.replace( /<[\s\S]*?>/g, "" ) : sData;
-    sData = $.trim(sData);
+    sData = jQuery.trim(sData);
       
     var sValidFirstChars = "0123456789-";
     var sValidChars = "0123456789.";

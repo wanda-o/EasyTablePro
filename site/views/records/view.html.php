@@ -489,7 +489,7 @@ class EasyTableProViewRecords extends JView
 			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath . "\n";
 		}
 
-		$dt_init_code  = "window.addEvent('domready', function() { $('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource . $bStateSave;
+		$dt_init_code  = "window.addEvent('domready', function() { jQuery('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource . $bStateSave;
 
 		$list_limit = $jAp->getUserState('com_easytablepro.dtrecords.' . $item_id . '.' . $this->easytable->id . '.list.limit', 0);
 
