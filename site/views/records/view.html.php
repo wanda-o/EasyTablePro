@@ -459,7 +459,7 @@ class EasyTableProViewRecords extends JView
 		 */
 		// We need to attach our menu item id
 		$item_id = $jAp->input->get('Itemid', 0);
-		$ajaxPath = '"/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id='
+		$ajaxPath = '"' . JURI::base() . 'index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id='
 			. $this->easytable->id . '&'
 			. JSession::getFormToken() . '=1&'
 			. 'Itemid=' . $item_id . '",';
