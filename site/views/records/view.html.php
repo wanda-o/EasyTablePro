@@ -459,7 +459,7 @@ class EasyTableProViewRecords extends JView
 		 */
 		// We need to attach our menu item id
 		$item_id = $jAp->input->get('Itemid', 0);
-		$ajaxPath = '"/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id='
+		$ajaxPath = '"' . JURI::base() . 'index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id='
 			. $this->easytable->id . '&'
 			. JSession::getFormToken() . '=1&'
 			. 'Itemid=' . $item_id . '",';
@@ -489,7 +489,7 @@ class EasyTableProViewRecords extends JView
 			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath . "\n";
 		}
 
-		$dt_init_code  = "window.addEvent('domready', function() { $('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource . $bStateSave;
+		$dt_init_code  = "window.addEvent('domready', function() { jQuery('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource . $bStateSave;
 
 		$list_limit = $jAp->getUserState('com_easytablepro.dtrecords.' . $item_id . '.' . $this->easytable->id . '.list.limit', 0);
 
