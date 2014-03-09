@@ -351,6 +351,7 @@ class EasyTableProViewRecords extends JViewLegacy
 	{
 		$loadJQ = $this->params->get('load_jquery', 0);
 		$loadJQUI = $this->params->get('load_jqueryui', 0);
+		$bAutoColumnWidth = $this->params->get('auto_column_width', 0) ? '' : '"bAutoWidth": false,' . "\n";
 		$doc = JFactory::getDocument();
 		$minOrNot = JDEBUG ? '.min' : '';
 		$versionJQ = $this->params->get('load_jquery_version', '1.9.1');
@@ -444,7 +445,7 @@ class EasyTableProViewRecords extends JViewLegacy
 		 */
 		// We need to attach our menu item id
 		$item_id = $jAp->input->get('Itemid', 0);
-		$ajaxPath = '"/index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id='
+		$ajaxPath = '"' . JURI::base() . 'index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id='
 			. $this->easytable->id . '&'
 			. JSession::getFormToken() . '=1&'
 			. 'Itemid=' . $item_id . '",';
@@ -474,7 +475,7 @@ class EasyTableProViewRecords extends JViewLegacy
 			$sAjaxSource = '"sAjaxSource": ' . $ajaxPath . "\n";
 		}
 
-		$dt_init_code  = "window.addEvent('domready', function() { $('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource . $bStateSave;
+		$dt_init_code  = "window.addEvent('domready', function() { jQuery('$tableID').dataTable( {" . $bProcessing . $bServerSide . $sAjaxSource . $bStateSave . $bAutoColumnWidth;
 
 		$list_limit = $jAp->getUserState('com_easytablepro.dtrecords.' . $item_id . '.' . $this->easytable->id . '.list.limit', 0);
 
