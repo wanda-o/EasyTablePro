@@ -258,13 +258,14 @@
                 />
 
         <field
-                name="auto_column_width"
+                name="use_datatables_reveal"
                 type="list" default="1"
-                label="COM_EASYTABLEPRO_PREF_AUTO_COLUMN_WIDTH"
-                description="COM_EASYTABLEPRO_PREF_AUTO_COLUMN_WIDTH_DESC"
+                label="COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES"
+                description="COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_DESC"
                 >
-            <option value="0">JNO</option>
-            <option value="1">JYES</option>
+            <option value="0">COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_NO</option>
+            <option value="1">COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_ONLY</option>
+            <option value="2">COM_EASYTABLEPRO_PREF_REVEAL_DATATABLES_BOTH</option>
         </field>
     </fieldset>
 

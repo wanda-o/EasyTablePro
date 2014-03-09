@@ -291,19 +291,10 @@
 			</field>
 
 			<field
-				name="spacer4"
+				name="spacer3"
 				type="spacer"
 				hr="true"
 			/>
-            <field
-                    name="auto_column_width"
-                    type="list" default="1"
-                    label="COM_EASYTABLEPRO_PREF_AUTO_COLUMN_WIDTH"
-                    description="COM_EASYTABLEPRO_PREF_AUTO_COLUMN_WIDTH_DESC"
-                    >
-                <option value="0">JNO</option>
-                <option value="1">JYES</option>
-            </field>
 			<field name="records_layout" type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
