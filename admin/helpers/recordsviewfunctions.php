@@ -167,6 +167,13 @@ class ET_RecordsHelper
 				}
 
 				$filterValue = eval($phpFilter);
+
+				if ((!is_string($filterValue) && !is_numeric($filterValue)) || is_object($filterValue))
+				{
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_ADV_FUNCTION_PHP_MATCH_WRONG_TYPE_X', print_r($filterValue, true)));
+
+					return false;
+				}
 				break;
 			}
 			default:
