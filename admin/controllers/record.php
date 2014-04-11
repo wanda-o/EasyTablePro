@@ -25,19 +25,10 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
  */
 class EasyTableProControllerRecord extends JControllerForm
 {
-	/**
-	 * @var string
-	 */
 	protected $default_view = 'record';
 
-	/**
-	 * @var string
-	 */
 	protected $option;
 
-	/**
-	 * @var string
-	 */
 	protected $context;
 
 	/**
@@ -99,15 +90,11 @@ class EasyTableProControllerRecord extends JControllerForm
 
 		// Get the Table & Record id
 		$trid = ET_General_Helper::getTableRecordID();
-		$task = $this->getTask();
 
 		// Initialise variables.
 		$app = JFactory::getApplication();
 		$model = $this->getModel();
-		$table = $model->getTable();
 		$data = JRequest::getVar('et_fld', array(), 'post', 'array');
-		$rid = $data['id'];
-		$context = "$this->option.edit.$this->context.$rid";
 		$task = $this->getTask();
 		$easyTable = ET_General_Helper::getEasytableMetaItem($trid[0]);
 
@@ -185,7 +172,7 @@ class EasyTableProControllerRecord extends JControllerForm
 	{
 		$trid = ET_General_Helper::getTableRecordID();
 
-		if(is_null($recordId) && $trid[0])
+		if (is_null($recordId) && $trid[0])
 		{
 			$id = $trid[0];
 		}

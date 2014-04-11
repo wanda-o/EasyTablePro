@@ -26,14 +26,14 @@ class EasyTableProController extends JControllerLegacy
 	 *
 	 * @param   array|bool  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	$this|JController       This object to support chaining.
+	 * @return    $this|JController       This object to support chaining.
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
 		$jInput = JFactory::getApplication()->input;
 
 		// Set the default view name and format from the Request.
-		$vName		= $jInput->get('view', 'Tables');
+		$vName = $jInput->get('view', 'Tables');
 		$jInput->set('view', $vName);
 
 		parent::display($cachable, $urlparams);
