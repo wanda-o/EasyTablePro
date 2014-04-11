@@ -153,7 +153,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$etMetaRIdsAsSQL = implode(' OR id =', $mRIds);
 
 		// Get the meta data for this table
-		$query = "SELECT * FROM " . $db->nameQuote('#__easytables_table_meta') . " WHERE id =" . $etMetaRIdsAsSQL . " ORDER BY id;";
+		$query = "SELECT * FROM " . $db->quoteName('#__easytables_table_meta') . " WHERE id =" . $etMetaRIdsAsSQL . " ORDER BY id;";
 
 		$db->setQuery($query);
 
