@@ -8,7 +8,7 @@
 et_check_msg = '';
 
 window.addEvent('domready', function(){
-	$('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_easytablepro_build +")";
+    $('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_easytablepro_build +")";
 });
 
 Joomla.submitbutton = function(pressbutton)

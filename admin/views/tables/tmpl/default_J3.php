@@ -17,6 +17,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 ?>
+<div class="et_version_info" style="font-size: 0.9em;">
+	<?php echo JText::_('COM_EASYTABLEPRO_MGR_INSTALLED_VERSION') . '&nbsp;'; ?>:: <span id="installedVersionSpan">
+		<?php echo $this->et_current_version; ?></span>
+		<span id="et-subverinfo">
+	<?php
+	echo JText::_('COM_EASYTABLEPRO_MGR_CURRENT_SUBSCRIBERS_RELEASE_IS') . '&nbsp;'; ?>:: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro/changelog.html" target="_blank" title="<?php echo JText::_('COM_EASYTABLEPRO_MGR_OPEN_RELEASE_DESC'); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a></span>
+</div>
 <div id="j-main-container">
 	<div class="clr"> </div>
 	<table class="table table-striped">
