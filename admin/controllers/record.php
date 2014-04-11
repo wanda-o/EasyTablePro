@@ -92,9 +92,9 @@ class EasyTableProControllerRecord extends JControllerForm
 		$trid = ET_General_Helper::getTableRecordID();
 
 		// Initialise variables.
-		$app = JFactory::getApplication();
+		$jApp = JFactory::getApplication();
 		$model = $this->getModel();
-		$data = JRequest::getVar('et_fld', array(), 'post', 'array');
+		$data = $jApp->input->get('et_fld', array(), 'ARRAY');
 		$task = $this->getTask();
 		$easyTable = ET_General_Helper::getEasytableMetaItem($trid[0]);
 
@@ -111,11 +111,11 @@ class EasyTableProControllerRecord extends JControllerForm
 		{
 			$trid[1] = $model->getState($this->context . '.id');
 			$tridstr = implode('.', $trid);
-			$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_RECORD_SAVED_TO_TABLE', $trid[1], $easyTable->easytablename));
+			$jApp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_RECORD_SAVED_TO_TABLE', $trid[1], $easyTable->easytablename));
 		}
 		else
 		{
-			$app->enqueueMessage(
+			$jApp->enqueueMessage(
 							JText::sprintf('COM_EASYTABLEPRO_RECORD_UNABLE_TO_SAVE_CHANGES_TO_RECORD',
 								implode('.', $trid),
 								implode('</br>\n',  $model->errors())

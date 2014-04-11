@@ -146,7 +146,7 @@ class EasyTableProControllerTable extends JControllerForm
 		}
 
 		// 2. Get the list of mRIds into an array we can use
-		$mRIds = explode(', ', JRequest::getVar('mRIds'));
+		$mRIds = explode(', ', $jAp->input->get('mRIds', '', 'string'));
 
 		// 3. Get the matching records from the meta table
 		// create the sql of the meta record ids
@@ -182,14 +182,14 @@ class EasyTableProControllerTable extends JControllerForm
 			$etMetaUpdateValuesSQL  = '';
 
 			// Get the original field alias
-			$origFldAlias = JRequest::getVar('origfieldalias' . $rowValue);
+			$origFldAlias = $jAp->input->get('origfieldalias' . $rowValue);
 
 			// Get the field type
-			$fieldType = JRequest::getVar('type' . $rowValue);
-			$origFldType = JRequest::getVar('origfieldtype' . $rowValue);
+			$fieldType = $jAp->input->get('type' . $rowValue);
+			$origFldType = $jAp->input->get('origfieldtype' . $rowValue);
 
 			// Get the field alias and conform it if necessary.
-			$reqFldAlias = JRequest::getVar('fieldalias' . $rowValue);
+			$reqFldAlias = $jAp->input->get('fieldalias' . $rowValue);
 			$reqFldAlias = $this->conformFieldAlias($reqFldAlias);
 
 			// If the field(column) type or name has changed
@@ -212,19 +212,28 @@ class EasyTableProControllerTable extends JControllerForm
 			}
 
 			// Get the fieldOptions allowing for quotes that may have been whacked by site still running magic_quotes_gpc
-			$useableFieldOptions = bin2hex($this->m($_POST['fieldoptions' . $rowValue]));
+			$rawFieldOptions = $this->m($_POST['fieldoptions' . $rowValue]);
+			$useableFieldOptions = bin2hex($rawFieldOptions);
+			$upd_position = $jAp->input->get('position' . $rowValue);
+			$upd_label = $jAp->input->get('label' . $rowValue);
+			$upd_description = $jAp->input->get('description' . $rowValue);
+			$upd_type = $jAp->input->get('type' . $rowValue);
+			$upd_list_view = $jAp->input->get('list_view' . $rowValue);
+			$upd_detail_link = $jAp->input->get('detail_link' . $rowValue);
+			$upd_detail_view = $jAp->input->get('detail_view' . $rowValue);
+			$upd_search_field = $jAp->input->get('search_field' . $rowValue);
 
 			// Build the rest of the update SQL for each field
 			$etMetaUpdateValuesSQL .= '`fieldalias` = \'' . $reqFldAlias . '\', ';
-			$etMetaUpdateValuesSQL .= '`position` = \'' . JRequest::getVar('position' . $rowValue) . '\', ';
-			$etMetaUpdateValuesSQL .= '`label` = \'' . addslashes(JRequest::getVar('label' . $rowValue)) . '\', ';
-			$etMetaUpdateValuesSQL .= '`description` = \'' . addslashes(JRequest::getVar('description' . $rowValue)) . '\', ';
-			$etMetaUpdateValuesSQL .= '`type` = \'' . JRequest::getVar('type' . $rowValue) . '\', ';
-			$etMetaUpdateValuesSQL .= '`list_view` = \'' . JRequest::getVar('list_view' . $rowValue) . '\', ';
-			$etMetaUpdateValuesSQL .= '`detail_link` = \'' . JRequest::getVar('detail_link' . $rowValue) . '\', ';
-			$etMetaUpdateValuesSQL .= '`detail_view` = \'' . JRequest::getVar('detail_view' . $rowValue) . '\', ';
+			$etMetaUpdateValuesSQL .= '`position` = \'' . $upd_position . '\', ';
+			$etMetaUpdateValuesSQL .= '`label` = \'' . addslashes($upd_label) . '\', ';
+			$etMetaUpdateValuesSQL .= '`description` = \'' . addslashes($upd_description) . '\', ';
+			$etMetaUpdateValuesSQL .= '`type` = \'' . $upd_type . '\', ';
+			$etMetaUpdateValuesSQL .= '`list_view` = \'' . $upd_list_view . '\', ';
+			$etMetaUpdateValuesSQL .= '`detail_link` = \'' . $upd_detail_link . '\', ';
+			$etMetaUpdateValuesSQL .= '`detail_view` = \'' . $upd_detail_view . '\', ';
 			$etMetaUpdateValuesSQL .= '`params` = \'fieldoptions=x' . $useableFieldOptions;
-			$etMetaUpdateValuesSQL .= '\nsearch_field=' . JRequest::getVar('search_field' . $rowValue) . '\' ';
+			$etMetaUpdateValuesSQL .= '\nsearch_field=' . $upd_search_field . '\' ';
 
 			// Build the SQL that selects the record for the right ID
 			$etMetaUpdateSQLEnd     = ' WHERE ID =\'' . $rowValue . '\'';
@@ -286,15 +295,15 @@ class EasyTableProControllerTable extends JControllerForm
 
 		foreach ( $newFldsArray as $newFldId )
 		{
-			$new_et_pos = JRequest::getVar('position_nf_' . $newFldId, '');
-			$new_et_label = addslashes(JRequest::getVar('label_nf_' . $newFldId, ''));
-			$new_et_desc = addslashes(JRequest::getVar('description_nf_' . $newFldId, ''));
-			$new_et_type = JRequest::getVar('type_nf_' . $newFldId, '');
-			$new_et_lv = JRequest::getVar('list_view_nf_' . $newFldId, '');
-			$new_et_dl = JRequest::getVar('detail_link_nf_' . $newFldId, '');
-			$new_et_dv = JRequest::getVar('detail_view_nf_' . $newFldId, '');
-			$new_et_fldAlias = $this->conformFieldAlias(JRequest::getVar('fieldalias_nf_' . $newFldId, ''));
-			$new_et_search = JRequest::getVar('search_field_nf_' . $newFldId, '');
+			$new_et_pos = $jAp->input->get('position_nf_' . $newFldId, '');
+			$new_et_label = addslashes($jAp->input->get('label_nf_' . $newFldId, ''));
+			$new_et_desc = addslashes($jAp->input->get('description_nf_' . $newFldId, ''));
+			$new_et_type = $jAp->input->get('type_nf_' . $newFldId, '');
+			$new_et_lv = $jAp->input->get('list_view_nf_' . $newFldId, '');
+			$new_et_dl = $jAp->input->get('detail_link_nf_' . $newFldId, '');
+			$new_et_dv = $jAp->input->get('detail_view_nf_' . $newFldId, '');
+			$new_et_fldAlias = $this->conformFieldAlias($jAp->input->get('fieldalias_nf_' . $newFldId, ''));
+			$new_et_search = $jAp->input->get('search_field_nf_' . $newFldId, '');
 
 			// Get the fieldOptions allowing for quotes that may have been whacked by site still running magic_quotes_gpc
 			$new_et_fldOptions = bin2hex($this->m($_POST['fieldoptions_nf_' . $newFldId]));
@@ -427,11 +436,12 @@ class EasyTableProControllerTable extends JControllerForm
 	 */
 	private function alterEasyTableColumn($origFldAlias, $newFldAlias, $fieldType)
 	{
+		$jAp = JFactory::getApplication();
 		/*
 		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
 		*/
 		// External tables we don't mess with — bad things will happen to your data if you take this out. You have been warned.
-		if (JRequest::getVar('et_linked_et'))
+		if ($jAp->input->get('et_linked_et'))
 		{
 			return true;
 		}
@@ -445,7 +455,7 @@ class EasyTableProControllerTable extends JControllerForm
 		// Convert the field type to SQL equivalent
 		$fieldType = $this->getFieldTypeAsSQL($fieldType);
 
-		$id = JRequest::getInt('id', 0);
+		$id = $jAp->input->getInt('id', 0);
 
 		// Build SQL to alter the table
 		$alterSQL = 'ALTER TABLE #__easytables_table_data_' . $id . '  CHANGE `' . $origFldAlias . '` `' . $newFldAlias . '` ' . $fieldType . ';';
@@ -523,6 +533,7 @@ class EasyTableProControllerTable extends JControllerForm
 	 */
 	private function conformFieldAlias ($rawAlias)
 	{
+		$jAp = JFactory::getApplication();
 		/*
 		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST
 		*/
@@ -530,7 +541,7 @@ class EasyTableProControllerTable extends JControllerForm
 		 * We should check before here and therefore never get to this place... but...users... yup.
 		 * It's a linked table lets not change anything...
 		 */
-		if (JRequest::getVar('et_linked_et'))
+		if ($jAp->input->get('et_linked_et'))
 		{
 			return $rawAlias;
 		}

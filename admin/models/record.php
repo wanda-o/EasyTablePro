@@ -89,7 +89,7 @@ class EasyTableProModelRecord extends JModelAdmin
 	public function save($data)
 	{
 		// Alter the title for save as copy
-		if (JRequest::getVar('task') == 'save2copy')
+		if (JFactory::getApplication()->input->get('task') == 'save2copy')
 		{
 			list($title, $alias) = $this->generateNewTitle('', $data['alias'], $data['title']);
 			$data['title']	= $title;

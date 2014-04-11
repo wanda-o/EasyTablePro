@@ -946,11 +946,12 @@ class EasyTableProControllerUpload extends JControllerForm
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$view = JRequest::getVar('view');
+		$jAp = JFactory::getApplication();
+		$view = $jAp->input->get('view');
 
 		if (!$view)
 		{
-			JRequest::setVar('view', 'upload');
+			$jAp->input->set('view', 'upload');
 		}
 
 		return parent::display($cachable, $urlparams);

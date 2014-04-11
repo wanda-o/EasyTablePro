@@ -69,7 +69,7 @@ class EasyTableProControllerRecords extends JControllerAdmin
 		$trid = ET_General_Helper::getTableRecordID();
 
 		// Get items to remove from the request.
-		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'ARRAY');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
