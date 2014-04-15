@@ -5,6 +5,10 @@
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
 */
 
+.icon-easytablepro:before {
+    content: "\e01d";
+}
+
 .icon-48-easytablepro {
     background: url(../images/EasyTableProIcon.png) no-repeat left;
 }
