@@ -17,12 +17,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 ?>
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_easytablepro" method="post" name="adminForm" id="adminForm">
 <?php // Load the right version of default
 echo $this->loadTemplate($this->jvtag);
 echo JHTML::_('form.token');
 ?>
-<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option') ?>" />
 <input type="hidden" name="view" value="tables" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
