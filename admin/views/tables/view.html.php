@@ -10,9 +10,6 @@
 // No Direct Access
 defined('_JEXEC') or die('Restricted Access');
 
-
-jimport('joomla.application.component.view');
-
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/managerfunctions.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
