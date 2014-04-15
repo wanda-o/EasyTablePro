@@ -6,28 +6,15 @@
 */
 
 et_check_msg = '';
-
-window.addEvent('domready', function(){
-    $('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_easytablepro_build +")";
-});
-
-Joomla.submitbutton = function(pressbutton)
+if(typeof jQuery == 'undefined')
 {
-	if (pressbutton == 'tables.publish' ||
-		pressbutton == 'tables.unpublish' ||
-		pressbutton == 'table.edit' ||
-		pressbutton == 'tables.editData' ||
-		pressbutton == 'tables.uploadData' ||
-		pressbutton == 'tables.delete' ||
-		pressbutton == 'table.add' ||
-		pressbutton == 'tables.toggleSearch' ||
-		pressbutton == 'tables.cancel')
-	{
-		Joomla.submitform(pressbutton);
-	}
-	else 
-	{
-		alert(com_EasyTablePro.Tools.sprintf(Joomla.JText._('COM_EASYTABLEPRO_TABLE_JS_WARNING_OK_YOU_BROKE_IT'), pressbutton));
-		return 0;
-	}
+    window.addEvent('domready', function(){
+        document.getElementById('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_easytablepro_build +")";
+    });
+}
+else
+{
+    jQuery(document).ready(function(){
+        document.getElementById('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_easytablepro_build +")";
+    });
 }

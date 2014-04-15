@@ -17,9 +17,18 @@ if (typeof(com_EasyTablePro) === 'undefined') {
 	com_EasyTablePro.Tools        = {};
 }
 
-window.addEvent('domready', function () {
-	com_EasyTablePro.setUp();
-});
+if(typeof jQuery == 'undefined')
+{
+    window.addEvent('domready', function () {
+        com_EasyTablePro.setUp();
+    });
+}
+else
+{
+    jQuery(document).ready(function(){
+        com_EasyTablePro.setUp();
+    });
+}
 
 com_EasyTablePro.setUp = function ()
 {
@@ -46,8 +55,8 @@ com_EasyTablePro.Tools.getToken = function ()
 
 com_EasyTablePro.Tools.getID  = function ()
 {
-	if ($('id')) {
-		return $('id').value;
+	if (document.getElementById('id')) {
+		return document.getElementById('id').value;
 	} else {
 		return null;
 	}
@@ -56,7 +65,7 @@ com_EasyTablePro.Tools.getID  = function ()
 com_EasyTablePro.Tools.disableToolbarBtn = function (toolBarBtn, newToolTipText)
 {
 	// Setup the default vars
-	var ourBtn = $(toolBarBtn);
+	var ourBtn = document.getElementById(toolBarBtn);
 	var ourBtnLink = ourBtn.childNodes[1]
 	var ourBtnSpan = ourBtnLink.childNodes[1];
 	// Check to see if button class is already set to -off

@@ -149,14 +149,21 @@ class EasyTableProViewTables extends JViewLegacy
 		$document->addStyleSheet(JURI::root() . 'media/com_easytablepro/css/easytable.css');
 
 		// Then add JS to the document‚ - make sure all JS comes after CSS
-		JHTML::_('behavior.modal');
+		if ($this->jvtag == 'j2')
+		{
+			JHTML::_('behavior.modal');
+		}
+		else
+		{
+			JHtml::_('jquery.framework');
+		}
 
 		// Tools first
 		$jsFile = ('media/com_easytablepro/js/atools.js');
 
 		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 
-		$document->addScript(JURI::root() . $jsFile, true);
+		$document->addScript(JURI::root() . $jsFile);
 
 
 		// Get the remote version data
