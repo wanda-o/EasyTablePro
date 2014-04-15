@@ -88,13 +88,13 @@ class EasyTableProViewTables extends JViewLegacy
 		/*
 		 *	Setup the Toolbar
 		 */
+		$toolbar = JToolBar::getInstance('toolbar');
 		JToolBarHelper::title(JText::_('COM_EASYTABLEPRO'), 'easytablepro');
 
 		// Add New Table
 		if ($canDo->get('core.create'))
 		{
 			$addTableURL = 'index.php?option=com_easytablepro&amp;view=upload&amp;step=new&amp;task=upload.new&amp;tmpl=component';
-			$toolbar = JToolBar::getInstance('toolbar');
 
 			if (JDEBUG)
 			{
@@ -109,7 +109,6 @@ class EasyTableProViewTables extends JViewLegacy
 		if ($canDo->get('easytablepro.link'))
 		{
 			$linkURL = 'index.php?option=com_easytablepro&amp;view=link&amp;task=link&amp;tmpl=component';
-			$toolbar = JToolBar::getInstance('toolbar');
 			$toolbar->appendButton('Popup', 'easytablpro-linkTable', 'COM_EASYTABLEPRO_LABEL_LINK_TABLE', $linkURL, 500, 375);
 		}
 
