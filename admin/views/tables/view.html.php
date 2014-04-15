@@ -39,6 +39,8 @@ class EasyTableProViewTables extends JViewLegacy
 
 	protected $et_current_version;
 
+	protected $jvtag;
+
 	/**
 	 * EasyTable tables view display method.
 	 *
@@ -50,6 +52,11 @@ class EasyTableProViewTables extends JViewLegacy
 	 **/
 	public function display($tpl = null)
 	{
+		// Get our Joomla Tag
+		$jv         = new JVersion;
+		$jv         = explode('.', $jv->RELEASE);
+		$this->jvtag      = 'j' . $jv[0];
+
 		// Get the settings meta record
 		$canDo = ET_General_Helper::getActions();
 

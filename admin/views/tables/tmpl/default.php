@@ -16,13 +16,10 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
-$jv         = new JVersion;
-$jv         = explode('.', $jv->RELEASE);
-$jvtag      = 'j' . $jv[0];
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 <?php // Load the right version of default
-echo $this->loadTemplate($jvtag);
+echo $this->loadTemplate($this->jvtag);
 echo JHTML::_('form.token');
 ?>
 <input type="hidden" name="option" value="<?php echo JRequest::getCmd('option') ?>" />
