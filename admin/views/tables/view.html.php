@@ -88,6 +88,17 @@ class EasyTableProViewTables extends JViewLegacy
 		$toolbar = JToolBar::getInstance('toolbar');
 		JToolBarHelper::title(JText::_('COM_EASYTABLEPRO'), 'easytablepro');
 
+		if ($this->jvtag == 'j2')
+		{
+			$popButtontype = 'Popup';
+		}
+		else
+		{
+			// Load our StandardPop button
+			JLoader::register('JToolbarButtonStandardpop', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/standardpop.php');
+			$popButtontype = 'Standardpop';
+		}
+
 		// Add New Table
 		if ($canDo->get('core.create'))
 		{
@@ -95,18 +106,18 @@ class EasyTableProViewTables extends JViewLegacy
 
 			if (JDEBUG)
 			{
-				$toolbar->appendButton('Popup', 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 495);
+				$toolbar->appendButton($popButtontype, 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 495);
 			}
 			else
 			{
-				$toolbar->appendButton('Popup', 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 425);
+				$toolbar->appendButton($popButtontype, 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 425);
 			}
 		}
 
 		if ($canDo->get('easytablepro.link'))
 		{
 			$linkURL = 'index.php?option=com_easytablepro&amp;view=link&amp;task=link&amp;tmpl=component';
-			$toolbar->appendButton('Popup', 'easytablpro-linkTable', 'COM_EASYTABLEPRO_LABEL_LINK_TABLE', $linkURL, 500, 375);
+			$toolbar->appendButton($popButtontype, 'easytablpro-linkTable', 'COM_EASYTABLEPRO_LABEL_LINK_TABLE', $linkURL, 500, 375);
 		}
 
 		if ($canDo->get('core.edit'))

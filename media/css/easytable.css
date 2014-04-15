@@ -9,6 +9,10 @@
     content: "\e01d";
 }
 
+.icon-easytablpro-linkTable:before {
+    content: "\e252";
+}
+
 .icon-48-easytablepro {
     background: url(../images/EasyTableProIcon.png) no-repeat left;
 }
