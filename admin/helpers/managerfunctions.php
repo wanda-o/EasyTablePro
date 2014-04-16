@@ -139,11 +139,11 @@ class ET_ManagerHelper
 		}
 
 		$link_text = JText::_('COM_EASYTABLEPRO_MGR_EDIT_PROPERTIES_AND_STRUCTURE_OF') . ' \'' . $tableName . '\' ' . $lockText;
-		$theEditLink = '<span class="hasTip" title="' . $link_text . '" style="margin-left:10px;" >' . $tableName . '</span>';
+		$theEditLink = '<span class="hasTip hasTooltip" title="' . $link_text . '" style="margin-left:10px;" >' . $tableName . '</span>';
 
 		if (!$locked && $hasPermission)
 		{
-			$theEditLink = '<span class="hasTip" title="' . $link_text . '" style="margin-left:10px;" >'
+			$theEditLink = '<span class="hasTip hasTooltip" title="' . $link_text . '" style="margin-left:10px;" >'
 				. '<a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $rowId . '\',\'table.edit\');" title="'
 				. $link_text . '" >' . $tableName . '</a></span>';
 		}
@@ -178,14 +178,14 @@ class ET_ManagerHelper
 		$theImageURL = JURI::root() . 'media/com_easytablepro/images/'
 			. (($locked || !$hasPermission) ? 'disabled_' : '')
 			. ($row->published?'publish_g.png':'publish_x.png');
-		$theBtn = '<span  class="hasTip" title="'
+		$theBtn = '<span  class="hasTip hasTooltip" title="'
 			. $btn_text . '" style="margin-left:15px;" ><img src="'
 			. $theImageURL . '" border="0" alt="'
 			. $btn_text . '"></span>';
 
 		if (!$locked && $hasPermission)
 		{
-			$theBtn = "<span class=\"hasTip\" title=\"$btn_text\" style=\"margin-left:15px;\" >"
+			$theBtn = "<span class=\"hasTip hasTooltip\" title=\"$btn_text\" style=\"margin-left:15px;\" >"
 				. JHTML::_('grid.published',  $row->published, $i, 'tick.png', 'publish_x.png', 'tables.') . '</span>';
 		}
 
@@ -226,7 +226,7 @@ class ET_ManagerHelper
 			$theImageURL = JURI::root() . 'media/com_easytablepro/images/' . (($locked || !$hasPermission) ? 'disabled_' : '') . 'edit.png';
 		}
 
-		$theEditBtn = '<span class="hasTip" title="'
+		$theEditBtn = '<span class="hasTip hasTooltip" title="'
 			. JText::_('COM_EASYTABLEPRO_MGR_EDIT_RECORDS_BTN_TT') . '::'
 			. $btn_text . '" style="margin-left:4px;" ><img src="'
 			. $theImageURL . '" style="text-decoration: none; color: #333;" alt="'
@@ -284,7 +284,7 @@ class ET_ManagerHelper
 				. 'upload_16x16.png';
 		}
 
-		$theBtn = '<span class="hasTip" title="'
+		$theBtn = '<span class="hasTip hasTooltip" title="'
 			. JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA') . '::'
 			. $btn_text . '" style="margin-left:10px;" ><img src="'
 			. $theImageURL . '" style="text-decoration: none; color: #333;" alt="'
