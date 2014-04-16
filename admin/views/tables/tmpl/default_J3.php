@@ -11,7 +11,9 @@
 defined('_JEXEC') or die('Restricted Access');
 require_once '' . JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
-JHTML::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
+JHtml::_('behavior.multiselect');
+
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $user		= JFactory::getUser();
@@ -33,9 +35,9 @@ $userId		= $user->get('id');
 			<th width="25%" class="center"><?php echo JHtml::_('grid.sort', 'COM_EASYTABLEPRO_MGR_TABLE', 't.easytablename', $listDirn, $listOrder); ?></th>
 			<th width="5%" class="center"><?php echo JText::_('COM_EASYTABLEPRO_MGR_EDIT_DATA'); ?></th>
 			<th width="5%" class="center hidden-phone"><?php echo JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA'); ?></th>
-			<th width="5%" class="nowrap center"><?php echo JHtml::_('searchtools.sort', 'JPUBLISHED', 't.published', $listDirn, $listOrder); ?></th>
+			<th width="5%" class="nowrap center"><?php echo JHtml::_('grid.sort', 'JPUBLISHED', 't.published', $listDirn, $listOrder); ?></th>
 			<th><?php echo JText::_('COM_EASYTABLEPRO_MGR_DESCRIPTION'); ?></th>
-			<th width="1%"><?php echo JHtml::_('searchtools.sort', 'COM_EASYTABLEPRO_MGR_ID', 't.id', $listDirn, $listOrder); ?></th>
+			<th width="1%"><?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 't.id', $listDirn, $listOrder); ?></th>
 		</tr>
 	</thead>
 	<tfoot>

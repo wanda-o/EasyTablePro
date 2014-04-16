@@ -186,4 +186,20 @@ class EasyTableProViewTables extends JViewLegacy
 		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$document->addScript(JURI::root() . $jsFile);
 	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   1.3
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			't.easytablename' => JText::_('JGLOBAL_TITLE'),
+			't.published' => JText::_('JOPTION_SELECT_PUBLISHED'),
+			't.id' => JText::_('JGRID_HEADING_ID')
+		);
+	}
 }

@@ -53,19 +53,19 @@ class EasyTableProModelTables extends JModelList
 	 */
 	public function __construct($config = array())
 	{
+		// Set our 'option' & 'context'
+		$this->option = 'com_easytablepro';
+		$this->context = $this->option . '.tables';
+
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array('easytablename', 't.easytablename', 'published', 't.published', 'access',
-				't.access', 'access_level','created_by', 't.created_by');
+				't.access', 'access_level','created_by', 't.created_by', 'id', 't.id');
 		}
 
 		parent::__construct($config);
 
 		$jAp = JFactory::getApplication();
-
-		// Set our 'option' & 'context'
-		$this->option = 'com_easytablepro';
-		$this->context = 'tables';
 
 		// Get pagination request variables
 		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
@@ -202,8 +202,14 @@ class EasyTableProModelTables extends JModelList
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
+		$order = $this->getUserStateFromRequest($this->context . '.filter.order', 'filter_order', 't.easytablename');
+		$this->setState('list.ordering', $order);
+
+		$order_Dir = $this->getUserStateFromRequest($this->context . '.filter.order', 'filter_order_Dir', 'asc');
+		$this->setState('list.direction', $order_Dir);
+
 		// List state information.
-		parent::populateState('t.easytablename', 'asc');
+		parent::populateState();
 	}
 
 	/**

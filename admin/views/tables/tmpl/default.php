@@ -11,7 +11,6 @@
 defined('_JEXEC') or die('Restricted Access');
 require_once '' . JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
-JHTML::_('behavior.tooltip');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $user		= JFactory::getUser();

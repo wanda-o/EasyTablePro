@@ -60,7 +60,7 @@ $userId		= $user->get('id');
 			<th width="5%"><?php echo JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA'); ?></th>
 			<th width="5%"><?php echo JHtml::_('grid.sort', 'JPUBLISHED', 't.published', $listDirn, $listOrder); ?></th>
 			<th><?php echo JText::_('COM_EASYTABLEPRO_MGR_DESCRIPTION'); ?></th>
-			<th width="1%"><?php echo JText::_('COM_EASYTABLEPRO_MGR_ID'); ?></th>
+			<th width="1%"><?php echo JText::_('JGRID_HEADING_ID'); ?></th>
 		</tr>
 	</thead>
 	<tfoot>
