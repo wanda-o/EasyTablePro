@@ -19,14 +19,24 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 ?>
-<div class="et_version_info" style="font-size: 0.9em;">
-	<?php echo JText::_('COM_EASYTABLEPRO_MGR_INSTALLED_VERSION') . '&nbsp;'; ?>:: <span id="installedVersionSpan">
-		<?php echo $this->et_current_version; ?></span>
-		<span id="et-subverinfo">
-	<?php
-	echo JText::_('COM_EASYTABLEPRO_MGR_CURRENT_SUBSCRIBERS_RELEASE_IS') . '&nbsp;'; ?>:: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro/changelog.html" target="_blank" title="<?php echo JText::_('COM_EASYTABLEPRO_MGR_OPEN_RELEASE_DESC'); ?>" class="hasTip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a></span>
+<?php if (!empty( $this->sidebar)) : ?>
+<div id="j-sidebar-container" class="span2">
+	<?php echo $this->sidebar; ?>
 </div>
-<div id="j-main-container">
+<div id="j-main-container" class="span10">
+	<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="filter-search btn-group pull-left">
+			<label class="element-invisible" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
+			<input type="text" name="filter_search" id="filter_search"  placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip"  title="<?php echo JHtml::tooltipText('COM_EASYTABLE_FILTER_SEARCH_DESC'); ?>" />
+		</div>
+		<div class="btn-group pull-left">
+			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+		</div>
+	</div>
 	<div class="clr"> </div>
 	<table class="table table-striped">
 	<thead>

@@ -49,15 +49,10 @@ class EasyTableProViewTables extends JViewLegacy
 	 **/
 	public function display($tpl = null)
 	{
-		// Get our Joomla Tag
+		// Get our Joomla Tag, installed version and our canDo's
 		$this->jvtag      = ET_General_Helper::getJoomlaVersionTag();
-
-		// Get the settings meta record
-		$canDo = ET_General_Helper::getActions();
-
-		// Setup toolbar, js, css
-		$this->addToolbar($canDo);
-		$this->addCSSEtc();
+		$this->et_current_version = ET_ManagerHelper::current_version();
+		$this->canDo = ET_General_Helper::getActions();
 
 		// Get data from the model
 		$this->state = $this->get('State');
@@ -65,8 +60,9 @@ class EasyTableProViewTables extends JViewLegacy
 		$this->authors = $this->get('Authors');
 		$this->pagination = $this->get('Pagination');
 
-		$this->canDo = ET_General_Helper::getActions();
-		$this->et_current_version = ET_ManagerHelper::current_version();
+		// Setup toolbar, js, css
+		$this->addToolbar($this->canDo);
+		$this->addCSSEtc();
 
 		parent::display($tpl);
 	}
@@ -145,6 +141,35 @@ class EasyTableProViewTables extends JViewLegacy
 
 		$helpURL = 'http://seepeoplesoftware.com/products/easytablepro/1.1/help/tables.html';
 		JToolBarHelper::help('COM_EASYTABLEPRO_HELP_TABLES_VIEW', false, $helpURL);
+
+		/*
+		 *  Setup the sidebar filters
+		 */
+		if ($this->jvtag != 'j2')
+		{
+			JHtmlSidebar::setAction('index.php?option=com_weblinks&view=weblinks');
+
+			JHtmlSidebar::addFilter(
+				JText::_('JOPTION_SELECT_PUBLISHED'),
+				'filter_published',
+				JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('published' => 1, 'unpublished' => 1, 'archived' => 0, 'trash' => 0, 'all' => 1)), 'value', 'text', $this->state->get('filter.published'), true)
+			);
+
+			JHtmlSidebar::addFilter(
+				JText::_('JOPTION_SELECT_ACCESS'),
+				'filter_access',
+				JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+			);
+
+			JHtmlSidebar::addFilter(
+				JText::_('JOPTION_SELECT_AUTHOR'),
+				'filter_author_id',
+				JHtml::_('select.options', $this->authors, 'value', 'text', $this->state->get('filter.author_id'))
+			);
+
+			// Store our sidebar for later
+			$this->sidebar = JHtmlSidebar::render() . $this->getVersionDiv();
+		}
 	}
 
 	/**
@@ -201,5 +226,27 @@ class EasyTableProViewTables extends JViewLegacy
 			't.published' => JText::_('JOPTION_SELECT_PUBLISHED'),
 			't.id' => JText::_('JGRID_HEADING_ID')
 		);
+	}
+
+	/**
+	 * Populates and returns the html for the version info block.
+	 *
+	 * @return string
+	 */
+	protected function getVersionDiv()
+	{
+		$install_version_label = JText::_('COM_EASYTABLEPRO_MGR_INSTALLED_VERSION');
+		$installed_version = $this->et_current_version;
+		$current_release_label = JText::_('COM_EASYTABLEPRO_MGR_CURRENT_SUBSCRIBERS_RELEASE_IS');
+		$current_release_tip = JHtml::tooltipText('COM_EASYTABLEPRO_MGR_OPEN_RELEASE_DESC');
+		$versionDiv = <<<VDIV
+<div class="et_version_info" style="font-size: 0.9em;">
+	$install_version_label:: <span id="installedVersionSpan">$installed_version</span><br>
+	$current_release_label:: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro/changelog.html" target="_blank" title="$current_release_tip" class="hasTooltip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a>
+</div>
+
+VDIV;
+
+		return $versionDiv;
 	}
 }
