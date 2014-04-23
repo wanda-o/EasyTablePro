@@ -96,11 +96,6 @@ $sortFields = $this->getSortFields();
 			<th width="1%"><?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 't.id', $listDirn, $listOrder); ?></th>
 		</tr>
 	</thead>
-	<tfoot>
-		<tr>
-			<td colspan="13"><?php echo $this->pagination->getListFooter(); ?></td>
-		</tr>
-	</tfoot>
 	<tbody>
 	<?php
 	$k = 0;
@@ -185,4 +180,5 @@ $sortFields = $this->getSortFields();
 	}
 	?></tbody>
 	</table>
+		<?php echo $this->pagination->getListFooter(); ?>
 </div>
