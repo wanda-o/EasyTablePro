@@ -197,6 +197,9 @@ class EasyTableProModelTables extends JModelList
 		$order_Dir = $this->getUserStateFromRequest($this->context . '.list.direction', 'filter_order_Dir', 'asc');
 		$this->setState('list.direction', $order_Dir);
 
+		$limit = $this->getUserStateFromRequest($this->context . '.list.limit', 'limit');
+		$this->setState('list.limit', $limit);
+
 		// Down to here can go when 2.5 goes away, don't forget to change the hidden fields :D
 		parent::populateState('t.easytablename', 'asc');
 	}
