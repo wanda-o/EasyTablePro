@@ -64,18 +64,6 @@ class EasyTableProModelTables extends JModelList
 		}
 
 		parent::__construct($config);
-
-		$jAp = JFactory::getApplication();
-
-		// Get pagination request variables
-		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-
-		// In case limit has been changed, adjust it
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
-
-		$this->setState('limit', $limit);
-		$this->setState('limitstart', $limitstart);
 	}
 
 	/**
@@ -232,30 +220,6 @@ class EasyTableProModelTables extends JModelList
 		$id	.= ':' . $this->getState('filter.author_id');
 
 		return parent::getStoreId($id);
-	}
-
-	/**
-	 * Returns the users search term for the EasyTableMgr
-	 *
-	 * @return  mixed|null|string
-	 */
-	public function getSearch()
-	{
-		if (!$this->_search)
-		{
-			$jAp = JFactory::getApplication();
-			$option = JRequest::getCmd('option');
-			$search = $jAp->getUserStateFromRequest("$option.easytablemgr.search", 'search', '');
-
-			if ($search == '')
-			{
-				$search = JRequest::getVar('search', '');
-			}
-
-			$this->_search = JString::strtolower($search);
-		}
-
-		return $this->_search;
 	}
 
 	/**
