@@ -225,8 +225,8 @@ class EasyTableProViewTables extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			't.easytablename' => JText::_('JGLOBAL_TITLE'),
-			't.published' => JText::_('JOPTION_SELECT_PUBLISHED'),
+			't.easytablename' => JText::_('COM_EASYTABLEPRO_MGR_TABLE'),
+			't.published' => JText::_('JSTATUS'),
 			't.id' => JText::_('JGRID_HEADING_ID')
 		);
 	}
