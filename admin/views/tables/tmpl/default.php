@@ -16,7 +16,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 ?>
-<form action="index.php?option=com_easytablepro" method="post" name="adminForm" id="adminForm">
 <?php // Load the right version of default
 echo $this->loadTemplate($this->jvtag);
 echo JHTML::_('form.token');

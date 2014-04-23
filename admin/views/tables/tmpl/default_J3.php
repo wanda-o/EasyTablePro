@@ -19,6 +19,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 ?>
+<form action="index.php?option=com_easytablepro" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 <div id="j-sidebar-container" class="span2">
 	<?php echo $this->sidebar; ?>

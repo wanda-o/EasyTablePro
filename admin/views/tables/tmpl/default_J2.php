@@ -17,6 +17,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 ?>
+<form action="index.php?option=com_easytablepro" method="post" name="adminForm" id="adminForm">
 <div class="et_version_info">
 	<?php echo JText::_('COM_EASYTABLEPRO_MGR_INSTALLED_VERSION') . '&nbsp;'; ?>:: <span id="installedVersionSpan">
 		<?php echo $this->et_current_version; ?></span><br>
