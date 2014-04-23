@@ -202,14 +202,14 @@ class EasyTableProModelTables extends JModelList
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$order = $this->getUserStateFromRequest($this->context . '.filter.order', 'filter_order', 't.easytablename');
+		$order = $this->getUserStateFromRequest($this->context . '.list.ordering', 'filter_order', 't.easytablename');
 		$this->setState('list.ordering', $order);
 
-		$order_Dir = $this->getUserStateFromRequest($this->context . '.filter.order', 'filter_order_Dir', 'asc');
+		$order_Dir = $this->getUserStateFromRequest($this->context . '.list.direction', 'filter_order_Dir', 'asc');
 		$this->setState('list.direction', $order_Dir);
 
 		// List state information.
-		parent::populateState();
+		parent::populateState('t.easytablename', 'asc');
 	}
 
 	/**
