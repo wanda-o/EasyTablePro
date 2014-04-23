@@ -136,8 +136,11 @@ class EasyTableProViewTables extends JViewLegacy
 
 		JToolBarHelper::divider();
 
-		JToolBarHelper::preferences('com_easytablepro', 565);
-		JToolBarHelper::divider();
+		if ($canDo->get('core.admin'))
+		{
+			JToolBarHelper::preferences('com_easytablepro', 565);
+			JToolBarHelper::divider();
+		}
 
 		$helpURL = 'http://seepeoplesoftware.com/products/easytablepro/1.1/help/tables.html';
 		JToolBarHelper::help('COM_EASYTABLEPRO_HELP_TABLES_VIEW', false, $helpURL);
