@@ -171,7 +171,7 @@ class Com_EasyTableProInstallerScript
 
 					if (in_array($theCurrentTable, $et_table_list))
 					{
-						$et_query = 'DROP TABLE ' . $db->nameQuote($theCurrentTable) . ';';
+						$et_query = 'DROP TABLE ' . $db->quoteName($theCurrentTable) . ';';
 						$db->setQuery($et_query);
 						$et_drop_result = $db->query();
 

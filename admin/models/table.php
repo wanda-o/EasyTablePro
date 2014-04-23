@@ -210,7 +210,7 @@ class EasyTableProModelTable extends JModelAdmin
 			if ($et_datatable_found)
 			{
 				// Get the record count for this table
-				$query = "SELECT COUNT(*) FROM " . $db->nameQuote($ettd_tname);
+				$query = "SELECT COUNT(*) FROM " . $db->quoteName($ettd_tname);
 				$db->setQuery($query);
 				$ettd_record_count = $db->loadResult();
 				$item->set('ettd_record_count', $ettd_record_count);

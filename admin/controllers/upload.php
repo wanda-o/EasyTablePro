@@ -452,8 +452,8 @@ class EasyTableProControllerUpload extends JControllerForm
 		}
 
 		// Build the TRUNCATE SQL -- NB. using truncate resets the AUTO_INCREMENT value of ID
-		$ettd_table_name = $db->nameQuote('#__easytables_table_data_' . $id);
-		$query = 'TRUNCATE TABLE ' . $db->nameQuote('#__easytables_table_data_' . $id) . ';';
+		$ettd_table_name = $db->quoteName('#__easytables_table_data_' . $id);
+		$query = 'TRUNCATE TABLE ' . $db->quoteName('#__easytables_table_data_' . $id) . ';';
 
 		$db->setQuery($query);
 		$theResult = $db->query();
