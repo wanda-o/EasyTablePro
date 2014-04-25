@@ -39,7 +39,7 @@ defined('_JEXEC') or die('Restricted Access');
 				<a href="#" onclick="com_EasyTablePro.Table.turnAll('off','search')" title="<?php echo JText::_('COM_EASYTABLEPRO_TABLE_TURN_OFF_ALL_FLDS_SEARCH_TT'); ?>" class="hasTip" > X </a></th>
 			</tr>
 		</thead>
-		<?php echo $this->loadTemplate('metatable_body'); ?>
+		<?php echo $this->loadTemplate('j2_metatable_body'); ?>
 		</table>
 		<input type="hidden" id="mRIds" name="mRIds" value="<?php echo implode(', ',$this->mRIds); ?>" />
 	</fieldset>
