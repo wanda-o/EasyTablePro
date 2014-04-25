@@ -87,7 +87,7 @@ class EasyTableProViewTable extends JViewLegacy
 			$params = '';
 		}
 
-		$this->assignRef('params', $params);
+		$this->params = $params;
 
 		// Max file size for uploading
 		$umfs = ET_General_Helper::umfs();
@@ -95,13 +95,13 @@ class EasyTableProViewTable extends JViewLegacy
 		// Get the max file size for uploads from Pref's, default to servers PHP setting if not found or > greater than server allows.
 		$maxFileSize = ($umfs > $this->state->params->get('maxFileSize')) ? $umfs : $this->state->params->get('maxFileSize', $umfs);
 
-		$this->assign('maxFileSize', $maxFileSize);
 
 
 		if (isset($this->item->ettd))
 		{
 			$this->assignRef('ettd_record_count', $ettd_record_count);
 		}
+		$this->maxFileSize = $maxFileSize;
 
 		parent::display($tpl);
 	}
