@@ -46,6 +46,10 @@ class EasyTableProViewTable extends JViewLegacy
 	 **/
 	public function display($tpl = null)
 	{
+		// Get our Joomla Tag and our canDo's
+		$this->jvtag = ET_General_Helper::getJoomlaVersionTag();
+		$this->canDo = ET_General_Helper::getActions();
+
 		// Get the Data
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
@@ -58,9 +62,6 @@ class EasyTableProViewTable extends JViewLegacy
 
 			return;
 		}
-
-		// Should we be here?
-		$this->canDo = ET_General_Helper::getActions($this->item->id);
 
 		// Setup the toolbar etc
 		$this->addToolBar($this->item, $this->canDo);
@@ -103,6 +104,10 @@ class EasyTableProViewTable extends JViewLegacy
 	/**
 	 * Sets up our toolbar for the view.
 	 *
+	 * @param   EasyTableProModelTable  $item   The current table.
+	 *
+	 * @param   JObject                 $canDo  The permission object.
+	 *
 	 * @return  void
 	 *
 	 * @since   1.1
@@ -135,16 +140,27 @@ class EasyTableProViewTable extends JViewLegacy
 		{
 			JToolBarHelper::divider();
 			$importURL = 'index.php?option=com_easytablepro&amp;view=upload&amp;task=upload&amp;id=' . $item->id . '&amp;tmpl=component';
+			$width = 700;
+			$height = JDEBUG ? 495 : 425;
 
 			$toolbar = JToolBar::getInstance('toolbar');
 
-			if (JDEBUG)
+			if ($this->jvtag == 'j2')
 			{
-				$toolbar->appendButton('Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, 700, 495);
+				$toolbar->appendButton('Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, $width, $height);
 			}
 			else
 			{
-				$toolbar->appendButton('Popup', 'easytablpro-uploadTable', 'COM_EASYTABLEPRO_LABEL_UPLOAD', $importURL, 700, 425);
+				// Load our StandardPop button
+				JLoader::register('JToolbarButtonStandardpop', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/standardpop.php');
+				$toolbar->appendButton(
+					'Standardpop',
+					'easytablpro-uploadTable',
+					'COM_EASYTABLEPRO_LABEL_UPLOAD',
+					$importURL,
+					$width,
+					$height
+				);
 			}
 		}
 
