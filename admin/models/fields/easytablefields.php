@@ -49,6 +49,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 		$id = $jinput->get('id', null);
 		$theOpt = $jinput->get('option', 'No Table Option');
 
+		// Are we being called to setup a menu item?
 		if ($theOpt == 'com_menus')
 		{
 			$menus = $Ap->getMenu('site');
@@ -64,6 +65,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 			}
 		}
 
+		// If we have a table ID retreive the list of fields from the our EasyTables Table Meta
 		if ($id)
 		{
 			$query = $db->getQuery(true);
@@ -82,6 +84,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 		}
 		else
 		{
+			// Prompt our user to select a table first
 			$options = array(JText::_('COM_EASYTABLEPRO_MODEL_FIELDS_SELECT_A_TABLE_FIRST'));
 		}
 
