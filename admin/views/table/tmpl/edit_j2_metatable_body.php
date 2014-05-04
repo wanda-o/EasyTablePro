@@ -60,8 +60,11 @@ defined('_JEXEC') or die('Restricted Access');
 				. $mRId . '" value="' . $metaRow['fieldalias'] . '" />' . '<input type="text" name="fieldalias' . $mRId . '" value="'
 				. $metaRow['fieldalias'] . '" onchange="com_EasyTablePro.Table.validateAlias(this)" disabled="disabled" />' . '<img src="'
 				. JURI::root() . 'media/com_easytablepro/images/locked.gif" onclick="com_EasyTablePro.Table.unlock(this, ' . $mRId . ');" id="unlock'
-				. $mRId . '" alt="Unlock Alias" /></span></td>';
+				. $mRId . '" alt="Unlock Alias" /></span>';
 		}
+
+		echo '</td>';
+
 		// Description
 		echo '<td><textarea cols="30" rows="2" name="description' . $mRId . '" class="hasTip" title="' . JText::_('COM_EASYTABLEPRO_TABLE_DESCRIPTION_TT')
 			. '" >' . $metaRow['description'] . '</textarea></td>';
