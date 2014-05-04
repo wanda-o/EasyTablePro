@@ -193,6 +193,13 @@
 				default=""
 				description="COM_EASYTABLEPRO_PREF_USER_MOD_DATE_LABEL_DESC">
 			</field>
+
+            <field
+                    name="spacer"
+                    type="spacer"
+                    default=""
+                    hr="true"
+                    />
 			<field name="make_tables_sortable"
 				label="COM_EASYTABLEPRO_PREF_MAKE_TABLES_SORTABLE"
 				type="list"
@@ -202,12 +209,57 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field
-				name="spacer"
+            <field name="sort_field"
+                   type="easytablefields"
+                   default=""
+                   label="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_PROMPT"
+                   description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_DESC" />
+            <field name="sort_order"
+                   type="list"
+                   default=""
+                   label="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_ORDER_PROMPT"
+                   description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_ORDER_DESC">
+                <option value="ASC">COM_EASYTABLEPRO_LABEL_ASCENDING</option>
+                <option value="DESC">COM_EASYTABLEPRO_LABEL_DESCENDING</option>
+            </field>
+
+            <field
+				name="spacer1"
 				type="spacer"
 				default=""
 				hr="true"
              />
+			<field name="searchable_by_joomla"
+				type="list"
+				default=""
+				label="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA"
+				description="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="spacer2"
+				type="spacer"
+				hr="true"
+			/>
+            <field
+                    name="auto_column_width"
+                    type="list" default="1"
+                    label="COM_EASYTABLEPRO_PREF_AUTO_COLUMN_WIDTH"
+                    description="COM_EASYTABLEPRO_PREF_AUTO_COLUMN_WIDTH_DESC"
+                    >
+                <option value="0">JNO</option>
+                <option value="1">JYES</option>
+            </field>
+			<field name="records_layout" type="componentlayout"
+				label="JFIELD_ALT_LAYOUT_LABEL"
+				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+				useglobal="true"
+				extension="com_easytablepro" view="records" />
+		</fieldset>
+        <fieldset name="FILTERING" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_FILTER_SETTINGS">
             <field name="filter_field"
                    type="easytablefields"
                    default=""
@@ -256,60 +308,30 @@
                    default=""
                    label="COM_EASYTABLEPRO_MENU_ADVANCED_FILTER_VALUE_LABEL"
                    description="COM_EASYTABLEPRO_MENU_ADVANCED_FILTER_VALUE_DESC" />
-            <field
-                    name="spacer2"
-                    type="spacer"
-                    hr="true"
-                    />
-			<field name="searchable_by_joomla"
-				type="list"
-				default=""
-				label="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA"
-				description="COM_EASYTABLEPRO_PREF_SEARCHABLE_IN_JOOMLA_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
-
-			<field
-				name="spacer3"
-				type="spacer"
-				hr="true"
-			/>
-			<field name="sort_field"
-				type="easytablefields"
-				default=""
-				label="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_PROMPT"
-				description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_FIELD_DESC" />
-			<field name="sort_order"
-					type="list"
-					default=""
-					label="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_ORDER_PROMPT"
-					description="COM_EASYTABLEPRO_MENU_TABLE_SELECT_SORT_ORDER_DESC">
-						<option value="ASC">COM_EASYTABLEPRO_LABEL_ASCENDING</option>
-						<option value="DESC">COM_EASYTABLEPRO_LABEL_DESCENDING</option>
-			</field>
-
-			<field
-				name="spacer4"
-				type="spacer"
-				hr="true"
-			/>
-            <field
-                    name="auto_column_width"
-                    type="list" default="1"
-                    label="COM_EASYTABLEPRO_PREF_AUTO_COLUMN_WIDTH"
-                    description="COM_EASYTABLEPRO_PREF_AUTO_COLUMN_WIDTH_DESC"
-                    >
+        </fieldset>
+        <fieldset name="USER_FILTER" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_USER_FILTER_SETTINGS">
+            <field name="enable_user_filter"
+                   type="list"
+                   default=""
+                   label="COM_EASYTABLEPRO_PREF_ENABLE_USER_FILTER_LABEL"
+                   description="COM_EASYTABLEPRO_PREF_ENABLE_USER_FILTER_DESC">
                 <option value="0">JNO</option>
                 <option value="1">JYES</option>
             </field>
-			<field name="records_layout" type="componentlayout"
-				label="JFIELD_ALT_LAYOUT_LABEL"
-				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-				useglobal="true"
-				extension="com_easytablepro" view="records" />
-		</fieldset>
+            <field name="filter_records_by"
+                   type="list"
+                   default=""
+                   label="COM_EASYTABLEPRO_PREF_FILTER_BY_USER_LABEL"
+                   description="COM_EASYTABLEPRO_PREF_FILTER_BY_USER_DESC">
+                <option value="name">Name</option>
+                <option value="id">ID</option>
+            </field>
+            <field name="user_filter_field"
+                   type="easytablefields"
+                   default=""
+                   label="COM_EASYTABLEPRO_PREF_SELECT_FIELD"
+                   description="COM_EASYTABLEPRO_PREF_USER_FILTER_FIELD_TT" />
+        </fieldset>
 		<fieldset name="RECORD_VIEW" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_RECORD_VIEW_SETTINGS">
 			<field name="title_links_to_table"
 				type="list"
@@ -360,29 +382,6 @@
 				type="text"
 				default=""
 				description="COM_EASYTABLEPRO_PREF_LINKED_TABLE_LINK_FIELD_ID_DESC" />
-		</fieldset>
-		<fieldset name="USER_FILTER" label="COM_EASYTABLEPRO_TABLE_PANE_TITLE_USER_FILTER_SETTINGS">
-			<field name="enable_user_filter"
-				type="list"
-				default=""
-				label="COM_EASYTABLEPRO_PREF_ENABLE_USER_FILTER_LABEL"
-				description="COM_EASYTABLEPRO_PREF_ENABLE_USER_FILTER_DESC">
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-			<field name="filter_records_by"
-				type="list"
-				default=""
-				label="COM_EASYTABLEPRO_PREF_FILTER_BY_USER_LABEL"
-				description="COM_EASYTABLEPRO_PREF_FILTER_BY_USER_DESC">
-				<option value="name">Name</option>
-				<option value="id">ID</option>
-			</field>
-			<field name="user_filter_field"
-				type="easytablefields"
-				default=""
-				label="COM_EASYTABLEPRO_PREF_SELECT_FIELD"
-				description="COM_EASYTABLEPRO_PREF_USER_FILTER_FIELD_TT" />
 		</fieldset>
 	</fields>
 </form>
