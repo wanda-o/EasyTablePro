@@ -81,7 +81,7 @@ defined('_JEXEC') or die('Restricted Access');
 		$tdFlagImg       = ET_TableHelper::getListViewImage($tdName, $metaRow['list_view']);
 		$tdjs            = 'com_EasyTablePro.Table.toggleTick(\'list_view\', ' . $mRId . ');';
 		$tdFlagImgLink   = '<a href="javascript:void(0);" onclick="' . $tdjs . '">' . $tdFlagImg . '</a>';
-		echo($tdStart . $tdFlagImgLink . $tdEnd);
+		echo  $tdStart . $tdFlagImgLink . $tdEnd;
 
 		// Detail Link Flag
 		$tdName          = 'detail_link' . $mRId;
@@ -89,7 +89,7 @@ defined('_JEXEC') or die('Restricted Access');
 		$tdFlagImg       = ET_TableHelper::getListViewImage($tdName, $metaRow['detail_link']);
 		$tdjs            = 'com_EasyTablePro.Table.toggleTick(\'detail_link\', ' . $mRId . ');';
 		$tdFlagImgLink   = '<a href="javascript:void(0);" onclick="' . $tdjs . '">' . $tdFlagImg . '</a>';
-		echo($tdStart . $tdFlagImgLink . $tdEnd);
+		echo $tdStart . $tdFlagImgLink . $tdEnd;
 
 		// Detail View Flag
 		$tdName          = 'detail_view' . $mRId;
@@ -108,12 +108,13 @@ defined('_JEXEC') or die('Restricted Access');
 		$tdFlagImg       = ET_TableHelper::getListViewImage($tdName, $tdSearchField);
 		$tdjs            = 'com_EasyTablePro.Table.toggleTick(\'search_field\', ' . $mRId . ');';
 		$tdFlagImgLink   = '<a href="javascript:void(0);" onclick="' . $tdjs . '">' . $tdFlagImg . '</a>';
-		echo($tdStart . $tdFlagImgLink . $tdEnd);
+		echo $tdStart . $tdFlagImgLink . $tdEnd;
 
 		// Close the row
 		echo "</tr>\r\r";
 		$k = 1 - $k;
 	}
+
 	if (!$this->item->etet)
 	{
 		echo '<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" '
@@ -124,6 +125,7 @@ defined('_JEXEC') or die('Restricted Access');
 			. JText::_('COM_EASYTABLEPRO_TABLE_ADD_FIELD_BTN') . '</a></td><td colspan="6"><em>'
 			. JText::_('COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_DESC') . '</em></td></tr>';
 	}
+
 	$this->mRIds = $mRIds;
 	?>
 </tbody>
