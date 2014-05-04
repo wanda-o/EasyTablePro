@@ -115,6 +115,17 @@ com_EasyTablePro.Tools.deleteFromList = function(theList, itemToRemove)
 	return newList.join(', ');
 }
 
+com_EasyTablePro.Tools.removeOptions = function(theSelect, optionFrom, optionTo)
+{
+    optionFrom = (typeof optionFrom == 'undefined') ? 0 : optionFrom;
+    optionTo = (typeof optionTo == 'undefined') ? theSelect.options.length - 1 : optionTo;
+
+    for(i=optionTo;i>=optionFrom;i--)
+    {
+        theSelect.remove(i);
+    }
+}
+
 com_EasyTablePro.Tools.makeURLSafe = function(str)
 {
 	// Modify it if it's just a number

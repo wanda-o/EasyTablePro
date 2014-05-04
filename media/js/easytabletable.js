@@ -10,6 +10,25 @@
 $et_check_msg = '';
 $et_give_data_type_change_warning = true;
 
+if(typeof jQuery == 'undefined')
+{
+    window.addEvent('load', function(){
+        $('jform_params_id').addEvent('change', function(event) {
+            var keyFieldSelect =  $('jform_params_key_field');
+            var linkedkeyFieldSelect =  $('jform_params_linked_key_field');
+
+            // Reset our fields whenever table changes
+            keyFieldSelect.selectedIndex = 0;
+            keyFieldSelect.options[0].set('text', Joomla.JText._('COM_EASYTABLEPRO_MODEL_FIELDS_SAVE_TABLE_SELECTION'));
+            com_EasyTablePro.Tools.removeOptions(keyFieldSelect, 1);
+
+            linkedkeyFieldSelect.selectedIndex = 0;
+            linkedkeyFieldSelect.options[0].set('text', Joomla.JText._('COM_EASYTABLEPRO_MODEL_FIELDS_SAVE_TABLE_SELECTION'));
+            com_EasyTablePro.Tools.removeOptions(linkedkeyFieldSelect, 1);
+        });
+    });
+}
+
 com_EasyTablePro.Table.atLeast1ListField = function(){
 	cppl_adminForm = document.adminForm;
 	cppl_numAFElements = cppl_adminForm.elements.length;

@@ -379,7 +379,7 @@
 				description="COM_EASYTABLEPRO_PREF_LINKED_TABLE_LINK_FIELD_DESC" />
 			<field name="linked_key_field"
 				label="COM_EASYTABLEPRO_PREF_LINKED_KEY_FIELD"
-				type="text"
+				type="EasyTableLinkedFields"
 				default=""
 				description="COM_EASYTABLEPRO_PREF_LINKED_TABLE_LINK_FIELD_ID_DESC" />
 		</fieldset>
