@@ -8,10 +8,6 @@
  */
 defined('_JEXEC') or die('Restricted Access');
 
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
-
 /**
  * JFormFieldEasyTable provides the options for the Table selection menu.
  *
