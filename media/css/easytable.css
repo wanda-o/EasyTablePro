@@ -9,10 +9,25 @@
     content: "\e01d";
 }
 
+.icon-easytablepro-editrecords:before {
+    content: "\2b";
+    color: #f47b1b;
+}
+
 .icon-easytablpro-linkTable:before {
     content: "\e252";
 }
 
+.icon-easytablpro-uploadTable:before {
+    content: "\e201";
+    color: #a500ab;
+}
+
+.icon-easytablpro-modifyTable:before {
+    content: "\36";
+    color: #1f9a07;
+    font-size: 1.1em;
+}
 .icon-48-easytablepro {
     background: url(../images/EasyTableProIcon.png) no-repeat left;
 }
@@ -104,6 +119,10 @@
     background-color: #c3ffc3;
 }
 
+.etp_editor_row_description {
+    width: 350px;
+}
+
 #uploadWhileModifyingNotice {
     display: none;
 
@@ -140,3 +159,23 @@
 .et_mgr_hits_counter {
     float: right;
 }
+
+.width-mini {
+    width: 60px;
+}
+.width-small {
+    width: 90px;
+}
+.width-medium {
+    width: 150px;
+}
+.width-large {
+    width: 210px;
+}
+.width-xlarge {
+    width: 270px;
+}
+.width-xxlarge {
+    width: 530px;
+}
+

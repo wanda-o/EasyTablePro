@@ -278,6 +278,23 @@ class EasyTableProModelTable extends JModelAdmin
 	}
 
 	/**
+	 * Returns an array of publishing fields.
+	 *
+	 * @return array
+	 */
+	public function getPublishingFields()
+	{
+		return array(
+			array('created_', 'created_time'),
+			array('created_by', 'created_user_id'),
+			array('modified', 'modified_'),
+			array('modified_by', 'modified_by_'),
+			'hits',
+			'id'
+		);
+	}
+
+	/**
 	 * Method to store a record
 	 *
 	 * @return	boolean	True on success

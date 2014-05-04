@@ -12,8 +12,8 @@
 			<field name="easytablename"
 				label="COM_EASYTABLEPRO_MGR_TABLE"
 				type="text"
-				class="inputbox"
-				description=""
+				class="inputbox input-xxlarge input-large-text"
+				description="COM_EASYTABLEPRO_TABLE_TABLENAME_DESC"
 				required="true"
 				size="32"
 				onchange="com_EasyTablePro.Table.createTableNameAlias()"
@@ -22,7 +22,7 @@
 				label="COM_EASYTABLEPRO_LABEL_ALIAS"
 				type="text"
 				class="inputbox"
-				description=""
+				description="COM_EASYTABLEPRO_TABLE_ALIAS_DESC"
 				required="true"
 				size="32"
 				onchange="com_EasyTablePro.Table.validateTableNameAlias()"
@@ -31,7 +31,7 @@
 				type="list"
 				label="JSTATUS"
 				description="JFIELD_PUBLISHED_DESC"
-				class="inputbox"
+				class="inputbox chzn-color-state"
 				filter="intval"
 				size="1"
 				default="1" >
@@ -57,7 +57,7 @@
 				type="text"
 				size="40"
 				default="/images/stories"
-				class="inputbox" />
+				class="inputbox span12" />
 			<field name="created_"
 				type="calendar"
 				class="readonly"

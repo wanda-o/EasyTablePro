@@ -118,11 +118,24 @@ com_EasyTablePro.Tools.deleteFromList = function(theList, itemToRemove)
 com_EasyTablePro.Tools.removeOptions = function(theSelect, optionFrom, optionTo)
 {
     optionFrom = (typeof optionFrom == 'undefined') ? 0 : optionFrom;
-    optionTo = (typeof optionTo == 'undefined') ? theSelect.options.length - 1 : optionTo;
 
-    for(i=optionTo;i>=optionFrom;i--)
+    if (typeof jQuery === 'undefined')
     {
-        theSelect.remove(i);
+        optionTo = (typeof optionTo == 'undefined') ? theSelect.options.length - 1 : optionTo;
+        for(i=optionTo;i>=optionFrom;i--)
+        {
+            theSelect.remove(i);
+        }
+    }
+    else
+    {
+        var theSelectOptions = theSelect.children('option');
+        optionTo = (typeof optionTo == 'undefined') ? theSelectOptions.length - 1 : optionTo;
+
+        for(i=optionTo;i>=optionFrom;i--)
+        {
+            theSelect.children("option[value='"+theSelectOptions[i].value+"']").remove();
+        }
     }
 }
 

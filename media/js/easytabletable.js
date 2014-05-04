@@ -28,6 +28,26 @@ if(typeof jQuery == 'undefined')
         });
     });
 }
+else
+{
+    jQuery(document).ready(function(){
+        jQuery('#jform_params_id').change(
+            function(event) {
+                var keyFieldSelect =  jQuery('#jform_params_key_field');
+                var linkedkeyFieldSelect =  jQuery('#jform_params_linked_key_field');
+
+            // Reset our fields whenever table changes
+            keyFieldSelect.find("option:eq('')").text(Joomla.JText._('COM_EASYTABLEPRO_MODEL_FIELDS_SAVE_TABLE_SELECTION'));
+            com_EasyTablePro.Tools.removeOptions(keyFieldSelect, 1);
+            keyFieldSelect.val('').trigger('liszt:updated');
+
+            linkedkeyFieldSelect.find("option:eq('')").text(Joomla.JText._('COM_EASYTABLEPRO_MODEL_FIELDS_SAVE_TABLE_SELECTION'));
+            com_EasyTablePro.Tools.removeOptions(linkedkeyFieldSelect, 1);
+            linkedkeyFieldSelect.val('').trigger('liszt:updated');
+        });
+    });
+
+}
 
 com_EasyTablePro.Table.atLeast1ListField = function(){
 	cppl_adminForm = document.adminForm;

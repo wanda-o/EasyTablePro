@@ -54,6 +54,7 @@ class EasyTableProViewTable extends JViewLegacy
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
 		$this->state = $this->get('State');
+		$this->fields = $this->get('PublishingFields');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -123,10 +124,17 @@ class EasyTableProViewTable extends JViewLegacy
 		$isNew		= ($item->id == 0);
 		$checkedOut	= !($item->checked_out == 0 || $item->checked_out == $user->get('id'));
 
+		$tbarTitle = $isNew ? JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW') : JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE');
+
+		if ($this->jvtag != 'j2')
+		{
+			$tbarTitle = JText::_('COM_EASYTABLEPRO') . ': ' . $tbarTitle;
+		}
+
+		JToolBarHelper::title($tbarTitle, 'easytablepro-editrecords');
+
 		if ($canDo->get('core.edit') || $canDo->get('core.create'))
 		{
-			$tbarTitle = $isNew ? JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW') : JText::_('COM_EASYTABLEPRO_TABLE_VIEW_TITLE');
-			JToolBarHelper::title($tbarTitle, 'easytablepro-editrecords');
 			JToolBarHelper::apply('table.apply');
 			JToolBarHelper::save('table.save');
 		}

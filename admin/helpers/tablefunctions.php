@@ -61,8 +61,18 @@ class ET_TableHelper
 			$theImageString = 'publish_x.png';
 		}
 
+		if (ET_General_Helper::getJoomlaVersionTag() == 'j2')
+		{
+			$tipClass = 'hasTip';
+		}
+		else
+		{
+			$tipClass = 'hasTooltip';
+			$btn_title = JHtml::tooltipText($btn_title);
+		}
+
 		$theListViewImage = '<img src="' . JURI::root() . 'media/com_easytablepro/images/' . $theImageString . '" name="'
-			. $rowElement . '_img" border="0" title="' . $btn_title . '" alt="' . $btn_title . '" class="hasTip"/>';
+			. $rowElement . '_img" border="0" title="' . $btn_title . '" alt="' . $btn_title . '" class="' . $tipClass . '"/>';
 
 		return($theListViewImage);
 	}
@@ -80,36 +90,55 @@ class ET_TableHelper
 	 */
 	public static function getTypeList ($id, $selectedType=0)
 	{
+		if (ET_General_Helper::getJoomlaVersionTag() == 'j2')
+		{
+			$tipClass = 'hasTip ';
+			$tipText = ' title="' . JText::_('COM_EASYTABLEPRO_TABLE_FIELD_TYPE_DESC') . '"';
+		}
+		else
+		{
+			$tipClass = '';
+			$tipText = '';
+		}
 		// Start html select structure
-		$selectOptionTxt =	'<select name="type' . $id . '" onchange="com_EasyTablePro.Table.changeTypeWarning()" class="hasTip" title="';
-		$selectOptionTxt .= JText::_('COM_EASYTABLEPRO_TABLE_FIELD_TYPE_DESC') . '">';
+		$selectOptionTxt =	'<select name="type' . $id . '" onchange="com_EasyTablePro.Table.changeTypeWarning()" class="'
+			. $tipClass
+			. 'input-medium"'
+			. $tipText
+			. '>';
 
 		// Type 0 = Text
-		$selectOptionTxt .= '<option value="0" ' . ($selectedType ? '':'selected="selected"') . '>' .
-			JText::_('COM_EASYTABLEPRO_TABLE_LABEL_TEXT') . '</option>';
+		$selectOptionTxt .= '<option value="0" ' . ($selectedType ? '':'selected="selected"') . '>'
+			. JText::_('COM_EASYTABLEPRO_TABLE_LABEL_TEXT') . '</option>';
 
 		// Type 1 = Image URL
-		$selectOptionTxt .= '<option value="1" ' . ($selectedType == 1 ? 'selected="selected"':'') . '>' .
-			JText::_('COM_EASYTABLEPRO_TABLE_LABEL_IMAGE') . '</option>';
+		$selectOptionTxt .= '<option value="1" ' . ($selectedType == 1 ? 'selected="selected"':'') . '>'
+			. JText::_('COM_EASYTABLEPRO_TABLE_LABEL_IMAGE') . '</option>';
 
 		// Type 2 = Fully qualified URL
-		$selectOptionTxt .= '<option value="2" ' . ($selectedType == 2 ? 'selected="selected"':'') . '>' .
-			JText::_('COM_EASYTABLEPRO_TABLE_LABEL_LINK_URL') . '</option>';
+		$selectOptionTxt .= '<option value="2" ' . ($selectedType == 2 ? 'selected="selected"':'') . '>'
+			. JText::_('COM_EASYTABLEPRO_TABLE_LABEL_LINK_URL') . '</option>';
 
 		// Type 3 = Email address
-		$selectOptionTxt .= '<option value="3" ' . ($selectedType == 3 ? 'selected="selected"':'') . '>' .
-			JText::_('COM_EASYTABLEPRO_TABLE_LABEL_EMAIL') . '</option>';
+		$selectOptionTxt .= '<option value="3" ' . ($selectedType == 3 ? 'selected="selected"':'') . '>'
+			. JText::_('COM_EASYTABLEPRO_TABLE_LABEL_EMAIL') . '</option>';
 
 		// Type 4 = Numbers
-		$selectOptionTxt .= '<option value="4" ' . ($selectedType == 4 ? 'selected="selected"':'') . '>' .
-			JText::_('COM_EASYTABLEPRO_TABLE_LABEL_NUMBER') . '</option>';
+		$selectOptionTxt .= '<option value="4" ' . ($selectedType == 4 ? 'selected="selected"':'') . '>'
+			. JText::_('COM_EASYTABLEPRO_TABLE_LABEL_NUMBER') . '</option>';
 
 		// Type 5 = Dates
-		$selectOptionTxt .= '<option value="5" ' . ($selectedType == 5 ? 'selected="selected"':'') . '>' .
-			JText::_('COM_EASYTABLEPRO_LABEL_DATE') . '</option>';
+		$selectOptionTxt .= '<option value="5" ' . ($selectedType == 5 ? 'selected="selected"':'') . '>'
+			. JText::_('COM_EASYTABLEPRO_LABEL_DATE') . '</option>';
 
 		// Close html select structure
 		$selectOptionTxt .= '</select>';
+
+		if (ET_General_Helper::getJoomlaVersionTag() == 'j3')
+		{
+			$tipText = JHtml::tooltipText(JText::_('COM_EASYTABLEPRO_TABLE_FIELD_TYPE_DESC'));
+			$selectOptionTxt = '<span class="hasTooltip" title="' . $tipText . '">' . $selectOptionTxt . '</span>';
+		}
 
 		return($selectOptionTxt);
 	}

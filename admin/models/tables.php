@@ -201,6 +201,11 @@ class EasyTableProModelTables extends JModelList
 		$this->setState('list.limit', $limit);
 
 		// Down to here can go when 2.5 goes away, don't forget to change the hidden fields :D
+
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_easytablepro');
+		$this->setState('params', $params);
+
 		parent::populateState('t.easytablename', 'asc');
 	}
 
