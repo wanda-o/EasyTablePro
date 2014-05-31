@@ -190,18 +190,6 @@ class EasyTableProModelTables extends JModelList
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		// List state information - we're still using older filter_* inputs. Everything from here
-		$order = $this->getUserStateFromRequest($this->context . '.list.ordering', 'filter_order', 't.easytablename');
-		$this->setState('list.ordering', $order);
-
-		$order_Dir = $this->getUserStateFromRequest($this->context . '.list.direction', 'filter_order_Dir', 'asc');
-		$this->setState('list.direction', $order_Dir);
-
-		$limit = $this->getUserStateFromRequest($this->context . '.list.limit', 'limit');
-		$this->setState('list.limit', $limit);
-
-		// Down to here can go when 2.5 goes away, don't forget to change the hidden fields :D
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_easytablepro');
 		$this->setState('params', $params);
