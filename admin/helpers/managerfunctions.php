@@ -293,7 +293,7 @@ class ET_ManagerHelper
 		if ($extTable)
 		{
 			$btn_text = JText::sprintf('COM_EASYTABLEPRO_LINK_LINKED_TABLE_NO_UPLOAD', $tableName);
-			$theImageURL = JURI::root() . 'media/com_easytablepro/images/disabled_upload_16x16.png';
+			$theImageURL = JURI::root() . 'media/com_easytablepro/images/disabled_upload_18x18.png';
 		}
 		else
 		{
@@ -308,7 +308,7 @@ class ET_ManagerHelper
 			$theImageURL = JURI::root()
 				. 'media/com_easytablepro/images/'
 				. (($locked || !$hasPermission) ? 'disabled_' : '')
-				. 'upload_16x16.png';
+				. 'upload_18x18.png';
 		}
 
 		$tooltipText = JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA') . '::' . $btn_text;
