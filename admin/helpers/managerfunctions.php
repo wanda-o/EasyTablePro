@@ -249,20 +249,25 @@ class ET_ManagerHelper
 		}
 
 		$tooltipText = JText::_('COM_EASYTABLEPRO_MGR_EDIT_RECORDS_BTN_TT') . '::' . $btn_text;
+		$btnClass = '';
 
 		if (ET_General_Helper::getJoomlaVersionTag() != 'j2')
 		{
 			$tooltipText = JHtml::tooltipText($tooltipText);
-			$btnClass = 'class="btn"';
-		}
-		else
-		{
-			$btnClass = '';
+
+			if (!$locked && !$extTable && $hasPermission)
+			{
+				$btnClass = 'class="btn"';
+			}
+			else
+			{
+				$btnClass = 'class="btn disabled"';
+			}
 		}
 
 		$theEditBtn = '<span class="hasTip hasTooltip" title="'
 			. $tooltipText
-			. '" style="margin-left:4px;" ><img src="'
+			. '" ><img src="'
 			. $theImageURL . '" style="text-decoration: none; color: #333;" alt="'
 			. $btn_text . '"' . $btnClass . ' /></span>';
 
@@ -319,10 +324,20 @@ class ET_ManagerHelper
 		}
 
 		$tooltipText = JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA') . '::' . $btn_text;
+		$btnClass = '';
 
 		if (ET_General_Helper::getJoomlaVersionTag() != 'j2')
 		{
 			$tooltipText = JHtml::tooltipText($tooltipText);
+
+			if (!$locked && !$extTable && $hasPermission)
+			{
+				$btnClass = 'class="btn"';
+			}
+			else
+			{
+				$btnClass = 'class="btn disabled"';
+			}
 		}
 		else
 		{
@@ -331,9 +346,10 @@ class ET_ManagerHelper
 
 		$theBtn = '<span class="hasTip hasTooltip" title="'
 			. $tooltipText
-			. '" style="margin-left:10px;" ><img src="'
-			. $theImageURL . '" style="text-decoration: none; color: #333;" alt="'
-			. $btn_text . '" /></span>';
+			. '" ><img src="'
+			. $theImageURL . '" alt="'
+			. $btn_text . '"'
+			. $btnClass . ' /></span>';
 
 		if (!$locked && !$extTable && $hasPermission)
 		{
