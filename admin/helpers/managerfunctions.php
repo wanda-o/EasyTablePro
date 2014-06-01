@@ -253,13 +253,18 @@ class ET_ManagerHelper
 		if (ET_General_Helper::getJoomlaVersionTag() != 'j2')
 		{
 			$tooltipText = JHtml::tooltipText($tooltipText);
+			$btnClass = 'class="btn"';
+		}
+		else
+		{
+			$btnClass = '';
 		}
 
 		$theEditBtn = '<span class="hasTip hasTooltip" title="'
 			. $tooltipText
 			. '" style="margin-left:4px;" ><img src="'
 			. $theImageURL . '" style="text-decoration: none; color: #333;" alt="'
-			. $btn_text . '" /></span>';
+			. $btn_text . '"' . $btnClass . ' /></span>';
 
 		if (!$locked && !$extTable && $hasPermission)
 		{
@@ -332,19 +337,39 @@ class ET_ManagerHelper
 
 		if (!$locked && !$extTable && $hasPermission)
 		{
-			if (JDEBUG)
+			$x = 700;
+			$y = JDEBUG ? $y = 495 : 425;
+
+			if (ET_General_Helper::getJoomlaVersionTag() == 'j2')
 			{
 				$theBtn = '<a href="index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='
 					. $rowId . '&amp;tmpl=component" class="modal" title="'
-					. $btn_text . '" rel="{handler: \'iframe\', size: {x: 700, y: 495}}">'
+					. $btn_text . '" rel="{handler: \'iframe\', size: {x: ' . $x . ', y: ' . $y . '}}">'
 					. $theBtn . '</a>';
 			}
 			else
 			{
-				$theBtn = '<a href="index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid='
-					. $rowId . '&amp;tmpl=component" class="modal" title="'
-					. $btn_text . '" rel="{handler: \'iframe\', size: {x: 700, y: 425}}">'
-					. $theBtn . '</a>';
+				$btnLabel = JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA');
+				$linkURL = JUri::base() . 'index.php?option=com_easytablepro&amp;task=upload&amp;view=upload&amp;cid=' . $rowId . '&amp;tmpl=component';
+				$theBtn = <<<UBS
+<div id="inline-standardpop-easytablpro-uploadData-$rowId">
+	<img src="$theImageURL" class="btn hasTip hasTooltip" title="$tooltipText" onclick="$linkURL" id="inline-popup-easytablpro-uploadData" data-toggle="modal" data-target="#modal-easytablpro-uploadData-$rowId">
+	<div class="modal hide fade" id="modal-easytablpro-uploadData-$rowId">
+	    <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">×</button>
+	        <h3>$btnLabel</h3>
+	    </div>
+	    <div id="modal-easytablpro-uploadData-$rowId-container">
+	    </div>
+	</div>
+	<script>
+	jQuery('#modal-easytablpro-uploadData-$rowId').on('show', function () {
+	    document.getElementById('modal-easytablpro-uploadData-$rowId-container').innerHTML =
+	    '<div class="modal-body"><iframe class="iframe" src="$linkURL" height="$y" width="$x"></iframe></div>';
+	});
+	</script>
+</div>
+UBS;
 			}
 		}
 
