@@ -15,7 +15,7 @@ $class    = $displayData['class'];
 $text     = $displayData['text'];
 $name     = $displayData['name'];
 ?>
-<button onclick="<?php echo $doTask; ?>" class="<?php echo $btnClass; ?>" data-toggle="modal" data-target="#modal-<?php echo $name; ?>">
+<button onclick="<?php echo $doTask; ?>" id="toolbar-popup-<?php echo $name; ?>" class="<?php echo $btnClass; ?>" data-toggle="modal" data-target="#modal-<?php echo $name; ?>">
 	<span class="<?php echo trim($class); ?>"></span>
 	<?php echo $text; ?>
 </button>
