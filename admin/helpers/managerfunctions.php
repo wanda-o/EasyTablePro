@@ -142,7 +142,7 @@ class ET_ManagerHelper
 
 		$link_text = JText::_('COM_EASYTABLEPRO_MGR_EDIT_PROPERTIES_AND_STRUCTURE_OF') . ' \'' . $tableName . '\' ' . $lockText;
 
-		if (version_compare(JVERSION, '3.2.3', 'ge'))
+		if (ET_General_Helper::getJoomlaVersionTag() != 'j2')
 		{
 			$tooltipText = JHtml::tooltipText($link_text);
 		}
@@ -188,7 +188,7 @@ class ET_ManagerHelper
 			. '\' '
 			. $lockText;
 
-		if (version_compare(JVERSION, '3.2.3', 'ge'))
+		if (ET_General_Helper::getJoomlaVersionTag() != 'j2')
 		{
 			$tooltipText = JHtml::tooltipText($btn_text);
 		}
@@ -250,7 +250,7 @@ class ET_ManagerHelper
 
 		$tooltipText = JText::_('COM_EASYTABLEPRO_MGR_EDIT_RECORDS_BTN_TT') . '::' . $btn_text;
 
-		if (version_compare(JVERSION, '3.2.3', 'ge'))
+		if (ET_General_Helper::getJoomlaVersionTag() != 'j2')
 		{
 			$tooltipText = JHtml::tooltipText($tooltipText);
 		}
@@ -315,7 +315,7 @@ class ET_ManagerHelper
 
 		$tooltipText = JText::_('COM_EASYTABLEPRO_MGR_UPLOAD_DATA') . '::' . $btn_text;
 
-		if (version_compare(JVERSION, '3.2.3', 'ge'))
+		if (ET_General_Helper::getJoomlaVersionTag() != 'j2')
 		{
 			$tooltipText = JHtml::tooltipText($tooltipText);
 		}
