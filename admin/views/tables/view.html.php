@@ -11,7 +11,6 @@
 defined('_JEXEC') or die('Restricted Access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/managerfunctions.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
 /**
  * HTML View class for the EasyTables Component
