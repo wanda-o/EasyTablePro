@@ -156,9 +156,22 @@ com_EasyTablePro.Tools.makeURLSafe = function(str)
 	return theAlias; 
 }
 
+com_EasyTablePro.Tools.isEven = function (n)
+{
+    "use strict";
+    return this.isNumber(n) && (n % 2 === 0);
+};
+
+com_EasyTablePro.Tools.isOdd = function (n)
+{
+    "use strict";
+    return this.isNumber(n) && (Math.abs(n) % 2 === 1);
+};
+
 com_EasyTablePro.Tools.isNumber = function (n) {
+    "use strict";
 	return !isNaN(parseFloat(n)) && isFinite(n);
-}
+};
 
 /**
 sprintf() for JavaScript 0.7-beta1
