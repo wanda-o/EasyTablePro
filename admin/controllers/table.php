@@ -94,7 +94,7 @@ class EasyTableProControllerTable extends JControllerForm
 			}
 
 			// 3. Time to save the meta records
-			$updateMetaResult = $this->updateMeta();
+			$updateMetaResult = $this->updateMeta($id);
 
 			return $updateMetaResult;
 		}
@@ -126,7 +126,7 @@ class EasyTableProControllerTable extends JControllerForm
 	 *
 	 * @since    1.0
 	 */
-	private function updateMeta()
+	private function updateMeta($id)
 	{
 		/*
 		* WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST, updated but old.
