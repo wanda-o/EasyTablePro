@@ -95,16 +95,12 @@
     display: block;
 }
 
-.deleteFieldButton-nodisplay {
+.deleteFieldButton-nodisplay, .et_controlRow-nodisplay, .et_clone_new_row {
     display: none;
 }
 
 .et_controlRow {
     display: table-row;
-}
-
-.et_controlRow-nodisplay {
-    display: none;
 }
 
 .et_version_info {

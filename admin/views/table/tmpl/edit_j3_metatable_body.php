@@ -9,123 +9,194 @@
 
 // No Direct Access
 defined('_JEXEC') or die('Restricted Access');
-
 ?>
-
 <tbody id='et_meta_table_rows'>
 <?php
-	$mRIds = array();
-	$k = 0;
+$mRIds = array();
+$k     = 0;
+$tdEnd = '</td>';
+$ph1   = '%1$s';
+$ph2   = '%2$s';
 
-	foreach ($this->item->table_meta as $metaRow)
-	{
-		$mRId    = $metaRow['id'];
-		$mRIds[] = $mRId;
-		$rowID   = 'et_rID' . $mRId;
-		$tdEnd   = '</td>';
-		$row_seq = $k ? '-even' : '-odd';
+// Tooltips
+$mrLabelTT    = JHtml::tooltipText(JText::_('COM_EASYTABLEPRO_TABLE_FIELDSET_COL_LABEL_TT'));
+$mrPositionTT = JHtml::tooltipText(JText::_('COM_EASYTABLEPRO_TABLE_FIELDSET_COL_POSITION_TT'));
+$mrFldAliasTT = JHtml::tooltipText(JText::_('COM_EASYTABLEPRO_TABLE_FIELDSET_COL_ALIAS_TT'));
+$mrDescTT     = JHtml::tooltipText(JText::_('COM_EASYTABLEPRO_TABLE_DESCRIPTION_TT'));
+$aliasLckPath = JURI::root() . 'media/com_easytablepro/images/locked.gif';
+$fldOptionsTT = JHtml::tooltipText(JText::_('COM_EASYTABLEPRO_TABLE_FIELDSET_COL_OPTIONS_TT'));
+$tdParamsObj  = new JRegistry;
 
-		// Open the row
-		echo '<tr valign="top" class="row' . $row_seq . '" id="' . $rowID . '">';
+// Is this a linked table
+if (!$this->item->etet)
+{
+	// Control Row
+	$addFldIconPath = JURI::root() . 'media/com_easytablepro/images/icon-add.png';
+	$addNewFldLabel = JText::_('COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_LABEL');
+	$addFieldBtn    = JText::_('COM_EASYTABLEPRO_TABLE_ADD_FIELD_BTN');
+	$addNewFldDesc  = JText::_('COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_DESC');
 
-		// Id
-		echo '<td class="center hidden-phone center width-10" align="center"><input type="hidden" name="id' . $mRId . '" value="' . $mRId . '" class="width-20" style="display:none;" />' . $mRId;
+	$delBtnPath = JURI::root() . 'media/com_easytablepro/images/publish_x.png';
+	$delBtnAlt = "Delete Field Button.";
+	$delBtnTmpl = <<<BTNTMPL
+<br />
+<a href="javascript:void(0);" class="deleteFieldButton-nodisplay" onclick="com_EasyTablePro.Table.deleteField('%s', '%s');">
+	<img src="$delBtnPath" alt="$delBtnAlt" />
+</a>
+BTNTMPL;
 
-		// Delete field?
-		if (!$this->item->etet)
-		{
-			echo '<br /><a href="javascript:void(0);" class="deleteFieldButton-nodisplay" onclick="com_EasyTablePro.Table.deleteField(\''
-				. $metaRow['label'] . '\', \'' . $rowID . '\');"><img src="' . JURI::root()
-				. 'media/com_easytablepro/images/publish_x.png" alt="Toggle Publish state." /></a>';
-		}
+	$aliasTmpl = <<<ALIASTMPL
+<span  class="hasTooltip" title="$mrFldAliasTT">
+	<input type="hidden" name="origfieldalias$ph1" value="$ph2" />
+	<input type="text" name="fieldalias$ph1" value="$ph2" onchange="com_EasyTablePro.Table.validateAlias(this)" disabled="disabled" class="input-small"/>
+	<a href="#" onclick="com_EasyTablePro.Table.unlock(this);" id="unlock$ph1" alt="Unlock Alias" /><i class="icon-pencil"></i></a>
+</span>
+ALIASTMPL;
+}
+else
+{
+	$delBtnTmpl = <<<BTNTMPL
+<br /><!-- $ph1:$ph2 -->
+BTNTMPL;
 
-		echo '</td>';
+	$aliasTmpl = <<<ALIASTMPL
+<input type="hidden" name="origfieldalias$ph1" value="$ph2" /><input type="hidden" name="fieldalias$ph1" value="$ph2" />$ph2
+ALIASTMPL;
+}
 
-		// Position
-		echo '<td class="center hidden-phone" align="center"><input type="text" value="' . $metaRow['position'] . '" size="3" name="position' . $mRId
-			. '"  class="hasTooltip center input-mini" title="' . JHtml::tooltipText('COM_EASYTABLEPRO_TABLE_FIELDSET_COL_POSITION_TT') . '" /></td>';
+foreach ($this->item->table_meta as $metaRow)
+{
+	$mRId          = $metaRow['id'];
+	$rowID         = 'et_rID' . $mRId;
+	$mrLabel       = $metaRow['label'];
+	$deleteBtnHTML = sprintf($delBtnTmpl, $mrLabel, $rowID);
+	$mrPosition    = $metaRow['position'];
+	$mrFldAlias    = $metaRow['fieldalias'];
+	$fldAliasHTML  = sprintf($aliasTmpl, $mRId, $mrFldAlias);
+	$mrDesc        = $metaRow['description'];
+	$mrType        = $metaRow['type'];
+	$typeSelect    = ET_TableHelper::getTypeList($mRId, $mrType);
+	$mrParams      = $metaRow['params'];
+	$fieldOptions  = ET_TableHelper::getFieldOptions($mrParams);
+	$mrListView    = $metaRow['list_view'];
+	$listViewImg   = ET_TableHelper::getListViewImage('list_view' . $mRId, $mrListView);
+	$mrDetailLnk   = $metaRow['detail_link'];
+	$detailLinkImg = ET_TableHelper::getListViewImage('detail_link' . $mRId, $mrDetailLnk);
+	$mrDetailView  = $metaRow['detail_view'];
+	$detailViewImg = ET_TableHelper::getListViewImage('detail_view' . $mRId, $mrDetailView);
+	$searchField   = $tdParamsObj->loadString($mrParams)->get('search_field', 1);
+	$searchImg      = ET_TableHelper::getListViewImage('search_field' . $mRId, $searchField);
 
-		// Label <br />
-		echo '<td class="hidden-phone"><input type="text" value="' . $metaRow['label'] . '" name="label' . $mRId . '" id="label' . $mRId
-			. '" class="hasTooltip input-small width-90" title="' . JText::_('COM_EASYTABLEPRO_TABLE_FIELDSET_COL_LABEL_TT') . '" /> <br />';
+	// Finally store the record ID
+	$mRIds[]      = $mRId;
 
-		if ($this->item->etet)
-		{
-			echo '<input type="hidden" name="origfieldalias' . $mRId . '" value="' . $metaRow['fieldalias'] . '" /><input type="hidden" name="fieldalias'
-				. $mRId . '" value="' . $metaRow['fieldalias'] . '" />' . $metaRow['fieldalias'];
-		}
-		else
-		{
-			// Alias
-			echo '<span  class="hasTooltip" title="' . JText::_('COM_EASYTABLEPRO_TABLE_FIELDSET_COL_ALIAS_TT') . '"><input type="hidden" name="origfieldalias'
-				. $mRId . '" value="' . $metaRow['fieldalias'] . '" />' . '<input type="text" name="fieldalias' . $mRId . '" value="'
-				. $metaRow['fieldalias'] . '" onchange="com_EasyTablePro.Table.validateAlias(this)" disabled="disabled" class="input-small"/>' . '<img src="'
-				. JURI::root() . 'media/com_easytablepro/images/locked.gif" onclick="com_EasyTablePro.Table.unlock(this, ' . $mRId . ');" id="unlock'
-				. $mRId . '" alt="Unlock Alias" /></span>';
-		}
+	echo <<<LAYOUT
+<tr valign="top" class="row$k" id="$rowID">
+	<td class="center hidden-phone center width-10" align="center">
+		<input type="hidden" name="id$mRId" value="$mRId" class="width-20" style="display:none;">$mRId $deleteBtnHTML
+	</td>
+	<td class="center hidden-phone" align="center">
+		<input type="text" value="$mrPosition" size="3" name="position$mRId" class="hasTooltip center input-mini" title="$mrPositionTT" />
+	</td>
+	<td class="hidden-phone">
+		<input type="text" value="$mrLabel" name="label$mRId" id="label$mRId" class="hasTooltip input-small width-90" title="$mrLabelTT" /><br />
+		$fldAliasHTML
+	</td>
+	<td class="left hidden-phone">
+		<textarea rows="3" name="description$mRId" class="hasTooltip etp_editor_row_description" title="$mrDescTT" >$mrDesc</textarea>
+	</td>
+	<td class="hidden-phone width-medium">$typeSelect<br />
+		<input type="hidden" name="origfieldtype$mRId" value="$mrType" />
+		<input type="text" value="$fieldOptions" name="fieldoptions$mRId" class="hasTooltip input-large" title="$fldOptionsTT" />
+	</td>
+	<td class="center hidden-phone" width="1%" align="center"><input type="hidden" name="list_view$mRId" value="$mrListView" />
+		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="list_view.btn.$mRId">$listViewImg</a>
+	</td>
+	<td class="center hidden-phone" width="1%" align="center">
+		<input type="hidden" name="detail_link$mRId" value="$mrDetailLnk" />
+		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="detail_link.btn.$mRId">$detailLinkImg</a>
+	</td>
+	<td class="center hidden-phone" width="1%" align="center">
+		<input type="hidden" name="detail_view$mRId" value="$mrDetailView" />
+		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(detail_view, $mRId);" id="detail_view.btn.$mRId">$detailViewImg</a>
+	</td>
+	<td class="center hidden-phone" width="1%" align="center">
+		<input type="hidden" name="search_field$mRId" value="$searchField"/>
+		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="search_field.btn.$mRId">$searchImg</a>
+	</td>
+</tr>
 
-		echo '</td>';
+LAYOUT;
+	$k = 1 - $k;
+}
 
-		// Description
-		echo '<td class="left hidden-phone"><textarea rows="3" name="description' . $mRId . '" class="hasTooltip etp_editor_row_description" title="' . JText::_('COM_EASYTABLEPRO_TABLE_DESCRIPTION_TT')
-			. '" >' . $metaRow['description'] . '</textarea></td>';
+if (!$this->item->etet)
+{
 
-		// Type / Field Options
-		echo '<td class="hidden-phone width-medium">' . ET_TableHelper::getTypeList($mRId, $metaRow['type']) . '<br />' . '<input type="hidden" name="origfieldtype' . $mRId . '" value="'
-			. $metaRow['type'] . '" />' . '<input type="text" value="' . ET_TableHelper::getFieldOptions($metaRow['params']) . '" name="fieldoptions'
-			. $mRId . '" class="hasTooltip input-large" title="' . JText::_('COM_EASYTABLEPRO_TABLE_FIELDSET_COL_OPTIONS_TT') . '" /></td>';
+	$fldAliasHTML  = sprintf($aliasTmpl, 'clone', '');
+	$typeSelect    = ET_TableHelper::getTypeList('clone', 0);
+	$listViewImg   = ET_TableHelper::getListViewImage('list_viewclone', 0);
+	$detailLinkImg = ET_TableHelper::getListViewImage('detail_linkclone', 0);
+	$detailViewImg = ET_TableHelper::getListViewImage('detail_viewclone', 0);
+	$searchImg     = ET_TableHelper::getListViewImage('search_fieldclone', 0);
 
-		// List View Flag
-		$tdName          = 'list_view' . $mRId;
-		$tdStart         = '<td class="center hidden-phone" width="1%" align="center"><input type="hidden" name="' . $tdName . '" value="' . $metaRow['list_view'] . '" />';
-		$tdFlagImg       = ET_TableHelper::getListViewImage($tdName, $metaRow['list_view']);
-		$tdjs            = 'com_EasyTablePro.Table.toggleTick(\'list_view\', ' . $mRId . ');';
-		$tdFlagImgLink   = '<a href="javascript:void(0);" onclick="' . $tdjs . '">' . $tdFlagImg . '</a>';
-		echo  $tdStart . $tdFlagImgLink . $tdEnd;
+	echo <<<CLONEROW
+<tr valign="top" class="et_clone_new_row" id="et_clone_new_row">
+	<td class="center hidden-phone center width-10" align="center">
+		<input type="hidden" name="idclone" value="clone" class="width-20" style="display:none;"><span class="et_nf_id">Id #</span>
+	</td>
+	<td class="center hidden-phone" align="center">
+		<input type="text" value="" placeholder="position" size="3" name="positionclone" class="hasTooltip center input-mini" title="$mrPositionTT" />
+	</td>
+	<td class="hidden-phone">
+		<input type="text" value="" placeholder="label" name="labelclone" id="labelclone" class="hasTooltip input-small width-90" title="$mrLabelTT" onclick="com_EasyTablePro.Table.updateAlias(this);" onblur="com_EasyTablePro.Table.updateAlias(this);" /><br />$fldAliasHTML
+	</td>
+	<td class="left hidden-phone">
+		<textarea rows="3" name="descriptionclone" class="hasTooltip etp_editor_row_description" title="$mrDescTT" placeholder="description"></textarea>
+	</td>
+	<td class="hidden-phone width-medium">$typeSelect<br />
+		<input type="hidden" name="origfieldtypeclone" value="" />
+		<input type="text" value="" name="fieldoptionsclone" class="hasTooltip input-large" title="$fldOptionsTT"  placeholder="field options"/>
+	</td>
+	<td class="center hidden-phone" width="1%" align="center"><input type="hidden" name="list_viewclone" value="0" />
+		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="listViewclone">$listViewImg</a>
+	</td>
+	<td class="center hidden-phone" width="1%" align="center">
+		<input type="hidden" name="detail_linkclone" value="0" />
+		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="detailLinkclone">$detailLinkImg</a>
+	</td>
+	<td class="center hidden-phone" width="1%" align="center">
+		<input type="hidden" name="detail_viewclone" value="0" />
+		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="detailViewclone">$detailViewImg</a>
+	</td>
+	<td class="center hidden-phone" width="1%" align="center">
+		<input type="hidden" name="search_fieldclone" value="0"/>
+		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="searchclone">$searchImg</a>
+	</td>
+</tr>
 
-		// Detail Link Flag
-		$tdName          = 'detail_link' . $mRId;
-		$tdStart         = '<td class="center hidden-phone" width="1%" align="center"><input type="hidden" name="' . $tdName . '" value="' . $metaRow['detail_link'] . '" />';
-		$tdFlagImg       = ET_TableHelper::getListViewImage($tdName, $metaRow['detail_link']);
-		$tdjs            = 'com_EasyTablePro.Table.toggleTick(\'detail_link\', ' . $mRId . ');';
-		$tdFlagImgLink   = '<a href="javascript:void(0);" onclick="' . $tdjs . '">' . $tdFlagImg . '</a>';
-		echo $tdStart . $tdFlagImgLink . $tdEnd;
+CLONEROW;
 
-		// Detail View Flag
-		$tdName          = 'detail_view' . $mRId;
-		$tdStart         = '<td class="center hidden-phone" width="1%" align="center"><input type="hidden" name="' . $tdName . '" value="' . $metaRow['detail_view'] . '" />';
-		$tdFlagImg       = ET_TableHelper::getListViewImage($tdName, $metaRow['detail_view']);
-		$tdjs            = 'com_EasyTablePro.Table.toggleTick(\'detail_view\', ' . $mRId . ');';
-		$tdFlagImgLink   = '<a href="javascript:void(0);" onclick="' . $tdjs . '">' . $tdFlagImg . '</a>';
-		echo($tdStart . $tdFlagImgLink . $tdEnd);
+	echo <<<CONTROLROW
+<tr id="et_controlRow" class="et_controlRow-nodisplay">
+	<td >
+		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.addField()">
+			<img class="et_addField" src="$addFldIconPath" alt="$addNewFldLabel" />
+		</a>
+		<input type="hidden" name="newFlds" id="newFlds" value=""/>
+		<input type="hidden" name="deletedFlds" id="deletedFlds" value=""/>
+	</td>
+	<td colspan="2">
+		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.addField()">$addFieldBtn</a>
+	</td>
+	<td colspan="6">
+		<em>$addNewFldDesc</em>
+	</td>
+</tr>
 
-		// Search This Field
-		$tdName          = 'search_field' . $mRId;
-		$tdParamsObj     = new JRegistry;
-		$tdParamsObj->loadString($metaRow['params']);
-		$tdSearchField   = $tdParamsObj->get('search_field', 1);
-		$tdStart         = '<td class="center hidden-phone" width="1%" align="center"><input type="hidden" name="' . $tdName . '" value="' . $tdSearchField . '" />';
-		$tdFlagImg       = ET_TableHelper::getListViewImage($tdName, $tdSearchField);
-		$tdjs            = 'com_EasyTablePro.Table.toggleTick(\'search_field\', ' . $mRId . ');';
-		$tdFlagImgLink   = '<a href="javascript:void(0);" onclick="' . $tdjs . '">' . $tdFlagImg . '</a>';
-		echo $tdStart . $tdFlagImgLink . $tdEnd;
+CONTROLROW;
+}
 
-		// Close the row
-		echo "</tr>\r\r";
-		$k = 1 - $k;
-	}
-
-	if (!$this->item->etet)
-	{
-		echo '<tr id="et_controlRow" class="et_controlRow-nodisplay"><td > <a href="javascript:void(0);" '
-			. 'onclick="com_EasyTablePro.Table.addField()"><img class="et_addField" src="' . JURI::root()
-			. 'media/com_easytablepro/images/icon-add.png" alt="' . JText::_('COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_LABEL') . '" /></a>'
-			. '<input type="hidden" name="newFlds" id="newFlds" value="" /><input type="hidden" name="deletedFlds" id="deletedFlds" value="" />'
-			. '</td><td colspan="2"><a href="javascript:void(0);" onclick="com_EasyTablePro.Table.addField()">'
-			. JText::_('COM_EASYTABLEPRO_TABLE_ADD_FIELD_BTN') . '</a></td><td colspan="6"><em>'
-			. JText::_('COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_DESC') . '</em></td></tr>';
-	}
-
-	$this->mRIds = $mRIds;
-	?>
+$this->mRIds = $mRIds;
+?>
 </tbody>

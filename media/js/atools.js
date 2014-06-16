@@ -64,37 +64,48 @@ com_EasyTablePro.Tools.getID  = function ()
 
 com_EasyTablePro.Tools.disableToolbarBtn = function (toolBarBtn, newToolTipText)
 {
+    "use strict";
+    var ourBtn;
+
 	// Setup the default vars
-	var ourBtn = document.getElementById(toolBarBtn);
-	var ourBtnLink = ourBtn.childNodes[1]
-	var ourBtnSpan = ourBtnLink.childNodes[1];
-	// Check to see if button class is already set to -off
-	if (ourBtnSpan.get('class').indexOf('-off') > 0)
-	{
-		return;
-	}
-	// Disable the link
-	ourBtnLink.removeEvents();
-	ourBtnLink.removeAttribute('href');
-	ourBtnLink.removeAttribute('rel');
-	ourBtnLink.addClass('hasTip')
+    if (typeof jQuery === 'undefined')
+    {
+        ourBtn = document.getElementById(toolBarBtn);
+        var ourBtnLink = ourBtn.childNodes[1];
+        var ourBtnSpan = ourBtnLink.childNodes[1];
+        // Check to see if button class is already set to -off
+        if (ourBtnSpan.get('class').indexOf('-off') > 0)
+        {
+            return;
+        }
+        // Disable the link
+        ourBtnLink.removeEvents();
+        ourBtnLink.removeAttribute('href');
+        ourBtnLink.removeAttribute('rel');
+        ourBtnLink.addClass('hasTip');
 
-	// Setup the new tooltip message
-	newTitle = newToolTipText;
-	ourBtnLink.set('title', newTitle);
-	var ourBtnTips = ourBtnLink.get('title').split('::',2);
-	ourBtnLink.store('tip:title', ourBtnTips[0]);
-	ourBtnLink.store('tip:text', ourBtnTips[1]);
-	// Re-init Tooltips - @todo find a less nuclear way of doing this...
-	var JTooltips = new Tips($$('.hasTip'), { maxTitleChars: 50, fixed: false});
+        // Setup the new tooltip message
+        var newTitle = newToolTipText;
+        ourBtnLink.set('title', newTitle);
+        var ourBtnTips = ourBtnLink.get('title').split('::',2);
+        ourBtnLink.store('tip:title', ourBtnTips[0]);
+        ourBtnLink.store('tip:text', ourBtnTips[1]);
+        // Re-init Tooltips - @todo find a less nuclear way of doing this...
+        var JTooltips = new Tips($$('.hasTip'), { maxTitleChars: 50, fixed: false});
 
-	// Change icon
-	// This could be a problem if buttons ever end up with multiple classes if different orders.
-	var ourBtnSpanClassArray = ourBtnSpan.get('class').split(' ');
-	ourBtnSpanClassOff = ourBtnSpanClassArray[0] + '-off';
+        // Change icon
+        // This could be a problem if buttons ever end up with multiple classes if different orders.
+        var ourBtnSpanClassArray = ourBtnSpan.get('class').split(' ');
+        var ourBtnSpanClassOff = ourBtnSpanClassArray[0] + '-off';
 
-	ourBtnSpan.addClass( ourBtnSpanClassOff );
-	ourBtnSpan.removeClass( ourBtnSpanClassArray[0] );
+        ourBtnSpan.addClass( ourBtnSpanClassOff );
+        ourBtnSpan.removeClass( ourBtnSpanClassArray[0] );
+    }
+    else
+    {
+        ourBtn = jQuery('#' + toolBarBtn);
+        ourBtn[0].setProperty('disabled', true);
+    }
 }
 
 com_EasyTablePro.Tools.addToList = function(theList, itemToAdd)
