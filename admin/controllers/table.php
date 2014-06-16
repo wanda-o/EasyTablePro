@@ -38,7 +38,7 @@ class EasyTableProControllerTable extends JControllerForm
 	 *
 	 * @since  1.0
 	 */
-	public function save()
+	public function save($key = NULL, $urlVar = NULL)
 	{
 		// We will need the app.
 		$jAp = JFactory::getApplication();
