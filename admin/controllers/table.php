@@ -401,14 +401,14 @@ class EasyTableProControllerTable extends JControllerForm
 
 		// Set and execute the SQL select query
 		$db->setQuery('select `fieldalias` ' . $fromWhereSQL);
-		$columns_to_drop = $db->loadResultArray();
+		$columns_to_drop = $db->loadColumn();
 
 		// Process the fields to drop from data table
 		$tableName = '#__easytables_table_data_' . $id;
 		$dropSQL = 'ALTER TABLE `' . $tableName . '` ';
 		$dropSQL .= 'DROP COLUMN `' . implode($columns_to_drop, '`, DROP COLUMN `') . '`';
 		$db->setQuery($dropSQL);
-		$drop_Result = $db->query();
+		$drop_Result = $db->execute();
 
 		if ($drop_Result)
 		{
