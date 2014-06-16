@@ -99,11 +99,11 @@ class EasyTableProViewTables extends JViewLegacy
 
 			if (JDEBUG)
 			{
-				$toolbar->appendButton($popButtontype, 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 495);
+				$toolbar->appendButton($popButtontype, 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 495, '', 'COM_EASYTABLEPRO_UPLOAD_CREATE_A_NEW_TABLE');
 			}
 			else
 			{
-				$toolbar->appendButton($popButtontype, 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 425);
+				$toolbar->appendButton($popButtontype, 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 425, '', 'COM_EASYTABLEPRO_UPLOAD_CREATE_A_NEW_TABLE');
 			}
 		}
 
