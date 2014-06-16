@@ -46,8 +46,8 @@ class EasyTableProControllerTable extends JControllerForm
 
 		// And so default variables
 		$id = $jInput->get('id', 0, 'INT');
-		$datatablename = $jInput->get('datatablename', '');
-		$newFlds = $jInput->get('newFlds', '');
+		$datatablename = $jInput->get('datatablename', '', 'string');
+		$newFlds = $jInput->get('newFlds', '', 'string');
 		$deletedFlds = $jInput->get('deletedFlds', '', 'string');
 
 		// Call to our parent save() to save the base JTable ie. our EasyTableProTable
@@ -135,6 +135,7 @@ class EasyTableProControllerTable extends JControllerForm
 		*/
 		// 1. Do some initialisation
 		$jAp = JFactory::getApplication();
+		$jInput = $jAp->input;
 
 		// Get a database object
 		$db = JFactory::getDBO();
@@ -146,7 +147,7 @@ class EasyTableProControllerTable extends JControllerForm
 		}
 
 		// 2. Get the list of mRIds into an array we can use
-		$mRIds = explode(', ', $jAp->input->get('mRIds', '', 'string'));
+		$mRIds = explode(', ', $jInput->get('mRIds', '', 'string'));
 
 		// 3. Get the matching records from the meta table
 		// create the sql of the meta record ids
@@ -182,14 +183,14 @@ class EasyTableProControllerTable extends JControllerForm
 			$etMetaUpdateValuesSQL  = '';
 
 			// Get the original field alias
-			$origFldAlias = $jAp->input->get('origfieldalias' . $rowValue);
+			$origFldAlias = $jInput->get('origfieldalias' . $rowValue, '', 'string');
 
 			// Get the field type
-			$fieldType = $jAp->input->get('type' . $rowValue);
-			$origFldType = $jAp->input->get('origfieldtype' . $rowValue);
+			$fieldType = $jInput->get('type' . $rowValue, '', 'string');
+			$origFldType = $jInput->get('origfieldtype' . $rowValue, '', 'string');
 
 			// Get the field alias and conform it if necessary.
-			$reqFldAlias = $jAp->input->get('fieldalias' . $rowValue);
+			$reqFldAlias = $jInput->get('fieldalias' . $rowValue, '', 'string');
 			$reqFldAlias = $this->conformFieldAlias($reqFldAlias);
 
 			// If the field(column) type or name has changed
@@ -214,14 +215,14 @@ class EasyTableProControllerTable extends JControllerForm
 			// Get the fieldOptions allowing for quotes that may have been whacked by site still running magic_quotes_gpc
 			$rawFieldOptions = $this->m($_POST['fieldoptions' . $rowValue]);
 			$useableFieldOptions = bin2hex($rawFieldOptions);
-			$upd_position = $jAp->input->get('position' . $rowValue);
-			$upd_label = $jAp->input->get('label' . $rowValue);
-			$upd_description = $jAp->input->get('description' . $rowValue);
-			$upd_type = $jAp->input->get('type' . $rowValue);
-			$upd_list_view = $jAp->input->get('list_view' . $rowValue);
-			$upd_detail_link = $jAp->input->get('detail_link' . $rowValue);
-			$upd_detail_view = $jAp->input->get('detail_view' . $rowValue);
-			$upd_search_field = $jAp->input->get('search_field' . $rowValue);
+			$upd_position = $jInput->getInt('position' . $rowValue, 0);
+			$upd_label = $jInput->get('label' . $rowValue, '', 'string');
+			$upd_description = $jInput->get('description' . $rowValue, '', 'string');
+			$upd_type = $jInput->getInt('type' . $rowValue, 0);
+			$upd_list_view = $jInput->get('list_view' . $rowValue, 0);
+			$upd_detail_link = $jInput->getInt('detail_link' . $rowValue, 0);
+			$upd_detail_view = $jInput->get('detail_view' . $rowValue, 0);
+			$upd_search_field = $jInput->get('search_field' . $rowValue, 0);
 
 			// Build the rest of the update SQL for each field
 			$etMetaUpdateValuesSQL .= '`fieldalias` = \'' . $reqFldAlias . '\', ';
@@ -295,15 +296,15 @@ class EasyTableProControllerTable extends JControllerForm
 
 		foreach ( $newFldsArray as $newFldId )
 		{
-			$new_et_pos = $jAp->input->get('position_nf_' . $newFldId, '');
-			$new_et_label = addslashes($jAp->input->get('label_nf_' . $newFldId, ''));
-			$new_et_desc = addslashes($jAp->input->get('description_nf_' . $newFldId, ''));
-			$new_et_type = $jAp->input->get('type_nf_' . $newFldId, '');
-			$new_et_lv = $jAp->input->get('list_view_nf_' . $newFldId, '');
-			$new_et_dl = $jAp->input->get('detail_link_nf_' . $newFldId, '');
-			$new_et_dv = $jAp->input->get('detail_view_nf_' . $newFldId, '');
-			$new_et_fldAlias = $this->conformFieldAlias($jAp->input->get('fieldalias_nf_' . $newFldId, ''));
-			$new_et_search = $jAp->input->get('search_field_nf_' . $newFldId, '');
+			$new_et_fldAlias = $this->conformFieldAlias($jInput->get('fieldalias_nf_' . $newFldId, '', 'string'));
+			$new_et_pos = $jInput->getInt('position_nf_' . $newFldId, 0);
+			$new_et_label = addslashes($jInput->get('label_nf_' . $newFldId, '', 'string'));
+			$new_et_desc = addslashes($jInput->get('description_nf_' . $newFldId, '', 'string'));
+			$new_et_type = $jInput->getInt('type_nf_' . $newFldId, 0);
+			$new_et_lv = $jInput->getInt('list_view_nf_' . $newFldId, 0);
+			$new_et_dl = $jInput->getInt('detail_link_nf_' . $newFldId, 0);
+			$new_et_dv = $jInput->getInt('detail_view_nf_' . $newFldId, 0);
+			$new_et_search = $jInput->getInt('search_field_nf_' . $newFldId, 0);
 
 			// Get the fieldOptions allowing for quotes that may have been whacked by site still running magic_quotes_gpc
 			$new_et_fldOptions = bin2hex($this->m($_POST['fieldoptions_nf_' . $newFldId]));
