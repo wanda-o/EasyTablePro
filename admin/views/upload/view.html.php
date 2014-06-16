@@ -10,8 +10,8 @@ defined('_JEXEC') or die('Restricted Access');
 
 jimport( 'joomla.application.component.view');
 
-$pmf = ''.JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
-require_once $pmf;
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/managerfunctions.php';
+
 /**
  * HTML View class for the EasyTables Component
  *
@@ -30,6 +30,9 @@ class EasyTableProViewUpload extends JViewLegacy
 	 */
 	function display($tpl = null)
 	{
+		// Get our Joomla Tag
+		$this->jvtag = ET_General_Helper::getJoomlaVersionTag();
+
 		// Get the document and load the system css file
 		$doc = JFactory::getDocument();
 		JHTML::_('behavior.tooltip');
@@ -51,7 +54,7 @@ class EasyTableProViewUpload extends JViewLegacy
 		$this->dataFile = $jInput->get('datafile', JText::_('COM_EASYTABLEPRO_UPLOAD_NOFILENAME'));
 		$this->uploadedRecords = $jInput->get('uploadedRecords', 0);
 		$this->status = ($jInput->get('uploadedRecords', 0) > 0) ? 'SUCCESS' : 'FAIL';
-		$this->setLayout('upload');
+		$this->setLayout('upload_' . $this->jvtag);
 
 		switch ($this->step)
 		{
