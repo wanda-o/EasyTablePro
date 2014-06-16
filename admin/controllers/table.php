@@ -142,7 +142,7 @@ class EasyTableProControllerTable extends JControllerForm
 		if (!$db)
 		{
 			// Oh shit - PANIC!
-			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_OBJECT_WHILE_SETTING_UP_FOR_META_UPDATES', $id));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_OBJECT_WHILE_SETTING_UP_FOR_META_UPDATES', $id), 'ERROR');
 		}
 
 		// 2. Get the list of mRIds into an array we can use
@@ -395,7 +395,8 @@ class EasyTableProControllerTable extends JControllerForm
 		if (!$db)
 		{
 			// Oh shit! - PANIC
-			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_OBJECT_WHILE_TRYING_TO_ALTER_DATA_TABLE', $id));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_OBJECT_WHILE_TRYING_TO_ALTER_DATA_TABLE', $id), 'ERROR');
+			return false;
 		}
 
 		// Set and execute the SQL select query
@@ -465,7 +466,7 @@ class EasyTableProControllerTable extends JControllerForm
 
 		if (!$db)
 		{
-			JError::raiseError(500, "Couldn't get the database object while trying to ALTER data table: $id");
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_COULDNT_GET_THE_DATABASE_OBJECT_WHILE_TRYING_TO_ALTER_DATA_TABLE', $id), 'ERROR');
 		}
 
 		// Set and execute the SQL query
@@ -474,15 +475,15 @@ class EasyTableProControllerTable extends JControllerForm
 
 		if (!$alter_result)
 		{
-			JError::raiseError(
-				500,
+			$jAp->enqueueMessage(
 				JText::sprintf(
 					'COM_EASYTABLEPRO_TABLE_ERROR_ALTER_TABLE_FAILED',
 					$origFldAlias,
 					$newFldAlias,
 					$fieldType,
 					$db->explain()
-				)
+				),
+				'ERROR'
 			);
 		}
 
