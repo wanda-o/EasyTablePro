@@ -569,24 +569,32 @@ com_EasyTablePro.Table.setRowIDandValues = function(aRow, the_new_id)
     list_viewInput.attr('name', 'list_view' + the_new_id);
     var list_viewBtn = aRow.find('#listViewclone');
     list_viewBtn.attr('id', 'list_view.btn.' + the_new_id);
+    var list_view_img = aRow.find('[name="list_viewclone_img"]');
+    list_view_img.attr('name', 'list_view' + the_new_id + '_img');
 
     // Update the field Detail Link
     var detail_linkInput = aRow.find('[name="detail_linkclone"]');
     detail_linkInput.attr('name', 'detail_link' + the_new_id);
     var detail_linkBtn = aRow.find('#detailLinkclone');
     detail_linkBtn.attr('id', 'detail_link.btn.' + the_new_id);
+    var detail_link_img = aRow.find('[name="detail_linkclone_img"]');
+    detail_link_img.attr('name', 'detail_link' + the_new_id + '_img');
 
     // Update the field Detail View
     var detail_viewInput = aRow.find('[name="detail_viewclone"]');
     detail_viewInput.attr('name', 'detail_view' + the_new_id);
     var detail_viewBtn = aRow.find('#detailViewclone');
     detail_viewBtn.attr('id', 'detail_view.btn.' + the_new_id);
+    var detail_view_img = aRow.find('[name="detail_viewclone_img"]');
+    detail_view_img.attr('name', 'detail_view' + the_new_id + '_img');
 
     // Update the field Search
     var search_fieldInput = aRow.find('[name="search_fieldclone"]');
     search_fieldInput.attr('name', 'search_field' + the_new_id);
     var search_fieldBtn = aRow.find('#searchclone');
     search_fieldBtn.attr('id', 'search_field.btn.' + the_new_id);
+    var search_field_img = aRow.find('[name="search_fieldclone_img"]');
+    search_field_img.attr('name', 'search_field' + the_new_id + '_img');
 };
 
 com_EasyTablePro.Table.deleteField = function(fName,rowId)
