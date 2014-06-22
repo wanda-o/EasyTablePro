@@ -448,7 +448,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if (!$db)
 		{
-			JError::raiseError(500, "Couldn't get the database object while trying to remove ETTD: $id");
+			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_DB_ERROR_IN_EMPTY_ETTD_X', $id));
 		}
 
 		// Build the TRUNCATE SQL -- NB. using truncate resets the AUTO_INCREMENT value of ID
@@ -460,7 +460,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if (!$theResult)
 		{
-			JError::raiseWarning('', "Failed to TRUNCATE table data in $ettd_table_name");
+			JError::raiseWarning('', JText::sprintf('COM_EASYTABLEPRO_UPLOAD_TABLE_TRUNCATE_ERROR_IN_EMPTY_ETTD_X',$ettd_table_name));
 		}
 
 		return($theResult);
@@ -480,7 +480,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if (!$db)
 		{
-			JError::raiseError(500, "Couldn't get the database object while retrieving meta for table: $id");
+			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_DB_ERROR_IN_GETFIELDALIASFORTABLE_X', $id));
 		}
 
 		// Run the SQL to insert the Meta records
@@ -495,7 +495,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if (!$get_Meta_result)
 		{
-			JError::raiseError('', 'getFieldAliasForTable failed for table: ' . $id . '<br />' . $db->getErrorMsg());
+			JError::raiseError('', JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_FIELD_ALIASFORTABLE_X_Y', $id, $db->getErrorMsg()));
 		}
 
 		return $get_Meta_result;
@@ -606,12 +606,7 @@ class EasyTableProControllerUpload extends JControllerForm
 			}
 			else
 			{
-				JError::raiseError(
-					500,
-					'Data insert appears to have failed for table: ' . $id
-						. ' in updateETTDTableFrom() <br /><br />Failed in chunk #' . $thisChunkNum
-						. ' ' . $msg
-				);
+				JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_UPDATE_TABLE_FROM_CHUNK_ERROR_X_Y_Z', $id, $thisChunkNum, $msg));
 			}
 		}
 
@@ -638,11 +633,6 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		// Get a database object
 		$db = JFactory::getDBO();
-
-		if (!$db)
-		{
-			JError::raiseError(500, "Couldn't get the database object while doing SAVE() for table: $id");
-		}
 
 		// Setup start of SQL
 		$insert_ettd_data_SQL_start  = 'INSERT INTO `#__easytables_table_data_';
@@ -689,13 +679,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if (!$insert_ettd_data_result)
 		{
-			JError::raiseError(
-				500,
-				'Data insert failed for table: ' . $id
-					. ' in updateETTDWithChunk() <br />Possibly your CSV file is malformed<br />'
-					. $db->explain() . '<br />' . '<br />'
-					. $insert_ettd_data_SQL
-			);
+			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_UPDATE_TABLE_FROM_CHUNK_DATA_INSERT_ERROR_X_Y_Z', $id, $db->explain(), $insert_ettd_data_SQL));
 		}
 
 		return $csvRowCount;
@@ -708,7 +692,7 @@ class EasyTableProControllerUpload extends JControllerForm
 	 *
 	 * @param   int    $id               Table Id.
 	 *
-	 * @param   bool   $hasHeaders       Flags the users belief that the file has a heaing row.
+	 * @param   bool   $hasHeaders       Flags the users belief that the file has a heading row.
 	 *
 	 * @return  array
 	 *
@@ -760,7 +744,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 						if (!$columnAlias)
 						{
-							JError::raiseError(500, 'Duplicate column names in CSV file could not be made unique');
+							JError::raiseError(500, JText::_('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_DUPLICATE_COLUMN_NAMES_ERROR'));
 						}
 					}
 					$ettdColumnAliass[] = $columnAlias;
@@ -828,7 +812,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 			if (!$db)
 			{
-				JError::raiseError(500, "Couldn't get the database object while creating meta for table: $id");
+				JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_NO_DB_ERROR_X', $id));
 			}
 
 			// Run the SQL to insert the Meta records
@@ -837,12 +821,12 @@ class EasyTableProControllerUpload extends JControllerForm
 
 			if (!$insert_Meta_result)
 			{
-				JError::raiseError(500, 'Meta insert failed for table: ' . $id . '<br />' . $msg . '<br />' . $db->explain());
+				JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_META_INSERT_ERROR_X_Y_Z', $id, $msg, $db->explain());
 			}
 		}
 		else
 		{
-			JError::raiseError(500, 'Failed to create the ETTD for Table: ' . $id);
+			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_FAILED_TO_CREATE_ETTD_ERROR_X', $id));
 		}
 
 		return $ettdColumnAliass;
@@ -873,15 +857,12 @@ class EasyTableProControllerUpload extends JControllerForm
 		// Close the sql with the primary key
 		$create_ETTD_SQL .= '` TEXT NOT NULL ,  PRIMARY KEY ( `id` ) )';
 
-		// Uncomment the next line if trying to debug a CSV file error
-		// JError::raiseError(500,'$id = '.$id.'<br />$ettdColumnAliass = '.$ettdColumnAliass.'<br />$ettdColumnSQL = '.$ettdColumnSQL.'<br />createETTD SQL = '.$create_ETTD_SQL );
-
 		// Get a database object
 		$db = JFactory::getDBO();
 
 		if (!$db)
 		{
-			JError::raiseError(500, "Couldn't get the database object while trying to create table: $id");
+			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_DB_ERROR_X', $id));
 		}
 
 		// Set and execute the SQL query
@@ -890,7 +871,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if (!$ettd_creation_result)
 		{
-			JError::raiseError(500, "Failure in data table creation, likely cause is invalid column headings; actually DB explanation: " . $db->explain());
+			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_CREATE_TABLE_IN_DB_ERROR_X', $db->explain()));
 		}
 
 		return $ettd_creation_result;
