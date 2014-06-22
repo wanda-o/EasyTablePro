@@ -18,10 +18,10 @@
 	</tr>
 	<tr class="row1">
 		<td width="120" align="left" class="key">
-			<h3><span class="hasTip" title="<?php echo JText::_('Each table requires a name');?>"><?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_TABLE_NAME'); ?></span></h3>
+			<h3><span class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_NEW_TABLE_NAME_REQUIRED');?>"><?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_TABLE_NAME'); ?></span></h3>
 		</td>
 		<td>
-			<input type="text" name="jform[easytablename]" id="jform_easytablename" value="My new table">
+			<input type="text" name="jform[easytablename]" id="jform_easytablename" placeholder="<?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_NEW_TABLE_NAME_PH'); ?>">
 		</td>
 	</tr>
 	<tr class="row0">
