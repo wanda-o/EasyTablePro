@@ -821,7 +821,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 			if (!$insert_Meta_result)
 			{
-				JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_META_INSERT_ERROR_X_Y_Z', $id, $msg, $db->explain());
+				JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_META_INSERT_ERROR_X_Y_Z', $id, $msg, $db->explain()));
 			}
 		}
 		else
