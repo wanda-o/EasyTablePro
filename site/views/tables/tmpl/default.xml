@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_EASYTABLEPRO_MENU_LIST_LAYOUT_TITLE" option="COM_EASYTABLEPRO_TABLES_VIEW_DEFAULT_OPTION">
-		<help
-			key = "COM_EASYTABLEPRO_HELP_MENU_TABLESVIEW"
-		/>
-		<message>
-		<![CDATA[COM_EASYTABLEPRO_MENU_LIST_SHOWS_A_LIST_OF_PUBLISHED_TABLES]]>
-		</message>
-	</layout>
-	<fields name="params">
-		<fieldset name="basic"
-			label="COM_EASYTABLEPRO_MENU_LIST_ITEM" >
-			<field name="table_list_sort_order"
-				type="list"
-				default=""
-				label="COM_EASYTABLEPRO_MENU_TABLE_LIST_SORT_ORDER"
-				description="COM_EASYTABLEPRO_MENU_LIST_SORT_ORDER_DESC">
-				<option selected="selected" value="0">COM_EASYTABLEPRO_MENU_LIST_SORT_NA</option>
-				<option value="1">COM_EASYTABLEPRO_MENU_LIST_SORT_ND</option>
-				<option value="2">COM_EASYTABLEPRO_MENU_LIST_SORT_CDA</option>
-				<option value="3">COM_EASYTABLEPRO_MENU_LIST_SORT_CDD</option>
-				<option value="4">COM_EASYTABLEPRO_MENU_LIST_SORT_MDA</option>
-				<option value="5">COM_EASYTABLEPRO_MENU_LIST_SORT_MDD</option>
-			</field>
-			<field name="tables_appear_in_listview"
-				label="COM_EASYTABLEPRO_MENU_TABLES_APPEAR_IN_LISTVIEW"
-				type="list"
-				description="COM_EASYTABLEPRO_MENU_TABLES_APPEAR_IN_LISTVIEW_DESC">
-				<option selected="selected" value="0">COM_EASYTABLEPRO_MENU_TABLES_ALL_APPEAR_TO_ALL</option>
-				<option value="1">COM_EASYTABLEPRO_MENU_TABLES_ALL_APPEAR_TO_LOGGED_IN</option>
-				<option value="2">COM_EASYTABLEPRO_MENU_TABLES_APPEAR_ONLY_TO_ALLOWED_GROUPS</option>
-			</field>
-			<field  name="showSkippedCount"
-					label="COM_EASYTABLEPRO_MENU_TABLES_SHOW_SKIPPED_COUNT"
-					type="list"
-					description="COM_EASYTABLEPRO_MENU_TABLES_SHOW_SKIPPED_COUNT_DESC">
-					<option selected="selected" value="1">JYES</option>
-					<option value="0">JNO</option>
-			</field>
-			<field  name="table_list_show_pagination"
-					label="COM_EASYTABLEPRO_MENU_TABLES_SHOW_PAGINATION_LABEL"
-					type="list"
-					description="COM_EASYTABLEPRO_MENU_TABLES_SHOW_PAGINATION_DESC">
-					<option selected="selected" value="1">JYES</option>
-					<option value="0">JNO</option>
-			</field>
-		</fieldset>
-	</fields>
+    <layout title="COM_EASYTABLEPRO_MENU_LIST_LAYOUT_TITLE" option="COM_EASYTABLEPRO_TABLES_VIEW_DEFAULT_OPTION">
+        <help
+                key = "COM_EASYTABLEPRO_HELP_MENU_TABLESVIEW"
+                />
+        <message>
+            <![CDATA[COM_EASYTABLEPRO_MENU_LIST_SHOWS_A_LIST_OF_PUBLISHED_TABLES]]>
+        </message>
+    </layout>
+    <fields name="params">
+        <fieldset name="basic"
+                  label="COM_EASYTABLEPRO_MENU_LIST_ITEM" >
+            <field name="table_list_sort_order"
+                   type="list"
+                   default=""
+                   label="COM_EASYTABLEPRO_MENU_TABLE_LIST_SORT_ORDER"
+                   description="COM_EASYTABLEPRO_MENU_LIST_SORT_ORDER_DESC">
+                <option selected="selected" value="0">COM_EASYTABLEPRO_MENU_LIST_SORT_NA</option>
+                <option value="1">COM_EASYTABLEPRO_MENU_LIST_SORT_ND</option>
+                <option value="2">COM_EASYTABLEPRO_MENU_LIST_SORT_CDA</option>
+                <option value="3">COM_EASYTABLEPRO_MENU_LIST_SORT_CDD</option>
+                <option value="4">COM_EASYTABLEPRO_MENU_LIST_SORT_MDA</option>
+                <option value="5">COM_EASYTABLEPRO_MENU_LIST_SORT_MDD</option>
+            </field>
+            <field name="tables_appear_in_listview"
+                   label="COM_EASYTABLEPRO_MENU_TABLES_APPEAR_IN_LISTVIEW"
+                   type="list"
+                   description="COM_EASYTABLEPRO_MENU_TABLES_APPEAR_IN_LISTVIEW_DESC">
+                <option selected="selected" value="0">COM_EASYTABLEPRO_MENU_TABLES_ALL_APPEAR_TO_ALL</option>
+                <option value="1">COM_EASYTABLEPRO_MENU_TABLES_ALL_APPEAR_TO_LOGGED_IN</option>
+                <option value="2">COM_EASYTABLEPRO_MENU_TABLES_APPEAR_ONLY_TO_ALLOWED_GROUPS</option>
+            </field>
+            <field  name="showSkippedCount"
+                    label="COM_EASYTABLEPRO_MENU_TABLES_SHOW_SKIPPED_COUNT"
+                    type="list"
+                    description="COM_EASYTABLEPRO_MENU_TABLES_SHOW_SKIPPED_COUNT_DESC">
+                <option selected="selected" value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field  name="table_list_show_pagination"
+                    label="COM_EASYTABLEPRO_MENU_TABLES_SHOW_PAGINATION_LABEL"
+                    type="list"
+                    description="COM_EASYTABLEPRO_MENU_TABLES_SHOW_PAGINATION_DESC">
+                <option selected="selected" value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+        </fieldset>
+    </fields>
 </metadata>
