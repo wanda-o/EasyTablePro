@@ -371,11 +371,11 @@ class EasyTableProModelTable extends JModelAdmin
 
 			if ($db->query())
 			{
-				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_ALL_META_DATA_FOR_TABLE_ID_X_WAS_DELETED', $pk));
+				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_ALL_META_DATA_FOR_TABLE_ID_X_WAS_DELETED', $pk));
 			}
 			else
 			{
-				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_NOT_ALL_META_DATA_FOR_TABLE_ID_X_COULD_BE_DELETED', $pk));
+				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_NOT_ALL_META_DATA_FOR_TABLE_ID_X_COULD_BE_DELETED', $pk));
 			}
 
 			/**
@@ -393,11 +393,11 @@ class EasyTableProModelTable extends JModelAdmin
 
 				if ($db->query())
 				{
-					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_SUCCESSFULLY_DROPPED_DATA_FOR_TABLE_X', $table->easytablename));
+					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_SUCCESSFULLY_DROPPED_DATA_FOR_TABLE_X', $table->easytablename));
 				}
 				else
 				{
-					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_FAILED_TO_DROP_DATA_FOR_TABLE_X', $table->easytablename));
+					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_FAILED_TO_DROP_DATA_FOR_TABLE_X', $table->easytablename));
 				}
 			}
 			else
@@ -409,7 +409,7 @@ class EasyTableProModelTable extends JModelAdmin
 		// Call the parent
 		if (!parent::delete($pks))
 		{
-			$app->enqueueMessage(JText::sprintf('EasyTable Pro! encountered a problem, trying to delete the EasyTables record.', $pk));
+			$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_FAILED_TO_DELETE_TABLE_RECORD_X', $pk));
 		}
 
 		return true;
