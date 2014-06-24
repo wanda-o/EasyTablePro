@@ -48,7 +48,7 @@
 			<field name="tablefile"
 				type="file"
 				label="COM_EASYTABLEPRO_TABLE_UPLOAD_SELECT_FILE"
-				description="COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_TT"
+				description="COM_EASYTABLEPRO_TABLE_UPLOAD_FILE"
 				accept="text/csv,text/tab-separated-values"
 				class="inputbox" />
 			<field name="CSVFileHasHeaders"
