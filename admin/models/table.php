@@ -369,7 +369,7 @@ class EasyTableProModelTable extends JModelAdmin
 			$query->where($db->quoteName('easytable_id') . ' = ' . $db->quote($pk));
 			$db->setQuery($query);
 
-			if ($db->query())
+			if ($db->execute())
 			{
 				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_ALL_META_DATA_FOR_TABLE_ID_X_WAS_DELETED', $pk));
 			}
@@ -391,7 +391,7 @@ class EasyTableProModelTable extends JModelAdmin
 				$query = 'DROP TABLE ' . $ettd_table_name . ';';
 				$db->setQuery($query);
 
-				if ($db->query())
+				if ($db->execute())
 				{
 					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_SUCCESSFULLY_DROPPED_DATA_FOR_TABLE_X', $table->easytablename));
 				}
@@ -457,7 +457,7 @@ class EasyTableProModelTable extends JModelAdmin
 
 		// Set and execute the SQL query
 		$db->setQuery($create_ETTD_SQL);
-		$ettd_creation_result = $db->query();
+		$ettd_creation_result = $db->execute();
 
 		if (!$ettd_creation_result)
 		{
