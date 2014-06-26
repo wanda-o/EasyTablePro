@@ -5,16 +5,18 @@
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
 */
 
-et_check_msg = '';
-if(typeof jQuery == 'undefined')
+var et_check_msg = '';
+if(typeof jQuery === 'undefined')
 {
     window.addEvent('domready', function(){
+        "use strict";
         document.getElementById('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_easytablepro_build +")";
     });
 }
 else
 {
     jQuery(document).ready(function(){
+        "use strict";
         document.getElementById('currentVersionSpan').innerHTML = cppl_et_easytablepro_version +" ("+ cppl_et_easytablepro_build +")";
     });
 }
