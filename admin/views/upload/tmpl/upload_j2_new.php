@@ -1,8 +1,10 @@
 <?php
 /**
- * @package    EasyTablePro
- * @author     Craig Phillips {@link http://www.seepeoplesoftware.com}
- * @author     Created on 29-Apr-2012
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2009-2014 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
  */
 
 //--No direct access

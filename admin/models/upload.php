@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     EasyTable Pro
- * @Copyright   Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @Copyright   Copyright (C) 2012-2014 Craig Phillips Pty Ltd.
  * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @author      Craig Phillips {@link http://www.seepeoplesoftware.com}
  */

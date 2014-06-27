@@ -2,12 +2,13 @@
 /**
  * @package    EasyTable_Pro
  * @author     Craig Phillips <craig@craigphillips.biz>
- * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
+ * @copyright  Copyright (C) 2012-2014 Craig Phillips Pty Ltd.
  * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * @url        http://www.seepeoplesoftware.com
  */
-/* var $this EasyTableProViewRecords */
-	defined('_JEXEC') or die ('Restricted Access');
+
+defined('_JEXEC') or die ('Restricted Access');
+
 ?>
 <div class="contentpaneopen<?php echo $this->pageclass_sfx; ?>" id="et_table_page">
 <?php

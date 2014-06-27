@@ -1,11 +1,3 @@
-		<?php
-		/**
-		 * @package    EasyTable_Pro
-		 * @author     Craig Phillips <craig@craigphillips.biz>
-		 * @copyright  Copyright (C) 2012 Craig Phillips Pty Ltd.
-		 * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
-		 * @url        http://www.seepeoplesoftware.com
-		 */
 		if ($this->show_pagination_header && !$this->show_pagination_footer)
 		{
 			// Only if pagination is enabled
@@ -28,6 +20,14 @@
 					{
 						continue;
 					}
+<?php
+/**
+ * @package    EasyTable_Pro
+ * @author     Craig Phillips <craig@craigphillips.biz>
+ * @copyright  Copyright (C) 2012-2014 Craig Phillips Pty Ltd.
+ * @license    GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * @url        http://www.seepeoplesoftware.com
+ */
 
 					$titleString = '';
 
