@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class Com_EasyTableProInstallerScript
 {
-	public $et_this_version = '1.2.2 (2553339)';
+	public $et_this_version = '##VER## (##COMHASH##)';
 
 	/**
 	 * method to install the component
