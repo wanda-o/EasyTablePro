@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" method="upgrade" version="1.6.0">
 	<name>EasyTablePro</name>
-	<creationDate>10-Mar-2014</creationDate>
+	<creationDate>##CREATEDATE##</creationDate>
 	<author>Craig Phillips</author>
 	<authorEmail>support@seepeoplesoftware.com</authorEmail>
 	<copyright>© 2012-2014 Craig Phillips Pty Ltd</copyright>
