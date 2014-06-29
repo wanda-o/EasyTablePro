@@ -1,5 +1,5 @@
 /**
-*
+*  DEPRECATED
 *  Sortable HTML table
 *  http://www.webtoolkit.info/
 *
