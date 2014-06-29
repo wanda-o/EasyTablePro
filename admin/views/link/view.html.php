@@ -113,6 +113,9 @@ class EasyTableProViewLink extends JViewLegacy
 	 */
 	private function addCSSEtc ()
 	{
+		// Use minified files if not debugging.
+		$minOrNot = !JDEBUG ? '.min' : '';
+
 		// Get the document object
 		$doc = JFactory::getDocument();
 
@@ -123,7 +126,7 @@ class EasyTableProViewLink extends JViewLegacy
 		JHTML::_('behavior.modal');
 
 		// Tools first
-		$jsFile = ('media/com_easytablepro/js/atools.js');
+		$jsFile = ('media/com_easytablepro/js/atools' . $minOrNot . '.js');
 		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$doc->addScript(JURI::root() . $jsFile);
 
@@ -131,7 +134,7 @@ class EasyTableProViewLink extends JViewLegacy
 		$doc->addScript('http://www.seepeoplesoftware.com/cpplversions/cppl_et_versions.js');
 
 		// Load this views js
-		$jsFile = 'media/com_easytablepro/js/easytablelink.js';
+		$jsFile = 'media/com_easytablepro/js/easytablelink' . $minOrNot . '.js';
 		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$doc->addScript(JURI::root() . $jsFile);
 	}

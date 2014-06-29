@@ -181,11 +181,14 @@ class EasyTableProViewTables extends JViewLegacy
 	 */
 	private function addCSSEtc ()
 	{
+		// Use minified files if not debugging.
+		$minOrNot = !JDEBUG ? '.min' : '';
+
 		// Get the document object
 		$document = JFactory::getDocument();
 
 		// First add CSS to the document
-		$document->addStyleSheet(JURI::root() . 'media/com_easytablepro/css/easytable.css');
+		$document->addStyleSheet(JURI::root() . 'media/com_easytablepro/css/easytable' . $minOrNot . '.css');
 
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		if ($this->jvtag == 'j2')
@@ -198,7 +201,7 @@ class EasyTableProViewTables extends JViewLegacy
 		}
 
 		// Tools first
-		$jsFile = ('media/com_easytablepro/js/atools.js');
+		$jsFile = ('media/com_easytablepro/js/atools' . $minOrNot . '.js');
 
 		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 
@@ -209,7 +212,7 @@ class EasyTableProViewTables extends JViewLegacy
 		$document->addScript('http://www.seepeoplesoftware.com/cpplversions/cppl_et_versions.js');
 
 		// Load this views js
-		$jsFile = 'media/com_easytablepro/js/easytabletables.js';
+		$jsFile = 'media/com_easytablepro/js/easytabletables' . $minOrNot . '.js';
 		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$document->addScript(JURI::root() . $jsFile);
 	}

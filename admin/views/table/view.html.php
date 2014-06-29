@@ -203,11 +203,14 @@ class EasyTableProViewTable extends JViewLegacy
 	 */
 	private function addCSSEtc()
 	{
+		// Use minified files if not debugging.
+		$minOrNot = !JDEBUG ? '.min' : '';
+
 		// Get the document
 		$doc = JFactory::getDocument();
 
 		// First add CSS to the document
-		$doc->addStyleSheet(JURI::root() . 'media/com_easytablepro/css/easytable.css');
+		$doc->addStyleSheet(JURI::root() . 'media/com_easytablepro/css/easytable' . $minOrNot . '.css');
 
 		// Get the document object
 		$document = JFactory::getDocument();
@@ -219,12 +222,12 @@ class EasyTableProViewTable extends JViewLegacy
 
 		// Then add JS to the document‚ - make sure all JS comes after CSS
 		// Tools first
-		$jsFile = ('media/com_easytablepro/js/atools.js');
+		$jsFile = ('media/com_easytablepro/js/atools' . $minOrNot . '.js');
 		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$document->addScript(JURI::root() . $jsFile);
 
 		// Component view specific next...
-		$jsFile = ('media/com_easytablepro/js/easytabletable.js');
+		$jsFile = ('media/com_easytablepro/js/easytabletable' . $minOrNot . '.js');
 		ET_General_Helper::loadJSLanguageKeys('/' . $jsFile);
 		$document->addScript(JURI::root() . $jsFile);
 	}
