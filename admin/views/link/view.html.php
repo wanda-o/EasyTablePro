@@ -42,6 +42,9 @@ class EasyTableProViewLink extends JViewLegacy
 	 **/
 	public function display($tpl = null)
 	{
+		// Get our Joomla Tag
+		$this->jvtag = ET_General_Helper::getJoomlaVersionTag();
+
 		// Get the document and load the js support file
 		$jAp = JFactory::getApplication();
 		$jInput = $jAp->input;
@@ -99,6 +102,8 @@ class EasyTableProViewLink extends JViewLegacy
 			$this->note = $note;
 			$this->legend = $legend;
 		}
+
+		$tpl = $this->jvtag;
 
 		$this->addCSSEtc();
 		parent::display($tpl);
