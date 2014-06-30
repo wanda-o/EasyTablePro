@@ -113,6 +113,10 @@ class EasyTableProModelLink extends JModelList
 			$db->quoteName('INFORMATION_SCHEMA') . '.' . $db->quoteName('TABLES') . '.' . $db->quoteName('TABLE_SCHEMA') .
 			' LIKE ' . $db->quote($cfgDBName)
 		);
+		$query->where(
+			$db->quoteName('INFORMATION_SCHEMA') . '.' . $db->quoteName('KEY_COLUMN_USAGE') . '.' . $db->quoteName('CONSTRAINT_NAME')
+			. ' LIKE ' . $db->quote('PRIMARY')
+		);
 
 		// Add the table to be excluded to the query
 		$this->addNotLikeSQL($query, $stdRestrictedTables);
