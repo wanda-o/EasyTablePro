@@ -55,6 +55,9 @@ class EasyTableProViewRecord extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		// Get jAp
+		$jAp = JFactory::getApplication();
+
 		// Get the Data
 		$this->item = $this->get('Item');
 		$this->state = $this->get('State');
@@ -62,7 +65,7 @@ class EasyTableProViewRecord extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
+			$jAp->enqueueMessage(implode('<br />', $errors), "ERROR");
 
 			return false;
 		}
@@ -77,7 +80,7 @@ class EasyTableProViewRecord extends JViewLegacy
 
 		if ($id == 0)
 		{
-			JError::raiseNotice(100, JText::sprintf('COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR', $id));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR', $id), "WARNING");
 		}
 
 		// Get the default image directory from the table.
