@@ -10,10 +10,11 @@
 				default="0"
 				readonly="true" />
 			<field name="easytablename"
-				label="COM_EASYTABLEPRO_MGR_TABLE"
+				label="COM_EASYTABLEPRO_UPLOAD_TABLE_NAME"
 				type="text"
 				class="inputbox"
-				description=""
+				description="COM_EASYTABLEPRO_UPLOAD_NEW_TABLE_NAME_REQUIRED"
+                hint="COM_EASYTABLEPRO_UPLOAD_NEW_TABLE_NAME_PH"
 				required="true"
 				size="32"
 				onchange="com_EasyTablePro.Table.createTableNameAlias()"

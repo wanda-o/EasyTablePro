@@ -9,37 +9,31 @@
 
 //--No direct access
 defined('_JEXEC') or die('Restricted Access');
+$tableNameTT = JText::_('COM_EASYTABLEPRO_UPLOAD_TABLE_NAME') . '::' . JText::_('COM_EASYTABLEPRO_UPLOAD_NEW_TABLE_NAME_REQUIRED');
+$uploadFileTT = JText::_('COM_EASYTABLEPRO_TABLE_UPLOAD_FILE') . '::' . JText::_('COM_EASYTABLEPRO_UPLOAD_NEW_TABLE_NAME_REQUIRED');
 ?>
 
-<table class="adminlist" id="et_uploadData">
-	<tr class="row0">
-		<td width="120" align="right" valign="top" class="key">
-		<span style="font-size: 1.5em;font-weight: bold;"><label><?php echo JText::_('COM_EASYTABLEPRO_MGR_NOTES'); ?>:</label></span>
-		</td>
-		<td><?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_THIS_WIZARD_WILL_HELP_YOU_WITH_A_NEW_EASYTABLE'); ?></td>
-	</tr>
-	<tr class="row1">
-		<td width="120" align="left" class="key">
-			<h3><span class="hasTip" title="<?php echo JText::_('Each table requires a name');?>"><?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_TABLE_NAME'); ?></span></h3>
-		</td>
-		<td>
-			<input type="text" name="jform[easytablename]" id="jform_easytablename" value="My new table">
-		</td>
-	</tr>
-	<tr class="row0">
-		<td width="120" align="left" class="key">
-			<h3><span class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_TABLE_UPLOAD_FILE_TT');?>"><?php echo $this->form->getLabel('tablefile'); ?></span></h3>
-		</td>
-		<td>
-			<?php echo $this->form->getInput('tablefile'); ?>
-		</td>
-	</tr>
-	<tr class="row1">
-		<td width="120" align="left" class="key"><h3><span class="hasTip" title="<?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_NEW_TABLE_FILE_HEADINGS_DESC');?>"><?php echo $this->form->getLabel('CSVFileHasHeaders'); ?></span></h3></td>
-		<td><?php echo $this->form->getInput('CSVFileHasHeaders'); ?></td>
-	</tr>
-	<tr class="row0">
-		<td width="120" align="left" class="key"><h3><?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_WIZARD_CREATE_THE_TABLE') ?></h3></td>
-		<td><input type="button" value="<?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_CREATE_TABLE') ?>" onclick="Joomla.submitbutton('upload.add');" /></td>
-	</tr>
-</table>
+<div id="et_uploadData">
+	<div class="control-group">
+		<label class="control-label"><?php echo JText::_('COM_EASYTABLEPRO_MGR_NOTES'); ?></label>
+		<div class="controls">
+			<?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_THIS_WIZARD_WILL_HELP_YOU_WITH_A_NEW_EASYTABLE'); ?>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<?php echo $this->form->getControlGroup('easytablename'); ?>
+	</div>
+	<div class="control-group">
+		<?php echo $this->form->getControlGroup('tablefile'); ?>
+	</div>
+	<div class="control-group">
+		<?php echo $this->form->getControlGroup('CSVFileHasHeaders'); ?>
+	</div>
+	<div class="control-group">
+		<span class="control-label hasTooltip"><?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_WIZARD_CREATE_THE_TABLE'); ?></span>
+		<div class="controls">
+			<input type="button" value="<?php echo JText::_('COM_EASYTABLEPRO_UPLOAD_CREATE_TABLE') ?>" onclick="Joomla.submitbutton('upload.add');" class="btn btn-success"/>
+		</div>
+	</div>
+</div>

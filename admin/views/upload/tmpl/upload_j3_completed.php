@@ -23,7 +23,7 @@
 			{
 				$theNewTableEditURL = 'index.php?option=com_easytablepro&view=table&task=table.edit&id=' . $this->item->id;
 				$btnLabel =  JText::sprintf('COM_EASYTABLEPRO_UPLOAD_OPEN_X_TABLE', $this->form->getValue('easytablename')); ?>
-				<input type="button" value="<?php echo $btnLabel; ?>" onclick="top.location='<?php echo $theNewTableEditURL; ?>'">
+				<input type="button" value="<?php echo $btnLabel; ?>" onclick="top.location='<?php echo $theNewTableEditURL; ?>'" class="btn btn-success">
 			<?php }	?></td>
 	</tr>
 </table>

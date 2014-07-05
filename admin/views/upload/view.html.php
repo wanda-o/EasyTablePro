@@ -37,9 +37,18 @@ class EasyTableProViewUpload extends JViewLegacy
 
 		// Get the document and load the system css file
 		$doc = JFactory::getDocument();
-		JHTML::_('behavior.tooltip');
 
 		$doc->addStyleSheet(JURI::root() . 'templates/system/css/system.css');
+
+		JHTML::_('behavior.tooltip');
+
+		if($this->jvtag != 'j2')
+		{
+			JHtml::_('bootstrap.framework');
+			$minOrNot = !JDEBUG ? '.min' : '';
+			$doc->addStyleSheet(JURI::root() . 'media/jui/css/bootstrap' . $minOrNot . '.css');
+			$doc->addStyleSheet(JURI::root() . 'media/com_easytablepro/css/easytable_upload' . $minOrNot . '.css');
+		}
 
 		$form = $this->get('Form');
 		$item = $this->get('Item');

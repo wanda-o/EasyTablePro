@@ -16,6 +16,7 @@
 				description="COM_EASYTABLEPRO_TABLE_TABLENAME_DESC"
 				required="true"
 				size="32"
+                hint="COM_EASYTABLEPRO_UPLOAD_NEW_TABLE_NAME_PH"
 				onchange="com_EasyTablePro.Table.createTableNameAlias()"
 				maxlength="250" />
 			<field name="easytablealias"
