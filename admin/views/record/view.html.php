@@ -73,7 +73,8 @@ class EasyTableProViewRecord extends JViewLegacy
 		// Assign the Data
 		$easytable = $this->item['easytable'];
 
-		// Should we be here?
+		// Get our Joomla Tag and our canDo's
+		$this->jvtag      = ET_General_Helper::getJoomlaVersionTag();
 		$this->canDo = ET_General_Helper::getActions($easytable->id);
 
 		$id = $easytable->id;
