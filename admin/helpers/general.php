@@ -110,8 +110,8 @@ class ET_General_Helper
 		}
 
 		// Load the table model and get the item
-		JModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models/');
-		$model = JModel::getInstance('table', 'EasyTableProModel');
+		JModelLegacy::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models/');
+		$model = JModelLegacy::getInstance('table', 'EasyTableProModel');
 		$item = $model->getItem($pk);
 
 		return $item;
