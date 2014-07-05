@@ -60,7 +60,8 @@ class EasyTableProViewRecords extends JViewLegacy
 		// Grab Joomla! we're bound to need it
 		$jAp = JFactory::getApplication();
 
-		// Get the settings meta record
+		// Get our Joomla Tag and our canDo's
+		$this->jvtag      = ET_General_Helper::getJoomlaVersionTag();
 		$canDo = ET_General_Helper::getActions();
 
 		// Get data from our virtual model
@@ -98,7 +99,7 @@ class EasyTableProViewRecords extends JViewLegacy
 		$this->imageDir = $imageDir;
 		$this->easytable = $easytable;
 
-		$this->assign('status', $easytable->published ? JText::_('JPUBLISHED'): JText::_('COM_EASYTABLEPRO_UNPUBLISHED'));
+		$this->status = $easytable->published ? JText::_('JPUBLISHED'): JText::_('COM_EASYTABLEPRO_UNPUBLISHED');
 
 		$this->search = $state->get('filter.search');
 		$this->et_list_meta = $easytables_table_meta_for_List_view;
