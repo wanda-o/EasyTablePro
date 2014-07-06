@@ -36,12 +36,8 @@ class ET_VHelper
 	 *
 	 * @since  1.0
 	 **/
-	public static function getFWO ($f, $type, $params, $OrigRow, $currentImageDir)
+	public static function getFWO ($f, $type, $params, $row, $currentImageDir)
 	{
-		/* The next line is a work around for a nested foreach bug in early versions of PHP 5.2.x */
-		is_object($OrigRow) ? $row = clone $OrigRow : $row = $OrigRow;
-		/* End of work around */
-
 		if ($f == '')
 		{
 			return '';
