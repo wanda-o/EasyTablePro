@@ -39,7 +39,7 @@ class EasyTableProControllerRecords extends JControllerAdmin
 	 *
 	 * @param   array   $config  Optional configuration parameters.
 	 *
-	 * @return  JModel
+	 * @return  EasyTableProModelRecords
 	 *
 	 * @since   1.0
 	 */
@@ -59,6 +59,10 @@ class EasyTableProControllerRecords extends JControllerAdmin
 	 */
 	public function delete()
 	{
+		// Get app and input
+		$jAp = JFactory::getApplication();
+		$jInput = $jAp->input;
+
 		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
@@ -66,15 +70,16 @@ class EasyTableProControllerRecords extends JControllerAdmin
 		$trid = ET_General_Helper::getTableRecordID();
 
 		// Get items to remove from the request.
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'ARRAY');
+		$cid = $jInput->get('cid', array(), 'ARRAY');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+			$jAp->enqueueMessage(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'ERROR');
 		}
 		else
 		{
 			// Get the model.
+			// @var EasyTableProModelRecords $model
 			$model = $this->getModel();
 
 			// Remove the items.
