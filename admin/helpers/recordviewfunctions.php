@@ -41,16 +41,28 @@ class ET_RecordHelper
 		switch ($fldType)
 		{
 			case 0:
-				$size = 'rows="10" cols="100"';
-				$inputFld = '<textarea name="et_fld[' . $fldAlias . ']" ' . $size . ' >' . $value . '</textarea>';
+				$size = 'rows="10"';
+				$inputFld = '<textarea name="et_fld[' . $fldAlias . ']" ' . $size . ' class="input-xxlarge">' . $value . '</textarea>';
 				break;
 			default:
 				$type = "text";
-				$size = 'size="175" maxlength="255"';
-				$inputFld = '<input name="et_fld[' . $fldAlias . ']" type="' . $type . '" ' . $size . ' value="' . $value . '" />';
+				$inputFld = '<input name="et_fld[' . $fldAlias . ']" type="' . $type . '" value="' . $value . '" class="input-xxlarge" />';
 		}
 
 		return $inputFld;
+	}
+
+	/**
+	 * Creates a simple hidden fld for record editing.
+	 *
+	 * @param   string  $value  The inputs value.
+	 * @param   string  $alias  The field alias used to make the forms field name.
+	 *
+	 * @return string
+	 */
+	public static function getHiddenInput($value, $alias)
+	{
+		return '<input name="et_fld_orig[' . $alias . ']" type="hidden" value="' . $value . '" />';
 	}
 
 	/**
@@ -94,5 +106,38 @@ class ET_RecordHelper
 		}
 
 		return $imgTag;
+	}
+
+	/**
+	 * Assembles the HTML to preview the records field ala EasyTable Detail view.
+	 *
+	 * @param   $value     The value of this field.
+	 * @param   $row       The entire meta row this field belongs to.
+	 * @param   $imageDir  The tables default image directory path.
+	 * @param   $type      The field type.
+	 * @param   $f_params  The field options/params used to format the field.
+	 * @param   $record    The actual record the value for the field comes from.
+	 *
+	 * @return string
+	 */
+	public static function getPreview ($value, $row, $imageDir, $type, $f_params, $record)
+	{
+		if ($value == '')
+		{
+			$preview = '<em>' . JText::_('COM_EASYTABLEPRO_RECORDS_CLICK_APPLY_TO_PREVIEW') . '</em>';
+		}
+		else
+		{
+			if ($type == '1')
+			{
+				$preview = ET_RecordHelper::getImageTag($value, $row['fieldalias'], $imageDir);
+			}
+			else
+			{
+				$preview = ET_VHelper::getFWO(html_entity_decode($value), $type, $f_params, $record, $record);
+			}
+		}
+
+		return $preview;
 	}
 }
