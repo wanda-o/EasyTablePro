@@ -116,15 +116,6 @@ class EasyTableProModelRecord extends JModelAdmin
 	 */
 	protected function generateNewTitle($cat_id, $alias, $title)
 	{
-		// Alter the title & alias
-		$table = $this->getTable();
-
-		while ($table->load(array('alias' => $alias)))
-		{
-			$title = JString::increment($title);
-			$alias = JString::increment($alias, 'dash');
-		}
-
 		return array($title, $alias);
 	}
 
