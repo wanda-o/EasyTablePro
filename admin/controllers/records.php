@@ -12,9 +12,6 @@ defined('_JEXEC') or die ('Restricted Access');
 
 jimport('joomla.application.component.controlleradmin');
 
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models');
-
 require_once '' . JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
 
 /**

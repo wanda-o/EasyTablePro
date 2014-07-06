@@ -13,7 +13,6 @@ defined('_JEXEC') or die ('Restricted Access');
 jimport('joomla.application.component.controllerform');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
 /**
  * EasyTables Controller
