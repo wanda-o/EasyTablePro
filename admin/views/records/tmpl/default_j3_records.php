@@ -66,8 +66,8 @@ defined('_JEXEC') or die('Restricted Access');
 				$rowId = $et_table_row->id;
 				echo '<tr valign="top" class="row' . $alt_rv . '" id="et_record' . $cid . '">' . "\r";
 				echo '<td >' . $rowId . '</td><td >' . ET_RecordsHelper::getRecordCheckBox($cid, $this->tableId . '.' . $rowId)
-					. '</td><td >' . ET_RecordsHelper::getDeleteRecordLink($cid, $this->tableId . '.' . $rowId, $et_tableName)
-					. '</td><td >' . ET_RecordsHelper::getEditRecordLink($cid, $this->tableId . '.' . $rowId, $et_tableName) . '</td>';
+					. '</td><td class="center">' . ET_RecordsHelper::getDeleteRecordLink($cid, $this->tableId . '.' . $rowId, $et_tableName)
+					. '</td><td class="center">' . ET_RecordsHelper::getEditRecordLink($cid, $this->tableId . '.' . $rowId, $et_tableName) . '</td>';
 
 				foreach ($list_columns as $col_alias)
 				{

@@ -355,12 +355,24 @@ class ET_RecordsHelper
 	public static function getDeleteRecordLink ($cid, $rowId, $tableName)
 	{
 		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_LINK') . ' ' . $rowId . ' of table \'' . $tableName . '\' ';
-		$theEditLink = '<span class="hasTip" title="' . $link_text
-			. '" style="margin-left:10px;" ><a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $cid
-			. '\',\'records.delete\');" title="' . $link_text . '" ><img src="' . JURI::root()
-			. 'media/com_easytablepro/images/publish_x.png" alt="' . $link_text . '"/></a></span>';
 
-		return($theEditLink);
+		$jvTag = ET_General_Helper::getJoomlaVersionTag();
+
+		if ($jvTag == 'j2')
+		{
+			$theDeleteLink = '<span class="hasTip" title="' . $link_text
+				. '" style="margin-left:10px;" ><a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $cid
+				. '\',\'records.delete\');" title="' . $link_text . '" ><img src="' . JURI::root()
+				. 'media/com_easytablepro/images/publish_x.png" alt="' . $link_text . '"/></a></span>';
+		}
+		else
+		{
+			$theDeleteLink = '<span class="hasTooltip btn btn-small" title="' . $link_text
+				. '"><a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $cid
+				. '\',\'records.delete\');" title="' . $link_text . '" ><i class="icon-remove" style="color:red;"></i></a></span>';
+		}
+
+		return($theDeleteLink);
 	}
 
 	/**
@@ -377,12 +389,24 @@ class ET_RecordsHelper
 	public static function getEditRecordLink ($cid, $rowId, $tableName)
 	{
 		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_EDIT_LINK') . ' ' . $rowId . ' of table \'' . $tableName . '\' ';
-		$theLink = '<span class="hasTip" title="' . $link_text . '" style="margin-left:3px;" >'
-			. '<a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $cid
-			. '\',\'record.edit\');" title="' . $link_text . '" ><img src="' . JURI::root()
-			. 'media/com_easytablepro/images/edit.png" alt="' . $link_text . '" /></a></span>';
 
-		return($theLink);
+		$jvTag = ET_General_Helper::getJoomlaVersionTag();
+
+		if ($jvTag == 'j2')
+		{
+			$theEditLink = '<span class="hasTip" title="' . $link_text . '" style="margin-left:3px;" >'
+				. '<a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $cid
+				. '\',\'record.edit\');" title="' . $link_text . '" ><img src="' . JURI::root()
+				. 'media/com_easytablepro/images/edit.png" alt="' . $link_text . '" /></a></span>';
+		}
+		else
+		{
+			$theEditLink = '<span class="hasTip btn btn-small" title="' . $link_text . '">'
+				. '<a href="javascript:void(0);" onclick="return listItemTask(\'cb' . $cid
+				. '\',\'record.edit\');" title="' . $link_text . '" ><i class="icon-pencil" style="color:green;"></i></a></span>';
+		}
+
+		return($theEditLink);
 	}
 }
 
