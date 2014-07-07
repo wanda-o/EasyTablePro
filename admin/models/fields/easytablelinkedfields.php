@@ -8,6 +8,7 @@
  */
 defined('_JEXEC') or die('Restricted Access');
 
+JFormHelper::loadFieldClass('list');
 /**
  * JFormFieldEasyTable provides the options for the Table selection menu.
  *

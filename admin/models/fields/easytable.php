@@ -8,10 +8,7 @@
  */
 defined('_JEXEC') or die('Restricted Access');
 
-jimport('joomla.html.html');
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
-
+JFormHelper::loadFieldClass('list');
 /**
  * JFormFieldEasyTable provides the options for the Table selection menu.
  *
@@ -29,7 +26,7 @@ class JFormFieldEasyTable extends JFormFieldList
 	 * @access	protected
 	 * @var		string
 	 */
-	public	$type = 'EasyTable';
+	protected $type = 'EasyTable';
 
 	/**
 	 * getOptions() provides the options for each PUBLISHED table.
@@ -41,9 +38,7 @@ class JFormFieldEasyTable extends JFormFieldList
 	protected function getOptions()
 	{
 		// Initialise variables.
-		$options	= array();
 		$db = JFactory::getDBO();
-		$result = '';
 
 		// Get array of tables to build each option from...
 		$optionsQuery = $db->getQuery(true);
