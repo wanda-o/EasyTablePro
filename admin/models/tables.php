@@ -198,6 +198,29 @@ class EasyTableProModelTables extends JModelList
 	}
 
 	/**
+	 * We override getItems() to process the description field for any URL's relative to the site root and convert them
+	 * so they display correctly in the back end i.e. /administistrator
+	 *
+	 * @return Array
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+		$siteBase = JUri::root();
+
+		// Process description so that relative URL's work for the manager list view
+		foreach ($items as $item)
+		{
+			$description = $item->description;
+			$description = preg_replace("/(href|src)\=\"([^(http)])(\/)?/", "$1=\"$siteBase$2", $description);
+			$item->description = $description;
+		}
+
+		return $items;
+	}
+
+
+	/**
 	 * Method to get a store id based on model configuration state.
 	 *
 	 * This is necessary because the model is used by the component and
