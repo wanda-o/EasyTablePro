@@ -78,7 +78,7 @@ class EasyTableProModelRecords extends JModelList
 		parent::__construct();
 		$this->setState('records.id', $pk);
 
-		// Get pagination request variables
+		// Get pagination request variables -- @todo remove getCfg when 2.5 support is dropped
 		$limit = $jAp->getUserStateFromRequest('global.list.limit', 'limit', $jAp->getCfg('list_limit'), 'int');
 		$limitstart = $jInput->getInt('limitstart', 0);
 
@@ -240,7 +240,7 @@ class EasyTableProModelRecords extends JModelList
 		$params->merge($menuParams);
 
 		// Now that we have our merged params
-		$show_pagination = $params->get('show_pagination_header', 1);
+		$show_pagination = $params->get('show_pagination', 1);
 		$show_search = $params->get('show_search', 1);
 
 		// Set up some state based on preferences
