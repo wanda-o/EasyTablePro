@@ -73,7 +73,10 @@
 									$linkToDetail = 'index.php?option=com_easytablepro&view=record&id=' . $this->easytable->id . '&rid=' . $rowId;
 
 									// There is a define label field a the URL leaf.
-									$linkToDetail .= $leaf ? '&rllabel=' . JFilterOutput::stringURLSafe(substr($prow->$leaf, 0, 100)) : '';
+									if (property_exists($prow, $leaf))
+									{
+										$linkToDetail .= '&rllabel=' . JFilterOutput::stringURLSafe(substr($prow->$leaf, 0, 100));
+									}
 									$linkToDetail = JRoute::_($linkToDetail);
 									$cellData = '<a href="' . $linkToDetail . '">' . $cellData . '</a>';
 									$cellDetailLink = '';
