@@ -620,4 +620,62 @@ class ET_General_Helper
 
 		return $jvtag;
 	}
+
+	/**
+	 * @param   JViewLegacy  $jView
+	 *
+	 * @return  string  The HTML the view requires for
+	 */
+	public static function paginationHTML($show_pagination, $pagination_object)
+	{
+		$jvtag = self::getJoomlaVersionTag();
+
+		if ($show_pagination)
+		{
+			if ($jvtag != 'j2')
+			{
+				$paginate = <<<paginate
+<div class="pagination">
+	<p class="counter pull-right"> {$pagination_object->getPagesCounter()} </p>
+<?php endif; ?>
+{$pagination_object->getPagesLinks()} </div>
+paginate;
+			}
+			else
+			{
+				$pageListFooter = $pagination_object->getListFooter();
+				$paginate = '<div class="pagination">' . $pageListFooter . '</div>';
+			}
+		}
+		else
+		{
+			$paginate = '';
+		}
+		return $paginate;
+	}
+
+	public static function paginationLimitHTML($show_limit, $pagination_object)
+	{
+		$paginate = '';
+
+		if ($show_limit)
+		{
+			$jvtag = self::getJoomlaVersionTag();
+
+			if ($jvtag != 'j2')
+			{
+				$limitLabel = JText::_('JGLOBAL_DISPLAY_NUM');
+				$paginate = <<<paginate
+<div class="btn-group pull-right">
+	<label for="limit" class="element-invisible">
+		{$limitLabel}
+	</label>
+	{$pagination_object->getLimitBox()}
+</div>
+paginate;
+			}
+		}
+
+		return $paginate;
+	}
 }
