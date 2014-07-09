@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die ('Restricted Access');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/general.php';
+
 jimport('joomla.application.component.view');
 
 /**
@@ -52,6 +54,10 @@ class EasyTableProViewTables extends JViewLegacy
 	 **/
 	public function display($tpl = null)
 	{
+		// Get our Joomla Version Tag
+		$this->jvtag = ET_General_Helper::getJoomlaVersionTag();
+
+		// Get our params
 		$jAp = JFactory::getApplication();
 		$params = $jAp->getParams('com_easytablepro');
 		$this->show_description = $params->get('show_description', 0);
@@ -65,11 +71,71 @@ class EasyTableProViewTables extends JViewLegacy
 		// Get our list of tables
 		$this->rows       = $this->get('Items');
 
+		if($this->rows)
+		{
+			$this->convertRowsToHTML();
+		}
+
 		if ($this->show_pagination)
 		{
 			$this->pagination = $this->get('Pagination');
 		}
 
 		parent::display($tpl);
+	}
+
+	private function convertRowsToHTML()
+	{
+		// Get our user for locking access to/hiding tables from view
+		$user = JFactory::getUser();
+		$groups = $user->getAuthorisedViewLevels();
+		$skippedTables = 0;
+		$this->tableListItems = array();
+
+		foreach ($this->rows as $row )
+		{
+			/**
+			 * 0 - All table visible to all users - so all public and all others with a lock on them
+			 * 1 - All tables visible if logged in - only public if not logged in, otherwise public and all tables
+			 * 2 - Only tables visible to users group
+			 */
+			if (($this->tables_appear_in_listview == 1) || ($this->tables_appear_in_listview == 2))
+			{
+				if (($user->guest && !in_array($row->access, $groups))  || (($this->tables_appear_in_listview == 2) && !in_array($row->access, $groups)))
+				{
+					$skippedTables++;
+					continue;
+				}
+			}
+
+			/* Check the user against table access */
+			if (!in_array($row->access, $groups))
+			{
+				$altText = $user->guest ? JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE') : JText::_('COM_EASYTABLEPRO_SITE_TABLES_YOU_DO_NOT_HAVE_VIEWING_ACCESS_FOR_THIS_TABLE');
+				$lockImage = ' <img class="etTableListLockElement" src="' . JURI::root() . 'media/com_easytablepro/images/locked.gif" title="'
+					. $altText . '" alt="' . JText::_('COM_EASYTABLEPRO_SITE_CLICK_TO_LOGIN') . '" />';
+			}
+			else
+			{
+				$lockImage = '';
+			}
+
+			$link = JRoute::_('index.php?option=com_easytablepro&amp;view=records&amp;id=' . $row->id);
+			$li = '<li class="et_list_table_' . $row->easytablealias . '"><a href="' . $link . '">' . $row->easytablename . $lockImage . '</a>';
+
+			if ($this->show_description)
+			{
+				$li .= '<br /><div class="et_description ' . $row->easytablealias . '">' . $row->description . '</div>';
+			}
+
+			$li .= '</li>';
+
+			$this->tableListItems[] = $li;
+		}
+
+		if ($skippedTables && $this->showSkippedCount)
+		{
+			$this->tableListItems[] = '<li class="et_skipppedTablesMsg">' . JText::sprintf('COM_EASYTABLEPRO_SITE_TABLES_X_TABLES_WERE_NOT_AVAILABLE_FOR_DISPLAY', $skippedTables) . '</li>';
+		}
 	}
 }
