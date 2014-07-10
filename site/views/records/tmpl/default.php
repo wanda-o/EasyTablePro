@@ -100,10 +100,10 @@
 		<?php
 			}
 
-				if ($this->show_pagination && $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
-				{
-					echo ET_General_Helper::footerPaginationHTML(true, $this->pagination);
-				}
+			if ($this->show_pagination && $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
+			{
+				echo ET_General_Helper::footerPaginationHTML(true, $this->pagination);
+			}
 		?>
 		<input name="cid" type="hidden" value="<?php echo $this->easytable->id; ?>">
 			<input name="limitstart" type="hidden" value="0">
