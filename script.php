@@ -152,7 +152,7 @@ class Com_EasyTableProInstallerScript
 		$data_Table_IDs = $db->loadAssocList();
 
 		// Adding this to force getNumRows to work
-		$db->query();
+		$db->execute();
 
 		// GetNumRows() appears to be broken in 1.5+ for all other calls
 		$num_of_data_tables = $db->getNumRows();
@@ -173,7 +173,7 @@ class Com_EasyTableProInstallerScript
 					{
 						$et_query = 'DROP TABLE ' . $db->quoteName($theCurrentTable) . ';';
 						$db->setQuery($et_query);
-						$et_drop_result = $db->query();
+						$et_drop_result = $db->execute();
 
 						// Make sure it dropped.
 						if (!$et_drop_result)
@@ -200,7 +200,7 @@ class Com_EasyTableProInstallerScript
 		// Now DROP the meta data
 		$et_query = 'DROP TABLE `#__easytables_table_meta`;';
 		$db->setQuery($et_query);
-		$et_drop_result = $db->query();
+		$et_drop_result = $db->execute();
 
 		// Make sure it dropped.
 		if (!$et_drop_result)
@@ -216,7 +216,7 @@ class Com_EasyTableProInstallerScript
 		// Now DROP the core Tables Database
 		$et_query = 'DROP TABLE `#__easytables`;';
 		$db->setQuery($et_query);
-		$et_drop_result = $db->query();
+		$et_drop_result = $db->execute();
 
 		// Make sure it dropped.
 		if (!$et_drop_result)
@@ -323,7 +323,7 @@ class Com_EasyTableProInstallerScript
 			$msg .= $img_ERROR . JText::_('COM_EASYTABLEPRO_INSTALLER_EASYTABLES_HAS_COLUMN_SHOWSEARCH') . '</li>';
 			$et_updateQry = "ALTER TABLE #__easytables DROP COLUMN `showsearch`;";
 			$db->setQuery($et_updateQry);
-			$et_updateResult = $db->query();
+			$et_updateResult = $db->execute();
 
 			if (!$et_updateResult)
 			{
@@ -344,7 +344,7 @@ class Com_EasyTableProInstallerScript
 				$msg .= $img_ERROR . JText::_("COM_EASYTABLEPRO_INSTALLER_DESC_COLUMN_OLD_STYLE_FOUND") . '</li>';
 				$et_updateQry = "ALTER TABLE `#__easytables` CHANGE `description` `description` TEXT";
 				$db->setQuery($et_updateQry);
-				$et_updateResult = $db->query();
+				$et_updateResult = $db->execute();
 
 				if (!$et_updateResult)
 				{
@@ -374,7 +374,7 @@ class Com_EasyTableProInstallerScript
 			$msg .= $img_ERROR . JText::_("COM_EASYTABLEPRO_INSTALLER_ACCESS_COLUMN_NOT_FOUND") . '</li>';
 			$et_updateQry = "ALTER TABLE `#__easytables` ADD `access` INT(10) NOT NULL AFTER `params`";
 			$db->setQuery($et_updateQry);
-			$et_updateResult = $db->query();
+			$et_updateResult = $db->execute();
 
 			if (!$et_updateResult)
 			{
@@ -397,7 +397,7 @@ class Com_EasyTableProInstallerScript
 			$msg .= $img_ERROR . JText::_("COM_EASYTABLEPRO_INSTALLER_ASSET_ID_COLUMN_NOT_FOUND") . '</li>';
 			$et_updateQry = "ALTER TABLE `#__easytables` ADD `asset_id` INT(10) NOT NULL AFTER `access`";
 			$db->setQuery($et_updateQry);
-			$et_updateResult = $db->query();
+			$et_updateResult = $db->execute();
 
 			if (!$et_updateResult)
 			{
@@ -420,7 +420,7 @@ class Com_EasyTableProInstallerScript
 			$msg .= $img_ERROR . JText::_("COM_EASYTABLEPRO_INSTALLER_CREATED_BY_COLUMN_NOT_FOUND") . '</li>';
 			$et_updateQry = "ALTER TABLE `#__easytables` ADD `created_by` INT(11) NOT NULL AFTER `created_`";
 			$db->setQuery($et_updateQry);
-			$et_updateResult = $db->query();
+			$et_updateResult = $db->execute();
 
 			if (!$et_updateResult)
 			{
@@ -455,7 +455,7 @@ class Com_EasyTableProInstallerScript
 			$msg .= $img_ERROR . JText::_('COM_EASYTABLEPRO_INSTALLER_META_TABLE_IS_MISSING_PARAMS_COLUMN') . '</li>';
 			$et_updateQry = "ALTER TABLE #__easytables_table_meta ADD COLUMN `params` TEXT;";
 			$db->setQuery($et_updateQry);
-			$et_updateResult = $db->query();
+			$et_updateResult = $db->execute();
 
 			if (!$et_updateResult)
 			{
@@ -475,7 +475,7 @@ class Com_EasyTableProInstallerScript
 			// @todo Add $db->quote() to this comment text.
 			$et_updateQry = "ALTER TABLE #__easytables COMMENT='" . $this->et_this_version . "'";
 			$db->setQuery($et_updateQry);
-			$et_updateResult = $db->query();
+			$et_updateResult = $db->execute();
 
 			if (!$et_updateResult)
 			{

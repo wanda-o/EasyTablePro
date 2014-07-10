@@ -459,7 +459,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		$query = 'TRUNCATE TABLE ' . $db->quoteName('#__easytables_table_data_' . $id) . ';';
 
 		$db->setQuery($query);
-		$theResult = $db->query();
+		$theResult = $db->execute();
 
 		if (!$theResult)
 		{
@@ -685,7 +685,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		// Run the SQL to load the data into the ettd
 		$db->setQuery($insert_ettd_data_SQL);
 
-		$insert_ettd_data_result = $db->query();
+		$insert_ettd_data_result = $db->execute();
 
 		if (!$insert_ettd_data_result)
 		{
@@ -833,7 +833,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 			// Run the SQL to insert the Meta records
 			$db->setQuery($insert_Meta_SQL);
-			$insert_Meta_result = $db->query();
+			$insert_Meta_result = $db->execute();
 
 			if (!$insert_Meta_result)
 			{
@@ -889,7 +889,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		// Set and execute the SQL query
 		$db->setQuery($create_ETTD_SQL);
-		$ettd_creation_result = $db->query();
+		$ettd_creation_result = $db->execute();
 
 		if (!$ettd_creation_result)
 		{

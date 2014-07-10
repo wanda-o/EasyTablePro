@@ -234,9 +234,9 @@ class ET_General_Helper
 				' WHERE id = ' . (int) $pk
 			);
 
-			if (!$db->query())
+			if (!$db->execute())
 			{
-				$app->setError($db->getErrorMsg());
+				$app->setError('Database Error');
 
 				return false;
 			}

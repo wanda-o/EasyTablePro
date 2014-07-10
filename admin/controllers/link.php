@@ -159,7 +159,7 @@ class EasyTableProControllerLink extends JControllerForm
 
 		// Run the SQL to insert the Meta records
 		$db->setQuery($insert_Meta_SQL);
-		$insert_Meta_result = $db->query();
+		$insert_Meta_result = $db->execute();
 
 		if (!$insert_Meta_result)
 		{

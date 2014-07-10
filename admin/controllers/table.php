@@ -244,7 +244,7 @@ class EasyTableProControllerTable extends JControllerForm
 
 			// Set and run the query
 			$db->setQuery($etMetaUpdateSQL);
-			$db_result = $db->query();
+			$db_result = $db->execute();
 
 			if (!$db_result)
 			{
@@ -334,7 +334,7 @@ class EasyTableProControllerTable extends JControllerForm
 
 		// 2. Set the insertSQL as the query and execute it.
 		$db->setQuery($insertSQL);
-		$db_result = $db->query();
+		$db_result = $db->execute();
 
 		if (!$db_result)
 		{
@@ -351,7 +351,7 @@ class EasyTableProControllerTable extends JControllerForm
 		$addSQL .= implode(', ', $newFldsAlterArray);
 		$addSQL .= ' );';
 		$db->setQuery($addSQL);
-		$db_result = $db->query();
+		$db_result = $db->execute();
 
 		if (!$db_result)
 		{
@@ -418,7 +418,7 @@ class EasyTableProControllerTable extends JControllerForm
 
 		// Delete the reference to the fields in the meta table.
 		$db->setQuery('delete ' . $fromWhereSQL);
-		$deleteMeta_Result = $db->query();
+		$deleteMeta_Result = $db->execute();
 
 		return $deleteMeta_Result;
 	}
@@ -472,7 +472,7 @@ class EasyTableProControllerTable extends JControllerForm
 
 		// Set and execute the SQL query
 		$db->setQuery($alterSQL);
-		$alter_result = $db->query();
+		$alter_result = $db->execute();
 
 		if (!$alter_result)
 		{
