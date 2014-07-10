@@ -65,6 +65,9 @@ class EasyTableProViewRecord extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
 		// Get the Data
 		$this->item = $this->get('Item');
 		$easytable = $this->item->easytable;
@@ -74,19 +77,12 @@ class EasyTableProViewRecord extends JViewLegacy
 		// Check we have a real table
 		if ($id == 0)
 		{
-			JError::raiseNotice(100, JText::sprintf('COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR', $id));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_TABLE_ID_ZERO_ERROR', $id), 'NOTICE');
+			return false;
 		}
 
 		// Get the state info
 		$this->state = $this->get('State');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode('<br />', $errors));
-
-			return false;
-		}
 
 		// Is there a title suffix from the record
 		$title_field_raw = $easytable->params->get('title_field', 0);
@@ -192,9 +188,6 @@ class EasyTableProViewRecord extends JViewLegacy
 	{
 		// Get the document
 		$doc = JFactory::getDocument();
-
-		// First add CSS to the document
-		// $doc->addStyleSheet(JURI::root().'media/com_easytablepro/css/easytable.css');
 
 		// Get the document object
 		$document = JFactory::getDocument();

@@ -80,6 +80,9 @@ class EasyTableProModelRecord extends JModelItem
 	 */
 	public function &getItem($pk = null)
 	{
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
 		// Initialise variables.
 		$etID = (!empty($pk)) ? $pk : (int) $this->getState('table.id');
 		$pk = (!empty($pk)) ? $pk : $this->getState('record.id');
@@ -104,7 +107,7 @@ class EasyTableProModelRecord extends JModelItem
 
 				if (!$et)
 				{
-					return JError::raiseError(404, JText::_('COM_EASYTABLEPRO_RECORD_ERROR_TABLE_NOT_FOUND'));
+					$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_RECORD_ERROR_TABLE_NOT_FOUND'), 'Warning');
 				}
 
 				// @todo move to general helper functions
@@ -195,14 +198,10 @@ class EasyTableProModelRecord extends JModelItem
 					}
 				}
 
-				if ($error = $db->getErrorMsg())
-				{
-					throw new Exception($error);
-				}
-
 				if (empty($record))
 				{
-					return JError::raiseError(404, JText::sprintf('COM_EASYTABLEPRO_SITE_RECORD_ERROR_RECORD_NOT_FOUND', $pk));
+					$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_SITE_RECORD_ERROR_RECORD_NOT_FOUND', $pk), 'Warning');
+					$jAp->redirect('/');
 				}
 
 				// Compute view access permissions.
@@ -229,7 +228,7 @@ class EasyTableProModelRecord extends JModelItem
 
 				$this->_item[$etID . '.' . $pk] = $item;
 			}
-			catch (JException $e)
+			catch (RuntimeException $e)
 			{
 				if ($e->getCode() == 404)
 				{
@@ -238,8 +237,8 @@ class EasyTableProModelRecord extends JModelItem
 				}
 				else
 				{
-					$this->setError($e);
 					$this->_item[$etID . '.' . $pk] = false;
+					throw $e;
 				}
 			}
 		}

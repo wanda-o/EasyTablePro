@@ -118,13 +118,17 @@ class EasyTableProControllerLink extends JControllerForm
 	 */
 	private function createMetaForLinkedTable ($tableName, $id)
 	{
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
 		// Get a database object
 		$db = JFactory::getDBO();
 
 		if (!$db)
 		{
 			/* @todo remove this and replace with a less drastic result --- warning and cleanup after our failure? */
-			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_LINK_COULDNT_GET_DB_OBJ_TRYING_TO_CREATE_META_FOR_LINKED_TABLE', $tableName, $id));
+			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_LINK_COULDNT_GET_DB_OBJ_TRYING_TO_CREATE_META_FOR_LINKED_TABLE', $tableName, $id), "Error");
+			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 		}
 
 		$fieldsArray = $db->getTableColumns($tableName);
@@ -160,9 +164,8 @@ class EasyTableProControllerLink extends JControllerForm
 		if (!$insert_Meta_result)
 		{
 			/* @TODO remove this and replace with a less drastic result --- warning and cleanup after our failure? */
-			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_LINK_META_INSERT_FAILED_FOR_LINKED_TABLE', $id, $db->explain()));
-
-			return false;
+			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_LINK_META_INSERT_FAILED_FOR_LINKED_TABLE', $id, '', "Error"));
+			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 		}
 
 		return true;

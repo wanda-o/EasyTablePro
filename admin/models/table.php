@@ -128,7 +128,8 @@ class EasyTableProModelTable extends JModelAdmin
 
 			if (!$db)
 			{
-				JError::raiseError(500, JText::sprintf("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR", $pk));
+				$jAp->enqueuemessage(JText::sprintf("COM_EASYTABLEPRO_TABLE_GET_STATS_DB_ERROR", $pk), "Error");
+				$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 			}
 
 			// Get a list of accessible tables
@@ -455,7 +456,8 @@ class EasyTableProModelTable extends JModelAdmin
 
 		if (!$db)
 		{
-			JError::raiseError(500, "Couldn't get the database object while trying to create table: $id");
+			$jAp->enqueueMessage("Couldn't get the database object while trying to create table: $id", 'Error');
+			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 		}
 
 		// Set and execute the SQL query
@@ -464,7 +466,7 @@ class EasyTableProModelTable extends JModelAdmin
 
 		if (!$ettd_creation_result)
 		{
-			JError::raiseError(500, "Failure in data table creation, likely cause is invalid column headings; actually DB explanation: " . $db->explain());
+			$jAp->enqueueMessage("Failure in data table creation, likely cause is invalid column headings; actually DB explanation: ", 'Warning');
 		}
 
 		return $this->ettdExists($id);

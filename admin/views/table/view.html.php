@@ -56,14 +56,6 @@ class EasyTableProViewTable extends JViewLegacy
 		$this->state = $this->get('State');
 		$this->fields = $this->get('PublishingFields');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode('<br />', $errors));
-
-			return;
-		}
-
 		// Setup the toolbar etc
 		$this->addToolBar($this->item, $this->canDo);
 		$this->addCSSEtc();

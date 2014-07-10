@@ -278,6 +278,9 @@ class EasyTableProControllerUpload extends JControllerForm
 	 */
 	private function getFile()
 	{
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
 		if ($this->uploadFile == null)
 		{
 			$jFileInput = new JInput($_FILES);
@@ -286,7 +289,7 @@ class EasyTableProControllerUpload extends JControllerForm
 			// Make sure that file uploads are enabled in php
 			if (!(bool) ini_get('file_uploads'))
 			{
-				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_PHP_DOES_NOT_HAVE_FILE_UPLOADS_ENABLED'));
+				$jAp->enqueuemessage(JText::_('COM_EASYTABLEPRO_IMPORT_PHP_DOES_NOT_HAVE_FILE_UPLOADS_ENABLED'), "Warning");
 
 				return false;
 			}
@@ -294,24 +297,21 @@ class EasyTableProControllerUpload extends JControllerForm
 			// Make sure that zlib is loaded so that the package can be unpacked
 			if (!extension_loaded('zlib'))
 			{
-				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_PHP_DOES_NOT_HAVE_THE_ZLIB_EXTENSIONS_ENABLED'));
-
+				$jAp->enqueuemessage(JText::_('COM_EASYTABLEPRO_IMPORT_PHP_DOES_NOT_HAVE_THE_ZLIB_EXTENSIONS_ENABLED'), "Warning");
 				return false;
 			}
 
 			// If there is no uploaded file, we have a problem...
 			if (!is_array($theFile))
 			{
-				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_NO_FILE_WAS_SELECTED'));
-
+				$jAp->enqueuemessage(JText::_('COM_EASYTABLEPRO_IMPORT_NO_FILE_WAS_SELECTED'), "Warning");
 				return false;
 			}
 
 			// Check if there was a problem uploading the file.
 			if ($theFile['error']['tablefile'] || $theFile['size']['tablefile'] < 1)
 			{
-				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_IMPORT_IS_FILE_LARGER_THAN_THE_PHP_UPLOAD_MAX_FILESIZE_LIMIT'));
-
+				$jAp->enqueuemessage(JText::_('COM_EASYTABLEPRO_IMPORT_IS_FILE_LARGER_THAN_THE_PHP_UPLOAD_MAX_FILESIZE_LIMIT'), "Warning");
 				return false;
 			}
 
@@ -326,8 +326,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 			if (($fileSuffix != 'csv') && ($fileSuffix != 'tsv'))
 			{
-				JError::raiseWarning('', JText::_('COM_EASYTABLEPRO_UPLOAD_DATA_FILE_SUFFIX'));
-
+				$jAp->enqueuemessage(JText::_('COM_EASYTABLEPRO_UPLOAD_DATA_FILE_SUFFIX'), "Warning");
 				return false;
 			}
 
@@ -443,12 +442,16 @@ class EasyTableProControllerUpload extends JControllerForm
 	 */
 	private function emptyETTD ($id)
 	{
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
 		// Get a database object
 		$db = JFactory::getDBO();
 
 		if (!$db)
 		{
-			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_DB_ERROR_IN_EMPTY_ETTD_X', $id));
+			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_DB_ERROR_IN_EMPTY_ETTD_X', $id), "Error");
+			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 		}
 
 		// Build the TRUNCATE SQL -- NB. using truncate resets the AUTO_INCREMENT value of ID
@@ -460,7 +463,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if (!$theResult)
 		{
-			JError::raiseWarning('', JText::sprintf('COM_EASYTABLEPRO_UPLOAD_TABLE_TRUNCATE_ERROR_IN_EMPTY_ETTD_X',$ettd_table_name));
+			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_TABLE_TRUNCATE_ERROR_IN_EMPTY_ETTD_X',$ettd_table_name), "Warning");
 		}
 
 		return($theResult);
@@ -475,12 +478,16 @@ class EasyTableProControllerUpload extends JControllerForm
 	 */
 	private function getFieldAliasForTable($id)
 	{
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
 		// Get a database object
 		$db = JFactory::getDBO();
 
 		if (!$db)
 		{
-			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_DB_ERROR_IN_GETFIELDALIASFORTABLE_X', $id));
+			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_DB_ERROR_IN_GETFIELDALIASFORTABLE_X', $id), "Error");
+			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 		}
 
 		// Run the SQL to insert the Meta records
@@ -495,7 +502,8 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if (!$get_Meta_result)
 		{
-			JError::raiseError('', JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_FIELD_ALIASFORTABLE_X_Y', $id, $db->getErrorMsg()));
+			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_FIELD_ALIASFORTABLE_X_Y', $id, ''), "Error");
+			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 		}
 
 		return $get_Meta_result;
@@ -606,7 +614,8 @@ class EasyTableProControllerUpload extends JControllerForm
 			}
 			else
 			{
-				JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_UPDATE_TABLE_FROM_CHUNK_ERROR_X_Y_Z', $id, $thisChunkNum, $msg));
+				$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_UPDATE_TABLE_FROM_CHUNK_ERROR_X_Y_Z', $id, $thisChunkNum, ''), "Error");
+				$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 			}
 		}
 
@@ -628,8 +637,9 @@ class EasyTableProControllerUpload extends JControllerForm
 	 */
 	private function updateETTDWithChunk ($CSVFileChunk, $id, $ettdColumnAliass)
 	{
-		// Setup basic variables
-		$msg = '';
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
 
 		// Get a database object
 		$db = JFactory::getDBO();
@@ -679,7 +689,8 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if (!$insert_ettd_data_result)
 		{
-			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_UPDATE_TABLE_FROM_CHUNK_DATA_INSERT_ERROR_X_Y_Z', $id, $db->explain(), $insert_ettd_data_SQL));
+			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_UPDATE_TABLE_FROM_CHUNK_DATA_INSERT_ERROR_X_Y_Z', $id, '', "Error"));
+			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 		}
 
 		return $csvRowCount;
@@ -700,6 +711,9 @@ class EasyTableProControllerUpload extends JControllerForm
 	 */
 	private function createMetaFrom ($firstLineOfFile, $id, $hasHeaders)
 	{
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
 		$utf8Headings = '';
 		$csvColumnLabels = $firstLineOfFile;
 
@@ -744,7 +758,8 @@ class EasyTableProControllerUpload extends JControllerForm
 
 						if (!$columnAlias)
 						{
-							JError::raiseError(500, JText::_('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_DUPLICATE_COLUMN_NAMES_ERROR'));
+							$jAp->enqueuemessage(JText::_('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_DUPLICATE_COLUMN_NAMES_ERROR'), "Error");
+							$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 						}
 					}
 					$ettdColumnAliass[] = $columnAlias;
@@ -812,7 +827,8 @@ class EasyTableProControllerUpload extends JControllerForm
 
 			if (!$db)
 			{
-				JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_NO_DB_ERROR_X', $id));
+				$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_NO_DB_ERROR_X', $id), "Error");
+				$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 			}
 
 			// Run the SQL to insert the Meta records
@@ -821,12 +837,14 @@ class EasyTableProControllerUpload extends JControllerForm
 
 			if (!$insert_Meta_result)
 			{
-				JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_META_INSERT_ERROR_X_Y_Z', $id, $msg, $db->explain()));
+				$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_META_INSERT_ERROR_X_Y_Z', $id, '', '', "Error"));
+				$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 			}
 		}
 		else
 		{
-			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_FAILED_TO_CREATE_ETTD_ERROR_X', $id));
+			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_CREATE_META_FROM_FAILED_TO_CREATE_ETTD_ERROR_X', $id), "Error");
+			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 		}
 
 		return $ettdColumnAliass;
@@ -845,6 +863,9 @@ class EasyTableProControllerUpload extends JControllerForm
 	 */
 	private function createETTD ($id, $ettdColumnAliass)
 	{
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
 		// We turn the arrays of column names into the middle section of the SQL create statement
 		$ettdColumnSQL = implode('` TEXT NOT NULL , `', $ettdColumnAliass);
 
@@ -862,7 +883,8 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if (!$db)
 		{
-			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_DB_ERROR_X', $id));
+			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_DB_ERROR_X', $id), "Error");
+			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 		}
 
 		// Set and execute the SQL query
@@ -871,7 +893,8 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if (!$ettd_creation_result)
 		{
-			JError::raiseError(500, JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_CREATE_TABLE_IN_DB_ERROR_X', $db->explain()));
+			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_CREATE_TABLE_IN_DB_ERROR_X', '', "Error"));
+			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 		}
 
 		return $ettd_creation_result;

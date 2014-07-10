@@ -67,7 +67,8 @@ class EasyTableProViewRecords extends JViewLegacy
 			$id = $jInput->get('id', 0);
 
 			// Throw 404 if no table
-			return JError::raiseWarning(404, JText::sprintf('COM_EASYTABLEPRO_SITE_TABLE_NOT_AVAILABLE', $id));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_SITE_TABLE_NOT_AVAILABLE', $id), 'ERROR');
+			return false;
 		}
 
 		// Component wide & menu based params
@@ -100,14 +101,6 @@ class EasyTableProViewRecords extends JViewLegacy
 			}
 		}
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseWarning(500, implode("\n", $errors));
-
-			return false;
-		}
-
 		$id = $easytable->id;
 
 		// Check the view access to the table (the model has already computed the values).
@@ -125,7 +118,7 @@ class EasyTableProViewRecords extends JViewLegacy
 			}
 			else
 			{
-				JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+				$jAp->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'ERROR');
 
 				return false;
 			}

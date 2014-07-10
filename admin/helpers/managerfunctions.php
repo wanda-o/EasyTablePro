@@ -35,6 +35,9 @@ class ET_ManagerHelper
 	 */
 	public static function current_version()
 	{
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
 		// Let's see what version we have installed.
 		$et_this_version = '';
 		$et_com_xml_file = JPATH_COMPONENT_ADMINISTRATOR . '/easytablepro.xml';
@@ -47,7 +50,7 @@ class ET_ManagerHelper
 		}
 		else
 		{
-			JError::raiseError(500, JText::_('COM_EASYTABLEPRO_MGR_VERSION_XML_FAILURE'));
+			$jAp->enqueuemessage(JText::_('COM_EASYTABLEPRO_MGR_VERSION_XML_FAILURE'), "Warning");
 		}
 
 		return $et_this_version;

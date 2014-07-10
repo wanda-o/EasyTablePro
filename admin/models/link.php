@@ -234,7 +234,11 @@ class EasyTableProModelLink extends JModelList
 
 		if (!$db)
 		{
-			JError::raiseError(500, JText::_('COM_EASYTABLEPRO_LINK_NO_TABLE_LIST'));
+			// Get Joomla
+			$jAp = JFactory::getApplication();
+
+			$jAp->enqueuemessage(JText::_('COM_EASYTABLEPRO_LINK_NO_TABLE_LIST'), "Error");
+			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
 		}
 
 		$query = $db->getQuery(true);
