@@ -112,6 +112,9 @@ class EasyTableProModelTable extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
 		// @TODO Cache this item!
 		$item = parent::getItem($pk);
 		$kPubState = 'Published';
@@ -174,7 +177,7 @@ class EasyTableProModelTable extends JModelAdmin
 			 * As a nicety if the easytable has just been created we sort the meta records (ie. the fields meta) in the original creation order
 			 * (ie. the order found in the original import file)
 			 */
-			$jinput = JFactory::getApplication()->input;
+			$jinput = $jAp->input;
 			$from = $jinput->get('from', '');
 
 			if ($from == 'create')
@@ -349,7 +352,7 @@ class EasyTableProModelTable extends JModelAdmin
 		// Check for request forgeries
 
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
-		$app	= JFactory::getApplication();
+		$jAp	= JFactory::getApplication();
 
 		// Initialise Variables
 		$pks = (array) $pks;
@@ -371,11 +374,11 @@ class EasyTableProModelTable extends JModelAdmin
 
 			if ($db->execute())
 			{
-				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_ALL_META_DATA_FOR_TABLE_ID_X_WAS_DELETED', $pk));
+				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_ALL_META_DATA_FOR_TABLE_ID_X_WAS_DELETED', $pk));
 			}
 			else
 			{
-				$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_NOT_ALL_META_DATA_FOR_TABLE_ID_X_COULD_BE_DELETED', $pk));
+				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_NOT_ALL_META_DATA_FOR_TABLE_ID_X_COULD_BE_DELETED', $pk));
 			}
 
 			/**
@@ -393,23 +396,23 @@ class EasyTableProModelTable extends JModelAdmin
 
 				if ($db->execute())
 				{
-					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_SUCCESSFULLY_DROPPED_DATA_FOR_TABLE_X', $table->easytablename));
+					$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_SUCCESSFULLY_DROPPED_DATA_FOR_TABLE_X', $table->easytablename));
 				}
 				else
 				{
-					$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_FAILED_TO_DROP_DATA_FOR_TABLE_X', $table->easytablename));
+					$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_FAILED_TO_DROP_DATA_FOR_TABLE_X', $table->easytablename));
 				}
 			}
 			else
 			{
-				$app->enqueueMessage(JText::sprintf('<strong>%s</strong> is a linked external table, data left in place.', $table->easytablename));
+				$jAp->enqueueMessage(JText::sprintf('<strong>%s</strong> is a linked external table, data left in place.', $table->easytablename));
 			}
 		}
 
 		// Call the parent
 		if (!parent::delete($pks))
 		{
-			$app->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_FAILED_TO_DELETE_TABLE_RECORD_X', $pk));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_FAILED_TO_DELETE_TABLE_RECORD_X', $pk));
 		}
 
 		return true;
@@ -430,7 +433,7 @@ class EasyTableProModelTable extends JModelAdmin
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
-		$app	= JFactory::getApplication();
+		$jAp	= JFactory::getApplication();
 
 		/*
 		 * WARNING HERE AFTER BE OLDE CODE FROM DAYS GONE BY AND LONG PAST

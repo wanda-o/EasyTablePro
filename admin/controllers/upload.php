@@ -69,9 +69,9 @@ class EasyTableProControllerUpload extends JControllerForm
 	public function add()
 	{
 		// Setup the basics
-		$Ap = JFactory::getApplication();
+		$jAp = JFactory::getApplication();
 		$this->setRedirect('');
-		$jInput = $Ap->input;
+		$jInput = $jAp->input;
 
 		// Grab our form fields
 		$data = $jInput->get('jform', array(), 'array');
@@ -100,7 +100,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 					if ($numOfCols = count($ettdColumnAliass))
 					{
-						$Ap->enqueueMessage(
+						$jAp->enqueueMessage(
 							JText::sprintf(
 								'COM_EASYTABLEPRO_IMPORT_EXTRACTED_X_COLUMNS_AND_CREATED_DATA_TABLE_FOR_Y',
 								$numOfCols,
@@ -121,7 +121,7 @@ class EasyTableProControllerUpload extends JControllerForm
 					}
 					else
 					{
-						$Ap->enqueueMessage(
+						$jAp->enqueueMessage(
 							JText::sprintf(
 								'COM_EASYTABLEPRO_IMPORT_FAILED_TO_EXTRACT_ANY_COLUMNS_FROM_THE_FILE_SUPPLIED_OR_CREATE_THE_DATA_TABLE_FOR_X',
 								$item->easytablename
@@ -132,7 +132,7 @@ class EasyTableProControllerUpload extends JControllerForm
 			}
 			else
 			{
-				$Ap->enqueueMessage(
+				$jAp->enqueueMessage(
 					JText::_(
 						'COM_EASYTABLEPRO_IMPORT_NO_DATA_FILE_FOUND_A_CSV_OR_TAB_FILE_IS_REQUIRED_TO_CREATE_A_NEW_TABLE
 						'),
@@ -154,10 +154,10 @@ class EasyTableProControllerUpload extends JControllerForm
 	 */
 	public function uploadData()
 	{
-		$Ap = JFactory::getApplication();
+		$jAp = JFactory::getApplication();
 
 		// Get our upload form
-		$jInput = $Ap->input;
+		$jInput = $jAp->input;
 		$this->formData = $jInput->get('jform', array(), 'array');
 
 		// Prepare for failure
@@ -208,7 +208,7 @@ class EasyTableProControllerUpload extends JControllerForm
 	 */
 	private function processNewDataFile($updateType, $id)
 	{
-		$Ap = JFactory::getApplication();
+		$jAp = JFactory::getApplication();
 
 		if ($file = $this->getFile())
 		{
@@ -216,7 +216,7 @@ class EasyTableProControllerUpload extends JControllerForm
 
 			if (!$CSVFileArray)
 			{
-				$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_UNABLE_TO_OPEN_DATA_FILE_X', $file));
+				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_UNABLE_TO_OPEN_DATA_FILE_X', $file));
 
 				return false;
 			}
@@ -228,27 +228,27 @@ class EasyTableProControllerUpload extends JControllerForm
 
 		if ($updateType == 'replace')
 		{
-			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_ABOUT_TO_REPLACE_RECORDS_IN_TABLE_ID_X', $id));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_ABOUT_TO_REPLACE_RECORDS_IN_TABLE_ID_X', $id));
 		}
 		else
 		{
-			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_ABOUT_TO_ADD_RECORDS_TO_TABLE_ID_X', $id));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_IMPORT_ABOUT_TO_ADD_RECORDS_TO_TABLE_ID_X', $id));
 		}
 
 		// Check for an update action
-		$Ap->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_IMPORT_DATA_FILE_ATTACHED'));
+		$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_IMPORT_DATA_FILE_ATTACHED'));
 
 		if ($updateType == 'replace')
 		{
 			// Clear out previous records before uploading new records.
 			if ($this->emptyETTD($id))
 			{
-				$Ap->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_IMPORT_EMPTIED_EXISTI_ROWS'));
-				$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_IMPORT_OLD_RECORDS_CLEARED_X', $id));
+				$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_IMPORT_EMPTIED_EXISTI_ROWS'));
+				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_IMPORT_OLD_RECORDS_CLEARED_X', $id));
 			}
 			else
 			{
-				$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_IMPORT_COULD_NOT_DELETE_RECORDS_X', $id));
+				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_IMPORT_COULD_NOT_DELETE_RECORDS_X', $id));
 
 				return;
 			}
@@ -257,13 +257,13 @@ class EasyTableProControllerUpload extends JControllerForm
 		// All Seems good now we can update the data table with the contents of the file.
 		if (!($csvRowCount = $this->updateETTDTableFrom($id, $CSVFileArray)))
 		{
-			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_UPLOAD_ERROR_COLUMN_MISMATCH_X', $id), 'Error');
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_UPLOAD_ERROR_COLUMN_MISMATCH_X', $id), 'Error');
 
 			return false;
 		}
 		else
 		{
-			$Ap->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_IMPORT_IMPORTED_DESC_X', $csvRowCount));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_IMPORT_IMPORTED_DESC_X', $csvRowCount));
 		}
 
 		return $csvRowCount;
@@ -554,7 +554,7 @@ class EasyTableProControllerUpload extends JControllerForm
 	private function updateETTDTableFrom ($id, $CSVFileArray)
 	{
 		// Setup basic variables
-		$Ap = JFactory::getApplication();
+		$jAp = JFactory::getApplication();
 		$ettdColumnAliass = $this->getFieldAliasForTable($id);
 		$hasHeaders = $this->item->get('CSVFileHasHeaders');
 		$totalCSVRows = count($CSVFileArray);
@@ -568,7 +568,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		if (count($ettdColumnAliass) != count($CSVFileArray[0]))
 		{
 			// Our existing column count doesn't match those found in the first line of the CSV
-			$Ap->enqueueMessage(
+			$jAp->enqueueMessage(
 				JText::sprintf(
 					'COM_EASYTABLEPRO_IMPORT_THE_EXISTING_COLUMN_COUNT_X_DOESNT_MATCH_THE_FILE_Y',
 					count($ettdColumnAliass),
