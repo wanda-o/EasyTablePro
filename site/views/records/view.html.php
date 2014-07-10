@@ -180,17 +180,15 @@ class EasyTableProViewRecords extends JViewLegacy
 			{
 				$jAp->input->set('limit', $this->easytable->record_count);
 				$jAp->input->set('limitstart', 0);
-				$items = $this->get('Items');
-				$this->items = $items;
+				$this->items = $this->get('Items');
 			}
 
 			$this->loadDataTables($jAp);
 		}
 		else
 		{
-			$items			  = $this->get('Items');
-			$this->items	  = $items;
-			$this->itemCount  = count($items);
+			$this->items	  = $this->get('Items');
+			$this->itemCount  = count($this->items);
 			$this->state	  = $this->get('State');
 			$this->pagination = $this->get('Pagination');
 
