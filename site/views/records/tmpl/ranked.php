@@ -45,16 +45,15 @@
 			?>
 			</div>
 	<?php
-			if ($this->show_pagination_header && !$this->show_pagination_footer)
-			{
-				// Only if pagination is enabled
-				if ($this->show_pagination && $this->etmCount)
-				{
-					echo '<div class="pagination">';
-					echo $this->pagination->getListFooter();
-					echo '</div>';
-				}
-			}
+		if (($this->show_pagination_header || $this->show_pagination_footer) && $this->etmCount)
+		{
+			echo ET_General_Helper::paginationLimitHTML($this->show_pagination, $this->pagination);
+		}
+
+		if ($this->show_pagination_header && !$this->show_pagination_footer && $this->etmCount)
+		{
+			echo ET_General_Helper::topPaginationHTML($this->show_pagination, $this->pagination);
+		}
 	?>
 		<table id="<?php echo htmlspecialchars($this->easytable->easytablealias); ?>" summary="<?php echo htmlspecialchars(strip_tags($this->easytable->description)); ?>" width="100%">
 			<thead>
@@ -185,12 +184,10 @@
 		<?php
 			} ?>
 	<?php
-				if ($this->show_pagination && $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
-				{
-					echo '<div class="pagination">';
-					echo $this->pagination->getListFooter();
-					echo '</div>';
-				}
+	if ($this->show_pagination && $this->show_pagination_footer && $this->etmCount) // If pagination is enabled show the controls
+	{
+		echo ET_General_Helper::footerPaginationHTML(true, $this->pagination);
+	}
 	?>
 		<input name="cid" type="hidden" value="<?php echo $this->easytable->id; ?>">
 		</form>
