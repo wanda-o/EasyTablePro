@@ -227,10 +227,13 @@ com_EasyTablePro.Table.toggleTick  = function(tFieldName, tRow, tImgSuffix)
 
     if (typeof jQuery !== "undefined")
     {
-        var btn = tFieldName;
-        var params = btn.id.split('.');
-        tFieldName =  params[0];
-        tRow = params[2];
+        if (typeof tFieldName !== 'string')
+        {
+            var btn = tFieldName;
+            var params = btn.id.split('.');
+            tFieldName =  params[0];
+            tRow = params[2];
+        }
     }
 
     tImgSuffix = typeof tImgSuffix === 'undefined' ? '_img' : tImgSuffix;

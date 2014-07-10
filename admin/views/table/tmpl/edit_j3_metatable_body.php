@@ -40,7 +40,7 @@ if (!$this->item->etet)
 	$delBtnAlt = "Delete Field Button.";
 	$delBtnTmpl = <<<BTNTMPL
 <br />
-<a href="javascript:void(0);" class="deleteFieldButton-nodisplay" onclick="com_EasyTablePro.Table.deleteField('%s', '%s');">
+<a href="#" class="deleteFieldButton-nodisplay" onclick="com_EasyTablePro.Table.deleteField('%s', '%s');">
 	<img src="$delBtnPath" alt="$delBtnAlt" />
 </a>
 BTNTMPL;
@@ -110,19 +110,19 @@ foreach ($this->item->table_meta as $metaRow)
 		<input type="text" value="$fieldOptions" name="fieldoptions$mRId" class="hasTooltip input-large" title="$fldOptionsTT" />
 	</td>
 	<td class="center hidden-phone" width="1%" align="center"><input type="hidden" name="list_view$mRId" value="$mrListView" />
-		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="list_view.btn.$mRId">$listViewImg</a>
+		<a href="#" onclick="com_EasyTablePro.Table.toggleTick(this);" id="list_view.btn.$mRId">$listViewImg</a>
 	</td>
 	<td class="center hidden-phone" width="1%" align="center">
 		<input type="hidden" name="detail_link$mRId" value="$mrDetailLnk" />
-		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="detail_link.btn.$mRId">$detailLinkImg</a>
+		<a href="#" onclick="com_EasyTablePro.Table.toggleTick(this);" id="detail_link.btn.$mRId">$detailLinkImg</a>
 	</td>
 	<td class="center hidden-phone" width="1%" align="center">
 		<input type="hidden" name="detail_view$mRId" value="$mrDetailView" />
-		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(detail_view, $mRId);" id="detail_view.btn.$mRId">$detailViewImg</a>
+		<a href="#" onclick="com_EasyTablePro.Table.toggleTick(this);" id="detail_view.btn.$mRId">$detailViewImg</a>
 	</td>
 	<td class="center hidden-phone" width="1%" align="center">
 		<input type="hidden" name="search_field$mRId" value="$searchField"/>
-		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="search_field.btn.$mRId">$searchImg</a>
+		<a href="#" onclick="com_EasyTablePro.Table.toggleTick(this);" id="search_field.btn.$mRId">$searchImg</a>
 	</td>
 </tr>
 
@@ -159,19 +159,19 @@ if (!$this->item->etet)
 		<input type="text" value="" name="fieldoptionsclone" class="hasTooltip input-large" title="$fldOptionsTT"  placeholder="field options"/>
 	</td>
 	<td class="center hidden-phone" width="1%" align="center"><input type="hidden" name="list_viewclone" value="0" />
-		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="listViewclone">$listViewImg</a>
+		<a href="#" onclick="com_EasyTablePro.Table.toggleTick(this);" id="listViewclone">$listViewImg</a>
 	</td>
 	<td class="center hidden-phone" width="1%" align="center">
 		<input type="hidden" name="detail_linkclone" value="0" />
-		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="detailLinkclone">$detailLinkImg</a>
+		<a href="#" onclick="com_EasyTablePro.Table.toggleTick(this);" id="detailLinkclone">$detailLinkImg</a>
 	</td>
 	<td class="center hidden-phone" width="1%" align="center">
 		<input type="hidden" name="detail_viewclone" value="0" />
-		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="detailViewclone">$detailViewImg</a>
+		<a href="#" onclick="com_EasyTablePro.Table.toggleTick(this);" id="detailViewclone">$detailViewImg</a>
 	</td>
 	<td class="center hidden-phone" width="1%" align="center">
 		<input type="hidden" name="search_fieldclone" value="0"/>
-		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.toggleTick(this);" id="searchclone">$searchImg</a>
+		<a href="#" onclick="com_EasyTablePro.Table.toggleTick(this);" id="searchclone">$searchImg</a>
 	</td>
 </tr>
 
@@ -180,14 +180,14 @@ CLONEROW;
 	echo <<<CONTROLROW
 <tr id="et_controlRow" class="et_controlRow-nodisplay">
 	<td >
-		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.addField()">
+		<a href="#" onclick="com_EasyTablePro.Table.addField()">
 			<img class="et_addField" src="$addFldIconPath" alt="$addNewFldLabel" />
 		</a>
 		<input type="hidden" name="newFlds" id="newFlds" value=""/>
 		<input type="hidden" name="deletedFlds" id="deletedFlds" value=""/>
 	</td>
 	<td colspan="2">
-		<a href="javascript:void(0);" onclick="com_EasyTablePro.Table.addField()">$addFieldBtn</a>
+		<a href="#" onclick="com_EasyTablePro.Table.addField()">$addFieldBtn</a>
 	</td>
 	<td colspan="6">
 		<em>$addNewFldDesc</em>
