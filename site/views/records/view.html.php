@@ -56,6 +56,8 @@ class EasyTableProViewRecords extends JViewLegacy
 		$jAp		= JFactory::getApplication();
 		$jInput		= $jAp->input;
 		$user		= JFactory::getUser();
+		// Get our Joomla version tag
+		$this->jvtag = ET_General_Helper::getJoomlaVersionTag();
 
 		$easytable  = $this->get('EasyTable');
 		$this->easytable = $easytable;
@@ -174,7 +176,6 @@ class EasyTableProViewRecords extends JViewLegacy
 		}
 		elseif($wereAjaxing)
 		{
-			// @todo Replace this magic number with the global/table param for a small table
 			if ($this->easytable->record_count < $this->params->get('datatable_small_sized', 500, ''))
 			{
 				$jAp->input->set('limit', $this->easytable->record_count);
@@ -358,47 +359,82 @@ class EasyTableProViewRecords extends JViewLegacy
 		$versionJQUI = $this->params->get('load_jqueryui_version', '1.10.3');
 
 		// Load JQuery
-		switch ($loadJQ)
+		if ($this->jvtag == 'j2')
 		{
-			case 1: // From local
+			switch ($loadJQ)
 			{
-				$doc->addScript('media/com_easytablepro/js/jquery/jquery-' . $versionJQ . $minOrNot . '.js');
-				break;
+				case 1: // From local
+				{
+					$doc->addScript('media/com_easytablepro/js/jquery/jquery-' . $versionJQ . $minOrNot . '.js');
+					break;
+				}
+				case 2: // From Google
+				{
+					$doc->addScript('http://ajax.googleapis.com/ajax/libs/jquery/' . $versionJQ . '/jquery' . $minOrNot . '.js');
+					break;
+				}
+				case 3: // From MediaTemple http://code.jquery.com/jquery-1.10.2.js
+				{
+					$doc->addScript('http://code.jquery.com/jquery-' . $versionJQ . $minOrNot . '.js');
+					break;
+				}
+				default:
+					// We don't load JQ at all.
 			}
-			case 2: // From Google
+		}
+		else
+		{   // Joomla 3 or higher
+			switch ($loadJQ)
 			{
-				$doc->addScript('http://ajax.googleapis.com/ajax/libs/jquery/' . $versionJQ . '/jquery' . $minOrNot . '.js');
-				break;
+				case 1: case 2: case 3: // From the Joomla only CDN options are for J2.x
+				{
+					if(!$loadJQUI)
+					{ // Loading UI will load framework automagically
+						JHtml::_('jquery.framework');
+					}
+					break;
+				}
+				default:
+					// We don't load JQ at all.
 			}
-			case 3: // From MediaTemple http://code.jquery.com/jquery-1.10.2.js
-			{
-				$doc->addScript('http://code.jquery.com/jquery-' . $versionJQ . $minOrNot . '.js');
-				break;
-			}
-			default:
-				// We don't load JQ at all.
 		}
 
 		// Load JQuery UI plugin
-		switch ($loadJQUI)
+		if ($this->jvtag == 'j2')
 		{
-			case 1: // From local
+			switch ($loadJQUI)
 			{
-				$doc->addScript('media/com_easytablepro/js/jquery/jquery-ui-' . $versionJQUI . $minOrNot . '.js');
+				case 1: // From local
+				{
+					$doc->addScript('media/com_easytablepro/js/jquery/jquery-ui-' . $versionJQUI . $minOrNot . '.js');
+					break;
+				}
+				case 2: // From Google
+				{
+					$doc->addScript('http://ajax.googleapis.com/ajax/libs/jqueryui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
+					break;
+				}
+				case 3: // From MediaTemple
+				{
+					$doc->addScript('http://code.jquery.com/ui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
+					break;
+				}
+				default:
+					// We don't load JQUI at all.
+			}
+		}
+		else
+		{   // Joomla 3 or higher
+			switch ($loadJQUI)
+			{
+				case 1: case 2: case 3: // From the Joomla only CDN options are for J2.x
+			{
+				JHtml::_('jquery.ui');
 				break;
 			}
-			case 2: // From Google
-			{
-				$doc->addScript('http://ajax.googleapis.com/ajax/libs/jqueryui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
-				break;
+				default:
+					// We don't load JQ at all.
 			}
-			case 3: // From MediaTemple
-			{
-				$doc->addScript('http://code.jquery.com/ui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
-				break;
-			}
-			default:
-				// We don't load JQUI at all.
 		}
 
 		// Load DataTables
@@ -441,7 +477,6 @@ class EasyTableProViewRecords extends JViewLegacy
 		 * Client-side processing - DOM sourced data: ~5'000 rows. Speed options: bSortClasses
 		 * Client-side processing - Ajax sourced data: ~50'000 rows. Speed options: bDeferRender
 		 * Server-side processing: millions of rows.
-		 * @todo replace these hard coded numbers for the table size breakpoints with table and global params.
 		 */
 		// We need to attach our menu item id
 		$item_id = $jAp->input->get('Itemid', 0);
@@ -482,6 +517,7 @@ class EasyTableProViewRecords extends JViewLegacy
 		if (!$list_limit)
 		{
 			$list_limit = $jAp->getCfg('list_limit');
+			// @todo When J2.5 support ends replace the previous line with this: $list_limit = $jAp->get('list_limit');
 		}
 
 		$dt_init_code .= '"iDisplayLength": ' . $list_limit . ',' . "\n";
