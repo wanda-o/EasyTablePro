@@ -626,7 +626,7 @@ class ET_General_Helper
 	 *
 	 * @return  string  The HTML the view requires for
 	 */
-	public static function paginationHTML($show_pagination, $pagination_object)
+	public static function footerPaginationHTML($show_pagination, $pagination_object)
 	{
 		$jvtag = self::getJoomlaVersionTag();
 
@@ -637,6 +637,39 @@ class ET_General_Helper
 				$paginate = <<<paginate
 <div class="pagination">
 	<p class="counter pull-right"> {$pagination_object->getPagesCounter()} </p>
+<?php endif; ?>
+{$pagination_object->getPagesLinks()} </div>
+paginate;
+			}
+			else
+			{
+				$pageListFooter = $pagination_object->getListFooter();
+				$paginate = '<div class="pagination">' . $pageListFooter . '</div>';
+			}
+		}
+		else
+		{
+			$paginate = '';
+		}
+		return $paginate;
+	}
+
+	/**
+	 * Exactly the same as footerPaginationHTML except it doesn't have the "Page X of Y" section
+	 * @param   JViewLegacy  $jView
+	 *
+	 * @return  string  The HTML the view requires for
+	 */
+	public static function topPaginationHTML($show_pagination, $pagination_object)
+	{
+		$jvtag = self::getJoomlaVersionTag();
+
+		if ($show_pagination)
+		{
+			if ($jvtag != 'j2')
+			{
+				$paginate = <<<paginate
+<div class="pagination">
 <?php endif; ?>
 {$pagination_object->getPagesLinks()} </div>
 paginate;

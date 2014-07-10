@@ -21,6 +21,6 @@ defined('_JEXEC') or die ('Restricted Access');
 <ul class="et_tables_list">
 	<?php echo implode("\n", $this->tableListItems); ?>
 </ul>
-<?php echo ET_General_Helper::paginationHTML($this->show_pagination, $this->pagination); ?>
+<?php echo ET_General_Helper::footerPaginationHTML($this->show_pagination, $this->pagination); ?>
 	</form>
 </div>
