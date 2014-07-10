@@ -120,7 +120,7 @@ class EasyTableProModelUpload extends JModelAdmin
 		$item = parent::getItem($pk);
 
 		// @todo replace with JInput when it (JInput) get's it shit together...
-		$ourJform = JRequest::getVar('jform', array(), 'deault', 'array');
+		$ourJform = $jInput->get('jform', array(), 'ARRAY');
 
 		if (array_key_exists('CSVFileHasHeaders', $ourJform))
 		{
@@ -139,8 +139,9 @@ class EasyTableProModelUpload extends JModelAdmin
 	 */
 	protected function populateState()
 	{
+		$jInput = JFactory::getApplication()->input;
 		// Get the table id
-		$id = JRequest::getInt('id');
+		$id = $jInput->get('id', 0, 'int');
 		$this->setState('table.id', $id);
  
 		parent::populateState();

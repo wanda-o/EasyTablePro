@@ -20,7 +20,7 @@ $notes     = JText::_('COM_EASYTABLEPRO_MGR_NOTES');
 $lutdesc   = JText::_('COM_EASYTABLEPRO_LINK_USE_TABLE_DESC');
 
 ?>
-<form action="index.php" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+<form action="index.php?option=com_easytablepro" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div class="col100">
 	<table width="100%">
 		<tr>
@@ -57,7 +57,6 @@ $lutdesc   = JText::_('COM_EASYTABLEPRO_LINK_USE_TABLE_DESC');
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="option" value="<?php echo JRequest::getCmd('option'); ?>" />
 <input type="hidden" name="task" value="link.linkTable" />
 <?php echo JHTML::_('form.token'); ?>
 </form>

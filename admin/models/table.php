@@ -300,46 +300,6 @@ class EasyTableProModelTable extends JModelAdmin
 	}
 
 	/**
-	 * Method to store a record
-	 *
-	 * @return	boolean	True on success
-	 *
-	 * @since  1.1
-	 */
-	public function store()
-	{
-		$row = $this->getTable();
-
-		$data = JRequest::get('post');
-
-		// Bind the form fields to the table
-		if (!$row->bind($data))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		// Make sure the record is valid
-		if (!$row->check())
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		// Store the table to the database
-		if (!$row->store())
-		{
-			$this->setError($row->getErrorMsg());
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Delete the current table and related meta records and storage (if it's not a linked table).
 	 *
 	 * @param   string  &$pks  EasyTable Ids.
