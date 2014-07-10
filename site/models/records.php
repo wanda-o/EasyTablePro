@@ -343,16 +343,20 @@ class EasyTableProModelRecords extends JModelList
 		$sf = $params->get('sort_field', '');
 		$sf = strpos($sf, ':') ? substr($sf, strpos($sf, ':') + 1) : $sf;
 		$so = $params->get('sort_order', '');
+		$layout = $this->getState('layout', null);
 
 		if ($sf && $so)
 		{
 			$sf = $db->quoteName($sf);
 			$query->order($sf . ' ' . $so);
-/* @todo Only create et-rank if we're on a ranked layout! */
+
 			// Here we add ranking column, note the workaround for Joomla!
-			$sos = $so == 'DESC' ? '>' : '<';
-			$t2name = $db->quoteName($theTable->ettd_tname, 't2');
-			$query->select("( SELECT COUNT($sf)+1 FROM $t2name WHERE t2.$sf $sos t.$sf ) AS " . $db->quoteName('et-rank'));
+			if($layout == 'ranked')
+			{
+				$sos = $so == 'DESC' ? '>' : '<';
+				$t2name = $db->quoteName($theTable->ettd_tname, 't2');
+				$query->select("( SELECT COUNT($sf)+1 FROM $t2name WHERE t2.$sf $sos t.$sf ) AS " . $db->quoteName('et-rank'));
+			}
 		}
 
 		return $query;
