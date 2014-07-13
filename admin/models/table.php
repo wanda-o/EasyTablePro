@@ -431,4 +431,239 @@ class EasyTableProModelTable extends JModelAdmin
 
 		return $this->ettdExists($id);
 	}
+
+	/**
+	 * Duplicates the EasyTable of the given ID. i.e. adds a record to #__EasyTables, clones the meta records
+	 * and duplicates the #__easytables_table_data_\d+ with all of its records.
+	 *
+	 * @param   int  $id  The ID of the table to duplicate.
+	 */
+	public function duplicate($id)
+	{
+		// Get Joomla etc.
+		$jAp = JFactory::getApplication();
+		$db = $this->getDbo();
+		$user = JFactory::getUser();
+
+		// Get our table table.
+		$tableTable = $this->getTable();
+
+		// Load a copy of the original table
+		$tableTable->load($id);
+
+		// Is it a linked table
+		$etet = $tableTable->datatablename?true:false;
+
+		if ($etet)
+		{
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_NO_LINKED_TABLES_X', $tableTable->easytablename), 'Warning');
+			return;
+		}
+
+		// Is it locked out
+		$locked = ($tableTable->checked_out && ($tableTable->checked_out != $user->id));
+
+		if ($locked)
+		{
+			$lockedBy = JFactory::getUser($tableTable->checked_out);
+			$lockedByName = $lockedBy->name;
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_NO_LOCKED_TABLES_X_Y', $tableTable->easytablename, $lockedByName), 'Warning');
+			return;
+		}
+
+		// Save a copy of it
+		$tableTable->id = 0;
+		$tableTable->easytablename = JString::increment($tableTable->easytablename);
+		$tableTable->easytablealias = JString::increment($tableTable->easytablealias, 'dash');
+
+		if ($tableTable->store())
+		{
+			$new_id = $tableTable->id;
+
+			// Use the new ID of the new table record to create a copy of the Meta Records
+			if ($this->duplicateMeta($id, $new_id, $jAp, $db))
+			{
+			// Using the new ID still create a copy of the datatable
+				if(!$this->duplicateData($id, $new_id, $jAp, $db))
+				{
+					$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_FAILED_TO_DUP_RECORDS_MSG_X', $id), 'Error');
+					$this->cleanUpFailedTableDuplicate($tableTable, $jAp);
+					$this->cleanUpFailedMetaDuplicate($new_id, $jAp, $db);
+				}
+			}
+			else
+			{
+				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_FAILED_TO_DUP_META_MSG_X', $id), 'Error');
+				$this->cleanUpFailedTableDuplicate($tableTable, $jAp);
+			}
+		}
+		else
+		{
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_FAILED_TO_DUP_TABLE_ID_MSG_X', $id), 'Error');
+		}
+	}
+
+	/**
+	 * Duplicate the meta records from the original table with the new tables ID set.
+	 *
+	 * @param   int              $old_table_id  ID of the source (old) table
+	 * @param   int              $new_table_id  ID of the newly copied table
+	 * @param   JApplication     $jAp           Yo Joomla!
+	 * @param   JDatabasedriver  $db            The current DB object.
+	 *
+	 * @return bool
+	 */
+	private function duplicateMeta($old_table_id, $new_table_id, $jAp, $db)
+	{
+		// Build our query to get all meta records from old table
+		$query = $db->getQuery(true);
+		$query->select('*')->from($db->quoteName('#__easytables_table_meta'));
+		$query->where($db->quoteName('easytable_id') . ' = ' . (int) $old_table_id);
+		$db->setQuery($query);
+
+		// Get array of old records
+		if (!$old_meta = $db->loadObjectList())
+		{
+			$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_MGR_DUPLICATE_FAILED_TO_LOAD_ORIG_META_MSG'), 'Error');
+			return false;
+		}
+
+		$metaValues = array();
+		$column_names= array_keys(get_object_vars($old_meta[0]));
+
+		// Loop through array, changing the ID to the new ID
+		foreach ($old_meta as $meta)
+		{
+			$meta->easytable_id = $new_table_id;
+			$meta->id = null;
+
+			$newMeta = array();
+
+			foreach ($meta as $column => $value)
+			{
+				switch ($column)
+				{
+					case 'label': case 'description': case 'fieldalias': case 'params':
+						$value = $db->quote($value);
+						break;
+					default:
+						$value = (int)$value;
+				}
+
+				$newMeta[] = $value;
+			}
+
+			// Convert the new meta to a tuple for JDatabase to use
+			$metaValues[] = implode(', ', $newMeta);
+		}
+
+		// Check our meta
+		if (!count($metaValues))
+		{
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_NO_META_PROCESSED_MSG_X', $old_table_id));
+			return false;
+		}
+
+		$query = $db->getQuery(true);
+		$query->insert('#__easytables_table_meta')->columns($column_names)->values($metaValues);
+		$db->setQuery($query);
+
+		try {
+			$result = $db->execute();
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_CREATED_DUP_META_MSG_X_Y', $old_table_id, $new_table_id));
+			return $result;
+
+		} catch (RuntimeException $e)
+		{
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_FAILED_CREATE_DUP_META_MSG_X_Y_Z', $old_table_id, $new_table_id, print_r($e, true)));
+			return false;
+		}
+	}
+
+	/**
+	 * Duplicate our EasyTable table and data.
+	 *
+	 * @param   int              $old_table_id  ID of the source (old) table
+	 * @param   int              $new_table_id  ID of the newly copied table
+	 * @param   JApplication     $jAp           Yo Joomla!
+	 * @param   JDatabasedriver  $db            The current DB object.
+	 *
+	 * @return bool
+	 */
+	private function duplicateData($old_table_id, $new_table_id, $jAp, $db)
+	{
+		// Build table names
+		$old_table_name = $db->quoteName('#__easytables_table_data_' . $old_table_id);
+		$new_table_name = $db->quoteName('#__easytables_table_data_' . $new_table_id);
+
+		// Build a standard sql query
+		$createStmt ="CREATE TABLE IF NOT EXISTS $new_table_name SELECT * FROM $old_table_name";
+		$db->setQuery($createStmt);
+
+		// Try our query
+		try
+		{
+			$db->execute();
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_CREATED_DATA_TABLE_MSG_X_Y', $new_table_name, $new_table_id));
+		}
+		catch (RuntimeException $e)
+		{
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_FAILED_CREATE_DATA_TABLE_MSG_X_Y', $new_table_name, $new_table_id), 'Error');
+			return false;
+		}
+
+		// Add the PK to the ID column
+		$addPKStmt = "ALTER TABLE $new_table_name ADD PRIMARY KEY (" . $db->quoteName('id') . ')';
+		$db->setQuery($addPKStmt);
+
+		// Try our query
+		try
+		{
+			$db->execute();
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_PRIMARY_KEY_SET_MSG_X', $new_table_name));
+		}
+		catch (RuntimeException $e)
+		{
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_FAILED_TO_SET_PRIMARY_KEY_MSG_X_Y', $new_table_name, $new_table_id), 'Error');
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Cleanup the table entry if we encounter a problem.
+	 *
+	 * @param   JTable        $tableTable  The duplicated table object.
+	 * @param   JApplication  $jAp         Yo Joomla!
+	 */
+	private function cleanUpFailedTableDuplicate($tableTable, $jAp)
+	{
+		$tableTable->delete();
+		$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_MGR_DUPLICATE_CLEANUP_TABLE_ENTRY_MSG'));
+	}
+
+	/**
+	 * Cleanup the meta records that may have been created if we encounter a problem.
+	 *
+	 * @param   int              $new_easytable_id  The ID of the new table for meta records.
+	 * @param   JApplication     $jAp               Yo Joomla!
+	 * @param   JDatabasedriver  $db                The current DB object.
+	 */
+	private function cleanUpFailedMetaDuplicate($new_easytable_id, $jAp, $db)
+	{
+		$query = $db->getQuery(true);
+		$query->delete('#__easytables_table_meta')->where($db->quoteName('easytable_id') . ' = ' . $new_easytable_id);
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+			$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_MGR_DUPLICATE_CLEANUP_META_RECORDS_MSG'));
+		}
+		catch (RuntimeException $e)
+		{
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_CLEANUP_FAILED_DELETE_META_RECORDS_MSG_X', print_r($e,true)), 'Error');
+		}
+	}
 }

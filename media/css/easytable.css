@@ -29,6 +29,9 @@
     color: #1f9a07;
     font-size: 1.1em;
 }
+.icon-duplicate:before {
+    content: "\e018";
+}
 .icon-48-easytablepro {
     background: url(../images/EasyTableProIcon.png) no-repeat left;
 }
@@ -40,7 +43,12 @@
 .icon-32-easytablpro-modifyTable {
     background: url(../images/Table-Modification32.png) no-repeat left;
 }
+.icon-32-duplicate {
+    height: 32px;
 
+    background: url(../images/Duplicate-Button.png) no-repeat left;
+    background-position-y: 0px;
+}
 .icon-32-easytablpro-linkTable {
     height: 32px;
 

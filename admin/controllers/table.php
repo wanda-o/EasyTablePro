@@ -100,6 +100,41 @@ class EasyTableProControllerTable extends JControllerForm
 		}
 	}
 
+	public function duplicate()
+	{
+		// Get Joomla et. al.
+		$jAp = JFactory::getApplication();
+		$jInput = $jAp->input;
+
+		// Get our tables to duplicate
+		$cids = $jInput->get('cid', array(), 'array');
+		$tableModel = $this->getModel();
+
+		if(count($cids))
+		{
+			foreach ($cids as $id)
+			{
+				// Does it look OK
+				if($id)
+				{
+					$tableModel->duplicate($id);
+				}
+				else
+				{
+					$jAp->enqueueMessage(JText::_('Invalid table ID supplied in duplicate table.'), 'Error');
+				}
+			}
+		}
+		else
+		{
+			$jAp->enqueueMessage(JText::_('Please select a table to copy before click the button.'), 'Warning');
+		}
+
+		// Ok and back to EasyTable Pro!
+		$this->setRedirect('index.php?option=com_easytablepro&view='.$jInput->get('view','tables'));
+		$this->redirect();
+	}
+
 	/**
 	 * m() manipulates strings if magic quotes is on...
 	 *

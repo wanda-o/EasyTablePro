@@ -105,6 +105,8 @@ class EasyTableProViewTables extends JViewLegacy
 			{
 				$toolbar->appendButton($popButtontype, 'new', 'COM_EASYTABLEPRO_TABLE_VIEW_TITLE_NEW', $addTableURL, 700, 425, '', 'COM_EASYTABLEPRO_UPLOAD_CREATE_A_NEW_TABLE');
 			}
+
+			JToolBarHelper::custom('table.duplicate', 'duplicate', '', 'COM_EASYTABLEPRO_MGR_DUPLICATE_BTN', true);
 		}
 
 		if ($canDo->get('easytablepro.link'))
