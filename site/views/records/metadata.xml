@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is necessary to help Joomla! understand how to create menu items to our
+view, without it Menu Manager:Menu Items views will not properly label our menu entries.
+Even though we're not supposed to need a metadata.xml file any more.
+-->
+<metadata>
+    <view title="COM_EASYTABLEPRO_MENU">
+    </view>
+</metadata>
