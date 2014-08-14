@@ -178,7 +178,9 @@ class EasyTableProControllerUpload extends JControllerForm
 		$item = $model->getItem();
 		$this->model = $model;
 		$this->item = $item;
+		$initialRecords = $this->recordsInTable($pk);
 		$importWorked = $this->processNewDataFile($updateType, $pk);
+		$finalRecordCount = $this->recordsInTable($pk);
 
 		if ($importWorked)
 		{
@@ -191,7 +193,9 @@ class EasyTableProControllerUpload extends JControllerForm
 		$jInput->set('prevStep', $jInput->get('step', ''));
 		$jInput->set('step', 'uploadCompleted');
 		$jInput->set('datafile', $this->dataFile);
+		$jInput->set('initialRecords', (int) $initialRecords);
 		$jInput->set('uploadedRecords', (int) $importWorked);
+		$jInput->set('finalRecordCount', (int) $finalRecordCount);
 		$this->display();
 	}
 
@@ -898,6 +902,38 @@ class EasyTableProControllerUpload extends JControllerForm
 		}
 
 		return $ettd_creation_result;
+	}
+
+	/**
+	 * recordsInTable() - returns the count of records in a datatable by ID
+	 *
+	 * @param   int  $id  The Table id.
+	 *
+	 * @return  int
+	 *
+	 * @since 1.3.1
+	 */
+	private function recordsInTable($id)
+	{
+		// Get Joomla
+		$jAp = JFactory::getApplication();
+
+		// Validate ID
+		if (!$id || empty($id) || is_null($id))
+		{
+			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_NOT_A_VALID_DATATABLE_ID_X', $id), "Error");
+			return 0;
+		}
+
+		// Get a database object
+		$db = JFactory::getDBO();
+		$tableName = $db->quoteName('#__easytables_table_data_' . $id);
+		$query = 'SELECT COUNT(*) AS ' . $db->quote('records_in_table') . ' FROM ' . $tableName;
+		$db->setQuery($query);
+
+		$result = $db->loadResult();
+
+		return $result;
 	}
 
 	/**

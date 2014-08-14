@@ -63,7 +63,9 @@ class EasyTableProViewUpload extends JViewLegacy
 		$this->prevStep = $jInput->get('prevStep', '');
 		$this->prevAction = $jInput->get('prevAction', '');
 		$this->dataFile = $jInput->get('datafile', JText::_('COM_EASYTABLEPRO_UPLOAD_NOFILENAME'));
+		$this->initialRecords = $jInput->get('initialRecords', 0);
 		$this->uploadedRecords = $jInput->get('uploadedRecords', 0);
+		$this->finalRecordCount = $jInput->get('finalRecordCount', 0);
 		$this->status = ($jInput->get('uploadedRecords', 0) > 0) ? 'SUCCESS' : 'FAIL';
 		$this->setLayout('upload_' . $this->jvtag);
 
