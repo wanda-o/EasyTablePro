@@ -86,22 +86,6 @@ class EasyTableProModelTable extends JModelAdmin
 	}
 
 	/**
-	 * Method to set the EasyTable identifier
-	 *
-	 * @param   int  $id  EasyTable identifier
-	 *
-	 * @return  void
-	 *
-	 * @since   1.1
-	 */
-	public function setId($id)
-	{
-		// Set id and wipe data
-		$this->_id		= $id;
-		$this->_data	= null;
-	}
-
-	/**
 	 * Returns the current table.
 	 *
 	 * @param   int  $pk  EasyTable id.
