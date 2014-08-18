@@ -334,30 +334,42 @@ class EasyTableProModelTable extends JModelAdmin
 
 			if ($table->datatablename == '')
 			{
-				// Build the DROP SQL
-				$ettd_table_name = $db->quoteName('#__easytables_table_data_' . $pk);
-				$query = 'DROP TABLE ' . $ettd_table_name . ';';
-				$db->setQuery($query);
+				// Sanity check
+				$allTheTables = $db->getTableList();
 
-				if ($db->execute())
+				// Build the name of the table to drop
+				$ettd_table_name = '#__easytables_table_data_' . $pk;
+				$checkTableName = $db->replacePrefix($ettd_table_name);
+				$ettd_table_name = $db->quoteName($ettd_table_name);
+
+				if (in_array($checkTableName, $allTheTables))
 				{
-					$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_SUCCESSFULLY_DROPPED_DATA_FOR_TABLE_X', $table->easytablename));
-				}
-				else
-				{
-					$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_FAILED_TO_DROP_DATA_FOR_TABLE_X', $table->easytablename));
+					// Build the DROP SQL
+					$query = 'DROP TABLE ' . $ettd_table_name . ';';
+					$db->setQuery($query);
+
+					if ($db->execute())
+					{
+						$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_SUCCESSFULLY_DROPPED_DATA_FOR_TABLE_X', $table->easytablename));
+					}
+					else
+					{
+						$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_FAILED_TO_DROP_DATA_FOR_TABLE_X', $table->easytablename), "NOTICE");
+					}
+				} else {
+					$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_COULD_NOT_FIND_DATATABLE_X', $table->easytablename), "NOTICE");
 				}
 			}
 			else
 			{
-				$jAp->enqueueMessage(JText::sprintf('<strong>%s</strong> is a linked external table, data left in place.', $table->easytablename));
+				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_LINKED_EXTERNAL_TABLE_NOT_DELETED_X', $table->easytablename), "NOTICE");
 			}
 		}
 
 		// Call the parent
 		if (!parent::delete($pks))
 		{
-			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_FAILED_TO_DELETE_TABLE_RECORD_X', $pk));
+			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_DELETE_FAILED_TO_DELETE_TABLE_RECORD_X', $pk), "NOTICE");
 		}
 
 		return true;
