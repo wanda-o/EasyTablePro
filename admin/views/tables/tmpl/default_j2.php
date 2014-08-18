@@ -16,6 +16,7 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
+$noTablesfound = count($this->rows) == 0;
 ?>
 <form action="index.php?option=com_easytablepro" method="post" name="adminForm" id="adminForm">
 <div class="et_version_info">
@@ -149,6 +150,11 @@ $userId		= $user->get('id');
 		</tr>
 		<?php
 		$k = 1 - $k;
+	}
+
+	if ($noTablesfound)
+	{
+		echo "<tr><td colspan='7' class='center'>" . JText::_('COM_EASYTABLEPRO_TABLES_NOT_FOUND') . "</td></tr>";
 	}
 	?></tbody>
 	</table>

@@ -27,6 +27,7 @@ if ($saveOrder)
 }
 
 $sortFields = $this->getSortFields();
+$noTablesfound = count($this->rows) == 0;
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -83,6 +84,7 @@ $sortFields = $this->getSortFields();
 			</select>
 		</div>
 	</div>
+		<?php echo $noTablesfound ? "<div class='alert alert-no-items'>" . JText::_('COM_EASYTABLEPRO_TABLES_NOT_FOUND') . "</div>" : ""; ?>
 	<div class="clr"> </div>
 	<table class="table table-striped" id="tableList">
 	<thead>
@@ -177,6 +179,10 @@ $sortFields = $this->getSortFields();
 		</tr>
 		<?php
 		$k = 1 - $k;
+	}
+	if ($noTablesfound)
+	{
+		echo "<tr><td colspan='7' class='center'>" . JText::_('COM_EASYTABLEPRO_TABLES_NOT_FOUND') . "</td></tr>";
 	}
 	?></tbody>
 	</table>

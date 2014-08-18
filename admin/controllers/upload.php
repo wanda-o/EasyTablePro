@@ -79,26 +79,26 @@ class EasyTableProControllerUpload extends JControllerForm
 		$jInput->set('step', 'new');
 
 		if (parent::add())
-			{
-				// As we have the file we'll try to create an EasyTable Entry to link the datatable and it's meta records to.
-				/** @var $model EasyTableProModelTable */
+		{
+			// As we have the file we'll try to create an EasyTable Entry to link the datatable and it's meta records to.
+			/** @var $model EasyTableProModelTable */
 			$tableModel = $this->getModel('Table', 'EasyTableProModel');
 
 			if ($tableModel->save($data))
-				{
+			{
 				$data['id'] = $tableModel->getState('table.id');
 				$uploadModel = $this->getModel('Upload', 'EasyTableProModel');
 				if ($importWorked = $uploadModel->save($data))
-					{
+				{
 					$jInput->set('dataFile', $uploadModel->dataFile);
 					$jInput->set('uploadedRecords', (int) $importWorked);
 
 					// Clear out redirects
-						$this->setRedirect('');
+					$this->setRedirect('');
 
-						$this->uploadData();
-						return true;
-					}
+					$this->uploadData();
+					return true;
+				}
 			}
 		}
 
@@ -142,8 +142,8 @@ class EasyTableProControllerUpload extends JControllerForm
 			$jInput->set('dataFile', $model->dataFile);
 			$jInput->set('uploadedRecords', (int) $importWorked);
 
-		if ($importWorked)
-		{
+			if ($importWorked)
+			{
 				// Should update the modified date on the easytable record
 				$etTable = JTable::getInstance('Table', 'EasyTableProTable');
 				if ($etTable->load($pk))
@@ -163,7 +163,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		$jInput->set('initialRecords', (int) $initialRecords);
 		$jInput->set('finalRecordCount', (int) $finalRecordCount);
 		$this->display();
-		}
+	}
 
 	/**
 	 * getModel()
@@ -185,7 +185,7 @@ class EasyTableProControllerUpload extends JControllerForm
 		$model->setState('params', $params);
 
 		return $model;
-				}
+	}
 
 	/**
 	 * recordsInTable() - returns the count of records in a datatable by ID
