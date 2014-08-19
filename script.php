@@ -564,10 +564,48 @@ class Com_EasyTableProInstallerScript
 			$msg = JText::sprintf('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_INVALID_VERSION', JVERSION, $this->et_this_version);
 			JError::raiseWarning(100, $msg);
 
-			return false;
+			$preFlightOK = false;
+		}
+		else
+		{
+			$preFlightOK = true;
 		}
 
-		return true;
+		// Check we have a CLI directory
+		$cli_dir = JPATH_ROOT . '/cli';
+
+		if (is_dir($cli_dir))
+		{
+			if ($preFlightOK)
+			{
+				$source_file = $parent->getParent()->getPath('source') . '/cli/easytablespro_import_cron.php';
+
+				if (file_exists($source_file))
+				{
+					if (JFile::move($source_file, $cli_dir . '/easystaging_plan_runner.php'))
+					{
+						echo '<p>' . JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_CLI_FILE_MOVED') . '</p>';
+					}
+					else
+					{
+						Jerror::raiseWarning(null, JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_CLI_FILE_MOVE_FAILED'));
+						$preFlightOK = false;
+					}
+				}
+				else
+				{
+					Jerror::raiseWarning(null, JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_CLI_FILE_NOT_FOUND'));
+					$preFlightOK = false;
+				}
+			}
+		}
+		else
+		{
+			Jerror::raiseWarning(null, JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_CLI_DIR_NOT_FOUND'));
+			$preFlightOK = false;
+		}
+
+		return $preFlightOK;
 	}
  
 	/**
