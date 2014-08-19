@@ -558,10 +558,15 @@ class Com_EasyTableProInstallerScript
 		// $type is the type of change (install, update or discover_install)
 		echo  JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_' . strtoupper($type) . '_TEXT');
 
-		// Only allow to install on Joomla! 2.5.1 or later
-		if (version_compare(JVERSION, '2.5.1', 'le'))
+		// Getting component manifest file version
+		$relVer = explode(' ', $parent->get("manifest")->version);
+		$this->et_this_version = $relVer[0];
+
+
+		// Only allow to install on Joomla! 2.5.18 or later
+		if (version_compare(JVERSION, '2.5.18', 'le'))
 		{
-			$msg = JText::sprintf('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_INVALID_VERSION', JVERSION, $this->et_this_version);
+			$msg = JText::sprintf('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_INVALID_VERSION', JVERSION, '2.5.18');
 			JError::raiseWarning(100, $msg);
 
 			$preFlightOK = false;
@@ -582,18 +587,20 @@ class Com_EasyTableProInstallerScript
 
 				if (file_exists($source_file))
 				{
-					if (JFile::move($source_file, $cli_dir . '/easystaging_plan_runner.php'))
+					if (JFile::move($source_file, $cli_dir . '/easytablespro_import_cron.php'))
 					{
 						echo '<p>' . JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_CLI_FILE_MOVED') . '</p>';
 					}
 					else
 					{
+						echo '<p>' . JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_CLI_FILE_MOVE_FAILED') . '</p>';
 						Jerror::raiseWarning(null, JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_CLI_FILE_MOVE_FAILED'));
 						$preFlightOK = false;
 					}
 				}
 				else
 				{
+					echo '<p>' . JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_CLI_FILE_NOT_FOUND') . '</p>';
 					Jerror::raiseWarning(null, JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_CLI_FILE_NOT_FOUND'));
 					$preFlightOK = false;
 				}
@@ -601,6 +608,7 @@ class Com_EasyTableProInstallerScript
 		}
 		else
 		{
+			echo '<p>' . JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_CLI_DIR_NOT_FOUND') . '</p>';
 			Jerror::raiseWarning(null, JText::_('COM_EASYTABLEPRO_INSTALLER_PREFLIGHT_CLI_DIR_NOT_FOUND'));
 			$preFlightOK = false;
 		}
