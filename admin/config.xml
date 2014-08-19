@@ -146,6 +146,20 @@
 			<option value="0">JNO</option>
 		</field>
         <field
+                name="spacer2a"
+                type="spacer"
+                hr="true"
+                />
+        <field
+                name="cron_imports_enabled"
+                type="radio" default="0"
+                label="COM_EASYTABLEPRO_PREF_CRON_UPDATES_LABEL"
+                description="COM_EASYTABLEPRO_PREF_CRON_UPDATES_DESC"
+                >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
                 name="spacer2"
                 type="spacer"
                 hr="true"

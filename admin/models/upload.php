@@ -645,6 +645,7 @@ class EasyTableProModelUpload extends JModelAdmin
 	{
 		$jAp = JFactory::getApplication();
 
+
 		if ($file = $this->getFile())
 		{
 			$CSVFileArray = $this->parseCSVFile($file);
@@ -675,8 +676,10 @@ class EasyTableProModelUpload extends JModelAdmin
 
 		if ($updateType == 'replace')
 		{
+			$db = JFactory::getDbo();
+
 			// Clear out previous records before uploading new records.
-			if ($this->emptyETTD($id))
+			if ($this->emptyETTD($id, $db))
 			{
 				$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_IMPORT_EMPTIED_EXISTI_ROWS'));
 				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_TABLE_IMPORT_OLD_RECORDS_CLEARED_X', $id));
@@ -704,40 +707,59 @@ class EasyTableProModelUpload extends JModelAdmin
 		return $csvRowCount;
 	}
 
+	public function cronUpdate ($tableId, $uploadFile, $fileHasHeaders = 1, $chunkSize, $append = 0, $db, $jAp)
+	{
+		$this->uploadFile = $uploadFile;
+		$updateType = $append ? 'append' : 'replace';
+
+		if (file_exists($uploadFile))
+		{
+			$CSVFileArray = $this->parseCSVFile($uploadFile);
+
+			if($CSVFileArray)
+			{
+				if ($updateType == 'replace')
+				{
+					// Clear out previous records before uploading new records.
+					if (!$this->emptyETTD($tableId, $db))
+					{
+						return false;
+					}
+				}
+
+				// All Seems good now we can update the data table with the contents of the file.
+				if (!($csvRowCount = $this->updateETTDTable($tableId, $CSVFileArray, $fileHasHeaders, $chunkSize, $db, $jAp)))
+				{
+					return false;
+				}
+				else
+				{
+					return $csvRowCount;
+				}
+			}
+		}
+		return 0;
+	}
+
 	/**
 	 * emptyETTD()
 	 *
-	 * @param   int  $id  Table id.
+	 * @param   int $id Table id.
+	 *
+	 * @param       $db
+	 * @param       $jAp
 	 *
 	 * @return  bool
 	 *
 	 * @since   1.0
 	 */
-	private function emptyETTD ($id)
+	private function emptyETTD($id, $db)
 	{
-		// Get Joomla
-		$jAp = JFactory::getApplication();
-
-		// Get a database object
-		$db = JFactory::getDBO();
-
-		if (!$db)
-		{
-			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_DB_ERROR_IN_EMPTY_ETTD_X', $id), "Error");
-			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
-		}
-
 		// Build the TRUNCATE SQL -- NB. using truncate resets the AUTO_INCREMENT value of ID
-		$ettd_table_name = $db->quoteName('#__easytables_table_data_' . $id);
 		$query = 'TRUNCATE TABLE ' . $db->quoteName('#__easytables_table_data_' . $id) . ';';
 
 		$db->setQuery($query);
 		$theResult = $db->execute();
-
-		if (!$theResult)
-		{
-			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_TABLE_TRUNCATE_ERROR_IN_EMPTY_ETTD_X',$ettd_table_name), "Warning");
-		}
 
 		return($theResult);
 	}
@@ -756,9 +778,10 @@ class EasyTableProModelUpload extends JModelAdmin
 		// Setup basic variables
 		$jAp = JFactory::getApplication();
 		$jInput = $jAp->input;
+		$db = JFactory::getDbo();
 		$params = JComponentHelper::getParams('com_easytablepro');
 
-		$ettdColumnAliass = $this->getFieldAliasForTable($id);
+		$ettdColumnAliass = $this->getFieldAliasForTable($id, $db, $jAp);
 
 		// Get our form
 		$ourJform = $jInput->get('jform', array(), 'ARRAY');
@@ -811,7 +834,7 @@ class EasyTableProModelUpload extends JModelAdmin
 			}
 
 			// We get back number of rows processed or 0 if it fails
-			$updateChunkResult = $this->updateETTDWithChunk($CSVFileChunk, $id, $ettdColumnAliass);
+			$updateChunkResult = $this->updateETTDWithChunk($CSVFileChunk, $id, $ettdColumnAliass, $db);
 
 			if ($updateChunkResult)
 			{
@@ -821,6 +844,72 @@ class EasyTableProModelUpload extends JModelAdmin
 			{
 				$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_UPDATE_TABLE_FROM_CHUNK_ERROR_X_Y_Z', $id, $thisChunkNum, ''), "Error");
 				$jAp->redirect('/administrator/index.php?option=com_easytablepro');
+			}
+		}
+
+		return $csvRowCount;
+	}
+	/**
+	 * updateETTDTable()
+	 *
+	 * @param   int           $id              EasyTable table id.
+	 *
+	 * @param   array         $CSVFileArray    Array of rows.
+	 *
+	 * @param   bool          $fileHasHeaders  Does the file have a heading line
+	 *
+	 * @param   int           $chunkSize       The number or rows to process at a time.
+	 *
+	 * @param   JDatabase     $db              The DBO
+	 *
+	 * @param   JApplication  $jAp             The Application instance
+	 *
+	 * @return  bool|int false on failure, record count on success
+	 */
+	private function updateETTDTable ($id, $CSVFileArray, $hasHeaders, $chunkSize, $db, $jAp)
+	{
+		// Setup basic variables
+		$ettdColumnAliass = $this->getFieldAliasForTable($id, $db, $jAp);
+		if (!$ettdColumnAliass)
+		{
+			return 0;
+		}
+
+		$csvRowCount = 0;
+
+		// Check our CSV column count matches our ETTD
+		if (count($ettdColumnAliass) != count($CSVFileArray[0]))
+		{
+			return false;
+		}
+
+		// Break the array up into manageable chunks for processing
+		$CSVFileChunks = array_chunk($CSVFileArray, $chunkSize);
+		$numChunks = count($CSVFileChunks);
+
+		// Loop through chunks and send them off for processing
+		for ($thisChunkNum = 0; $thisChunkNum < $numChunks; $thisChunkNum++)
+		{
+			// Get the chunk
+			$CSVFileChunk = $CSVFileChunks[$thisChunkNum];
+
+			// For the first chunk we need to remove any headers that may be present
+			if (($thisChunkNum == 0) && $hasHeaders)
+			{
+				// Shifts the first element off i.e. column headings
+				$headerRow = array_shift($CSVFileChunk);
+			}
+
+			// We get back number of rows processed or 0 if it fails
+			$updateChunkResult = $this->updateETTDWithChunk($CSVFileChunk, $id, $ettdColumnAliass, $db);
+
+			if ($updateChunkResult)
+			{
+				$csvRowCount += $updateChunkResult;
+			}
+			else
+			{
+				return 0;
 			}
 		}
 
@@ -840,15 +929,8 @@ class EasyTableProModelUpload extends JModelAdmin
 	 *
 	 * @since   1.0
 	 */
-	private function updateETTDWithChunk ($CSVFileChunk, $id, $ettdColumnAliass)
+	private function updateETTDWithChunk ($CSVFileChunk, $id, $ettdColumnAliass, $db)
 	{
-		// Get Joomla
-		$jAp = JFactory::getApplication();
-
-
-		// Get a database object
-		$db = JFactory::getDBO();
-
 		// Setup start of SQL
 		$insert_ettd_data_SQL_start  = 'INSERT INTO `#__easytables_table_data_';
 		$insert_ettd_data_SQL_start .= $id . '` ( `id`, `';
@@ -894,8 +976,7 @@ class EasyTableProModelUpload extends JModelAdmin
 
 		if (!$insert_ettd_data_result)
 		{
-			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_UPDATE_TABLE_FROM_CHUNK_DATA_INSERT_ERROR_X_Y_Z', $id, '', "Error"));
-			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
+			return 0;
 		}
 
 		return $csvRowCount;
@@ -904,24 +985,16 @@ class EasyTableProModelUpload extends JModelAdmin
 	/**
 	 * getFieldAliasForTable()
 	 *
-	 * @param   int  $id  Table id.
+	 * @param   int           $id   Table id.
+	 *
+	 * @param   JDatabase     $db   The DBO
+	 *
+	 * @param   JApplication  $jAp  The Application
 	 *
 	 * @return  array|false
 	 */
-	private function getFieldAliasForTable($id)
+	private function getFieldAliasForTable($id, $db, $jAp)
 	{
-		// Get Joomla
-		$jAp = JFactory::getApplication();
-
-		// Get a database object
-		$db = JFactory::getDBO();
-
-		if (!$db)
-		{
-			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_DB_ERROR_IN_GETFIELDALIASFORTABLE_X', $id), "Error");
-			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
-		}
-
 		// Run the SQL to insert the Meta records
 		// Get the meta data for this table
 		$q = $db->getQuery(true);
@@ -931,12 +1004,6 @@ class EasyTableProModelUpload extends JModelAdmin
 		$q->order($db->quoteName('id'));
 		$db->setQuery($q);
 		$get_Meta_result = $db->loadColumn();
-
-		if (!$get_Meta_result)
-		{
-			$jAp->enqueuemessage(JText::sprintf('COM_EASYTABLEPRO_UPLOAD_COULDNT_GET_FIELD_ALIASFORTABLE_X_Y', $id, ''), "Error");
-			$jAp->redirect('/administrator/index.php?option=com_easytablepro');
-		}
 
 		return $get_Meta_result;
 	}
