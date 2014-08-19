@@ -121,13 +121,13 @@ class EasyTableProControllerTable extends JControllerForm
 				}
 				else
 				{
-					$jAp->enqueueMessage(JText::_('Invalid table ID supplied in duplicate table.'), 'Error');
+					$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_DUPLICATE_INVALID_ID'), 'Error');
 				}
 			}
 		}
 		else
 		{
-			$jAp->enqueueMessage(JText::_('Please select a table to copy before click the button.'), 'Warning');
+			$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_DUPLICATE_NO_SELECTION'), 'Warning');
 		}
 
 		// Ok and back to EasyTable Pro!

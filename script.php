@@ -176,15 +176,18 @@ class Com_EasyTableProInstallerScript
 						// Make sure it dropped.
 						if (!$et_drop_result)
 						{
-						// @todo fix these messages to be a single sprintf per line
-							$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_UNABLE_TO_DROP_DATA_TABLE') . ' ' . $item['easytablename']
-								. ' (ID = ' . $item['id'] . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_SQL_ERROR_SEGMENT') . ' ' . $et_query . ' ]' . '</li>';
+							$msg .= '<li>' .
+								JText::sprintf(
+									'COM_EASYTABLEPRO_INSTALLER_UNINSTALL_UNABLE_TO_DROP_DATA_TABLE',
+									$item['easytablename'],
+									$item['id'],
+									$et_query) .
+								'</li>';
 							$no_errors = false;
 						}
 						else
 						{
-							$msg .= '<li>' . JText::_('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROPPED_TABLE') . ' ' . $item['easytablename'] . ' (ID = '
-								. $item['id'] . ').' . '</li>';
+							$msg .= '<li>' . JText::sprintf('COM_EASYTABLEPRO_INSTALLER_UNINSTALL_DROPPED_TABLE', $item['easytablename'], $item['id']) . '</li>';
 						}
 					}
 				}
