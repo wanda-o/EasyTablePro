@@ -10,9 +10,13 @@
     content: "\e01d";
 }
 
-.icon-easytablepro-editrecords:before {
+.icon-easytablepro-editrecord:before, .icon-easytablepro-editrecords:before {
     content: "\2b";
     color: #f47b1b;
+}
+
+.icon-easytablepro-editrecord:before {
+    color: green;
 }
 
 .icon-easytablpro-linkTable:before {
