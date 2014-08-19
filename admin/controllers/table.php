@@ -188,7 +188,7 @@ class EasyTableProControllerTable extends JControllerForm
 		// create the sql of the meta record ids
 		$etMetaRIdsAsSQL = implode(' OR id =', $mRIds);
 
-		// Get the meta data for this table
+		// Get the meta data for this table @todo Update this query to JDatabase style
 		$query = "SELECT * FROM " . $db->quoteName('#__easytables_table_meta') . " WHERE id =" . $etMetaRIdsAsSQL . " ORDER BY id;";
 
 		$db->setQuery($query);
