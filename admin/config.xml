@@ -232,10 +232,16 @@
         </field>
 	</fieldset>
 
-    <fieldset name="datatables"
-              label="COM_EASYTABLEPRO_PREF_TAB_DATATABLES_SETTINGS"
-              description="COM_EASYTABLEPRO_PREF_TAB_DATATABLES_SETTINGS_DESC"
+    <fieldset name="ajaxtables"
+              label="COM_EASYTABLEPRO_PREF_TAB_AJAXTABLES_SETTINGS"
+              description="COM_EASYTABLEPRO_PREF_TAB_AJAXTABLES_SETTINGS_DESC"
             >
+        <field
+                name="note-datatables"
+                type="note"
+                label="COM_EASYTABLEPRO_PREF_TAB_DATATABLES_SETTINGS"
+                description="COM_EASYTABLEPRO_PREF_TAB_DATATABLES_SETTINGS_DESC"
+                />
         <field
                 name="load_datatables"
                 type="list" default="1"
@@ -279,6 +285,60 @@
                 >
             <option value="0">JNO</option>
             <option value="1">JYES</option>
+        </field>
+        <field
+                name="spacer4"
+                type="spacer"
+                hr="true"
+                />
+        <field
+                name="note-footables"
+                type="note"
+                label="COM_EASYTABLEPRO_PREF_TAB_FOOTABLES_SETTINGS"
+                description="COM_EASYTABLEPRO_PREF_TAB_FOOTABLES_SETTINGS_DESC"
+                />
+
+        <field
+                name="load_footables"
+                type="list" default="1"
+                label="COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES"
+                description="COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_DESC"
+                >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <field
+                name="load_footables_theme"
+                type="list" default="1"
+                label="COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_THEME"
+                description="COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_THEME_DESC"
+                >
+            <option value="0">JNO</option>
+            <option value="1">COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_THEME_METRO</option>
+            <option value="2">COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_THEME_ORIGINAL</option>
+        </field>
+
+        <field
+                name="footable_css_override_file"
+                type="text"
+                size="50"
+                label="COM_EASYTABLEPRO_PREF_FOOTABLE_CSS_OVERRIDE_FILE"
+                description="COM_EASYTABLEPRO_PREF_FOOTABLE_CSS_OVERRIDE_FILE_DESC"
+                />
+
+        <field
+                name="load_footables_pagination_pages"
+                type="list" default="0"
+                label="COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_PAGES"
+                description="COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_PAGES_DESC"
+                >
+            <option value="0">JALL</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
         </field>
     </fieldset>
 
