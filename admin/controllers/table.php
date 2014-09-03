@@ -108,6 +108,7 @@ class EasyTableProControllerTable extends JControllerForm
 
 		// Get our tables to duplicate
 		$cids = $jInput->get('cid', array(), 'array');
+        /* @var $tableModel EasyTableProModelTable */
 		$tableModel = $this->getModel();
 
 		if(count($cids))
