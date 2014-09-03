@@ -473,6 +473,7 @@ class EasyTableProModelTable extends JModelAdmin
 
 		// Save a copy of it
 		$tableTable->id = 0;
+        $tableTable->hits = 0;
 		$tableTable->easytablename = JString::increment($tableTable->easytablename);
 		$tableTable->easytablealias = JString::increment($tableTable->easytablealias, 'dash');
 
