@@ -177,7 +177,7 @@ class EasyTableProModelRecords extends JModelList
 		{
 			$this->cache = parent::getItems($pk);
 
-			if ($this->cache === null)
+			if ($this->cache === null || $this->cache == false)
 			{
 				$this->cache = array();
 			}

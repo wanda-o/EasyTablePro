@@ -191,7 +191,20 @@ class EasyTableProViewRecords extends JViewLegacy
 				$searchTerm = $this->state->get('filter.search');
 				$this->sro_showTable = $this->params->get('sro_showtable', 1);
 
-				if ($searchTerm == '')
+                if ($this->params->get('enable_user_filter', 0))
+                {
+                    if ($user->id == 0)
+                    {
+                        $this->noResultsMsg = JText::_('COM_EASYTABLEPRO_SITE_RECORDS_THIS_TABLE_FILTERED_BY_USER');
+                    }
+                        else
+                    {
+                        $this->noResultsMsg = JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_RECORDS_FOUND_FOR_LOGGED_IN_USER');
+                    }
+                    $tableNoRMsg = $this->params->get('no_results_msg', '');
+                    $this->noResultsMsg .= $tableNoRMsg ? $tableNoRMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_MATCHING');
+                }
+				elseif ($searchTerm == '')
 				{
 					$tableSORMsg = $this->params->get('sro_msg', '');
 					$this->noResultsMsg = $tableSORMsg ? $tableSORMsg : JText::_('COM_EASYTABLEPRO_SITE_RECORDS_NO_SRO_TERM');
