@@ -357,14 +357,15 @@ class ET_VHelper
 		}
 		else
 		{
+            $jTimeStamp = new JDate($f, JFactory::getConfig()->get('offset'));
 			if (empty ($fieldOptions))
 			{
 				// Default date returned
-				$fieldWithOptions = date("F j, Y", $timestamp);
+                $fieldWithOptions = $jTimeStamp->format("F j, Y", true);
 			}
 			else
 			{
-				$fieldWithOptions = date($fieldOptions, $timestamp);
+				$fieldWithOptions = $jTimeStamp->format($fieldOptions, true);
 			}
 		}
 
