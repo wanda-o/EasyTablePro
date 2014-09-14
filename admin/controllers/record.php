@@ -187,7 +187,10 @@ class EasyTableProControllerRecord extends JControllerForm
 			list($tableId, $rid) = $trid;
 		}
 
-		$append .= '&rid=' . $rid;
+		if ($this->task == 'edit')
+		{
+			$append .= '&rid=' . $rid;
+		}
 
 		return $append;
 	}

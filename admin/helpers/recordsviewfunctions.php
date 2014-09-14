@@ -356,7 +356,7 @@ class ET_RecordsHelper
 	 */
 	public static function getDeleteRecordLink ($cid, $rowId, $tableName)
 	{
-		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_DELETE_LINK') . ' ' . $rowId . ' of table \'' . $tableName . '\' ';
+		$link_text = JText::sprintf('COM_EASYTABLEPRO_RECORDS_DELETE_LINK', $rowId, $tableName);
 
 		$jvTag = ET_General_Helper::getJoomlaVersionTag();
 
@@ -390,7 +390,7 @@ class ET_RecordsHelper
 	 */
 	public static function getEditRecordLink ($cid, $rowId, $tableName)
 	{
-		$link_text = JText::_('COM_EASYTABLEPRO_RECORDS_EDIT_LINK') . ' ' . $rowId . ' of table \'' . $tableName . '\' ';
+		$link_text = JText::sprintf('COM_EASYTABLEPRO_RECORDS_EDIT_LINK', $rowId, $tableName);
 
 		$jvTag = ET_General_Helper::getJoomlaVersionTag();
 

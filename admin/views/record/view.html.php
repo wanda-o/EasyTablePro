@@ -124,8 +124,7 @@ class EasyTableProViewRecord extends JViewLegacy
 		$jinput->set('hidemainmenu', true);
 		$canDo	    = $this->canDo;
 
-		$easytable = $this->item['easytable'];
-		$isNew		= ($easytable->id == 0);
+		$isNew		= ($this->recordId == null);
 
 		if ($canDo->get('easytablepro.editrecords'))
 		{

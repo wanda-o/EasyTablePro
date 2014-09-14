@@ -73,6 +73,11 @@ class EasyTableProViewRecords extends JViewLegacy
 
 		// Get the Easytable that owns these records
 		$easytable = ET_General_Helper::getEasytableMetaItem();
+		// Fix the description for any embedded images
+		$siteBase = JUri::root();
+		$description = preg_replace("/(href|src)\=\"([^(http)])(\/)?/", "$1=\"$siteBase$2", $easytable->description);
+
+		$easytable->description = $description;
 
 		// Get the default image directory from the table.
 		$imageDir = $easytable->defaultimagedir;

@@ -56,6 +56,12 @@ class EasyTableProViewTables extends JViewLegacy
 		// Get data from the model
 		$this->state = $this->get('State');
 		$this->rows = $this->get('Items');
+		if (count($this->rows) == 0 && ($this->jvtag == 'j2'))
+		{
+			$jAp = JFactory::getApplication();
+			$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLES_NOT_FOUND'), 'NOTICE');
+		}
+
 		$this->authors = $this->get('Authors');
 		$this->pagination = $this->get('Pagination');
 

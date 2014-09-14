@@ -11,11 +11,18 @@
 defined('_JEXEC') or die('Restricted Access');
 
 $et_tableName = $this->easytable->easytablename;
+if ($this->recordId != null){
+	$et_recordTitle = JText::sprintf('COM_EASYTABLEPRO_RECORDS_DATA_RECORD', $et_tableName, $this->recordId);
+}
+else
+{
+	$et_recordTitle = JText::sprintf('COM_EASYTABLEPRO_RECORDS_DATA_RECORD', $et_tableName, JText::_('COM_EASYTABLEPRO_RECORDS_NEW_RECORD_BTN'));
+}
 ?>
 
 <form action="index.php?option=com_easytablepro&id=<?php echo $this->trid; ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <div class="span12">
-	<legend><?php echo JText::sprintf('COM_EASYTABLEPRO_RECORDS_DATA_RECORD', $et_tableName, $this->recordId); ?></legend>
+	<legend><?php echo $et_recordTitle; ?></legend>
 	<table id="et_fieldList" class="table table-striped">
 		<thead>
 		<tr>

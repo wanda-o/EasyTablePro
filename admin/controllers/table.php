@@ -122,13 +122,13 @@ class EasyTableProControllerTable extends JControllerForm
 				}
 				else
 				{
-					$jAp->enqueueMessage(JText::_('Invalid table ID supplied in duplicate table.'), 'Error');
+					$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_DUPLICATE_INVALID_ID'), 'Error');
 				}
 			}
 		}
 		else
 		{
-			$jAp->enqueueMessage(JText::_('Please select a table to copy before click the button.'), 'Warning');
+			$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_TABLE_DUPLICATE_NO_SELECTION'), 'Warning');
 		}
 
 		// Ok and back to EasyTable Pro!
@@ -189,7 +189,7 @@ class EasyTableProControllerTable extends JControllerForm
 		// create the sql of the meta record ids
 		$etMetaRIdsAsSQL = implode(' OR id =', $mRIds);
 
-		// Get the meta data for this table
+		// Get the meta data for this table @todo Update this query to JDatabase style
 		$query = "SELECT * FROM " . $db->quoteName('#__easytables_table_meta') . " WHERE id =" . $etMetaRIdsAsSQL . " ORDER BY id;";
 
 		$db->setQuery($query);
