@@ -484,9 +484,11 @@ class EasyTableProViewRecords extends JViewLegacy
 		 */
 		// We need to attach our menu item id
 		$item_id = $jAp->input->get('Itemid', 0);
+        $filter_search = $jAp->input->getString('filter_search', '');
 		$ajaxPath = '"' . JURI::base() . 'index.php?option=com_easytablepro&task=records.fetchRecords&view=records&format=json&id='
 			. $this->easytable->id . '&'
 			. JSession::getFormToken() . '=1&'
+            . 'filter_search=' . $filter_search . '&'
 			. 'Itemid=' . $item_id . '",';
 
 		// Turn on state saving so DT handles it for all tables
