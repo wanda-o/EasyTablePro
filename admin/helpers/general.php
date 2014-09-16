@@ -186,6 +186,7 @@ class ET_General_Helper
 					$theEasyTable->list_fields = self::getFieldNames($theEasyTable->filv);
 					$theEasyTable->fidv = self::getFieldsInDetailView($easytables_table_meta);
 					$theEasyTable->fnidv = self::getFieldsNotInDetailView($easytables_table_meta);
+                    $theEasyTable->searchFields = self::getSearchFields($easytables_table_meta);
 
 					// Now we need the primary key label
 					$query = 'SHOW KEYS FROM ' . $db->quoteName($theEasyTable->ettd_tname) . ' WHERE ' . $db->quoteName('Key_name') . ' = ' . $db->quote('Primary');
@@ -366,6 +367,25 @@ class ET_General_Helper
 
 		return $matchedFields;
 	}
+
+    private static function getSearchFields($fieldMeta)
+    {
+        $searchFields = array();
+
+        foreach ($fieldMeta as $field)
+        {
+            $rawFieldParam = $field['params'];
+            $paramsObj = new JRegistry;
+            $paramsObj->loadString($rawFieldParam);
+
+            if ($paramsObj->get('search_field', 0))
+            {
+                $searchFields[] = $field['fieldalias'];
+            }
+        }
+
+        return $searchFields;
+    }
 
 	/** GENERIC HELPER FUNCTIONS **/
 	/**
