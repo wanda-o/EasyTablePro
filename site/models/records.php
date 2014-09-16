@@ -290,8 +290,12 @@ class EasyTableProModelRecords extends JModelList
 				}
 				elseif (stripos($search, '::') != 0)
 				{
+                    // We must check that the field nominated is set to be searchable
 					$kvp = explode('::', $search);
-					$query->where($tprefix . $db->quoteName($kvp[0]) . ' LIKE ' . $db->quote('%' . $db->escape($kvp[1], true) . '%'));
+                    if (in_array($kvp[0], $theTable->searchFields))
+                    {
+                        $query->where($tprefix . $db->quoteName($kvp[0]) . ' LIKE ' . $db->quote('%' . $db->escape($kvp[1], true) . '%'));
+                    }
 				}
 				else
 				{
@@ -381,7 +385,7 @@ class EasyTableProModelRecords extends JModelList
 
 	/**
 	 * getSearch()
-	 * Returns the search term equated to each field alias in a precalcualte sql string
+	 * Returns the search term equated to each field alias in a pre-calculated sql string
 	 * We do this because JDatabaseQuery doesn't allow for grouping of WHERE joiners or changing them after the initial call
 	 *
 	 * @param   object  $theTable  The EasyTable
@@ -392,16 +396,25 @@ class EasyTableProModelRecords extends JModelList
 	 */
 	private function getSearch($theTable, $search)
 	{
+        // Check the field searching is allowed on a least one field.
+        $colCount = count($theTable->searchFields);
+        if ($colCount == 0)
+        {
+            return '';
+        }
+
 		$fieldMeta = $theTable->table_meta;
 		$db = JFactory::getDBO();
 		$fieldSearch = '( ';
-		$colCount = count($fieldMeta);
 		$i = 1;
 
 		foreach ($fieldMeta as $row)
 		{
-			$fieldSearch .= ($db->quoteName('t') . '.' . $db->quoteName($row['fieldalias'])) . " LIKE " . $search;
-			$fieldSearch .= $i++ < $colCount ? ' OR ' : '';
+            if (in_array($row['fieldalias'], $theTable->searchFields))
+            {
+                $fieldSearch .= ($db->quoteName('t') . '.' . $db->quoteName($row['fieldalias'])) . " LIKE " . $search;
+                $fieldSearch .= $i++ < $colCount ? ' OR ' : '';
+            }
 		}
 
 		return $fieldSearch . ' )';
