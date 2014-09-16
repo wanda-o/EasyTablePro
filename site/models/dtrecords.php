@@ -124,6 +124,12 @@ class EasyTableProModelDtRecords extends JModelList
 			$search = $params->get('predefined_search', null);
 		}
 
+        // Final fall back if DT and predefined search's are null then look for filter_search from URL
+        if(is_null($search) || $search == '')
+        {
+            $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+        }
+
 		// Sort Order
 		// Define some vars
 		$sortingColumns = array();
