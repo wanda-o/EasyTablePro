@@ -248,6 +248,8 @@ class ET_RecordsHelper
 
 		if ($uf && $ufb && $uff)
 		{
+            $uffArray = explode(':', $uff);
+            $uff = $uffArray[1];
 			$uff = $db->quoteName($uff);
 			$user = JFactory::getUser();
 			$userValue = $ufb == 'id' ? $user->id : $user->username;

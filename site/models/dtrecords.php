@@ -124,7 +124,13 @@ class EasyTableProModelDtRecords extends JModelList
 			$search = $params->get('predefined_search', null);
 		}
 
-		// Sort Order
+        // Final fall back if DT and predefined search's are null then look for filter_search from URL
+        if(is_null($search) || $search == '')
+        {
+            $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+        }
+
+        // Sort Order
 		// Define some vars
 		$sortingColumns = array();
 		$sorting = $jInput->getInt('iSortCol_0', null);
@@ -283,8 +289,12 @@ class EasyTableProModelDtRecords extends JModelList
 				}
 				elseif (stripos($search, '::') != 0)
 				{
+                    // We must check that the field nominated is set to be searchable
 					$kvp = explode('::', $search);
-					$query->where($tprefix . $db->quoteName($kvp[0]) . ' LIKE ' . $db->quote('%' . $db->escape($kvp[1], true) . '%'));
+                    if (in_array($kvp[0], $theTable->searchFields))
+                    {
+                        $query->where($tprefix . $db->quoteName($kvp[0]) . ' LIKE ' . $db->quote('%' . $db->escape($kvp[1], true) . '%'));
+                    }
 				}
 				else
 				{
@@ -429,20 +439,29 @@ class EasyTableProModelDtRecords extends JModelList
 	 *
 	 * @return string The fields of an EasyTable converted to an SQL search string
 	 */
-	private function getSearch($theTable, $search)
-	{
-		$fieldMeta = $theTable->table_meta;
-		$db = JFactory::getDBO();
-		$fieldSearch = '( ';
-		$colCount = count($fieldMeta);
-		$i = 1;
+    private function getSearch($theTable, $search)
+    {
+        // Check the field searching is allowed on a least one field.
+        if (count($theTable->searchFields) == 0)
+        {
+            return '';
+        }
 
-		foreach ($fieldMeta as $row)
-		{
-			$fieldSearch .= ($db->quoteName('t') . '.' . $db->quoteName($row['fieldalias'])) . " LIKE " . $search;
-			$fieldSearch .= $i++ < $colCount ? ' OR ' : '';
-		}
+        $fieldMeta = $theTable->table_meta;
+        $db = JFactory::getDBO();
+        $fieldSearch = '( ';
+        $colCount = count($fieldMeta);
+        $i = 1;
 
-		return $fieldSearch . ' )';
-	}
+        foreach ($fieldMeta as $row)
+        {
+            if (in_array($row['fieldalias'], $theTable->searchFields))
+            {
+                $fieldSearch .= ($db->quoteName('t') . '.' . $db->quoteName($row['fieldalias'])) . " LIKE " . $search;
+                $fieldSearch .= $i++ < $colCount ? ' OR ' : '';
+            }
+        }
+
+        return $fieldSearch . ' )';
+    }
 }

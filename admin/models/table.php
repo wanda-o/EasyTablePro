@@ -469,6 +469,7 @@ class EasyTableProModelTable extends JModelAdmin
 
 		// Save a copy of it
 		$tableTable->id = 0;
+        $tableTable->hits = 0;
 		$tableTable->easytablename = JString::increment($tableTable->easytablename);
 		$tableTable->easytablealias = JString::increment($tableTable->easytablealias, 'dash');
 
@@ -483,19 +484,22 @@ class EasyTableProModelTable extends JModelAdmin
 				if(!$this->duplicateData($id, $new_id, $jAp, $db))
 				{
 					$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_FAILED_TO_DUP_RECORDS_MSG_X', $id), 'Error');
-					$this->cleanUpFailedTableDuplicate($tableTable, $jAp);
+                    $this->cleanUpFailedDataDuplicate($new_id, $jAp, $db);
+					$this->cleanUpFailedTableEntryDuplicate($tableTable, $jAp);
 					$this->cleanUpFailedMetaDuplicate($new_id, $jAp, $db);
 				}
 			}
 			else
 			{
 				$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_FAILED_TO_DUP_META_MSG_X', $id), 'Error');
-				$this->cleanUpFailedTableDuplicate($tableTable, $jAp);
+				$this->cleanUpFailedTableEntryDuplicate($tableTable, $jAp);
+                $this->cleanUpFailedMetaDuplicate($new_id, $jAp, $db);
 			}
 		}
 		else
 		{
 			$jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_FAILED_TO_DUP_TABLE_ID_MSG_X', $id), 'Error');
+            $this->cleanUpFailedTableEntryDuplicate($tableTable, $jAp);
 		}
 	}
 
@@ -624,20 +628,64 @@ class EasyTableProModelTable extends JModelAdmin
 			return false;
 		}
 
+        // Make the PK auto_increment
+        $makePKAuto_Increment = "ALTER TABLE " . $new_table_name . " MODIFY COLUMN `id`  int(11) unsigned AUTO_INCREMENT";
+        $db->setQuery($makePKAuto_Increment);
+
+        // Try our query
+        try
+        {
+            $db->execute();
+            $jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_AUTO_INCREMENT_SET_MSG_X', $new_table_name));
+        }
+        catch (RuntimeException $e)
+        {
+            $jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_FAILED_TO_SET_AUTO_INCREMENT_X_Y', $new_table_name, $new_table_id), 'Error');
+            return false;
+        }
+
 		return true;
 	}
 
 	/**
 	 * Cleanup the table entry if we encounter a problem.
 	 *
-	 * @param   JTable        $tableTable  The duplicated table object.
+	 * @param   JTable        $tableTable  The table object for the EasyTable record.
 	 * @param   JApplication  $jAp         Yo Joomla!
 	 */
-	private function cleanUpFailedTableDuplicate($tableTable, $jAp)
+	private function cleanUpFailedTableEntryDuplicate($tableTable, $jAp)
 	{
 		$tableTable->delete();
-		$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_MGR_DUPLICATE_CLEANUP_TABLE_ENTRY_MSG'));
+		$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_MGR_DUPLICATE_CLEANUP_TABLE_ENTRY_MSG'), "WARNING");
 	}
+
+    /**
+     * Cleanup the duplicated table that may have been created if we encounter a problem.
+     *
+     * @param   int              $new_easytable_id  The ID of the new table.
+     * @param   JApplication     $jAp               Yo Joomla!
+     * @param   JDatabasedriver  $db                The current DB object.
+     */
+    private function cleanUpFailedDataDuplicate($new_table_id, $jAp, $db)
+    {
+        $new_table_name = $db->quoteName('#__easytables_table_data_' . $new_table_id);
+        // Build a standard sql query
+        $dropStmt ="DROP TABLE IF EXISTS $new_table_name";
+        $db->setQuery($dropStmt);
+
+        // Try our query
+        try
+        {
+            $db->execute();
+            $jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_CLEANUP_DROP_DATA_TABLE_MSG_X_Y', $new_table_name, $new_table_id));
+        }
+        catch (RuntimeException $e)
+        {
+            $jAp->enqueueMessage(JText::sprintf('COM_EASYTABLEPRO_MGR_DUPLICATE_CLEANUP_FAILED_DROP_DATA_TABLE_MSG_X_Y', $new_table_name, $new_table_id), 'Error');
+            return false;
+        }
+
+    }
 
 	/**
 	 * Cleanup the meta records that may have been created if we encounter a problem.
@@ -655,7 +703,7 @@ class EasyTableProModelTable extends JModelAdmin
 		try
 		{
 			$db->execute();
-			$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_MGR_DUPLICATE_CLEANUP_META_RECORDS_MSG'));
+			$jAp->enqueueMessage(JText::_('COM_EASYTABLEPRO_MGR_DUPLICATE_CLEANUP_META_RECORDS_MSG'), "WARNING");
 		}
 		catch (RuntimeException $e)
 		{
