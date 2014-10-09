@@ -75,7 +75,7 @@ class EasyTablePro_TableUpdate extends JApplicationCli
 		$lang->load('com_easytablepro', JPATH_COMPONENT_ADMINISTRATOR);
 
 		// Get the settings etc
-		$this->out('---- EasyTable Pro! CRON Import Starting ----');
+		$this->outf('EasyTable Pro! CRON Import Starting');
 		$component = JComponentHelper::getComponent('com_easytablepro');
 
 		$params = $component->params;
@@ -85,7 +85,7 @@ class EasyTablePro_TableUpdate extends JApplicationCli
 			// Let Joomla know where everything is…
 			JModelLegacy::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models');
 			JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-			$this->out('EasyTable Pro! models & tables loaded.');
+			$this->outf('EasyTable Pro! models & tables loaded.');
 
 			// Get our DB
 			$db = JFactory::getDbo();
@@ -114,13 +114,13 @@ class EasyTablePro_TableUpdate extends JApplicationCli
 			}
 			else
 			{
-				$this->out('---- Usage: tableId and filePath must be specified. ----');
+				$this->outf('Usage: tableId and filePath must be specified.');
 				$result = 0;
 			}
 
 			if ($result)
 			{
-				$this->out('---- Update added '. $result . ' records. ----');
+				$this->outf('Update added %s records.', $result);
 				// Clean up the datafile?
 				if ($deleteFile)
 				{
@@ -130,16 +130,165 @@ class EasyTablePro_TableUpdate extends JApplicationCli
 			}
 			else
 			{
-				$this->out('---- CRON Update DID NOT add any records ----');
+				$this->outf('CRON Update DID NOT add any records');
 			}
 
-			$this->out('---- EasyTable Pro! CRON Import Finished ----');
+			$this->outf('EasyTable Pro! CRON Import Finished');
 		}
 		else
 		{
-			$this->out('EasyTable Pro! regrets to inform you that CRON Imports are not enabled. Have a nice day!');
+			$this->outf('EasyTable Pro! regrets to inform you that CRON Imports are not enabled. Have a nice day!');
 		}
 	}
+
+    /**
+     * Produces formatted output via vsprintf and our line length conformer.
+     *
+     * @param   string  $msgFormat  The format string.
+     * @param   array   $values     The optional array of values to insert into the formatted string.
+     *
+     * @return  null
+     */
+    private function outf($msgFormat, $values = array())
+    {
+        if (empty($values) || (is_array($values) && count($values) == 0))
+        {
+            $msg = $this->fitTo($msgFormat);
+        }
+        else
+        {
+            $msg = vsprintf($msgFormat, $values);
+            $msg = $this->fitTo($msg);
+        }
+
+        $this->out($msg);
+    }
+
+    /**
+     * Conforms a message to a fixed length (default 60 for terminal mode) and applies
+     * a prefix and suffix string to each line.
+     *
+     * @param   string  $msg        The message string.
+     * @param   int     $lineLength The desired output length
+     * @param   string  $prefix     The string prepended to the message, counts towards line length.
+     * @param   string  $suffix     The string appended to the message, counts towards line length.
+     *
+     * @return string
+     */
+    private function fitTo($msg, $lineLength = 60, $prefix = '** ', $suffix  = ' **')
+    {
+        $msgLength = $lineLength - strlen($prefix . $suffix);
+
+        if (strlen($msg) <= $msgLength)
+        {
+            $finalMsg = $this->makeMsgLine($msg, $lineLength, $prefix, $suffix);
+        }
+        else
+        {
+            $lineArray = $this->makeSizedLines($msg, $msgLength);
+            $lines = count($lineArray);
+            $currentLine = 1;
+            $finalMsg = '';
+
+            foreach ($lineArray as $line)
+            {
+                $finalMsg .= $this->makeMsgLine($line, $lineLength, $prefix, $suffix);
+
+                // If we have multiple lines we need to add a \newline
+                if ($lines > 1 && $currentLine != $lines) {
+                    $finalMsg .= "\n";
+                }
+            }
+
+        }
+
+        return $finalMsg;
+    }
+
+    /**
+     * Attempts to make lines of the right length using spaces as word boundaries, if then event a part
+     * is longer than the line it revert to splitting it at a fixed length.
+     *
+     * @param   string  $msg   The message string.
+     * @param   int     $size  The line length.
+     *
+     * @return  array
+     */
+    private function makeSizedLines($msg, $size=50)
+    {
+        $parts = explode(' ', $msg);
+
+        $lines = array();
+        $currentLine = '';
+
+        foreach ($parts as $part)
+        {
+            $partsOfPart = str_split($part, $size);
+
+            if (count($partsOfPart) > 1)
+            {
+                foreach ($partsOfPart as $subPart)
+                {
+                    $this->processMsgPart($currentLine, $lines, $subPart, $size);
+                }
+            }
+            else
+            {
+                $subPart = $partsOfPart[0];
+                $this->processMsgPart($currentLine, $lines, $subPart, $size);
+            }
+
+        }
+
+        if ($currentLine != '')
+        {
+            $lines[] = $currentLine;
+        }
+
+        return $lines;
+    }
+
+    /**
+     * Assembles the actual line, only rudamentary checking as it should be all done in prior steps.
+     *
+     * @param   string  $msg
+     * @param   int     $lineLength
+     * @param   string  $prefix
+     * @param   string  $suffix
+     *
+     * @return string
+     */
+    private function makeMsgLine($msg, $allowedMsgLength, $prefix = '** ', $suffix = ' **')
+    {
+        if (strlen($msg) > $allowedMsgLength)
+        {
+            return '**** ERROR: Incorrect use of makeMsgLine() $msg longer than $lineLength ****';
+        }
+        else
+        {
+            return $prefix . str_pad($msg, $allowedMsgLength, ' ') . $suffix;
+        }
+    }
+
+    /**
+     * @param $currentLine
+     * @param $lines
+     * @param $subPart
+     * @param $size
+     */
+    private function processMsgPart(&$currentLine, &$lines, $subPart, $size)
+    {
+        if ($currentLine != '' && strlen($currentLine . ' ' . $subPart) > $size) {
+            $lines[] = $currentLine;
+            $currentLine = $subPart;
+        } else {
+            if ($currentLine != '') {
+                $currentLine .= ' ' . $subPart;
+            } else {
+                $currentLine = $subPart;
+            }
+        }
+    }
 }
 
 JApplicationCli::getInstance('EasyTablePro_TableUpdate')->execute();
