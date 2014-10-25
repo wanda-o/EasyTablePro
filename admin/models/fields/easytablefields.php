@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 JFormHelper::loadFieldClass('list');
 /**
- * JFormFieldEasyTable provides the options for the Table selection menu.
+ * JFormFieldEasyTableFields provides the options for the field selection menu, once a table has been specified.
  *
  * @package     EasyTables
  *
