@@ -176,7 +176,9 @@ class EasyTableProViewRecords extends JViewLegacy
 				$this->items = $this->get('Items');
 			}
 
-			$this->loadDataTables($jAp);
+			// Load jQuery and relevant AJAX library/plugin
+            $this->loadJQuery($jAp);
+            $this->loadDataTables($jAp);
 		}
 		else
 		{
@@ -345,6 +347,96 @@ class EasyTableProViewRecords extends JViewLegacy
 		return 'id';
 	}
 
+
+    private function loadJQuery($jAp)
+    {
+        $loadJQ = $this->params->get('load_jquery', 0);
+        $loadJQUI = $this->params->get('load_jqueryui', 0);
+        $doc = JFactory::getDocument();
+        $minOrNot = JDEBUG ? '.min' : '';
+        $versionJQ = $this->params->get('load_jquery_version', '1.9.1');
+        $versionJQUI = $this->params->get('load_jqueryui_version', '1.10.3');
+
+        // Load JQuery
+        if ($this->jvtag == 'j2')
+        {
+            switch ($loadJQ)
+            {
+                case 1: // From local
+                {
+                    $doc->addScript('media/com_easytablepro/js/jquery/jquery-' . $versionJQ . $minOrNot . '.js');
+                    break;
+                }
+                case 2: // From Google
+                {
+                    $doc->addScript('http://ajax.googleapis.com/ajax/libs/jquery/' . $versionJQ . '/jquery' . $minOrNot . '.js');
+                    break;
+                }
+                case 3: // From MediaTemple http://code.jquery.com/jquery-1.10.2.js
+                {
+                    $doc->addScript('http://code.jquery.com/jquery-' . $versionJQ . $minOrNot . '.js');
+                    break;
+                }
+                default:
+                    // We don't load JQ at all.
+            }
+        }
+        else
+        {   // Joomla 3 or higher
+            switch ($loadJQ)
+            {
+                case 1: case 2: case 3: // From the Joomla only CDN options are for J2.x
+            {
+                if(!$loadJQUI)
+                { // Loading UI will load framework automagically
+                    JHtml::_('jquery.framework');
+                }
+                break;
+            }
+                default:
+                    // We don't load JQ at all.
+            }
+        }
+
+        // Load JQuery UI plugin
+        if ($this->jvtag == 'j2')
+        {
+            switch ($loadJQUI)
+            {
+                case 1: // From local
+                {
+                    $doc->addScript('media/com_easytablepro/js/jquery/jquery-ui-' . $versionJQUI . $minOrNot . '.js');
+                    break;
+                }
+                case 2: // From Google
+                {
+                    $doc->addScript('http://ajax.googleapis.com/ajax/libs/jqueryui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
+                    break;
+                }
+                case 3: // From MediaTemple
+                {
+                    $doc->addScript('http://code.jquery.com/ui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
+                    break;
+                }
+                default:
+                    // We don't load JQUI at all.
+            }
+        }
+        else
+        {   // Joomla 3 or higher
+            switch ($loadJQUI)
+            {
+                case 1: case 2: case 3: // From the Joomla only CDN options are for J2.x
+            {
+                JHtml::_('jquery.ui');
+                break;
+            }
+                default:
+                    // We don't load JQ at all.
+            }
+        }
+    }
+
 	/**
 	 * Load JQuery (if req) and the DataTables plugins.
 	 *
@@ -354,92 +446,9 @@ class EasyTableProViewRecords extends JViewLegacy
 	 */
 	private function loadDataTables($jAp)
 	{
-		$loadJQ = $this->params->get('load_jquery', 0);
-		$loadJQUI = $this->params->get('load_jqueryui', 0);
 		$bAutoColumnWidth = $this->params->get('auto_column_width', 0) ? '' : '"bAutoWidth": false,' . "\n";
 		$doc = JFactory::getDocument();
 		$minOrNot = JDEBUG ? '.min' : '';
-		$versionJQ = $this->params->get('load_jquery_version', '1.9.1');
-		$versionJQUI = $this->params->get('load_jqueryui_version', '1.10.3');
-
-		// Load JQuery
-		if ($this->jvtag == 'j2')
-		{
-			switch ($loadJQ)
-			{
-				case 1: // From local
-				{
-					$doc->addScript('media/com_easytablepro/js/jquery/jquery-' . $versionJQ . $minOrNot . '.js');
-					break;
-				}
-				case 2: // From Google
-				{
-					$doc->addScript('http://ajax.googleapis.com/ajax/libs/jquery/' . $versionJQ . '/jquery' . $minOrNot . '.js');
-					break;
-				}
-				case 3: // From MediaTemple http://code.jquery.com/jquery-1.10.2.js
-				{
-					$doc->addScript('http://code.jquery.com/jquery-' . $versionJQ . $minOrNot . '.js');
-					break;
-				}
-				default:
-					// We don't load JQ at all.
-			}
-		}
-		else
-		{   // Joomla 3 or higher
-			switch ($loadJQ)
-			{
-				case 1: case 2: case 3: // From the Joomla only CDN options are for J2.x
-				{
-					if(!$loadJQUI)
-					{ // Loading UI will load framework automagically
-						JHtml::_('jquery.framework');
-					}
-					break;
-				}
-				default:
-					// We don't load JQ at all.
-			}
-		}
-
-		// Load JQuery UI plugin
-		if ($this->jvtag == 'j2')
-		{
-			switch ($loadJQUI)
-			{
-				case 1: // From local
-				{
-					$doc->addScript('media/com_easytablepro/js/jquery/jquery-ui-' . $versionJQUI . $minOrNot . '.js');
-					break;
-				}
-				case 2: // From Google
-				{
-					$doc->addScript('http://ajax.googleapis.com/ajax/libs/jqueryui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
-					break;
-				}
-				case 3: // From MediaTemple
-				{
-					$doc->addScript('http://code.jquery.com/ui/' . $versionJQUI . '/jquery-ui' . $minOrNot . '.js');
-					break;
-				}
-				default:
-					// We don't load JQUI at all.
-			}
-		}
-		else
-		{   // Joomla 3 or higher
-			switch ($loadJQUI)
-			{
-				case 1: case 2: case 3: // From the Joomla only CDN options are for J2.x
-			{
-				JHtml::_('jquery.ui');
-				break;
-			}
-				default:
-					// We don't load JQ at all.
-			}
-		}
 
 		// Load DataTables
 		$loadDT = $this->params->get('load_datatables', 1);
