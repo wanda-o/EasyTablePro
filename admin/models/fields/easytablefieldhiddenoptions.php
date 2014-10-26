@@ -224,14 +224,14 @@ class JFormFieldEasyTableFieldHiddenOptions extends JFormField
         {
             $mobile_checked = strpos($field->hidden, 'phone') ? ' checked' : '';
             $tablet_checked = strpos($field->hidden, 'tablet') ? ' checked' : '';
+            $all_checked = strpos($field->hidden, 'all') ? ' checked': '';
         }
         else
         {
             $mobile_checked = '';
             $tablet_checked = '';
+            $all_checked = !$field->list_view && $field->detail_view ? ' checked' : '';
         }
-
-        $all_checked = !$field->list_view ? ' checked' : '';
 
         // Return our array
         return array($list_view_checked, $mobile_checked, $tablet_checked, $all_checked);
