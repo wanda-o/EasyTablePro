@@ -145,8 +145,9 @@ class EasyTableProViewRecords extends JViewLegacy
 
 		$ajaxEnabled = $this->params->get('enable_ajax_tables', 0);
 		$wereAjaxing = ($ajaxEnabled && ($layout == 'dt'));
+        $ajaxLayout = ($layout == 'dt') || ($layout == 'foo') || ($layout == 'ajax');
 
-		if (($layout == 'ajax') && !$wereAjaxing)
+		if ($ajaxLayout && !$wereAjaxing)
 		{
 			$mailSent = ET_General_Helper::notifyAdminsOnError('ajax',
 				array(
