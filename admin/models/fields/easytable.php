@@ -50,7 +50,10 @@ class JFormFieldEasyTable extends JFormFieldList
 		$db->setQuery($optionsQuery);
 		$options = $db->loadObjectList();
 
-		// Don't forget to prefix it with a "None Selected" options
+        // A quick check of table sizes as they affect FooTable views.
+        $this->disableBigTablesForFooTableView($options);
+
+        // Don't forget to prefix it with a "None Selected" options
 		$noneSelected = new stdClass;
 		$noneSelected->value = '';
 		$noneSelected->text = '-- ' . JText::_('COM_EASYTABLEPRO_LABEL_NONE_SELECTED') . ' --';
@@ -59,4 +62,34 @@ class JFormFieldEasyTable extends JFormFieldList
 
 		return $options;
 	}
+
+    /**
+     * We look through and make sure that only the tables that fit within the small size are enabled.
+     *
+     * @param   array  $options  Array of option objects for our EasyTable <select> element
+     *
+     *
+     */
+    protected function disableBigTablesForFooTableView($options)
+    {
+    // Check if it's a FooTable view
+        $fooTableView = strpos($this->form->getValue('link'), 'layout=foo');
+
+        if ($fooTableView != false) {
+            // Load our table helper file
+            require_once JPATH_ADMINISTRATOR . '/components/com_easytablepro/helpers/general.php';
+
+            // Check the tables against the small table record limit.
+            $small_table_limit = JComponentHelper::getParams('com_easytablepro')->get('table_small_sized', 500);
+
+            foreach ($options as $table) {
+                $tableObj = ET_General_Helper::getEasyTable($table->value);
+
+                if ($tableObj->record_count > $small_table_limit) {
+                    $table->disable = "true";
+                }
+            }
+
+        }
+    }
 }
