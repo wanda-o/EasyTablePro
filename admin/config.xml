@@ -237,6 +237,20 @@
               description="COM_EASYTABLEPRO_PREF_TAB_AJAXTABLES_SETTINGS_DESC"
             >
         <field
+                name="note-ajaxtables"
+                type="note"
+                label="COM_EASYTABLEPRO_PREF_TAB_AJAX_SHARED_SETTINGS"
+                description="COM_EASYTABLEPRO_PREF_TAB_AJAX_SHARED_SETTINGS_DESC"
+                />
+        <field
+                name="table_small_sized"
+                type="text" default="500"
+                label="COM_EASYTABLEPRO_PREF_SMALL_TABLE_LABEL"
+                description="COM_EASYTABLEPRO_PREF_SMALL_TABLE_DESC"
+                filter="integer"
+                />
+
+        <field
                 name="note-datatables"
                 type="note"
                 label="COM_EASYTABLEPRO_PREF_TAB_DATATABLES_SETTINGS"
@@ -254,15 +268,7 @@
         </field>
 
         <field
-                name="datatable_small_sized"
-                type="text" default="500"
-                label="COM_EASYTABLEPRO_PREF_SMALL_DT_LABEL"
-                description="COM_EASYTABLEPRO_PREF_SMALL_DT_DESC"
-                filter="integer"
-                />
-
-        <field
-                name="datatable_medium_sized"
+                name="table_medium_sized"
                 type="text" default="1500"
                 label="COM_EASYTABLEPRO_PREF_MEDIUM_DT_LABEL"
                 description="COM_EASYTABLEPRO_PREF_MEDIUM_DT_DESC"

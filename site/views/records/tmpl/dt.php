@@ -62,7 +62,7 @@
 			</thead>
 			<?php
 			$this->headingCount = $headingCount;
-			if ($this->easytable->record_count < $this->params->get('datatable_small_sized', 500))
+			if ($this->easytable->record_count < $this->params->get('table_small_sized', 500))
 			{
 				echo $this->loadTemplate('body');
 			}
