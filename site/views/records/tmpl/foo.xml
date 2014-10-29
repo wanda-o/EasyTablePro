@@ -27,13 +27,13 @@
                   label="COM_EASYTABLEPRO_MENU_FOOTABLES_OPTIONS" >
             <field
                     name="load_footables_theme"
-                    type="list" default="1"
+                    type="list" default=""
                     label="COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_THEME"
                     description="COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_THEME_DESC"
                     >
-                <option value="0">JNO</option>
-                <option value="1">COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_THEME_METRO</option>
-                <option value="2">COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_THEME_ORIGINAL</option>
+                <option value="">JNO</option>
+                <option value="metro">COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_THEME_METRO</option>
+                <option value="standalone">COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_THEME_STANDALONE</option>
             </field>
 
             <field
