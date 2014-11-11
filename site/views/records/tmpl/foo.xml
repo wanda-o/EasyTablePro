@@ -58,6 +58,34 @@
                 <option value="5">5</option>
             </field>
 
+            <field name="toggleStyle"
+                   type="list" default=""
+                   label="COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE"
+                   description="COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE_DESC"
+                   >
+                <option value="">JDEFAULT</option>
+                <option value="toggle-arrow">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE_ARROW</option>
+                <option value="toggle-arrow-alt">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE_ARROW_ALT</option>
+                <option value="toggle-arrow-circle">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE_ARROW_CIRCLE</option>
+                <option value="toggle-arrow-circle-filled">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE_ARROW_CIRCLE_FILLED</option>
+                <option value="toggle-arrow-small">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE_ARROW_SMALL</option>
+                <option value="toggle-arrow-tiny">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE_ARROW_TINY</option>
+                <option value="toggle-circle">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE_CIRCLE</option>
+                <option value="toggle-circle-filled">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE_CIRCLE_FILLED</option>
+                <option value="toggle-square">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE_SQUARE</option>
+                <option value="toggle-square-filled">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESTYLE_SQUARE_FILLED</option>
+            </field>
+
+            <field name="toggleSize"
+                   type="list" default=""
+                   label="COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESIZE"
+                   description="COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESIZE_DESC"
+                    >
+                <option value="">JDEFAULT</option>
+                <option value="toggle-medium">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESIZE_MEDIUM</option>
+                <option value="toggle-large">COM_EASYTABLEPRO_MENU_FOOTABLES_TOGGLESIZE_LARGE</option>
+            </field>
+
             <field name="field_hidden_options"
                    type = "easytablefieldhiddenoptions"
                    label="COM_EASYTABLEPRO_LABEL_AJAX_VIEWS_FIELD_OPTIONS"
