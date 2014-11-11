@@ -77,7 +77,7 @@ class JFormFieldEasyTableFieldHiddenOptions extends JFormField
 
                 // Build Field label cell
                 $elements[] = '<td>';
-                $elements[] = '<label class="checkbox"><input type="checkbox" id="etp_FieldOptions_list_view_' . $field->id . '" value="' . $field->fieldalias . '"' . $list_view_checked . '>' . $field->label . '</label>';
+                $elements[] = '<label class="checkbox"><input type="checkbox" id="etp_FieldOptions_list_view_' . $field->id . '" value="' . $field->fieldalias . '"' . $list_view_checked . ' disabled >' . $field->label . '</label>';
                 $elements[] = '</td>';
 
                 // Build Field Visibility cell
