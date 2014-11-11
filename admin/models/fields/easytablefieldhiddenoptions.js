@@ -59,6 +59,9 @@ com_EasyTablePro.setUp = function()
         currentCheckbox = checkboxes[i];
         currentCheckbox.onclick = com_EasyTablePro.updateFieldDisplayOptions;
     }
+
+    // Finally run the update so it can be saved even if the user doesn't click on anything.
+    com_EasyTablePro.updateFieldDisplayOptions();
 };
 
 com_EasyTablePro.updateFieldDisplayOptions = function()
