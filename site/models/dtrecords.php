@@ -320,13 +320,27 @@ class EasyTableProModelDtRecords extends JModelList
 			$jAp->setUserState($this->context . '.search.rids', '');
 		}
 
+        // We only want to add our Advanced filter once
+        $advFilterAdded = false;
+
 		if ($params->get('filter_is_mandatory', 0))
 		{
 			ET_RecordsHelper::addFilter($query, $tableParams, $db);
+            if ($tableParams->get('advanced_filter', 0))
+            {
+                $advFilterAdded = true;
+                ET_RecordsHelper::addAdvancedFilters($theTable, $query, $tableParams, $db);
+            }
 		}
 
 		// Add menu level filter settings
 		ET_RecordsHelper::addFilter($query, $params, $db);
+
+        // Add Advanced filter
+        if ($params->get('advanced_filter', 0) && !$advFilterAdded)
+        {
+            ET_RecordsHelper::addAdvancedFilters($theTable, $query, $params, $db);
+        }
 
 		// Add user id filter
 		ET_RecordsHelper::addUserFilter($query, $params, $db);

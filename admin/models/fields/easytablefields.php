@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 JFormHelper::loadFieldClass('list');
 /**
- * JFormFieldEasyTable provides the options for the Table selection menu.
+ * JFormFieldEasyTableFields provides the options for the field selection menu, once a table has been specified.
  *
  * @package     EasyTables
  *
@@ -77,6 +77,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 			$noneSelected = new stdClass;
 			$noneSelected->value = '';
 			$noneSelected->text = '-- ' . JText::_('COM_EASYTABLEPRO_LABEL_NONE_SELECTED') . ' --';
+
 			array_splice($options, 0, 0, array($noneSelected));
 		}
 		else

@@ -206,8 +206,7 @@ jimport('joomla.application.categories');
 		{
 			$menuItem = $menu->getDefault();
 		}
-		// And we'll need the component params
-		$params = JComponentHelper::getParams('com_easytablepro');
+
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 

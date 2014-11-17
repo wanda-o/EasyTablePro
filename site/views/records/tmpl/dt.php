@@ -62,9 +62,7 @@
 			</thead>
 			<?php
 			$this->headingCount = $headingCount;
-			// @todo add an if structure here to load the right body type e.g. "body" if preloading rows or "bodyblank" if sourcing rows by ajax
-			// @todo move this out to a tmpl e.g. ajax_bodyblank
-			if ($this->easytable->record_count < $this->params->get('datatable_small_sized', 500))
+			if ($this->easytable->record_count < $this->params->get('table_small_sized', 500))
 			{
 				echo $this->loadTemplate('body');
 			}

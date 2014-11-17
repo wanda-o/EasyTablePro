@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_EASYTABLEPRO_RECORDS_VIEW_AJAX_TITLE"  option="COM_EASYTABLEPRO_RECORDS_VIEW_AJAX_OPTION">
+	<layout title="COM_EASYTABLEPRO_RECORDS_DATATABLES_VIEW_TITLE"  option="COM_EASYTABLEPRO_RECORDS_DATATABLES_VIEW_OPTION">
 		<help
 			key = "COM_EASYTABLEPRO_HELP_MENU_TABLEVIEW"
 		/>
 		<message>
-		<![CDATA[COM_EASYTABLEPRO_MENU_SHOWS_A_SPECIFIC_TABLE_USING_AJAX]]>
+		<![CDATA[COM_EASYTABLEPRO_MENU_SHOWS_A_SPECIFIC_TABLE_USING_DATATABLES]]>
 		</message>
 	</layout>
 		<!-- Add fields to the request variables for the layout. -->

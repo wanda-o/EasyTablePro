@@ -731,4 +731,102 @@ paginate;
 
 		return $paginate;
 	}
+
+	public static function fooTopPagination($showPagination, $showTopPagination, $fooSettings, $table_meta, $pageLimits)
+	{
+		// Are we showing?
+		if (!$showPagination)
+		{
+			return '';
+		}
+
+
+		// We have to process the table meta as we don't know the number of columns
+		$headingCount = 1;
+		foreach ($table_meta as $heading)
+		{
+			// Get FooTable Options
+			$fooOptions = $fooSettings[$heading['id']];
+
+			if (!$fooOptions->list)
+			{
+				continue;
+			}
+
+			$headingCount++;
+		}
+
+		if (!$showTopPagination)
+		{
+			$pagination = self::getFooPaginationRow($headingCount, $pageLimits);
+		}
+		else
+		{
+			$pagination = self::getFooPaginationRow($headingCount);
+		}
+
+		return $pagination;
+	}
+
+	public static function fooFooterPagination($showPagination, $headingCount)
+	{
+		// Are we showing?
+		if (!$showPagination)
+		{
+			return '';
+		}
+
+		$pagination = self::getFooPaginationRow($headingCount);
+
+		return $pagination;
+	}
+
+	private static function getFooPaginationRow($headingCount, $limits = null)
+	{
+		$limitSelector = self::getLimitSelector($limits);
+		$paginationRow = <<<paginate
+<tr>
+	<td colspan="$headingCount">
+		<div class="pagination pagination-centered hide-if-no-paging">$limitSelector</div>
+	</td>
+</tr>
+paginate;
+
+		return $paginationRow;
+	}
+
+	private static function getLimitSelector($limits = null)
+	{
+		if (is_null($limits) || $limits == '')
+		{
+			return '';
+		}
+
+		$limitSelection = self::convertLimitsToSelect($limits);
+		$limitSelector = <<<limit
+<div id="et_limit_div" class="pull-right hide-if-no-paging">$limitSelection</div>
+limit;
+
+		return $limitSelector;
+	}
+
+	private static function convertLimitsToSelect($limits)
+	{
+		if(!is_array($limits) || !count($limits) == 2 || count($limits[0]) != count($limits[1]))
+		{
+			return '';
+		}
+
+		$selections = array_combine($limits[1], $limits[0]);
+		$selectOptions = array();
+
+		foreach ($selections as $label => $value)
+		{
+			$selectOptions[] = "<option value=\"$value\">$label</option>";
+		}
+
+		$select = '<select id="limit" class="input-mini">' . implode('', $selectOptions) . '</select>';
+
+		return $select;
+	}
 }
