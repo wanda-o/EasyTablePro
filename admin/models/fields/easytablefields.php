@@ -77,6 +77,7 @@ class JFormFieldEasyTableFields extends JFormFieldList
 			$noneSelected = new stdClass;
 			$noneSelected->value = '';
 			$noneSelected->text = '-- ' . JText::_('COM_EASYTABLEPRO_LABEL_NONE_SELECTED') . ' --';
+
 			array_splice($options, 0, 0, array($noneSelected));
 		}
 		else
