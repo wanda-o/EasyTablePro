@@ -280,6 +280,11 @@
             <option value="0">JNO</option>
             <option value="1">JYES</option>
         </field>
+
+        <field
+            name="COM_EASYTABLEPRO_AJAX_LANGUAGE_KEYS"
+            type="spacer" />
+
     </fieldset>
 
 	<fieldset name="processing"
