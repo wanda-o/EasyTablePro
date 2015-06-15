@@ -531,11 +531,16 @@ class EasyTableProViewRecords extends JViewLegacy
 		// @todo Answer this question "Do we give users control over these values?" via Global and Table params?
 		$dt_init_code .= '"aLengthMenu": [[5, 10, 15, 20, 25, 30, 50, 100, -1], [5, 10, 15, 20, 25, 30, 50, 100, "' . JText::_('JALL') . '"]], ' . "\n";
 		$dt_init_code .= '"sPaginationType": "full_numbers", ' . "\n";
+        $dtLanguageStrings = $this->languageBlock() . ",\n";
 
-		// Hide our ID column
-		$dt_init_code .= '"aoColumnDefs": [{ "bSearchable": false, "bVisible": false, "aTargets": [ 0 ] }]} );} );' . "\n";
 
-		$doc->addScriptDeclaration($dt_init_code);
+        $dt_init_code .= $dtLanguageStrings;
+
+        // Hide our ID column
+        $dt_init_code .= '"aoColumnDefs": [{ "bSearchable": false, "bVisible": false, "aTargets": [ 0 ] }]} );} );' . "\n";
+
+
+        $doc->addScriptDeclaration($dt_init_code);
 
 		// Finally we can load the default CSS or any override found in the templates CSS folder.
 		$defaultCSSFile = 'jquery.dataTables.css';
@@ -599,5 +604,61 @@ class EasyTableProViewRecords extends JViewLegacy
 
 		return $params;
 	}
+
+    /**
+     * Generates the language block options for DT.
+     *
+     * @return string
+     */
+    private function languageBlock()
+    {
+// Language block
+        $COM_EASYTABLEPRO_SITE_EMPTYTABLE          = JText::_('COM_EASYTABLEPRO_SITE_EMPTYTABLE');
+        $COM_EASYTABLEPRO_SITE_INFO                = JText::_('COM_EASYTABLEPRO_SITE_INFO');
+        $COM_EASYTABLEPRO_SITE_INFOEMPTY           = JText::_('COM_EASYTABLEPRO_SITE_INFOEMPTY');
+        $COM_EASYTABLEPRO_SITE_INFOFILTERED        = JText::_('COM_EASYTABLEPRO_SITE_INFOFILTERED');
+        $COM_EASYTABLEPRO_SITE_INFOPOSTFIX         = JText::_('COM_EASYTABLEPRO_SITE_INFOPOSTFIX');
+        $COM_EASYTABLEPRO_SITE_THOUSANDS           = JText::_('COM_EASYTABLEPRO_SITE_THOUSANDS');
+        $COM_EASYTABLEPRO_SITE_LENGTHMENU          = JText::_('COM_EASYTABLEPRO_SITE_LENGTHMENU');
+        $COM_EASYTABLEPRO_SITE_LOADINGRECORDS      = JText::_('COM_EASYTABLEPRO_SITE_LOADINGRECORDS');
+        $COM_EASYTABLEPRO_SITE_PROCESSING          = JText::_('COM_EASYTABLEPRO_SITE_PROCESSING');
+        $COM_EASYTABLEPRO_SITE_SEARCH              = JText::_('COM_EASYTABLEPRO_SITE_SEARCH');
+        $COM_EASYTABLEPRO_SITE_ZERORECORDS         = JText::_('COM_EASYTABLEPRO_SITE_ZERORECORDS');
+        $COM_EASYTABLEPRO_SITE_PAGINATE_FIRST      = JText::_('COM_EASYTABLEPRO_SITE_PAGINATE_FIRST');
+        $COM_EASYTABLEPRO_SITE_PAGINATE_LAST       = JText::_('COM_EASYTABLEPRO_SITE_PAGINATE_LAST');
+        $COM_EASYTABLEPRO_SITE_PAGINATE_NEXT       = JText::_('COM_EASYTABLEPRO_SITE_PAGINATE_NEXT');
+        $COM_EASYTABLEPRO_SITE_PAGINATE_PREVIOUS   = JText::_('COM_EASYTABLEPRO_SITE_PAGINATE_PREVIOUS');
+        $COM_EASYTABLEPRO_SITE_ARIA_SORTASCENDING  = JText::_('COM_EASYTABLEPRO_SITE_ARIA_SORTASCENDING');
+        $COM_EASYTABLEPRO_SITE_ARIA_SORTDESCENDING = JText::_('COM_EASYTABLEPRO_SITE_ARIA_SORTDESCENDING');
+
+
+        $dtLanguageStrings = <<<dtls
+"oLanguage":
+{
+    "sEmptyTable":     "$COM_EASYTABLEPRO_SITE_EMPTYTABLE",
+    "sInfo":           "$COM_EASYTABLEPRO_SITE_INFO",
+    "sInfoEmpty":      "$COM_EASYTABLEPRO_SITE_INFOEMPTY",
+    "sInfoFiltered":   "$COM_EASYTABLEPRO_SITE_INFOFILTERED",
+    "sInfoPostFix":    "$COM_EASYTABLEPRO_SITE_INFOPOSTFIX",
+    "sThousands":      "$COM_EASYTABLEPRO_SITE_THOUSANDS",
+    "sLengthMenu":     "$COM_EASYTABLEPRO_SITE_LENGTHMENU",
+    "sLoadingRecords": "$COM_EASYTABLEPRO_SITE_LOADINGRECORDS",
+    "sProcessing":     "$COM_EASYTABLEPRO_SITE_PROCESSING",
+    "sSearch":         "$COM_EASYTABLEPRO_SITE_SEARCH",
+    "sZeroRecords":    "$COM_EASYTABLEPRO_SITE_ZERORECORDS",
+    "oPaginate": {
+        "sFirst":      "$COM_EASYTABLEPRO_SITE_PAGINATE_FIRST",
+        "sLast":       "$COM_EASYTABLEPRO_SITE_PAGINATE_LAST",
+        "sNext":       "$COM_EASYTABLEPRO_SITE_PAGINATE_NEXT",
+        "sPrevious":   "$COM_EASYTABLEPRO_SITE_PAGINATE_PREVIOUS"
+    },
+    "oAria": {
+        "sSortAscending":  "$COM_EASYTABLEPRO_SITE_ARIA_SORTASCENDING",
+        "sSortDescending": "$COM_EASYTABLEPRO_SITE_ARIA_SORTDESCENDING"
+    }
+}
+dtls;
+        return $dtLanguageStrings;
+    }
 }
 ?>
