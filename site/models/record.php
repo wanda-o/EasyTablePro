@@ -167,8 +167,13 @@ class EasyTableProModelRecord extends JModelItem
 				{
 					$linked_table = $et->params->get('id', 0);
 					$key_field_raw = $et->params->get('key_field', 0);
-					$key_field_parts = explode(':', $key_field_raw);
-					$key_field = $key_field_parts[1];
+					if ($key_field_raw != 0 && strpos($key_field_raw, ':')) {
+						$key_field_parts = explode(':', $key_field_raw);
+						$key_field = $key_field_parts[1];
+					} else {
+						$key_field = false;
+					}
+
 					$linked_key_field = $et->params->get('linked_key_field', 0);
 
 					// We need all 3 id's to proceed
@@ -194,6 +199,7 @@ class EasyTableProModelRecord extends JModelItem
 					}
 					else
 					{
+						JFactory::getApplication()->enqueueMessage('COM_EASYTABLEPRO_RECORD_LINKED_TABLED_ENABLED_NOT_CONFIGURED');
 						$et->params->set('show_linked_table', false);
 					}
 				}

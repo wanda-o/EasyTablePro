@@ -284,6 +284,14 @@
         </field>
 
         <field
+                name="datatable_small_sized"
+                type="text" default="500"
+                label="COM_EASYTABLEPRO_PREF_SMALL_DT_LABEL"
+                description="COM_EASYTABLEPRO_PREF_SMALL_DT_DESC"
+                filter="integer"
+                />
+
+        <field
                 name="table_medium_sized"
                 type="text" default="1500"
                 label="COM_EASYTABLEPRO_PREF_MEDIUM_DT_LABEL"
@@ -301,7 +309,7 @@
 
         <field
                 name="auto_column_width"
-                type="radio" default="1"
+                type="list" default="1"
                 label="COM_EASYTABLEPRO_PREF_AUTO_COLUMN_WIDTH"
                 description="COM_EASYTABLEPRO_PREF_AUTO_COLUMN_WIDTH_DESC"
                 class="btn-group btn-group-yesno"
@@ -333,8 +341,8 @@
         </field>
 
         <field
-                name="load_footables_all_in_one"
-                type="radio" default="1"
+            name="COM_EASYTABLEPRO_AJAX_LANGUAGE_KEYS"
+            type="spacer" />
                 label="COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_ALL_IN_ONE"
                 description="COM_EASYTABLEPRO_PREF_LOAD_FOOTABLES_ALL_IN_ONE_DESC"
                 class="btn-group btn-group-yesno"
