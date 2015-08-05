@@ -25,7 +25,13 @@ function easyTableProBuildRoute(&$query)
     if (isset($query['view'])) {
         // Store the view for later
         $targetView = $query['view'];
-        $targetID   = isset($query['id'])?$query['id']:0;
+        $targetTableID = isset($query['id']) ? $query['id'] : 0;
+
+        if (strpos($targetTableID, ':') != false) {
+            list($targetTableID, $targetTableAlias) = explode(':', $targetTableID);
+        } else {
+            $targetTableAlias = '';
+        }
 
         // We need a few things, so, get a menu item based on Itemid or currently active
         $app  = JFactory::getApplication();
@@ -67,29 +73,18 @@ function easyTableProBuildRoute(&$query)
                 // We need the id of the target table, otherwise it's all moot.
                 if (isset($query['id'])) {
                     // If we're in a `records` view is the target within the same table?
-                    if ($menusCurrentView == 'records' && $targetID == $menusCurrentID) {
+                    if ($menusCurrentView == 'records' && $targetTableID == $menusCurrentID) {
                         unset($query['id']);
                     } else {
                         // OK we may need to convert a numeric id to an alias id
-                        if (is_numeric($targetID)) {
-                            $SQLquery = $db->getQuery(true);
-
-                            // Search for the alias of the table of this id
-                            $SQLquery->select($db->quoteName('easytablealias'));
-                            $SQLquery->from($db->quoteName('#__easytables'));
-                            $SQLquery->where($db->quoteName('id') . ' = ' . $targetID);
-                            $db->setQuery($SQLquery);
-                            $idAlias = $db->loadResult();
-
-                            // Set the next segment to the alias
-                        } else {
-                            $idAlias = $targetID;
+                        if (empty($targetTableAlias) && is_numeric($targetTableID)) {
+                            $targetTableAlias = etp_getTableAliasByID($targetTableID, $db);
                         }
 
                         // Make sure we have a result.
-                        if ($idAlias != '') {
+                        if ($targetTableAlias != '') {
                             unset($query['id']);
-                            $segments[] = $idAlias;
+                            $segments[] = $targetTableAlias;
                         }
                     }
                 }
@@ -97,22 +92,29 @@ function easyTableProBuildRoute(&$query)
 
             // Link to Record Detail view requested
             case 'record':
+                $newItemid = false;
+                // See if you current menus table matches our target table
+                if (isset($query['Itemid']) && ($targetTableID != $menusCurrentID)) {
+                    // It doesn't lets try and update the Itemid to an existing published menu for our target table ID.
+                    if ($newItemid = etp_getMenuForTableID($targetTableID)) {
+                        $query['Itemid'] = $newItemid;
+                    }
+
+                }
+
                 if (isset($query['id'])) {
                     // So, is our current view already showing the table of the target URL?
                     if ((($menusCurrentOption == 'com_easytablepro') &&
-                            ($targetID != $menusCurrentID)) || $menusCurrentOption == '') {
+                            ($targetTableID != $menusCurrentID)) || $menusCurrentOption == '') {
                         // We'll need to add an alias to point to the right table...
-                        $SQLquery = $db->getQuery(true);
-
-                        // Search for the alias of the table of this id
-                        $SQLquery->select($db->quoteName('easytablealias'));
-                        $SQLquery->from($db->quoteName('#__easytables'));
-                        $SQLquery->where($db->quoteName('id') . ' = ' . (int) $targetID);
-                        $db->setQuery($SQLquery);
-                        $idAlias = $db->loadResult();
+                        if (empty($targetTableAlias)) {
+                            $targetTableAlias = etp_getTableAliasByID($targetTableID, $db);
+                        }
 
                         // Set the next segment to the alias
-                        $segments[] = $idAlias;
+                        if (!$newItemid) {
+                            $segments[] = $targetTableAlias;
+                        }
                     }
 
                     unset($query['id']);
@@ -166,9 +168,9 @@ function easyTableProParseRoute($segments)
     }
 
     // OK, we have work to do, lets get the active menu item.
-    $app    = JFactory::getApplication();
-    $menu   = $app->getMenu();
-    $menuItem   = $menu->getActive();
+    $app      = JFactory::getApplication();
+    $menu     = $app->getMenu();
+    $menuItem = $menu->getActive();
 
     // It's possible there's no active menu item... e.g. a search result link
     if (!$menuItem) {
@@ -177,19 +179,13 @@ function easyTableProParseRoute($segments)
 
     // And we'll need the component params
     $db = JFactory::getDbo();
-    $query = $db->getQuery(true);
 
     if ($count == 1 && ($menuItem->query['view'] != 'records')) {
         $segments[0] = preg_replace('/:/', '-', $segments[0], 1);
         $vars['view'] = 'records';
 
         // Convert the easy table alias to its actual id
-        $alias = $segments[0];
-        $query->select($db->quoteName('id'));
-        $query->from($db->quoteName('#__easytables'));
-        $query->where($db->quoteName('easytablealias') . '=' . $db->quote($alias));
-        $db->setQuery($query);
-        $id = $db->loadResult();
+        $id = etp_getTableIDFromAlias($segments[0], $db);
         $vars['id'] = $id;
 
         return $vars;
@@ -200,24 +196,20 @@ function easyTableProParseRoute($segments)
     $vars['view'] = 'record';
 
     if ($count == 2) {
+        $rid = 0;
+
         if (isset($menuItem->query['view'])) {
             if ($menuItem->query['view'] == 'tables') {
                 // Remove the stupid colon
                 $segments[0] = preg_replace('/:/', '-', $segments[0], 1);
-                $alias = $segments[0];
-                $query->select($db->quoteName('id'));
-                $query->from($db->quoteName('#__easytables'));
-                $query->where($db->quoteName('easytablealias') . '=' . $db->quote($alias));
-                $db->setQuery($query);
-                $id = $db->loadResult();
+                $id = etp_getTableIDFromAlias($segments[0], $db);
                 $vars['id'] = $id;
 
                 $rid = $segments[1];
             } elseif ($menuItem->query['view'] == 'records') {
                 // Convert the easy table alias to it actual id
                 if (isset($menuItem->query['id'])) {
-                    $id = $menuItem->query['id'];
-                    $vars['id'] = $id;
+                    $vars['id'] = $menuItem->query['id'];
                 } else {
                     $vars['id'] = 0;
                     $app->enqueueMessage(
@@ -228,8 +220,7 @@ function easyTableProParseRoute($segments)
 
                 $rid = $segments[0];
             } elseif ($menuItem->query['view'] == 'record') {
-                $id = $segments[0];
-                $vars['id'] = $id;
+                $vars['id'] = $segments[0];
                 $rid = $segments[1];
             }
         }
@@ -249,13 +240,7 @@ function easyTableProParseRoute($segments)
 
         // Convert the easy table alias to it actual id
         if (!empty($segments[0])) {
-            $alias = $segments[0];
-            $query->select($db->quoteName('id'));
-            $query->from($db->quoteName('#__easytables'));
-            $query->where($db->quoteName('easytablealias') . '=' . $db->quote($alias));
-            $db->setQuery($query);
-            $id = $db->loadResult();
-            $vars['id'] = $id;
+            $vars['id'] = etp_getTableIDFromAlias($segments[0], $db);
         } else {
             $vars['id'] = 0;
             $app->enqueueMessage(JText::_('COM_EASYTABLEPRO_SITE_ROUTER_PARSEROUTE_COULDNT_FIND_TABLE_ID'), 'Warning');
@@ -271,4 +256,81 @@ function easyTableProParseRoute($segments)
     }
 
     return $vars;
+}
+
+
+/**
+ * For those situations where we get a table ID but no alias
+ *
+ * Namespaced by etp_ because the whole router system is stupid
+ *
+ * @param  int               $targetTableID  The id of the table
+ * @param  JDatabaseDriver   $db             The Joomla Database obj.
+ *
+ * @return mixed
+ */
+function etp_getTableAliasByID($targetTableID, $db)
+{
+    // We'll need to add an alias to point to the right table...
+    $SQLquery = $db->getQuery(true);
+
+    // Search for the alias of the table of this id
+    $SQLquery->select($db->quoteName('easytablealias'));
+    $SQLquery->from($db->quoteName('#__easytables'));
+    $SQLquery->where($db->quoteName('id') . ' = ' . (int)$targetTableID);
+    $db->setQuery($SQLquery);
+    $idAlias = $db->loadResult();
+
+    return $idAlias;
+}
+
+/**
+ * Getting a table ID from the Alias
+ *
+ * Namespaced by etp_ because the whole router system is stupid
+ *
+ * @param  string            $alias  The alias of the table
+ * @param  JDatabaseDriver   $db     The Joomla Database obj.
+ *
+ * @return mixed
+ */
+function etp_getTableIDFromAlias($alias, $db)
+{
+    $query = $db->getQuery(true);
+    $query->select($db->quoteName('id'));
+    $query->from($db->quoteName('#__easytables'));
+    $query->where($db->quoteName('easytablealias') . '=' . $db->quote($alias));
+    $db->setQuery($query);
+    $id = $db->loadResult();
+
+    return $id;
+}
+
+/**
+ * Get's the first match from the menu system that points to a records view (i.e. a table)
+ * whose ID matches our target table.
+ *
+ * @param  int               $id  The table ID
+ * @param  JDatabaseDriver   $db  The Joomla DB Obj.
+ */
+function etp_getMenuForTableID($id)
+{
+    $menu = JMenu::getInstance('site');
+
+    $matches = $menu->getItems(
+        array('menutype'),
+        array('easytable')
+    );
+
+    $theMenuItemid = false;
+
+    foreach ($matches as $match) {
+        if (isset($match->query['view']) && $match->query['view'] == 'records' &&
+            isset($match->query['id']) && $match->query['id'] == $id ) {
+            $theMenuItemid = $match->id;
+            break;
+        }
+    }
+
+    return $theMenuItemid;
 }
