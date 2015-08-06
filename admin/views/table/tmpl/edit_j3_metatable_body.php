@@ -28,69 +28,74 @@ $fldOptionsTT = JHtml::tooltipText(JText::_('COM_EASYTABLEPRO_TABLE_FIELDSET_COL
 $tdParamsObj  = new JRegistry;
 
 // Is this a linked table
-if (!$this->item->etet)
-{
-	// Control Row
-	$addFldIconPath = JURI::root() . 'media/com_easytablepro/images/icon-add.png';
-	$addNewFldLabel = JText::_('COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_LABEL');
-	$addFieldBtn    = JText::_('COM_EASYTABLEPRO_TABLE_ADD_FIELD_BTN');
-	$addNewFldDesc  = JText::_('COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_DESC');
+if (!$this->item->etet) {
+    // Control Row
+    $addFldIconPath = JURI::root() . 'media/com_easytablepro/images/icon-add.png';
+    $addNewFldLabel = JText::_('COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_LABEL');
+    $addFieldBtn    = JText::_('COM_EASYTABLEPRO_TABLE_ADD_FIELD_BTN');
+    $addNewFldDesc  = JText::_('COM_EASYTABLEPRO_TABLE_ADD_NEW_FIELD_DESC');
 
-	$delBtnPath = JURI::root() . 'media/com_easytablepro/images/publish_x.png';
-	$delBtnAlt = "Delete Field Button.";
-	$delBtnTmpl = <<<BTNTMPL
+    $delBtnPath = JURI::root() . 'media/com_easytablepro/images/publish_x.png';
+    $delBtnAlt = "Delete Field Button.";
+    $delBtnTmpl = <<<BTNTMPL
 <br />
 <a href="#" class="deleteFieldButton-nodisplay" onclick="com_EasyTablePro.Table.deleteField('%s', '%s');">
 	<img src="$delBtnPath" alt="$delBtnAlt" />
 </a>
 BTNTMPL;
 
-	$aliasTmpl = <<<ALIASTMPL
+    $aliasTmpl = <<<ALIASTMPL
 <span  class="hasTooltip" title="$mrFldAliasTT">
 	<input type="hidden" name="origfieldalias$ph1" value="$ph2" />
-	<input type="text" name="fieldalias$ph1" value="$ph2" onchange="com_EasyTablePro.Table.validateAlias(this)" disabled="disabled" class="input-small"/>
-	<a href="#" onclick="com_EasyTablePro.Table.unlock(this);" id="unlock$ph1" alt="Unlock Alias" /><i class="icon-pencil"></i></a>
+	<input type="text" name="fieldalias$ph1"
+	    value="$ph2"
+	    onchange="com_EasyTablePro.Table.validateAlias(this)"
+	    disabled="disabled"
+	    class="input-small"/>
+	<a href="#" onclick="com_EasyTablePro.Table.unlock(this);" id="unlock$ph1" alt="Unlock Alias" />
+	    <i class="icon-pencil"></i>
+	</a>
 </span>
 ALIASTMPL;
 }
 else
 {
-	$delBtnTmpl = <<<BTNTMPL
+    $delBtnTmpl = <<<BTNTMPL
 <br /><!-- $ph1:$ph2 -->
 BTNTMPL;
 
-	$aliasTmpl = <<<ALIASTMPL
-<input type="hidden" name="origfieldalias$ph1" value="$ph2" /><input type="hidden" name="fieldalias$ph1" value="$ph2" />$ph2
+    $aliasTmpl = <<<ALIASTMPL
+<input type="hidden" name="origfieldalias$ph1" value="$ph2" />
+<input type="hidden" name="fieldalias$ph1" value="$ph2" />$ph2
 ALIASTMPL;
 }
 
-foreach ($this->item->table_meta as $metaRow)
-{
-	$mRId          = $metaRow['id'];
-	$rowID         = 'et_rID' . $mRId;
-	$mrLabel       = $metaRow['label'];
-	$deleteBtnHTML = sprintf($delBtnTmpl, $mrLabel, $rowID);
-	$mrPosition    = $metaRow['position'];
-	$mrFldAlias    = $metaRow['fieldalias'];
-	$fldAliasHTML  = sprintf($aliasTmpl, $mRId, $mrFldAlias);
-	$mrDesc        = $metaRow['description'];
-	$mrType        = $metaRow['type'];
-	$typeSelect    = ET_TableHelper::getTypeList($mRId, $mrType);
-	$mrParams      = $metaRow['params'];
-	$fieldOptions  = ET_TableHelper::getFieldOptions($mrParams);
-	$mrListView    = $metaRow['list_view'];
-	$listViewImg   = ET_TableHelper::getListViewImage('list_view' . $mRId, $mrListView);
-	$mrDetailLnk   = $metaRow['detail_link'];
-	$detailLinkImg = ET_TableHelper::getListViewImage('detail_link' . $mRId, $mrDetailLnk);
-	$mrDetailView  = $metaRow['detail_view'];
-	$detailViewImg = ET_TableHelper::getListViewImage('detail_view' . $mRId, $mrDetailView);
-	$searchField   = $tdParamsObj->loadString($mrParams)->get('search_field', 1);
-	$searchImg      = ET_TableHelper::getListViewImage('search_field' . $mRId, $searchField);
+foreach ($this->item->table_meta as $metaRow) {
+    $mRId          = $metaRow['id'];
+    $rowID         = 'et_rID' . $mRId;
+    $mrLabel       = $metaRow['label'];
+    $deleteBtnHTML = sprintf($delBtnTmpl, $mrLabel, $rowID);
+    $mrPosition    = $metaRow['position'];
+    $mrFldAlias    = $metaRow['fieldalias'];
+    $fldAliasHTML  = sprintf($aliasTmpl, $mRId, $mrFldAlias);
+    $mrDesc        = $metaRow['description'];
+    $mrType        = $metaRow['type'];
+    $typeSelect    = ET_TableHelper::getTypeList($mRId, $mrType);
+    $mrParams      = $metaRow['params'];
+    $fieldOptions  = ET_TableHelper::getFieldOptions($mrParams);
+    $mrListView    = $metaRow['list_view'];
+    $listViewImg   = ET_TableHelper::getListViewImage('list_view' . $mRId, $mrListView);
+    $mrDetailLnk   = $metaRow['detail_link'];
+    $detailLinkImg = ET_TableHelper::getListViewImage('detail_link' . $mRId, $mrDetailLnk);
+    $mrDetailView  = $metaRow['detail_view'];
+    $detailViewImg = ET_TableHelper::getListViewImage('detail_view' . $mRId, $mrDetailView);
+    $searchField   = $tdParamsObj->loadString($mrParams)->get('search_field', 1);
+    $searchImg      = ET_TableHelper::getListViewImage('search_field' . $mRId, $searchField);
 
-	// Finally store the record ID
-	$mRIds[]      = $mRId;
+    // Finally store the record ID
+    $mRIds[]      = $mRId;
 
-	echo <<<LAYOUT
+    echo <<<LAYOUT
 <tr valign="top" class="row$k" id="$rowID">
 	<td class="center hidden-phone center width-10" align="center">
 		<input type="hidden" name="id$mRId" value="$mRId" class="width-20" style="display:none;">$mRId $deleteBtnHTML
@@ -127,20 +132,18 @@ foreach ($this->item->table_meta as $metaRow)
 </tr>
 
 LAYOUT;
-	$k = 1 - $k;
+    $k = 1 - $k;
 }
 
-if (!$this->item->etet)
-{
+if (!$this->item->etet) {
+    $fldAliasHTML  = sprintf($aliasTmpl, 'clone', '');
+    $typeSelect    = ET_TableHelper::getTypeList('clone', 0);
+    $listViewImg   = ET_TableHelper::getListViewImage('list_viewclone', 0);
+    $detailLinkImg = ET_TableHelper::getListViewImage('detail_linkclone', 0);
+    $detailViewImg = ET_TableHelper::getListViewImage('detail_viewclone', 0);
+    $searchImg     = ET_TableHelper::getListViewImage('search_fieldclone', 0);
 
-	$fldAliasHTML  = sprintf($aliasTmpl, 'clone', '');
-	$typeSelect    = ET_TableHelper::getTypeList('clone', 0);
-	$listViewImg   = ET_TableHelper::getListViewImage('list_viewclone', 0);
-	$detailLinkImg = ET_TableHelper::getListViewImage('detail_linkclone', 0);
-	$detailViewImg = ET_TableHelper::getListViewImage('detail_viewclone', 0);
-	$searchImg     = ET_TableHelper::getListViewImage('search_fieldclone', 0);
-
-	echo <<<CLONEROW
+    echo <<<CLONEROW
 <tr valign="top" class="et_clone_new_row" id="et_clone_new_row">
 	<td class="center hidden-phone center width-10" align="center">
 		<input type="hidden" name="idclone" value="clone" class="width-20" style="display:none;"><span class="et_nf_id">Id #</span>
@@ -177,7 +180,7 @@ if (!$this->item->etet)
 
 CLONEROW;
 
-	echo <<<CONTROLROW
+    echo <<<CONTROLROW
 <tr id="et_controlRow" class="et_controlRow-nodisplay">
 	<td >
 		<a href="#" onclick="com_EasyTablePro.Table.addField()">
