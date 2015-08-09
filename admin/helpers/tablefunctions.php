@@ -27,52 +27,40 @@ class ET_TableHelper
      *
      * @param   int     $flag        Current state of element.
      *
-     * @return  html
+     * @return  string
      *
      * @since   1.0
      */
-    public static function getListViewImage ($rowElement, $flag=0)
+    public static function getListViewImage($rowElement, $flag = 0)
     {
         $btn_title = '';
 
-        if (substr($rowElement, 0, 4) == 'list')
-        {
+        if (substr($rowElement, 0, 4) == 'list') {
             $btn_title = JText::_('COM_EASYTABLEPRO_TABLE_TOGGLE_APPEARS_IN_LIST_TT');
-        }
-        elseif (substr($rowElement, 7, 4) == 'link')
-        {
+        } elseif (substr($rowElement, 7, 4) == 'link') {
             $btn_title = JText::_('COM_EASYTABLEPRO_TABLE_TURN_ON_DETAIL_LINK_TT');
-        }
-        elseif (substr($rowElement, 0, 6) == 'detail')
-        {
+        } elseif (substr($rowElement, 0, 6) == 'detail') {
             $btn_title = JText::_('COM_EASYTABLEPRO_TABLE_TURN_ON_IN_DETAIL_VIEW_TT');
-        }
-        elseif (substr($rowElement, 0, 6) == 'search')
-        {
+        } elseif (substr($rowElement, 0, 6) == 'search') {
             $btn_title = JText::_('COM_EASYTABLEPRO_TABLE_TOGGLE_FIELD_SEARCH_VISIBILITY_TT');
         }
 
-        if ($flag)
-        {
+        if ($flag) {
             $theImageString = 'tick.png';
-        }
-        else
-        {
+        } else {
             $theImageString = 'publish_x.png';
         }
 
-        if (ET_General_Helper::getJoomlaVersionTag() == 'j2')
-        {
+        if (ET_General_Helper::getJoomlaVersionTag() == 'j2') {
             $tipClass = 'hasTip';
-        }
-        else
-        {
+        } else {
             $tipClass = 'hasTooltip';
             $btn_title = JHtml::tooltipText($btn_title);
         }
 
-        $theListViewImage = '<img src="' . JURI::root() . 'media/com_easytablepro/images/' . $theImageString . '" name="'
-            . $rowElement . '_img" border="0" title="' . $btn_title . '" alt="' . $btn_title . '" class="' . $tipClass . '"/>';
+        $theListViewImage = '<img src="' . JURI::root() . 'media/com_easytablepro/images/' . $theImageString .
+            '" name="' . $rowElement . '_img" border="0" title="' . $btn_title . '" alt="' . $btn_title .
+            '" class="' . $tipClass . '"/>';
 
         return($theListViewImage);
     }
@@ -88,20 +76,18 @@ class ET_TableHelper
      *
      * @return string
      */
-    public static function getTypeList ($id, $selectedType=0)
+    public static function getTypeList($id, $selectedType = 0)
     {
-        if (ET_General_Helper::getJoomlaVersionTag() == 'j2')
-        {
+        if (ET_General_Helper::getJoomlaVersionTag() == 'j2') {
             $tipClass = 'hasTip ';
             $tipText = ' title="' . JText::_('COM_EASYTABLEPRO_TABLE_FIELD_TYPE_DESC') . '"';
-        }
-        else
-        {
+        } else {
             $tipClass = '';
             $tipText = '';
         }
         // Start html select structure
-        $selectOptionTxt =  '<select name="type' . $id . '" onchange="com_EasyTablePro.Table.changeTypeWarning()" class="'
+        $selectOptionTxt =  '<select name="type' . $id
+            . '" onchange="com_EasyTablePro.Table.changeTypeWarning()" class="'
             . $tipClass
             . 'input-medium"'
             . $tipText
@@ -134,8 +120,7 @@ class ET_TableHelper
         // Close html select structure
         $selectOptionTxt .= '</select>';
 
-        if (ET_General_Helper::getJoomlaVersionTag() == 'j3')
-        {
+        if (ET_General_Helper::getJoomlaVersionTag() == 'j3') {
             $tipText = JHtml::tooltipText(JText::_('COM_EASYTABLEPRO_TABLE_FIELD_TYPE_DESC'));
             $selectOptionTxt = '<span class="hasTooltip" title="' . $tipText . '">' . $selectOptionTxt . '</span>';
         }
@@ -152,25 +137,20 @@ class ET_TableHelper
      *
      * @since   1.0
      */
-    public static function getFieldOptions ($params=null)
+    public static function getFieldOptions($params = null)
     {
         $fieldOptions = '';
 
-        if (isset ($params))
-        {
+        if (isset($params)) {
             $paramsObj = new JRegistry;
             $paramsObj->loadString($params);
             $rawFieldOptions = $paramsObj->get('fieldoptions', '');
 
-            if (strlen($rawFieldOptions))
-            {
-                if (substr($rawFieldOptions, 0, 1) == 'x')
-                {
+            if (strlen($rawFieldOptions)) {
+                if (substr($rawFieldOptions, 0, 1) == 'x') {
                     $unpackedFieldOptions = htmlentities(pack("H*", substr($rawFieldOptions, 1)));
                     $fieldOptions = $unpackedFieldOptions;
-                }
-                else
-                {
+                } else {
                     $fieldOptions = $rawFieldOptions;
                 }
             }
