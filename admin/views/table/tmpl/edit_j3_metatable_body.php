@@ -101,18 +101,18 @@ foreach ($this->item->table_meta as $metaRow) {
 		<input type="hidden" name="id$mRId" value="$mRId" class="width-20" style="display:none;">$mRId $deleteBtnHTML
 	</td>
 	<td class="center hidden-phone" align="center">
-		<input type="text" value="$mrPosition" size="3" name="position$mRId" class="hasTooltip center input-mini" title="$mrPositionTT" />
+		<input type="text" value="$mrPosition" size="3" name="position$mRId" class="center input-mini" title="$mrPositionTT" />
 	</td>
 	<td class="hidden-phone">
-		<input type="text" value="$mrLabel" name="label$mRId" id="label$mRId" class="hasTooltip input-small width-90" title="$mrLabelTT" /><br />
+		<input type="text" value="$mrLabel" name="label$mRId" id="label$mRId" class="input-small width-90" title="$mrLabelTT" /><br />
 		$fldAliasHTML
 	</td>
 	<td class="left hidden-phone">
-		<textarea rows="3" name="description$mRId" class="hasTooltip etp_editor_row_description" title="$mrDescTT" >$mrDesc</textarea>
+		<textarea rows="3" name="description$mRId" class="etp_editor_row_description" title="$mrDescTT" >$mrDesc</textarea>
 	</td>
 	<td class="hidden-phone width-medium">$typeSelect<br />
 		<input type="hidden" name="origfieldtype$mRId" value="$mrType" />
-		<input type="text" value="$fieldOptions" name="fieldoptions$mRId" class="hasTooltip input-large" title="$fldOptionsTT" />
+		<input type="text" value="$fieldOptions" name="fieldoptions$mRId" class="input-large" title="$fldOptionsTT" />
 	</td>
 	<td class="center hidden-phone" width="1%" align="center"><input type="hidden" name="list_view$mRId" value="$mrListView" />
 		<a href="#" onclick="com_EasyTablePro.Table.toggleTick(this);" id="list_view.btn.$mRId">$listViewImg</a>
@@ -149,17 +149,17 @@ if (!$this->item->etet) {
 		<input type="hidden" name="idclone" value="clone" class="width-20" style="display:none;"><span class="et_nf_id">Id #</span>
 	</td>
 	<td class="center hidden-phone" align="center">
-		<input type="text" value="" placeholder="position" size="3" name="positionclone" class="hasTooltip center input-mini" title="$mrPositionTT" />
+		<input type="text" value="" placeholder="position" size="3" name="positionclone" class="center input-mini" title="$mrPositionTT" />
 	</td>
 	<td class="hidden-phone">
-		<input type="text" value="" placeholder="label" name="labelclone" id="labelclone" class="hasTooltip input-small width-90" title="$mrLabelTT" onclick="com_EasyTablePro.Table.updateAlias(this);" onblur="com_EasyTablePro.Table.updateAlias(this);" /><br />$fldAliasHTML
+		<input type="text" value="" placeholder="label" name="labelclone" id="labelclone" class="input-small width-90" title="$mrLabelTT" onclick="com_EasyTablePro.Table.updateAlias(this);" onblur="com_EasyTablePro.Table.updateAlias(this);" /><br />$fldAliasHTML
 	</td>
 	<td class="left hidden-phone">
-		<textarea rows="3" name="descriptionclone" class="hasTooltip etp_editor_row_description" title="$mrDescTT" placeholder="description"></textarea>
+		<textarea rows="3" name="descriptionclone" class="etp_editor_row_description" title="$mrDescTT" placeholder="description"></textarea>
 	</td>
 	<td class="hidden-phone width-medium">$typeSelect<br />
 		<input type="hidden" name="origfieldtypeclone" value="" />
-		<input type="text" value="" name="fieldoptionsclone" class="hasTooltip input-large" title="$fldOptionsTT"  placeholder="field options"/>
+		<input type="text" value="" name="fieldoptionsclone" class="input-large" title="$fldOptionsTT"  placeholder="field options"/>
 	</td>
 	<td class="center hidden-phone" width="1%" align="center"><input type="hidden" name="list_viewclone" value="0" />
 		<a href="#" onclick="com_EasyTablePro.Table.toggleTick(this);" id="listViewclone">$listViewImg</a>
