@@ -199,7 +199,7 @@ class EasyTableProModelRecord extends JModelItem
 					}
 					else
 					{
-						JFactory::getApplication()->enqueueMessage('COM_EASYTABLEPRO_RECORD_LINKED_TABLED_ENABLED_NOT_CONFIGURED');
+						JFactory::getApplication()->enqueueMessage(JText::_('COM_EASYTABLEPRO_RECORD_LINKED_TABLED_ENABLED_NOT_CONFIGURED'));
 						$et->params->set('show_linked_table', false);
 					}
 				}
