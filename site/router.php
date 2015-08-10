@@ -172,9 +172,13 @@ function easyTableProParseRoute($segments)
     $menu     = $app->getMenu();
     $menuItem = $menu->getActive();
 
-    // It's possible there's no active menu item... e.g. a search result link
+    // It's possible there's no active menu item... e.g. a search result link or
+    // a direct component path e.g. component/easytablepro/table_name/99/leaf
     if (!$menuItem) {
+        $defaultMenu = true;
         $menuItem = $menu->getDefault();
+    } else {
+        $defaultMenu = false;
     }
 
     // And we'll need the component params
@@ -198,7 +202,7 @@ function easyTableProParseRoute($segments)
     if ($count == 2) {
         $rid = 0;
 
-        if (isset($menuItem->query['view'])) {
+        if (!$defaultMenu && isset($menuItem->query['view'])) {
             if ($menuItem->query['view'] == 'tables') {
                 // Remove the stupid colon
                 $segments[0] = preg_replace('/:/', '-', $segments[0], 1);
@@ -223,6 +227,22 @@ function easyTableProParseRoute($segments)
                 $vars['id'] = $segments[0];
                 $rid = $segments[1];
             }
+        } else {
+            // Handle the 2 part url without a menu — most likely joomla created link
+            // of the component/easytablepro/tablename/99 form.
+            $tableID = etp_getTableIDFromAlias(preg_replace('/:/', '-', $segments[0], 1), $db);
+            $tableID = empty($tableID) ? 0 : $tableID;
+
+            if (is_numeric($tableID) && $tableID > 0) {
+                // Lets see if we have a valid record ID
+                $rid = is_numeric($segments[1]) ? (int)$segments[1] : 0;
+            } else {
+                $tableID = 0;
+                $rid = 0;
+            }
+
+            // Set our table ID
+            $vars['id'] = $tableID;
         }
 
         $vars['rid']  = $rid;
