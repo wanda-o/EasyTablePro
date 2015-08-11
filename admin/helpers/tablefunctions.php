@@ -52,14 +52,15 @@ class ET_TableHelper
         }
 
         if (ET_General_Helper::getJoomlaVersionTag() == 'j2') {
-			$tipClass = 'class="hasTip"';
+            $tipClass = 'class="hasTip"';
         } else {
-			$tipClass = '';
-			$btn_title = '';
-		}
+            $tipClass = '';
+            $btn_title = '';
+        }
 
-		$theListViewImage = '<img src="' . JURI::root() . 'media/com_easytablepro/images/' . $theImageString . '" name="'
-			. $rowElement . '_img" border="0" title="' . $btn_title . '" alt="' . $btn_title . '" ' . $tipClass . ' />';
+        $theListViewImage = '<img src="' . JURI::root() . 'media/com_easytablepro/images/' . $theImageString . '" name="'
+            . $rowElement . '_img" border="0" title="' . $btn_title . '" alt="' . $btn_title . '" ' . $tipClass . ' />';
+            '" class="' . $tipClass . '"/>';
 
         return($theListViewImage);
     }
@@ -120,9 +121,9 @@ class ET_TableHelper
         $selectOptionTxt .= '</select>';
 
         if (ET_General_Helper::getJoomlaVersionTag() == 'j3') {
-			$tipText = JHtml::tooltipText(JText::_('COM_EASYTABLEPRO_TABLE_FIELD_TYPE_DESC'));
-			$selectOptionTxt = '<span title="' . $tipText . '">' . $selectOptionTxt . '</span>';
-		}
+            $tipText = JHtml::tooltipText(JText::_('COM_EASYTABLEPRO_TABLE_FIELD_TYPE_DESC'));
+            $selectOptionTxt = '<span title="' . $tipText . '">' . $selectOptionTxt . '</span>';
+        }
 
         return($selectOptionTxt);
     }
