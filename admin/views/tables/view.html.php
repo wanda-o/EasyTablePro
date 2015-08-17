@@ -253,12 +253,26 @@ class EasyTableProViewTables extends JViewLegacy
 		$current_release_label = JText::_('COM_EASYTABLEPRO_MGR_CURRENT_SUBSCRIBERS_RELEASE_IS');
 		$current_release_tip = JHtml::tooltipText('COM_EASYTABLEPRO_MGR_OPEN_RELEASE_DESC');
 		$versionDiv = <<<VDIV
-<div class="et_version_info" style="font-size: 0.9em;">
 	$install_version_label:: <span id="installedVersionSpan">$installed_version</span><br>
 	$current_release_label:: <a href="http://seepeoplesoftware.com/release-notes/easytable-pro/changelog.html" target="_blank" title="$current_release_tip" class="hasTooltip"><span id="currentVersionSpan">X.x.x (abcdef)</span></a>
-</div>
 
 VDIV;
+
+		if ($this->jvtag == 'j3') {
+			$versionDiv = <<<VDIV
+<div class="sidebar-nav">
+    <div class="et_version_info hidden-phone">
+        $versionDiv
+    </div>
+</div>
+VDIV;
+		} else {
+			$versionDiv = <<<VDIV
+<div class="et_version_info_j2">
+$versionDiv
+</div>
+VDIV;
+		}
 
 		return $versionDiv;
 	}
