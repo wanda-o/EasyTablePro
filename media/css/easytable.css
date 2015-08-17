@@ -116,12 +116,18 @@
     display: table-row;
 }
 
-.et_version_info {
+.et_version_info_j2 {
     width: 450px;
     margin-right: auto;
     margin-left: auto;
 
     color: grey;
+}
+
+.et_version_info {
+    color: grey;
+    font-size: 0.9em;
+    padding: 0 14px;
 }
 
 #et_meta_table_rows tr.et_new_row, #et_meta_table_rows tr.et_new_row td {
