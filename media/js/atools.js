@@ -36,11 +36,6 @@ com_EasyTablePro.setUp = function ()
     var token         = com_EasyTablePro.Tools.getToken();
     this.requestData[token]  = 1;
     this.requestData.id = com_EasyTablePro.Tools.getID();
-
-    this.jsonRequestObj      = new Request.JSON({
-        url:    'index.php?option=com_easytablepro&format=json',
-        method: 'get'
-    });
 }
 
 com_EasyTablePro.Tools.getToken = function ()
@@ -93,6 +88,7 @@ com_EasyTablePro.Tools.disableToolbarBtn = function (toolBarBtn, newToolTipText)
         ourBtnLink.store('tip:title', ourBtnTips[0]);
         ourBtnLink.store('tip:text', ourBtnTips[1]);
         // Re-init Tooltips - @todo find a less nuclear way of doing this...
+        // don't remove this line, it's the side effects we need.
         var JTooltips = new Tips($$('.hasTip'), { maxTitleChars: 50, fixed: false});
 
         // Change icon
