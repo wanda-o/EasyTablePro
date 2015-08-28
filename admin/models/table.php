@@ -274,6 +274,7 @@ class EasyTableProModelTable extends JModelAdmin
     {
         return array(
             array('published', 'status'),
+            'access',
             array('created_', 'created_time'),
             array('created_by', 'created_user_id'),
             array('modified', 'modified_'),
