@@ -121,17 +121,6 @@ JHtml::_('formbehavior.chosen', 'select');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_EASYTABLEPRO_TABLE_STATISTICS_LABEL', true)); ?>
-			<div class="row-fluid form-horizontal-desktop">
-				<div class="span6">
-					<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-				</div>
-				<div class="span6">
-					<?php echo JLayoutHelper::render('joomla.edit.metadata', $this); ?>
-				</div>
-			</div>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-
 	<?php if ($this->canDo->get('core.admin')) : ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_EASYTABLEPRO_FIELDSET_RULES', true)); ?>
 		<?php echo $this->form->getInput('rules'); ?>
