@@ -67,11 +67,34 @@ class EasyTableProViewRecord extends JViewLegacy
     {
         // Get Joomla
         $jAp = JFactory::getApplication();
+        $user		= JFactory::getUser();
 
         // Get the Data
         $this->item = $this->get('Item');
         $easytable = $this->item->easytable;
         $id = $easytable->id;
+
+        // Check the view access to the table (the model has already computed the values).
+        if ($easytable->access_view != true)
+        {
+            if ($user->guest)
+            {
+                // Redirect to login
+                $uri		= JFactory::getURI();
+                $return		= $uri->toString();
+
+                $url  = 'index.php?option=com_users&amp;view=login&amp;return=' . urlencode(base64_encode($return));
+
+                $jAp->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE'));
+            }
+            else
+            {
+                $jAp->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'ERROR');
+
+                return false;
+            }
+        }
+
         $tableKey = $easytable->key_name;
 
         // Check we have a real table
