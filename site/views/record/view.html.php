@@ -67,7 +67,7 @@ class EasyTableProViewRecord extends JViewLegacy
     {
         // Get Joomla
         $jAp = JFactory::getApplication();
-        $user		= JFactory::getUser();
+        $user = JFactory::getUser();
 
         // Get the Data
         $this->item = $this->get('Item');
@@ -80,10 +80,10 @@ class EasyTableProViewRecord extends JViewLegacy
             if ($user->guest)
             {
                 // Redirect to login
-                $uri		= JFactory::getURI();
-                $return		= $uri->toString();
+                $uri    = JFactory::getURI();
+                $return = $uri->toString();
 
-                $url  = 'index.php?option=com_users&amp;view=login&amp;return=' . urlencode(base64_encode($return));
+                $url    = 'index.php?option=com_users&amp;view=login&amp;return=' . urlencode(base64_encode($return));
 
                 $jAp->redirect($url, JText::_('COM_EASYTABLEPRO_SITE_RESTRICTED_TABLE'));
             }

@@ -60,7 +60,6 @@ class ET_TableHelper
 
         $theListViewImage = '<img src="' . JURI::root() . 'media/com_easytablepro/images/' . $theImageString . '" name="'
             . $rowElement . '_img" border="0" title="' . $btn_title . '" alt="' . $btn_title . '" ' . $tipClass . ' />';
-            '" class="' . $tipClass . '"/>';
 
         return($theListViewImage);
     }
