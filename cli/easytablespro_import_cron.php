@@ -83,6 +83,12 @@ class EasyTablePro_TableUpdate extends JApplicationCli
 	 */
 	public function doExecute()
 	{
+		// Work around for Joomla Session bug introduced in v3.4.7
+		if (version_compare(JVERSION, '3.4.7', 'ge'))
+		{
+			JFactory::getSession()->restart();
+		}
+
 		// Load language files
 		$lang = JFactory::getLanguage();
 		$lang->load('com_easytablepro', JPATH_ADMINISTRATOR);
