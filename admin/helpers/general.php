@@ -514,7 +514,7 @@ class ET_General_Helper
 			if ($jsContents = file_get_contents($jsFile))
 			{
 				$languageKeys = array();
-				preg_match_all('/Joomla\.JText\._\(\'(.*?)\'\)\)?/', $jsContents, $languageKeys);
+				preg_match_all('/Joomla\.JText\._\([\'\"](.*?)[\'\"]\)\)?/', $jsContents, $languageKeys);
 				$languageKeys = $languageKeys[1];
 
 				foreach ($languageKeys as $lkey)
