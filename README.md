@@ -11,4 +11,4 @@ For more information - please read about it at [the original website See People 
 ## License
 The software is GPL'd like all software that appears on [Joomla Extension Directory](https://extensions.joomla.org).
 
-At this writing ( _21 Dec 2017_ ) [EasyTable Pro is still listed](https://extensions.joomla.org/extensions/extension/news-display/tables-a-lists/easytable-pro) but as we're no longer developing Joomla software and the [upcoming changes to the JED](https://extensions.joomla.org/blog/item/faq-about-joomla-update-system-requirement) we expect it will eventually be removed.
+At this writing ( _21 Dec 2016_ ) [EasyTable Pro is still listed](https://extensions.joomla.org/extensions/extension/news-display/tables-a-lists/easytable-pro) but as we're no longer developing Joomla software and the [upcoming changes to the JED](https://extensions.joomla.org/blog/item/faq-about-joomla-update-system-requirement) we expect it will eventually be removed.
