@@ -147,11 +147,12 @@ class EasyTableProControllerTable extends JControllerForm
 	 */
 	private function m($s)
 	{
+		/** 
 		if (get_magic_quotes_gpc())
 		{
 			$s = stripslashes($s);
 		}
-
+		*/
 		return $s;
 	}
 
